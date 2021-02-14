@@ -28,7 +28,7 @@ public class App extends Application {
     nodeEdgeScene = new Scene(main);
 
     // sets the title of the window in the upper right
-    primaryStage.setTitle("3733 Part B");
+    primaryStage.setTitle("edit nodes and edges");
     primaryStage.setScene(nodeEdgeScene);
     primaryStage.show();
   }

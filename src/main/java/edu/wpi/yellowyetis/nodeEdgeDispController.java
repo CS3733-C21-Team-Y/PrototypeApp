@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -34,8 +35,9 @@ public class nodeEdgeDispController {
 
   @FXML private Pane pane;
   @FXML private ImageView map;
+  @FXML private StackPane stackPane;
 
-  // -----test--------
+  // -----test--------should be from db classes
   class node {
     private int nodeX;
     private int nodeY;
@@ -65,6 +67,9 @@ public class nodeEdgeDispController {
 
   @FXML
   private void initialize() {
+    stackPane.setMaxWidth(map.getFitWidth());
+    stackPane.setMaxHeight(map.getFitHeight());
+
     addNode.setOnAction(e -> createNode(e));
     addEdge.setOnAction(e -> createEdge(e));
     pane.setOnMouseClicked(
@@ -89,7 +94,6 @@ public class nodeEdgeDispController {
   }
 
   private void createEdgecb(MouseEvent e) {
-
     if (addEdgecb.isSelected()) {
       if (startEdgeFlag) {
         startEdgeFlag = !startEdgeFlag;

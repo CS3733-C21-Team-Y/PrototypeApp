@@ -18,17 +18,17 @@
          <children>
             <VBox fx:id="mapBox" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
-                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                  <StackPane fx:id="stackPane" prefHeight="150.0" prefWidth="200.0">
                      <children>
-                        <ImageView fx:id="map" fitHeight="350.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="false">
+                        <ImageView fx:id="map" fitHeight="350.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="false" StackPane.alignment="TOP_LEFT">
                            <StackPane.margin>
                               <Insets />
                            </StackPane.margin>
                            <image>
-                              <Image url="@testFloorplan.png" />
+                              <Image url="@hpfp.png" />
                            </image>
                         </ImageView>
-                        <Pane fx:id="pane" prefHeight="200.0" prefWidth="200.0" />
+                        <Pane fx:id="pane" prefHeight="200.0" prefWidth="0.0" />
                      </children>
                   </StackPane>
                </children>
