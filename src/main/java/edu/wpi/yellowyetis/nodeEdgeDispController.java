@@ -3,6 +3,7 @@ package edu.wpi.yellowyetis;
 import java.awt.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
@@ -24,6 +25,7 @@ public class nodeEdgeDispController {
   @FXML private CheckBox addEdgecb;
   private boolean startEdgeFlag = true;
   private int sx, sy, ex, ey;
+  private Circle a;
 
   @FXML private TextField newX;
   @FXML private TextField newY;
@@ -67,13 +69,18 @@ public class nodeEdgeDispController {
 
   @FXML
   private void initialize() {
+    // set pane to size of image
     stackPane.setMaxWidth(map.getFitWidth());
     stackPane.setMaxHeight(map.getFitHeight());
 
+    // run the create methods on the button click
     addNode.setOnAction(e -> createNode(e));
     addEdge.setOnAction(e -> createEdge(e));
+
+    // create node or edge when pane is clicked
     pane.setOnMouseClicked(
         e -> {
+          getCircle();
           if (addEdgecb.isSelected()) {
             createEdgecb(e);
           } else if (addNodecb.isSelected()) {
@@ -81,34 +88,60 @@ public class nodeEdgeDispController {
           }
         });
 
+    // when checkbox is selected, unselect the other
     addEdgecb.setOnAction(
         e -> {
           startEdgeFlag = true;
           addNodecb.setSelected(false);
         });
-
     addNodecb.setOnAction(
         e -> {
           addEdgecb.setSelected(false);
         });
   }
 
+  private void getCircle() {
+    Circle c = new Circle();
+    for (Node p : pane.getChildren()) {
+      try {
+        p.setOnMouseClicked(
+            w -> {
+              if (w.getSource().getClass() == c.getClass()) {
+                p.toFront();
+                a = (Circle) w.getSource();
+              } else {
+                p.toBack();
+              }
+            });
+      } catch (Exception exp) {
+        System.out.println("no point selected");
+      }
+    }
+  }
+
   private void createEdgecb(MouseEvent e) {
     if (addEdgecb.isSelected()) {
       if (startEdgeFlag) {
         startEdgeFlag = !startEdgeFlag;
-
-        sx = (int) e.getSceneX();
-        sy = (int) e.getSceneY();
-
+        try {
+          sx = (int) a.getCenterX();
+          sy = (int) a.getCenterY();
+        } catch (Exception exception) {
+          System.out.println("no start point");
+        }
       } else {
         startEdgeFlag = !startEdgeFlag;
-        ex = (int) e.getSceneX();
-        ey = (int) e.getSceneY();
+        try {
+          ex = (int) a.getCenterX();
+          ey = (int) a.getCenterY();
+        } catch (Exception exception) {
+          System.out.println("no end point");
+        }
+
         edge ed = new edge(sx, sy, ex, ey);
         Line line = new Line(ed.startX, ed.startY, ed.endX, ed.endY);
-        line.setFill(Paint.valueOf("BLUE"));
         pane.getChildren().add(line);
+        line.toBack();
 
         Stage stage = (Stage) addEdge.getScene().getWindow();
         stage.setScene(addEdge.getScene());
@@ -120,7 +153,7 @@ public class nodeEdgeDispController {
   private void createNodecb(MouseEvent e) {
     if (addNodecb.isSelected()) {
       node n = new node((int) e.getSceneX(), (int) e.getSceneY());
-      Circle circle = new Circle(n.nodeX, n.nodeY, 3);
+      Circle circle = new Circle(n.nodeX, n.nodeY, 5);
       circle.setFill(Paint.valueOf("RED"));
       pane.getChildren().add(circle);
 
@@ -149,7 +182,7 @@ public class nodeEdgeDispController {
 
   private void createNode(ActionEvent e) {
     node n = new node(Integer.parseInt(newX.getText()), Integer.parseInt(newY.getText()));
-    Circle circle = new Circle(n.nodeX, n.nodeY, 3);
+    Circle circle = new Circle(n.nodeX, n.nodeY, 5);
     circle.setFill(Paint.valueOf("RED"));
     pane.getChildren().add(circle);
 
