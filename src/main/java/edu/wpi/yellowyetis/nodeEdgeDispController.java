@@ -24,8 +24,10 @@ public class nodeEdgeDispController {
   @FXML private CheckBox addNodecb;
   @FXML private CheckBox addEdgecb;
 
-  // variables for
-  private boolean startEdgeFlag = true;
+  @FXML private Button deleteNode;
+
+  // variables for selecting points and locating edges
+  private boolean startEdgeFlag = false;
   private int sx, sy, ex, ey;
   private Circle a = new Circle(0, 0, 0);
 
@@ -79,14 +81,20 @@ public class nodeEdgeDispController {
     addNode.setOnAction(e -> createNode(e));
     addEdge.setOnAction(e -> createEdge(e));
 
+    deleteNode.setOnAction(e -> removeNode(e));
+
     // create node or edge when pane is clicked
     pane.setOnMouseClicked(
         e -> {
           getCircle();
           if (addEdgecb.isSelected()) {
+            unHighlightCircle();
             createEdgecb(e);
           } else if (addNodecb.isSelected()) {
+            unHighlightCircle();
             createNodecb(e);
+          } else {
+            highlightCircle();
           }
         });
 
@@ -102,8 +110,17 @@ public class nodeEdgeDispController {
         });
   }
 
+  private void removeNode(ActionEvent e) {
+    pane.getChildren().remove(a);
+
+    // adding the node and refreshing the scene
+    Stage stage = (Stage) deleteNode.getScene().getWindow();
+    stage.setScene(deleteNode.getScene());
+    stage.show();
+  }
+
   private void highlightCircle() {
-    //highlights the selected circle which is the startpoint of the edge
+    // highlights the selected circle which is the startpoint of the edge
     a.setStrokeWidth(2);
     a.setStroke(Paint.valueOf("BLUE"));
   }
@@ -120,8 +137,8 @@ public class nodeEdgeDispController {
         p.setOnMouseClicked(
             w -> {
               if (w.getSource().getClass() == c.getClass()) {
-                unHighlightCircle();//removes current highlight
-                a = (Circle) w.getSource();//sets circle to a new selected circle
+                unHighlightCircle(); // removes current highlight
+                a = (Circle) w.getSource(); // sets circle to a new selected circle
                 p.toFront();
               } else {
                 p.toBack();
