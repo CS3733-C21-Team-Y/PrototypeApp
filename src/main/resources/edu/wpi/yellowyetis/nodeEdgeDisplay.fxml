@@ -64,6 +64,11 @@
                         <TextField fx:id="startY" text="starty" />
                         <TextField fx:id="endX" text="endx" />
                         <TextField fx:id="endY" text="endy" />
+                        <Button fx:id="deleteEdge" mnemonicParsing="false" prefWidth="100.0" text="Delete Edge">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </Button>
                      </children>
                   </VBox>
                </children>
