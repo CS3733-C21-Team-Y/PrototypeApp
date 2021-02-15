@@ -23,9 +23,11 @@ public class nodeEdgeDispController {
 
   @FXML private CheckBox addNodecb;
   @FXML private CheckBox addEdgecb;
+
+  // variables for
   private boolean startEdgeFlag = true;
   private int sx, sy, ex, ey;
-  private Circle a;
+  private Circle a = new Circle(0, 0, 0);
 
   @FXML private TextField newX;
   @FXML private TextField newY;
@@ -100,6 +102,17 @@ public class nodeEdgeDispController {
         });
   }
 
+  private void highlightCircle() {
+    //highlights the selected circle which is the startpoint of the edge
+    a.setStrokeWidth(2);
+    a.setStroke(Paint.valueOf("BLUE"));
+  }
+
+  private void unHighlightCircle() {
+    // removes highlight on circle
+    a.setStrokeWidth(0);
+  }
+
   private void getCircle() {
     Circle c = new Circle();
     for (Node p : pane.getChildren()) {
@@ -107,8 +120,9 @@ public class nodeEdgeDispController {
         p.setOnMouseClicked(
             w -> {
               if (w.getSource().getClass() == c.getClass()) {
+                unHighlightCircle();//removes current highlight
+                a = (Circle) w.getSource();//sets circle to a new selected circle
                 p.toFront();
-                a = (Circle) w.getSource();
               } else {
                 p.toBack();
               }
@@ -120,8 +134,10 @@ public class nodeEdgeDispController {
   }
 
   private void createEdgecb(MouseEvent e) {
+    // creates an edge between two selected points when the checkbox is selected
     if (addEdgecb.isSelected()) {
-      if (startEdgeFlag) {
+      if (startEdgeFlag) { // decides if its te starting or ending point being selected
+        highlightCircle();
         startEdgeFlag = !startEdgeFlag;
         try {
           sx = (int) a.getCenterX();
@@ -138,11 +154,12 @@ public class nodeEdgeDispController {
           System.out.println("no end point");
         }
 
+        // createing the line and adding as a child to the pane
         edge ed = new edge(sx, sy, ex, ey);
         Line line = new Line(ed.startX, ed.startY, ed.endX, ed.endY);
         pane.getChildren().add(line);
         line.toBack();
-
+        // refreshing and adding to the scene
         Stage stage = (Stage) addEdge.getScene().getWindow();
         stage.setScene(addEdge.getScene());
         stage.show();
@@ -151,41 +168,50 @@ public class nodeEdgeDispController {
   }
 
   private void createNodecb(MouseEvent e) {
+    // when the add node checkbox is selected, the new nodes can be created
+    // wherever the mouse clicks withing the scene
     if (addNodecb.isSelected()) {
       node n = new node((int) e.getSceneX(), (int) e.getSceneY());
       Circle circle = new Circle(n.nodeX, n.nodeY, 5);
       circle.setFill(Paint.valueOf("RED"));
       pane.getChildren().add(circle);
 
+      // refreshing and adding to scene
       Stage stage = (Stage) addNode.getScene().getWindow();
       stage.setScene(addNode.getScene());
       stage.show();
-      System.out.println(n.nodeX + "," + n.nodeY);
+      //      System.out.println(n.nodeX + "," + n.nodeY);
     }
   }
 
   private void createEdge(ActionEvent e) {
+    // creates a new instance of the local edge class and
+    // sets the start and end values to that in the text fields
     edge ed =
         new edge(
             Integer.parseInt(startX.getText()),
             Integer.parseInt(startY.getText()),
             Integer.parseInt(endX.getText()),
             Integer.parseInt(endY.getText()));
+    // creating a new line Node and adding it as a child to the pane
     Line line = new Line(ed.startX, ed.startY, ed.endX, ed.endY);
-    line.setFill(Paint.valueOf("BLUE"));
     pane.getChildren().add(line);
 
+    // refreshing and adding to scene
     Stage stage = (Stage) addEdge.getScene().getWindow();
     stage.setScene(addEdge.getScene());
     stage.show();
   }
 
   private void createNode(ActionEvent e) {
+    // creates a new instance of the local node class and creates a red circle
+    // to add as a child of the pane in the scene
     node n = new node(Integer.parseInt(newX.getText()), Integer.parseInt(newY.getText()));
     Circle circle = new Circle(n.nodeX, n.nodeY, 5);
     circle.setFill(Paint.valueOf("RED"));
     pane.getChildren().add(circle);
 
+    // adding the node and refreshing the scene
     Stage stage = (Stage) addNode.getScene().getWindow();
     stage.setScene(addNode.getScene());
     stage.show();
