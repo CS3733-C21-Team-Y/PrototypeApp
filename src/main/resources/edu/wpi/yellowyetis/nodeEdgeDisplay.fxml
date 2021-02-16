@@ -11,30 +11,32 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.yellowyetis.nodeEdgeDispController">
    <children>
       <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox fx:id="mapBox" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="SOMETIMES">
+            <VBox fx:id="mapBox" HBox.hgrow="SOMETIMES">
                <children>
                   <StackPane fx:id="stackPane" VBox.vgrow="SOMETIMES">
                      <children>
-                        <ImageView fx:id="map" pickOnBounds="true" preserveRatio="false" StackPane.alignment="TOP_LEFT">
+                        <ImageView fx:id="map" fitHeight="800.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
                            <StackPane.margin>
                               <Insets />
                            </StackPane.margin>
                            <image>
-                              <Image url="@hpfp.png" />
+                              <Image url="@FaulknerFloor1_Updated.png" />
                            </image>
                         </ImageView>
-                        <Pane fx:id="pane" prefHeight="322.0" prefWidth="471.0" />
+                        <Pane fx:id="pane" />
                      </children>
                   </StackPane>
                </children>
             </VBox>
             <VBox alignment="TOP_CENTER" maxWidth="100.0" prefHeight="0.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
+                  <Button fx:id="fileChooserBtn" mnemonicParsing="false" text="Choose new Map" />
                   <VBox minHeight="-Infinity" minWidth="-Infinity">
                      <children>
                         <Button fx:id="addNode" mnemonicParsing="false" prefWidth="100.0" text="Add Node">
@@ -50,6 +52,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </Button>
+                        <Text fx:id="nodeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Node" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="50.0" left="5.0" />
@@ -72,6 +75,7 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>
                         </Button>
+                        <Text fx:id="edgeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Edge" />
                      </children>
                      <VBox.margin>
                         <Insets left="5.0" />

@@ -1,5 +1,6 @@
 package edu.wpi.yellowyetis;
 
+import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -13,6 +14,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class nodeEdgeDispController {
@@ -25,6 +28,9 @@ public class nodeEdgeDispController {
 
   @FXML private Button deleteNode;
   @FXML private Button deleteEdge;
+
+  @FXML private Text nodeDisplay = new Text("Selected Node");
+  @FXML private Text edgeDisplay = new Text("Selected Edge");
 
   // variables for selecting points and locating edges
   private boolean startEdgeFlag = true;
@@ -43,6 +49,9 @@ public class nodeEdgeDispController {
   @FXML private Pane pane;
   @FXML private ImageView map;
   @FXML private StackPane stackPane;
+
+  private FileChooser fileChooser;
+  @FXML private Button fileChooserBtn;
 
   // -----test--------should be from db classes
   class node {
@@ -74,6 +83,9 @@ public class nodeEdgeDispController {
 
   @FXML
   private void initialize() {
+    initImage();
+    fileChooserBtn.setOnAction(e -> FileChoice());
+
     // set pane to size of image
     stackPane.setMaxWidth(map.getFitWidth());
     stackPane.setMaxHeight(map.getFitHeight());
@@ -89,6 +101,7 @@ public class nodeEdgeDispController {
     pane.setOnMouseClicked(
         e -> {
           getPaneNode();
+          setCurrentDisplay();
 
           if (addEdgecb.isSelected()) {
             unHighlightCircle();
@@ -114,6 +127,34 @@ public class nodeEdgeDispController {
         e -> {
           addEdgecb.setSelected(false);
         });
+  }
+
+  private void setCurrentDisplay() {
+    nodeDisplay.setText(
+        "x:" + currentSelectedCircle.getCenterX() + ", y:" + currentSelectedCircle.getCenterY());
+    edgeDisplay.setText(
+        "start x:"
+            + currentSelectedLine.getStartX()
+            + ", y:"
+            + currentSelectedLine.getStartY()
+            + " \nend x:"
+            + currentSelectedLine.getEndX()
+            + ", y:"
+            + currentSelectedLine.getEndY());
+  }
+
+  private void FileChoice() {
+    fileChooser = new FileChooser();
+    try {
+      fileChooser.setTitle("choose new map");
+      File selectedFile = fileChooser.showOpenDialog(fileChooserBtn.getScene().getWindow());
+    } catch (Exception exception) {
+      System.out.println("no file selected or wrong file type");
+    }
+  }
+
+  private void initImage() {
+    //    map.fitWidthProperty().bind(map.getScene().xProperty());
   }
 
   private void removeEdge(ActionEvent e) {
