@@ -31,6 +31,7 @@
                         <Pane fx:id="pane" prefHeight="200.0" prefWidth="0.0" />
                      </children>
                   </StackPane>
+                  <Button fx:id="toHomeBtn" mnemonicParsing="false" text="Return to Home" />
                </children>
             </VBox>
             <VBox>

@@ -3,7 +3,9 @@ package edu.wpi.yellowyetis;
 import java.awt.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
@@ -18,6 +20,7 @@ import javafx.stage.Stage;
 
 public class nodeEdgeDispController {
 
+  @FXML private Button toHomeBtn;
   @FXML private Button addNode;
   @FXML private Button addEdge;
 
@@ -69,6 +72,9 @@ public class nodeEdgeDispController {
 
   @FXML
   private void initialize() {
+    // attaches a handler to the button with a lambda expression
+    toHomeBtn.setOnAction(e -> buttonClicked(e));
+
     // set pane to size of image
     stackPane.setMaxWidth(map.getFitWidth());
     stackPane.setMaxHeight(map.getFitHeight());
@@ -98,6 +104,30 @@ public class nodeEdgeDispController {
         e -> {
           addEdgecb.setSelected(false);
         });
+  }
+
+  // button event handler
+  @FXML
+  private void buttonClicked(ActionEvent e) {
+    // error handling for FXMLLoader.load
+    try {
+      // initializing stage
+      Stage stage = null;
+
+      if (e.getSource() == toHomeBtn) {
+        // gets the current stage
+        stage = (Stage) toHomeBtn.getScene().getWindow();
+        // sets the new scene to the alex page
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
+
+      } else {
+
+      }
+
+      // display new stage
+      stage.show();
+    } catch (Exception exp) {
+    }
   }
 
   private void getCircle() {

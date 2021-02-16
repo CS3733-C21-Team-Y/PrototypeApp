@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 public class App extends Application {
 
   Stage stage;
-  Scene nodeEdgeScene;
+  Scene mainPage;
 
   @Override
   public void init() {
@@ -24,12 +24,12 @@ public class App extends Application {
     stage = primaryStage;
 
     // makes the main fxml page into the primary page
-    Parent main = FXMLLoader.load(getClass().getResource("nodeEdgeDisplay.fxml"));
-    nodeEdgeScene = new Scene(main);
+    Parent main = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
+    mainPage = new Scene(main);
 
     // sets the title of the window in the upper right
-    primaryStage.setTitle("edit nodes and edges");
-    primaryStage.setScene(nodeEdgeScene);
+    primaryStage.setTitle("Brigham and Womens' Hospital");
+    primaryStage.setScene(mainPage);
     primaryStage.show();
   }
 
