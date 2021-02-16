@@ -1,13 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.yellowyetis.MaintenancePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.yellowyetis.MaintenancePageController">
    <children>
-      <Label layoutX="286.0" layoutY="75.0" text="Maintenance" />
-      <Button fx:id="toHomeBtn" layoutX="274.0" layoutY="163.0" mnemonicParsing="false" text="Home" />
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="TOP_CENTER" prefHeight="69.0" prefWidth="600.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="10.0" text="Maintenance Order Form" textAlignment="CENTER" wrappingWidth="306.50079345703125">
+                     <HBox.margin>
+                        <Insets bottom="10.0" top="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Verdana" size="24.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER" prefHeight="37.0" prefWidth="600.0">
+               <children>
+                  <MenuButton mnemonicParsing="false" text="Type of Service" textAlignment="CENTER">
+                    <items>
+                          <MenuItem text="Electrical" />
+                          <MenuItem text="IT" />
+                          <MenuItem text="Plumbing" />
+                        <MenuItem mnemonicParsing="false" text="Cleaning" />
+                        <MenuItem mnemonicParsing="false" text="General Maintenance" />
+                        <MenuItem mnemonicParsing="false" text="Room Damage" />
+                        <MenuItem mnemonicParsing="false" text="Other" />
+                    </items>
+                     <HBox.margin>
+                        <Insets left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </MenuButton>
+                  <MenuButton mnemonicParsing="false" text="Urgency">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="1" />
+                      <MenuItem mnemonicParsing="false" text="2" />
+                        <MenuItem mnemonicParsing="false" text="3" />
+                        <MenuItem mnemonicParsing="false" text="4" />
+                        <MenuItem mnemonicParsing="false" text="5" />
+                        <MenuItem mnemonicParsing="false" text="6" />
+                        <MenuItem mnemonicParsing="false" text="7" />
+                        <MenuItem mnemonicParsing="false" text="8" />
+                        <MenuItem mnemonicParsing="false" text="9" />
+                        <MenuItem mnemonicParsing="false" text="10" />
+                    </items>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </MenuButton>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER" prefHeight="250.0" prefWidth="600.0">
+               <children>
+                  <VBox alignment="TOP_CENTER">
+                     <children>
+                        <TextField maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="197.0" promptText="Location for request">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="20.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TextArea maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="145.0" prefWidth="197.0" promptText="Description of Request">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </TextArea>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Dates availible for maintenance">
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="15.0" />
+                           </VBox.margin>
+                        </Text>
+                        <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <DatePicker prefHeight="25.0" prefWidth="127.0">
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </DatePicker>
+                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Clear Date" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Submit">
+                     <HBox.margin>
+                        <Insets left="5.0" right="4.0" top="5.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Button>
+                  <VBox prefHeight="80.0" prefWidth="58.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" text="Clear">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="toHomeBtn" mnemonicParsing="false" text="Cancel">
+                           <VBox.margin>
+                              <Insets top="4.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
