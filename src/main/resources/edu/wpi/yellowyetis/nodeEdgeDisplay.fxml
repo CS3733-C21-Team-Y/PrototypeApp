@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,15 +15,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.yellowyetis.nodeEdgeDispController">
+<AnchorPane fx:id="anchor" maxHeight="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.yellowyetis.nodeEdgeDispController">
    <children>
       <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox fx:id="mapBox" HBox.hgrow="SOMETIMES">
+            <VBox fx:id="mapBox" HBox.hgrow="NEVER">
                <children>
                   <StackPane fx:id="stackPane" VBox.vgrow="SOMETIMES">
                      <children>
-                        <ImageView fx:id="map" fitHeight="800.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+                        <ImageView fx:id="map" fitHeight="400.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
                            <StackPane.margin>
                               <Insets />
                            </StackPane.margin>
@@ -36,7 +38,16 @@
             </VBox>
             <VBox alignment="TOP_CENTER" maxWidth="100.0" prefHeight="0.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Button fx:id="fileChooserBtn" mnemonicParsing="false" text="Choose new Map" />
+                  <SplitMenuButton fx:id="floorMenu" mnemonicParsing="false" text="SplitMenuButton">
+                    <items>
+                        <MenuItem fx:id="parkingPage" mnemonicParsing="false" text="Parking lot" />
+                        <MenuItem fx:id="floorOnePage" mnemonicParsing="false" text="Floor 1" />
+                        <MenuItem fx:id="floorTwoPage" mnemonicParsing="false" text="Floor 2" />
+                        <MenuItem fx:id="floorThreePage" mnemonicParsing="false" text="Floor 3" />
+                        <MenuItem fx:id="floorFourPage" mnemonicParsing="false" text="Floor 4" />
+                        <MenuItem fx:id="floorFivePage" mnemonicParsing="false" text="Floor 5" />
+                    </items>
+                  </SplitMenuButton>
                   <VBox minHeight="-Infinity" minWidth="-Infinity">
                      <children>
                         <Button fx:id="addNode" mnemonicParsing="false" prefWidth="100.0" text="Add Node">
