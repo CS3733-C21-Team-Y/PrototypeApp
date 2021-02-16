@@ -5,8 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
 public class ServiceRequestPageController {
@@ -14,11 +12,8 @@ public class ServiceRequestPageController {
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
   @FXML private Button toHomePageBtn;
-  @FXML private Button submitBtn;
-
-  @FXML private MenuButton serviceMenu;
-  @FXML private MenuItem maintenanceElement;
-  @FXML private MenuItem laundryElement;
+  @FXML private Button toLaundryBtn;
+  @FXML private Button toMaintenanceBtn;
 
   // unused constructor
   public ServiceRequestPageController() {}
@@ -28,18 +23,8 @@ public class ServiceRequestPageController {
   private void initialize() {
     // attaches a handler to the button with a lambda expression
     toHomePageBtn.setOnAction(e -> buttonClicked(e));
-    submitBtn.setOnAction(e -> buttonClicked(e));
-    laundryElement.setOnAction(e -> updateText(e));
-    maintenanceElement.setOnAction(e -> updateText(e));
-  }
-
-  @FXML
-  private void updateText(ActionEvent e) {
-    if (e.getSource() == laundryElement) {
-      serviceMenu.setText("Laundry");
-    } else if (e.getSource() == maintenanceElement) {
-      serviceMenu.setText("Maintenance");
-    }
+    toLaundryBtn.setOnAction(e -> buttonClicked(e));
+    toMaintenanceBtn.setOnAction(e -> buttonClicked(e));
   }
 
   // button event handler
@@ -56,15 +41,16 @@ public class ServiceRequestPageController {
         // sets the new scene to the alex page
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
 
-      } else if (e.getSource() == submitBtn) {
-        if (serviceMenu.getText().equals("Laundry")) {
-          stage = (Stage) toHomePageBtn.getScene().getWindow();
-          stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("LaundryPage.fxml"))));
-        } else if (serviceMenu.getText().equals("Maintenance")) {
-          stage = (Stage) toHomePageBtn.getScene().getWindow();
-          stage.setScene(
-              new Scene(FXMLLoader.load(getClass().getResource("MaintenancePage.fxml"))));
-        }
+      } else if (e.getSource() == toLaundryBtn) {
+        // gets the current stage
+        stage = (Stage) toLaundryBtn.getScene().getWindow();
+        // sets the new scene to the alex page
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("LaundryPage.fxml"))));
+      } else if (e.getSource() == toMaintenanceBtn) {
+        // gets the current stage
+        stage = (Stage) toMaintenanceBtn.getScene().getWindow();
+        // sets the new scene to the alex page
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("MaintenancePage.fxml"))));
       } else {
 
       }
