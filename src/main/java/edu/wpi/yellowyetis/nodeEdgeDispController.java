@@ -17,6 +17,8 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class nodeEdgeDispController {
 
   @FXML private Pane anchor;
@@ -61,6 +63,7 @@ public class nodeEdgeDispController {
   @FXML private MenuItem floorFivePage;
 
   private String floorNumber;
+  private int nodeIDCounter;
 
   private enum MAP_PAGE {
     PARKING,
@@ -156,6 +159,7 @@ public class nodeEdgeDispController {
         e -> {
           addEdgecb.setSelected(false);
         });
+    drawFromCSV();
   }
 
   private void setImage(MAP_PAGE mp) {
@@ -381,6 +385,46 @@ public class nodeEdgeDispController {
     stage.setScene(addEdge.getScene());
     stage.show();
   } */
+
+  private void drawFromCSV() {
+    ArrayList<edu.wpi.yellowyetis.Node> nodeArrayList;
+    ArrayList<Edge> edgeArrayList;
+
+    nodeIDCounter = nodeArrayList.size();
+
+    for(edu.wpi.yellowyetis.Node n: nodeArrayList) {
+      double x = n.getXcoord();
+      double y = n.getYcoord();
+      Circle circle = new Circle(x, y, 5);
+      circle.setId(n.getNodeID());
+      currentSelectedCircle = circle;
+      circle.setFill(Paint.valueOf("RED"));
+      pane.getChildren().add(circle);
+
+      // adding the node and refreshing the scene
+      Stage stage = (Stage) addNode.getScene().getWindow();
+      stage.setScene(addNode.getScene());
+      stage.show();
+    }
+
+    for(Edge e: edgeArrayList) {
+      Circle n = (Circle) pane.getScene().lookup(e.getStartNodeID());
+      Circle m = (Circle) pane.getScene().lookup(e.getEndNodeID());
+      startx = n.getCenterX();
+      starty = n.getCenterY();
+      endx = m.getCenterX();
+      endy = m.getCenterY();
+
+      Line line = new Line(startx, starty, endx, endy);
+      line.setStrokeWidth(3);
+      pane.getChildren().add(line);
+      line.toBack();
+      // refreshing and adding to the scene
+      Stage stage = (Stage) addEdge.getScene().getWindow();
+      stage.setScene(addEdge.getScene());
+      stage.show();
+    }
+  }
 
   private void createNode(ActionEvent e) {
     // creates a new instance of the local node class and creates a red circle
