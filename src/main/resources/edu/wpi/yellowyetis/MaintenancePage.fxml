@@ -2,128 +2,116 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.yellowyetis.MaintenancePageController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #4081ec;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.yellowyetis.MaintenancePageController">
    <children>
-      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="200.0" layoutY="150.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="TOP_CENTER" prefHeight="69.0" prefWidth="600.0">
+            <VBox minHeight="360.0" minWidth="400.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-color: #7a7a7a; -fx-border-width: 4; -fx-border-radius: 10; -fx-background-radius: 20;">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="10.0" text="Maintenance Order Form" textAlignment="CENTER" wrappingWidth="306.50079345703125">
-                     <HBox.margin>
-                        <Insets bottom="10.0" top="20.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font name="Verdana" size="24.0" />
-                     </font>
-                  </Text>
-               </children>
-            </HBox>
-            <HBox alignment="TOP_CENTER" prefHeight="37.0" prefWidth="600.0">
-               <children>
-                  <MenuButton mnemonicParsing="false" text="Type of Service" textAlignment="CENTER">
-                    <items>
-                          <MenuItem text="Electrical" />
-                          <MenuItem text="IT" />
-                          <MenuItem text="Plumbing" />
-                        <MenuItem mnemonicParsing="false" text="Cleaning" />
-                        <MenuItem mnemonicParsing="false" text="General Maintenance" />
-                        <MenuItem mnemonicParsing="false" text="Room Damage" />
-                        <MenuItem mnemonicParsing="false" text="Other" />
-                    </items>
-                     <HBox.margin>
-                        <Insets left="5.0" right="5.0" top="5.0" />
-                     </HBox.margin>
-                  </MenuButton>
-                  <MenuButton mnemonicParsing="false" text="Urgency">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="1" />
-                      <MenuItem mnemonicParsing="false" text="2" />
-                        <MenuItem mnemonicParsing="false" text="3" />
-                        <MenuItem mnemonicParsing="false" text="4" />
-                        <MenuItem mnemonicParsing="false" text="5" />
-                        <MenuItem mnemonicParsing="false" text="6" />
-                        <MenuItem mnemonicParsing="false" text="7" />
-                        <MenuItem mnemonicParsing="false" text="8" />
-                        <MenuItem mnemonicParsing="false" text="9" />
-                        <MenuItem mnemonicParsing="false" text="10" />
-                    </items>
-                     <HBox.margin>
-                        <Insets top="5.0" />
-                     </HBox.margin>
-                  </MenuButton>
-               </children>
-            </HBox>
-            <HBox alignment="TOP_CENTER" prefHeight="250.0" prefWidth="600.0">
-               <children>
-                  <VBox alignment="TOP_CENTER">
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <children>
-                        <TextField maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="197.0" promptText="Location for request">
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="20.0" />
-                           </VBox.margin>
-                        </TextField>
-                        <TextArea maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="145.0" prefWidth="197.0" promptText="Description of Request">
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </VBox.margin>
-                        </TextArea>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Dates availible for maintenance">
-                           <VBox.margin>
-                              <Insets bottom="10.0" top="15.0" />
-                           </VBox.margin>
-                        </Text>
-                        <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <DatePicker prefHeight="25.0" prefWidth="127.0">
-                                 <HBox.margin>
-                                    <Insets right="5.0" />
-                                 </HBox.margin>
-                              </DatePicker>
-                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Clear Date" />
-                           </children>
-                        </HBox>
+                        <Button fx:id="toHomeBtn" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #d64d4d; -fx-font-family: arial; -fx-font-weight: bold; -fx-background-radius: 6; -fx-font-size: 12;" text="Cancel" textFill="WHITE" GridPane.columnIndex="2">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Button>
+                        <Label text="Maintenance" GridPane.halignment="LEFT">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" top="10.0" />
+                     </VBox.margin>
+                  </GridPane>
+                  <VBox maxHeight="25.0" prefHeight="200.0" prefWidth="100.0">
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </VBox.margin>
+                     <children>
+                        <ComboBox prefWidth="150.0" promptText="Category" style="-fx-background-color: white; -fx-border-color: #7a7a7a; -fx-border-radius: 4;" />
                      </children>
                   </VBox>
-               </children>
-            </HBox>
-            <HBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button mnemonicParsing="false" text="Submit">
-                     <HBox.margin>
-                        <Insets left="5.0" right="4.0" top="5.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </Button>
-                  <VBox prefHeight="80.0" prefWidth="58.0">
+                  <HBox maxHeight="25.0" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" text="Clear">
-                           <VBox.margin>
-                              <Insets top="5.0" />
-                           </VBox.margin>
-                        </Button>
-                        <Button fx:id="toHomeBtn" mnemonicParsing="false" text="Cancel">
-                           <VBox.margin>
-                              <Insets top="4.0" />
-                           </VBox.margin>
-                        </Button>
+                        <TextField minWidth="325.0" promptText="Location" style="-fx-background-color: white; -fx-border-color: #7a7a7a; -fx-border-radius: 4;" />
+                        <Button maxWidth="25.0" mnemonicParsing="false" style="-fx-background-color: #dcdcdc; -fx-border-color: #7a7a7a; -fx-border-radius: 4;" text="..." />
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <VBox maxHeight="50.0" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <TextArea minHeight="75.0" prefHeight="57.0" prefWidth="352.0" promptText="Description" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" />
+                     </VBox.margin>
                   </VBox>
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <ComboBox prefWidth="170.0" promptText="Urgency" style="-fx-background-color: white; -fx-border-color: #7a7a7a; -fx-border-radius: 4;" />
+                        <DatePicker disable="true" prefWidth="170.0" style="-fx-background-color: white; -fx-border-color: #7a7a7a; -fx-border-radius: 4;" GridPane.columnIndex="1" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                  </GridPane>
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                     <children>
+                        <Button maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d8d8d8; -fx-font-family: arial; -fx-background-radius: 6; -fx-font-weight: bold; -fx-font-size: 15;" text="Clear" textFill="#656565" />
+                        <Button maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #6cc968; -fx-font-family: arial; -fx-font-weight: bold; -fx-background-radius: 6; -fx-font-size: 15;" text="Submit" GridPane.columnIndex="1" />
+                     </children>
+                  </GridPane>
                </children>
-            </HBox>
+               <HBox.margin>
+                  <Insets bottom="20.0" top="20.0" />
+               </HBox.margin>
+            </VBox>
          </children>
-      </VBox>
+      </HBox>
    </children>
 </AnchorPane>
