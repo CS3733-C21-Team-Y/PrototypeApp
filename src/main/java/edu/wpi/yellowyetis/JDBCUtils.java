@@ -39,7 +39,7 @@ public class JDBCUtils {
       Statement stmt = conn.createStatement();
       String sqlNode =
           "create table Node(nodeID varchar(20) PRIMARY KEY ,\n"
-              + "nodeType varchar(4) not null ,\n"
+              + "nodeType varchar(8) not null ,\n"
               + "xcoord varchar(8) not null ,\n"
               + "ycoord varchar(8) not null ,\n"
               + "floor varchar(2) not null ,\n"

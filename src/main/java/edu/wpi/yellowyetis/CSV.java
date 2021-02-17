@@ -90,7 +90,7 @@ public class CSV {
   public static ArrayList<Node> getNodes()
       throws IOException, ClassNotFoundException, SQLException, NoSuchFieldException,
           InstantiationException, IllegalAccessException {
-    String line = brEdge.readLine(); // get rid of first line
+    String line = brNode.readLine(); // get rid of first line
     while ((line = brNode.readLine()) != null) {
       String[] stringEdge = line.split(splitBy); // use comma as separator
 
@@ -104,11 +104,13 @@ public class CSV {
       String shortName = stringEdge[2];
       String teamAssigned = stringEdge[2];
 
+      System.out.println(xcoord);
+
       Node node =
           new Node(
               nodeType,
-              Double.parseDouble(xcoord),
-              Double.parseDouble(ycoord),
+              (double) Integer.parseInt(xcoord),
+              (double) Integer.parseInt(ycoord),
               floor,
               building,
               longName,
