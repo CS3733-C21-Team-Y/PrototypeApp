@@ -37,6 +37,7 @@ public class Node {
     this.shortName = shortName;
     this.teamAssigned = teamAssigned;
     this.nodeID = nodeID;
+    this.room = "";
 
     this.neighbors = new ArrayList<Node>();
     // this.nodeID = ("" + teamAssigned + nodeType + room + floor).toUpperCase(Locale.ROOT);

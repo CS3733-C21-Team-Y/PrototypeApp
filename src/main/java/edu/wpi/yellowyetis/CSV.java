@@ -101,8 +101,8 @@ public class CSV {
       String building = stringEdge[4];
       String nodeType = stringEdge[5];
       String longName = stringEdge[6];
-      String shortName = stringEdge[2];
-      String teamAssigned = stringEdge[2];
+      String shortName = stringEdge[7];
+      String teamAssigned = stringEdge[8];
 
       // System.out.println(xcoord);
 
@@ -172,6 +172,55 @@ public class CSV {
     CSV.generateEdgeCSV();
   }
 
+  /**
+   * @param mode can be either "EDGE" or "NODE"
+   * @return true if generated successfully, false otherwise
+   */
+  public static boolean generateCSV(String mode) throws SQLException {
+    Connection conn = JDBCUtils.getConn();
+    String str = ""; // SQL query
+    String CSVpath = ""; // CSV file path
+    int numAttributes = 0; // number of attributes in that object
+    if (mode.equals("EDGE")) {
+      str = "SELECT * FROM ADMIN.EDGE";
+      numAttributes = 3;
+      CSVpath = edgeTestCSVpath;
+    } else {
+      str = "SELECT * FROM ADMIN.NODE";
+      numAttributes = 9;
+      CSVpath = nodeTestCSVpath;
+    }
+    BufferedWriter bufferedWriter; // true = append, false = overwrite
+    try {
+      bufferedWriter = new BufferedWriter(new FileWriter(CSVpath, false));
+    } catch (IOException e) {
+      e.printStackTrace();
+      System.out.println("initialize bufferWriter failed");
+      return false;
+    }
+    try {
+      Statement statement = conn.createStatement();
+      ResultSet resultSet = statement.executeQuery(str);
+      StringBuilder stringBuilder = new StringBuilder("");
+      System.out.println("exporting" + mode + "from database to CSV files");
+      while (resultSet.next()) {
+        for (int i = 0; i < numAttributes; i++) {
+          stringBuilder.append(resultSet.getString(i)).append(",");
+        }
+        bufferedWriter.write(stringBuilder.toString());
+        bufferedWriter.newLine();
+      }
+      resultSet.close();
+      JDBCUtils.close(null, null, statement, conn);
+      bufferedWriter.flush();
+      bufferedWriter.close();
+      return true;
+    } catch (SQLException | IOException throwables) {
+      throwables.printStackTrace();
+    }
+    return true;
+  }
+  // out-dated version of generating CSV file
   public static boolean generateEdgeCSV() throws SQLException {
     Connection conn = JDBCUtils.getConn();
     boolean generatedSuccessful = false;

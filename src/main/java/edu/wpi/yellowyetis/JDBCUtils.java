@@ -162,6 +162,39 @@ public class JDBCUtils {
     return psInsert;
   }
 
+  public static void main(String[] args) {
+    Edge edge = new Edge("1", "start", "end");
+    System.out.println(JDBCUtils.insertString(edge));
+  }
+
+  /**
+   *
+   * @param object an object to be inserted
+   * @return the string of the insert SQL query
+   */
+  public static String insertString(Object object) {
+    StringBuilder stringBuilder =
+        new StringBuilder("INSERT INTO ")
+            .append(object.getClass().getName())
+            .append(" VALUES(")
+            .append(object.toString())
+            .append(")");
+
+    return stringBuilder.toString();
+  }
+
+  /**
+   *
+   * @param insertCommand the query string generated from insertString()
+   * @throws SQLException
+   */
+  public static void insert(String insertCommand) throws SQLException {
+    Connection connection = JDBCUtils.getConn();
+    Statement statement = connection.createStatement();
+    statement.execute(insertCommand);
+    JDBCUtils.close(null, null, statement, connection);
+  }
+
   /**
    * Inserts into specified table the inputted object
    *

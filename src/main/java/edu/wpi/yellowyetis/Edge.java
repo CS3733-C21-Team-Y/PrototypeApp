@@ -25,6 +25,6 @@ public class Edge {
 
   @Override
   public String toString() {
-    return "\n" + edgeID + "," + startNodeID + ',' + endNodeID;
+    return edgeID + "," + startNodeID + ',' + endNodeID;
   }
 }
