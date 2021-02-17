@@ -59,7 +59,9 @@ public class CSV {
    * @return: list of edges from CSV
    * @throws IOException
    */
-  public static ArrayList<Edge> getEdges() throws IOException, ClassNotFoundException, SQLException, NoSuchFieldException, InstantiationException, IllegalAccessException {
+  public static ArrayList<Edge> getEdges()
+      throws IOException, ClassNotFoundException, SQLException, NoSuchFieldException,
+          InstantiationException, IllegalAccessException {
     String line = brEdge.readLine(); // get rid of first line
     while ((line = brEdge.readLine()) != null) {
       String[] stringEdge = line.split(splitBy); // use comma as separator
@@ -71,13 +73,12 @@ public class CSV {
       Edge edge = new Edge(edgeID, startNodeID, endNodeID);
 
       edges.add(edge);
-      //fix this error handling!!!
-      try{
-        JDBCUtils.insert(3, edge , "Edge");
-      }catch (SQLException ignore) {
+      // fix this error handling!!!
+      try {
+        JDBCUtils.insert(3, edge, "Edge");
+      } catch (SQLException ignore) {
 
       }
-
     }
     return edges;
   }
@@ -86,7 +87,9 @@ public class CSV {
    * @return: list of nodes from CSV
    * @throws IOException
    */
-  public static ArrayList<Node> getNodes() throws IOException, ClassNotFoundException, SQLException, NoSuchFieldException, InstantiationException, IllegalAccessException {
+  public static ArrayList<Node> getNodes()
+      throws IOException, ClassNotFoundException, SQLException, NoSuchFieldException,
+          InstantiationException, IllegalAccessException {
     String line = brEdge.readLine(); // get rid of first line
     while ((line = brNode.readLine()) != null) {
       String[] stringEdge = line.split(splitBy); // use comma as separator
@@ -101,13 +104,21 @@ public class CSV {
       String shortName = stringEdge[2];
       String teamAssigned = stringEdge[2];
 
-
-
-      Node node = new Node(nodeType, Double.parseDouble(xcoord), Double.parseDouble(ycoord), floor, building, longName, shortName, teamAssigned.charAt(1), nodeID);
+      Node node =
+          new Node(
+              nodeType,
+              Double.parseDouble(xcoord),
+              Double.parseDouble(ycoord),
+              floor,
+              building,
+              longName,
+              shortName,
+              teamAssigned.charAt(1),
+              nodeID);
       nodes.add(node);
-      try{
-        JDBCUtils.insert(10,node, "Node");
-      }catch (SQLException ignore) {
+      try {
+        JDBCUtils.insert(10, node, "Node");
+      } catch (SQLException ignore) {
 
       }
     }
@@ -224,21 +235,21 @@ public class CSV {
 
   public static ArrayList<Edge> getListOfEdge() throws SQLException {
     // Connection conn=JDBCUtils.getConn();
-    Connection conn=JDBCUtils.getConn();
+    Connection conn = JDBCUtils.getConn();
     String str = "SELECT * FROM ADMIN.EDGE";
-    ArrayList<Edge> edges= new ArrayList<>();
-    String edgeID="";
-    String startNodeID="";
-    String endNodeID="";
+    ArrayList<Edge> edges = new ArrayList<>();
+    String edgeID = "";
+    String startNodeID = "";
+    String endNodeID = "";
     try {
       Statement statement = conn.createStatement();
-      ResultSet resultSet=statement.executeQuery(str);
+      ResultSet resultSet = statement.executeQuery(str);
       System.out.println("exporting Nodes from database to list of nodes");
       while (resultSet.next()) {
-        edgeID=resultSet.getString(1);
-        startNodeID=resultSet.getString(2);
-        endNodeID=resultSet.getString(3);
-        Edge edge=new Edge(edgeID,startNodeID,endNodeID);
+        edgeID = resultSet.getString(1);
+        startNodeID = resultSet.getString(2);
+        endNodeID = resultSet.getString(3);
+        Edge edge = new Edge(edgeID, startNodeID, endNodeID);
         edges.add(edge);
         JDBCUtils.insert(3, edge, "Edge");
       }
@@ -259,42 +270,47 @@ public class CSV {
     return null;
   }
 
-
-  /**
-   *
-   * @return a list of nodes
-   */
+  /** @return a list of nodes */
   public static ArrayList<Node> getListOfNodes() throws SQLException {
     // Connection conn=JDBCUtils.getConn();
-    Connection conn=JDBCUtils.getConn();
+    Connection conn = JDBCUtils.getConn();
     String str = "SELECT * FROM ADMIN.NODE";
-    ArrayList<Node> nodes= new ArrayList<>();
-    String nodeType="";
-    double xcoord=0;
-    double ycoord=0;
-    String floor="";
-    String building="";
-    String longName="";
-    String shortName="";
-    char teamAssigned='X';
-    String nodeID="";
+    ArrayList<Node> nodes = new ArrayList<>();
+    String nodeType = "";
+    double xcoord = 0;
+    double ycoord = 0;
+    String floor = "";
+    String building = "";
+    String longName = "";
+    String shortName = "";
+    char teamAssigned = 'X';
+    String nodeID = "";
     try {
       Statement statement = conn.createStatement();
-      ResultSet resultSet=statement.executeQuery(str);
+      ResultSet resultSet = statement.executeQuery(str);
       System.out.println("exporting Nodes from database to list of nodes");
       while (resultSet.next()) {
-        nodeType=resultSet.getString(1);
-        xcoord=resultSet.getDouble(2);
-        ycoord=resultSet.getDouble(3);
-        floor=resultSet.getString(4);
-        building=resultSet.getString(5);
-        longName=resultSet.getString(6);
-        shortName=resultSet.getString(7);
-        teamAssigned=resultSet.getString(8).charAt(0);
-        nodeID=resultSet.getString(9);
-        Node node=new Node(nodeType,xcoord,ycoord,floor,building,longName,shortName,teamAssigned,nodeID);
+        nodeType = resultSet.getString(1);
+        xcoord = resultSet.getDouble(2);
+        ycoord = resultSet.getDouble(3);
+        floor = resultSet.getString(4);
+        building = resultSet.getString(5);
+        longName = resultSet.getString(6);
+        shortName = resultSet.getString(7);
+        teamAssigned = resultSet.getString(8).charAt(0);
+        nodeID = resultSet.getString(9);
+        Node node =
+            new Node(
+                nodeType,
+                xcoord,
+                ycoord,
+                floor,
+                building,
+                longName,
+                shortName,
+                teamAssigned,
+                nodeID);
         nodes.add(node);
-
       }
       resultSet.close();
       JDBCUtils.close(null, null, statement, conn);
@@ -302,7 +318,7 @@ public class CSV {
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
-    if(nodes.size()==0){
+    if (nodes.size() == 0) {
       System.out.println("zero node in the list, there could be no rows in the table");
     }
     return nodes;
