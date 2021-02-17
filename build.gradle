@@ -49,6 +49,11 @@ jar {
 def codeCoverageExcludes = [
         'edu.wpi.yellowyetis.App',
         'edu.wpi.yellowyetis.Main',
+        'edu.wpi.yellowyetis.HomePageController',
+        'edu.wpi.yellowyetis.LaundryPageController',
+        'edu.wpi.yellowyetis.MaintenancePageController',
+        'edu.wpi.yellowyetis.ServiceRequestPageController',
+        'edu.wpi.yellowyetis.PathfindingPageController',
 ]
 
 jacoco {
