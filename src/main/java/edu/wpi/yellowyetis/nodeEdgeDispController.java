@@ -230,10 +230,21 @@ public class nodeEdgeDispController {
   }
 
   private void initImage() {
+    System.out.println(map.fitHeightProperty());
     setImage(MAP_PAGE.PARKING);
-    map.setFitHeight(500);
+    //    map.setFitHeight(500);
     //    map.fitHeightProperty().bind(anchor.heightProperty());
     //    map.fitWidthProperty().bind(anchor.widthProperty());
+  }
+
+  private double scaleXCoords(double x) {
+    double scale = 1485.0 / 500.0;
+    return x / scale;
+  }
+
+  private double scaleYCoords(double y) {
+    double scale = 1485.0 / 500.0;
+    return y / scale;
   }
 
   private void controlImageShown(ActionEvent e, MAP_PAGE mp) {
@@ -379,7 +390,7 @@ public class nodeEdgeDispController {
     if (addNodecb.isSelected()) {
       edu.wpi.yellowyetis.Node n =
           new edu.wpi.yellowyetis.Node(e.getSceneX(), e.getSceneY(), floorNumber, nodeID);
-      Circle circle = new Circle(n.getXcoord(), n.getYcoord(), 5);
+      Circle circle = new Circle(scaleXCoords(n.getXcoord()), scaleYCoords(n.getYcoord()), 5);
       circle.setId(n.getNodeID());
       currentSelectedCircle = circle;
       circle.setFill(Paint.valueOf("RED"));
@@ -428,20 +439,20 @@ public class nodeEdgeDispController {
     for (edu.wpi.yellowyetis.Node n : CSV.nodes) {
       double x = n.getXcoord();
       double y = n.getYcoord();
-      Circle circle = new Circle(x, y, 5);
+      Circle circle = new Circle(scaleXCoords(x), scaleYCoords(y), 5);
       circle.setId(n.getNodeID());
       currentSelectedCircle = circle;
       circle.setFill(Paint.valueOf("RED"));
       pane.getChildren().add(circle);
 
-      //       adding the node and refreshing the scene
-      //      Stage stage = (Stage) addNode.getScene().getWindow();
-      //      stage.setScene(addNode.getScene());
-      //      stage.show();
+      // adding the node and refreshing the scene
+      Stage stage = (Stage) addNode.getScene().getWindow();
+      stage.setScene(addNode.getScene());
+      stage.show();
     }
 
     for (Edge e : CSV.edges) {
-      System.out.println(pane.getScene());
+      // System.out.println(pane.getScene());
       Circle n = (Circle) pane.getScene().lookup("#" + e.getStartNodeID());
       Circle m = (Circle) pane.getScene().lookup("#" + e.getEndNodeID());
       startx = n.getCenterX();
@@ -470,7 +481,7 @@ public class nodeEdgeDispController {
             Double.parseDouble(newY.getText()),
             floorNumber,
             nodeID);
-    Circle circle = new Circle(n.getXcoord(), n.getYcoord(), 5);
+    Circle circle = new Circle(scaleXCoords(n.getXcoord()), scaleYCoords(n.getYcoord()), 5);
     circle.setId(n.getNodeID());
     currentSelectedCircle = circle;
     circle.setFill(Paint.valueOf("RED"));

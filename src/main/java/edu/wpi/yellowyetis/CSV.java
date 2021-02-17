@@ -104,7 +104,7 @@ public class CSV {
       String shortName = stringEdge[2];
       String teamAssigned = stringEdge[2];
 
-      System.out.println(xcoord);
+      // System.out.println(xcoord);
 
       Node node =
           new Node(
