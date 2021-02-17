@@ -48,7 +48,7 @@ public class JDBCUtils {
                       + "floor varchar(2) not null ,\n"
                       + "building varchar(20) not null ,\n"
                       + "room varchar(15) not null ,\n"
-                      + "longName varchar(30) not null ,\n"
+                      + "longName varchar(40) not null ,\n"
                       + "shortName varchar(10) not null ,\n"
                       + "teamAssigned char not null )";
       stmt.executeUpdate(sqlNode);
