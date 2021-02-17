@@ -112,7 +112,7 @@ public class nodeEdgeDispController {
       throws IllegalAccessException, ClassNotFoundException, IOException, InstantiationException,
           SQLException, NoSuchFieldException {
     initImage();
-
+    floorMenu.setText("Parking Lot");
     testButton.setOnAction(
         e -> {
           try {
@@ -132,12 +132,36 @@ public class nodeEdgeDispController {
           }
         });
 
-    parkingPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.PARKING));
-    floorOnePage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR1));
-    floorTwoPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR2));
-    floorThreePage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR3));
-    floorFourPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR4));
-    floorFivePage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR5));
+    parkingPage.setOnAction(
+        e -> {
+          controlImageShown(e, MAP_PAGE.PARKING);
+          updateMenuPreview(e);
+        });
+    floorOnePage.setOnAction(
+        e -> {
+          controlImageShown(e, MAP_PAGE.FLOOR1);
+          updateMenuPreview(e);
+        });
+    floorTwoPage.setOnAction(
+        e -> {
+          controlImageShown(e, MAP_PAGE.FLOOR2);
+          updateMenuPreview(e);
+        });
+    floorThreePage.setOnAction(
+        e -> {
+          controlImageShown(e, MAP_PAGE.FLOOR3);
+          updateMenuPreview(e);
+        });
+    floorFourPage.setOnAction(
+        e -> {
+          controlImageShown(e, MAP_PAGE.FLOOR4);
+          updateMenuPreview(e);
+        });
+    floorFivePage.setOnAction(
+        e -> {
+          controlImageShown(e, MAP_PAGE.FLOOR5);
+          updateMenuPreview(e);
+        });
     // attaches a handler to the button with a lambda expression
     toHomeBtn.setOnAction(e -> buttonClicked(e));
 
@@ -182,6 +206,10 @@ public class nodeEdgeDispController {
         e -> {
           addEdgecb.setSelected(false);
         });
+  }
+
+  private void updateMenuPreview(ActionEvent e) {
+    floorMenu.setText(((MenuItem) e.getSource()).getText());
   }
 
   // this sucks
@@ -241,12 +269,12 @@ public class nodeEdgeDispController {
   }
 
   private double scaleXCoords(double x) {
-    double scale = 1485.0 / 500.0;
+    double scale = 1485.0 / 350.0;
     return x / scale;
   }
 
   private double scaleYCoords(double y) {
-    double scale = 1485.0 / 500.0;
+    double scale = 1485.0 / 350.0;
     return y / scale;
   }
 
