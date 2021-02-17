@@ -1,7 +1,10 @@
 package edu.wpi.yellowyetis;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.*;
+import java.util.ArrayList;
+
 import org.apache.derby.iapi.error.StandardException;
 import org.apache.derby.iapi.sql.ResultSet;
 
@@ -38,22 +41,22 @@ public class JDBCUtils {
     try {
       Statement stmt = conn.createStatement();
       String sqlNode =
-          "create table Node(nodeID varchar(20) PRIMARY KEY ,\n"
-              + "nodeType varchar(4) not null ,\n"
-              + "xcoord varchar(6) not null ,\n"
-              + "ycoord varchar(6) not null ,\n"
-              + "floor varchar(2) not null ,\n"
-              + "building varchar(20) not null ,\n"
-              + "room varchar(15) not null ,\n"
-              + "longName varchar(30) not null ,\n"
-              + "shortName varchar(10) not null ,\n"
-              + "teamAssigned char not null )";
+              "create table Node(nodeID varchar(20) PRIMARY KEY ,\n"
+                      + "nodeType varchar(4) not null ,\n"
+                      + "xcoord varchar(6) not null ,\n"
+                      + "ycoord varchar(6) not null ,\n"
+                      + "floor varchar(2) not null ,\n"
+                      + "building varchar(20) not null ,\n"
+                      + "room varchar(15) not null ,\n"
+                      + "longName varchar(40) not null ,\n"
+                      + "shortName varchar(10) not null ,\n"
+                      + "teamAssigned char not null )";
       stmt.executeUpdate(sqlNode);
 
       String sqlEdge =
-          "create table Edge(edgeID varchar(40) PRIMARY KEY NOT NULL ,\n"
-              + "startNode varchar(30) not null ,\n"
-              + "endNode varchar(30) not null )";
+              "create table Edge(edgeID varchar(40) PRIMARY KEY NOT NULL ,\n"
+                      + "startNode varchar(30) not null ,\n"
+                      + "endNode varchar(30) not null )";
 
       stmt.executeUpdate(sqlEdge);
     } catch (SQLException ignored) {
@@ -122,8 +125,8 @@ public class JDBCUtils {
    * @throws InstantiationException
    */
   public static PreparedStatement createPreparedStatement(
-      int numArguments, Object object, String tableName, String queryType)
-      throws SQLException, NoSuchFieldException, ClassNotFoundException, IllegalAccessException,
+          int numArguments, Object object, String tableName, String queryType)
+          throws SQLException, NoSuchFieldException, ClassNotFoundException, IllegalAccessException,
           InstantiationException {
     // Building the portion of the query statement that handles the (?), (?), ... for the values
     // being inserted
@@ -138,8 +141,8 @@ public class JDBCUtils {
 
     // creates the prepared statement inserting with tableName and the arguments stringbuilder
     PreparedStatement psInsert =
-        conn.prepareStatement(
-            queryType + " ADMIN." + tableName + " values(" + arguments.toString() + ")");
+            conn.prepareStatement(
+                    queryType + " ADMIN." + tableName + " values(" + arguments.toString() + ")");
     Field[] fields = object.getClass().getDeclaredFields();
     int parameterCounter = 0;
 
@@ -175,10 +178,10 @@ public class JDBCUtils {
    * @throws NoSuchFieldException
    */
   public static void insert(int numArgs, Object object, String tableName)
-      throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException,
+          throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException,
           NoSuchFieldException {
     PreparedStatement statement =
-        createPreparedStatement(numArgs, object, tableName, "insert into");
+            createPreparedStatement(numArgs, object, tableName, "insert into");
     try {
       statement.execute();
     } catch (SQLException e) {
@@ -204,7 +207,7 @@ public class JDBCUtils {
    * @throws NoSuchFieldException
    */
   public static void update(int numArgs, Object object, String tableName)
-      throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException,
+          throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException,
           NoSuchFieldException {
     PreparedStatement statement = createPreparedStatement(numArgs, object, tableName, "update");
   }
@@ -216,4 +219,6 @@ public class JDBCUtils {
     stmt = conn.createStatement();
     stmt.executeQuery(sql);
   }
+
 }
+
