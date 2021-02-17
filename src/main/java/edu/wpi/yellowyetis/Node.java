@@ -53,4 +53,66 @@ public class Node {
   public ArrayList<Node> getNeighbors() {
     return neighbors;
   }
+
+  public String getNodeType() {
+    return nodeType;
+  }
+
+  public double getXcoord() {
+    return xcoord;
+  }
+
+  public double getYcoord() {
+    return ycoord;
+  }
+
+  public String getFloor() {
+    return floor;
+  }
+
+  public String getRoom() {
+    return room;
+  }
+
+  public String getBuilding() {
+    return building;
+  }
+
+  public String getLongName() {
+    return longName;
+  }
+
+  public String getShortName() {
+    return shortName;
+  }
+
+  public char getTeamAssigned() {
+    return teamAssigned;
+  }
+
+  public String getNodeID() {
+    return nodeID;
+  }
+
+  @Override
+  public String toString() {
+    return "\n"
+        + nodeID
+        + ","
+        + xcoord
+        + ","
+        + ycoord
+        + ","
+        + floor
+        + ","
+        + building
+        + ","
+        + nodeType
+        + ","
+        + longName
+        + ","
+        + shortName
+        + ","
+        + teamAssigned;
+  }
 }

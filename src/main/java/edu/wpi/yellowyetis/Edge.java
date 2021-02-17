@@ -10,4 +10,21 @@ public class Edge {
   String edgeID;
   String startNodeID;
   String endNodeID;
+
+  public String getEdgeID() {
+    return edgeID;
+  }
+
+  public String getStartNodeID() {
+    return startNodeID;
+  }
+
+  public String getEndNodeID() {
+    return endNodeID;
+  }
+
+  @Override
+  public String toString() {
+    return "\n" + edgeID + "," + startNodeID + ',' + endNodeID;
+  }
 }

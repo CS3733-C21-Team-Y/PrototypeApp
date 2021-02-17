@@ -1,3 +1,7 @@
+![Gradle Checks & Coverage](https://github.com/CS3733-C21-Team-Y/PrototypeApp/workflows/Gradle%20Checks%20&%20Coverage/badge.svg)
+![Gradle Build](https://github.com/CS3733-C21-Team-Y/PrototypeApp/workflows/Gradle%20Build/badge.svg)
+[![codecov](https://codecov.io/gh/CS3733-C21-Team-Y/PrototypeApp/branch/main/graph/badge.svg?token=EH6MTCYDXI)](https://codecov.io/gh/CS3733-C21-Team-Y/PrototypeApp)
+
 To assemble a jar file for your project, run the "jar" gradle task, either through IntelliJ or by doing
 `gradle jar` on a terminal. Gradle will automatically download all dependencies needed to compile your jar file,
 which will be stored in the build/libs folder.
