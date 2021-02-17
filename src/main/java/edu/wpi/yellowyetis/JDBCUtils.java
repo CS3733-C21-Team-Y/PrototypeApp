@@ -138,7 +138,7 @@ public class JDBCUtils {
 
     // creates the prepared statement inserting with tableName and the arguments stringbuilder
     PreparedStatement psInsert =
-        conn.prepareStatement(
+        JDBCUtils.conn.prepareStatement(
             queryType + " ADMIN." + tableName + " values(" + arguments.toString() + ")");
     Field[] fields = object.getClass().getDeclaredFields();
     int parameterCounter = 0;
@@ -173,6 +173,7 @@ public class JDBCUtils {
    * @return the string of the insert SQL query
    */
   public static String insertString(Object object) {
+
     StringBuilder stringBuilder =
         new StringBuilder("INSERT INTO ")
             .append(object.getClass().getName())
@@ -222,6 +223,7 @@ public class JDBCUtils {
       */
 
     }
+    close(statement,null,null,null);
   }
 
   /**

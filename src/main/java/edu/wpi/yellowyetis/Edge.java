@@ -27,4 +27,9 @@ public class Edge {
   public String toString() {
     return edgeID + "," + startNodeID + ',' + endNodeID;
   }
+
+  public String toString(String flag) {
+
+    return "'"+edgeID + "'"+"," + "'"+startNodeID +"'"+ ',' + "'"+endNodeID+"'";
+  }
 }
