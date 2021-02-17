@@ -1,0 +1,15 @@
+id,startNode,endNode
+Edge1to2,1,2
+Edge1to5,1,5
+Edge1to8,1,8
+Edge2to3,2,3
+Edge2to4,2,4
+Edge3to5,3,5
+Edge3to9,3,9
+Edge4to9,4,9
+Edge5to7,5,7
+Edge5to8,5,8
+Edge6to10,6,10
+Edge7to6,6,7
+Edge7to8,7,8
+Edge7to8,7,9

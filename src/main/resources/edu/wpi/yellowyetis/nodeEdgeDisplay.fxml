@@ -34,6 +34,7 @@
                         <Pane fx:id="pane" />
                      </children>
                   </StackPane>
+                  <Button fx:id="toHomeBtn" mnemonicParsing="false" text="Return to Home" />
                </children>
             </VBox>
             <VBox alignment="TOP_CENTER" maxWidth="100.0" prefHeight="0.0" prefWidth="100.0" HBox.hgrow="ALWAYS">

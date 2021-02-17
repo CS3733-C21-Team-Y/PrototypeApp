@@ -2,9 +2,17 @@ package edu.wpi.yellowyetis;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+<<<<<<< HEAD
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+=======
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
+>>>>>>> e2ff014985581546bbba9694af9418a23abd208b
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -17,8 +25,12 @@ import javafx.stage.Stage;
 
 public class nodeEdgeDispController {
 
+<<<<<<< HEAD
   @FXML private Pane anchor;
 
+=======
+  @FXML private Button toHomeBtn;
+>>>>>>> e2ff014985581546bbba9694af9418a23abd208b
   @FXML private Button addNode;
   @FXML private Button addEdge;
 
@@ -98,6 +110,7 @@ public class nodeEdgeDispController {
 
   @FXML
   private void initialize() {
+<<<<<<< HEAD
     initImage();
 
     parkingPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.PARKING));
@@ -106,6 +119,10 @@ public class nodeEdgeDispController {
     floorThreePage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR3));
     floorFourPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR4));
     floorFivePage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR5));
+=======
+    // attaches a handler to the button with a lambda expression
+    toHomeBtn.setOnAction(e -> buttonClicked(e));
+>>>>>>> e2ff014985581546bbba9694af9418a23abd208b
 
     // set pane to size of image
     stackPane.setMaxWidth(map.getFitWidth());
@@ -150,6 +167,7 @@ public class nodeEdgeDispController {
         });
   }
 
+<<<<<<< HEAD
   private void setImage(MAP_PAGE mp) {
     Image parking =
         new Image(
@@ -232,6 +250,33 @@ public class nodeEdgeDispController {
   }
 
   private void getPaneNode() {
+=======
+  // button event handler
+  @FXML
+  private void buttonClicked(ActionEvent e) {
+    // error handling for FXMLLoader.load
+    try {
+      // initializing stage
+      Stage stage = null;
+
+      if (e.getSource() == toHomeBtn) {
+        // gets the current stage
+        stage = (Stage) toHomeBtn.getScene().getWindow();
+        // sets the new scene to the alex page
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
+
+      } else {
+
+      }
+
+      // display new stage
+      stage.show();
+    } catch (Exception exp) {
+    }
+  }
+
+  private void getCircle() {
+>>>>>>> e2ff014985581546bbba9694af9418a23abd208b
     Circle c = new Circle();
     Line l = new Line();
 
