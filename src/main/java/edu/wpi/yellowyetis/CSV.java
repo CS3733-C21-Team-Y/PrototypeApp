@@ -59,7 +59,7 @@ public class CSV {
    * @return: list of edges from CSV
    * @throws IOException
    */
-  public static ArrayList<Edge> getEdges() throws IOException {
+  public static ArrayList<Edge> getEdges() throws IOException, ClassNotFoundException, SQLException, NoSuchFieldException, InstantiationException, IllegalAccessException {
     String line = brEdge.readLine(); // get rid of first line
     while ((line = brEdge.readLine()) != null) {
       String[] stringEdge = line.split(splitBy); // use comma as separator
@@ -71,6 +71,7 @@ public class CSV {
       Edge edge = new Edge(edgeID, startNodeID, endNodeID);
 
       edges.add(edge);
+      JDBCUtils.insert(3, edge , "Edge");
     }
     return edges;
   }
@@ -79,17 +80,26 @@ public class CSV {
    * @return: list of nodes from CSV
    * @throws IOException
    */
-  public static ArrayList<Node> getNodes() throws IOException {
+  public static ArrayList<Node> getNodes() throws IOException, ClassNotFoundException, SQLException, NoSuchFieldException, InstantiationException, IllegalAccessException {
     String line = brEdge.readLine(); // get rid of first line
     while ((line = brNode.readLine()) != null) {
       String[] stringEdge = line.split(splitBy); // use comma as separator
 
-      String edgeID = stringEdge[0];
-      String startNodeID = stringEdge[1];
-      String endNodeID = stringEdge[2];
+      String nodeID = stringEdge[0];
+      String xcoord = stringEdge[1];
+      String ycoord = stringEdge[2];
+      String floor = stringEdge[3];
+      String building = stringEdge[4];
+      String nodeType = stringEdge[5];
+      String longName = stringEdge[6];
+      String shortName = stringEdge[2];
+      String teamAssigned = stringEdge[2];
 
-      Edge edge = new Edge(edgeID, startNodeID, endNodeID);
-      edges.add(edge);
+
+
+      Node node = new Node(nodeType, Double.parseDouble(xcoord), Double.parseDouble(ycoord), floor, building, longName, shortName, teamAssigned.charAt(1), nodeID);
+      nodes.add(node);
+      JDBCUtils.insert(10,node, "Node");
     }
     return nodes;
   }
@@ -274,21 +284,13 @@ public class CSV {
         nodeID=resultSet.getString(9);
         Node node=new Node(nodeType,xcoord,ycoord,floor,building,longName,shortName,teamAssigned,nodeID);
         nodes.add(node);
-        JDBCUtils.insert(10,node, "Node");
+
       }
       resultSet.close();
       JDBCUtils.close(null, null, statement, conn);
       return nodes;
     } catch (SQLException throwables) {
       throwables.printStackTrace();
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (NoSuchFieldException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
     }
     if(nodes.size()==0){
       System.out.println("zero node in the list, there could be no rows in the table");
