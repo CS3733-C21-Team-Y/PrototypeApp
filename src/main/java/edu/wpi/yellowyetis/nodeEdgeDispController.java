@@ -64,7 +64,7 @@ public class nodeEdgeDispController {
   @FXML private MenuItem floorFourPage;
   @FXML private MenuItem floorFivePage;
 
-  private String floorNumber = "1";
+  private String floorNumber = "0";
   private int nodeIDCounter;
 
   private enum MAP_PAGE {
@@ -195,10 +195,8 @@ public class nodeEdgeDispController {
   private void setImage(MAP_PAGE mp) {
     Image parking =
         new Image(
-            "edu/wpi/yellowyetis/"
-                + "a-male-patient-confined-in-the-hospital"
-                + "-and-an-underground-parking-lot-filled-with"
-                + "-cars-background_1200x1200.png"); // need to be switched to parking map
+            "edu/wpi/yellowyetis/malepatientconfinedinthehospitalandundergroundlotfilledwithcars.png");
+    // need to be switched to parking map
     Image f1 = new Image("edu/wpi/yellowyetis/FaulknerFloor1_Updated.png");
     Image f2 = new Image("edu/wpi/yellowyetis/FaulknerFloor2_Updated.png");
     Image f3 = new Image("edu/wpi/yellowyetis/FaulknerFloor3_Updated.png");

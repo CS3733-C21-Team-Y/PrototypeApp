@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class HomePageController {
@@ -26,7 +25,6 @@ public class HomePageController {
     toServiceRequestBtn.setOnAction(e -> buttonClicked(e));
     toMapEditBtn.setOnAction(e -> buttonClicked(e));
     toPathfindingBtn.setOnAction(e -> buttonClicked(e));
-
   }
 
   // button event handler
