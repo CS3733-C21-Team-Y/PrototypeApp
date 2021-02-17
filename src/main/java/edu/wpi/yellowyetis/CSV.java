@@ -220,12 +220,21 @@ public class CSV {
         endNodeID=resultSet.getString(3);
         Edge edge=new Edge(edgeID,startNodeID,endNodeID);
         edges.add(edge);
+        JDBCUtils.insert(3, edge, "Edge");
       }
       resultSet.close();
       JDBCUtils.close(null, null, statement, conn);
       return edges;
     } catch (SQLException throwables) {
       throwables.printStackTrace();
+    } catch (InstantiationException e) {
+      e.printStackTrace();
+    } catch (NoSuchFieldException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
     }
     return null;
   }
@@ -265,12 +274,21 @@ public class CSV {
         nodeID=resultSet.getString(9);
         Node node=new Node(nodeType,xcoord,ycoord,floor,building,longName,shortName,teamAssigned,nodeID);
         nodes.add(node);
+        JDBCUtils.insert(10,node, "Node");
       }
       resultSet.close();
       JDBCUtils.close(null, null, statement, conn);
       return nodes;
     } catch (SQLException throwables) {
       throwables.printStackTrace();
+    } catch (InstantiationException e) {
+      e.printStackTrace();
+    } catch (NoSuchFieldException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
     }
     if(nodes.size()==0){
       System.out.println("zero node in the list, there could be no rows in the table");
