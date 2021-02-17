@@ -70,7 +70,6 @@ public class CSV {
 
       Edge edge = new Edge(edgeID, startNodeID, endNodeID);
 
-
       edges.add(edge);
     }
     return edges;

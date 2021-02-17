@@ -42,6 +42,21 @@ public class Node {
     // this.nodeID = ("" + teamAssigned + nodeType + room + floor).toUpperCase(Locale.ROOT);
   }
 
+  public Node(double xcoord, double ycoord, String floor, String nodeID) {
+    this.nodeType = "userGenerated";
+    this.xcoord = xcoord;
+    this.ycoord = ycoord;
+    this.floor = floor;
+    this.building = "Faulkner";
+    this.longName = "UserLongName";
+    this.shortName = "usrShrtNme";
+    this.teamAssigned = 'y';
+    this.nodeID = nodeID;
+
+    this.neighbors = new ArrayList<Node>();
+    // this.nodeID = ("" + teamAssigned + nodeType + room + floor).toUpperCase(Locale.ROOT);
+  }
+
   public boolean addEdge(Node node) {
     return neighbors.add(node);
   }

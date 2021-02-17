@@ -36,7 +36,7 @@ public class nodeEdgeDispController {
 
   // variables for selecting points and locating edges
   private boolean startEdgeFlag = true;
-  private int startx, starty, endx, endy;
+  private double startx, starty, endx, endy;
   private Circle currentSelectedCircle = new Circle(0, 0, 0);
   private Line currentSelectedLine = new Line(0, 0, 0, 0);
 
@@ -60,6 +60,8 @@ public class nodeEdgeDispController {
   @FXML private MenuItem floorFourPage;
   @FXML private MenuItem floorFivePage;
 
+  private String floorNumber;
+
   private enum MAP_PAGE {
     PARKING,
     FLOOR1,
@@ -71,6 +73,7 @@ public class nodeEdgeDispController {
 
   MAP_PAGE mp = MAP_PAGE.PARKING;
 
+  /*
   // -----test--------should be from db classes
   class node {
     private int nodeX;
@@ -94,7 +97,7 @@ public class nodeEdgeDispController {
       this.edgeEndX = endX;
       this.edgeEndY = endY;
     }
-  }
+  }*/
   // -------------------------
 
   public nodeEdgeDispController() {}
@@ -118,7 +121,7 @@ public class nodeEdgeDispController {
 
     // run the create methods on the button click
     addNode.setOnAction(e -> createNode(e));
-    addEdge.setOnAction(e -> createEdge(e));
+    // addEdge.setOnAction(e -> createEdge(e));
 
     deleteNode.setOnAction(e -> removeNode(e));
     deleteEdge.setOnAction(e -> removeEdge(e));
@@ -168,22 +171,28 @@ public class nodeEdgeDispController {
     switch (mp) {
       case FLOOR1:
         map.setImage(f1);
+        floorNumber = "1";
         break;
       case FLOOR2:
         map.setImage(f2);
+        floorNumber = "2";
         break;
       case FLOOR3:
         map.setImage(f3);
+        floorNumber = "3";
         break;
       case FLOOR4:
         map.setImage(f4);
+        floorNumber = "4";
         break;
       case FLOOR5:
         map.setImage(f5);
+        floorNumber = "5";
         break;
       case PARKING:
       default:
         map.setImage(parking);
+        floorNumber = "0";
         break;
     }
   }
@@ -292,28 +301,34 @@ public class nodeEdgeDispController {
   // --create node and edges
   private void createEdgecb(MouseEvent e) {
     // creates an edge between two selected points when the checkbox is selected
+    String startNodeID = "";
+    String endNodeID = "";
+
     if (addEdgecb.isSelected()) {
       if (startEdgeFlag) { // decides if its te starting or ending point being selected
         highlightCircle();
         startEdgeFlag = !startEdgeFlag;
         try {
-          startx = (int) currentSelectedCircle.getCenterX();
-          starty = (int) currentSelectedCircle.getCenterY();
+          startNodeID = currentSelectedCircle.getId();
+          startx = currentSelectedCircle.getCenterX();
+          starty = currentSelectedCircle.getCenterY();
         } catch (Exception exception) {
           System.out.println("no start point");
         }
       } else {
         startEdgeFlag = !startEdgeFlag;
         try {
-          endx = (int) currentSelectedCircle.getCenterX();
-          endy = (int) currentSelectedCircle.getCenterY();
+          endNodeID = currentSelectedCircle.getId();
+          endx = currentSelectedCircle.getCenterX();
+          endy = currentSelectedCircle.getCenterY();
         } catch (Exception exception) {
           System.out.println("no end point");
         }
 
         // createing the line and adding as a child to the pane
-        edge ed = new edge(startx, starty, endx, endy);
-        Line line = new Line(ed.edgeStartX, ed.edgeStartY, ed.edgeEndX, ed.edgeEndY);
+        String edgeID = startNodeID + "_" + endNodeID;
+        Edge ed = new Edge(edgeID, startNodeID, endNodeID);
+        Line line = new Line(startx, starty, endx, endy);
         line.setStrokeWidth(3);
         pane.getChildren().add(line);
         line.toBack();
@@ -328,9 +343,12 @@ public class nodeEdgeDispController {
   private void createNodecb(MouseEvent e) {
     // when the add node checkbox is selected, the new nodes can be created
     // wherever the mouse clicks withing the scene
+    String nodeID = "";
     if (addNodecb.isSelected()) {
-      node n = new node((int) e.getSceneX(), (int) e.getSceneY());
-      Circle circle = new Circle(n.nodeX, n.nodeY, 5);
+      edu.wpi.yellowyetis.Node n =
+          new edu.wpi.yellowyetis.Node(e.getSceneX(), e.getSceneY(), floorNumber, nodeID);
+      Circle circle = new Circle(n.getXcoord(), n.getYcoord(), 5);
+      circle.setId(n.getNodeID());
       currentSelectedCircle = circle;
       circle.setFill(Paint.valueOf("RED"));
       pane.getChildren().add(circle);
@@ -343,11 +361,12 @@ public class nodeEdgeDispController {
     }
   }
 
+  /*
   private void createEdge(ActionEvent e) {
     // creates a new instance of the local edge class and
     // sets the start and end values to that in the text fields
-    edge ed =
-        new edge(
+    Edge ed =
+        new Edge(
             Integer.parseInt(startX.getText()),
             Integer.parseInt(startY.getText()),
             Integer.parseInt(endX.getText()),
@@ -361,13 +380,20 @@ public class nodeEdgeDispController {
     Stage stage = (Stage) addEdge.getScene().getWindow();
     stage.setScene(addEdge.getScene());
     stage.show();
-  }
+  } */
 
   private void createNode(ActionEvent e) {
     // creates a new instance of the local node class and creates a red circle
     // to add as a child of the pane in the scene
-    node n = new node(Integer.parseInt(newX.getText()), Integer.parseInt(newY.getText()));
-    Circle circle = new Circle(n.nodeX, n.nodeY, 5);
+    String nodeID = "";
+    edu.wpi.yellowyetis.Node n =
+        new edu.wpi.yellowyetis.Node(
+            Double.parseDouble(newX.getText()),
+            Double.parseDouble(newY.getText()),
+            floorNumber,
+            nodeID);
+    Circle circle = new Circle(n.getXcoord(), n.getYcoord(), 5);
+    circle.setId(n.getNodeID());
     currentSelectedCircle = circle;
     circle.setFill(Paint.valueOf("RED"));
     pane.getChildren().add(circle);
