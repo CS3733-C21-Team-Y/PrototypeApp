@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchor" maxHeight="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.yellowyetis.nodeEdgeDispController">
+   <children>
+      <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox fx:id="mapBox" HBox.hgrow="NEVER">
+               <children>
+                  <StackPane fx:id="stackPane" VBox.vgrow="SOMETIMES">
+                     <children>
+                        <ImageView fx:id="map" fitHeight="400.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+                           <StackPane.margin>
+                              <Insets />
+                           </StackPane.margin>
+                           <image>
+                              <Image url="@FaulknerFloor1_Updated.png" />
+                           </image>
+                        </ImageView>
+                        <Pane fx:id="pane" />
+                     </children>
+                  </StackPane>
+                  <Button fx:id="toHomeBtn" mnemonicParsing="false" text="Return to Home" />
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" maxWidth="100.0" prefHeight="0.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <SplitMenuButton fx:id="floorMenu" mnemonicParsing="false" text="SplitMenuButton">
+                    <items>
+                        <MenuItem fx:id="parkingPage" mnemonicParsing="false" text="Parking lot" />
+                        <MenuItem fx:id="floorOnePage" mnemonicParsing="false" text="Floor 1" />
+                        <MenuItem fx:id="floorTwoPage" mnemonicParsing="false" text="Floor 2" />
+                        <MenuItem fx:id="floorThreePage" mnemonicParsing="false" text="Floor 3" />
+                        <MenuItem fx:id="floorFourPage" mnemonicParsing="false" text="Floor 4" />
+                        <MenuItem fx:id="floorFivePage" mnemonicParsing="false" text="Floor 5" />
+                    </items>
+                  </SplitMenuButton>
+                  <VBox minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Button fx:id="addNode" mnemonicParsing="false" prefWidth="100.0" text="Add Node">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </Button>
+                        <CheckBox fx:id="addNodecb" mnemonicParsing="false" text="add Node" />
+                        <TextField fx:id="newX" text="newX" />
+                        <TextField fx:id="newY" text="newY" />
+                        <Button fx:id="deleteNode" mnemonicParsing="false" prefWidth="100.0" text="Delete Node">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Text fx:id="nodeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Node" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="50.0" left="5.0" />
+                     </VBox.margin>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="addEdge" mnemonicParsing="false" prefWidth="100.0" text="Add  Edge">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </Button>
+                        <CheckBox fx:id="addEdgecb" mnemonicParsing="false" text="add Edge" />
+                        <TextField fx:id="startX" text="startx" />
+                        <TextField fx:id="startY" text="starty" />
+                        <TextField fx:id="endX" text="endx" />
+                        <TextField fx:id="endY" text="endy" />
+                        <Button fx:id="deleteEdge" mnemonicParsing="false" prefWidth="100.0" text="Delete Edge">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Text fx:id="edgeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Edge" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
+                  </VBox>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
