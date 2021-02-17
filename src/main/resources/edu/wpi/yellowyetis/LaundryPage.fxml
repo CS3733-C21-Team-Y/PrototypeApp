@@ -24,7 +24,7 @@
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label minWidth="160.0" text="Laundy Service" textFill="#7a7a7a" HBox.hgrow="ALWAYS">
+                        <Label minWidth="160.0" text="Laundry Service" textFill="#7a7a7a" HBox.hgrow="ALWAYS">
                            <font>
                               <Font name="Arial" size="23.0" />
                            </font>

@@ -29,6 +29,10 @@ public class HomePageController {
 
     toMapEditBtn.setOnMouseEntered(e -> enterButtonColor(e));
     toMapEditBtn.setOnMouseExited(e -> exitButtonColor(e));
+    toServiceRequestBtn.setOnMouseEntered(e -> enterButtonColor(e));
+    toServiceRequestBtn.setOnMouseExited(e -> exitButtonColor(e));
+    toPathfindingBtn.setOnMouseEntered(e -> enterButtonColor(e));
+    toPathfindingBtn.setOnMouseExited(e -> exitButtonColor(e));
   }
 
   private void enterButtonColor(MouseEvent e) {
