@@ -1,5 +1,6 @@
 package edu.wpi.yellowyetis;
 
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,8 +17,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
 
 public class nodeEdgeDispController {
 
@@ -392,7 +391,7 @@ public class nodeEdgeDispController {
 
     nodeIDCounter = nodeArrayList.size();
 
-    for(edu.wpi.yellowyetis.Node n: nodeArrayList) {
+    for (edu.wpi.yellowyetis.Node n : nodeArrayList) {
       double x = n.getXcoord();
       double y = n.getYcoord();
       Circle circle = new Circle(x, y, 5);
@@ -407,7 +406,7 @@ public class nodeEdgeDispController {
       stage.show();
     }
 
-    for(Edge e: edgeArrayList) {
+    for (Edge e : edgeArrayList) {
       Circle n = (Circle) pane.getScene().lookup(e.getStartNodeID());
       Circle m = (Circle) pane.getScene().lookup(e.getEndNodeID());
       startx = n.getCenterX();
