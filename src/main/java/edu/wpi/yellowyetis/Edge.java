@@ -30,6 +30,6 @@ public class Edge {
 
   public String toString(String flag) {
 
-    return "'"+edgeID + "'"+"," + "'"+startNodeID +"'"+ ',' + "'"+endNodeID+"'";
+    return "'" + edgeID + "'" + "," + "'" + startNodeID + "'" + ',' + "'" + endNodeID + "'";
   }
 }

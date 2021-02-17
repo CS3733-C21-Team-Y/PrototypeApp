@@ -455,7 +455,8 @@ public class nodeEdgeDispController {
         String edgeID = startNodeID + "_" + endNodeID;
         Edge ed = new Edge(edgeID, startNodeID, endNodeID);
         // JDBCUtils.insert(3, ed, "EDGE");
-        //JDBCUtils.insert(JDBCUtils.insertString(ed));
+        // JDBCUtils.insert(JDBCUtils.insertString(ed));
+        DatabaseQueryAdministrator.insertEdge(ed);
         CSV.saveEdge(ed);
         Line line = new Line(startx, starty, endx, endy);
         line.setStrokeWidth(3);
@@ -481,8 +482,9 @@ public class nodeEdgeDispController {
           new edu.wpi.yellowyetis.Node(
               scaleUpXCoords(e.getX()), scaleUpYCoords(e.getY()), floorNumber, nodeID);
       // JDBCUtils.insert(10, n, "NODE");
-      //JDBCUtils.insert(JDBCUtils.insertString(n));
+      // JDBCUtils.insert(JDBCUtils.insertString(n));
       CSV.saveNode(n);
+      DatabaseQueryAdministrator.insertNode(n);
       Circle circle = new Circle(scaleXCoords(n.getXcoord()), scaleYCoords(n.getYcoord()), 5);
       circle.setId(n.getNodeID());
       currentSelectedCircle = circle;
@@ -588,7 +590,8 @@ public class nodeEdgeDispController {
             floorNumber,
             nodeID);
     // JDBCUtils.insert(10, n, "NODE");
-    //JDBCUtils.insert(JDBCUtils.insertString(n));
+    // JDBCUtils.insert(JDBCUtils.insertString(n));
+    DatabaseQueryAdministrator.insertNode(n);
     CSV.saveNode(n);
     Circle circle = new Circle(n.getXcoord(), n.getYcoord(), 5);
     circle.setId(n.getNodeID());

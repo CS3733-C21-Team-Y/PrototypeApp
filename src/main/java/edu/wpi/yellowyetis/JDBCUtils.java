@@ -221,7 +221,7 @@ public class JDBCUtils {
       */
 
     }
-    close(statement,null,null,null);
+    close(statement, null, null, null);
   }
 
   /**
