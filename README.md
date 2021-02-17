@@ -1,6 +1,5 @@
-[![Build Status](https://travis-ci.com/CS3733-C21-Team-Y/PrototypeApp.svg?token=U8qzKSmYUem84snUB1wn&branch=main&status=unknown)](https://travis-ci.com/CS3733-C21-Team-Y/PrototypeApp)
+![Run Gradle Checks](https://github.com/CS3733-C21-Team-Y/PrototypeApp/workflows/.github/workflows/test.yml/badge.svg)
 [![codecov](https://codecov.io/gh/CS3733-C21-Team-Y/PrototypeApp/branch/main/graph/badge.svg?token=EH6MTCYDXI)](https://codecov.io/gh/CS3733-C21-Team-Y/PrototypeApp)
-![Github Build](https://github.com/CS3733-C21-Team-Y/PrototypeApp/workflows/.github/workflows/test.yml/badge.svg)
 
 To assemble a jar file for your project, run the "jar" gradle task, either through IntelliJ or by doing
 `gradle jar` on a terminal. Gradle will automatically download all dependencies needed to compile your jar file,
