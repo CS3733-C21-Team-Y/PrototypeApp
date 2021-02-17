@@ -41,6 +41,7 @@ public class nodeEdgeDispController {
   // variables for selecting points and locating edges
   private boolean startEdgeFlag = true;
   private double startx, starty, endx, endy;
+  private String startNodeID, endNodeID;
   private Circle currentSelectedCircle = new Circle(0, 0, 0);
   private Line currentSelectedLine = new Line(0, 0, 0, 0);
 
@@ -170,7 +171,22 @@ public class nodeEdgeDispController {
     stackPane.setMaxHeight(map.getFitHeight());
 
     // run the create methods on the button click
-    addNode.setOnAction(e -> createNode(e));
+    addNode.setOnAction(
+        e -> {
+          try {
+            createNode(e);
+          } catch (ClassNotFoundException classNotFoundException) {
+            classNotFoundException.printStackTrace();
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          } catch (NoSuchFieldException noSuchFieldException) {
+            noSuchFieldException.printStackTrace();
+          } catch (InstantiationException instantiationException) {
+            instantiationException.printStackTrace();
+          } catch (IllegalAccessException illegalAccessException) {
+            illegalAccessException.printStackTrace();
+          }
+        });
     // addEdge.setOnAction(e -> createEdge(e));
 
     deleteNode.setOnAction(e -> removeNode(e));
@@ -185,11 +201,35 @@ public class nodeEdgeDispController {
           if (addEdgecb.isSelected()) {
             unHighlightCircle();
             unHighglightLine();
-            createEdgecb(e);
+            try {
+              createEdgecb(e);
+            } catch (ClassNotFoundException classNotFoundException) {
+              classNotFoundException.printStackTrace();
+            } catch (SQLException throwables) {
+              throwables.printStackTrace();
+            } catch (NoSuchFieldException noSuchFieldException) {
+              noSuchFieldException.printStackTrace();
+            } catch (InstantiationException instantiationException) {
+              instantiationException.printStackTrace();
+            } catch (IllegalAccessException illegalAccessException) {
+              illegalAccessException.printStackTrace();
+            }
           } else if (addNodecb.isSelected()) {
             unHighlightCircle();
             unHighglightLine();
-            createNodecb(e);
+            try {
+              createNodecb(e);
+            } catch (ClassNotFoundException classNotFoundException) {
+              classNotFoundException.printStackTrace();
+            } catch (SQLException throwables) {
+              throwables.printStackTrace();
+            } catch (NoSuchFieldException noSuchFieldException) {
+              noSuchFieldException.printStackTrace();
+            } catch (InstantiationException instantiationException) {
+              instantiationException.printStackTrace();
+            } catch (IllegalAccessException illegalAccessException) {
+              illegalAccessException.printStackTrace();
+            }
           } else {
             highlightCircle();
             highlightLine();
@@ -273,9 +313,19 @@ public class nodeEdgeDispController {
     return x / scale;
   }
 
+  private double scaleUpXCoords(double x) {
+    double scale = 1485.0 / 350.0;
+    return x * scale;
+  }
+
   private double scaleYCoords(double y) {
     double scale = 1485.0 / 350.0;
     return y / scale;
+  }
+
+  private double scaleUpYCoords(double y) {
+    double scale = 1485.0 / 350.0;
+    return y * scale;
   }
 
   private void controlImageShown(ActionEvent e, MAP_PAGE mp) {
@@ -376,11 +426,10 @@ public class nodeEdgeDispController {
   }
 
   // --create node and edges
-  private void createEdgecb(MouseEvent e) {
+  private void createEdgecb(MouseEvent e)
+      throws ClassNotFoundException, SQLException, NoSuchFieldException, InstantiationException,
+          IllegalAccessException {
     // creates an edge between two selected points when the checkbox is selected
-    String startNodeID = "";
-    String endNodeID = "";
-
     if (addEdgecb.isSelected()) {
       if (startEdgeFlag) { // decides if its te starting or ending point being selected
         highlightCircle();
@@ -405,6 +454,9 @@ public class nodeEdgeDispController {
         // createing the line and adding as a child to the pane
         String edgeID = startNodeID + "_" + endNodeID;
         Edge ed = new Edge(edgeID, startNodeID, endNodeID);
+        // JDBCUtils.insert(3, ed, "EDGE");
+        //JDBCUtils.insert(JDBCUtils.insertString(ed));
+        CSV.saveEdge(ed);
         Line line = new Line(startx, starty, endx, endy);
         line.setStrokeWidth(3);
         pane.getChildren().add(line);
@@ -417,14 +469,21 @@ public class nodeEdgeDispController {
     }
   }
 
-  private void createNodecb(MouseEvent e) {
+  private void createNodecb(MouseEvent e)
+      throws ClassNotFoundException, SQLException, NoSuchFieldException, InstantiationException,
+          IllegalAccessException {
     // when the add node checkbox is selected, the new nodes can be created
     // wherever the mouse clicks withing the scene
-    String nodeID = "";
+    String nodeID = String.valueOf(nodeIDCounter);
+    nodeIDCounter++;
     if (addNodecb.isSelected()) {
       edu.wpi.yellowyetis.Node n =
-          new edu.wpi.yellowyetis.Node(e.getSceneX(), e.getSceneY(), floorNumber, nodeID);
-      Circle circle = new Circle(n.getXcoord(), n.getYcoord(), 5);
+          new edu.wpi.yellowyetis.Node(
+              scaleUpXCoords(e.getX()), scaleUpYCoords(e.getY()), floorNumber, nodeID);
+      // JDBCUtils.insert(10, n, "NODE");
+      //JDBCUtils.insert(JDBCUtils.insertString(n));
+      CSV.saveNode(n);
+      Circle circle = new Circle(scaleXCoords(n.getXcoord()), scaleYCoords(n.getYcoord()), 5);
       circle.setId(n.getNodeID());
       currentSelectedCircle = circle;
       circle.setFill(Paint.valueOf("RED"));
@@ -468,7 +527,7 @@ public class nodeEdgeDispController {
     // System.out.println("Hello kill me agian");
     ArrayList<Edge> edgeArrayList;
 
-    nodeIDCounter = CSV.nodes.size();
+    nodeIDCounter = CSV.nodes.size() + 1;
 
     for (edu.wpi.yellowyetis.Node n : CSV.nodes) {
       if (n.floor.equals(floorNumber)) {
@@ -515,16 +574,22 @@ public class nodeEdgeDispController {
     }
   }
 
-  private void createNode(ActionEvent e) {
+  private void createNode(ActionEvent e)
+      throws ClassNotFoundException, SQLException, NoSuchFieldException, InstantiationException,
+          IllegalAccessException {
     // creates a new instance of the local node class and creates a red circle
     // to add as a child of the pane in the scene
-    String nodeID = "";
+    String nodeID = String.valueOf(nodeIDCounter);
+    nodeIDCounter++;
     edu.wpi.yellowyetis.Node n =
         new edu.wpi.yellowyetis.Node(
-            Double.parseDouble(newX.getText()),
-            Double.parseDouble(newY.getText()),
+            scaleUpXCoords(Double.parseDouble(newX.getText())),
+            scaleUpYCoords(Double.parseDouble(newY.getText())),
             floorNumber,
             nodeID);
+    // JDBCUtils.insert(10, n, "NODE");
+    //JDBCUtils.insert(JDBCUtils.insertString(n));
+    CSV.saveNode(n);
     Circle circle = new Circle(n.getXcoord(), n.getYcoord(), 5);
     circle.setId(n.getNodeID());
     currentSelectedCircle = circle;

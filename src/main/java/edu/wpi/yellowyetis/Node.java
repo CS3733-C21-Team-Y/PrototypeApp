@@ -112,12 +112,11 @@ public class Node {
 
   @Override
   public String toString() {
-    return "\n"
-        + nodeID
+    return nodeID
         + ","
-        + xcoord
+        + (int) xcoord
         + ","
-        + ycoord
+        + (int) ycoord
         + ","
         + floor
         + ","
