@@ -71,7 +71,13 @@ public class CSV {
       Edge edge = new Edge(edgeID, startNodeID, endNodeID);
 
       edges.add(edge);
-      JDBCUtils.insert(3, edge , "Edge");
+      //fix this error handling!!!
+      try{
+        JDBCUtils.insert(3, edge , "Edge");
+      }catch (SQLException ignore) {
+
+      }
+
     }
     return edges;
   }
@@ -99,7 +105,11 @@ public class CSV {
 
       Node node = new Node(nodeType, Double.parseDouble(xcoord), Double.parseDouble(ycoord), floor, building, longName, shortName, teamAssigned.charAt(1), nodeID);
       nodes.add(node);
-      JDBCUtils.insert(10,node, "Node");
+      try{
+        JDBCUtils.insert(10,node, "Node");
+      }catch (SQLException ignore) {
+
+      }
     }
     return nodes;
   }

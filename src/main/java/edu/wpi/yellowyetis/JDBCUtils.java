@@ -40,8 +40,8 @@ public class JDBCUtils {
       String sqlNode =
           "create table Node(nodeID varchar(20) PRIMARY KEY ,\n"
               + "nodeType varchar(4) not null ,\n"
-              + "xcoord varchar(6) not null ,\n"
-              + "ycoord varchar(6) not null ,\n"
+              + "xcoord varchar(8) not null ,\n"
+              + "ycoord varchar(8) not null ,\n"
               + "floor varchar(2) not null ,\n"
               + "building varchar(20) not null ,\n"
               + "room varchar(15) not null ,\n"
