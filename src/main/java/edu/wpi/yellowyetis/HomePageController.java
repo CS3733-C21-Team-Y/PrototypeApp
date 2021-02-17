@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class HomePageController {
@@ -25,6 +26,22 @@ public class HomePageController {
     toServiceRequestBtn.setOnAction(e -> buttonClicked(e));
     toMapEditBtn.setOnAction(e -> buttonClicked(e));
     toPathfindingBtn.setOnAction(e -> buttonClicked(e));
+
+    toMapEditBtn.setOnMouseEntered(e -> enterButtonColor(e));
+    toMapEditBtn.setOnMouseExited(e -> exitButtonColor(e));
+  }
+
+  private void enterButtonColor(MouseEvent e) {
+    ((Button) e.getSource())
+        .setStyle(
+            "-fx-background-color: #656565; -fx-font-family: arial; -fx-font-weight: bold; -fx-text-fill: #d8d8d8;");
+  }
+
+  private void exitButtonColor(MouseEvent e) {
+
+    ((Button) e.getSource())
+        .setStyle(
+            "-fx-background-color: #d8d8d8; -fx-font-family: arial; -fx-font-weight: bold; -fx-text-fill: #656565;");
   }
 
   // button event handler

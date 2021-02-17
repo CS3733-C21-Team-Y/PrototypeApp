@@ -4,15 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-<<<<<<< HEAD
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-=======
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
->>>>>>> e2ff014985581546bbba9694af9418a23abd208b
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -25,12 +19,9 @@ import javafx.stage.Stage;
 
 public class nodeEdgeDispController {
 
-<<<<<<< HEAD
   @FXML private Pane anchor;
 
-=======
   @FXML private Button toHomeBtn;
->>>>>>> e2ff014985581546bbba9694af9418a23abd208b
   @FXML private Button addNode;
   @FXML private Button addEdge;
 
@@ -110,7 +101,6 @@ public class nodeEdgeDispController {
 
   @FXML
   private void initialize() {
-<<<<<<< HEAD
     initImage();
 
     parkingPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.PARKING));
@@ -119,10 +109,8 @@ public class nodeEdgeDispController {
     floorThreePage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR3));
     floorFourPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR4));
     floorFivePage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR5));
-=======
     // attaches a handler to the button with a lambda expression
     toHomeBtn.setOnAction(e -> buttonClicked(e));
->>>>>>> e2ff014985581546bbba9694af9418a23abd208b
 
     // set pane to size of image
     stackPane.setMaxWidth(map.getFitWidth());
@@ -167,7 +155,6 @@ public class nodeEdgeDispController {
         });
   }
 
-<<<<<<< HEAD
   private void setImage(MAP_PAGE mp) {
     Image parking =
         new Image(
@@ -204,6 +191,8 @@ public class nodeEdgeDispController {
   private void initImage() {
     setImage(MAP_PAGE.PARKING);
     map.setFitHeight(500);
+    //    map.fitHeightProperty().bind(anchor.heightProperty());
+    //    map.fitWidthProperty().bind(anchor.widthProperty());
   }
 
   private void controlImageShown(ActionEvent e, MAP_PAGE mp) {
@@ -249,8 +238,6 @@ public class nodeEdgeDispController {
     currentSelectedLine.setStroke(Paint.valueOf("BLACK"));
   }
 
-  private void getPaneNode() {
-=======
   // button event handler
   @FXML
   private void buttonClicked(ActionEvent e) {
@@ -275,8 +262,7 @@ public class nodeEdgeDispController {
     }
   }
 
-  private void getCircle() {
->>>>>>> e2ff014985581546bbba9694af9418a23abd208b
+  private void getPaneNode() {
     Circle c = new Circle();
     Line l = new Line();
 
