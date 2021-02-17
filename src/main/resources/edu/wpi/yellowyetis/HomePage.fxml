@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #4081ec;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.yellowyetis.HomePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #4081ec;" stylesheets="@UIStyles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.yellowyetis.HomePageController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -26,17 +26,17 @@
                         <Font name="Arial Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Button fx:id="toServiceRequestBtn" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" style="-fx-background-color: #d8d8d8; -fx-font-family: arial; -fx-font-weight: bold;" text="Service Requests" textFill="#656565">
+                  <Button fx:id="toServiceRequestBtn" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" text="Service Requests" textFill="#656565">
                      <VBox.margin>
                         <Insets bottom="10.0" top="30.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="toPathfindingBtn" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" style="-fx-background-color: #d8d8d8; -fx-font-family: arial; -fx-font-weight: bold;" text="Navigation Assistant" textFill="#656565">
+                  <Button fx:id="toPathfindingBtn" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" text="Navigation Assistant" textFill="#656565">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="toMapEditBtn" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" style="-fx-background-color: #d8d8d8; -fx-font-family: arial; -fx-font-weight: bold;" text="Admin Tools" textFill="#656565">
+                  <Button fx:id="toMapEditBtn" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" text="Admin Tools" textFill="#656565">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>

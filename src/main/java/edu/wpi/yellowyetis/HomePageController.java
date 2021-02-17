@@ -27,25 +27,6 @@ public class HomePageController {
     toMapEditBtn.setOnAction(e -> buttonClicked(e));
     toPathfindingBtn.setOnAction(e -> buttonClicked(e));
 
-    toMapEditBtn.setOnMouseEntered(e -> enterButtonColor(e));
-    toMapEditBtn.setOnMouseExited(e -> exitButtonColor(e));
-    toServiceRequestBtn.setOnMouseEntered(e -> enterButtonColor(e));
-    toServiceRequestBtn.setOnMouseExited(e -> exitButtonColor(e));
-    toPathfindingBtn.setOnMouseEntered(e -> enterButtonColor(e));
-    toPathfindingBtn.setOnMouseExited(e -> exitButtonColor(e));
-  }
-
-  private void enterButtonColor(MouseEvent e) {
-    ((Button) e.getSource())
-        .setStyle(
-            "-fx-background-color: #656565; -fx-font-family: arial; -fx-font-weight: bold; -fx-text-fill: #d8d8d8;");
-  }
-
-  private void exitButtonColor(MouseEvent e) {
-
-    ((Button) e.getSource())
-        .setStyle(
-            "-fx-background-color: #d8d8d8; -fx-font-family: arial; -fx-font-weight: bold; -fx-text-fill: #656565;");
   }
 
   // button event handler

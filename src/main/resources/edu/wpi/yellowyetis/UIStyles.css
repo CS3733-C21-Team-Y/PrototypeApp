@@ -1,0 +1,12 @@
+.button{
+    -fx-background-color: #d8d8d8;
+    -fx-font-family: arial;
+    -fx-font-weight: bold;
+    -fx-text-fill: #656565;
+}
+.button:hover{
+    -fx-background-color: #656565;
+    -fx-font-family: arial;
+    -fx-font-weight: bold;
+    -fx-text-fill: #d8d8d8;
+}
