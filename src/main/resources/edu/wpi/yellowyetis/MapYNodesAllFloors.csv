@@ -338,3 +338,6 @@ PSERV00503,1385,1329,3,Faulkner,SERV,Volunteer,VOLU,P
 PDEPT01004,1975,1236,4,Faulkner,DEPT,VP Clinical Services,VPCSERV,P
 PLAB00105,1228,953,5,Faulkner,LAB,X-Ray,XRAY,P
 PDEPT01305,1272,1055,5,Faulkner,DEPT,X-Ray Waiting ,XRAYWAIT,P
+340,2176,789,1,Faulkner,userGenerated,UserLongName,usrShrtNme,y
+341,2159,912,1,Faulkner,userGenerated,UserLongName,usrShrtNme,y
+342,661,560,1,Faulkner,userGenerated,UserLongName,usrShrtNme,y

@@ -168,7 +168,6 @@ public class JDBCUtils {
   }
 
   /**
-   *
    * @param object an object to be inserted
    * @return the string of the insert SQL query
    */
@@ -185,7 +184,6 @@ public class JDBCUtils {
   }
 
   /**
-   *
    * @param insertCommand the query string generated from insertString()
    * @throws SQLException
    */

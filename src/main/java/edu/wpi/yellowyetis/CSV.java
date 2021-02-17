@@ -115,7 +115,7 @@ public class CSV {
               building,
               longName,
               shortName,
-              teamAssigned.charAt(1),
+              teamAssigned.charAt(0),
               nodeID);
       nodes.add(node);
       try {
@@ -136,7 +136,7 @@ public class CSV {
     try {
       BufferedWriter bufferedWriter =
           new BufferedWriter(new FileWriter(nodeCSVpath, true)); // true = append, false = overwrite
-      bufferedWriter.write(node.toString());
+      bufferedWriter.write(node.toString() + "\n");
       bufferedWriter.close();
       System.out.println("node Write successfully");
       return true;
@@ -157,7 +157,7 @@ public class CSV {
     try {
       BufferedWriter bufferedWriter =
           new BufferedWriter(new FileWriter(edgeCSVpath, true)); // true = append, false = overwrite
-      bufferedWriter.write(edge.toString());
+      bufferedWriter.write(edge.toString() + "\n");
       bufferedWriter.close();
       System.out.println("edge Write successfully");
       return true;
