@@ -69,6 +69,8 @@ public class CSV {
       String endNodeID = stringEdge[2];
 
       Edge edge = new Edge(edgeID, startNodeID, endNodeID);
+
+
       edges.add(edge);
     }
     return edges;
@@ -180,6 +182,7 @@ public class CSV {
     return generatedSuccessful;
   }
 
+  /*
   public static void SQLexportCSV() {
     PreparedStatement ps = null;
     try {
@@ -194,7 +197,11 @@ public class CSV {
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
+
+
   }
+
+   */
 
   // get list of Edges from database
   public static void getListOfObjects() {

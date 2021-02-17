@@ -1,3 +1,4 @@
+
 package edu.wpi.yellowyetis;
 
 import java.sql.Connection;
@@ -151,6 +152,8 @@ public class DatabaseQueryAdministrator {
    * @param node
    * @param tableName
    */
+
+
   public void updateNode(Node node, String tableName) throws SQLException {
     // setup for database connection beginning
     Connection conn = JDBCUtils.getConn();
@@ -201,6 +204,9 @@ public class DatabaseQueryAdministrator {
       }
     }
   }
+
+
+
 
   public void updateEdge(Edge edge, String tableName) throws SQLException {
     Connection conn = JDBCUtils.getConn();
