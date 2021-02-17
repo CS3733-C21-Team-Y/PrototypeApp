@@ -261,9 +261,7 @@ public class nodeEdgeDispController {
   }
 
   private void setImage(MAP_PAGE mp) {
-    Image parking =
-        new Image(
-            "edu/wpi/yellowyetis/malepatientconfinedinthehospitalandundergroundlotfilledwithcars.png");
+    Image parking = new Image("edu/wpi/yellowyetis/FaulknerCampus.png");
     // need to be switched to parking map
     Image f1 = new Image("edu/wpi/yellowyetis/FaulknerFloor1_Updated.png");
     Image f2 = new Image("edu/wpi/yellowyetis/FaulknerFloor2_Updated.png");
