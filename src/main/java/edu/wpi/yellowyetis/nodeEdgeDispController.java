@@ -1,5 +1,7 @@
 package edu.wpi.yellowyetis;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -105,7 +107,9 @@ public class nodeEdgeDispController {
   public nodeEdgeDispController() {}
 
   @FXML
-  private void initialize() {
+  private void initialize()
+      throws IllegalAccessException, ClassNotFoundException, IOException, InstantiationException,
+          SQLException, NoSuchFieldException {
     initImage();
 
     parkingPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.PARKING));
@@ -385,13 +389,16 @@ public class nodeEdgeDispController {
     stage.show();
   } */
 
-  private void drawFromCSV() {
-    ArrayList<edu.wpi.yellowyetis.Node> nodeArrayList;
+  private void drawFromCSV()
+      throws IllegalAccessException, IOException, NoSuchFieldException, SQLException,
+          InstantiationException, ClassNotFoundException {
+    CSV.getNodes();
+    CSV.getEdges();
     ArrayList<Edge> edgeArrayList;
 
-    nodeIDCounter = nodeArrayList.size();
+    nodeIDCounter = CSV.nodes.size();
 
-    for (edu.wpi.yellowyetis.Node n : nodeArrayList) {
+    for (edu.wpi.yellowyetis.Node n : CSV.nodes) {
       double x = n.getXcoord();
       double y = n.getYcoord();
       Circle circle = new Circle(x, y, 5);
@@ -406,9 +413,9 @@ public class nodeEdgeDispController {
       stage.show();
     }
 
-    for (Edge e : edgeArrayList) {
-      Circle n = (Circle) pane.getScene().lookup(e.getStartNodeID());
-      Circle m = (Circle) pane.getScene().lookup(e.getEndNodeID());
+    for (Edge e : CSV.edges) {
+      Circle n = (Circle) pane.getScene().lookup("#" + e.getStartNodeID());
+      Circle m = (Circle) pane.getScene().lookup("#" + e.getEndNodeID());
       startx = n.getCenterX();
       starty = n.getCenterY();
       endx = m.getCenterX();
