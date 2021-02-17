@@ -3,6 +3,7 @@ package edu.wpi.yellowyetis;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,61 +23,90 @@ import javafx.stage.Stage;
 
 public class nodeEdgeDispController {
 
-  @FXML private Pane anchor;
+    @FXML
+    private Pane anchor;
 
-  @FXML private Button toHomeBtn;
-  @FXML private Button addNode;
-  @FXML private Button addEdge;
-  @FXML private Button testButton;
+    @FXML
+    private Button toHomeBtn;
+    @FXML
+    private Button addNode;
+    @FXML
+    private Button addEdge;
+    @FXML
+    private Button testButton;
 
-  @FXML private CheckBox addNodecb;
-  @FXML private CheckBox addEdgecb;
+    @FXML
+    private CheckBox addNodecb;
+    @FXML
+    private CheckBox addEdgecb;
 
-  @FXML private Button deleteNode;
-  @FXML private Button deleteEdge;
+    @FXML
+    private Button deleteNode;
+    @FXML
+    private Button deleteEdge;
 
-  @FXML private Text nodeDisplay = new Text("Selected Node");
-  @FXML private Text edgeDisplay = new Text("Selected Edge");
+    @FXML
+    private Text nodeDisplay = new Text("Selected Node");
+    @FXML
+    private Text edgeDisplay = new Text("Selected Edge");
 
-  // variables for selecting points and locating edges
-  private boolean startEdgeFlag = true;
-  private double startx, starty, endx, endy;
-  private Circle currentSelectedCircle = new Circle(0, 0, 0);
-  private Line currentSelectedLine = new Line(0, 0, 0, 0);
+    // variables for selecting points and locating edges
+    private boolean startEdgeFlag = true;
+    private double startx, starty, endx, endy;
+    private Circle currentSelectedCircle = new Circle(0, 0, 0);
+    private Line currentSelectedLine = new Line(0, 0, 0, 0);
 
-  @FXML private TextField newX;
-  @FXML private TextField newY;
+    @FXML
+    private TextField newX;
+    @FXML
+    private TextField newY;
 
-  @FXML private TextField startX;
-  @FXML private TextField startY;
-  @FXML private TextField endX;
-  @FXML private TextField endY;
+    @FXML
+    private TextField startX;
+    @FXML
+    private TextField startY;
+    @FXML
+    private TextField endX;
+    @FXML
+    private TextField endY;
 
-  @FXML private Pane pane;
-  @FXML private ImageView map;
-  @FXML private StackPane stackPane;
+    @FXML
+    private Pane pane;
+    @FXML
+    private ImageView map;
+    @FXML
+    private StackPane stackPane;
 
-  @FXML private SplitMenuButton floorMenu;
-  @FXML private MenuItem parkingPage;
-  @FXML private MenuItem floorOnePage;
-  @FXML private MenuItem floorTwoPage;
-  @FXML private MenuItem floorThreePage;
-  @FXML private MenuItem floorFourPage;
-  @FXML private MenuItem floorFivePage;
+    @FXML
+    private SplitMenuButton floorMenu;
+    @FXML
+    private MenuItem parkingPage;
+    @FXML
+    private MenuItem floorOnePage;
+    @FXML
+    private MenuItem floorTwoPage;
+    @FXML
+    private MenuItem floorThreePage;
+    @FXML
+    private MenuItem floorFourPage;
+    @FXML
+    private MenuItem floorFivePage;
 
-  private String floorNumber;
-  private int nodeIDCounter;
+    private String floorNumber = "0";
+    private int nodeIDCounter;
 
-  private enum MAP_PAGE {
-    PARKING,
-    FLOOR1,
-    FLOOR2,
-    FLOOR3,
-    FLOOR4,
-    FLOOR5
-  };
+    private enum MAP_PAGE {
+        PARKING,
+        FLOOR1,
+        FLOOR2,
+        FLOOR3,
+        FLOOR4,
+        FLOOR5
+    }
 
-  MAP_PAGE mp = MAP_PAGE.PARKING;
+    ;
+
+    MAP_PAGE mp = MAP_PAGE.PARKING;
 
   /*
   // -----test--------should be from db classes
@@ -103,306 +133,315 @@ public class nodeEdgeDispController {
       this.edgeEndY = endY;
     }
   }*/
-  // -------------------------
+    // -------------------------
 
-  public nodeEdgeDispController() {}
-
-  @FXML
-  private void initialize()
-      throws IllegalAccessException, ClassNotFoundException, IOException, InstantiationException,
-          SQLException, NoSuchFieldException {
-    initImage();
-
-    testButton.setOnAction(
-        e -> {
-          try {
-            initiateDrawing();
-          } catch (IllegalAccessException illegalAccessException) {
-            illegalAccessException.printStackTrace();
-          } catch (ClassNotFoundException classNotFoundException) {
-            classNotFoundException.printStackTrace();
-          } catch (IOException ioException) {
-            ioException.printStackTrace();
-          } catch (InstantiationException instantiationException) {
-            instantiationException.printStackTrace();
-          } catch (SQLException throwables) {
-            throwables.printStackTrace();
-          } catch (NoSuchFieldException noSuchFieldException) {
-            noSuchFieldException.printStackTrace();
-          }
-        });
-
-    parkingPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.PARKING));
-    floorOnePage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR1));
-    floorTwoPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR2));
-    floorThreePage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR3));
-    floorFourPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR4));
-    floorFivePage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR5));
-    // attaches a handler to the button with a lambda expression
-    toHomeBtn.setOnAction(e -> buttonClicked(e));
-
-    // set pane to size of image
-    stackPane.setMaxWidth(map.getFitWidth());
-    stackPane.setMaxHeight(map.getFitHeight());
-
-    // run the create methods on the button click
-    addNode.setOnAction(e -> createNode(e));
-    // addEdge.setOnAction(e -> createEdge(e));
-
-    deleteNode.setOnAction(e -> removeNode(e));
-    deleteEdge.setOnAction(e -> removeEdge(e));
-
-    // create node or edge when pane is clicked
-    pane.setOnMouseClicked(
-        e -> {
-          getPaneNode();
-          setCurrentDisplay();
-
-          if (addEdgecb.isSelected()) {
-            unHighlightCircle();
-            unHighglightLine();
-            createEdgecb(e);
-          } else if (addNodecb.isSelected()) {
-            unHighlightCircle();
-            unHighglightLine();
-            createNodecb(e);
-          } else {
-            highlightCircle();
-            highlightLine();
-          }
-        });
-
-    // when checkbox is selected, unselect the other
-    addEdgecb.setOnAction(
-        e -> {
-          startEdgeFlag = true;
-          addNodecb.setSelected(false);
-        });
-    addNodecb.setOnAction(
-        e -> {
-          addEdgecb.setSelected(false);
-        });
-  }
-
-  private void initiateDrawing()
-      throws IllegalAccessException, ClassNotFoundException, IOException, InstantiationException,
-          SQLException, NoSuchFieldException {
-    drawFromCSV();
-  }
-
-  private void setImage(MAP_PAGE mp) {
-    Image parking =
-        new Image(
-            "edu/wpi/yellowyetis/FaulknerFloor1_Updated.png"); // need to be switched to parking map
-    Image f1 = new Image("edu/wpi/yellowyetis/FaulknerFloor1_Updated.png");
-    Image f2 = new Image("edu/wpi/yellowyetis/FaulknerFloor2_Updated.png");
-    Image f3 = new Image("edu/wpi/yellowyetis/FaulknerFloor3_Updated.png");
-    Image f4 = new Image("edu/wpi/yellowyetis/FaulknerFloor4_Updated.png");
-    Image f5 = new Image("edu/wpi/yellowyetis/FaulknerFloor5_Updated.png");
-
-    switch (mp) {
-      case FLOOR1:
-        map.setImage(f1);
-        floorNumber = "1";
-        break;
-      case FLOOR2:
-        map.setImage(f2);
-        floorNumber = "2";
-        break;
-      case FLOOR3:
-        map.setImage(f3);
-        floorNumber = "3";
-        break;
-      case FLOOR4:
-        map.setImage(f4);
-        floorNumber = "4";
-        break;
-      case FLOOR5:
-        map.setImage(f5);
-        floorNumber = "5";
-        break;
-      case PARKING:
-      default:
-        map.setImage(parking);
-        floorNumber = "0";
-        break;
+    public nodeEdgeDispController() {
     }
-  }
 
-  private void initImage() {
-    System.out.println(map.fitHeightProperty());
-    setImage(MAP_PAGE.PARKING);
-    //    map.setFitHeight(500);
-    //    map.fitHeightProperty().bind(anchor.heightProperty());
-    //    map.fitWidthProperty().bind(anchor.widthProperty());
-  }
+    @FXML
+    private void initialize()
+            throws IllegalAccessException, ClassNotFoundException, IOException, InstantiationException,
+            SQLException, NoSuchFieldException {
+        initImage();
 
-  private double scaleXCoords(double x) {
-    double scale = 1485.0 / 500.0;
-    return x / scale;
-  }
+        testButton.setOnAction(
+                e -> {
+                    try {
+                        initiateDrawing();
+                    } catch (IllegalAccessException illegalAccessException) {
+                        illegalAccessException.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    } catch (InstantiationException instantiationException) {
+                        instantiationException.printStackTrace();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    } catch (NoSuchFieldException noSuchFieldException) {
+                        noSuchFieldException.printStackTrace();
+                    }
+                });
 
-  private double scaleYCoords(double y) {
-    double scale = 1485.0 / 500.0;
-    return y / scale;
-  }
+        parkingPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.PARKING));
+        floorOnePage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR1));
+        floorTwoPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR2));
+        floorThreePage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR3));
+        floorFourPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR4));
+        floorFivePage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR5));
+        // attaches a handler to the button with a lambda expression
+        toHomeBtn.setOnAction(e -> buttonClicked(e));
 
-  private void controlImageShown(ActionEvent e, MAP_PAGE mp) {
-    removeAll(e);
-    setImage(mp);
-  }
-  // --delete functions
-  private void removeAll(ActionEvent e) {
-    pane.getChildren().remove(0, pane.getChildren().size());
-  }
+        // set pane to size of image
+        stackPane.setMaxWidth(map.getFitWidth());
+        stackPane.setMaxHeight(map.getFitHeight());
 
-  private void removeEdge(ActionEvent e) {
-    pane.getChildren().remove(currentSelectedLine);
-  }
+        // run the create methods on the button click
+        addNode.setOnAction(e -> createNode(e));
+        // addEdge.setOnAction(e -> createEdge(e));
 
-  private void removeNode(ActionEvent e) {
-    pane.getChildren().remove(currentSelectedCircle);
+        deleteNode.setOnAction(e -> removeNode(e));
+        deleteEdge.setOnAction(e -> removeEdge(e));
 
-    // adding the node and refreshing the scene
-    Stage stage = (Stage) deleteNode.getScene().getWindow();
-    stage.setScene(deleteNode.getScene());
-    stage.show();
-  }
-  // --highlight functions
-  private void highlightCircle() {
-    // highlights the selected circle which is the startpoint of the edge
-    currentSelectedCircle.setStrokeWidth(2);
-    currentSelectedCircle.setStroke(Paint.valueOf("BLUE"));
-  }
+        // create node or edge when pane is clicked
+        pane.setOnMouseClicked(
+                e -> {
+                    getPaneNode();
+                    setCurrentDisplay();
 
-  private void unHighlightCircle() {
-    // removes highlight on circle
-    currentSelectedCircle.setStrokeWidth(0);
-  }
+                    if (addEdgecb.isSelected()) {
+                        unHighlightCircle();
+                        unHighglightLine();
+                        createEdgecb(e);
+                    } else if (addNodecb.isSelected()) {
+                        unHighlightCircle();
+                        unHighglightLine();
+                        createNodecb(e);
+                    } else {
+                        highlightCircle();
+                        highlightLine();
+                    }
+                });
 
-  private void highlightLine() {
-    currentSelectedLine.setStrokeWidth(5);
-    currentSelectedLine.setStroke(Paint.valueOf("BLUE"));
-  }
-
-  private void unHighglightLine() {
-    currentSelectedLine.setStrokeWidth(3);
-    currentSelectedLine.setStroke(Paint.valueOf("BLACK"));
-  }
-
-  // button event handler
-  @FXML
-  private void buttonClicked(ActionEvent e) {
-    // error handling for FXMLLoader.load
-    try {
-      // initializing stage
-      Stage stage = null;
-
-      if (e.getSource() == toHomeBtn) {
-        // gets the current stage
-        stage = (Stage) toHomeBtn.getScene().getWindow();
-        // sets the new scene to the alex page
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
-
-      } else {
-
-      }
-
-      // display new stage
-      stage.show();
-    } catch (Exception exp) {
+        // when checkbox is selected, unselect the other
+        addEdgecb.setOnAction(
+                e -> {
+                    startEdgeFlag = true;
+                    addNodecb.setSelected(false);
+                });
+        addNodecb.setOnAction(
+                e -> {
+                    addEdgecb.setSelected(false);
+                });
     }
-  }
 
-  private void getPaneNode() {
-    Circle c = new Circle();
-    Line l = new Line();
+    // this sucks
+    private void initiateDrawing()
+            throws IllegalAccessException, ClassNotFoundException, IOException, InstantiationException,
+            SQLException, NoSuchFieldException {
 
-    for (Node p : pane.getChildren()) {
-      try {
-        p.setOnMouseClicked(
-            w -> {
-              if (w.getSource().getClass() == c.getClass()) {
-                unHighlightCircle(); // removes current highlight
-                currentSelectedCircle =
-                    (Circle) w.getSource(); // sets circle to a new selected circle
-                p.toFront();
-              } else if (w.getSource().getClass() == l.getClass()) {
-                unHighglightLine();
-                currentSelectedLine = (Line) w.getSource();
-                // System.out.println(currentSelectedLine);
-                p.toBack();
-              } else {
-                p.toBack();
-              }
-            });
-      } catch (Exception exp) {
-        System.out.println("no point selected");
-      }
+        drawFromCSV();
     }
-  }
-  // --create node and edges
-  private void createEdgecb(MouseEvent e) {
-    // creates an edge between two selected points when the checkbox is selected
-    String startNodeID = "";
-    String endNodeID = "";
 
-    if (addEdgecb.isSelected()) {
-      if (startEdgeFlag) { // decides if its te starting or ending point being selected
-        highlightCircle();
-        startEdgeFlag = !startEdgeFlag;
-        try {
-          startNodeID = currentSelectedCircle.getId();
-          startx = currentSelectedCircle.getCenterX();
-          starty = currentSelectedCircle.getCenterY();
-        } catch (Exception exception) {
-          System.out.println("no start point");
+    private void setImage(MAP_PAGE mp) {
+        Image parking =
+                new Image(
+                        "edu/wpi/yellowyetis/" +
+                                "a-male-patient-confined-in-the-hospital" +
+                                "-and-an-underground-parking-lot-filled-with" +
+                                "-cars-background_1200x1200.png"); // need to be switched to parking map
+        Image f1 = new Image("edu/wpi/yellowyetis/FaulknerFloor1_Updated.png");
+        Image f2 = new Image("edu/wpi/yellowyetis/FaulknerFloor2_Updated.png");
+        Image f3 = new Image("edu/wpi/yellowyetis/FaulknerFloor3_Updated.png");
+        Image f4 = new Image("edu/wpi/yellowyetis/FaulknerFloor4_Updated.png");
+        Image f5 = new Image("edu/wpi/yellowyetis/FaulknerFloor5_Updated.png");
+
+        switch (mp) {
+            case FLOOR1:
+                map.setImage(f1);
+                floorNumber = "1";
+                break;
+            case FLOOR2:
+                map.setImage(f2);
+                floorNumber = "2";
+                break;
+            case FLOOR3:
+                map.setImage(f3);
+                floorNumber = "3";
+                break;
+            case FLOOR4:
+                map.setImage(f4);
+                floorNumber = "4";
+                break;
+            case FLOOR5:
+                map.setImage(f5);
+                floorNumber = "5";
+                break;
+            case PARKING:
+            default:
+                map.setImage(parking);
+                floorNumber = "0";
+                break;
         }
-      } else {
-        startEdgeFlag = !startEdgeFlag;
-        try {
-          endNodeID = currentSelectedCircle.getId();
-          endx = currentSelectedCircle.getCenterX();
-          endy = currentSelectedCircle.getCenterY();
-        } catch (Exception exception) {
-          System.out.println("no end point");
-        }
+    }
 
-        // createing the line and adding as a child to the pane
-        String edgeID = startNodeID + "_" + endNodeID;
-        Edge ed = new Edge(edgeID, startNodeID, endNodeID);
-        Line line = new Line(startx, starty, endx, endy);
-        line.setStrokeWidth(3);
-        pane.getChildren().add(line);
-        line.toBack();
-        // refreshing and adding to the scene
-        Stage stage = (Stage) addEdge.getScene().getWindow();
-        stage.setScene(addEdge.getScene());
+    private void initImage() {
+        System.out.println(map.fitHeightProperty());
+        setImage(MAP_PAGE.PARKING);
+        //    map.setFitHeight(500);
+        //    map.fitHeightProperty().bind(anchor.heightProperty());
+        //    map.fitWidthProperty().bind(anchor.widthProperty());
+    }
+
+    private double scaleXCoords(double x) {
+        double scale = 1485.0 / 500.0;
+        return x / scale;
+    }
+
+    private double scaleYCoords(double y) {
+        double scale = 1485.0 / 500.0;
+        return y / scale;
+    }
+
+    private void controlImageShown(ActionEvent e, MAP_PAGE mp) {
+        removeAll(e);
+        setImage(mp);
+    }
+
+    // --delete functions
+    private void removeAll(ActionEvent e) {
+        pane.getChildren().remove(0, pane.getChildren().size());
+    }
+
+    private void removeEdge(ActionEvent e) {
+        pane.getChildren().remove(currentSelectedLine);
+    }
+
+    private void removeNode(ActionEvent e) {
+        pane.getChildren().remove(currentSelectedCircle);
+
+        // adding the node and refreshing the scene
+        Stage stage = (Stage) deleteNode.getScene().getWindow();
+        stage.setScene(deleteNode.getScene());
         stage.show();
-      }
     }
-  }
 
-  private void createNodecb(MouseEvent e) {
-    // when the add node checkbox is selected, the new nodes can be created
-    // wherever the mouse clicks withing the scene
-    String nodeID = "";
-    if (addNodecb.isSelected()) {
-      edu.wpi.yellowyetis.Node n =
-          new edu.wpi.yellowyetis.Node(e.getSceneX(), e.getSceneY(), floorNumber, nodeID);
-      Circle circle = new Circle(scaleXCoords(n.getXcoord()), scaleYCoords(n.getYcoord()), 5);
-      circle.setId(n.getNodeID());
-      currentSelectedCircle = circle;
-      circle.setFill(Paint.valueOf("RED"));
-      pane.getChildren().add(circle);
-
-      // refreshing and adding to scene
-      Stage stage = (Stage) addNode.getScene().getWindow();
-      stage.setScene(addNode.getScene());
-      stage.show();
-      //      System.out.println(n.nodeX + "," + n.nodeY);
+    // --highlight functions
+    private void highlightCircle() {
+        // highlights the selected circle which is the startpoint of the edge
+        currentSelectedCircle.setStrokeWidth(2);
+        currentSelectedCircle.setStroke(Paint.valueOf("BLUE"));
     }
-  }
+
+    private void unHighlightCircle() {
+        // removes highlight on circle
+        currentSelectedCircle.setStrokeWidth(0);
+    }
+
+    private void highlightLine() {
+        currentSelectedLine.setStrokeWidth(5);
+        currentSelectedLine.setStroke(Paint.valueOf("BLUE"));
+    }
+
+    private void unHighglightLine() {
+        currentSelectedLine.setStrokeWidth(3);
+        currentSelectedLine.setStroke(Paint.valueOf("BLACK"));
+    }
+
+    // button event handler
+    @FXML
+    private void buttonClicked(ActionEvent e) {
+        // error handling for FXMLLoader.load
+        try {
+            // initializing stage
+            Stage stage = null;
+
+            if (e.getSource() == toHomeBtn) {
+                // gets the current stage
+                stage = (Stage) toHomeBtn.getScene().getWindow();
+                // sets the new scene to the alex page
+                stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
+
+            } else {
+
+            }
+
+            // display new stage
+            stage.show();
+        } catch (Exception exp) {
+        }
+    }
+
+    private void getPaneNode() {
+        Circle c = new Circle();
+        Line l = new Line();
+
+        for (Node p : pane.getChildren()) {
+            try {
+                p.setOnMouseClicked(
+                        w -> {
+                            if (w.getSource().getClass() == c.getClass()) {
+                                unHighlightCircle(); // removes current highlight
+                                currentSelectedCircle =
+                                        (Circle) w.getSource(); // sets circle to a new selected circle
+                                p.toFront();
+                            } else if (w.getSource().getClass() == l.getClass()) {
+                                unHighglightLine();
+                                currentSelectedLine = (Line) w.getSource();
+                                // System.out.println(currentSelectedLine);
+                                p.toBack();
+                            } else {
+                                p.toBack();
+                            }
+                        });
+            } catch (Exception exp) {
+                System.out.println("no point selected");
+            }
+        }
+    }
+
+    // --create node and edges
+    private void createEdgecb(MouseEvent e) {
+        // creates an edge between two selected points when the checkbox is selected
+        String startNodeID = "";
+        String endNodeID = "";
+
+        if (addEdgecb.isSelected()) {
+            if (startEdgeFlag) { // decides if its te starting or ending point being selected
+                highlightCircle();
+                startEdgeFlag = !startEdgeFlag;
+                try {
+                    startNodeID = currentSelectedCircle.getId();
+                    startx = currentSelectedCircle.getCenterX();
+                    starty = currentSelectedCircle.getCenterY();
+                } catch (Exception exception) {
+                    System.out.println("no start point");
+                }
+            } else {
+                startEdgeFlag = !startEdgeFlag;
+                try {
+                    endNodeID = currentSelectedCircle.getId();
+                    endx = currentSelectedCircle.getCenterX();
+                    endy = currentSelectedCircle.getCenterY();
+                } catch (Exception exception) {
+                    System.out.println("no end point");
+                }
+
+                // createing the line and adding as a child to the pane
+                String edgeID = startNodeID + "_" + endNodeID;
+                Edge ed = new Edge(edgeID, startNodeID, endNodeID);
+                Line line = new Line(startx, starty, endx, endy);
+                line.setStrokeWidth(3);
+                pane.getChildren().add(line);
+                line.toBack();
+                // refreshing and adding to the scene
+                Stage stage = (Stage) addEdge.getScene().getWindow();
+                stage.setScene(addEdge.getScene());
+                stage.show();
+            }
+        }
+    }
+
+    private void createNodecb(MouseEvent e) {
+        // when the add node checkbox is selected, the new nodes can be created
+        // wherever the mouse clicks withing the scene
+        String nodeID = "";
+        if (addNodecb.isSelected()) {
+            edu.wpi.yellowyetis.Node n =
+                    new edu.wpi.yellowyetis.Node(e.getSceneX(), e.getSceneY(), floorNumber, nodeID);
+            Circle circle = new Circle(n.getXcoord(), n.getYcoord(), 5);
+            circle.setId(n.getNodeID());
+            currentSelectedCircle = circle;
+            circle.setFill(Paint.valueOf("RED"));
+            pane.getChildren().add(circle);
+
+            // refreshing and adding to scene
+            Stage stage = (Stage) addNode.getScene().getWindow();
+            stage.setScene(addNode.getScene());
+            stage.show();
+            //      System.out.println(n.nodeX + "," + n.nodeY);
+        }
+    }
 
   /*
   private void createEdge(ActionEvent e) {
@@ -425,85 +464,96 @@ public class nodeEdgeDispController {
     stage.show();
   } */
 
-  private void drawFromCSV()
-      throws IllegalAccessException, IOException, NoSuchFieldException, SQLException,
-          InstantiationException, ClassNotFoundException {
-    CSV.getNodes();
-    // System.out.println("hello kill me");
-    CSV.getEdges();
-    // System.out.println("Hello kill me agian");
-    ArrayList<Edge> edgeArrayList;
+    private void drawFromCSV()
+            throws IllegalAccessException, IOException, NoSuchFieldException, SQLException,
+            InstantiationException, ClassNotFoundException {
+        CSV.getNodes();
+        // System.out.println("hello kill me");
+        CSV.getEdges();
+        // System.out.println("Hello kill me agian");
+        ArrayList<Edge> edgeArrayList;
 
-    nodeIDCounter = CSV.nodes.size();
+        nodeIDCounter = CSV.nodes.size();
 
-    for (edu.wpi.yellowyetis.Node n : CSV.nodes) {
-      double x = n.getXcoord();
-      double y = n.getYcoord();
-      Circle circle = new Circle(scaleXCoords(x), scaleYCoords(y), 5);
-      circle.setId(n.getNodeID());
-      currentSelectedCircle = circle;
-      circle.setFill(Paint.valueOf("RED"));
-      pane.getChildren().add(circle);
+        for (edu.wpi.yellowyetis.Node n : CSV.nodes) {
+            if (n.floor.equals(floorNumber)) {
+                double x = n.getXcoord();
+                double y = n.getYcoord();
+                Circle circle = new Circle(scaleXCoords(x), scaleYCoords(y), 5);
+                circle.setId(n.getNodeID());
+                currentSelectedCircle = circle;
+                circle.setFill(Paint.valueOf("RED"));
+                pane.getChildren().add(circle);
+            } else {
+                // do nothing
+            }
 
-      // adding the node and refreshing the scene
-      Stage stage = (Stage) addNode.getScene().getWindow();
-      stage.setScene(addNode.getScene());
-      stage.show();
+            // adding the node and refreshing the scene
+            Stage stage = (Stage) addNode.getScene().getWindow();
+            stage.setScene(addNode.getScene());
+            stage.show();
+        }
+
+        for (Edge e : CSV.edges) {
+            // System.out.println(pane.getScene());
+            try {
+                Circle n = (Circle) pane.getScene().lookup("#" + e.getStartNodeID());
+                Circle m = (Circle) pane.getScene().lookup("#" + e.getEndNodeID());
+
+                startx = n.getCenterX();
+                starty = n.getCenterY();
+                endx = m.getCenterX();
+                endy = m.getCenterY();
+            } catch (Exception exception) { // needs work - problem with nodes connecting floors
+                endx = startx; // biases the start node and forgets the end
+                endy = starty;
+            }
+
+            Line line = new Line(startx, starty, endx, endy);
+            line.setStrokeWidth(3);
+            pane.getChildren().add(line);
+            line.toBack();
+            // refreshing and adding to the scene
+            Stage stage = (Stage) addEdge.getScene().getWindow();
+            stage.setScene(addEdge.getScene());
+            stage.show();
+        }
     }
 
-    for (Edge e : CSV.edges) {
-      // System.out.println(pane.getScene());
-      Circle n = (Circle) pane.getScene().lookup("#" + e.getStartNodeID());
-      Circle m = (Circle) pane.getScene().lookup("#" + e.getEndNodeID());
-      startx = n.getCenterX();
-      starty = n.getCenterY();
-      endx = m.getCenterX();
-      endy = m.getCenterY();
+    private void createNode(ActionEvent e) {
+        // creates a new instance of the local node class and creates a red circle
+        // to add as a child of the pane in the scene
+        String nodeID = "";
+        edu.wpi.yellowyetis.Node n =
+                new edu.wpi.yellowyetis.Node(
+                        Double.parseDouble(newX.getText()),
+                        Double.parseDouble(newY.getText()),
+                        floorNumber,
+                        nodeID);
+        Circle circle = new Circle(n.getXcoord(), n.getYcoord(), 5);
+        circle.setId(n.getNodeID());
+        currentSelectedCircle = circle;
+        circle.setFill(Paint.valueOf("RED"));
+        pane.getChildren().add(circle);
 
-      Line line = new Line(startx, starty, endx, endy);
-      line.setStrokeWidth(3);
-      pane.getChildren().add(line);
-      line.toBack();
-      // refreshing and adding to the scene
-      Stage stage = (Stage) addEdge.getScene().getWindow();
-      stage.setScene(addEdge.getScene());
-      stage.show();
+        // adding the node and refreshing the scene
+        Stage stage = (Stage) addNode.getScene().getWindow();
+        stage.setScene(addNode.getScene());
+        stage.show();
     }
-  }
 
-  private void createNode(ActionEvent e) {
-    // creates a new instance of the local node class and creates a red circle
-    // to add as a child of the pane in the scene
-    String nodeID = "";
-    edu.wpi.yellowyetis.Node n =
-        new edu.wpi.yellowyetis.Node(
-            Double.parseDouble(newX.getText()),
-            Double.parseDouble(newY.getText()),
-            floorNumber,
-            nodeID);
-    Circle circle = new Circle(scaleXCoords(n.getXcoord()), scaleYCoords(n.getYcoord()), 5);
-    circle.setId(n.getNodeID());
-    currentSelectedCircle = circle;
-    circle.setFill(Paint.valueOf("RED"));
-    pane.getChildren().add(circle);
-
-    // adding the node and refreshing the scene
-    Stage stage = (Stage) addNode.getScene().getWindow();
-    stage.setScene(addNode.getScene());
-    stage.show();
-  }
-  // --display info on nodes/edges
-  private void setCurrentDisplay() {
-    nodeDisplay.setText(
-        "x:" + currentSelectedCircle.getCenterX() + ", y:" + currentSelectedCircle.getCenterY());
-    edgeDisplay.setText(
-        "start x:"
-            + currentSelectedLine.getStartX()
-            + ", y:"
-            + currentSelectedLine.getStartY()
-            + " \nend x:"
-            + currentSelectedLine.getEndX()
-            + ", y:"
-            + currentSelectedLine.getEndY());
-  }
+    // --display info on nodes/edges
+    private void setCurrentDisplay() {
+        nodeDisplay.setText(
+                "x:" + currentSelectedCircle.getCenterX() + ", y:" + currentSelectedCircle.getCenterY());
+        edgeDisplay.setText(
+                "start x:"
+                        + currentSelectedLine.getStartX()
+                        + ", y:"
+                        + currentSelectedLine.getStartY()
+                        + " \nend x:"
+                        + currentSelectedLine.getEndX()
+                        + ", y:"
+                        + currentSelectedLine.getEndY());
+    }
 }
