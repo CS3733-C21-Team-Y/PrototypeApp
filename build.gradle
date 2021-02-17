@@ -54,6 +54,10 @@ def codeCoverageExcludes = [
         'edu.wpi.yellowyetis.MaintenancePageController',
         'edu.wpi.yellowyetis.ServiceRequestPageController',
         'edu.wpi.yellowyetis.PathfindingPageController',
+        'edu.wpi.yellowyetis.nodeEdgeDispController',
+        'edu.wpi.yellowyetis.Node',
+        'edu.wpi.yellowyetis.Edge',
+        'edu.wpi.yellowyetis.nodeEdgeDispController',
 ]
 
 jacoco {
