@@ -17,10 +17,12 @@ public class CSV {
   public static ArrayList<Node> nodes = new ArrayList<Node>();
   public static ArrayList<Edge> edges = new ArrayList<Edge>();
   public static final String splitBy = ",";
-  public static String nodeCSVpath = "empty-project/src/main/resources/MapYNodesAllFloors.csv";
-  public static String edgeCSVpath = "empty-project/src/main/resources/MapYEdgesALlFloors.csv";
-  public static String edgeTestCSVpath = "empty-project/src/main/resources/TestEdge.csv";
-  public static String nodeTestCSVpath = "empty-project/src/main/resources/TestNode.csv";
+  public static String nodeCSVpath =
+      "src/main/resources/edu/wpi/yellowyetis/MapYNodesAllFloors.csv";
+  public static String edgeCSVpath =
+      "src/main/resources/edu/wpi/yellowyetis/MapYEdgesAllFloors.csv";
+  public static String edgeTestCSVpath = "src/main/resources/edu/wpi/yellowyetis/TestEdge.csv";
+  public static String nodeTestCSVpath = "src/main/resources/edu/wpi/yellowyetis/TestNode.csv";
 
   /** load the BufferedReader for node */
   static {

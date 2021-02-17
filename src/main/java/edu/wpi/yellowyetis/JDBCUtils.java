@@ -1,15 +1,18 @@
 package edu.wpi.yellowyetis;
 
-import org.apache.derby.iapi.error.StandardException;
-import org.apache.derby.iapi.sql.ResultSet;
-
 import java.lang.reflect.Field;
 import java.sql.*;
+import org.apache.derby.iapi.error.StandardException;
+import org.apache.derby.iapi.sql.ResultSet;
 
 public class JDBCUtils {
   private static Connection conn;
 
   static {
+    // credentials
+    String user = "admin";
+    String password = "admin";
+
     String driver = "org.apache.derby.jdbc.EmbeddedDriver";
     String connectionURL = "jdbc:derby:DB";
 
@@ -23,12 +26,37 @@ public class JDBCUtils {
 
     // Attempting Connection
     try {
-      conn = DriverManager.getConnection(connectionURL + ";connect=true;");
+      conn = DriverManager.getConnection(connectionURL + ";create=true;", user, password);
       Statement stmt = conn.createStatement();
     } catch (Exception e) {
       // catching failed connection
       System.out.println("Connection Failed! Check output console");
 
+      e.printStackTrace();
+    }
+
+    try {
+      Statement stmt = conn.createStatement();
+      String sqlNode =
+          "create table Node(nodeID varchar(20) PRIMARY KEY ,\n"
+              + "nodeType varchar(4) not null ,\n"
+              + "xcoord varchar(6) not null ,\n"
+              + "ycoord varchar(6) not null ,\n"
+              + "floor varchar(2) not null ,\n"
+              + "building varchar(20) not null ,\n"
+              + "room varchar(15) not null ,\n"
+              + "longName varchar(30) not null ,\n"
+              + "shortName varchar(10) not null ,\n"
+              + "teamAssigned char not null )";
+      stmt.executeUpdate(sqlNode);
+
+      String sqlEdge =
+          "create table Edge(edgeID varchar(40) PRIMARY KEY NOT NULL ,\n"
+              + "startNode varchar(30) not null ,\n"
+              + "endNode varchar(30) not null )";
+
+      stmt.executeUpdate(sqlEdge);
+    } catch (SQLException e) {
       e.printStackTrace();
     }
   }
@@ -119,13 +147,14 @@ public class JDBCUtils {
       String fieldName = field.getName();
       parameterCounter++;
       // for some reason the first "field" of node is neighbors lmao
-      if (fieldName.equals("neighbors")) {
+      if (fieldName.equals("neighbors") || fieldName.equals("$jacocoData")) {
         parameterCounter--;
         continue;
       }
 
       field.setAccessible(true);
 
+      String param = String.valueOf(field.get(object));
       psInsert.setString(parameterCounter, String.valueOf(field.get(object)));
     }
 
@@ -152,10 +181,12 @@ public class JDBCUtils {
     try {
       statement.execute();
     } catch (SQLException e) {
-      if (e.getErrorCode() == 30000) {
-        System.out.println(
-            "The insert could not be completed because a node with that ID already exists");
-      }
+      /*if (e.getErrorCode() == 30000) {
+       System.out.println(
+           "The insert could not be completed because a node with that ID already exists");
+
+      */
+      e.printStackTrace();
     }
   }
 
