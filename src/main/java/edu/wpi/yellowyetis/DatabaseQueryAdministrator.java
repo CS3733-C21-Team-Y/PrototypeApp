@@ -19,15 +19,15 @@ public class DatabaseQueryAdministrator {
    * @param nodes
    * @param tableName
    */
-  public void insertArrayListNode(ArrayList<Node> nodes, String tableName) {
+  public void insertArrayListNode(ArrayList<Node> nodes, String tableName)
+      throws SQLException, ClassNotFoundException, NoSuchFieldException, InstantiationException,
+          IllegalAccessException {
 
     int numDuplicateIDs = 0;
 
     int size = nodes.size();
     for (Node node : nodes) {
-      if (insertNode(node, tableName) == 1) {
-        numDuplicateIDs++;
-      }
+      JDBCUtils.insert(10, node, "Node");
     }
 
     if (numDuplicateIDs > 0) {
@@ -45,7 +45,7 @@ public class DatabaseQueryAdministrator {
    * @param edges
    * @param tableName
    */
-  public void insertArrayListEdge(ArrayList<Edge> edges, String tableName) {
+  public void insertArrayListEdge(ArrayList<Edge> edges, String tableName) throws SQLException {
     int numDuplicateIDs = 0;
 
     int size = edges.size();
@@ -70,7 +70,7 @@ public class DatabaseQueryAdministrator {
    * @param node
    * @param tableName
    */
-  public int insertNode(Node node, String tableName) {
+  public int insertNode(Node node, String tableName) throws SQLException {
 
     // setup for database connection beginning
     Connection conn = JDBCUtils.getConn();
@@ -103,7 +103,7 @@ public class DatabaseQueryAdministrator {
    * @param edge
    * @param tableName
    */
-  public int insertEdge(Edge edge, String tableName) {
+  public int insertEdge(Edge edge, String tableName) throws SQLException {
     // setup for database connection beginning
     Connection conn = JDBCUtils.getConn();
 
@@ -151,7 +151,7 @@ public class DatabaseQueryAdministrator {
    * @param node
    * @param tableName
    */
-  public void updateNode(Node node, String tableName) {
+  public void updateNode(Node node, String tableName) throws SQLException {
     // setup for database connection beginning
     Connection conn = JDBCUtils.getConn();
     try {
@@ -202,7 +202,7 @@ public class DatabaseQueryAdministrator {
     }
   }
 
-  public void updateEdge(Edge edge, String tableName) {
+  public void updateEdge(Edge edge, String tableName) throws SQLException {
     Connection conn = JDBCUtils.getConn();
     try {
       // Creation of SQL insert
@@ -239,7 +239,7 @@ public class DatabaseQueryAdministrator {
   }
 
   /** @param nodeID nodeID of the node which you want to remove */
-  public void removeNode(String nodeID) { // string tableName
+  public void removeNode(String nodeID) throws SQLException { // string tableName
     Connection conn = JDBCUtils.getConn();
 
     try { // currently the database foes not function properly the cannot find Node
@@ -259,7 +259,7 @@ public class DatabaseQueryAdministrator {
   }
 
   /** @param edgeID: edgeID of the edge which you want to remove */
-  public void removeEdge(String edgeID) {
+  public void removeEdge(String edgeID) throws SQLException {
     Connection conn = JDBCUtils.getConn();
 
     try {

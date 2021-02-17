@@ -1,10 +1,7 @@
 package edu.wpi.yellowyetis;
 
 import java.io.*;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 // import com.opencsv.CSVWriter;
@@ -137,11 +134,11 @@ public class CSV {
     return false;
   }
 
-  public static void main(String[] args) {
-    CSV.generateNodeCSV();
+  public static void main(String[] args) throws SQLException {
+    CSV.generateEdgeCSV();
   }
 
-  public static boolean generateNodeCSV() {
+  public static boolean generateEdgeCSV() throws SQLException {
     Connection conn = JDBCUtils.getConn();
     boolean generatedSuccessful = false;
     String str = "SELECT * FROM ADMIN.EDGE";
@@ -158,9 +155,10 @@ public class CSV {
     try {
       Statement statement = conn.createStatement();
       ResultSet resultSet = statement.executeQuery(str);
-      StringBuilder stringBuilder = new StringBuilder("");
+
       System.out.println("exporting Edges from database to CSV files");
       while (resultSet.next()) {
+        StringBuilder stringBuilder = new StringBuilder("");
         stringBuilder
             .append(resultSet.getString(1))
             .append(",")
@@ -170,7 +168,8 @@ public class CSV {
         bufferedWriter.write(stringBuilder.toString());
         bufferedWriter.newLine();
       }
-      JDBCUtils.close(null, (org.apache.derby.iapi.sql.ResultSet) resultSet, statement, conn);
+      resultSet.close();
+      JDBCUtils.close(null, null, statement, conn);
 
       bufferedWriter.flush();
       bufferedWriter.close();
@@ -179,6 +178,22 @@ public class CSV {
       throwables.printStackTrace();
     }
     return generatedSuccessful;
+  }
+
+  public static void SQLexportCSV() {
+    PreparedStatement ps = null;
+    try {
+      ps = JDBCUtils.getConn().prepareStatement("CALLSYSCS_UTIL.SYSCS_EXPORT_TABLE (?,?,?,?,?,?)");
+      ps.setString(1, null);
+      ps.setString(2, "EDGES");
+      ps.setString(3, "TestEdge.csv");
+      ps.setString(4, null);
+      ps.setString(5, null);
+      ps.setString(6, null);
+      ps.execute();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
   }
 
   // get list of Edges from database

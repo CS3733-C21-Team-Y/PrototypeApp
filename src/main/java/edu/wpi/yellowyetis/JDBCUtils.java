@@ -34,7 +34,7 @@ public class JDBCUtils {
 
       e.printStackTrace();
     }
-
+    /*
     try {
       Statement stmt = conn.createStatement();
       String sqlNode =
@@ -59,12 +59,15 @@ public class JDBCUtils {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+
+     */
   }
 
   /*
   get connection
    */
-  public static Connection getConn() {
+  public static Connection getConn() throws SQLException {
+    Connection connection = conn = DriverManager.getConnection("jdbc:derby:DB;");
     return conn;
   }
   /*
