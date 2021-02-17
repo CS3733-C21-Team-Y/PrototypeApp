@@ -60,8 +60,8 @@ public class CSV {
    * @throws IOException
    */
   public static ArrayList<Edge> getEdges()
-      throws IOException, ClassNotFoundException, SQLException, NoSuchFieldException,
-          InstantiationException, IllegalAccessException {
+      throws IOException, ClassNotFoundException, NoSuchFieldException, InstantiationException,
+          IllegalAccessException {
     String line = brEdge.readLine(); // get rid of first line
     while ((line = brEdge.readLine()) != null) {
       String[] stringEdge = line.split(splitBy); // use comma as separator

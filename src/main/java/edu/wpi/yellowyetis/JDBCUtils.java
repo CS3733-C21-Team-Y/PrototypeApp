@@ -181,13 +181,13 @@ public class JDBCUtils {
         createPreparedStatement(numArgs, object, tableName, "insert into");
     try {
       statement.execute();
-    } catch (SQLException e) {
+    } catch (SQLException ignore) {
       /*if (e.getErrorCode() == 30000) {
        System.out.println(
            "The insert could not be completed because a node with that ID already exists");
 
       */
-      e.printStackTrace();
+
     }
   }
 

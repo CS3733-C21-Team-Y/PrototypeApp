@@ -27,6 +27,7 @@ public class nodeEdgeDispController {
   @FXML private Button toHomeBtn;
   @FXML private Button addNode;
   @FXML private Button addEdge;
+  @FXML private Button testButton;
 
   @FXML private CheckBox addNodecb;
   @FXML private CheckBox addEdgecb;
@@ -112,6 +113,25 @@ public class nodeEdgeDispController {
           SQLException, NoSuchFieldException {
     initImage();
 
+    testButton.setOnAction(
+        e -> {
+          try {
+            initiateDrawing();
+          } catch (IllegalAccessException illegalAccessException) {
+            illegalAccessException.printStackTrace();
+          } catch (ClassNotFoundException classNotFoundException) {
+            classNotFoundException.printStackTrace();
+          } catch (IOException ioException) {
+            ioException.printStackTrace();
+          } catch (InstantiationException instantiationException) {
+            instantiationException.printStackTrace();
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          } catch (NoSuchFieldException noSuchFieldException) {
+            noSuchFieldException.printStackTrace();
+          }
+        });
+
     parkingPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.PARKING));
     floorOnePage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR1));
     floorTwoPage.setOnAction(e -> controlImageShown(e, MAP_PAGE.FLOOR2));
@@ -162,6 +182,11 @@ public class nodeEdgeDispController {
         e -> {
           addEdgecb.setSelected(false);
         });
+  }
+
+  private void initiateDrawing()
+      throws IllegalAccessException, ClassNotFoundException, IOException, InstantiationException,
+          SQLException, NoSuchFieldException {
     drawFromCSV();
   }
 
@@ -294,7 +319,7 @@ public class nodeEdgeDispController {
               } else if (w.getSource().getClass() == l.getClass()) {
                 unHighglightLine();
                 currentSelectedLine = (Line) w.getSource();
-                System.out.println(currentSelectedLine);
+                // System.out.println(currentSelectedLine);
                 p.toBack();
               } else {
                 p.toBack();
@@ -393,7 +418,9 @@ public class nodeEdgeDispController {
       throws IllegalAccessException, IOException, NoSuchFieldException, SQLException,
           InstantiationException, ClassNotFoundException {
     CSV.getNodes();
+    // System.out.println("hello kill me");
     CSV.getEdges();
+    // System.out.println("Hello kill me agian");
     ArrayList<Edge> edgeArrayList;
 
     nodeIDCounter = CSV.nodes.size();
@@ -407,13 +434,14 @@ public class nodeEdgeDispController {
       circle.setFill(Paint.valueOf("RED"));
       pane.getChildren().add(circle);
 
-      // adding the node and refreshing the scene
-      Stage stage = (Stage) addNode.getScene().getWindow();
-      stage.setScene(addNode.getScene());
-      stage.show();
+      //       adding the node and refreshing the scene
+      //      Stage stage = (Stage) addNode.getScene().getWindow();
+      //      stage.setScene(addNode.getScene());
+      //      stage.show();
     }
 
     for (Edge e : CSV.edges) {
+      System.out.println(pane.getScene());
       Circle n = (Circle) pane.getScene().lookup("#" + e.getStartNodeID());
       Circle m = (Circle) pane.getScene().lookup("#" + e.getEndNodeID());
       startx = n.getCenterX();

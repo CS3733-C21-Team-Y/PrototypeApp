@@ -34,6 +34,7 @@
                         <Pane fx:id="pane" />
                      </children>
                   </StackPane>
+                  <Button fx:id="testButton" mnemonicParsing="false" text="FML" />
                   <Button fx:id="toHomeBtn" mnemonicParsing="false" text="Return to Home" />
                </children>
             </VBox>
