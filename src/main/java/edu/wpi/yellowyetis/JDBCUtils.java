@@ -197,7 +197,7 @@ public class JDBCUtils {
     /**
      * Takes in an arrayList objects and uses to reflection in the insert statement to insert
      * the object into its respective table.
-     * @param numArgs
+     * @param numArgs will be 10 for nodes and 3 for edges
      * @param objects
      * @param tableName
      * @throws SQLException
@@ -206,7 +206,7 @@ public class JDBCUtils {
      * @throws InstantiationException
      * @throws IllegalAccessException
      */
-    public static void insertArrayListNode(int numArgs, ArrayList<Object> objects, String tableName)
+    public static void insertArrayList(int numArgs, ArrayList<Object> objects, String tableName)
             throws SQLException, ClassNotFoundException, NoSuchFieldException, InstantiationException,
             IllegalAccessException {
 
