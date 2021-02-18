@@ -21,6 +21,7 @@ public class JDBCUtils {
       Class.forName(driver);
     } catch (ClassNotFoundException e) {
       System.out.println("Where is your Derby JDBC Driver?");
+
       e.printStackTrace();
     }
 
