@@ -79,33 +79,6 @@ public class nodeEdgeDispController {
 
   MAP_PAGE mp = MAP_PAGE.PARKING;
 
-  /*
-  // -----test--------should be from db classes
-  class node {
-    private int nodeX;
-    private int nodeY;
-
-    node(int x, int y) {
-      this.nodeX = x;
-      this.nodeY = y;
-    }
-  }
-
-  class edge {
-    private int edgeStartX;
-    private int edgeStartY;
-    private int edgeEndX;
-    private int edgeEndY;
-
-    edge(int startX, int startY, int endX, int endY) {
-      this.edgeStartX = startX;
-      this.edgeStartY = startY;
-      this.edgeEndX = endX;
-      this.edgeEndY = endY;
-    }
-  }*/
-  // -------------------------
-
   public nodeEdgeDispController() {}
 
   @FXML
@@ -261,9 +234,7 @@ public class nodeEdgeDispController {
   }
 
   private void setImage(MAP_PAGE mp) {
-    Image parking =
-        new Image(
-            "edu/wpi/yellowyetis/malepatientconfinedinthehospitalandundergroundlotfilledwithcars.png");
+    Image parking = new Image("edu/wpi/yellowyetis/FaulknerCampus.png");
     // need to be switched to parking map
     Image f1 = new Image("edu/wpi/yellowyetis/FaulknerFloor1_Updated.png");
     Image f2 = new Image("edu/wpi/yellowyetis/FaulknerFloor2_Updated.png");
@@ -583,22 +554,26 @@ public class nodeEdgeDispController {
     // to add as a child of the pane in the scene
     String nodeID = String.valueOf(nodeIDCounter);
     nodeIDCounter++;
-    edu.wpi.yellowyetis.Node n =
-        new edu.wpi.yellowyetis.Node(
-            scaleUpXCoords(Double.parseDouble(newX.getText())),
-            scaleUpYCoords(Double.parseDouble(newY.getText())),
-            floorNumber,
-            nodeID);
-    // JDBCUtils.insert(10, n, "NODE");
-    // JDBCUtils.insert(JDBCUtils.insertString(n));
-    DatabaseQueryAdministrator.insertNode(n);
-    CSV.saveNode(n);
-    Circle circle = new Circle(n.getXcoord(), n.getYcoord(), 5);
-    circle.setId(n.getNodeID());
-    currentSelectedCircle = circle;
-    circle.setFill(Paint.valueOf("RED"));
-    pane.getChildren().add(circle);
+    try {
+      edu.wpi.yellowyetis.Node n =
+          new edu.wpi.yellowyetis.Node(
+              scaleUpXCoords(Double.parseDouble(newX.getText())),
+              scaleUpYCoords(Double.parseDouble(newY.getText())),
+              floorNumber,
+              nodeID);
 
+      // JDBCUtils.insert(10, n, "NODE");
+      // JDBCUtils.insert(JDBCUtils.insertString(n));
+      DatabaseQueryAdministrator.insertNode(n);
+      CSV.saveNode(n);
+      Circle circle = new Circle(n.getXcoord(), n.getYcoord(), 5);
+      circle.setId(n.getNodeID());
+      currentSelectedCircle = circle;
+      circle.setFill(Paint.valueOf("RED"));
+      pane.getChildren().add(circle);
+    } catch (Exception exception) {
+      System.out.println("Can't create a node with text in the field input");
+    }
     // adding the node and refreshing the scene
     Stage stage = (Stage) addNode.getScene().getWindow();
     stage.setScene(addNode.getScene());
