@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Node {
   private ArrayList<Node> neighbors;
 
-  //DO NOT PUT ANY FIELDS BEFORE THESE OR CHANGE THEIR ORDER PLEASE!!
+  // DO NOT PUT ANY FIELDS BEFORE THESE OR CHANGE THEIR ORDER PLEASE!!
   public String nodeID;
   public String nodeType;
   public double xcoord;
