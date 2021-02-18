@@ -5,18 +5,19 @@ import java.util.ArrayList;
 public class Node {
   private ArrayList<Node> neighbors;
 
+  //DO NOT PUT ANY FIELDS BEFORE THESE OR CHANGE THEIR ORDER PLEASE!!
+  public String nodeID;
   public String nodeType;
   public double xcoord;
   public double ycoord;
   public String
       floor; // I made floor and room strings for now but they will likely need special attention
   // later
-  public String room;
   public String building;
+  public String room;
   public String longName;
   public String shortName;
   public char teamAssigned;
-  public String nodeID;
 
   public Node(
       String nodeType,
