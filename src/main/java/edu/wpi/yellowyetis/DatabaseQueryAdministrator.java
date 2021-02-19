@@ -27,7 +27,7 @@ public class DatabaseQueryAdministrator {
 
     int size = nodes.size();
     for (Node node : nodes) {
-      JDBCUtils.insert(10, node, "Node");
+      JDBCUtils.insert(9, node, "Node");
     }
 
     if (numDuplicateIDs > 0) {

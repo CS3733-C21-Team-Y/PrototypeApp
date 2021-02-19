@@ -428,7 +428,7 @@ public class nodeEdgeDispController {
         // JDBCUtils.insert(3, ed, "EDGE");
         // JDBCUtils.insert(JDBCUtils.insertString(ed));
         DatabaseQueryAdministrator.insertEdge(ed);
-        CSV.saveEdge(ed);
+        CSV.saveEdgeCSV(ed);
         Line line = new Line(startx, starty, endx, endy);
         line.setStrokeWidth(3);
         pane.getChildren().add(line);
@@ -454,7 +454,7 @@ public class nodeEdgeDispController {
               scaleUpXCoords(e.getX()), scaleUpYCoords(e.getY()), floorNumber, nodeID);
       // JDBCUtils.insert(10, n, "NODE");
       // JDBCUtils.insert(JDBCUtils.insertString(n));
-      CSV.saveNode(n);
+      CSV.saveNodeCSV(n);
       DatabaseQueryAdministrator.insertNode(n);
       Circle circle = new Circle(scaleXCoords(n.getXcoord()), scaleYCoords(n.getYcoord()), 5);
       circle.setId(n.getNodeID());
@@ -494,9 +494,9 @@ public class nodeEdgeDispController {
   private void drawFromCSV()
       throws IllegalAccessException, IOException, NoSuchFieldException, SQLException,
           InstantiationException, ClassNotFoundException {
-    CSV.getNodes();
+    CSV.getNodesCSV();
     // System.out.println("hello kill me");
-    CSV.getEdges();
+    CSV.getEdgesCSV();
     // System.out.println("Hello kill me agian");
     ArrayList<Edge> edgeArrayList;
 
@@ -565,7 +565,7 @@ public class nodeEdgeDispController {
       // JDBCUtils.insert(10, n, "NODE");
       // JDBCUtils.insert(JDBCUtils.insertString(n));
       DatabaseQueryAdministrator.insertNode(n);
-      CSV.saveNode(n);
+      CSV.saveNodeCSV(n);
       Circle circle = new Circle(n.getXcoord(), n.getYcoord(), 5);
       circle.setId(n.getNodeID());
       currentSelectedCircle = circle;
