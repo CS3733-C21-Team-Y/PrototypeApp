@@ -45,3 +45,10 @@
     -fx-background-color: white;
     -fx-background-radius: 0 0 8 8;
 }
+.service-entry-field{
+    -fx-background-color: #FFF;
+    -fx-border-color: #7a7a7a;
+    -fx-border-radius: 2;
+    -fx-border-width: 1;
+    -fx-background-radius: 8;
+}
