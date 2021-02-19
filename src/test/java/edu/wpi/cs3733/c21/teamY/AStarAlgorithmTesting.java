@@ -29,28 +29,31 @@ public class AStarAlgorithmTesting {
 
     ArrayList<Node> expectPath = new ArrayList<>();
     // Set the expected path based on the mathematical distance
-    expectPath.add(0, ActiveGraph.getActiveGraph().nodeFromID("1"));
-    expectPath.add(1, ActiveGraph.getActiveGraph().nodeFromID("5"));
-    expectPath.add(2, ActiveGraph.getActiveGraph().nodeFromID("7"));
-    expectPath.add(3, ActiveGraph.getActiveGraph().nodeFromID("6"));
-    expectPath.add(4, ActiveGraph.getActiveGraph().nodeFromID("10"));
+    expectPath.add(0, ActiveGraph.getActiveGraph().nodeFromID("PDEPT00401"));
+    expectPath.add(1, ActiveGraph.getActiveGraph().nodeFromID("PDEPT00401"));
+    expectPath.add(2, ActiveGraph.getActiveGraph().nodeFromID("PDEPT00401"));
+    expectPath.add(3, ActiveGraph.getActiveGraph().nodeFromID("PDEPT00401"));
+    expectPath.add(4, ActiveGraph.getActiveGraph().nodeFromID("PDEPT00401"));
 
     // First test that the basic functionality of aStar is working
-    assertEquals(expectPath, AStarAlgorithm.aStar(ActiveGraph.getActiveGraph(), "1", "10"));
+    assertEquals(
+        expectPath, AStarAlgorithm.aStar(ActiveGraph.getActiveGraph(), "PDEPT00401", "PSTAI00201"));
 
     expectPath.clear();
     // Set the expected path based on the mathematical distance
-    expectPath.add(0, ActiveGraph.getActiveGraph().nodeFromID("8"));
-    expectPath.add(1, ActiveGraph.getActiveGraph().nodeFromID("1"));
-    expectPath.add(2, ActiveGraph.getActiveGraph().nodeFromID("2"));
-    expectPath.add(3, ActiveGraph.getActiveGraph().nodeFromID("4"));
+    expectPath.add(0, ActiveGraph.getActiveGraph().nodeFromID("PDEPT00401"));
+    expectPath.add(1, ActiveGraph.getActiveGraph().nodeFromID("PDEPT00401"));
+    expectPath.add(2, ActiveGraph.getActiveGraph().nodeFromID("PDEPT00401"));
+    expectPath.add(3, ActiveGraph.getActiveGraph().nodeFromID("PDEPT00401"));
 
     // Second test that the basic functionality of aStar is working on a less obvious path
-    assertEquals(expectPath, AStarAlgorithm.aStar(ActiveGraph.getActiveGraph(), "8", "4"));
+    assertEquals(
+        expectPath, AStarAlgorithm.aStar(ActiveGraph.getActiveGraph(), "PDEPT00401", "PSTAI00201"));
 
     expectPath.clear();
-    expectPath.add(0, ActiveGraph.getActiveGraph().nodeFromID("5"));
+    expectPath.add(0, ActiveGraph.getActiveGraph().nodeFromID("PDEPT00401"));
     // Third test on inputting the same start and end node
-    assertEquals(expectPath, AStarAlgorithm.aStar(ActiveGraph.getActiveGraph(), "5", "5"));
+    assertEquals(
+        expectPath, AStarAlgorithm.aStar(ActiveGraph.getActiveGraph(), "PSTAI00201", "PSTAI00201"));
   }
 }

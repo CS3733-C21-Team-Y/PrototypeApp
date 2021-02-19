@@ -122,4 +122,20 @@ public class AStarAlgorithm {
 
     }
   }
+
+  public static ArrayList<Node> aStar(Graph g, String startID, ArrayList<String> goalIDs) {
+    ArrayList<Node> path = new ArrayList<>();
+    path = aStar(g,startID, goalIDs.get(0));
+    for(int i = 0; i< goalIDs.size();i++) {
+      ArrayList<Node> tempPath = new ArrayList<>();
+      tempPath = aStar(g, goalIDs.get(i), goalIDs.get(i + 1));
+      //Remove the first element to avoid duplicates
+      tempPath.remove(0);
+      //Append the path for these nodes to the path
+      path.addAll(tempPath);
+    }
+
+    return path;
+
+  }
 }
