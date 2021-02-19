@@ -1,0 +1,22 @@
+.button{
+    -fx-background-color: #d8d8d8;
+    -fx-font-family: arial;
+    -fx-font-weight: bold;
+    -fx-text-fill: #656565;
+}
+.button:hover{
+    -fx-background-color: #656565;
+    -fx-font-family: arial;
+    -fx-font-weight: bold;
+    -fx-text-fill: #d8d8d8;
+}
+.anchorpane{
+    -fx-background-color: #4081ec;
+}
+.largeVBox{
+    -fx-background-color: white;
+    -fx-border-color: #7a7a7a;
+    -fx-border-radius: 10;
+    -fx-background-radius:20;
+    -fx-border-width: 4;
+}

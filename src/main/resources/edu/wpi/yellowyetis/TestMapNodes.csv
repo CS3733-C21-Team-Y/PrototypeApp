@@ -1,0 +1,11 @@
+id,xcoord,ycoord,floor,building,nodetype,longname,shortname,teamassigned
+1,0,2.25,1,test,NULL,Node1,Node1,Y
+2,3.25,2.25,1,test,NULL,Node2,Node2,Y
+3,4.5,2.25,1,test,NULL,Node3,Node3,Y
+4,4.5,0,1,test,NULL,Node4,Node4,Y
+5,2.25,3.75,1,test,NULL,Node5,Node5,Y
+6,4.5,5.75,1,test,NULL,Node6,Node6,Y
+7,2.25,5.75,1,test,NULL,Node7,Node7,Y
+8,0,5.75,1,test,NULL,Node8,Node8,Y
+9,7.25,2.25,1,test,NULL,Node9,Node9,Y
+10,9.75,5.75,1,test,NULL,Node10,Node10,Y
