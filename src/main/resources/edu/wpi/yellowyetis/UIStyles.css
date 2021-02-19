@@ -11,7 +11,8 @@
     -fx-text-fill: #d8d8d8;
 }
 .anchorpane{
-    -fx-background-color: #4081ec;
+    -fx-background-color: #002564;
+
 }
 .largeVBox{
     -fx-background-color: white;
@@ -19,4 +20,28 @@
     -fx-border-radius: 10;
     -fx-background-radius:20;
     -fx-border-width: 4;
+}
+.menuBar {
+    -fx-background-color: #d8d8d8;
+    -fx-background-radius: 8 8 0 0;
+    -fx-padding: 10;
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: #7a7a7a;
+
+}
+.mainVBox {
+    -fx-background-color: white;
+    -fx-border-radius: 10;
+    -fx-background-radius: 20;
+    -fx-border-width: 4;
+    -fx-border-color: #7a7a7a;
+}
+.serviceRequestCat{
+
+    -fx-border-color: #7a7a7a;
+    -fx-border-width: 0 0 2 0;
+}
+.scroll-pane{
+    -fx-background-color: white;
+    -fx-background-radius: 0 0 8 8;
 }
