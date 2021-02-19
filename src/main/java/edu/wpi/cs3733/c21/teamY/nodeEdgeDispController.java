@@ -1,7 +1,5 @@
 package edu.wpi.cs3733.c21.teamY;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -48,14 +45,15 @@ public class nodeEdgeDispController {
   @FXML private TextField newX;
   @FXML private TextField newY;
 
-  @FXML private TextField startX;
-  @FXML private TextField startY;
-  @FXML private TextField endX;
-  @FXML private TextField endY;
+  //  @FXML private TextField startX;
+  //  @FXML private TextField startY;
+  //  @FXML private TextField endX;
+  //  @FXML private TextField endY;
 
   @FXML private Pane pane;
   @FXML private ImageView map;
   @FXML private StackPane stackPane;
+  private DrawMap dm = new DrawMap(stackPane, pane, map);
 
   @FXML private SplitMenuButton floorMenu;
   @FXML private MenuItem parkingPage;
@@ -68,74 +66,59 @@ public class nodeEdgeDispController {
   private String floorNumber = "0";
   private int nodeIDCounter;
 
-  private enum MAP_PAGE {
-    PARKING,
-    FLOOR1,
-    FLOOR2,
-    FLOOR3,
-    FLOOR4,
-    FLOOR5
-  };
-
-  MAP_PAGE mp = MAP_PAGE.PARKING;
+  //  private enum MAP_PAGE {
+  //    PARKING,
+  //    FLOOR1,
+  //    FLOOR2,
+  //    FLOOR3,
+  //    FLOOR4,
+  //    FLOOR5
+  //  };
+  //  MAP_PAGE mp = MAP_PAGE.PARKING;
 
   public nodeEdgeDispController() {}
 
   @FXML
-  private void initialize()
-      throws IllegalAccessException, ClassNotFoundException, IOException, InstantiationException,
-          SQLException, NoSuchFieldException {
+  private void initialize() {
+
     initImage();
     floorMenu.setText("Parking Lot");
     testButton.setOnAction(
         e -> {
-          try {
-            initiateDrawing();
-          } catch (IllegalAccessException illegalAccessException) {
-            illegalAccessException.printStackTrace();
-          } catch (ClassNotFoundException classNotFoundException) {
-            classNotFoundException.printStackTrace();
-          } catch (IOException ioException) {
-            ioException.printStackTrace();
-          } catch (InstantiationException instantiationException) {
-            instantiationException.printStackTrace();
-          } catch (SQLException throwables) {
-            throwables.printStackTrace();
-          } catch (NoSuchFieldException noSuchFieldException) {
-            noSuchFieldException.printStackTrace();
-          }
+          initiateDrawing();
         });
 
     parkingPage.setOnAction(
         e -> {
-          controlImageShown(e, MAP_PAGE.PARKING);
+          controlImageShown(e, DrawMap.MAP_PAGE.PARKING);
           updateMenuPreview(e);
         });
     floorOnePage.setOnAction(
         e -> {
-          controlImageShown(e, MAP_PAGE.FLOOR1);
+          controlImageShown(e, DrawMap.MAP_PAGE.FLOOR1);
           updateMenuPreview(e);
         });
     floorTwoPage.setOnAction(
         e -> {
-          controlImageShown(e, MAP_PAGE.FLOOR2);
+          controlImageShown(e, DrawMap.MAP_PAGE.FLOOR2);
           updateMenuPreview(e);
         });
     floorThreePage.setOnAction(
         e -> {
-          controlImageShown(e, MAP_PAGE.FLOOR3);
+          controlImageShown(e, DrawMap.MAP_PAGE.FLOOR3);
           updateMenuPreview(e);
         });
     floorFourPage.setOnAction(
         e -> {
-          controlImageShown(e, MAP_PAGE.FLOOR4);
+          controlImageShown(e, DrawMap.MAP_PAGE.FLOOR4);
           updateMenuPreview(e);
         });
     floorFivePage.setOnAction(
         e -> {
-          controlImageShown(e, MAP_PAGE.FLOOR5);
+          controlImageShown(e, DrawMap.MAP_PAGE.FLOOR5);
           updateMenuPreview(e);
         });
+
     // attaches a handler to the button with a lambda expression
     toHomeBtn.setOnAction(e -> buttonClicked(e));
 
@@ -146,19 +129,7 @@ public class nodeEdgeDispController {
     // run the create methods on the button click
     addNode.setOnAction(
         e -> {
-          try {
-            createNode(e);
-          } catch (ClassNotFoundException classNotFoundException) {
-            classNotFoundException.printStackTrace();
-          } catch (SQLException throwables) {
-            throwables.printStackTrace();
-          } catch (NoSuchFieldException noSuchFieldException) {
-            noSuchFieldException.printStackTrace();
-          } catch (InstantiationException instantiationException) {
-            instantiationException.printStackTrace();
-          } catch (IllegalAccessException illegalAccessException) {
-            illegalAccessException.printStackTrace();
-          }
+          createNode(e);
         });
     // addEdge.setOnAction(e -> createEdge(e));
 
@@ -174,35 +145,12 @@ public class nodeEdgeDispController {
           if (addEdgecb.isSelected()) {
             unHighlightCircle();
             unHighglightLine();
-            try {
-              createEdgecb(e);
-            } catch (ClassNotFoundException classNotFoundException) {
-              classNotFoundException.printStackTrace();
-            } catch (SQLException throwables) {
-              throwables.printStackTrace();
-            } catch (NoSuchFieldException noSuchFieldException) {
-              noSuchFieldException.printStackTrace();
-            } catch (InstantiationException instantiationException) {
-              instantiationException.printStackTrace();
-            } catch (IllegalAccessException illegalAccessException) {
-              illegalAccessException.printStackTrace();
-            }
+            createEdgecb(e);
           } else if (addNodecb.isSelected()) {
             unHighlightCircle();
             unHighglightLine();
-            try {
-              createNodecb(e);
-            } catch (ClassNotFoundException classNotFoundException) {
-              classNotFoundException.printStackTrace();
-            } catch (SQLException throwables) {
-              throwables.printStackTrace();
-            } catch (NoSuchFieldException noSuchFieldException) {
-              noSuchFieldException.printStackTrace();
-            } catch (InstantiationException instantiationException) {
-              instantiationException.printStackTrace();
-            } catch (IllegalAccessException illegalAccessException) {
-              illegalAccessException.printStackTrace();
-            }
+            createNodecb(e);
+
           } else {
             highlightCircle();
             highlightLine();
@@ -226,54 +174,43 @@ public class nodeEdgeDispController {
   }
 
   // this sucks
-  private void initiateDrawing()
-      throws IllegalAccessException, ClassNotFoundException, IOException, InstantiationException,
-          SQLException, NoSuchFieldException {
-
+  private void initiateDrawing() {
     drawFromCSV();
   }
 
-  private void setImage(MAP_PAGE mp) {
-    Image parking = new Image("edu/wpi/cs3733/c21/teamY/FaulknerCampus.png");
-    // need to be switched to parking map
-    Image f1 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor1_Updated.png");
-    Image f2 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor2_Updated.png");
-    Image f3 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor3_Updated.png");
-    Image f4 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor4_Updated.png");
-    Image f5 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor5_Updated.png");
+  private void setImage(DrawMap.MAP_PAGE mp) {
 
     switch (mp) {
       case FLOOR1:
-        map.setImage(f1);
+        map.setImage(dm.setImage(DrawMap.MAP_PAGE.FLOOR1));
         floorNumber = "1";
         break;
       case FLOOR2:
-        map.setImage(f2);
+        map.setImage(dm.setImage(DrawMap.MAP_PAGE.FLOOR2));
         floorNumber = "2";
         break;
       case FLOOR3:
-        map.setImage(f3);
+        map.setImage(dm.setImage(DrawMap.MAP_PAGE.FLOOR3));
         floorNumber = "3";
         break;
       case FLOOR4:
-        map.setImage(f4);
+        map.setImage(dm.setImage(DrawMap.MAP_PAGE.FLOOR4));
         floorNumber = "4";
         break;
       case FLOOR5:
-        map.setImage(f5);
+        map.setImage(dm.setImage(DrawMap.MAP_PAGE.FLOOR5));
         floorNumber = "5";
         break;
       case PARKING:
       default:
-        map.setImage(parking);
+        map.setImage(dm.setImage(DrawMap.MAP_PAGE.PARKING));
         floorNumber = "0";
         break;
     }
   }
 
   private void initImage() {
-    System.out.println(map.fitHeightProperty());
-    setImage(MAP_PAGE.PARKING);
+    setImage(DrawMap.MAP_PAGE.PARKING);
     //    map.setFitHeight(500);
     //    map.fitHeightProperty().bind(anchor.heightProperty());
     //    map.fitWidthProperty().bind(anchor.widthProperty());
@@ -299,7 +236,7 @@ public class nodeEdgeDispController {
     return y * scale;
   }
 
-  private void controlImageShown(ActionEvent e, MAP_PAGE mp) {
+  private void controlImageShown(ActionEvent e, DrawMap.MAP_PAGE mp) {
     removeAll(e);
     setImage(mp);
   }
@@ -397,9 +334,7 @@ public class nodeEdgeDispController {
   }
 
   // --create node and edges
-  private void createEdgecb(MouseEvent e)
-      throws ClassNotFoundException, SQLException, NoSuchFieldException, InstantiationException,
-          IllegalAccessException {
+  private void createEdgecb(MouseEvent e) {
     // creates an edge between two selected points when the checkbox is selected
     if (addEdgecb.isSelected()) {
       if (startEdgeFlag) { // decides if its te starting or ending point being selected
@@ -427,7 +362,11 @@ public class nodeEdgeDispController {
         Edge ed = new Edge(edgeID, startNodeID, endNodeID);
         // JDBCUtils.insert(3, ed, "EDGE");
         // JDBCUtils.insert(JDBCUtils.insertString(ed));
-        DatabaseQueryAdministrator.insertEdge(ed);
+        try {
+          DatabaseQueryAdministrator.insertEdge(ed);
+        } catch (Exception exception) {
+          System.out.println("nodeEdgeDispController.createEdgecb");
+        }
         CSV.saveEdge(ed);
         Line line = new Line(startx, starty, endx, endy);
         line.setStrokeWidth(3);
@@ -441,9 +380,7 @@ public class nodeEdgeDispController {
     }
   }
 
-  private void createNodecb(MouseEvent e)
-      throws ClassNotFoundException, SQLException, NoSuchFieldException, InstantiationException,
-          IllegalAccessException {
+  private void createNodecb(MouseEvent e) {
     // when the add node checkbox is selected, the new nodes can be created
     // wherever the mouse clicks withing the scene
     String nodeID = String.valueOf(nodeIDCounter);
@@ -455,7 +392,11 @@ public class nodeEdgeDispController {
       // JDBCUtils.insert(10, n, "NODE");
       // JDBCUtils.insert(JDBCUtils.insertString(n));
       CSV.saveNode(n);
-      DatabaseQueryAdministrator.insertNode(n);
+      try {
+        DatabaseQueryAdministrator.insertNode(n);
+      } catch (Exception exception) {
+        System.out.println("nodeEdgeDispController.createNodecb");
+      }
       Circle circle = new Circle(scaleXCoords(n.getXcoord()), scaleYCoords(n.getYcoord()), 5);
       circle.setId(n.getNodeID());
       currentSelectedCircle = circle;
@@ -470,34 +411,13 @@ public class nodeEdgeDispController {
     }
   }
 
-  /*
-  private void createEdge(ActionEvent e) {
-    // creates a new instance of the local edge class and
-    // sets the start and end values to that in the text fields
-    Edge ed =
-        new Edge(
-            Integer.parseInt(startX.getText()),
-            Integer.parseInt(startY.getText()),
-            Integer.parseInt(endX.getText()),
-            Integer.parseInt(endY.getText()));
-    // creating a new line Node and adding it as a child to the pane
-    Line line = new Line(ed.edgeStartX, ed.edgeStartY, ed.edgeEndX, ed.edgeEndY);
-    line.setStrokeWidth(3);
-    pane.getChildren().add(line);
-
-    // refreshing and adding to scene
-    Stage stage = (Stage) addEdge.getScene().getWindow();
-    stage.setScene(addEdge.getScene());
-    stage.show();
-  } */
-
-  private void drawFromCSV()
-      throws IllegalAccessException, IOException, NoSuchFieldException, SQLException,
-          InstantiationException, ClassNotFoundException {
-    CSV.getNodes();
-    // System.out.println("hello kill me");
-    CSV.getEdges();
-    // System.out.println("Hello kill me agian");
+  private void drawFromCSV() {
+    try {
+      CSV.getNodes();
+      CSV.getEdges();
+    } catch (Exception exception) {
+      System.out.println("nodeEdgeDispController.drawFromCSV");
+    }
     ArrayList<Edge> edgeArrayList;
 
     nodeIDCounter = CSV.nodes.size() + 1;
@@ -547,9 +467,7 @@ public class nodeEdgeDispController {
     }
   }
 
-  private void createNode(ActionEvent e)
-      throws ClassNotFoundException, SQLException, NoSuchFieldException, InstantiationException,
-          IllegalAccessException {
+  private void createNode(ActionEvent e) {
     // creates a new instance of the local node class and creates a red circle
     // to add as a child of the pane in the scene
     String nodeID = String.valueOf(nodeIDCounter);
@@ -583,15 +501,15 @@ public class nodeEdgeDispController {
   // --display info on nodes/edges
   private void setCurrentDisplay() {
     nodeDisplay.setText(
-        "x:" + currentSelectedCircle.getCenterX() + ", y:" + currentSelectedCircle.getCenterY());
+        String.format(
+            "x: %.2f, y: %.2f",
+            currentSelectedCircle.getCenterX(), currentSelectedCircle.getCenterY()));
     edgeDisplay.setText(
-        "start x:"
-            + currentSelectedLine.getStartX()
-            + ", y:"
-            + currentSelectedLine.getStartY()
-            + " \nend x:"
-            + currentSelectedLine.getEndX()
-            + ", y:"
-            + currentSelectedLine.getEndY());
+        String.format(
+            "start x: %.2f, y: %.2f \nend x: %.2f, %.2f",
+            currentSelectedLine.getStartX(),
+            currentSelectedLine.getStartY(),
+            currentSelectedLine.getEndX(),
+            currentSelectedLine.getEndY()));
   }
 }
