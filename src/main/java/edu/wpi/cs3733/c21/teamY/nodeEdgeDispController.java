@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
@@ -66,15 +68,9 @@ public class nodeEdgeDispController {
   private String floorNumber = "0";
   private int nodeIDCounter;
 
-  //  private enum MAP_PAGE {
-  //    PARKING,
-  //    FLOOR1,
-  //    FLOOR2,
-  //    FLOOR3,
-  //    FLOOR4,
-  //    FLOOR5
-  //  };
-  //  MAP_PAGE mp = MAP_PAGE.PARKING;
+  private double scaleMin = 0.75;
+  private double scaleMax = 2;
+  private Rectangle2D viewWindow;
 
   public nodeEdgeDispController() {}
 
@@ -167,6 +163,38 @@ public class nodeEdgeDispController {
         e -> {
           addEdgecb.setSelected(false);
         });
+
+    //    viewWindow = new Rectangle2D(0, 0, 100, 200);
+    //    map.setViewport(viewWindow);
+    //    System.out.println(map.getViewport());
+    stackPane.setOnScroll(
+        e -> {
+          zoom(e);
+        });
+  }
+
+  private void zoom(ScrollEvent e) {
+    double scale = e.getDeltaY() * 0.005;
+    map.setPreserveRatio(true);
+
+    if (map.getScaleY() > scaleMax && scale > 0) {
+      scale = 0;
+    } else if (map.getScaleY() < scaleMin && scale < 0) {
+      scale = 0;
+    } else {
+
+    }
+
+    //    viewWindow =
+    //        new Rectangle2D(
+    //            e.getSceneX(), e.getSceneY(), pane.getWidth() + scale, pane.getHeight() + scale);
+    //    map.setViewport(viewWindow);
+
+    pane.setScaleY(pane.getScaleY() + scale);
+    pane.setScaleX(pane.getScaleX() + scale);
+
+    map.setScaleY(map.getScaleY() + scale);
+    map.setScaleX(map.getScaleX() + scale);
   }
 
   private void updateMenuPreview(ActionEvent e) {
