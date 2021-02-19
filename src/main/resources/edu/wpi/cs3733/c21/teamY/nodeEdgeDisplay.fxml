@@ -130,28 +130,9 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="2">
                            <children>
-                              <Button fx:id="addEdge" mnemonicParsing="false" prefWidth="100.0" text="Add  Edge">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="-10.0" />
-                                 </VBox.margin>
-                              </Button>
+                              <Button fx:id="resetView" mnemonicParsing="false" text="Reset View" />
+                              <CheckBox fx:id="panTool" mnemonicParsing="false" text="Pan Tool" />
                               <CheckBox fx:id="addEdgecb" mnemonicParsing="false" text="add Edge" />
-                              <GridPane>
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <TextField fx:id="startX" maxWidth="90.0" text="startx" GridPane.halignment="CENTER" />
-                                    <TextField fx:id="startY" maxWidth="90.0" text="starty" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-                                    <TextField fx:id="endX" maxWidth="90.0" text="endx" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                    <TextField fx:id="endY" maxWidth="90.0" text="endy" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                 </children>
-                              </GridPane>
                               <Button fx:id="deleteEdge" mnemonicParsing="false" prefWidth="100.0" text="Delete Edge">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

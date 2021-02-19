@@ -9,6 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
@@ -26,7 +28,6 @@ public class nodeEdgeDispController {
 
   @FXML private Button toHomeBtn;
   @FXML private Button addNode;
-  @FXML private Button addEdge;
   @FXML private Button testButton;
 
   @FXML private CheckBox addNodecb;
@@ -52,6 +53,9 @@ public class nodeEdgeDispController {
   @FXML private ImageView map;
   @FXML private StackPane stackPane;
   private DrawMap dm = new DrawMap(stackPane, pane, map);
+
+  @FXML private CheckBox panTool;
+  @FXML private Button resetView;
 
   @FXML private SplitMenuButton floorMenu;
   @FXML private MenuItem parkingPage;
@@ -160,10 +164,67 @@ public class nodeEdgeDispController {
           addEdgecb.setSelected(false);
         });
 
+    panTool.setOnAction(
+        e -> {
+          stackPane.getScene().setOnKeyPressed(f -> pan(f));
+        });
+
     stackPane.setOnScroll(
         e -> {
           zoom(e);
         });
+
+    resetView.setOnAction(e -> resetMapView());
+  }
+
+  private void arrowPan(KeyEvent e) {
+    Rectangle viewWindow = new Rectangle(0, 0, stackPane.getWidth(), stackPane.getHeight());
+    stackPane.setClip(viewWindow);
+
+    if (e.getCode() == KeyCode.RIGHT) {
+      map.translateXProperty().setValue(map.getTranslateX() + 10);
+    } else if (e.getCode() == KeyCode.UP) {
+      map.translateYProperty().setValue(map.getTranslateY() + 10);
+    } else if (e.getCode() == KeyCode.DOWN) {
+      map.translateYProperty().setValue(map.getTranslateY() - 10);
+    } else if (e.getCode() == KeyCode.LEFT) {
+      map.translateXProperty().setValue(map.getTranslateX() - 10);
+    } else {
+    }
+    map.requestFocus();
+  }
+
+  private void pan(KeyEvent e) {
+
+    stackPane.setOnScroll(
+        f -> {
+          double scale = f.getDeltaY() * 0.5;
+          if (panTool.isSelected()) {
+            if (e.getCode() == KeyCode.CONTROL) {
+              map.translateYProperty().setValue(map.getTranslateY() + scale);
+              pane.translateYProperty().setValue(pane.getTranslateY() + scale);
+            } else if (e.getCode() == KeyCode.SHIFT) {
+              map.translateXProperty().setValue(map.getTranslateX() + scale);
+              pane.translateXProperty().setValue(pane.getTranslateX() + scale);
+            } else {
+              zoom(f);
+            }
+          } else {
+            zoom(f);
+          }
+        });
+  }
+
+  private void resetMapView() {
+    map.setScaleX(1);
+    map.setScaleY(1);
+    pane.setScaleX(1);
+    pane.setScaleY(1);
+
+    map.translateXProperty().setValue(0);
+    map.translateYProperty().setValue(0);
+    pane.translateXProperty().setValue(0);
+    pane.translateYProperty().setValue(0);
   }
 
   private void zoom(ScrollEvent e) {
@@ -177,10 +238,8 @@ public class nodeEdgeDispController {
     } else {
 
     }
-
     Rectangle viewWindow = new Rectangle(0, 0, stackPane.getWidth(), stackPane.getHeight());
     stackPane.setClip(viewWindow);
-
     pane.setScaleY(pane.getScaleY() + scale);
     pane.setScaleX(pane.getScaleX() + scale);
 
@@ -392,8 +451,8 @@ public class nodeEdgeDispController {
         pane.getChildren().add(line);
         line.toBack();
         // refreshing and adding to the scene
-        Stage stage = (Stage) addEdge.getScene().getWindow();
-        stage.setScene(addEdge.getScene());
+        Stage stage = (Stage) anchor.getScene().getWindow();
+        stage.setScene(anchor.getScene());
         stage.show();
       }
     }
@@ -480,8 +539,8 @@ public class nodeEdgeDispController {
       pane.getChildren().add(line);
       line.toBack();
       // refreshing and adding to the scene
-      Stage stage = (Stage) addEdge.getScene().getWindow();
-      stage.setScene(addEdge.getScene());
+      Stage stage = (Stage) anchor.getScene().getWindow();
+      stage.setScene(anchor.getScene());
       stage.show();
     }
   }
