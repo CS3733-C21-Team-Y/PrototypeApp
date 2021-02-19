@@ -16,6 +16,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -46,11 +47,6 @@ public class nodeEdgeDispController {
 
   @FXML private TextField newX;
   @FXML private TextField newY;
-
-  //  @FXML private TextField startX;
-  //  @FXML private TextField startY;
-  //  @FXML private TextField endX;
-  //  @FXML private TextField endY;
 
   @FXML private Pane pane;
   @FXML private ImageView map;
@@ -164,9 +160,6 @@ public class nodeEdgeDispController {
           addEdgecb.setSelected(false);
         });
 
-    //    viewWindow = new Rectangle2D(0, 0, 100, 200);
-    //    map.setViewport(viewWindow);
-    //    System.out.println(map.getViewport());
     stackPane.setOnScroll(
         e -> {
           zoom(e);
@@ -185,10 +178,8 @@ public class nodeEdgeDispController {
 
     }
 
-    //    viewWindow =
-    //        new Rectangle2D(
-    //            e.getSceneX(), e.getSceneY(), pane.getWidth() + scale, pane.getHeight() + scale);
-    //    map.setViewport(viewWindow);
+    Rectangle viewWindow = new Rectangle(0, 0, stackPane.getWidth(), stackPane.getHeight());
+    stackPane.setClip(viewWindow);
 
     pane.setScaleY(pane.getScaleY() + scale);
     pane.setScaleX(pane.getScaleX() + scale);

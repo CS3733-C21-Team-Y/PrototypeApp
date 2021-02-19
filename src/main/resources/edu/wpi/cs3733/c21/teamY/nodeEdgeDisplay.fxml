@@ -42,7 +42,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <StackPane fx:id="stackPane" VBox.vgrow="SOMETIMES">
+                  <StackPane fx:id="stackPane">
                      <children>
                         <ImageView fx:id="map" fitHeight="350.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
                            <StackPane.margin>
@@ -52,13 +52,17 @@
                               <Image url="@FaulknerFloor1_Updated.png" />
                            </image>
                         </ImageView>
-                        <Pane fx:id="pane" />
+                        <Pane fx:id="pane">
+                           <StackPane.margin>
+                              <Insets />
+                           </StackPane.margin>
+                        </Pane>
                      </children>
                      <VBox.margin>
                         <Insets top="-110.0" />
                      </VBox.margin>
                   </StackPane>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="20.0" prefWidth="580.0">
                      <children>
                         <Line endX="250.0" startX="-250.0">
                            <HBox.margin>

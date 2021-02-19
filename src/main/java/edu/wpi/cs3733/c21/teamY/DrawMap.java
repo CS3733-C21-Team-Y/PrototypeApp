@@ -38,7 +38,6 @@ public class DrawMap {
 
     switch (mp) {
       case FLOOR1:
-        map.setImage(f1);
         return f1;
       case FLOOR2:
         return f2;
