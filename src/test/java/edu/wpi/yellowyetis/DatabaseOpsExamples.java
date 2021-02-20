@@ -58,5 +58,6 @@ public class DatabaseOpsExamples {
   public void TestDelete() throws SQLException {
     JDBCUtils.delete(node1);
     JDBCUtils.delete(edge1);
+    JDBCUtils.delete(new Edge("fakeNode", "node1", "node2"));
   }
 }

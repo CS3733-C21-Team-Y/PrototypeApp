@@ -77,6 +77,7 @@ public class JDBCUtils {
 
   /**
    * Closes the given PreparedStatement, ResultSet, Statement, from a given connection
+   *
    * @param ps
    * @param rs
    * @param stmt
@@ -227,9 +228,10 @@ public class JDBCUtils {
     }
   }
 
-  //INTRODUCE BATCHING FOR PERFORMANCE
+  // INTRODUCE BATCHING FOR PERFORMANCE
   /**
    * Takes in an ArrayList<Edge> and one by one inserts them into the Edge Table
+   *
    * @param edges
    * @throws SQLException
    * @throws ClassNotFoundException
@@ -248,7 +250,9 @@ public class JDBCUtils {
   }
 
   /**
-   * Fills both the Node and Edge table with the data in the CSV files that store Node and Edge data respectively
+   * Fills both the Node and Edge table with the data in the CSV files that store Node and Edge data
+   * respectively
+   *
    * @throws IllegalAccessException
    * @throws IOException
    * @throws NoSuchFieldException
@@ -266,7 +270,9 @@ public class JDBCUtils {
   }
 
   /**
-   * Creates the prepared statement that will be executed by the update method for an update on the Node table
+   * Creates the prepared statement that will be executed by the update method for an update on the
+   * Node table
+   *
    * @param node
    * @return
    * @throws SQLException
@@ -275,9 +281,7 @@ public class JDBCUtils {
     Connection connection = getConn();
     return connection.prepareStatement(
         "update Admin.NODE set "
-            // + "NODEID = '"
-            // + node.nodeID
-            + " NODETYPE = '"
+            + "NODETYPE = '"
             + node.nodeType
             + "', XCOORD = '"
             + node.xcoord
@@ -299,7 +303,9 @@ public class JDBCUtils {
   }
 
   /**
-   * Creates the prepared statement that will be executed by the update method for an update on the Edge table
+   * Creates the prepared statement that will be executed by the update method for an update on the
+   * Edge table
+   *
    * @param edge
    * @return
    * @throws SQLException
@@ -332,27 +338,32 @@ public class JDBCUtils {
    * @throws NoSuchFieldException
    */
   public static void update(Node node) throws SQLException {
-    PreparedStatement statement = createPreparedStatementUpdate(node);
-
-    statement.executeUpdate();
-    statement.closeOnCompletion();
-    getConn().commit();
+    try {
+      PreparedStatement statement = createPreparedStatementUpdate(node);
+      statement.executeUpdate();
+      getConn().commit();
+      statement.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
    * Updates the specified Edge with its matching edgeID in the Edge table
+   *
    * @param edge
    * @throws SQLException
    */
   public static void update(Edge edge) throws SQLException {
     PreparedStatement statement = createPreparedStatementUpdate(edge);
     statement.executeUpdate();
-    statement.closeOnCompletion();
     getConn().commit();
+    statement.closeOnCompletion();
   }
 
   /**
    * Functionality to create a resultSet of a select statement from a given table
+   *
    * @param tableName
    * @throws SQLException
    */
@@ -362,10 +373,13 @@ public class JDBCUtils {
     Statement stmt = null;
     stmt = conn.createStatement();
     stmt.executeQuery(sql);
+    stmt.close();
   }
 
   /**
-   * Creates the prepared statement that will be executed by the delete method for an delete on the Edge table
+   * Creates the prepared statement that will be executed by the delete method for an delete on the
+   * Edge table
+   *
    * @param node
    * @return
    * @throws SQLException
@@ -377,7 +391,9 @@ public class JDBCUtils {
   }
 
   /**
-   * Creates the prepared statement that will be executed by the delete method for a delete on the Edge table
+   * Creates the prepared statement that will be executed by the delete method for a delete on the
+   * Edge table
+   *
    * @param edge
    * @return
    * @throws SQLException
@@ -390,23 +406,25 @@ public class JDBCUtils {
 
   /**
    * Deletes the inputted Node's matching entry in the Node table
+   *
    * @param node
    * @throws SQLException
    */
   public static void delete(Node node) throws SQLException {
     PreparedStatement statement = createPreparedStatementDelete(node);
     statement.execute();
-    statement.close();
+    statement.closeOnCompletion();
   }
 
   /**
-   *  Deletes the inputted Edge's matching entry in the Edge table
+   * Deletes the inputted Edge's matching entry in the Edge table
+   *
    * @param edge
    * @throws SQLException
    */
   public static void delete(Edge edge) throws SQLException {
     PreparedStatement statement = createPreparedStatementDelete(edge);
     statement.execute();
-    statement.close();
+    statement.closeOnCompletion();
   }
 }
