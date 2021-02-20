@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY;
 
 import com.jfoenix.controls.JFXDialog;
+import java.awt.*;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,11 +9,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
@@ -25,6 +31,7 @@ import javafx.stage.Stage;
 public class nodeEdgeDispController {
 
   @FXML private Pane anchor;
+  @FXML private HBox header;
 
   @FXML private Button toHomeBtn;
   @FXML private Button addNode;
@@ -76,6 +83,8 @@ public class nodeEdgeDispController {
 
   @FXML
   private void initialize() {
+    //    header.toFront();
+
     anchor.setOnKeyPressed(
         e -> {
           scrollOnPress(e);
@@ -86,13 +95,16 @@ public class nodeEdgeDispController {
     resetView.setOnAction(e -> resetMapView());
     resetView.toFront();
     stackPane.setOnScroll(e -> zoom(e));
-    stackPane.toBack();
+    //    stackPane.toBack();
 
     JFXDialog dialog = new JFXDialog();
     dialog.setContent(
         new Label(
-            "Scroll to Zoom\nHold CTRL + Scroll to Pan Up and down\nHold ALT + Scroll to Pan left and right"));
-    toolTip.setOnAction((action) -> dialog.show());
+            " Scroll to Zoom"
+                + "\n Hold CTRL + Scroll to Pan Up and down"
+                + "\n Hold SHIFT + Scroll to Pan left and right"
+                + "\n Reset brings back the original framing"));
+    toolTip.setOnAction((action) -> dialog.show(stackPane));
     toolTip.toFront();
 
     initImage();
@@ -186,21 +198,22 @@ public class nodeEdgeDispController {
   private void scrollOnPress(KeyEvent e) {
     if (e.getCode() == KeyCode.CONTROL) {
       direction = "up/down";
-    } else if (e.getCode() == KeyCode.ALT) {
+    } else if (e.getCode() == KeyCode.SHIFT) {
       direction = "left/right";
     } else {
     }
     stackPane.setOnScroll(
         s -> {
-          double scale = s.getDeltaY() * 0.5;
+          double scaleY = s.getDeltaY() * 0.5;
+          double scaleX = s.getDeltaX() * 0.5;
           if (direction.equals("in/out")) {
             zoom(s);
           } else if (direction.equals("up/down")) {
-            map.translateYProperty().setValue(map.getTranslateY() - scale);
-            pane.translateYProperty().setValue(pane.getTranslateY() - scale);
+            map.translateYProperty().setValue(map.getTranslateY() - scaleY);
+            pane.translateYProperty().setValue(pane.getTranslateY() - scaleY);
           } else if (direction.equals("left/right")) {
-            map.translateXProperty().setValue(map.getTranslateX() + scale);
-            pane.translateXProperty().setValue(pane.getTranslateX() + scale);
+            map.translateXProperty().setValue(map.getTranslateX() + scaleX);
+            pane.translateXProperty().setValue(pane.getTranslateX() + scaleX);
           } else {
 
           }
