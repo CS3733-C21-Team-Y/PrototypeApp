@@ -71,6 +71,7 @@ public class AStarAlgorithmTesting {
 
     // First test that the basic functionality of aStar is working
     assertEquals(expectPath, AStarAlgorithm.aStar(ActiveGraph.getActiveGraph(), "1", destinations));
+    System.out.println("Test 1 Complete \n");
 
     expectPath.clear();
     // Set the expected path based on the mathematical distance
@@ -78,6 +79,7 @@ public class AStarAlgorithmTesting {
     expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("1"));
     expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("2"));
     expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("4"));
+
     expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("2"));
     expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("3"));
     expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("5"));
@@ -91,6 +93,57 @@ public class AStarAlgorithmTesting {
 
     // Second test that the basic functionality of aStar is working on a less obvious path
     assertEquals(expectPath, AStarAlgorithm.aStar(ActiveGraph.getActiveGraph(), "8", destinations));
+    System.out.println("Test 2 Complete \n");
 
+    // NEW TEST WITH 5 DESTINATIONS
+    expectPath.clear();
+    // Set the expected path based on the mathematical distance
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("8"));
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("1"));
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("2"));
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("4"));
+
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("2"));
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("3"));
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("5"));
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("7"));
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("6"));
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("10"));
+
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("6"));
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("7"));
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("5"));
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("3"));
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("2"));
+
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("1"));
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("8"));
+
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("7"));
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("9"));
+
+    destinations.clear();
+    destinations.add("4");
+    destinations.add("10");
+    destinations.add("2");
+    destinations.add("1");
+    destinations.add("8");
+    destinations.add("9");
+
+    // Third test that the basic functionality of aStar is working on a path with 6 destinations
+    assertEquals(expectPath, AStarAlgorithm.aStar(ActiveGraph.getActiveGraph(), "8", destinations));
+    System.out.println("Test 3 Complete \n");
+
+    expectPath.clear();
+    // Set the expected path based on the mathematical distance
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("1"));
+    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("2"));
+    destinations.clear();
+    destinations.add("2");
+    destinations.add("2");
+
+    // Fourth test that aStar will navigate to itself without going to additional nodes
+    assertEquals(expectPath, AStarAlgorithm.aStar(ActiveGraph.getActiveGraph(), "1", destinations));
+    System.out.println("Test 4 Complete \n");
   }
 }

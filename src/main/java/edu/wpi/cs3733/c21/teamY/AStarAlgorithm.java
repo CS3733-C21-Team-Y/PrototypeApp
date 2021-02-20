@@ -134,10 +134,10 @@ public class AStarAlgorithm {
    * @return modified to return the path.
    */
   public static ArrayList<Node> aStar(Graph g, String startID, ArrayList<String> goalIDs) {
-    ArrayList<Node> path = new ArrayList<>();
+    ArrayList<Node> path;
     path = aStar(g, startID, goalIDs.get(0));
     for (int i = 1; i < goalIDs.size(); i++) {
-      ArrayList<Node> tempPath = new ArrayList<>();
+      ArrayList<Node> tempPath;
       tempPath = aStar(g, goalIDs.get(i - 1), goalIDs.get(i));
       // Remove the first element to avoid duplicates
       tempPath.remove(0);
