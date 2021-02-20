@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c21.teamY;
 
 import com.jfoenix.controls.JFXDialog;
-import java.awt.*;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,7 +34,7 @@ public class nodeEdgeDispController {
 
   @FXML private Button toHomeBtn;
   @FXML private Button addNode;
-  @FXML private Button testButton;
+  @FXML private Button loadNodesButton;
 
   @FXML private CheckBox addNodecb;
   @FXML private CheckBox addEdgecb;
@@ -72,6 +71,14 @@ public class nodeEdgeDispController {
   @FXML private MenuItem floorFourPage;
   @FXML private MenuItem floorFivePage;
 
+  @FXML private SplitMenuButton selectNewMapImage;
+  @FXML private MenuItem setParkingPage;
+  @FXML private MenuItem setFloorOnePage;
+  @FXML private MenuItem setFloorTwoPage;
+  @FXML private MenuItem setFloorThreePage;
+  @FXML private MenuItem setFloorFourPage;
+  @FXML private MenuItem setFloorFivePage;
+
   private String floorNumber = "0";
   private int nodeIDCounter;
 
@@ -97,6 +104,55 @@ public class nodeEdgeDispController {
     stackPane.setOnScroll(e -> zoom(e));
     //    stackPane.toBack();
 
+    //    selectNewMapImage.setOnAction(
+    //        e -> {
+    //          dm.chooseFile((Stage) selectNewMapImage.getScene().getWindow());
+    //          dm.setimage(dm.getImage(), DrawMap.MAP_PAGE.PARKING);
+    //        });
+    selectNewMapImage.setText("Select New Map");
+    setParkingPage.setOnAction(
+        e -> {
+          dm.setImage(
+              dm.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+              DrawMap.MAP_PAGE.PARKING);
+          updateMenuPreview(e, selectNewMapImage);
+        });
+    setFloorOnePage.setOnAction(
+        e -> {
+          dm.setImage(
+              dm.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+              DrawMap.MAP_PAGE.FLOOR1);
+          updateMenuPreview(e, selectNewMapImage);
+        });
+    setFloorTwoPage.setOnAction(
+        e -> {
+          dm.setImage(
+              dm.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+              DrawMap.MAP_PAGE.FLOOR2);
+          updateMenuPreview(e, selectNewMapImage);
+        });
+    setFloorThreePage.setOnAction(
+        e -> {
+          dm.setImage(
+              dm.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+              DrawMap.MAP_PAGE.FLOOR3);
+          updateMenuPreview(e, selectNewMapImage);
+        });
+    setFloorFourPage.setOnAction(
+        e -> {
+          dm.setImage(
+              dm.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+              DrawMap.MAP_PAGE.FLOOR4);
+          updateMenuPreview(e, selectNewMapImage);
+        });
+    setFloorFivePage.setOnAction(
+        e -> {
+          dm.setImage(
+              dm.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+              DrawMap.MAP_PAGE.FLOOR5);
+          updateMenuPreview(e, selectNewMapImage);
+        });
+
     JFXDialog dialog = new JFXDialog();
     dialog.setContent(
         new Label(
@@ -109,7 +165,7 @@ public class nodeEdgeDispController {
 
     initImage();
     floorMenu.setText("Parking Lot");
-    testButton.setOnAction(
+    loadNodesButton.setOnAction(
         e -> {
           initiateDrawing();
         });
@@ -117,32 +173,32 @@ public class nodeEdgeDispController {
     parkingPage.setOnAction(
         e -> {
           controlImageShown(e, DrawMap.MAP_PAGE.PARKING);
-          updateMenuPreview(e);
+          updateMenuPreview(e, floorMenu);
         });
     floorOnePage.setOnAction(
         e -> {
           controlImageShown(e, DrawMap.MAP_PAGE.FLOOR1);
-          updateMenuPreview(e);
+          updateMenuPreview(e, floorMenu);
         });
     floorTwoPage.setOnAction(
         e -> {
           controlImageShown(e, DrawMap.MAP_PAGE.FLOOR2);
-          updateMenuPreview(e);
+          updateMenuPreview(e, floorMenu);
         });
     floorThreePage.setOnAction(
         e -> {
           controlImageShown(e, DrawMap.MAP_PAGE.FLOOR3);
-          updateMenuPreview(e);
+          updateMenuPreview(e, floorMenu);
         });
     floorFourPage.setOnAction(
         e -> {
           controlImageShown(e, DrawMap.MAP_PAGE.FLOOR4);
-          updateMenuPreview(e);
+          updateMenuPreview(e, floorMenu);
         });
     floorFivePage.setOnAction(
         e -> {
           controlImageShown(e, DrawMap.MAP_PAGE.FLOOR5);
-          updateMenuPreview(e);
+          updateMenuPreview(e, floorMenu);
         });
 
     // attaches a handler to the button with a lambda expression
@@ -257,8 +313,8 @@ public class nodeEdgeDispController {
     map.setScaleX(map.getScaleX() + scale);
   }
 
-  private void updateMenuPreview(ActionEvent e) {
-    floorMenu.setText(((MenuItem) e.getSource()).getText());
+  private void updateMenuPreview(ActionEvent e, SplitMenuButton s) {
+    s.setText(((MenuItem) e.getSource()).getText());
   }
 
   // this sucks
@@ -270,28 +326,28 @@ public class nodeEdgeDispController {
 
     switch (mp) {
       case FLOOR1:
-        map.setImage(dm.setImage(DrawMap.MAP_PAGE.FLOOR1));
+        map.setImage(dm.changeImage(DrawMap.MAP_PAGE.FLOOR1));
         floorNumber = "1";
         break;
       case FLOOR2:
-        map.setImage(dm.setImage(DrawMap.MAP_PAGE.FLOOR2));
+        map.setImage(dm.changeImage(DrawMap.MAP_PAGE.FLOOR2));
         floorNumber = "2";
         break;
       case FLOOR3:
-        map.setImage(dm.setImage(DrawMap.MAP_PAGE.FLOOR3));
+        map.setImage(dm.changeImage(DrawMap.MAP_PAGE.FLOOR3));
         floorNumber = "3";
         break;
       case FLOOR4:
-        map.setImage(dm.setImage(DrawMap.MAP_PAGE.FLOOR4));
+        map.setImage(dm.changeImage(DrawMap.MAP_PAGE.FLOOR4));
         floorNumber = "4";
         break;
       case FLOOR5:
-        map.setImage(dm.setImage(DrawMap.MAP_PAGE.FLOOR5));
+        map.setImage(dm.changeImage(DrawMap.MAP_PAGE.FLOOR5));
         floorNumber = "5";
         break;
       case PARKING:
       default:
-        map.setImage(dm.setImage(DrawMap.MAP_PAGE.PARKING));
+        map.setImage(dm.changeImage(DrawMap.MAP_PAGE.PARKING));
         floorNumber = "0";
         break;
     }
