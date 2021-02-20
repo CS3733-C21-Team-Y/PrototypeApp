@@ -59,7 +59,7 @@
                         </Pane>
                      </children>
                      <VBox.margin>
-                        <Insets top="-110.0" />
+                        <Insets left="10.0" right="10.0" top="-110.0" />
                      </VBox.margin>
                   </StackPane>
                   <HBox alignment="CENTER" prefHeight="20.0" prefWidth="580.0">

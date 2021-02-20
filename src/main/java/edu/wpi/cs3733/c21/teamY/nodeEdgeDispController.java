@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -70,12 +69,51 @@ public class nodeEdgeDispController {
 
   private double scaleMin = 0.75;
   private double scaleMax = 2;
-  private Rectangle2D viewWindow;
+  private String direction = "in/out";
 
   public nodeEdgeDispController() {}
 
+  private void scrollOnPress(KeyEvent e) {
+    if (e.getCode() == KeyCode.CONTROL) {
+      direction = "up/down";
+    } else if (e.getCode() == KeyCode.ALT) {
+      direction = "left/right";
+    } else {
+    }
+    stackPane.setOnScroll(
+        s -> {
+          double scale = s.getDeltaY() * 0.5;
+          if (direction.equals("in/out")) {
+            zoom(s);
+          } else if (direction.equals("up/down")) {
+            map.translateYProperty().setValue(map.getTranslateY() - scale);
+            pane.translateYProperty().setValue(pane.getTranslateY() - scale);
+          } else if (direction.equals("left/right")) {
+            map.translateXProperty().setValue(map.getTranslateX() + scale);
+            pane.translateXProperty().setValue(pane.getTranslateX() + scale);
+          } else {
+
+          }
+        });
+  }
+
+  private void scrollOnRelease(KeyEvent e) {
+    direction = "in/out";
+    stackPane.setOnScroll(s -> zoom(s));
+  }
+
   @FXML
   private void initialize() {
+    anchor.setOnKeyPressed(
+        e -> {
+          scrollOnPress(e);
+          Rectangle viewWindow = new Rectangle(0, 0, stackPane.getWidth(), stackPane.getHeight());
+          stackPane.setClip(viewWindow);
+        });
+    anchor.setOnKeyReleased(e -> scrollOnRelease(e));
+    resetView.setOnAction(e -> resetMapView());
+    stackPane.setOnScroll(e -> zoom(e));
+    stackPane.toBack();
 
     initImage();
     floorMenu.setText("Parking Lot");
@@ -162,56 +200,6 @@ public class nodeEdgeDispController {
     addNodecb.setOnAction(
         e -> {
           addEdgecb.setSelected(false);
-        });
-
-    panTool.setOnAction(
-        e -> {
-          stackPane.getScene().setOnKeyPressed(f -> pan(f));
-        });
-
-    stackPane.setOnScroll(
-        e -> {
-          zoom(e);
-        });
-
-    resetView.setOnAction(e -> resetMapView());
-  }
-
-  private void arrowPan(KeyEvent e) {
-    Rectangle viewWindow = new Rectangle(0, 0, stackPane.getWidth(), stackPane.getHeight());
-    stackPane.setClip(viewWindow);
-
-    if (e.getCode() == KeyCode.RIGHT) {
-      map.translateXProperty().setValue(map.getTranslateX() + 10);
-    } else if (e.getCode() == KeyCode.UP) {
-      map.translateYProperty().setValue(map.getTranslateY() + 10);
-    } else if (e.getCode() == KeyCode.DOWN) {
-      map.translateYProperty().setValue(map.getTranslateY() - 10);
-    } else if (e.getCode() == KeyCode.LEFT) {
-      map.translateXProperty().setValue(map.getTranslateX() - 10);
-    } else {
-    }
-    map.requestFocus();
-  }
-
-  private void pan(KeyEvent e) {
-
-    stackPane.setOnScroll(
-        f -> {
-          double scale = f.getDeltaY() * 0.5;
-          if (panTool.isSelected()) {
-            if (e.getCode() == KeyCode.CONTROL) {
-              map.translateYProperty().setValue(map.getTranslateY() + scale);
-              pane.translateYProperty().setValue(pane.getTranslateY() + scale);
-            } else if (e.getCode() == KeyCode.SHIFT) {
-              map.translateXProperty().setValue(map.getTranslateX() + scale);
-              pane.translateXProperty().setValue(pane.getTranslateX() + scale);
-            } else {
-              zoom(f);
-            }
-          } else {
-            zoom(f);
-          }
         });
   }
 
