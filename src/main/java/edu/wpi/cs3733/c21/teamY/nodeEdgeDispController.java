@@ -76,7 +76,7 @@ public class nodeEdgeDispController {
   private int nodeIDCounter;
 
   private double scaleMin = 0.75;
-  private double scaleMax = 2;
+  private double scaleMax = 2.5;
   private String direction = "in/out";
 
   public nodeEdgeDispController() {}
@@ -209,8 +209,8 @@ public class nodeEdgeDispController {
           if (direction.equals("in/out")) {
             zoom(s);
           } else if (direction.equals("up/down")) {
-            map.translateYProperty().setValue(map.getTranslateY() - scaleY);
-            pane.translateYProperty().setValue(pane.getTranslateY() - scaleY);
+            map.translateYProperty().setValue(map.getTranslateY() + scaleY);
+            pane.translateYProperty().setValue(pane.getTranslateY() + scaleY);
           } else if (direction.equals("left/right")) {
             map.translateXProperty().setValue(map.getTranslateX() + scaleX);
             pane.translateXProperty().setValue(pane.getTranslateX() + scaleX);
@@ -485,7 +485,7 @@ public class nodeEdgeDispController {
       } catch (Exception exception) {
         System.out.println("nodeEdgeDispController.createNodecb");
       }
-      Circle circle = new Circle(scaleXCoords(n.getXcoord()), scaleYCoords(n.getYcoord()), 5);
+      Circle circle = new Circle(scaleXCoords(n.getXcoord()), scaleYCoords(n.getYcoord()), 3);
       circle.setId(n.getNodeID());
       currentSelectedCircle = circle;
       circle.setFill(Paint.valueOf("RED"));
@@ -572,7 +572,7 @@ public class nodeEdgeDispController {
       // JDBCUtils.insert(JDBCUtils.insertString(n));
       DatabaseQueryAdministrator.insertNode(n);
       CSV.saveNode(n);
-      Circle circle = new Circle(n.getXcoord(), n.getYcoord(), 5);
+      Circle circle = new Circle(n.getXcoord(), n.getYcoord(), 3);
       circle.setId(n.getNodeID());
       currentSelectedCircle = circle;
       circle.setFill(Paint.valueOf("RED"));
