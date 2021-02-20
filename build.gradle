@@ -5,7 +5,7 @@ plugins {
     id 'com.diffplug.gradle.spotless' version '3.27.1'
     id "io.freefair.lombok" version "5.0.0-rc6"
 }
-mainClassName = 'edu.wpi.yellowyetis.Main'
+mainClassName = 'edu.wpi.cs3733.c21.teamY.Main'
 
 repositories {
     mavenCentral()
@@ -48,17 +48,17 @@ jar {
 }
 
 def codeCoverageExcludes = [
-        'edu.wpi.yellowyetis.App',
-        'edu.wpi.yellowyetis.Main',
-        'edu.wpi.yellowyetis.HomePageController',
-        'edu.wpi.yellowyetis.LaundryPageController',
-        'edu.wpi.yellowyetis.MaintenancePageController',
-        'edu.wpi.yellowyetis.ServiceRequestPageController',
-        'edu.wpi.yellowyetis.PathfindingPageController',
-        'edu.wpi.yellowyetis.nodeEdgeDispController',
-        'edu.wpi.yellowyetis.Node',
-        'edu.wpi.yellowyetis.Edge',
-        'edu.wpi.yellowyetis.nodeEdgeDispController',
+        'edu.wpi.cs3733.c21.teamY.App',
+        'edu.wpi.cs3733.c21.teamY.Main',
+        'edu.wpi.cs3733.c21.teamY.HomePageController',
+        'edu.wpi.cs3733.c21.teamY.LaundryPageController',
+        'edu.wpi.cs3733.c21.teamY.MaintenancePageController',
+        'edu.wpi.cs3733.c21.teamY.ServiceRequestPageController',
+        'edu.wpi.cs3733.c21.teamY.PathfindingPageController',
+        'edu.wpi.cs3733.c21.teamY.nodeEdgeDispController',
+        'edu.wpi.cs3733.c21.teamY.Node',
+        'edu.wpi.cs3733.c21.teamY.Edge',
+        'edu.wpi.cs3733.c21.teamY.nodeEdgeDispController',
 ]
 
 jacoco {
