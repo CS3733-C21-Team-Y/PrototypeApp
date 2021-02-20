@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamY;
 
+import com.jfoenix.controls.JFXDialog;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,7 +54,7 @@ public class nodeEdgeDispController {
   @FXML private StackPane stackPane;
   private DrawMap dm = new DrawMap(stackPane, pane, map);
 
-  @FXML private CheckBox panTool;
+  @FXML private Button toolTip;
   @FXML private Button resetView;
 
   @FXML private SplitMenuButton floorMenu;
@@ -73,35 +74,6 @@ public class nodeEdgeDispController {
 
   public nodeEdgeDispController() {}
 
-  private void scrollOnPress(KeyEvent e) {
-    if (e.getCode() == KeyCode.CONTROL) {
-      direction = "up/down";
-    } else if (e.getCode() == KeyCode.ALT) {
-      direction = "left/right";
-    } else {
-    }
-    stackPane.setOnScroll(
-        s -> {
-          double scale = s.getDeltaY() * 0.5;
-          if (direction.equals("in/out")) {
-            zoom(s);
-          } else if (direction.equals("up/down")) {
-            map.translateYProperty().setValue(map.getTranslateY() - scale);
-            pane.translateYProperty().setValue(pane.getTranslateY() - scale);
-          } else if (direction.equals("left/right")) {
-            map.translateXProperty().setValue(map.getTranslateX() + scale);
-            pane.translateXProperty().setValue(pane.getTranslateX() + scale);
-          } else {
-
-          }
-        });
-  }
-
-  private void scrollOnRelease(KeyEvent e) {
-    direction = "in/out";
-    stackPane.setOnScroll(s -> zoom(s));
-  }
-
   @FXML
   private void initialize() {
     anchor.setOnKeyPressed(
@@ -112,8 +84,16 @@ public class nodeEdgeDispController {
         });
     anchor.setOnKeyReleased(e -> scrollOnRelease(e));
     resetView.setOnAction(e -> resetMapView());
+    resetView.toFront();
     stackPane.setOnScroll(e -> zoom(e));
     stackPane.toBack();
+
+    JFXDialog dialog = new JFXDialog();
+    dialog.setContent(
+        new Label(
+            "Scroll to Zoom\nHold CTRL + Scroll to Pan Up and down\nHold ALT + Scroll to Pan left and right"));
+    toolTip.setOnAction((action) -> dialog.show());
+    toolTip.toFront();
 
     initImage();
     floorMenu.setText("Parking Lot");
@@ -201,6 +181,35 @@ public class nodeEdgeDispController {
         e -> {
           addEdgecb.setSelected(false);
         });
+  }
+
+  private void scrollOnPress(KeyEvent e) {
+    if (e.getCode() == KeyCode.CONTROL) {
+      direction = "up/down";
+    } else if (e.getCode() == KeyCode.ALT) {
+      direction = "left/right";
+    } else {
+    }
+    stackPane.setOnScroll(
+        s -> {
+          double scale = s.getDeltaY() * 0.5;
+          if (direction.equals("in/out")) {
+            zoom(s);
+          } else if (direction.equals("up/down")) {
+            map.translateYProperty().setValue(map.getTranslateY() - scale);
+            pane.translateYProperty().setValue(pane.getTranslateY() - scale);
+          } else if (direction.equals("left/right")) {
+            map.translateXProperty().setValue(map.getTranslateX() + scale);
+            pane.translateXProperty().setValue(pane.getTranslateX() + scale);
+          } else {
+
+          }
+        });
+  }
+
+  private void scrollOnRelease(KeyEvent e) {
+    direction = "in/out";
+    stackPane.setOnScroll(s -> zoom(s));
   }
 
   private void resetMapView() {

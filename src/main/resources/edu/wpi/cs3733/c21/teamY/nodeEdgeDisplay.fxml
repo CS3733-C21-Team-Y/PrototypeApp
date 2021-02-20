@@ -25,7 +25,7 @@
          <children>
             <VBox fx:id="mapBox" styleClass="largeVBox" stylesheets="@UIStyles.css" HBox.hgrow="NEVER">
                <children>
-                  <HBox alignment="TOP_RIGHT">
+                  <HBox alignment="TOP_CENTER">
                      <children>
                         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" scaleX="0.75" scaleY="0.75">
                            <image>
@@ -42,7 +42,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <StackPane fx:id="stackPane">
+                  <StackPane fx:id="stackPane" alignment="BOTTOM_CENTER">
                      <children>
                         <ImageView fx:id="map" fitHeight="350.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
                            <StackPane.margin>
@@ -52,26 +52,39 @@
                               <Image url="@FaulknerFloor1_Updated.png" />
                            </image>
                         </ImageView>
-                        <Pane fx:id="pane">
+                        <Pane fx:id="pane" prefHeight="311.0" prefWidth="584.0">
                            <StackPane.margin>
                               <Insets />
                            </StackPane.margin>
                         </Pane>
                      </children>
                      <VBox.margin>
-                        <Insets left="10.0" right="10.0" top="-110.0" />
+                        <Insets bottom="-10.0" left="10.0" right="10.0" top="-110.0" />
                      </VBox.margin>
                   </StackPane>
                   <HBox alignment="CENTER" prefHeight="20.0" prefWidth="580.0">
                      <children>
-                        <Line endX="250.0" startX="-250.0">
+                        <Button fx:id="toolTip" mnemonicParsing="false" text="?">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="resetView" mnemonicParsing="false" text="Reset View">
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Line endX="216.2928924560547" endY="0.9999855160713196" startX="-250.0">
                            <HBox.margin>
                               <Insets bottom="10.0" />
                            </HBox.margin>
                         </Line>
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="-20.0" />
+                     </VBox.margin>
                   </HBox>
-                  <GridPane maxHeight="180.0" minHeight="200.0">
+                  <GridPane maxHeight="160.0" minHeight="200.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -81,6 +94,52 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
+                        <Button fx:id="testButton" mnemonicParsing="false" text="Faulkner Map Load" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                           <GridPane.margin>
+                              <Insets bottom="20.0" />
+                           </GridPane.margin>
+                        </Button>
+                        <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                           <children>
+                              <GridPane alignment="TOP_CENTER">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <TextField fx:id="newX" maxWidth="90.0" text="newX" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                    <TextField fx:id="newY" maxWidth="90.0" text="newY" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                    <CheckBox fx:id="addNodecb" alignment="TOP_CENTER" mnemonicParsing="false" text="add Node" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <CheckBox fx:id="addEdgecb" mnemonicParsing="false" text="add Edge" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                 </children>
+                              </GridPane>
+                              <Button fx:id="addNode" mnemonicParsing="false" prefWidth="100.0" text="Add Node">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="2">
+                           <children>
+                              <Button fx:id="deleteNode" mnemonicParsing="false" prefWidth="100.0" text="Delete Node">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Text fx:id="nodeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Node" />
+                              <Button fx:id="deleteEdge" mnemonicParsing="false" prefWidth="100.0" text="Delete Edge">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Text fx:id="edgeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Edge" />
+                           </children>
+                        </VBox>
                         <SplitMenuButton fx:id="floorMenu" mnemonicParsing="false" styleClass="button" text="Floor Select Menu" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                           <items>
                               <MenuItem fx:id="parkingPage" mnemonicParsing="false" text="Parking lot" />
@@ -91,56 +150,9 @@
                               <MenuItem fx:id="floorFivePage" mnemonicParsing="false" text="Floor 5" />
                           </items>
                            <GridPane.margin>
-                              <Insets top="8.5" />
+                              <Insets top="30.0" />
                            </GridPane.margin>
                         </SplitMenuButton>
-                        <Button fx:id="testButton" mnemonicParsing="false" text="Faulkner Map Load" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
-                           <GridPane.margin>
-                              <Insets bottom="43.0" />
-                           </GridPane.margin>
-                        </Button>
-                        <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
-                           <children>
-                              <Button fx:id="addNode" mnemonicParsing="false" prefWidth="100.0" text="Add Node">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="-10.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <CheckBox fx:id="addNodecb" mnemonicParsing="false" text="add Node" />
-                              <GridPane>
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <TextField fx:id="newX" maxWidth="90.0" text="newX" GridPane.halignment="CENTER" />
-                                    <TextField fx:id="newY" maxWidth="90.0" text="newY" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                 </children>
-                              </GridPane>
-                              <Button fx:id="deleteNode" mnemonicParsing="false" prefWidth="100.0" text="Delete Node">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Text fx:id="nodeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Node" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="2">
-                           <children>
-                              <Button fx:id="resetView" mnemonicParsing="false" text="Reset View" />
-                              <CheckBox fx:id="panTool" mnemonicParsing="false" text="Pan Tool" />
-                              <CheckBox fx:id="addEdgecb" mnemonicParsing="false" text="add Edge" />
-                              <Button fx:id="deleteEdge" mnemonicParsing="false" prefWidth="100.0" text="Delete Edge">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Text fx:id="edgeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Edge" />
-                           </children>
-                        </VBox>
                      </children>
                      <padding>
                         <Insets left="20.0" right="20.0" />
