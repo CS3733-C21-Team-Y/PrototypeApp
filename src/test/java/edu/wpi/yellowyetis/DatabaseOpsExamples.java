@@ -1,11 +1,11 @@
 package edu.wpi.yellowyetis;
 
-import java.sql.SQLException;
-
 import edu.wpi.teamY.CSV;
 import edu.wpi.teamY.Edge;
 import edu.wpi.teamY.JDBCUtils;
 import edu.wpi.teamY.Node;
+import java.io.IOException;
+import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
 
 public class DatabaseOpsExamples {
@@ -16,7 +16,11 @@ public class DatabaseOpsExamples {
   Edge edge2 = new Edge("edge1", "node1", "node3");
 
   @Test
-  public void FillDatabaseFromCSV() {}
+  public void FillDatabaseFromCSV()
+      throws IllegalAccessException, ClassNotFoundException, IOException, InstantiationException,
+          SQLException, NoSuchFieldException {
+    JDBCUtils.fillTablesFromCSV();
+  }
 
   // Functional!!
   @Test
@@ -47,5 +51,12 @@ public class DatabaseOpsExamples {
 
     CSV.generateEdgeCSV();
     CSV.DBtoCSV("NODE");
+  }
+
+  // Functional!!
+  @Test
+  public void TestDelete() throws SQLException {
+    JDBCUtils.delete(node1);
+    JDBCUtils.delete(edge1);
   }
 }

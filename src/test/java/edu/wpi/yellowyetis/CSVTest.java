@@ -1,10 +1,9 @@
 package edu.wpi.yellowyetis;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 import edu.wpi.teamY.CSV;
 import edu.wpi.teamY.Edge;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
 class CSVTest {

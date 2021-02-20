@@ -218,7 +218,7 @@ public class JDBCUtils {
   }
 
   public static void insertArrayListEdge(ArrayList<Edge> edges)
-          throws SQLException, ClassNotFoundException, NoSuchFieldException, InstantiationException,
+      throws SQLException, ClassNotFoundException, NoSuchFieldException, InstantiationException,
           IllegalAccessException {
 
     int size = edges.size();
@@ -227,13 +227,13 @@ public class JDBCUtils {
     }
   }
 
-
-
-  public static void fillTablesFromCSV() throws IllegalAccessException, IOException, NoSuchFieldException, SQLException, InstantiationException, ClassNotFoundException {
+  public static void fillTablesFromCSV()
+      throws IllegalAccessException, IOException, NoSuchFieldException, SQLException,
+          InstantiationException, ClassNotFoundException {
     ArrayList<Node> nodes = CSV.getNodesCSV();
     ArrayList<Edge> edges = CSV.getEdgesCSV();
     insertArrayListNode(nodes);
-
+    insertArrayListEdge(edges);
   }
 
   public static PreparedStatement createPreparedStatementUpdate(Node node) throws SQLException {
@@ -311,5 +311,29 @@ public class JDBCUtils {
     Statement stmt = null;
     stmt = conn.createStatement();
     stmt.executeQuery(sql);
+  }
+
+  public static PreparedStatement createPreparedStatementDelete(Node node) throws SQLException {
+    Connection connection = getConn();
+    return connection.prepareStatement(
+        "DELETE FROM ADMIN.NODE WHERE NODEID = '" + node.nodeID + "'");
+  }
+
+  public static PreparedStatement createPreparedStatementDelete(Edge edge) throws SQLException {
+    Connection connection = getConn();
+    return connection.prepareStatement(
+        "DELETE FROM ADMIN.EDGE WHERE EDGEID = '" + edge.edgeID + "'");
+  }
+
+  public static void delete(Node node) throws SQLException {
+    PreparedStatement statement = createPreparedStatementDelete(node);
+    statement.execute();
+    statement.close();
+  }
+
+  public static void delete(Edge edge) throws SQLException {
+    PreparedStatement statement = createPreparedStatementDelete(edge);
+    statement.execute();
+    statement.close();
   }
 }
