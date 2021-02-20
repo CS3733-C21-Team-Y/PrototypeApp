@@ -4,6 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import edu.wpi.teamY.AStarAlgorithm;
+import edu.wpi.teamY.ActiveGraph;
+import edu.wpi.teamY.Node;
 import org.junit.jupiter.api.Test;
 
 public class AStarAlgorithmTesting {

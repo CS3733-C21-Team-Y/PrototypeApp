@@ -1,4 +1,4 @@
-package edu.wpi.yellowyetis;
+package edu.wpi.teamY;
 
 public class Edge {
   public Edge(String edgeID, String startNodeID, String endNodeID) {

@@ -1,6 +1,5 @@
-package edu.wpi.yellowyetis;
+package edu.wpi.teamY;
 
-import java.awt.*;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,7 +45,7 @@ public class CustomMapController extends VBox {
 
     screenRatio = 992 / 11; // mapSurface.getWidth() / mapImage.getImage().getWidth();
     offset = 1 * screenRatio;
-    for (edu.wpi.yellowyetis.Node node : graph.nodeList) {
+    for (Node node : graph.nodeList) {
       startNode.getItems().add(node.nodeID);
       endNode.getItems().add(node.nodeID);
     }
@@ -58,7 +57,7 @@ public class CustomMapController extends VBox {
 
     g.setStroke(javafx.scene.paint.Color.color(0, 0, 0));
 
-    for (edu.wpi.yellowyetis.Node node : graph.nodeList) {
+    for (Node node : graph.nodeList) {
 
       g.fillOval(
           (int) (node.xcoord * screenRatio + offset / 1.7),

@@ -1,4 +1,4 @@
-package edu.wpi.yellowyetis;
+package edu.wpi.teamY;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -449,8 +449,8 @@ public class nodeEdgeDispController {
     String nodeID = String.valueOf(nodeIDCounter);
     nodeIDCounter++;
     if (addNodecb.isSelected()) {
-      edu.wpi.yellowyetis.Node n =
-          new edu.wpi.yellowyetis.Node(
+      edu.wpi.teamY.Node n =
+          new edu.wpi.teamY.Node(
               scaleUpXCoords(e.getX()), scaleUpYCoords(e.getY()), floorNumber, nodeID);
       // JDBCUtils.insert(10, n, "NODE");
       // JDBCUtils.insert(JDBCUtils.insertString(n));
@@ -502,7 +502,7 @@ public class nodeEdgeDispController {
 
     nodeIDCounter = CSV.nodes.size() + 1;
 
-    for (edu.wpi.yellowyetis.Node n : CSV.nodes) {
+    for (edu.wpi.teamY.Node n : CSV.nodes) {
       if (n.floor.equals(floorNumber)) {
         double x = n.getXcoord();
         double y = n.getYcoord();
@@ -555,8 +555,8 @@ public class nodeEdgeDispController {
     String nodeID = String.valueOf(nodeIDCounter);
     nodeIDCounter++;
     try {
-      edu.wpi.yellowyetis.Node n =
-          new edu.wpi.yellowyetis.Node(
+      edu.wpi.teamY.Node n =
+          new edu.wpi.teamY.Node(
               scaleUpXCoords(Double.parseDouble(newX.getText())),
               scaleUpYCoords(Double.parseDouble(newY.getText())),
               floorNumber,

@@ -1,4 +1,4 @@
-package edu.wpi.yellowyetis;
+package edu.wpi.teamY;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
