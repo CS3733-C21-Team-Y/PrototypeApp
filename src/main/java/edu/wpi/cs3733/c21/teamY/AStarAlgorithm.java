@@ -123,19 +123,28 @@ public class AStarAlgorithm {
     }
   }
 
+  /**
+   * Finds the shortest distance between a start node, and multiple end nodes using the A-star
+   * algorithm
+   *
+   * @param g an adjacency-matrix-representation of the graph where (x,y) is the weight of the edge
+   *     or 0 if there is no edge.
+   * @param startID the node to start from.
+   * @param goalIDs the nodes we're searching for in desired order.
+   * @return modified to return the path.
+   */
   public static ArrayList<Node> aStar(Graph g, String startID, ArrayList<String> goalIDs) {
     ArrayList<Node> path = new ArrayList<>();
-    path = aStar(g,startID, goalIDs.get(0));
-    for(int i = 0; i< goalIDs.size();i++) {
+    path = aStar(g, startID, goalIDs.get(0));
+    for (int i = 1; i < goalIDs.size(); i++) {
       ArrayList<Node> tempPath = new ArrayList<>();
-      tempPath = aStar(g, goalIDs.get(i), goalIDs.get(i + 1));
-      //Remove the first element to avoid duplicates
+      tempPath = aStar(g, goalIDs.get(i - 1), goalIDs.get(i));
+      // Remove the first element to avoid duplicates
       tempPath.remove(0);
-      //Append the path for these nodes to the path
+      // Append the path for these nodes to the path
       path.addAll(tempPath);
     }
 
     return path;
-
   }
 }

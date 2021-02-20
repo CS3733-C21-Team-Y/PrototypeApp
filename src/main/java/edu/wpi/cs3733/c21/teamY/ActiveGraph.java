@@ -35,10 +35,7 @@ public class ActiveGraph {
       System.out.println("Working Directory = " + System.getProperty("user.dir"));
       // parsing a CSV file into BufferedReader class constructor
 
-      BufferedReader br =
-          new BufferedReader(
-              new FileReader(
-                  "C:\\Users\\raymo\\IdeaProjects\\PrototypeApp\\src\\main\\resources\\edu\\wpi\\cs3733\\c21\\teamY\\MapPFaulkner1Nodes.csv"));
+      BufferedReader br = new BufferedReader(new FileReader("TestMapNodes.csv"));
 
       String line = "";
       String splitBy = ",";
@@ -71,10 +68,7 @@ public class ActiveGraph {
         if (!(nodeID == null)) nodes.add(node);
       }
 
-      br =
-          new BufferedReader(
-              new FileReader(
-                  "C:\\Users\\raymo\\IdeaProjects\\PrototypeApp\\src\\main\\resources\\edu\\wpi\\cs3733\\c21\\teamY\\MapPFaulkner1Edges.csv"));
+      br = new BufferedReader(new FileReader("TestMapEdges.csv"));
 
       line = br.readLine(); // get rid of first line
       while ((line = br.readLine()) != null) {
