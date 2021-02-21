@@ -13,10 +13,10 @@ public class MaintenancePageController {
   // add buttons to other scenes here
   @FXML private Button toHomeBtn;
   @FXML private ComboBox category;
-  @FXML private TextField location;
   @FXML private TextArea description;
   @FXML private ComboBox urgency;
   @FXML private DatePicker date;
+  @FXML private TextField locationField;
 
   // unused constructor
   public MaintenancePageController() {}

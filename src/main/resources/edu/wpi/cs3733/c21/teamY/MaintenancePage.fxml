@@ -89,7 +89,7 @@
                   </VBox>
                   <HBox maxHeight="25.0" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <TextField fx:id="location" minWidth="325.0" promptText="Location" styleClass="service-entry-field" stylesheets="@UIStyles.css" />
+                        <TextField fx:id="locationField" minWidth="325.0" promptText="Location" styleClass="service-entry-field" stylesheets="@UIStyles.css" />
                         <Button minHeight="27.0" mnemonicParsing="false" style="-fx-border-radius: 4; -fx-border-width: 1; -fx-border-color: #7a7a7a;" stylesheets="@UIStyles.css" text="..." />
                      </children>
                      <VBox.margin>

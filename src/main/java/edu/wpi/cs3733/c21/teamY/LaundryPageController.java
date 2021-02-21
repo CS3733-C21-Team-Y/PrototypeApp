@@ -5,6 +5,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class LaundryPageController {
@@ -12,6 +15,10 @@ public class LaundryPageController {
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
   @FXML private Button toHomeBtn;
+  @FXML private Button toServiceRequestBtn2;
+  @FXML private ComboBox category;
+  @FXML private TextArea description;
+  @FXML private TextField locationField;
 
   // unused constructor
   public LaundryPageController() {}
@@ -36,6 +43,13 @@ public class LaundryPageController {
         stage = (Stage) toHomeBtn.getScene().getWindow();
         // sets the new scene to the alex page
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
+
+      } else if (e.getSource() == toServiceRequestBtn2) {
+        // gets the current stages
+        stage = (Stage) toServiceRequestBtn2.getScene().getWindow();
+        // sets the new scene to the alex page
+        stage.setScene(
+            new Scene(FXMLLoader.load(getClass().getResource("ServiceRequestPage.fxml"))));
 
       } else {
 
