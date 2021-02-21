@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamY;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,7 +36,7 @@ public class CustomMapController extends VBox {
   private double offset;
 
   @FXML
-  public void initialize() {
+  public void initialize() throws SQLException {
     backButton.setOnAction(e -> buttonClicked(e));
     clearButton.setOnAction(e -> buttonClicked(e));
 
