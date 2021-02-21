@@ -1,18 +1,17 @@
 package edu.wpi.cs3733.c21.teamY;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 
-public class MaintenancePageController {
+public class MaintenancePageController extends GenericServiceFormPage {
 
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
-  @FXML private Button toHomeBtn;
-  @FXML private Button clearMaintenanceButton;
+  @FXML private Button cancelBtn;
+  @FXML private Button clearBtn;
+  @FXML private Button exitBtn;
+  @FXML private Button backBtn;
+  @FXML private Button submitBtn;
   @FXML private ComboBox category;
   @FXML private TextArea description;
   @FXML private ComboBox urgency;
@@ -20,42 +19,23 @@ public class MaintenancePageController {
   @FXML private TextField locationField;
 
   // unused constructor
-  public MaintenancePageController() {}
+  public MaintenancePageController() {
+    super();
+  }
 
   // this runs once the FXML loads in to attach functions to components
   @FXML
   private void initialize() {
     // attaches a handler to the button with a lambda expression
-    toHomeBtn.setOnAction(e -> buttonClicked(e));
-    clearMaintenanceButton.setOnAction(e -> buttonClicked(e));
+    cancelBtn.setOnAction(e -> serviceButtonClicked(e, "MaintenancePage.fxml"));
+    clearBtn.setOnAction(e -> serviceButtonClicked(e, "MaintenancePage.fxml"));
+    backBtn.setOnAction(e -> serviceButtonClicked(e, "MaintenancePage.fxml"));
+    submitBtn.setOnAction(e -> submitBtnClicked());
+    exitBtn.setOnAction(e -> exitButtonClicked());
   }
 
-  // button event handler
   @FXML
-  private void buttonClicked(ActionEvent e) {
-    // error handling for FXMLLoader.load
-    try {
-      // initializing stage
-      Stage stage = null;
-
-      if (e.getSource() == toHomeBtn) {
-        // gets the current stage
-        stage = (Stage) toHomeBtn.getScene().getWindow();
-        // sets the new scene to the alex page
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
-
-      } else if (e.getSource() == clearMaintenanceButton) {
-        // gets the current stage
-        stage = (Stage) clearMaintenanceButton.getScene().getWindow();
-        // sets the new scene to itself, effectively clearing it
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("MaintenancePage.fxml"))));
-      } else {
-
-      }
-
-      // display new stage
-      stage.show();
-    } catch (Exception exp) {
-    }
+  private void submitBtnClicked() {
+    // put code for submitting a service request here
   }
 }

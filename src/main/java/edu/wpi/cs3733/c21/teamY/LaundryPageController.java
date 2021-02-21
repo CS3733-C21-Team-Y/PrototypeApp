@@ -1,69 +1,42 @@
 package edu.wpi.cs3733.c21.teamY;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-public class LaundryPageController {
+public class LaundryPageController extends GenericServiceFormPage {
 
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
-  @FXML private Button toHomeBtn;
-  @FXML private Button clearLaundryBtn;
-  @FXML private Button toServiceRequestBtn2;
+  @FXML private Button cancelBtn;
+  @FXML private Button clearBtn;
+  @FXML private Button exitBtn;
+  @FXML private Button backBtn;
+  @FXML private Button submitBtn;
   @FXML private ComboBox category;
   @FXML private TextArea description;
   @FXML private TextField locationField;
 
   // unused constructor
-  public LaundryPageController() {}
+  public LaundryPageController() {
+    super();
+  }
 
   // this runs once the FXML loads in to attach functions to components
   @FXML
   private void initialize() {
     // attaches a handler to the button with a lambda expression
-    toHomeBtn.setOnAction(e -> buttonClicked(e));
-    clearLaundryBtn.setOnAction(e -> buttonClicked(e));
+    cancelBtn.setOnAction(e -> serviceButtonClicked(e, "LaundryPage.fxml"));
+    clearBtn.setOnAction(e -> serviceButtonClicked(e, "LaundryPage.fxml"));
+    backBtn.setOnAction(e -> serviceButtonClicked(e, "LaundryPage.fxml"));
+    submitBtn.setOnAction(e -> submitBtnClicked());
+    exitBtn.setOnAction(e -> exitButtonClicked());
   }
 
-  // button event handler
   @FXML
-  private void buttonClicked(ActionEvent e) {
-    // error handling for FXMLLoader.load
-    try {
-      // initializing stage
-      Stage stage = null;
-
-      if (e.getSource() == toHomeBtn) {
-        // gets the current stage
-        stage = (Stage) toHomeBtn.getScene().getWindow();
-        // sets the new scene to the alex page
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
-      } else if (e.getSource() == clearLaundryBtn) {
-        // gets the current stage
-        stage = (Stage) clearLaundryBtn.getScene().getWindow();
-        // sets the new scene to itself, effectively clearing it
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("LaundryPage.fxml"))));
-      } else if (e.getSource() == toServiceRequestBtn2) {
-        // gets the current stages
-        stage = (Stage) toServiceRequestBtn2.getScene().getWindow();
-        // sets the new scene to the alex page
-        stage.setScene(
-            new Scene(FXMLLoader.load(getClass().getResource("ServiceRequestPage.fxml"))));
-
-      } else {
-
-      }
-
-      // display new stage
-      stage.show();
-    } catch (Exception exp) {
-    }
+  private void submitBtnClicked() {
+    // put code for submitting a service request here
   }
 }
