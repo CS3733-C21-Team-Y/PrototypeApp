@@ -59,7 +59,7 @@ public class CSV {
    * @return: list of edges from CSV
    * @throws IOException
    */
-  public static ArrayList<Edge> getEdges()
+  public static ArrayList<Edge> getEdgesCSV()
       throws IOException, ClassNotFoundException, NoSuchFieldException, InstantiationException,
           IllegalAccessException {
     String line = brEdge.readLine(); // get rid of first line
@@ -87,7 +87,7 @@ public class CSV {
    * @return: list of nodes from CSV
    * @throws IOException
    */
-  public static ArrayList<Node> getNodes()
+  public static ArrayList<Node> getNodesCSV()
       throws IOException, ClassNotFoundException, SQLException, NoSuchFieldException,
           InstantiationException, IllegalAccessException {
     String line = brNode.readLine(); // get rid of first line
@@ -131,7 +131,7 @@ public class CSV {
    * @param node: a node you want to write to CSV
    * @return true if write successful, false otherwise
    */
-  public static boolean saveNode(Node node) {
+  public static boolean saveNodeCSV(Node node) {
 
     try {
       BufferedWriter bufferedWriter =
@@ -152,7 +152,7 @@ public class CSV {
    * @param edge: a edge you want to write(save) to CSV
    * @return true if write successful, false otherwise
    */
-  public static boolean saveEdge(Edge edge) {
+  public static boolean saveEdgeCSV(Edge edge) {
 
     try {
       BufferedWriter bufferedWriter =
@@ -176,7 +176,7 @@ public class CSV {
    * @param mode can be either "EDGE" or "NODE"
    * @return true if generated successfully, false otherwise
    */
-  public static boolean generateCSV(String mode) throws SQLException {
+  public static boolean DBtoCSV(String mode) throws SQLException {
     Connection conn = JDBCUtils.getConn();
     String str = ""; // SQL query
     String CSVpath = ""; // CSV file path
@@ -185,9 +185,9 @@ public class CSV {
       str = "SELECT * FROM ADMIN.EDGE";
       numAttributes = 3;
       CSVpath = edgeTestCSVpath;
-    } else {
+    } else if (mode.equals("NODE")) {
       str = "SELECT * FROM ADMIN.NODE";
-      numAttributes = 9;
+      numAttributes = 10;
       CSVpath = nodeTestCSVpath;
     }
     BufferedWriter bufferedWriter; // true = append, false = overwrite
@@ -204,7 +204,7 @@ public class CSV {
       StringBuilder stringBuilder = new StringBuilder("");
       System.out.println("exporting" + mode + "from database to CSV files");
       while (resultSet.next()) {
-        for (int i = 0; i < numAttributes; i++) {
+        for (int i = 1; i < numAttributes; i++) {
           stringBuilder.append(resultSet.getString(i)).append(",");
         }
         bufferedWriter.write(stringBuilder.toString());
@@ -341,15 +341,16 @@ public class CSV {
       ResultSet resultSet = statement.executeQuery(str);
       System.out.println("exporting Nodes from database to list of nodes");
       while (resultSet.next()) {
-        nodeType = resultSet.getString(1);
-        xcoord = resultSet.getDouble(2);
-        ycoord = resultSet.getDouble(3);
-        floor = resultSet.getString(4);
-        building = resultSet.getString(5);
-        longName = resultSet.getString(6);
-        shortName = resultSet.getString(7);
-        teamAssigned = resultSet.getString(8).charAt(0);
-        nodeID = resultSet.getString(9);
+        nodeID = resultSet.getString(1);
+        nodeType = resultSet.getString(2);
+        xcoord = resultSet.getDouble(3);
+        ycoord = resultSet.getDouble(4);
+        floor = resultSet.getString(5);
+        building = resultSet.getString(6);
+        longName = resultSet.getString(7);
+        shortName = resultSet.getString(8);
+        teamAssigned = resultSet.getString(9).charAt(0);
+
         Node node =
             new Node(
                 nodeType,
@@ -374,6 +375,4 @@ public class CSV {
     }
     return nodes;
   }
-  // generate the CSV file from database
-  public static void generateCSV() {}
 }

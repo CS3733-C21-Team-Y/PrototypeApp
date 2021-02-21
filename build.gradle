@@ -28,6 +28,7 @@ dependencies {
     )
     implementation 'org.projectlombok:lombok:1.18.16'
     implementation 'org.testng:testng:7.1.0'
+    implementation 'org.jetbrains:annotations:20.1.0'
     testCompile(
             "org.testfx:testfx-core:4.0.16-alpha",
             'org.junit.jupiter:junit-jupiter:5.6.0',

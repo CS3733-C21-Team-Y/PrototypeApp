@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamY;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
@@ -46,9 +47,8 @@ public class JDBCUtils {
               + "ycoord varchar(8) not null ,\n"
               + "floor varchar(2) not null ,\n"
               + "building varchar(20) not null ,\n"
-              + "room varchar(15) not null ,\n"
-              + "longName varchar(40) not null ,\n"
-              + "shortName varchar(10) not null ,\n"
+              + "longName varchar(100) not null ,\n"
+              + "shortName varchar(50) not null ,\n"
               + "teamAssigned char not null )";
       stmt.executeUpdate(sqlNode);
 
@@ -74,6 +74,15 @@ public class JDBCUtils {
    */
 
   // parameter as null if there is no such thing to close
+
+  /**
+   * Closes the given PreparedStatement, ResultSet, Statement, from a given connection
+   *
+   * @param ps
+   * @param rs
+   * @param stmt
+   * @param conn
+   */
   public static void close(PreparedStatement ps, ResultSet rs, Statement stmt, Connection conn) {
     if (ps != null) {
 
@@ -109,12 +118,11 @@ public class JDBCUtils {
   }
 
   /**
-   * Creates a prepared statement for either an "insert into" or "update" query type
+   * Creates a prepared statement for either an "insert into" or "update" query type of Node or Edge
    *
    * @param numArguments
    * @param object
    * @param tableName
-   * @param queryType
    * @return
    * @throws SQLException
    * @throws NoSuchFieldException
@@ -122,8 +130,8 @@ public class JDBCUtils {
    * @throws IllegalAccessException
    * @throws InstantiationException
    */
-  public static PreparedStatement createPreparedStatement(
-      int numArguments, Object object, String tableName, String queryType)
+  public static PreparedStatement createPreparedStatementInsert(
+      int numArguments, Object object, String tableName)
       throws SQLException, IllegalAccessException {
     // Building the portion of the query statement that handles the (?), (?), ... for the values
     // being inserted
@@ -139,7 +147,7 @@ public class JDBCUtils {
     // creates the prepared statement inserting with tableName and the arguments stringbuilder
     PreparedStatement psInsert =
         JDBCUtils.conn.prepareStatement(
-            queryType + " ADMIN." + tableName + " values(" + arguments.toString() + ")");
+            "insert into ADMIN." + tableName + " values(" + arguments.toString() + ")");
     Field[] fields = object.getClass().getDeclaredFields();
     int parameterCounter = 0;
 
@@ -148,7 +156,9 @@ public class JDBCUtils {
       String fieldName = field.getName();
       parameterCounter++;
       // for some reason the first "field" of node is neighbors lmao
-      if (fieldName.equals("neighbors") || fieldName.equals("$jacocoData")) {
+      if (fieldName.equals("neighbors")
+          || fieldName.equals("$jacocoData")
+          || fieldName.equals("room")) {
         parameterCounter--;
         continue;
       }
@@ -177,67 +187,239 @@ public class JDBCUtils {
   public static void insert(int numArgs, Object object, String tableName)
       throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException,
           NoSuchFieldException {
-    PreparedStatement statement =
-        createPreparedStatement(numArgs, object, tableName, "insert into");
+    PreparedStatement statement = createPreparedStatementInsert(numArgs, object, tableName);
     try {
       statement.execute();
+      statement.closeOnCompletion();
 
     } catch (SQLException e) {
 
       // updates given object value in table if the PK already exists w/in it
       if (e.getErrorCode() == 30000) {
-        JDBCUtils.update(numArgs, object, tableName);
+        //e.printStackTrace();
+        if (object instanceof Node) {
+          JDBCUtils.update((Node) object);
+        } else {
+          JDBCUtils.update((Edge) object);
+        }
       }
     }
     close(statement, null, null, null);
   }
 
   /**
-   * Takes in an arrayList objects and uses to reflection in the insert statement to insert the
-   * object into its respective table.
+   * <<<<<<< HEAD Takes in an arrayList<Node> and one by one inserts them into the Node Table
    *
-   * @param numArgs will be 10 for nodes and 3 for edges
-   * @param objects
-   * @param tableName
    * @throws SQLException
    * @throws ClassNotFoundException
    * @throws NoSuchFieldException
    * @throws InstantiationException
    * @throws IllegalAccessException
    */
-  public static void insertArrayList(int numArgs, ArrayList<Object> objects, String tableName)
+  public static void insertArrayListNode(ArrayList<Node> nodes)
       throws SQLException, ClassNotFoundException, NoSuchFieldException, InstantiationException,
           IllegalAccessException {
 
-    int size = objects.size();
-    for (Object object : objects) {
-      JDBCUtils.insert(numArgs, object, "Node");
+    int size = nodes.size();
+    for (Node node : nodes) {
+      JDBCUtils.insert(9, node, "Node");
+    }
+  }
+
+  // INTRODUCE BATCHING FOR PERFORMANCE
+  /**
+   * Takes in an ArrayList<Edge> and one by one inserts them into the Edge Table
+   *
+   * @param edges
+   * @throws SQLException
+   * @throws ClassNotFoundException
+   * @throws NoSuchFieldException
+   * @throws InstantiationException
+   * @throws IllegalAccessException
+   */
+  public static void insertArrayListEdge(ArrayList<Edge> edges)
+      throws SQLException, ClassNotFoundException, NoSuchFieldException, InstantiationException,
+          IllegalAccessException {
+
+    int size = edges.size();
+    for (Edge edge : edges) {
+      JDBCUtils.insert(3, edge, "Edge");
     }
   }
 
   /**
-   * Updates the specified object with its matching ID in the specified table
+   * <<<<<<< HEAD Fills both the Node and Edge table with the data in the CSV files that store Node
+   * and Edge data respectively
    *
-   * @param numArgs
-   * @param object
-   * @param tableName
+   * @throws IllegalAccessException
+   * @throws IOException
+   * @throws NoSuchFieldException
+   * @throws SQLException
+   * @throws InstantiationException
+   * @throws ClassNotFoundException
+   */
+  public static void fillTablesFromCSV()
+      throws IllegalAccessException, IOException, NoSuchFieldException, SQLException,
+          InstantiationException, ClassNotFoundException {
+    ArrayList<Node> nodes = CSV.getNodesCSV();
+    ArrayList<Edge> edges = CSV.getEdgesCSV();
+    insertArrayListNode(nodes);
+    insertArrayListEdge(edges);
+  }
+
+  /**
+   * Creates the prepared statement that will be executed by the update method for an update on the
+   * Node table
+   *
+   * @param node
+   * @return
+   * @throws SQLException
+   */
+  public static PreparedStatement createPreparedStatementUpdate(Node node) throws SQLException {
+    Connection connection = getConn();
+    return connection.prepareStatement(
+        "update Admin.NODE set "
+            + "NODETYPE = '"
+            + node.nodeType
+            + "', XCOORD = '"
+            + node.xcoord
+            + "', YCOORD = '"
+            + node.ycoord
+            + "', FLOOR = '"
+            + node.floor
+            + "', BUILDING = '"
+            + node.building
+            + "', LONGNAME = '"
+            + node.longName
+            + "', SHORTNAME = '"
+            + node.shortName
+            + "', TEAMASSIGNED = '"
+            + node.teamAssigned
+            + "' where NODEID = '"
+            + node.nodeID
+            + "'");
+  }
+
+  /**
+   * Creates the prepared statement that will be executed by the update method for an update on the
+   * Edge table
+   *
+   * @param edge
+   * @return
+   * @throws SQLException
+   */
+  public static PreparedStatement createPreparedStatementUpdate(Edge edge) throws SQLException {
+    Connection connection = getConn();
+    PreparedStatement statement =
+        connection.prepareStatement(
+            "update ADMIN.EDGE set "
+                // + "EDGEID = '"
+                // + edge.edgeID
+                + "STARTNODE = '"
+                + edge.startNodeID
+                + "', ENDNODE = '"
+                + edge.endNodeID
+                + "' where edgeID = '"
+                + edge.edgeID
+                + "'");
+    return statement;
+  }
+
+  /**
+   * Updates the specified Node with its matching nodeID in the Node table
+   *
+   * @param node
    * @throws ClassNotFoundException
    * @throws SQLException
    * @throws InstantiationException
    * @throws IllegalAccessException
    * @throws NoSuchFieldException
    */
-  public static void update(int numArgs, Object object, String tableName)
-      throws SQLException, IllegalAccessException {
-    PreparedStatement statement = createPreparedStatement(numArgs, object, tableName, "update");
-    statement.execute();
+  public static void update(Node node) throws SQLException {
+    try {
+      PreparedStatement statement = createPreparedStatementUpdate(node);
+      statement.executeUpdate();
+      getConn().commit();
+      statement.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
+  /**
+   * Updates the specified Edge with its matching edgeID in the Edge table
+   *
+   * @param edge
+   * @throws SQLException
+   */
+  public static void update(Edge edge) throws SQLException {
+    PreparedStatement statement = createPreparedStatementUpdate(edge);
+    statement.executeUpdate();
+    getConn().commit();
+    statement.closeOnCompletion();
+  }
+
+  /**
+   * Functionality to create a resultSet of a select statement from a given table
+   *
+   * @param tableName
+   * @throws SQLException
+   */
   public static void selectQuery(String tableName) throws SQLException {
 
     String sql = "SELECT * FROM ADMIN." + tableName;
     Statement stmt = null;
     stmt = conn.createStatement();
     stmt.executeQuery(sql);
+    stmt.close();
+  }
+
+  /**
+   * Creates the prepared statement that will be executed by the delete method for an delete on the
+   * Edge table
+   *
+   * @param nodeID@return
+   * @throws SQLException
+   */
+  public static PreparedStatement createPreparedStatementDeleteNode(String nodeID)
+      throws SQLException {
+    Connection connection = getConn();
+    return connection.prepareStatement("DELETE FROM ADMIN.NODE WHERE NODEID = '" + nodeID + "'");
+  }
+
+  /**
+   * Creates the prepared statement that will be executed by the delete method for a delete on the
+   * Edge table
+   *
+   * @param edgeID
+   * @return
+   * @throws SQLException
+   */
+  public static PreparedStatement createPreparedStatementDeleteEdge(String edgeID)
+      throws SQLException {
+    Connection connection = getConn();
+    return connection.prepareStatement("DELETE FROM ADMIN.EDGE WHERE EDGEID = '" + edgeID + "'");
+  }
+
+  /**
+   * Deletes the inputted Node's matching entry in the Node table
+   *
+   * @param nodeID@throws SQLException
+   */
+  public static void deleteNode(String nodeID) throws SQLException {
+    PreparedStatement statement = createPreparedStatementDeleteNode(nodeID);
+    statement.execute();
+    statement.closeOnCompletion();
+  }
+
+  /**
+   * Deletes the inputted Edge's matching entry in the Edge table
+   *
+   * @param edgeID@throws SQLException
+   */
+  public static void deleteEdge(String edgeID) throws SQLException {
+    PreparedStatement statement = createPreparedStatementDeleteEdge(edgeID);
+    statement.execute();
+    statement.closeOnCompletion();
   }
 }

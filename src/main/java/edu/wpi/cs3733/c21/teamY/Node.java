@@ -45,7 +45,7 @@ public class Node {
   }
 
   public Node(double xcoord, double ycoord, String floor, String nodeID) {
-    this.nodeType = "userGenerated";
+    this.nodeType = "UG";
     this.xcoord = xcoord;
     this.ycoord = ycoord;
     this.floor = floor;
