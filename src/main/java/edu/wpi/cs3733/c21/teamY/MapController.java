@@ -34,8 +34,8 @@ public class MapController {
 
   private double startx, starty, endx, endy;
 
-  protected Circle currentSelectedCircle = new Circle(0, 0, 0);
-  protected Line currentSelectedLine = new Line(0, 0, 0, 0);
+  private ArrayList<CircleEx> selectedNodes = new ArrayList<CircleEx>();
+  private ArrayList<LineEx> selectedEdges = new ArrayList<LineEx>();
 
   private FileChooser fc = new FileChooser();
   private File file;
@@ -95,12 +95,7 @@ public class MapController {
     adornerPane.setScaleX(mapImageView.getScaleX());
     adornerPane.setScaleY(mapImageView.getScaleY());
 
-    adornerPane.setOnMouseClicked(
-        e -> {
-          //          getPaneNode();
-          highlightCircle();
-          highlightLine();
-        });
+    mapOverlayUIGridPane.setMouseTransparent(true);
   }
 
   // Image stuff
@@ -181,20 +176,19 @@ public class MapController {
 
   // Adorner Elements
   protected void addNodeCircle(edu.wpi.cs3733.c21.teamY.Node node) {
-
-    Circle circle = new Circle(scaleXCoords(node.getXcoord()), scaleXCoords(node.getYcoord()), 3);
-    circle.setId(node.getNodeID());
-    currentSelectedCircle = circle;
-    circle.setFill(Paint.valueOf("RED"));
-    adornerPane.getChildren().add(circle);
+    CircleEx circleEx =
+        new CircleEx(scaleXCoords(node.getXcoord()), scaleXCoords(node.getYcoord()), 3);
+    circleEx.setId(node.getNodeID());
+    circleEx.setFill(Paint.valueOf("RED"));
+    adornerPane.getChildren().add(circleEx);
 
     updateMapScreen();
   }
 
   protected void addEdgeLine(edu.wpi.cs3733.c21.teamY.Edge e) {
     try {
-      Circle n = (Circle) adornerPane.getScene().lookup("#" + e.getStartNodeID());
-      Circle m = (Circle) adornerPane.getScene().lookup("#" + e.getEndNodeID());
+      CircleEx n = (CircleEx) adornerPane.getScene().lookup("#" + e.getStartNodeID());
+      CircleEx m = (CircleEx) adornerPane.getScene().lookup("#" + e.getEndNodeID());
 
       startx = n.getCenterX();
       starty = n.getCenterY();
@@ -205,11 +199,11 @@ public class MapController {
       endy = starty;
     }
 
-    Line line = new Line(startx, starty, endx, endy);
-    line.setId(e.getEdgeID());
-    line.setStrokeWidth(3);
-    adornerPane.getChildren().add(line);
-    line.toBack();
+    LineEx lineEx = new LineEx(startx, starty, endx, endy);
+    lineEx.setId(e.getEdgeID());
+    lineEx.setStrokeWidth(3);
+    adornerPane.getChildren().add(lineEx);
+    lineEx.toBack();
 
     updateMapScreen();
   }
@@ -239,8 +233,8 @@ public class MapController {
     for (Edge e : edges) {
       // System.out.println(pane.getScene());
       try {
-        Circle n = (Circle) getAdornerPane().getScene().lookup("#" + e.getStartNodeID());
-        Circle m = (Circle) getAdornerPane().getScene().lookup("#" + e.getEndNodeID());
+        CircleEx n = (CircleEx) getAdornerPane().getScene().lookup("#" + e.getStartNodeID());
+        CircleEx m = (CircleEx) getAdornerPane().getScene().lookup("#" + e.getEndNodeID());
 
         startx = n.getCenterX();
         starty = n.getCenterY();
@@ -276,67 +270,89 @@ public class MapController {
     return y * scale;
   }
 
-  // --highlight functions
-  protected void highlightCircle() {
-    // highlights the selected circle which is the startpoint of the edge
-    currentSelectedCircle.setStrokeWidth(2);
-    currentSelectedCircle.setStroke(Paint.valueOf("BLUE"));
+  // selection functions
+  protected void clearSelection() {
+    // Cannot just deselect because for loop
+    for (CircleEx c : selectedNodes) {
+      c.setStrokeWidth(0);
+      c.hasFocus = false;
+    }
+    for (LineEx l : selectedEdges) {
+      l.setStrokeWidth(3);
+      l.setStroke(Paint.valueOf("BLACK"));
+      l.hasFocus = false;
+    }
+
+    selectedNodes = new ArrayList<CircleEx>();
+    selectedEdges = new ArrayList<LineEx>();
   }
 
-  protected void unHighlightCircle() {
-    // removes highlight on circle
-    currentSelectedCircle.setStrokeWidth(0);
-  }
-
-  protected void highlightLine() {
-    currentSelectedLine.setStrokeWidth(5);
-    currentSelectedLine.setStroke(Paint.valueOf("BLUE"));
-  }
-
-  protected void unHighglightLine() {
-    currentSelectedLine.setStrokeWidth(3);
-    currentSelectedLine.setStroke(Paint.valueOf("BLACK"));
-  }
-
-  // Getters
-  protected void getAdornerElement() {
-    Circle c = new Circle();
-    Line l = new Line();
-
-    for (javafx.scene.Node p : adornerPane.getChildren()) {
-      try {
-        p.setOnMouseClicked(
-            w -> {
-              if (w.getSource().getClass() == c.getClass()) {
-                unHighlightCircle(); // removes current highlight
-                currentSelectedCircle =
-                    (Circle) w.getSource(); // sets circle to a new selected circle
-                p.toFront();
-              } else if (w.getSource().getClass() == l.getClass()) {
-                unHighglightLine();
-                currentSelectedLine = (Line) w.getSource();
-                // System.out.println(currentSelectedLine);
-                p.toBack();
-              } else {
-                p.toBack();
-              }
-            });
-      } catch (Exception exp) {
-        System.out.println("no point selected");
-      }
+  protected void selectCircle(CircleEx c) {
+    if (!c.hasFocus) {
+      c.setStrokeWidth(2);
+      c.setStroke(Paint.valueOf("BLUE"));
+      selectedNodes.add(c);
+      c.hasFocus = true;
     }
   }
 
+  protected void deSelectCircle(CircleEx c) {
+    if (c.hasFocus) {
+      c.setStrokeWidth(0);
+      selectedNodes.remove(c);
+      c.hasFocus = false;
+    }
+  }
+
+  protected void selectLine(LineEx l) {
+    if (!l.hasFocus) {
+      l.setStrokeWidth(5);
+      l.setStroke(Paint.valueOf("BLUE"));
+      selectedEdges.add(l);
+      l.hasFocus = true;
+    }
+  }
+
+  protected void deSelectLine(LineEx l) {
+    if (l.hasFocus) {
+      l.setStrokeWidth(3);
+      l.setStroke(Paint.valueOf("BLACK"));
+      selectedEdges.remove(l);
+      l.hasFocus = false;
+    }
+  }
+
+  // Getters
   protected Pane getAdornerPane() {
     return adornerPane;
   }
 
-  public SplitMenuButton getFloorMenu() {
+  protected SplitMenuButton getFloorMenu() {
     return floorMenu;
   }
 
-  public ArrayList<MAP_PAGE> getMapOrder() {
+  protected ArrayList<MAP_PAGE> getMapOrder() {
     return mapOrder;
+  }
+
+  protected ArrayList<CircleEx> getSelectedNodes() {
+    return selectedNodes;
+  }
+
+  protected ArrayList<LineEx> getSelectedEdges() {
+    return selectedEdges;
+  }
+
+  public StackPane getContainerStackPane() {
+    return containerStackPane;
+  }
+
+  public ImageView getMapImageView() {
+    return mapImageView;
+  }
+
+  public GridPane getMapOverlayUIGridPane() {
+    return mapOverlayUIGridPane;
   }
 
   protected void updateMapScreen() {
@@ -408,5 +424,38 @@ public class MapController {
 
     mapImageView.setScaleY(mapImageView.getScaleY() + scale);
     mapImageView.setScaleX(mapImageView.getScaleX() + scale);
+  }
+
+  // Better Adorners
+  public class CircleEx extends Circle {
+    public boolean hasFocus = false;
+
+    public CircleEx(double radius) {
+      super(radius);
+    }
+
+    public CircleEx(double radius, Paint fill) {
+      super(radius, fill);
+    }
+
+    public CircleEx() {}
+
+    public CircleEx(double centerX, double centerY, double radius) {
+      super(centerX, centerY, radius);
+    }
+
+    public CircleEx(double centerX, double centerY, double radius, Paint fill) {
+      super(centerX, centerY, radius, fill);
+    }
+  }
+
+  public class LineEx extends Line {
+    public boolean hasFocus = false;
+
+    public LineEx() {}
+
+    public LineEx(double startX, double startY, double endX, double endY) {
+      super(startX, startY, endX, endY);
+    }
   }
 }
