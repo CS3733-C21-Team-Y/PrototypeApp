@@ -196,7 +196,7 @@ public class JDBCUtils {
 
       // updates given object value in table if the PK already exists w/in it
       if (e.getErrorCode() == 30000) {
-        //e.printStackTrace();
+        // e.printStackTrace();
         if (object instanceof Node) {
           JDBCUtils.update((Node) object);
         } else {

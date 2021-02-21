@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import org.junit.jupiter.*;
 import org.junit.jupiter.api.Test;
 
 public class AStarAlgorithmTesting {
