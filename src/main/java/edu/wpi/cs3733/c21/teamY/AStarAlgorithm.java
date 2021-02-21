@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c21.teamY;
 
+import com.sun.xml.internal.bind.v2.TODO;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -121,5 +123,64 @@ public class AStarAlgorithm {
       // System.out.println("Currently lowest distances: " + Arrays.toString(distances));
 
     }
+  }
+
+  /**
+   * Finds the shortest distance between a start node, and multiple end nodes using the A-star
+   * algorithm
+   *
+   * @param g an adjacency-matrix-representation of the graph where (x,y) is the weight of the edge
+   *     or 0 if there is no edge.
+   * @param startID the node to start from.
+   * @param goalIDs the nodes we're searching for in desired order.
+   * @return modified to return the path.
+   */
+  public static ArrayList<Node> aStar(Graph g, String startID, ArrayList<String> goalIDs) {
+    ArrayList<Node> path;
+    path = aStar(g, startID, goalIDs.get(0));
+    for (int i = 1; i < goalIDs.size(); i++) {
+      ArrayList<Node> tempPath;
+      tempPath = aStar(g, goalIDs.get(i - 1), goalIDs.get(i));
+      // Remove the first element to avoid duplicates
+      tempPath.remove(0);
+      // Append the path for these nodes to the path
+      path.addAll(tempPath);
+    }
+
+    return path;
+  }
+
+  //Organizes a group of unsorted goalIDs based on the nearestNeighbor algorithm
+  //Currently running using euclidean distance between points instead of the actual path distance.
+  public static ArrayList<String> nearestNeighbor(Graph g, String startID, ArrayList<String> goalIDs){
+    int start = g.indexFromID(startID);
+    ArrayList<String> organized = new ArrayList<>();
+
+
+    //Initialize list of goal indices
+    ArrayList<Integer> goals = new ArrayList<>();
+    for(int i = 0; i<goalIDs.size(); i++){
+      goals.add(g.indexFromID(goalIDs.get(i)));
+    }
+
+    double minDist = Double.MAX_VALUE;
+    double tempDist = 0;
+    int minIndex = 0;
+    for(int i = 0; i<goalIDs.size(); i++) {
+      for (int j = 0; j < goals.size(); j++) {
+        //TODO: change this to use our dijkstra's algorithm implementation after it's written
+        tempDist = nodeDistance(g.nodeList[start], g.nodeList[goals.get(j)]);
+        if (tempDist < minDist) {
+          minDist = tempDist;
+          minIndex = goals.get(j);
+        }
+      }
+      start = minIndex;
+      organized.add(g.nodeList[minIndex].nodeID);
+      goals.remove(minIndex);
+      minDist = Double.MAX_VALUE;
+    }
+
+    return organized;
   }
 }
