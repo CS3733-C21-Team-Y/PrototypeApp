@@ -27,7 +27,7 @@ public class RequestsManagerController extends GenericPage {
   private void initialize() {
     exitBtn.setOnAction(e -> exitButtonClicked());
     backBtn.setOnAction(e -> buttonClicked(e));
-    addServiceBtn.setOnAction(e -> addServiceToGrid(new Service("Laundry")));
+    addServiceBtn.setOnAction(e -> addServiceToGrid(new Service(rowCount,"Laundry")));
     rowCount = 0;
   }
 

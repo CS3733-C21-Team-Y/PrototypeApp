@@ -37,7 +37,7 @@ public class JDBCUtils {
 
       e.printStackTrace();
     }
-
+    /** create node and edge table */
     try {
       Statement stmt = conn.createStatement();
       String sqlNode =

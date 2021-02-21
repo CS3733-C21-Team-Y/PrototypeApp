@@ -28,8 +28,8 @@ public class Edge {
     return edgeID + "," + startNodeID + ',' + endNodeID;
   }
 
-  public String toString(String flag) {
+  /*public String toString(String flag) {
 
     return "'" + edgeID + "'" + "," + "'" + startNodeID + "'" + ',' + "'" + endNodeID + "'";
-  }
+  }*/
 }
