@@ -1,4 +1,4 @@
-package edu.wpi.teamY;
+package edu.wpi.cs3733.c21.teamY;
 
 public class ActiveGraphNoStairs {
 

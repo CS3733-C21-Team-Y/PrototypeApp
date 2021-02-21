@@ -1,9 +1,9 @@
 package edu.wpi.yellowyetis;
 
-import edu.wpi.teamY.CSV;
-import edu.wpi.teamY.Edge;
-import edu.wpi.teamY.JDBCUtils;
-import edu.wpi.teamY.Node;
+import edu.wpi.cs3733.c21.teamY.CSV;
+import edu.wpi.cs3733.c21.teamY.Edge;
+import edu.wpi.cs3733.c21.teamY.JDBCUtils;
+import edu.wpi.cs3733.c21.teamY.Node;
 import java.io.IOException;
 import java.sql.SQLException;
 import org.junit.jupiter.api.Test;

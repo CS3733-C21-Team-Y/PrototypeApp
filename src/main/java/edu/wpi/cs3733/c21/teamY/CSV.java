@@ -1,4 +1,4 @@
-package edu.wpi.teamY;
+package edu.wpi.cs3733.c21.teamY;
 
 import java.io.*;
 import java.sql.*;
@@ -14,10 +14,12 @@ public class CSV {
   public static ArrayList<Node> nodes = new ArrayList<Node>();
   public static ArrayList<Edge> edges = new ArrayList<Edge>();
   public static final String splitBy = ",";
-  public static String nodeCSVpath = "src/main/resources/edu/wpi/teamY/MapYNodesAllFloors.csv";
-  public static String edgeCSVpath = "src/main/resources/edu/wpi/teamY/MapYEdgesAllFloors.csv";
-  public static String edgeTestCSVpath = "src/main/resources/edu/wpi/teamY/TestEdge.csv";
-  public static String nodeTestCSVpath = "src/main/resources/edu/wpi/teamY/TestNode.csv";
+  public static String nodeCSVpath =
+      "src/main/resources/edu/wpi/cs3733/c21/teamY/MapYNodesAllFloors.csv";
+  public static String edgeCSVpath =
+      "src/main/resources/edu/wpi/cs3733/c21/teamY/MapYEdgesAllFloors.csv";
+  public static String edgeTestCSVpath = "src/main/resources/edu/wpi/cs3733/c21/teamY/TestEdge.csv";
+  public static String nodeTestCSVpath = "src/main/resources/edu/wpi/cs3733/c21/teamY/TestNode.csv";
 
   /** load the BufferedReader for node */
   static {

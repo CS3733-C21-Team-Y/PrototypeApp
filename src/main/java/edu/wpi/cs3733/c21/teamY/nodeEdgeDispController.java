@@ -1,4 +1,4 @@
-package edu.wpi.teamY;
+package edu.wpi.cs3733.c21.teamY;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -234,13 +234,13 @@ public class nodeEdgeDispController {
   }
 
   private void setImage(MAP_PAGE mp) {
-    Image parking = new Image("edu/wpi/teamY/FaulknerCampus.png");
+    Image parking = new Image("edu/wpi/cs3733/c21/teamY/FaulknerCampus.png");
     // need to be switched to parking map
-    Image f1 = new Image("edu/wpi/teamY/FaulknerFloor1_Updated.png");
-    Image f2 = new Image("edu/wpi/teamY/FaulknerFloor2_Updated.png");
-    Image f3 = new Image("edu/wpi/teamY/FaulknerFloor3_Updated.png");
-    Image f4 = new Image("edu/wpi/teamY/FaulknerFloor4_Updated.png");
-    Image f5 = new Image("edu/wpi/teamY/FaulknerFloor5_Updated.png");
+    Image f1 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor1_Updated.png");
+    Image f2 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor2_Updated.png");
+    Image f3 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor3_Updated.png");
+    Image f4 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor4_Updated.png");
+    Image f5 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor5_Updated.png");
 
     switch (mp) {
       case FLOOR1:
@@ -449,8 +449,8 @@ public class nodeEdgeDispController {
     String nodeID = String.valueOf(nodeIDCounter);
     nodeIDCounter++;
     if (addNodecb.isSelected()) {
-      edu.wpi.teamY.Node n =
-          new edu.wpi.teamY.Node(
+      edu.wpi.cs3733.c21.teamY.Node n =
+          new edu.wpi.cs3733.c21.teamY.Node(
               scaleUpXCoords(e.getX()), scaleUpYCoords(e.getY()), floorNumber, nodeID);
       // JDBCUtils.insert(10, n, "NODE");
       // JDBCUtils.insert(JDBCUtils.insertString(n));
@@ -502,7 +502,7 @@ public class nodeEdgeDispController {
 
     nodeIDCounter = CSV.nodes.size() + 1;
 
-    for (edu.wpi.teamY.Node n : CSV.nodes) {
+    for (edu.wpi.cs3733.c21.teamY.Node n : CSV.nodes) {
       if (n.floor.equals(floorNumber)) {
         double x = n.getXcoord();
         double y = n.getYcoord();
@@ -555,8 +555,8 @@ public class nodeEdgeDispController {
     String nodeID = String.valueOf(nodeIDCounter);
     nodeIDCounter++;
     try {
-      edu.wpi.teamY.Node n =
-          new edu.wpi.teamY.Node(
+      edu.wpi.cs3733.c21.teamY.Node n =
+          new edu.wpi.cs3733.c21.teamY.Node(
               scaleUpXCoords(Double.parseDouble(newX.getText())),
               scaleUpYCoords(Double.parseDouble(newY.getText())),
               floorNumber,

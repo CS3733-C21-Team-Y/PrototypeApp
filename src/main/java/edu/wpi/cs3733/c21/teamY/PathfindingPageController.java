@@ -1,4 +1,4 @@
-package edu.wpi.teamY;
+package edu.wpi.cs3733.c21.teamY;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,14 +7,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class LaundryPageController {
+public class PathfindingPageController {
 
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
   @FXML private Button toHomeBtn;
 
   // unused constructor
-  public LaundryPageController() {}
+  public PathfindingPageController() {}
 
   // this runs once the FXML loads in to attach functions to components
   @FXML
