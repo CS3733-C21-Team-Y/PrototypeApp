@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import edu.wpi.teamY.AStarAlgorithm;
 import edu.wpi.teamY.ActiveGraph;
 import edu.wpi.teamY.Node;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,9 @@ public class AStarAlgorithmTesting {
   }
 
   @Test
-  public void testAStarAlgorithm_aStar() throws SQLException {
+  public void testAStarAlgorithm_aStar()
+      throws SQLException, ClassNotFoundException, NoSuchFieldException, InstantiationException,
+          IllegalAccessException, IOException {
     ActiveGraph.initialize();
 
     ArrayList<Node> expectPath = new ArrayList<>();

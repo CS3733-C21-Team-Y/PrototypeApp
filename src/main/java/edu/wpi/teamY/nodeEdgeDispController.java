@@ -234,13 +234,13 @@ public class nodeEdgeDispController {
   }
 
   private void setImage(MAP_PAGE mp) {
-    Image parking = new Image("edu/wpi/yellowyetis/FaulknerCampus.png");
+    Image parking = new Image("edu/wpi/teamY/FaulknerCampus.png");
     // need to be switched to parking map
-    Image f1 = new Image("edu/wpi/yellowyetis/FaulknerFloor1_Updated.png");
-    Image f2 = new Image("edu/wpi/yellowyetis/FaulknerFloor2_Updated.png");
-    Image f3 = new Image("edu/wpi/yellowyetis/FaulknerFloor3_Updated.png");
-    Image f4 = new Image("edu/wpi/yellowyetis/FaulknerFloor4_Updated.png");
-    Image f5 = new Image("edu/wpi/yellowyetis/FaulknerFloor5_Updated.png");
+    Image f1 = new Image("edu/wpi/teamY/FaulknerFloor1_Updated.png");
+    Image f2 = new Image("edu/wpi/teamY/FaulknerFloor2_Updated.png");
+    Image f3 = new Image("edu/wpi/teamY/FaulknerFloor3_Updated.png");
+    Image f4 = new Image("edu/wpi/teamY/FaulknerFloor4_Updated.png");
+    Image f5 = new Image("edu/wpi/teamY/FaulknerFloor5_Updated.png");
 
     switch (mp) {
       case FLOOR1:

@@ -47,8 +47,8 @@ public class JDBCUtils {
               + "ycoord varchar(8) not null ,\n"
               + "floor varchar(2) not null ,\n"
               + "building varchar(20) not null ,\n"
-              + "longName varchar(40) not null ,\n"
-              + "shortName varchar(10) not null ,\n"
+              + "longName varchar(100) not null ,\n"
+              + "shortName varchar(50) not null ,\n"
               + "teamAssigned char not null )";
       stmt.executeUpdate(sqlNode);
 
@@ -199,6 +199,7 @@ public class JDBCUtils {
 
       // updates given object value in table if the PK already exists w/in it
       if (e.getErrorCode() == 30000) {
+
         if (object instanceof Node) {
           JDBCUtils.update((Node) object);
         } else {

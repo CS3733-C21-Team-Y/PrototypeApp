@@ -14,12 +14,10 @@ public class CSV {
   public static ArrayList<Node> nodes = new ArrayList<Node>();
   public static ArrayList<Edge> edges = new ArrayList<Edge>();
   public static final String splitBy = ",";
-  public static String nodeCSVpath =
-      "src/main/resources/edu/wpi/yellowyetis/MapYNodesAllFloors.csv";
-  public static String edgeCSVpath =
-      "src/main/resources/edu/wpi/yellowyetis/MapYEdgesAllFloors.csv";
-  public static String edgeTestCSVpath = "src/main/resources/edu/wpi/yellowyetis/TestEdge.csv";
-  public static String nodeTestCSVpath = "src/main/resources/edu/wpi/yellowyetis/TestNode.csv";
+  public static String nodeCSVpath = "src/main/resources/edu/wpi/teamY/MapYNodesAllFloors.csv";
+  public static String edgeCSVpath = "src/main/resources/edu/wpi/teamY/MapYEdgesAllFloors.csv";
+  public static String edgeTestCSVpath = "src/main/resources/edu/wpi/teamY/TestEdge.csv";
+  public static String nodeTestCSVpath = "src/main/resources/edu/wpi/teamY/TestNode.csv";
 
   /** load the BufferedReader for node */
   static {
@@ -341,15 +339,16 @@ public class CSV {
       ResultSet resultSet = statement.executeQuery(str);
       System.out.println("exporting Nodes from database to list of nodes");
       while (resultSet.next()) {
-        nodeType = resultSet.getString(1);
-        xcoord = resultSet.getDouble(2);
-        ycoord = resultSet.getDouble(3);
-        floor = resultSet.getString(4);
-        building = resultSet.getString(5);
-        longName = resultSet.getString(6);
-        shortName = resultSet.getString(7);
-        teamAssigned = resultSet.getString(8).charAt(0);
-        nodeID = resultSet.getString(9);
+        nodeID = resultSet.getString(1);
+        nodeType = resultSet.getString(2);
+        xcoord = resultSet.getDouble(3);
+        ycoord = resultSet.getDouble(4);
+        floor = resultSet.getString(5);
+        building = resultSet.getString(6);
+        longName = resultSet.getString(7);
+        shortName = resultSet.getString(8);
+        teamAssigned = resultSet.getString(9).charAt(0);
+
         Node node =
             new Node(
                 nodeType,
