@@ -41,6 +41,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Button>
+                  <Button fx:id="toRequestsManager" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" text="Requests Portal" textFill="#656565" />
                   <Label text="© 2021 The Yellow Yetis, LLC." textFill="#555555">
                      <VBox.margin>
                         <Insets top="30.0" />
