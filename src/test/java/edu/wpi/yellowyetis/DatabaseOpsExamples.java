@@ -56,8 +56,8 @@ public class DatabaseOpsExamples {
   // Functional!!
   @Test
   public void TestDelete() throws SQLException {
-    JDBCUtils.delete(node1);
-    JDBCUtils.delete(edge1);
-    JDBCUtils.delete(new Edge("fakeNode", "node1", "node2"));
+    JDBCUtils.deleteNode(node1.nodeID);
+    JDBCUtils.deleteEdge(edge1.getEdgeID());
+    //JDBCUtils.deleteEdge(new Edge("fakeNode", "node1", "node2"));
   }
 }

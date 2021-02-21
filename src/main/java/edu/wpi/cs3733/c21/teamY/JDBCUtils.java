@@ -381,38 +381,38 @@ public class JDBCUtils {
    * Creates the prepared statement that will be executed by the delete method for an delete on the
    * Edge table
    *
-   * @param node
-   * @return
+   *
+   * @param nodeID@return
    * @throws SQLException
    */
-  public static PreparedStatement createPreparedStatementDelete(Node node) throws SQLException {
+  public static PreparedStatement createPreparedStatementDeleteNode(String nodeID) throws SQLException {
     Connection connection = getConn();
     return connection.prepareStatement(
-        "DELETE FROM ADMIN.NODE WHERE NODEID = '" + node.nodeID + "'");
+        "DELETE FROM ADMIN.NODE WHERE NODEID = '" + nodeID + "'");
   }
 
   /**
    * Creates the prepared statement that will be executed by the delete method for a delete on the
    * Edge table
    *
-   * @param edge
+   * @param edgeID
    * @return
    * @throws SQLException
    */
-  public static PreparedStatement createPreparedStatementDelete(Edge edge) throws SQLException {
+  public static PreparedStatement createPreparedStatementDeleteEdge(String edgeID) throws SQLException {
     Connection connection = getConn();
     return connection.prepareStatement(
-        "DELETE FROM ADMIN.EDGE WHERE EDGEID = '" + edge.edgeID + "'");
+        "DELETE FROM ADMIN.EDGE WHERE EDGEID = '" + edgeID + "'");
   }
 
   /**
    * Deletes the inputted Node's matching entry in the Node table
    *
-   * @param node
-   * @throws SQLException
+   *
+   * @param nodeID@throws SQLException
    */
-  public static void delete(Node node) throws SQLException {
-    PreparedStatement statement = createPreparedStatementDelete(node);
+  public static void deleteNode(String nodeID) throws SQLException {
+    PreparedStatement statement = createPreparedStatementDeleteNode(nodeID);
     statement.execute();
     statement.closeOnCompletion();
   }
@@ -420,11 +420,11 @@ public class JDBCUtils {
   /**
    * Deletes the inputted Edge's matching entry in the Edge table
    *
-   * @param edge
-   * @throws SQLException
+   *
+   * @param edgeID@throws SQLException
    */
-  public static void delete(Edge edge) throws SQLException {
-    PreparedStatement statement = createPreparedStatementDelete(edge);
+  public static void deleteEdge(String edgeID) throws SQLException {
+    PreparedStatement statement = createPreparedStatementDeleteEdge(edgeID);
     statement.execute();
     statement.closeOnCompletion();
   }
