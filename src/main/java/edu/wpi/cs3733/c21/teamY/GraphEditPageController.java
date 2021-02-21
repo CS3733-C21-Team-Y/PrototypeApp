@@ -20,7 +20,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class nodeEdgeDispController {
+public class GraphEditPageController {
 
   @FXML private Pane anchor;
   @FXML private HBox header;
@@ -66,7 +66,7 @@ public class nodeEdgeDispController {
 
   @FXML private MapController mapInsertController;
 
-  public nodeEdgeDispController() {}
+  public GraphEditPageController() {}
 
   @FXML
   private void initialize() {
