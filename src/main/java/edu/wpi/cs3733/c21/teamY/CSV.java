@@ -352,7 +352,7 @@ public class CSV {
         edgeID = resultSet.getString(1);
         startNodeID = resultSet.getString(2);
         endNodeID = resultSet.getString(3);
-        if(startNodeID.contains("STAI") || endNodeID.contains("STAI")) {
+        if (startNodeID.contains("STAI") || endNodeID.contains("STAI")) {
           continue;
         }
         Edge edge = new Edge(edgeID, startNodeID, endNodeID);
@@ -460,21 +460,21 @@ public class CSV {
         shortName = resultSet.getString(8);
         teamAssigned = resultSet.getString(9).charAt(0);
 
-        if(nodeID.contains("STAI")) {
+        if (nodeID.contains("STAI")) {
           continue;
         }
 
         Node node =
-                new Node(
-                        nodeType,
-                        xcoord,
-                        ycoord,
-                        floor,
-                        building,
-                        longName,
-                        shortName,
-                        teamAssigned,
-                        nodeID);
+            new Node(
+                nodeType,
+                xcoord,
+                ycoord,
+                floor,
+                building,
+                longName,
+                shortName,
+                teamAssigned,
+                nodeID);
         nodes.add(node);
       }
       resultSet.close();

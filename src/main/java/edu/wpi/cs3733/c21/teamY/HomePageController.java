@@ -14,6 +14,7 @@ public class HomePageController {
   @FXML private Button toServiceRequestBtn;
   @FXML private Button toPathfindingBtn;
   @FXML private Button toMapEditBtn;
+  @FXML private Button toRequestsManager;
 
   // unused constructor
   public HomePageController() {}
@@ -25,6 +26,7 @@ public class HomePageController {
     toServiceRequestBtn.setOnAction(e -> buttonClicked(e));
     toMapEditBtn.setOnAction(e -> buttonClicked(e));
     toPathfindingBtn.setOnAction(e -> buttonClicked(e));
+    toRequestsManager.setOnAction(e -> buttonClicked(e));
   }
 
   // button event handler
@@ -53,6 +55,11 @@ public class HomePageController {
         stage = (Stage) toMapEditBtn.getScene().getWindow();
         // sets the new scene to the alex page
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("nodeEdgeDisplay.fxml"))));
+      } else if (e.getSource() == toRequestsManager) {
+        // gets the current stage
+        stage = (Stage) toRequestsManager.getScene().getWindow();
+        // sets the new scene to the requests manager page
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("RequestsManager.fxml"))));
       }
 
       // display new stage
