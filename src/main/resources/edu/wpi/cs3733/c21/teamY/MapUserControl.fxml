@@ -9,9 +9,9 @@
 
 <AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.MapController">
    <children>
-      <StackPane fx:id="stackPane" layoutX="10.0" layoutY="10.0">
+      <StackPane fx:id="containerStackPane" layoutX="10.0" layoutY="10.0">
          <children>
-            <ImageView fx:id="map" fitHeight="350.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+            <ImageView fx:id="mapImageView" fitHeight="350.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
                <StackPane.margin>
                   <Insets />
                </StackPane.margin>
@@ -19,7 +19,7 @@
                   <Image url="@FaulknerFloor1_Updated.png" />
                </image>
             </ImageView>
-            <Pane fx:id="pane" StackPane.alignment="TOP_LEFT">
+            <Pane fx:id="adornerPane" StackPane.alignment="TOP_LEFT">
                <StackPane.margin>
                   <Insets />
                </StackPane.margin>

@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamY;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,9 +22,9 @@ import javafx.stage.Stage;
 public class MapController {
 
   @FXML private AnchorPane anchor;
-  @FXML private ImageView map;
-  @FXML private Pane pane;
-  @FXML protected StackPane stackPane;
+  @FXML private ImageView mapImageView;
+  @FXML private Pane adornerPane;
+  @FXML protected StackPane containerStackPane;
 
   private double startx, starty, endx, endy;
 
@@ -67,16 +68,16 @@ public class MapController {
   @FXML
   private void initialize() {
 
-    pane.toFront();
-    stackPane.setMaxWidth(map.getFitWidth());
-    stackPane.setMaxHeight(map.getFitHeight());
-    pane.maxWidthProperty().setValue(map.getImage().widthProperty().getValue());
-    pane.maxHeightProperty().setValue(map.getImage().heightProperty().getValue());
+    adornerPane.toFront();
+    containerStackPane.setMaxWidth(mapImageView.getFitWidth());
+    containerStackPane.setMaxHeight(mapImageView.getFitHeight());
+    adornerPane.maxWidthProperty().setValue(mapImageView.getImage().widthProperty().getValue());
+    adornerPane.maxHeightProperty().setValue(mapImageView.getImage().heightProperty().getValue());
 
-    pane.setScaleX(map.getScaleX());
-    pane.setScaleY(map.getScaleY());
+    adornerPane.setScaleX(mapImageView.getScaleX());
+    adornerPane.setScaleY(mapImageView.getScaleY());
 
-    pane.setOnMouseClicked(
+    adornerPane.setOnMouseClicked(
         e -> {
           //          getPaneNode();
           highlightCircle();
@@ -84,31 +85,32 @@ public class MapController {
         });
   }
 
+  // Image stuff
   protected void changeImage(MapController.MAP_PAGE floor) {
     switch (floor) {
       case FLOOR1:
-        map.setImage(f1);
+        mapImageView.setImage(f1);
         floorNumber = "1";
         break;
       case FLOOR2:
-        map.setImage(f2);
+        mapImageView.setImage(f2);
         floorNumber = "2";
         break;
       case FLOOR3:
-        map.setImage(f3);
+        mapImageView.setImage(f3);
         floorNumber = "3";
         break;
       case FLOOR4:
-        map.setImage(f4);
+        mapImageView.setImage(f4);
         floorNumber = "4";
         break;
       case FLOOR5:
-        map.setImage(f5);
+        mapImageView.setImage(f5);
         floorNumber = "5";
         break;
       case PARKING:
       default:
-        map.setImage(parking);
+        mapImageView.setImage(parking);
         floorNumber = "0";
         break;
     }
@@ -159,21 +161,22 @@ public class MapController {
     return im;
   }
 
+  // Adorner Elements
   protected void addNodeCircle(edu.wpi.cs3733.c21.teamY.Node node) {
 
     Circle circle = new Circle(scaleXCoords(node.getXcoord()), scaleXCoords(node.getYcoord()), 3);
     circle.setId(node.getNodeID());
     currentSelectedCircle = circle;
     circle.setFill(Paint.valueOf("RED"));
-    pane.getChildren().add(circle);
+    adornerPane.getChildren().add(circle);
 
     updateMapScreen();
   }
 
   protected void addEdgeLine(edu.wpi.cs3733.c21.teamY.Edge e) {
     try {
-      Circle n = (Circle) pane.getScene().lookup("#" + e.getStartNodeID());
-      Circle m = (Circle) pane.getScene().lookup("#" + e.getEndNodeID());
+      Circle n = (Circle) adornerPane.getScene().lookup("#" + e.getStartNodeID());
+      Circle m = (Circle) adornerPane.getScene().lookup("#" + e.getEndNodeID());
 
       startx = n.getCenterX();
       starty = n.getCenterY();
@@ -187,10 +190,51 @@ public class MapController {
     Line line = new Line(startx, starty, endx, endy);
     line.setId(e.getEdgeID());
     line.setStrokeWidth(3);
-    pane.getChildren().add(line);
+    adornerPane.getChildren().add(line);
     line.toBack();
 
     updateMapScreen();
+  }
+
+  protected void drawFromCSV(ArrayList<Node> nodes, ArrayList<Edge> edges) {
+    try {
+      nodes = CSV.getListOfNodes();
+      edges = CSV.getListOfEdge();
+
+    } catch (Exception exception) {
+      System.out.println("nodeEdgeDispController.drawFromCSV");
+    }
+
+    for (edu.wpi.cs3733.c21.teamY.Node n : nodes) {
+      if (n.floor.equals(floorNumber)) {
+
+        double x = n.getXcoord();
+        double y = n.getYcoord();
+
+        addNodeCircle(n);
+
+      } else {
+        // do nothing
+      }
+    }
+
+    for (Edge e : edges) {
+      // System.out.println(pane.getScene());
+      try {
+        Circle n = (Circle) getAdornerPane().getScene().lookup("#" + e.getStartNodeID());
+        Circle m = (Circle) getAdornerPane().getScene().lookup("#" + e.getEndNodeID());
+
+        startx = n.getCenterX();
+        starty = n.getCenterY();
+        endx = m.getCenterX();
+        endy = m.getCenterY();
+      } catch (Exception exception) { // needs work - problem with nodes connecting floors
+        endx = startx; // biases the start node and forgets the end
+        endy = starty;
+      }
+
+      addEdgeLine(e);
+    }
   }
 
   // scale functions
@@ -236,11 +280,11 @@ public class MapController {
     currentSelectedLine.setStroke(Paint.valueOf("BLACK"));
   }
 
-  protected void getPaneNode() {
+  protected void getAdornerElement() {
     Circle c = new Circle();
     Line l = new Line();
 
-    for (javafx.scene.Node p : pane.getChildren()) {
+    for (javafx.scene.Node p : adornerPane.getChildren()) {
       try {
         p.setOnMouseClicked(
             w -> {
@@ -264,17 +308,18 @@ public class MapController {
     }
   }
 
-  protected Pane getPane() {
-    return pane;
+  protected Pane getAdornerPane() {
+    return adornerPane;
   }
 
   protected void updateMapScreen() {
     // adding the node and refreshing the scene
-    Stage stage = (Stage) stackPane.getScene().getWindow();
-    stage.setScene(stackPane.getScene());
+    Stage stage = (Stage) containerStackPane.getScene().getWindow();
+    stage.setScene(containerStackPane.getScene());
     stage.show();
   }
 
+  // Zoom
   protected void scrollOnPress(KeyEvent e) {
     if (e.getCode() == KeyCode.CONTROL) {
       direction = "up/down";
@@ -282,18 +327,18 @@ public class MapController {
       direction = "left/right";
     } else {
     }
-    stackPane.setOnScroll(
+    containerStackPane.setOnScroll(
         s -> {
           double scaleY = s.getDeltaY() * 0.5;
           double scaleX = s.getDeltaX() * 0.5;
           if (direction.equals("in/out")) {
             zoom(s);
           } else if (direction.equals("up/down")) {
-            map.translateYProperty().setValue(map.getTranslateY() + scaleY);
-            pane.translateYProperty().setValue(pane.getTranslateY() + scaleY);
+            mapImageView.translateYProperty().setValue(mapImageView.getTranslateY() + scaleY);
+            adornerPane.translateYProperty().setValue(adornerPane.getTranslateY() + scaleY);
           } else if (direction.equals("left/right")) {
-            map.translateXProperty().setValue(map.getTranslateX() + scaleX);
-            pane.translateXProperty().setValue(pane.getTranslateX() + scaleX);
+            mapImageView.translateXProperty().setValue(mapImageView.getTranslateX() + scaleX);
+            adornerPane.translateXProperty().setValue(adornerPane.getTranslateX() + scaleX);
           } else {
 
           }
@@ -302,38 +347,39 @@ public class MapController {
 
   protected void scrollOnRelease(KeyEvent e) {
     direction = "in/out";
-    stackPane.setOnScroll(s -> zoom(s));
+    containerStackPane.setOnScroll(s -> zoom(s));
   }
 
   protected void resetMapView() {
-    map.setScaleX(1);
-    map.setScaleY(1);
-    pane.setScaleX(1);
-    pane.setScaleY(1);
+    mapImageView.setScaleX(1);
+    mapImageView.setScaleY(1);
+    adornerPane.setScaleX(1);
+    adornerPane.setScaleY(1);
 
-    map.translateXProperty().setValue(0);
-    map.translateYProperty().setValue(0);
-    pane.translateXProperty().setValue(0);
-    pane.translateYProperty().setValue(0);
+    mapImageView.translateXProperty().setValue(0);
+    mapImageView.translateYProperty().setValue(0);
+    adornerPane.translateXProperty().setValue(0);
+    adornerPane.translateYProperty().setValue(0);
   }
 
   protected void zoom(ScrollEvent e) {
     double scale = e.getDeltaY() * 0.005;
-    map.setPreserveRatio(true);
+    mapImageView.setPreserveRatio(true);
 
-    if (map.getScaleY() > scaleMax && scale > 0) {
+    if (mapImageView.getScaleY() > scaleMax && scale > 0) {
       scale = 0;
-    } else if (map.getScaleY() < scaleMin && scale < 0) {
+    } else if (mapImageView.getScaleY() < scaleMin && scale < 0) {
       scale = 0;
     } else {
 
     }
-    Rectangle viewWindow = new Rectangle(0, 0, stackPane.getWidth(), stackPane.getHeight());
-    stackPane.setClip(viewWindow);
-    pane.setScaleY(pane.getScaleY() + scale);
-    pane.setScaleX(pane.getScaleX() + scale);
+    Rectangle viewWindow =
+        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
+    containerStackPane.setClip(viewWindow);
+    adornerPane.setScaleY(adornerPane.getScaleY() + scale);
+    adornerPane.setScaleX(adornerPane.getScaleX() + scale);
 
-    map.setScaleY(map.getScaleY() + scale);
-    map.setScaleX(map.getScaleX() + scale);
+    mapImageView.setScaleY(mapImageView.getScaleY() + scale);
+    mapImageView.setScaleX(mapImageView.getScaleX() + scale);
   }
 }

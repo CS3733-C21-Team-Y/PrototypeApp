@@ -16,7 +16,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -68,8 +67,8 @@ public class nodeEdgeDispController {
   @FXML private MenuItem setFloorFourPage;
   @FXML private MenuItem setFloorFivePage;
 
-  private ArrayList<Edge> edges;
-  private ArrayList<edu.wpi.cs3733.c21.teamY.Node> nodes;
+  private ArrayList<Edge> edges = new ArrayList<Edge>();
+  private ArrayList<edu.wpi.cs3733.c21.teamY.Node> nodes = new ArrayList<Node>();
 
   private int nodeIDCounter;
 
@@ -84,13 +83,14 @@ public class nodeEdgeDispController {
         e -> {
           mapInsertController.scrollOnPress(e);
           Rectangle viewWindow =
-              new Rectangle(0, 0, stackPane.getWidth(), mapInsertController.stackPane.getHeight());
-          mapInsertController.stackPane.setClip(viewWindow);
+              new Rectangle(
+                  0, 0, stackPane.getWidth(), mapInsertController.containerStackPane.getHeight());
+          mapInsertController.containerStackPane.setClip(viewWindow);
         });
     anchor.setOnKeyReleased(e -> mapInsertController.scrollOnRelease(e));
     resetView.setOnAction(e -> mapInsertController.resetMapView());
     resetView.toFront();
-    mapInsertController.stackPane.setOnScroll(e -> mapInsertController.zoom(e));
+    mapInsertController.containerStackPane.setOnScroll(e -> mapInsertController.zoom(e));
 
     selectNewMapImage.setText("Select New Map");
     setParkingPage.setOnAction(
@@ -214,10 +214,10 @@ public class nodeEdgeDispController {
         });
 
     mapInsertController
-        .getPane()
+        .getAdornerPane()
         .setOnMouseClicked(
             e -> {
-              mapInsertController.getPaneNode();
+              mapInsertController.getAdornerElement();
               mapInsertController.highlightCircle();
               mapInsertController.highlightLine();
 
@@ -243,7 +243,9 @@ public class nodeEdgeDispController {
   // this sucks
   private void initiateDrawing() {
     removeAll();
-    drawFromCSV();
+
+    nodeIDCounter = nodes.size() + 1;
+    mapInsertController.drawFromCSV(nodes, edges);
   }
 
   private void initImage() {
@@ -261,9 +263,9 @@ public class nodeEdgeDispController {
   // --delete functions only work taking off screen not deleting from DB - oops
   private void removeAll() {
     mapInsertController
-        .getPane()
+        .getAdornerPane()
         .getChildren()
-        .remove(0, mapInsertController.getPane().getChildren().size());
+        .remove(0, mapInsertController.getAdornerPane().getChildren().size());
     mapInsertController.updateMapScreen();
   }
 
@@ -286,7 +288,10 @@ public class nodeEdgeDispController {
 
   private void removeEdge(ActionEvent e) {
     String edgeID = mapInsertController.currentSelectedLine.getId();
-    mapInsertController.getPane().getChildren().remove(mapInsertController.currentSelectedLine);
+    mapInsertController
+        .getAdornerPane()
+        .getChildren()
+        .remove(mapInsertController.currentSelectedLine);
     mapInsertController.updateMapScreen();
     try {
       JDBCUtils.deleteEdge(edgeID);
@@ -297,7 +302,10 @@ public class nodeEdgeDispController {
 
   private void removeNode(ActionEvent e) {
     String nodeID = mapInsertController.currentSelectedCircle.getId();
-    mapInsertController.getPane().getChildren().remove(mapInsertController.currentSelectedCircle);
+    mapInsertController
+        .getAdornerPane()
+        .getChildren()
+        .remove(mapInsertController.currentSelectedCircle);
     mapInsertController.updateMapScreen();
     try {
       JDBCUtils.deleteNode(nodeID);
@@ -430,49 +438,6 @@ public class nodeEdgeDispController {
       }
 
       mapInsertController.addNodeCircle(n);
-    }
-  }
-
-  private void drawFromCSV() {
-    try {
-      nodes = CSV.getListOfNodes();
-      edges = CSV.getListOfEdge();
-    } catch (Exception exception) {
-      System.out.println("nodeEdgeDispController.drawFromCSV");
-    }
-
-    nodeIDCounter = nodes.size() + 1;
-
-    for (edu.wpi.cs3733.c21.teamY.Node n : nodes) {
-      if (n.floor.equals(mapInsertController.floorNumber)) {
-
-        double x = n.getXcoord();
-        double y = n.getYcoord();
-
-        mapInsertController.addNodeCircle(n);
-
-      } else {
-        // do nothing
-      }
-    }
-
-    for (Edge e : edges) {
-      // System.out.println(pane.getScene());
-      try {
-        Circle n =
-            (Circle) mapInsertController.getPane().getScene().lookup("#" + e.getStartNodeID());
-        Circle m = (Circle) mapInsertController.getPane().getScene().lookup("#" + e.getEndNodeID());
-
-        startx = n.getCenterX();
-        starty = n.getCenterY();
-        endx = m.getCenterX();
-        endy = m.getCenterY();
-      } catch (Exception exception) { // needs work - problem with nodes connecting floors
-        endx = startx; // biases the start node and forgets the end
-        endy = starty;
-      }
-
-      mapInsertController.addEdgeLine(e);
     }
   }
 
