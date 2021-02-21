@@ -95,7 +95,7 @@ public class AStarAlgorithmTesting {
     assertEquals(expectPath, AStarAlgorithm.aStar(ActiveGraph.getActiveGraph(), "8", destinations));
     System.out.println("Test 2 Complete \n");
 
-    // NEW TEST WITH 5 DESTINATIONS
+    // Third Test With 6 Destinations
     expectPath.clear();
     // Set the expected path based on the mathematical distance
     expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("8"));
@@ -136,14 +136,13 @@ public class AStarAlgorithmTesting {
 
     expectPath.clear();
     // Set the expected path based on the mathematical distance
-    expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("1"));
     expectPath.add(ActiveGraph.getActiveGraph().nodeFromID("2"));
     destinations.clear();
     destinations.add("2");
-    destinations.add("2");
 
     // Fourth test that aStar will navigate to itself without going to additional nodes
-    assertEquals(expectPath, AStarAlgorithm.aStar(ActiveGraph.getActiveGraph(), "1", destinations));
+    // Also tests that we can input an arraylist with one element and the function will still work
+    assertEquals(expectPath, AStarAlgorithm.aStar(ActiveGraph.getActiveGraph(), "2", destinations));
     System.out.println("Test 4 Complete \n");
   }
 }
