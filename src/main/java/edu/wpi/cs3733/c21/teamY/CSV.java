@@ -131,6 +131,7 @@ public class CSV {
    * @param node: a node you want to write to CSV
    * @return true if write successful, false otherwise
    */
+  @Deprecated
   public static boolean saveNodeCSV(Node node) {
 
     try {
@@ -152,6 +153,7 @@ public class CSV {
    * @param edge: a edge you want to write(save) to CSV
    * @return true if write successful, false otherwise
    */
+  @Deprecated
   public static boolean saveEdgeCSV(Edge edge) {
 
     try {
@@ -202,13 +204,25 @@ public class CSV {
       Statement statement = conn.createStatement();
       ResultSet resultSet = statement.executeQuery(str);
       StringBuilder stringBuilder = new StringBuilder("");
-      System.out.println("exporting" + mode + "from database to CSV files");
+      System.out.println("exporting " + mode + " from database to CSV files");
+      if (mode.equals("EDGE")) {
+        bufferedWriter.write("edgeID,startNode,endNode"); // writes header line with fields to CSV
+        bufferedWriter.newLine();
+      } else if (mode.equals("NODE")) {
+        bufferedWriter.write(
+            "nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned"); // writes header line with fields to CSV
+        bufferedWriter.newLine();
+      }
       while (resultSet.next()) {
         for (int i = 1; i < numAttributes; i++) {
+          System.out.println(resultSet.getString(i));
           stringBuilder.append(resultSet.getString(i)).append(",");
         }
+        stringBuilder.deleteCharAt(
+            stringBuilder.length() - 1); // Gets rid of final unnecessary comma
         bufferedWriter.write(stringBuilder.toString());
         bufferedWriter.newLine();
+        stringBuilder.setLength(0); // Clears stringBuilder for the new line
       }
       resultSet.close();
       JDBCUtils.close(null, null, statement, conn);
@@ -221,6 +235,7 @@ public class CSV {
     return true;
   }
   // out-dated version of generating CSV file
+  @Deprecated
   public static boolean generateEdgeCSV() throws SQLException {
     Connection conn = JDBCUtils.getConn();
     boolean generatedSuccessful = false;
