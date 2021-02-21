@@ -336,6 +336,46 @@ public class CSV {
     return null;
   }
 
+  public static ArrayList<Edge> getListOfEdgeNoStairs() throws SQLException {
+    // Connection conn=JDBCUtils.getConn();
+    Connection conn = JDBCUtils.getConn();
+    String str = "SELECT * FROM ADMIN.EDGE";
+    ArrayList<Edge> edges = new ArrayList<>();
+    String edgeID = "";
+    String startNodeID = "";
+    String endNodeID = "";
+    try {
+      Statement statement = conn.createStatement();
+      ResultSet resultSet = statement.executeQuery(str);
+      System.out.println("exporting Nodes from database to list of nodes");
+      while (resultSet.next()) {
+        edgeID = resultSet.getString(1);
+        startNodeID = resultSet.getString(2);
+        endNodeID = resultSet.getString(3);
+        if(startNodeID.contains("STAI") || endNodeID.contains("STAI")) {
+          continue;
+        }
+        Edge edge = new Edge(edgeID, startNodeID, endNodeID);
+        edges.add(edge);
+        JDBCUtils.insert(3, edge, "Edge");
+      }
+      resultSet.close();
+      JDBCUtils.close(null, null, statement, conn);
+      return edges;
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    } catch (InstantiationException e) {
+      e.printStackTrace();
+    } catch (NoSuchFieldException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
   /** @return a list of nodes */
   public static ArrayList<Node> getListOfNodes() throws SQLException {
     // Connection conn=JDBCUtils.getConn();
@@ -377,6 +417,64 @@ public class CSV {
                 shortName,
                 teamAssigned,
                 nodeID);
+        nodes.add(node);
+      }
+      resultSet.close();
+      JDBCUtils.close(null, null, statement, conn);
+      return nodes;
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+    if (nodes.size() == 0) {
+      System.out.println("zero node in the list, there could be no rows in the table");
+    }
+    return nodes;
+  }
+
+  public static ArrayList<Node> getListOfNodesNoStairs() throws SQLException {
+    // Connection conn=JDBCUtils.getConn();
+    Connection conn = JDBCUtils.getConn();
+    String str = "SELECT * FROM ADMIN.NODE";
+    ArrayList<Node> nodes = new ArrayList<>();
+    String nodeType = "";
+    double xcoord = 0;
+    double ycoord = 0;
+    String floor = "";
+    String building = "";
+    String longName = "";
+    String shortName = "";
+    char teamAssigned = 'X';
+    String nodeID = "";
+    try {
+      Statement statement = conn.createStatement();
+      ResultSet resultSet = statement.executeQuery(str);
+      System.out.println("exporting Nodes from database to list of nodes");
+      while (resultSet.next()) {
+        nodeID = resultSet.getString(1);
+        nodeType = resultSet.getString(2);
+        xcoord = resultSet.getDouble(3);
+        ycoord = resultSet.getDouble(4);
+        floor = resultSet.getString(5);
+        building = resultSet.getString(6);
+        longName = resultSet.getString(7);
+        shortName = resultSet.getString(8);
+        teamAssigned = resultSet.getString(9).charAt(0);
+
+        if(nodeID.contains("STAI")) {
+          continue;
+        }
+
+        Node node =
+                new Node(
+                        nodeType,
+                        xcoord,
+                        ycoord,
+                        floor,
+                        building,
+                        longName,
+                        shortName,
+                        teamAssigned,
+                        nodeID);
         nodes.add(node);
       }
       resultSet.close();
