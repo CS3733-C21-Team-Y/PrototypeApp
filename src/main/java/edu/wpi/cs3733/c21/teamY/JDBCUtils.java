@@ -199,7 +199,7 @@ public class JDBCUtils {
 
       // updates given object value in table if the PK already exists w/in it
       if (e.getErrorCode() == 30000) {
-
+        e.printStackTrace();
         if (object instanceof Node) {
           JDBCUtils.update((Node) object);
         } else {
@@ -381,14 +381,13 @@ public class JDBCUtils {
    * Creates the prepared statement that will be executed by the delete method for an delete on the
    * Edge table
    *
-   *
    * @param nodeID@return
    * @throws SQLException
    */
-  public static PreparedStatement createPreparedStatementDeleteNode(String nodeID) throws SQLException {
+  public static PreparedStatement createPreparedStatementDeleteNode(String nodeID)
+      throws SQLException {
     Connection connection = getConn();
-    return connection.prepareStatement(
-        "DELETE FROM ADMIN.NODE WHERE NODEID = '" + nodeID + "'");
+    return connection.prepareStatement("DELETE FROM ADMIN.NODE WHERE NODEID = '" + nodeID + "'");
   }
 
   /**
@@ -399,15 +398,14 @@ public class JDBCUtils {
    * @return
    * @throws SQLException
    */
-  public static PreparedStatement createPreparedStatementDeleteEdge(String edgeID) throws SQLException {
+  public static PreparedStatement createPreparedStatementDeleteEdge(String edgeID)
+      throws SQLException {
     Connection connection = getConn();
-    return connection.prepareStatement(
-        "DELETE FROM ADMIN.EDGE WHERE EDGEID = '" + edgeID + "'");
+    return connection.prepareStatement("DELETE FROM ADMIN.EDGE WHERE EDGEID = '" + edgeID + "'");
   }
 
   /**
    * Deletes the inputted Node's matching entry in the Node table
-   *
    *
    * @param nodeID@throws SQLException
    */
@@ -419,7 +417,6 @@ public class JDBCUtils {
 
   /**
    * Deletes the inputted Edge's matching entry in the Edge table
-   *
    *
    * @param edgeID@throws SQLException
    */

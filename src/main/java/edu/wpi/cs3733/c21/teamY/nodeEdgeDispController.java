@@ -68,6 +68,9 @@ public class nodeEdgeDispController {
   private String floorNumber = "0";
   private int nodeIDCounter;
 
+  private ArrayList<Edge> edges;
+  private ArrayList<edu.wpi.cs3733.c21.teamY.Node> nodes;
+
   private enum MAP_PAGE {
     PARKING,
     FLOOR1,
@@ -162,8 +165,22 @@ public class nodeEdgeDispController {
         });
     // addEdge.setOnAction(e -> createEdge(e));
 
-    deleteNode.setOnAction(e -> removeNode(e));
-    deleteEdge.setOnAction(e -> removeEdge(e));
+    deleteNode.setOnAction(
+        e -> {
+          try {
+            removeNode(e);
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+        });
+    deleteEdge.setOnAction(
+        e -> {
+          try {
+            removeEdge(e);
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+        });
 
     // create node or edge when pane is clicked
     pane.setOnMouseClicked(
@@ -309,12 +326,16 @@ public class nodeEdgeDispController {
     pane.getChildren().remove(0, pane.getChildren().size());
   }
 
-  private void removeEdge(ActionEvent e) {
+  private void removeEdge(ActionEvent e) throws SQLException {
+    String edgeID = currentSelectedLine.getId();
     pane.getChildren().remove(currentSelectedLine);
+    JDBCUtils.deleteEdge(edgeID);
   }
 
-  private void removeNode(ActionEvent e) {
+  private void removeNode(ActionEvent e) throws SQLException {
+    String nodeID = currentSelectedCircle.getId();
     pane.getChildren().remove(currentSelectedCircle);
+    JDBCUtils.deleteNode(nodeID);
 
     // adding the node and refreshing the scene
     Stage stage = (Stage) deleteNode.getScene().getWindow();
@@ -356,6 +377,8 @@ public class nodeEdgeDispController {
         // gets the current stage
         stage = (Stage) toHomeBtn.getScene().getWindow();
         // sets the new scene to the alex page
+        CSV.DBtoCSV("NODE");
+        CSV.DBtoCSV("EDGE");
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
 
       } else {
@@ -427,9 +450,10 @@ public class nodeEdgeDispController {
         Edge ed = new Edge(edgeID, startNodeID, endNodeID);
         // JDBCUtils.insert(3, ed, "EDGE");
         // JDBCUtils.insert(JDBCUtils.insertString(ed));
-        DatabaseQueryAdministrator.insertEdge(ed);
-        CSV.saveEdgeCSV(ed);
+        JDBCUtils.insert(3, ed, "Edge");
         Line line = new Line(startx, starty, endx, endy);
+        line.setId(ed.getEdgeID());
+
         line.setStrokeWidth(3);
         pane.getChildren().add(line);
         line.toBack();
@@ -451,11 +475,13 @@ public class nodeEdgeDispController {
     if (addNodecb.isSelected()) {
       edu.wpi.cs3733.c21.teamY.Node n =
           new edu.wpi.cs3733.c21.teamY.Node(
-              scaleUpXCoords(e.getX()), scaleUpYCoords(e.getY()), floorNumber, nodeID);
+              Math.floor(scaleUpXCoords(e.getX())),
+              Math.floor(scaleUpYCoords(e.getY())),
+              floorNumber,
+              nodeID);
       // JDBCUtils.insert(10, n, "NODE");
       // JDBCUtils.insert(JDBCUtils.insertString(n));
-      CSV.saveNodeCSV(n);
-      DatabaseQueryAdministrator.insertNode(n);
+      JDBCUtils.insert(9, n, "Node");
       Circle circle = new Circle(scaleXCoords(n.getXcoord()), scaleYCoords(n.getYcoord()), 5);
       circle.setId(n.getNodeID());
       currentSelectedCircle = circle;
@@ -494,15 +520,12 @@ public class nodeEdgeDispController {
   private void drawFromCSV()
       throws IllegalAccessException, IOException, NoSuchFieldException, SQLException,
           InstantiationException, ClassNotFoundException {
-    CSV.getNodesCSV();
-    // System.out.println("hello kill me");
-    CSV.getEdgesCSV();
-    // System.out.println("Hello kill me agian");
-    ArrayList<Edge> edgeArrayList;
+    nodes = CSV.getListOfNodes();
+    edges = CSV.getListOfEdge();
 
-    nodeIDCounter = CSV.nodes.size() + 1;
+    nodeIDCounter = nodes.size() + 1;
 
-    for (edu.wpi.cs3733.c21.teamY.Node n : CSV.nodes) {
+    for (edu.wpi.cs3733.c21.teamY.Node n : nodes) {
       if (n.floor.equals(floorNumber)) {
         double x = n.getXcoord();
         double y = n.getYcoord();
@@ -521,7 +544,7 @@ public class nodeEdgeDispController {
       stage.show();
     }
 
-    for (Edge e : CSV.edges) {
+    for (Edge e : edges) {
       // System.out.println(pane.getScene());
       try {
         Circle n = (Circle) pane.getScene().lookup("#" + e.getStartNodeID());
@@ -537,6 +560,7 @@ public class nodeEdgeDispController {
       }
 
       Line line = new Line(startx, starty, endx, endy);
+      line.setId(e.edgeID);
       line.setStrokeWidth(3);
       pane.getChildren().add(line);
       line.toBack();
@@ -564,8 +588,7 @@ public class nodeEdgeDispController {
 
       // JDBCUtils.insert(10, n, "NODE");
       // JDBCUtils.insert(JDBCUtils.insertString(n));
-      DatabaseQueryAdministrator.insertNode(n);
-      CSV.saveNodeCSV(n);
+      JDBCUtils.insert(9, n, "Node");
       Circle circle = new Circle(n.getXcoord(), n.getYcoord(), 5);
       circle.setId(n.getNodeID());
       currentSelectedCircle = circle;

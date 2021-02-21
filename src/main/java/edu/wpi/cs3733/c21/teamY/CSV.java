@@ -375,6 +375,4 @@ public class CSV {
     }
     return nodes;
   }
-  // generate the CSV file from database
-  public static void DBtoCSV() {}
 }
