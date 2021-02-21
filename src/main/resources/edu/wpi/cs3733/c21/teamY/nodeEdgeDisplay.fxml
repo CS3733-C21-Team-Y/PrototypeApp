@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchor" maxHeight="650.0" minHeight="650.0" prefHeight="1000.0" prefWidth="800.0" styleClass="anchorpane" stylesheets="@UIStyles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.nodeEdgeDispController">
+<AnchorPane fx:id="anchor" maxHeight="650.0" minHeight="650.0" prefHeight="1000.0" prefWidth="800.0" styleClass="anchorpane" stylesheets="@UIStyles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.nodeEdgeDispController">
    <children>
       <HBox alignment="CENTER" layoutY="14.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
          <children>
@@ -127,19 +127,6 @@
                               <Text fx:id="edgeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Edge" />
                            </children>
                         </VBox>
-                        <SplitMenuButton fx:id="floorMenu" mnemonicParsing="false" styleClass="button" text="Floor Select Menu" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-                          <items>
-                              <MenuItem fx:id="parkingPage" mnemonicParsing="false" text="Parking lot" />
-                              <MenuItem fx:id="floorOnePage" mnemonicParsing="false" text="Floor 1" />
-                              <MenuItem fx:id="floorTwoPage" mnemonicParsing="false" text="Floor 2" />
-                              <MenuItem fx:id="floorThreePage" mnemonicParsing="false" text="Floor 3" />
-                              <MenuItem fx:id="floorFourPage" mnemonicParsing="false" text="Floor 4" />
-                              <MenuItem fx:id="floorFivePage" mnemonicParsing="false" text="Floor 5" />
-                          </items>
-                           <GridPane.margin>
-                              <Insets top="30.0" />
-                           </GridPane.margin>
-                        </SplitMenuButton>
                         <SplitMenuButton fx:id="selectNewMapImage" mnemonicParsing="false" styleClass="button" text="Select New Map Image" GridPane.halignment="CENTER">
                            <items>
                               <MenuItem fx:id="setParkingPage" mnemonicParsing="false" text="Parking lot" />

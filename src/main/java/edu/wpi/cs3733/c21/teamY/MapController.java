@@ -3,13 +3,16 @@ package edu.wpi.cs3733.c21.teamY;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javafx.fxml.FXML;
+import javafx.scene.control.SplitMenuButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
@@ -25,6 +28,9 @@ public class MapController {
   @FXML private ImageView mapImageView;
   @FXML private Pane adornerPane;
   @FXML protected StackPane containerStackPane;
+
+  @FXML private GridPane mapOverlayUIGridPane;
+  @FXML private SplitMenuButton floorMenu;
 
   private double startx, starty, endx, endy;
 
@@ -46,6 +52,17 @@ public class MapController {
   }
 
   private MapController.MAP_PAGE mp = MapController.MAP_PAGE.PARKING;
+
+  // Used for dynamic menu item creation.
+  private ArrayList<MAP_PAGE> mapOrder =
+      new ArrayList<MAP_PAGE>(
+          Arrays.asList(
+              MAP_PAGE.PARKING,
+              MAP_PAGE.FLOOR1,
+              MAP_PAGE.FLOOR2,
+              MAP_PAGE.FLOOR3,
+              MAP_PAGE.FLOOR4,
+              MAP_PAGE.FLOOR5));
 
   private double scaleMin = 0.75;
   private double scaleMax = 2.5;
@@ -69,6 +86,7 @@ public class MapController {
   private void initialize() {
 
     adornerPane.toFront();
+    mapOverlayUIGridPane.toFront();
     containerStackPane.setMaxWidth(mapImageView.getFitWidth());
     containerStackPane.setMaxHeight(mapImageView.getFitHeight());
     adornerPane.maxWidthProperty().setValue(mapImageView.getImage().widthProperty().getValue());
@@ -280,6 +298,7 @@ public class MapController {
     currentSelectedLine.setStroke(Paint.valueOf("BLACK"));
   }
 
+  // Getters
   protected void getAdornerElement() {
     Circle c = new Circle();
     Line l = new Line();
@@ -310,6 +329,14 @@ public class MapController {
 
   protected Pane getAdornerPane() {
     return adornerPane;
+  }
+
+  public SplitMenuButton getFloorMenu() {
+    return floorMenu;
+  }
+
+  public ArrayList<MAP_PAGE> getMapOrder() {
+    return mapOrder;
   }
 
   protected void updateMapScreen() {

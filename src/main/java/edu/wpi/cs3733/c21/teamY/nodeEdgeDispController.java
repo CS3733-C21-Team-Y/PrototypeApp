@@ -51,14 +51,6 @@ public class nodeEdgeDispController {
   @FXML private Button toolTip;
   @FXML private Button resetView;
 
-  @FXML private SplitMenuButton floorMenu;
-  @FXML private MenuItem parkingPage;
-  @FXML private MenuItem floorOnePage;
-  @FXML private MenuItem floorTwoPage;
-  @FXML private MenuItem floorThreePage;
-  @FXML private MenuItem floorFourPage;
-  @FXML private MenuItem floorFivePage;
-
   @FXML private SplitMenuButton selectNewMapImage;
   @FXML private MenuItem setParkingPage;
   @FXML private MenuItem setFloorOnePage;
@@ -147,42 +139,23 @@ public class nodeEdgeDispController {
     toolTip.toFront();
 
     initImage();
-    floorMenu.setText("Parking Lot");
+    mapInsertController.getFloorMenu().setText("Parking Lot");
+
     loadNodesButton.setOnAction(
         e -> {
           initiateDrawing();
         });
 
-    parkingPage.setOnAction(
-        e -> {
-          controlImageShown(e, MapController.MAP_PAGE.PARKING);
-          updateMenuPreview(e, floorMenu);
-        });
-    floorOnePage.setOnAction(
-        e -> {
-          controlImageShown(e, MapController.MAP_PAGE.FLOOR1);
-          updateMenuPreview(e, floorMenu);
-        });
-    floorTwoPage.setOnAction(
-        e -> {
-          controlImageShown(e, MapController.MAP_PAGE.FLOOR2);
-          updateMenuPreview(e, floorMenu);
-        });
-    floorThreePage.setOnAction(
-        e -> {
-          controlImageShown(e, MapController.MAP_PAGE.FLOOR3);
-          updateMenuPreview(e, floorMenu);
-        });
-    floorFourPage.setOnAction(
-        e -> {
-          controlImageShown(e, MapController.MAP_PAGE.FLOOR4);
-          updateMenuPreview(e, floorMenu);
-        });
-    floorFivePage.setOnAction(
-        e -> {
-          controlImageShown(e, MapController.MAP_PAGE.FLOOR5);
-          updateMenuPreview(e, floorMenu);
-        });
+    int i = 0;
+    for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
+      int index = i;
+      menuItem.setOnAction(
+          e -> {
+            controlImageShown(e, mapInsertController.getMapOrder().get(index));
+            updateMenuPreview(e, mapInsertController.getFloorMenu());
+          });
+      i++;
+    }
 
     // attaches a handler to the button with a lambda expression
     toHomeBtn.setOnAction(e -> buttonClicked(e));
