@@ -81,4 +81,62 @@ public class DijkstrasAlgorithm {
     }
     return dist;
   }
+
+  // Function that uses Dijkstra's to find the desired detour type
+  // It will find the closest detourType (bathroom for example) to the nodes in the path
+  // Returns the nodeID of the detour location that is closest.
+  static String dijkstraDetour(
+      Graph g, String startID, ArrayList<String> pathGoalIDs, String detourType) {
+    ArrayList<String> localGoals = new ArrayList<>();
+    localGoals = (ArrayList<String>) pathGoalIDs.clone();
+    // dist will hold the shortest distance from startNode to node
+    HashMap<String, Double> dist = new HashMap<>();
+
+    // inShortest will true if node is included in shortest path
+    // or if the distance from the startNode to node is finalized
+    HashMap<String, Boolean> inShortest = new HashMap<>(g.nodeList.length);
+
+    // Initialize dists as infinite and inShortest as false
+    for (Node node : g.nodeList) {
+      if (pathGoalIDs.contains(node.nodeID) || startID.equals(node.nodeID)) {
+        dist.put(node.nodeID, 0.0);
+      } else {
+        dist.put(node.nodeID, Double.MAX_VALUE);
+      }
+      inShortest.put(node.nodeID, false);
+    }
+
+    // This loop will run once for each node
+    for (int i = 0; i < g.nodeList.length - 1; i++) {
+      // Pick the minimum distance node from the set of nodes not yet checked.
+      // min is always equal to start in first iteration.
+      String min = minDistance(dist, inShortest);
+
+      // Mark the picked node as processed
+      inShortest.put(min, true);
+
+      // Update dist value of the adjacent nodes of the picked node.
+      for (Map.Entry<String, Double> mapElement : dist.entrySet()) {
+        // Update dist of the current mapElement only if is not inShortest,
+        // there is an edge from min to mapElement,
+        // and total weight of path from startNode to mapElement through min
+        // is less than the dist of the current mapElement
+        double edgeDist = nodeDistance(g.nodeFromID(min), g.nodeFromID(mapElement.getKey()));
+        ArrayList<Node> neighbors = g.nodeFromID(mapElement.getKey()).getNeighbors();
+        if (!inShortest.get(mapElement.getKey())
+            && neighbors.contains(g.nodeFromID(min))
+            && dist.get(min) != Integer.MAX_VALUE
+            && dist.get(min) + edgeDist < dist.get(mapElement.getKey())) {
+          dist.put(mapElement.getKey(), dist.get(min) + edgeDist);
+        }
+      }
+      // Checks whether we've found a node of detourType
+      // System.out.println(g.nodeFromID(min).nodeType);
+      System.out.println(min);
+      if (g.nodeFromID(min).nodeType.equals(detourType)) {
+        return min;
+      }
+    }
+    return null;
+  }
 }

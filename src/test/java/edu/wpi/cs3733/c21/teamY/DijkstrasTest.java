@@ -90,4 +90,26 @@ public class DijkstrasTest {
                 ActiveGraph.getActiveGraph().nodeFromID("4")),
         answerKey.get("4"));
   }
+
+  @Test
+  public void testDijkstraDetour() {
+    ActiveGraph.initialize();
+
+    ArrayList<String> destinations = new ArrayList<>();
+    destinations.add("3");
+    destinations.add("4");
+
+    // First test that the basic functionality of detour is working
+    assertEquals(
+        "5",
+        DijkstrasAlgorithm.dijkstraDetour(ActiveGraph.getActiveGraph(), "1", destinations, "FOOD"));
+
+    destinations.remove("3");
+    destinations.add("6");
+
+    // Second test that detour works if a node included is already the detour type
+    assertEquals(
+        "6",
+        DijkstrasAlgorithm.dijkstraDetour(ActiveGraph.getActiveGraph(), "1", destinations, "FOOD"));
+  }
 }

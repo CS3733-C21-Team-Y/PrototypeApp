@@ -188,8 +188,7 @@ public class AStarAlgorithmTesting {
     answerKey.add("4");
 
     assertEquals(
-            answerKey, AStarAlgorithm.nearestNeighbor(ActiveGraph.getActiveGraph(), "1", destinations));
+        answerKey, AStarAlgorithm.nearestNeighbor(ActiveGraph.getActiveGraph(), "1", destinations));
     System.out.println("Test 7 Complete \n");
-
   }
 }
