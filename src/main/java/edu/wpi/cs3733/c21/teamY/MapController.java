@@ -175,7 +175,7 @@ public class MapController {
   }
 
   // Adorner Elements
-  protected void addNodeCircle(edu.wpi.cs3733.c21.teamY.Node node) {
+  protected CircleEx addNodeCircle(edu.wpi.cs3733.c21.teamY.Node node) {
     CircleEx circleEx =
         new CircleEx(scaleXCoords(node.getXcoord()), scaleXCoords(node.getYcoord()), 3);
     circleEx.setId(node.getNodeID());
@@ -183,9 +183,10 @@ public class MapController {
     adornerPane.getChildren().add(circleEx);
 
     updateMapScreen();
+    return circleEx;
   }
 
-  protected void addEdgeLine(edu.wpi.cs3733.c21.teamY.Edge e) {
+  protected LineEx addEdgeLine(edu.wpi.cs3733.c21.teamY.Edge e) {
     try {
       CircleEx n = (CircleEx) adornerPane.getScene().lookup("#" + e.getStartNodeID());
       CircleEx m = (CircleEx) adornerPane.getScene().lookup("#" + e.getEndNodeID());
@@ -206,6 +207,7 @@ public class MapController {
     lineEx.toBack();
 
     updateMapScreen();
+    return lineEx;
   }
 
   protected void drawFromCSV(ArrayList<Node> nodes, ArrayList<Edge> edges) {

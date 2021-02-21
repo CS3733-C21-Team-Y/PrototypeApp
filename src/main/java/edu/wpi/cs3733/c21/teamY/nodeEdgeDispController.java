@@ -208,33 +208,30 @@ public class nodeEdgeDispController {
         .getAdornerPane()
         .setOnMouseClicked(
             e -> {
-              if (!shiftPressed
-                  && !(e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
-                      || e.getPickResult().getIntersectedNode() instanceof MapController.LineEx))
+              if (addEdgecb.isSelected()) {
+                createEdgecb(e);
+              } else if (addNodecb.isSelected()) {
                 mapInsertController.clearSelection();
+                createNodecb(e);
+              } else {
+                if (!shiftPressed
+                    && startEdgeFlag
+                    && !(e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
+                        || e.getPickResult().getIntersectedNode() instanceof MapController.LineEx))
+                  mapInsertController.clearSelection();
+              }
             });
   }
 
+  // Set selection click handlers
   protected void resetMouseHandlingForAdorners() {
     for (javafx.scene.Node p : mapInsertController.getAdornerPane().getChildren()) {
       try {
 
         if (p instanceof MapController.CircleEx) {
-          p.setOnMouseClicked(
-              w -> {
-                if (!shiftPressed) {
-                  mapInsertController.clearSelection();
-                }
-                mapInsertController.selectCircle((MapController.CircleEx) p);
-              });
+          setNodeOnClick((MapController.CircleEx) p);
         } else if (p instanceof MapController.LineEx) {
-          p.setOnMouseClicked(
-              w -> {
-                if (!shiftPressed) {
-                  mapInsertController.clearSelection();
-                }
-                mapInsertController.selectLine((MapController.LineEx) p);
-              });
+          setEdgeOnClick((MapController.LineEx) p);
         } else {
           System.out.println("Invalid Type Found: " + p.getTypeSelector());
         }
@@ -243,6 +240,27 @@ public class nodeEdgeDispController {
         System.out.println("no point selected");
       }
     }
+  }
+
+  private void setNodeOnClick(MapController.CircleEx node) {
+    node.setOnMouseClicked(
+        w -> {
+          if (!shiftPressed) {
+            mapInsertController.clearSelection();
+          }
+          mapInsertController.selectCircle((MapController.CircleEx) node);
+          lastSelectedNode = (MapController.CircleEx) node;
+        });
+  }
+
+  private void setEdgeOnClick(MapController.LineEx edge) {
+    edge.setOnMouseClicked(
+        w -> {
+          if (!shiftPressed) {
+            mapInsertController.clearSelection();
+          }
+          mapInsertController.selectLine((MapController.LineEx) edge);
+        });
   }
 
   private void updateMenuPreview(ActionEvent e, SplitMenuButton s) {
@@ -381,63 +399,68 @@ public class nodeEdgeDispController {
     } catch (Exception exp) {
     }
   }
-  /*
-    // --create node and edges
-    private void createEdgecb(MouseEvent e) {
-      // creates an edge between two selected points when the checkbox is selected
-      if (addEdgecb.isSelected()) {
-        if (startEdgeFlag) { // decides if its te starting or ending point being selected
-          System.out.println(startEdgeFlag);
-          mapInsertController.highlightCircle();
-          startEdgeFlag = !startEdgeFlag;
-          try {
-            startNodeID = mapInsertController.currentSelectedCircle.getId();
-            startx = mapInsertController.currentSelectedCircle.getCenterX();
-            starty = mapInsertController.currentSelectedCircle.getCenterY();
-          } catch (Exception exception) {
-            System.out.println("no start point");
-          }
-        } else {
-          System.out.println(startEdgeFlag);
-          startEdgeFlag = !startEdgeFlag;
-          try {
-            endNodeID = mapInsertController.currentSelectedCircle.getId();
-            endx = mapInsertController.currentSelectedCircle.getCenterX();
-            endy = mapInsertController.currentSelectedCircle.getCenterY();
-          } catch (Exception exception) {
-            System.out.println("no end point");
-          }
 
-          // creating the line and adding as a child to the pane
-          String edgeID = startNodeID + "_" + endNodeID;
-          Edge ed = new Edge(edgeID, startNodeID, endNodeID);
-          // JDBCUtils.insert(3, ed, "EDGE");
-          // JDBCUtils.insert(JDBCUtils.insertString(ed));
+  private MapController.CircleEx lastSelectedNode;
 
-          //        JDBCUtils.insert(3, ed, "Edge");
-          //        Line line = new Line(startx, starty, endx, endy);
-          //        line.setId(ed.getEdgeID());
+  // --create node and edges
+  private void createEdgecb(MouseEvent e) {
+    // creates an edge between two selected points when the checkbox is selected
+    ArrayList<MapController.CircleEx> selectedNodes = mapInsertController.getSelectedNodes();
+    if (addEdgecb.isSelected() && lastSelectedNode != null) {
+      if (startEdgeFlag) { // decides if its te starting or ending point being selected
+        System.out.println(startEdgeFlag);
 
-          //        line.setStrokeWidth(3);
-          //        pane.getChildren().add(line);
-          //        line.toBack();
-          //        // refreshing and adding to the scene
-          //        Stage stage = (Stage) addEdge.getScene().getWindow();
-          //        stage.setScene(addEdge.getScene());
-          //        stage.show();
-
-          try {
-            //          DatabaseQueryAdministrator.insertEdge(ed);
-            JDBCUtils.insert(3, ed, "Edge");
-          } catch (Exception exception) {
-            System.out.println("nodeEdgeDispController.createEdgecb");
-          }
-          //        CSV.saveEdge(ed);
-          mapInsertController.addEdgeLine(ed);
+        startEdgeFlag = !startEdgeFlag;
+        try {
+          startNodeID = lastSelectedNode.getId();
+          startx = lastSelectedNode.getCenterX();
+          starty = lastSelectedNode.getCenterY();
+        } catch (Exception exception) {
+          System.out.println("no start point");
         }
+      } else {
+        System.out.println(startEdgeFlag);
+        startEdgeFlag = !startEdgeFlag;
+        try {
+          endNodeID = lastSelectedNode.getId();
+          endx = lastSelectedNode.getCenterX();
+          endy = lastSelectedNode.getCenterY();
+        } catch (Exception exception) {
+          System.out.println("no end point");
+        }
+
+        // creating the line and adding as a child to the pane
+        String edgeID = startNodeID + "_" + endNodeID;
+        Edge ed = new Edge(edgeID, startNodeID, endNodeID);
+
+        // JDBCUtils.insert(3, ed, "EDGE");
+        // JDBCUtils.insert(JDBCUtils.insertString(ed));
+
+        //        JDBCUtils.insert(3, ed, "Edge");
+        //        Line line = new Line(startx, starty, endx, endy);
+        //        line.setId(ed.getEdgeID());
+
+        //        line.setStrokeWidth(3);
+        //        pane.getChildren().add(line);
+        //        line.toBack();
+        //        // refreshing and adding to the scene
+        //        Stage stage = (Stage) addEdge.getScene().getWindow();
+        //        stage.setScene(addEdge.getScene());
+        //        stage.show();
+
+        try {
+          //          DatabaseQueryAdministrator.insertEdge(ed);
+          JDBCUtils.insert(3, ed, "Edge");
+        } catch (Exception exception) {
+          System.out.println("nodeEdgeDispController.createEdgecb");
+        }
+        //        CSV.saveEdge(ed);
+        setEdgeOnClick(mapInsertController.addEdgeLine(ed));
+        mapInsertController.clearSelection();
       }
     }
-  */
+  }
+
   private void createNodecb(MouseEvent e) {
     // when the add node checkbox is selected, the new nodes can be created
     // wherever the mouse clicks withing the scene
@@ -479,7 +502,7 @@ public class nodeEdgeDispController {
         System.out.println("nodeEdgeDispController.createNodecb");
       }
 
-      mapInsertController.addNodeCircle(n);
+      setNodeOnClick(mapInsertController.addNodeCircle(n));
     }
   }
 
@@ -501,7 +524,7 @@ public class nodeEdgeDispController {
 
       JDBCUtils.insert(9, n, "Node");
 
-      mapInsertController.addNodeCircle(n);
+      setNodeOnClick(mapInsertController.addNodeCircle(n));
 
     } catch (Exception exception) {
       System.out.println("Can't create a node with text in the field input");
