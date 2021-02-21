@@ -55,11 +55,11 @@ public class HomePageController {
         stage = (Stage) toMapEditBtn.getScene().getWindow();
         // sets the new scene to the alex page
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("nodeEdgeDisplay.fxml"))));
-      } else if (e.getSource() == toRequestsManager){
+      } else if (e.getSource() == toRequestsManager) {
         // gets the current stage
         stage = (Stage) toRequestsManager.getScene().getWindow();
         // sets the new scene to the requests manager page
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("requestsManager.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("RequestsManager.fxml"))));
       }
 
       // display new stage
