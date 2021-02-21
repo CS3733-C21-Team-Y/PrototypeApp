@@ -149,4 +149,47 @@ public class AStarAlgorithmTesting {
     assertEquals(expectPath, AStarAlgorithm.aStar(ActiveGraph.getActiveGraph(), "2", destinations));
     System.out.println("Test 4 Complete \n");
   }
+
+  @Test
+  public void testAStarAlgorithm_nearestNeighbor() {
+    ActiveGraph.initialize();
+
+    ArrayList<String> destinations = new ArrayList<>();
+    destinations.add("2");
+    destinations.add("4");
+
+    ArrayList<String> answerKey = new ArrayList<>();
+    answerKey.add("2");
+    answerKey.add("4");
+
+    // First test that the basic functionality of aStar is working
+    assertEquals(
+        answerKey, AStarAlgorithm.nearestNeighbor(ActiveGraph.getActiveGraph(), "1", destinations));
+    System.out.println("Test 5 Complete \n");
+
+    destinations.clear();
+    answerKey.clear();
+
+    destinations.add("4");
+    destinations.add("2");
+
+    answerKey.add("2");
+    answerKey.add("4");
+
+    assertEquals(
+        answerKey, AStarAlgorithm.nearestNeighbor(ActiveGraph.getActiveGraph(), "1", destinations));
+    System.out.println("Test 6 Complete \n");
+
+    destinations.clear();
+    answerKey.clear();
+
+    destinations.add("4");
+
+    answerKey.add("4");
+
+    assertEquals(
+            answerKey, AStarAlgorithm.nearestNeighbor(ActiveGraph.getActiveGraph(), "1", destinations));
+    System.out.println("Test 7 Complete \n");
+
+  }
 }

@@ -29,7 +29,8 @@ public class DijkstrasAlgorithm {
   // It will calculate the shortest paths to every point in the map
   // Returns these paths as a hashmap of the node and the shortest path cost to that node
   static HashMap<String, Double> dijkstra(Graph g, String startID, ArrayList<String> goalIDs) {
-    ArrayList<String> localGoals = goalIDs;
+    ArrayList<String> localGoals = new ArrayList<>();
+    localGoals = (ArrayList<String>) goalIDs.clone();
     // dist will hold the shortest distance from startNode to node
     HashMap<String, Double> dist = new HashMap<>();
 

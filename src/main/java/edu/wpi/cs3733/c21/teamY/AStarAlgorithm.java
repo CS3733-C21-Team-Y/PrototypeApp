@@ -152,33 +152,33 @@ public class AStarAlgorithm {
   // Currently running using euclidean distance between points instead of the actual path distance.
   public static ArrayList<String> nearestNeighbor(
       Graph g, String startID, ArrayList<String> goalIDs) {
-    int start = g.indexFromID(startID);
+
     ArrayList<String> organized = new ArrayList<>();
 
     // Initialize list of goal indices
-    ArrayList<Integer> goals = new ArrayList<>();
-    for (int i = 0; i < goalIDs.size(); i++) {
-      goals.add(g.indexFromID(goalIDs.get(i)));
-    }
+    ArrayList<String> goals = new ArrayList<>();
+    goals = (ArrayList<String>) goalIDs.clone();
 
+    HashMap<String, Double> dijkstraHash = new HashMap<>();
     double minDist = Double.MAX_VALUE;
     double tempDist = 0;
-    int minIndex = 0;
+    String min = "";
+
     for (int i = 0; i < goalIDs.size(); i++) {
+      dijkstraHash = DijkstrasAlgorithm.dijkstra(g, startID, goals);
+
       for (int j = 0; j < goals.size(); j++) {
-        // TODO: change this to use our dijkstra's algorithm implementation after it's written
-        tempDist = nodeDistance(g.nodeList[start], g.nodeList[goals.get(j)]);
+        tempDist = dijkstraHash.get(goals.get(j));
         if (tempDist < minDist) {
           minDist = tempDist;
-          minIndex = goals.get(j);
+          min = goals.get(j);
         }
       }
-      start = minIndex;
-      organized.add(g.nodeList[minIndex].nodeID);
-      goals.remove(minIndex);
+
+      organized.add(min);
+      goals.remove(min);
       minDist = Double.MAX_VALUE;
     }
-
     return organized;
   }
 }
