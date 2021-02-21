@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY;
 
 import com.jfoenix.controls.JFXDialog;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,7 +33,6 @@ public class nodeEdgeDispController {
   @FXML private CheckBox addEdgecb;
 
   @FXML private Button deleteNode;
-  @FXML private Button deleteEdge;
 
   @FXML private Text nodeDisplay = new Text("Selected Node");
   @FXML private Text edgeDisplay = new Text("Selected Edge");
@@ -166,14 +166,10 @@ public class nodeEdgeDispController {
           createNode(e);
         });
 
-    /*deleteNode.setOnAction(
+    deleteNode.setOnAction(
         e -> {
-          removeNode(e);
+          removeSelected(e);
         });
-    deleteEdge.setOnAction(
-        e -> {
-          removeEdge(e);
-        });*/
 
     // when checkbox is selected, unselect the other
     addEdgecb.setOnAction(
@@ -329,6 +325,36 @@ public class nodeEdgeDispController {
       throwables.printStackTrace();
     }
   }*/
+
+  private void removeSelected(ActionEvent e) {
+    ArrayList<String> nodeIDs = new ArrayList<String>();
+    for (MapController.CircleEx node : mapInsertController.getSelectedNodes()) {
+      nodeIDs.add(node.getId());
+    }
+
+    ArrayList<String> edgeIDs = new ArrayList<String>();
+    for (MapController.LineEx edge : mapInsertController.getSelectedEdges()) {
+      nodeIDs.add(edge.getId());
+    }
+
+    for (String nodeId : nodeIDs) {
+      try {
+        JDBCUtils.deleteNode(nodeId);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    }
+
+    for (String edgeId : edgeIDs) {
+      try {
+        JDBCUtils.deleteNode(edgeId);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    }
+
+    mapInsertController.removeSelected();
+  }
 
   // button event handler
   @FXML

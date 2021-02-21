@@ -322,6 +322,18 @@ public class MapController {
     }
   }
 
+  protected void removeSelected() {
+    for (CircleEx c : selectedNodes) {
+      adornerPane.getChildren().remove(c);
+    }
+    for (LineEx l : selectedEdges) {
+      adornerPane.getChildren().remove(l);
+    }
+
+    selectedNodes = new ArrayList<CircleEx>();
+    selectedEdges = new ArrayList<LineEx>();
+  }
+
   // Getters
   protected Pane getAdornerPane() {
     return adornerPane;

@@ -113,18 +113,12 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="2">
                            <children>
-                              <Button fx:id="deleteNode" mnemonicParsing="false" prefWidth="100.0" text="Delete Node">
+                              <Button fx:id="deleteNode" mnemonicParsing="false" prefWidth="100.0" text="Delete">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                               </Button>
-                              <Text fx:id="nodeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Node" />
-                              <Button fx:id="deleteEdge" mnemonicParsing="false" prefWidth="100.0" text="Delete Edge">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Text fx:id="edgeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Edge" />
+                              <Text fx:id="nodeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected anything" />
                            </children>
                         </VBox>
                         <SplitMenuButton fx:id="selectNewMapImage" mnemonicParsing="false" styleClass="button" text="Select New Map Image" GridPane.halignment="CENTER">
