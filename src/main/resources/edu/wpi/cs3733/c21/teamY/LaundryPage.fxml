@@ -143,7 +143,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="toHomeBtn1" alignment="CENTER" contentDisplay="CENTER" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d8d8d8; -fx-font-family: arial; -fx-background-radius: 6; -fx-font-weight: bold; -fx-font-size: 15;" text="Clear" textFill="#656565" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS">
+                        <Button fx:id="clearLaundryBtn" alignment="CENTER" contentDisplay="CENTER" minHeight="30.0" minWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #d8d8d8; -fx-font-family: arial; -fx-background-radius: 6; -fx-font-weight: bold; -fx-font-size: 15;" text="Clear" textFill="#656565" GridPane.halignment="RIGHT" GridPane.hgrow="ALWAYS">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>

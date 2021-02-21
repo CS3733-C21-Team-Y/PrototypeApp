@@ -12,6 +12,7 @@ public class MaintenancePageController {
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
   @FXML private Button toHomeBtn;
+  @FXML private Button clearMaintenanceButton;
   @FXML private ComboBox category;
   @FXML private TextField location;
   @FXML private TextArea description;
@@ -26,6 +27,7 @@ public class MaintenancePageController {
   private void initialize() {
     // attaches a handler to the button with a lambda expression
     toHomeBtn.setOnAction(e -> buttonClicked(e));
+    clearMaintenanceButton.setOnAction(e -> buttonClicked(e));
   }
 
   // button event handler
@@ -42,6 +44,11 @@ public class MaintenancePageController {
         // sets the new scene to the alex page
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
 
+      } else if (e.getSource() == clearMaintenanceButton) {
+        // gets the current stage
+        stage = (Stage) clearMaintenanceButton.getScene().getWindow();
+        // sets the new scene to itself, effectively clearing it
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("MaintenancePage.fxml"))));
       } else {
 
       }

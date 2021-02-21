@@ -141,7 +141,7 @@
                               <Insets />
                            </GridPane.margin>
                         </Button>
-                        <Button maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" style="-fx-font-size: 15; -fx-text-fill: #FFF; -fx-background-color: #f5c542;" stylesheets="@UIStyles.css" text="Clear" textFill="#656565" GridPane.columnIndex="1" />
+                        <Button fx:id="clearMaintenanceButton" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" style="-fx-font-size: 15; -fx-text-fill: #FFF; -fx-background-color: #f5c542;" stylesheets="@UIStyles.css" text="Clear" textFill="#656565" GridPane.columnIndex="1" />
                         <Button maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #6cc968; -fx-font-size: 15; -fx-text-fill: #FFFFFF;" stylesheets="@UIStyles.css" text="Submit" GridPane.columnIndex="2" />
                      </children>
                   </GridPane>

@@ -12,6 +12,7 @@ public class LaundryPageController {
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
   @FXML private Button toHomeBtn;
+  @FXML private Button clearLaundryBtn;
 
   // unused constructor
   public LaundryPageController() {}
@@ -21,6 +22,7 @@ public class LaundryPageController {
   private void initialize() {
     // attaches a handler to the button with a lambda expression
     toHomeBtn.setOnAction(e -> buttonClicked(e));
+    clearLaundryBtn.setOnAction(e -> buttonClicked(e));
   }
 
   // button event handler
@@ -37,6 +39,11 @@ public class LaundryPageController {
         // sets the new scene to the alex page
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
 
+      } else if (e.getSource() == clearLaundryBtn) {
+        // gets the current stage
+        stage = (Stage) clearLaundryBtn.getScene().getWindow();
+        // sets the new scene to itself, effectively clearing it
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("LaundryPage.fxml"))));
       } else {
 
       }
