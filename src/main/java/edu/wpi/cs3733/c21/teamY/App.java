@@ -17,6 +17,14 @@ public class App extends Application {
   @Override
   public void init() {
     log.info("Starting Up");
+    log.info("Attempting to load database from CSV file");
+
+    try {
+      JDBCUtils.fillTablesFromCSV();
+    } catch (Exception e) {
+      e.printStackTrace();
+      log.info("Error loading CSV into DB");
+    }
   }
 
   @Override
