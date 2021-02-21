@@ -93,7 +93,6 @@ public class JDBCUtils {
       }
     }
     if (rs != null) {
-
       try {
         rs.close();
       } catch (StandardException e) {
@@ -102,7 +101,6 @@ public class JDBCUtils {
     }
 
     if (stmt != null) {
-
       try {
         stmt.close();
       } catch (SQLException e) {
@@ -111,7 +109,6 @@ public class JDBCUtils {
     }
 
     if (conn != null) {
-
       try {
         conn.close();
       } catch (SQLException e) {
@@ -199,7 +196,7 @@ public class JDBCUtils {
 
       // updates given object value in table if the PK already exists w/in it
       if (e.getErrorCode() == 30000) {
-        e.printStackTrace();
+        //e.printStackTrace();
         if (object instanceof Node) {
           JDBCUtils.update((Node) object);
         } else {
@@ -211,7 +208,7 @@ public class JDBCUtils {
   }
 
   /**
-   * Takes in an arrayList<Node> and one by one inserts them into the Node Table
+   * <<<<<<< HEAD Takes in an arrayList<Node> and one by one inserts them into the Node Table
    *
    * @throws SQLException
    * @throws ClassNotFoundException
@@ -251,8 +248,8 @@ public class JDBCUtils {
   }
 
   /**
-   * Fills both the Node and Edge table with the data in the CSV files that store Node and Edge data
-   * respectively
+   * <<<<<<< HEAD Fills both the Node and Edge table with the data in the CSV files that store Node
+   * and Edge data respectively
    *
    * @throws IllegalAccessException
    * @throws IOException

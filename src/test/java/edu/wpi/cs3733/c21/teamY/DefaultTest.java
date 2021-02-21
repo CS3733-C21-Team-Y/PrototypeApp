@@ -2,7 +2,7 @@
 /* DO NOT DELETE THIS TEST */
 /*-------------------------*/
 
-package edu.wpi.yellowyetis;
+package edu.wpi.cs3733.c21.teamY;
 
 import static org.junit.jupiter.api.Assertions.*;
 

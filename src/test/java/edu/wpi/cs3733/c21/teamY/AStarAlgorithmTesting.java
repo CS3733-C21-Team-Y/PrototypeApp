@@ -1,10 +1,7 @@
-package edu.wpi.yellowyetis;
+package edu.wpi.cs3733.c21.teamY;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.wpi.cs3733.c21.teamY.AStarAlgorithm;
-import edu.wpi.cs3733.c21.teamY.ActiveGraph;
-import edu.wpi.cs3733.c21.teamY.Node;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
