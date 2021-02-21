@@ -34,6 +34,7 @@ public class RequestsManagerController extends GenericPage {
   private void addServiceToGrid(Service service) {
     rowCount++;
     Label serviceType = new Label(service.getType());
+    Label serviceLocation = new Label(service.getLocation());
     serviceGrid.addColumn(rowCount);
     serviceGrid.add(serviceType, 0, rowCount);
   }
