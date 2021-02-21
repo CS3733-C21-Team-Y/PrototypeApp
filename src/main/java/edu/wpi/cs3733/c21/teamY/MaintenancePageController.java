@@ -14,10 +14,10 @@ public class MaintenancePageController {
   @FXML private Button toHomeBtn;
   @FXML private Button clearMaintenanceButton;
   @FXML private ComboBox category;
-  @FXML private TextField location;
   @FXML private TextArea description;
   @FXML private ComboBox urgency;
   @FXML private DatePicker date;
+  @FXML private TextField locationField;
 
   // unused constructor
   public MaintenancePageController() {}
