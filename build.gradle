@@ -56,7 +56,6 @@ def codeCoverageExcludes = [
         'edu.wpi.cs3733.c21.teamY.MaintenancePageController',
         'edu.wpi.cs3733.c21.teamY.ServiceRequestPageController',
         'edu.wpi.cs3733.c21.teamY.PathfindingPageController',
-        'edu.wpi.cs3733.c21.teamY.nodeEdgeDispController',
         'edu.wpi.cs3733.c21.teamY.Node',
         'edu.wpi.cs3733.c21.teamY.Edge',
         'edu.wpi.cs3733.c21.teamY.nodeEdgeDispController',
@@ -70,6 +69,9 @@ def codeCoverageExcludes = [
         'edu.wpi.cs3733.c21.teamY.MapController',
         'edu.wpi.cs3733.c21.teamY.ActiveGraph',
         'edu.wpi.cs3733.c21.teamY.ServiceRequestInfoPageController',
+        'edu.wpi.cs3733.c21.teamY.MapController.CircleEx',
+        'edu.wpi.cs3733.c21.teamY.GraphEditPageController',
+        'edu.wpi.cs3733.c21.teamY.MapController.LineEx',
         // Test these later
         'edu.wpi.cs3733.c21.teamY.ServiceRequestDBops',
         'edu.wpi.cs3733.c21.teamY.ActiveGraphNoStairs'
