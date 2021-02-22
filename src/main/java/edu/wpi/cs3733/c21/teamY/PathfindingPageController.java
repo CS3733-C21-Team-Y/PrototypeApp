@@ -121,6 +121,8 @@ public class PathfindingPageController {
 
             resetMouseHandlingForAdorners();
             mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
+
+            calculatePath();
           });
       i++;
     }
