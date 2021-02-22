@@ -5,9 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class HomePageController {
+public class HomePageController extends GenericPage {
 
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
@@ -15,6 +16,8 @@ public class HomePageController {
   @FXML private Button toPathfindingBtn;
   @FXML private Button toMapEditBtn;
   @FXML private Button toRequestsManager;
+  @FXML private Button exitBtn;
+  @FXML private Label titleLabel;
 
   // unused constructor
   public HomePageController() {}
@@ -27,6 +30,8 @@ public class HomePageController {
     toMapEditBtn.setOnAction(e -> buttonClicked(e));
     toPathfindingBtn.setOnAction(e -> buttonClicked(e));
     toRequestsManager.setOnAction(e -> buttonClicked(e));
+    exitBtn.setOnAction(e -> exitButtonClicked());
+    titleLabel.setText("Mobile\nAssistant");
   }
 
   // button event handler
