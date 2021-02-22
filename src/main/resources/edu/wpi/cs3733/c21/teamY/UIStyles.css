@@ -52,3 +52,24 @@
     -fx-border-width: 1;
     -fx-background-radius: 8;
 }
+#notStartedService {
+    -fx-background-color:  #d64d4d;
+    -fx-background-radius: 3;
+    -fx-font-family: Arial;
+    -fx-font-size: 12;
+    -fx-text-fill: white;
+}
+#incompleteService {
+    -fx-background-color:   #f5c542;
+    -fx-background-radius: 3;
+    -fx-font-family: Arial;
+    -fx-font-size: 12;
+    -fx-text-fill: white;
+}
+#completeService {
+    -fx-background-color:   #6cc968;
+    -fx-background-radius: 3;
+    -fx-font-family: Arial;
+    -fx-font-size: 12;
+    -fx-text-fill: white;
+}

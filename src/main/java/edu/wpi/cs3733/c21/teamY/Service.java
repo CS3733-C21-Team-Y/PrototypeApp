@@ -10,6 +10,7 @@ public class Service {
   private String category;
   private String urgency;
   private String date;
+
   private int status;
 
   public Service(int serviceID, String type) {
@@ -57,6 +58,14 @@ public class Service {
     this.category = category;
     this.urgency = urgency;
     this.date = date;
+    this.status = status;
+  }
+
+  public int getStatus() {
+    return status;
+  }
+
+  public void setStatus(int status) {
     this.status = status;
   }
 
@@ -114,5 +123,6 @@ public class Service {
 
   public void setDate(String date) {
     this.date = date;
+    status = -1;
   }
 }

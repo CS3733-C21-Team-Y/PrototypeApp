@@ -11,6 +11,7 @@ public class Examples {
     JDBCUtils.deleteEdge("edge1");
     JDBCUtils.deleteNode("node1");
     JDBCUtils.deleteNode("node2");
+    ServiceRequestDBops.removeService(500);
   }
 
   @Test
@@ -24,6 +25,9 @@ public class Examples {
 
     System.out.print(JDBCUtils.getConn());
 
+    Service service1 =
+        new Service(500, "testing", "description", "dummy location", "none", "low", "6", -1);
+
     Edge edge1 = new Edge("edge1", "node1", "node2");
 
     JDBCUtils.insert(9, node1, "Node");
@@ -31,6 +35,8 @@ public class Examples {
     JDBCUtils.insert(9, node2, "Node");
 
     JDBCUtils.insert(3, edge1, "Edge");
+
+    JDBCUtils.insert(8, service1, "Service");
 
     JDBCUtils.selectQuery("Node");
   }
