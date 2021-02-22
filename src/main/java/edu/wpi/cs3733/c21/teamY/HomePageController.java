@@ -46,7 +46,7 @@ public class HomePageController {
         // gets the current stage
         stage = (Stage) toPathfindingBtn.getScene().getWindow();
         // sets the new scene to the alex page
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("MapBase.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("PathfindingPage.fxml"))));
 
       } else if (e.getSource() == toMapEditBtn) {
         // gets the current stage

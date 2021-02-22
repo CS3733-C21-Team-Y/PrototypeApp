@@ -78,8 +78,26 @@ public class GraphEditPageController {
               new Rectangle(
                   0, 0, stackPane.getWidth(), mapInsertController.containerStackPane.getHeight());
           mapInsertController.containerStackPane.setClip(viewWindow);
+
+          // SHOULD BE IMPROVED
+
+          if (e.isShiftDown()) {
+            shiftPressed = true;
+          } else {
+            shiftPressed = false;
+          }
         });
-    anchor.setOnKeyReleased(e -> mapInsertController.scrollOnRelease(e));
+
+    anchor.setOnKeyReleased(
+        e -> {
+          mapInsertController.scrollOnRelease(e);
+
+          if (e.isShiftDown()) {
+            shiftPressed = true;
+          } else {
+            shiftPressed = false;
+          }
+        });
     resetView.setOnAction(e -> mapInsertController.resetMapView());
     resetView.toFront();
     mapInsertController.containerStackPane.setOnScroll(e -> mapInsertController.zoom(e));
@@ -90,42 +108,42 @@ public class GraphEditPageController {
           mapInsertController.setImage(
               mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.PARKING);
-          updateMenuPreview(e, selectNewMapImage);
+          mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorOnePage.setOnAction(
         e -> {
           mapInsertController.setImage(
               mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR1);
-          updateMenuPreview(e, selectNewMapImage);
+          mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorTwoPage.setOnAction(
         e -> {
           mapInsertController.setImage(
               mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR2);
-          updateMenuPreview(e, selectNewMapImage);
+          mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorThreePage.setOnAction(
         e -> {
           mapInsertController.setImage(
               mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR3);
-          updateMenuPreview(e, selectNewMapImage);
+          mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorFourPage.setOnAction(
         e -> {
           mapInsertController.setImage(
               mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR4);
-          updateMenuPreview(e, selectNewMapImage);
+          mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorFivePage.setOnAction(
         e -> {
           mapInsertController.setImage(
               mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR5);
-          updateMenuPreview(e, selectNewMapImage);
+          mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
 
     JFXDialog dialog = new JFXDialog();
@@ -134,6 +152,7 @@ public class GraphEditPageController {
             " Scroll to Zoom"
                 + "\n Hold CTRL + Scroll to Pan Up and down"
                 + "\n Hold SHIFT + Scroll to Pan left and right"
+                + "\n Hold SHIFT to select multiple nodes"
                 + "\n Reset brings back the original framing"));
     toolTip.setOnAction((action) -> dialog.show(stackPane));
     toolTip.toFront();
@@ -151,8 +170,8 @@ public class GraphEditPageController {
       int index = i;
       menuItem.setOnAction(
           e -> {
-            controlImageShown(e, mapInsertController.getMapOrder().get(index));
-            updateMenuPreview(e, mapInsertController.getFloorMenu());
+            mapInsertController.switchImage(e, mapInsertController.getMapOrder().get(index));
+            mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
           });
       i++;
     }
@@ -184,25 +203,6 @@ public class GraphEditPageController {
 
     resetMouseHandlingForAdorners();
 
-    // SHOULD BE IMPROVED
-    anchor.setOnKeyPressed(
-        k -> {
-          if (k.isShiftDown()) {
-            shiftPressed = true;
-          } else {
-            shiftPressed = false;
-          }
-        });
-
-    // Shift for multiple nodes.
-    anchor.setOnKeyReleased(
-        k -> {
-          if (k.isShiftDown()) {
-            shiftPressed = true;
-          } else {
-            shiftPressed = false;
-          }
-        });
     // Deselect if not shifting and clicked on not an Adorner
     mapInsertController
         .getAdornerPane()
@@ -263,17 +263,15 @@ public class GraphEditPageController {
         });
   }
 
-  private void updateMenuPreview(ActionEvent e, SplitMenuButton s) {
-    s.setText(((MenuItem) e.getSource()).getText());
-  }
-
   // this sucks
   private void initiateDrawing() {
-    removeAllAdornerElements();
-    mapInsertController.clearSelection();
+    mapInsertController.removeAllAdornerElements();
 
     nodeIDCounter = nodes.size() + 1;
-    mapInsertController.drawFromCSV(nodes, edges);
+
+    nodes = mapInsertController.loadNodesFromCSV();
+    edges = mapInsertController.loadEdgesFromCSV();
+    mapInsertController.drawFromCSV(nodes, edges, mapInsertController.floorNumber);
     resetMouseHandlingForAdorners();
   }
 
@@ -282,20 +280,6 @@ public class GraphEditPageController {
     //    map.setFitHeight(500);
     //    map.fitHeightProperty().bind(anchor.heightProperty());
     //    map.fitWidthProperty().bind(anchor.widthProperty());
-  }
-
-  private void controlImageShown(ActionEvent e, MapController.MAP_PAGE mp) {
-    removeAllAdornerElements();
-    mapInsertController.changeImage(mp);
-  }
-
-  // --delete functions only work taking off screen not deleting from DB - oops
-  private void removeAllAdornerElements() {
-    mapInsertController
-        .getAdornerPane()
-        .getChildren()
-        .remove(0, mapInsertController.getAdornerPane().getChildren().size());
-    mapInsertController.updateMapScreen();
   }
 
   //  private void removeEdge(ActionEvent e) throws SQLException {

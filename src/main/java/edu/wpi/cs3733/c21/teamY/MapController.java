@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -95,7 +97,7 @@ public class MapController {
     adornerPane.setScaleX(mapImageView.getScaleX());
     adornerPane.setScaleY(mapImageView.getScaleY());
 
-    mapOverlayUIGridPane.setMouseTransparent(true);
+    mapOverlayUIGridPane.setPickOnBounds(false);
   }
 
   // Image stuff
@@ -191,6 +193,7 @@ public class MapController {
       CircleEx n = (CircleEx) adornerPane.getScene().lookup("#" + e.getStartNodeID());
       CircleEx m = (CircleEx) adornerPane.getScene().lookup("#" + e.getEndNodeID());
 
+      // System.out.println(e.edgeID);
       startx = n.getCenterX();
       starty = n.getCenterY();
       endx = m.getCenterX();
@@ -207,24 +210,46 @@ public class MapController {
     lineEx.toBack();
 
     updateMapScreen();
+
     return lineEx;
   }
 
-  protected void drawFromCSV(ArrayList<Node> nodes, ArrayList<Edge> edges) {
+  protected ArrayList<Node> loadNodesFromCSV() {
     try {
-      nodes = CSV.getListOfNodes();
-      edges = CSV.getListOfEdge();
+      return CSV.getListOfNodes();
 
     } catch (Exception exception) {
       System.out.println("nodeEdgeDispController.drawFromCSV");
+      return null;
+    }
+  }
+
+  protected ArrayList<Edge> loadEdgesFromCSV() {
+    try {
+      return CSV.getListOfEdge();
+
+    } catch (Exception exception) {
+      System.out.println("nodeEdgeDispController.drawFromCSV");
+      return null;
+    }
+  }
+
+  protected void drawFromCSV(ArrayList<Node> nodes, ArrayList<Edge> edges, String floor) {
+
+    if (nodes == null || edges == null) {
+      nodes = loadNodesFromCSV();
+      edges = loadEdgesFromCSV();
+      System.out.println("Had to load FromCSV");
     }
 
+    if (nodes.size() == 0 || edges.size() == 1) {
+      System.out.println("No nodes or edges");
+    }
     for (edu.wpi.cs3733.c21.teamY.Node n : nodes) {
       if (n.floor.equals(floorNumber)) {
 
         double x = n.getXcoord();
         double y = n.getYcoord();
-
         addNodeCircle(n);
 
       } else {
@@ -270,6 +295,23 @@ public class MapController {
   protected double scaleUpYCoords(double y) {
     double scale = 1485.0 / 350.0;
     return y * scale;
+  }
+
+  protected void switchImage(ActionEvent e, MapController.MAP_PAGE mp) {
+    removeAllAdornerElements();
+    changeImage(mp);
+  }
+
+  // --delete functions only work taking off screen not deleting from DB - oops
+  protected void removeAllAdornerElements() {
+    adornerPane.getChildren().remove(0, adornerPane.getChildren().size());
+    selectedNodes = new ArrayList<CircleEx>();
+    selectedEdges = new ArrayList<LineEx>();
+    updateMapScreen();
+  }
+
+  protected void updateMenuPreview(ActionEvent e, SplitMenuButton s) {
+    s.setText(((MenuItem) e.getSource()).getText());
   }
 
   // selection functions
