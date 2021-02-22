@@ -1,9 +1,17 @@
 package edu.wpi.cs3733.c21.teamY;
 
 import java.sql.SQLException;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 public class Examples {
+
+  @AfterAll
+  public static void cleanDB() throws SQLException {
+    JDBCUtils.deleteEdge("edge1");
+    JDBCUtils.deleteNode("node1");
+    JDBCUtils.deleteNode("node2");
+  }
 
   @Test
   public void testInsert()
@@ -18,9 +26,9 @@ public class Examples {
 
     Edge edge1 = new Edge("edge1", "node1", "node2");
 
-    JDBCUtils.insert(10, node1, "Node");
+    JDBCUtils.insert(9, node1, "Node");
 
-    JDBCUtils.insert(10, node2, "Node");
+    JDBCUtils.insert(9, node2, "Node");
 
     JDBCUtils.insert(3, edge1, "Edge");
 

@@ -12,6 +12,7 @@ public class DijkstrasTest {
     HashMap<String, Double> distance = new HashMap<>();
     HashMap<String, Boolean> shortList = new HashMap<>();
 
+    // We will simulate starting at node ten and moving out from that point
     // 10 is our start node. All distances are from 10 to that node
     distance.put("1", Double.MAX_VALUE);
     distance.put("2", Double.MAX_VALUE);
@@ -35,21 +36,22 @@ public class DijkstrasTest {
     shortList.put("9", false);
     shortList.put("10", true);
 
-    // First test that the basic functionality of aStar is working
+    // First test that the basic functionality of minDistance is working
     assertEquals("7", DijkstrasAlgorithm.minDistance(distance, shortList));
 
-    ActiveGraph.initialize();
+    TestGraph.initialize();
 
     distance.put("5", 9.5);
     distance.put(
         "9",
         7.5
             + DijkstrasAlgorithm.nodeDistance(
-                ActiveGraph.getActiveGraph().nodeFromID("7"),
-                ActiveGraph.getActiveGraph().nodeFromID("9")));
+                TestGraph.getActiveGraph().nodeFromID("7"),
+                TestGraph.getActiveGraph().nodeFromID("9")));
     distance.put("8", 9.75);
     shortList.put("7", true);
 
+    // Second test on the next iteration of the sequence
     assertEquals("5", DijkstrasAlgorithm.minDistance(distance, shortList));
   }
 
@@ -72,22 +74,45 @@ public class DijkstrasTest {
 
   @Test
   public void testDijkstraHash() {
-    ActiveGraph.initialize();
+    TestGraph.initialize();
 
     ArrayList<String> destinations = new ArrayList<>();
     destinations.add("3");
     destinations.add("4");
 
     HashMap<String, Double> answerKey = new HashMap<>();
-    answerKey = DijkstrasAlgorithm.dijkstra(ActiveGraph.getActiveGraph(), "1", destinations);
+    answerKey = DijkstrasAlgorithm.dijkstra(TestGraph.getActiveGraph(), "1", destinations);
 
-    // First test that the basic functionality of aStar is working
+    // First tests that the basic functionality of dijkstras is working
+    // We're checking that the hashmap was generated correctly for a few specific examples
     assertEquals(4.5, answerKey.get("3"));
     assertEquals(
         3.25
             + DijkstrasAlgorithm.nodeDistance(
-                ActiveGraph.getActiveGraph().nodeFromID("2"),
-                ActiveGraph.getActiveGraph().nodeFromID("4")),
+                TestGraph.getActiveGraph().nodeFromID("2"),
+                TestGraph.getActiveGraph().nodeFromID("4")),
         answerKey.get("4"));
+  }
+
+  @Test
+  public void testDijkstraDetour() {
+    TestGraph.initialize();
+
+    ArrayList<String> destinations = new ArrayList<>();
+    destinations.add("3");
+    destinations.add("4");
+
+    // First test that the basic functionality of detour is working
+    assertEquals(
+        "5",
+        DijkstrasAlgorithm.dijkstraDetour(TestGraph.getActiveGraph(), "1", destinations, "FOOD"));
+
+    destinations.remove("3");
+    destinations.add("6");
+
+    // Second test that detour works if a node included is already the detour type
+    assertEquals(
+        "6",
+        DijkstrasAlgorithm.dijkstraDetour(TestGraph.getActiveGraph(), "1", destinations, "FOOD"));
   }
 }

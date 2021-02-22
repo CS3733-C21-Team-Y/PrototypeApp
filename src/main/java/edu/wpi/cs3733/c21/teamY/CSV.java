@@ -215,7 +215,6 @@ public class CSV {
       }
       while (resultSet.next()) {
         for (int i = 1; i < numAttributes; i++) {
-          System.out.println(resultSet.getString(i));
           stringBuilder.append(resultSet.getString(i)).append(",");
         }
         stringBuilder.deleteCharAt(

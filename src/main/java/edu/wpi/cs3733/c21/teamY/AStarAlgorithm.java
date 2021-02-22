@@ -10,6 +10,7 @@ import java.util.HashMap;
  */
 public class AStarAlgorithm {
 
+  // Finds the distance between two nodes
   public static double nodeDistance(Node start, Node end) {
     return Math.sqrt(
         Math.pow((end.xcoord - start.xcoord), 2) + Math.pow((end.ycoord - start.ycoord), 2));
@@ -148,37 +149,46 @@ public class AStarAlgorithm {
     return path;
   }
 
-  // Organizes a group of unsorted goalIDs based on the nearestNeighbor algorithm
-  // Currently running using euclidean distance between points instead of the actual path distance.
+  /**
+   * Uses the principle of find the nearest neighbor each point to locate the next node it should
+   * move to in order to generate a semi-optimized path. Usually won't be completely optimal, but it
+   * should be an improvement.
+   *
+   * @param g an adjacency-matrix-representation of the graph where (x,y) is the weight of the edge
+   *     or 0 if there is no edge.
+   * @param startID the node to start from.
+   * @param goalIDs the nodes we're searching for in no particular order.
+   * @return modified to return the goalIDs in an ordered semi-optimal form.
+   */
   public static ArrayList<String> nearestNeighbor(
       Graph g, String startID, ArrayList<String> goalIDs) {
-    int start = g.indexFromID(startID);
+
     ArrayList<String> organized = new ArrayList<>();
 
     // Initialize list of goal indices
-    ArrayList<Integer> goals = new ArrayList<>();
-    for (int i = 0; i < goalIDs.size(); i++) {
-      goals.add(g.indexFromID(goalIDs.get(i)));
-    }
+    ArrayList<String> goals = new ArrayList<>();
+    goals = (ArrayList<String>) goalIDs.clone();
 
+    HashMap<String, Double> dijkstraHash = new HashMap<>();
     double minDist = Double.MAX_VALUE;
     double tempDist = 0;
-    int minIndex = 0;
+    String min = "";
+
     for (int i = 0; i < goalIDs.size(); i++) {
+      dijkstraHash = DijkstrasAlgorithm.dijkstra(g, startID, goals);
+
       for (int j = 0; j < goals.size(); j++) {
-        // TODO: change this to use our dijkstra's algorithm implementation after it's written
-        tempDist = nodeDistance(g.nodeList[start], g.nodeList[goals.get(j)]);
+        tempDist = dijkstraHash.get(goals.get(j));
         if (tempDist < minDist) {
           minDist = tempDist;
-          minIndex = goals.get(j);
+          min = goals.get(j);
         }
       }
-      start = minIndex;
-      organized.add(g.nodeList[minIndex].nodeID);
-      goals.remove(minIndex);
+
+      organized.add(min);
+      goals.remove(min);
       minDist = Double.MAX_VALUE;
     }
-
     return organized;
   }
 }

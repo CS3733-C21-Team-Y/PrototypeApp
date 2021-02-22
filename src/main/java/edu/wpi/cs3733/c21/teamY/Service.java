@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.c21.teamY;
 
 public class Service {
+
+  private int serviceID;
   private String type;
 
   private String description;
@@ -8,8 +10,7 @@ public class Service {
   private String category;
   private String urgency;
   private String date;
-
-  private int serviceID;
+  private int status;
 
   public Service(int serviceID, String type) {
     this.serviceID = serviceID;
@@ -19,6 +20,7 @@ public class Service {
     category = "";
     urgency = "";
     date = "";
+    status = -1;
   }
 
   public Service(
@@ -36,6 +38,26 @@ public class Service {
     this.category = category;
     this.urgency = urgency;
     this.date = date;
+    this.status = -1;
+  }
+
+  public Service(
+      int serviceID,
+      String type,
+      String description,
+      String location,
+      String category,
+      String urgency,
+      String date,
+      int status) {
+    this.serviceID = serviceID;
+    this.type = type;
+    this.description = description;
+    this.location = location;
+    this.category = category;
+    this.urgency = urgency;
+    this.date = date;
+    this.status = status;
   }
 
   public int getServiceID() {
