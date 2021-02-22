@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c21.teamY;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,9 +32,21 @@ public class RequestsManagerController extends GenericPage {
   private void initialize() {
     exitBtn.setOnAction(e -> exitButtonClicked());
     backBtn.setOnAction(e -> buttonClicked(e));
-    addServiceBtn.setOnAction(
-        e -> addServiceToGrid(new Service(rowCount, "Laundry", "", "Cafeteria", "", "", "")));
+    addServiceBtn.setOnAction(e -> loadServicesFromDB());
+    // addServiceBtn.setOnAction(
+    //     e -> addServiceToGrid(new Service(rowCount, "Laundry", "", "Cafeteria", "", "", "")));
     rowCount = 0;
+  }
+
+  private void loadServicesFromDB() {
+    try {
+      ArrayList<Service> serviceList = ServiceRequestDBops.exportService("");
+      for (Service service : serviceList) {
+        addServiceToGrid(service);
+      }
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
   }
 
   private void addServiceToGrid(Service service) {

@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamY;
 
+import java.sql.SQLException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -38,5 +39,23 @@ public class LaundryPageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
+    Service service = new Service(Service.IDCount, "Laundry");
+    Service.IDCount++;
+    service.setCategory(category.getAccessibleText());
+    service.setLocation(locationField.getText());
+    service.setDescription(description.getText());
+    try {
+      ServiceRequestDBops.saveService(service);
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    } catch (NoSuchFieldException e) {
+      e.printStackTrace();
+    } catch (InstantiationException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
   }
 }
