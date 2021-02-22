@@ -1,8 +1,7 @@
 package edu.wpi.cs3733.c21.teamY;
 
-import java.util.ArrayList;
-
 import com.jfoenix.controls.JFXDialog;
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +29,6 @@ public class PathfindingPageController {
   @FXML private ComboBox endLocationBox;
   @FXML private Button toolTip;
 
-
   private ArrayList<Node> nodes = new ArrayList<Node>();
   private ArrayList<Edge> edges = new ArrayList<Edge>();
   private Graph graph;
@@ -44,6 +42,7 @@ public class PathfindingPageController {
     // attaches a handler to the button with a lambda expression
     toHomeBtn.setOnAction(e -> buttonClicked(e));
 
+    // scroll
     anchor.setOnKeyPressed(
         e -> {
           mapInsertController.scrollOnPress(e);
@@ -53,30 +52,44 @@ public class PathfindingPageController {
           mapInsertController.containerStackPane.setClip(viewWindow);
         });
     anchor.setOnKeyReleased(e -> mapInsertController.scrollOnRelease(e));
-    resetView.setOnAction(e -> mapInsertController.resetMapView());
-    resetView.toFront();
     mapInsertController.containerStackPane.setOnScroll(e -> mapInsertController.zoom(e));
 
+    // Reset view button
+    resetView.setOnAction(e -> mapInsertController.resetMapView());
+    resetView.toFront();
 
+    // Tooltip box
     JFXDialog dialog = new JFXDialog();
     dialog.setContent(
-            new Label(
-                    " Scroll to Zoom"
-                            + "\n Hold CTRL + Scroll to Pan Up and down"
-                            + "\n Hold SHIFT + Scroll to Pan left and right"
-                            + "\n Reset brings back the original framing"));
+        new Label(
+            " Scroll to Zoom"
+                + "\n Hold CTRL + Scroll to Pan Up and down"
+                + "\n Hold SHIFT + Scroll to Pan left and right"
+                + "\n Reset brings back the original framing"));
     toolTip.setOnAction((action) -> dialog.show(stackPane));
     toolTip.toFront();
 
+    // Init Image
     mapInsertController.getFloorMenu().setText("Select A Floor");
     mapInsertController.changeImage(MapController.MAP_PAGE.PARKING);
 
+    // Node selection menus Keys
     startLocationBox.setOnKeyPressed(
         e -> {
           if (e.getCode() == KeyCode.ENTER) {
             calculatePath();
           }
         });
+
+    startLocationBox
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (options, oldValue, newValue) -> {
+              if ((oldValue == null && newValue != null) || (!oldValue.equals(newValue))) {
+                calculatePath();
+              }
+            });
 
     endLocationBox.setOnKeyPressed(
         e -> {
@@ -85,6 +98,17 @@ public class PathfindingPageController {
           }
         });
 
+    endLocationBox
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (options, oldValue, newValue) -> {
+              if ((oldValue == null && newValue != null) || (!oldValue.equals(newValue))) {
+                calculatePath();
+              }
+            });
+
+    // Floor selection menu population
     int i = 0;
     for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
       int index = i;
@@ -95,11 +119,13 @@ public class PathfindingPageController {
             mapInsertController.removeAllAdornerElements();
             mapInsertController.drawFromCSV(nodes, edges, mapInsertController.floorNumber);
 
+            resetMouseHandlingForAdorners();
             mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
           });
       i++;
     }
 
+    // Populate local graph and selection menus
     nodes = mapInsertController.loadNodesFromCSV();
     edges = mapInsertController.loadEdgesFromCSV();
 
@@ -112,6 +138,9 @@ public class PathfindingPageController {
     }
 
     graph = new Graph(nodes, edges);
+
+    // Select startNodeBox
+    startLocationBox.requestFocus();
   }
 
   // button event handler
@@ -136,6 +165,46 @@ public class PathfindingPageController {
     } catch (Exception exp) {
     }
   }
+
+  // Set selection click handlers
+  protected void resetMouseHandlingForAdorners() {
+    for (javafx.scene.Node p : mapInsertController.getAdornerPane().getChildren()) {
+      try {
+
+        if (p instanceof MapController.CircleEx) {
+          setNodeOnClick((MapController.CircleEx) p);
+        }
+
+      } catch (Exception exp) {
+        // System.out.println("no point selected");
+      }
+    }
+  }
+
+  private void setNodeOnClick(MapController.CircleEx node) {
+    node.setOnMouseClicked(
+        w -> {
+          if (startLocationBox.isFocused()) {
+            mapInsertController.selectCircle((MapController.CircleEx) node);
+            startLocationBox.setValue(node.getId());
+
+          } else if (endLocationBox.isFocused()) {
+            mapInsertController.selectCircle((MapController.CircleEx) node);
+            endLocationBox.setValue(node.getId());
+          }
+        });
+  }
+
+  /* Dont need it
+  private void setEdgeOnClick(MapController.LineEx edge) {
+    edge.setOnMouseClicked(
+            w -> {
+              if (!shiftPressed) {
+                mapInsertController.clearSelection();
+              }
+              mapInsertController.selectLine((MapController.LineEx) edge);
+            });
+  }*/
 
   public void calculatePath() {
     if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
