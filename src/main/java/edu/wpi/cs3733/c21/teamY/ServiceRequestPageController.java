@@ -30,7 +30,6 @@ public class ServiceRequestPageController extends GenericPage {
     toMaintenanceBtn.setOnAction(e -> buttonClicked(e));
     exitBtn.setOnAction(e -> exitButtonClicked());
   }
-
   // button event handler
   @FXML
   private void buttonClicked(ActionEvent e) {
