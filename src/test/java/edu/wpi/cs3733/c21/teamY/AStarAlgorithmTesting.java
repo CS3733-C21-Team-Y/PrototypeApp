@@ -58,7 +58,7 @@ public class AStarAlgorithmTesting {
   }
 
   @Test
-  public void testAStarAlgorithm_multipleAStar() {
+  public void testAStarAlgorithm_multipleAStar() throws SQLException {
     ActiveGraph.initialize();
 
     ArrayList<Node> expectPath = new ArrayList<>();
