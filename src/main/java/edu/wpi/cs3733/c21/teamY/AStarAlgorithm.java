@@ -10,6 +10,7 @@ import java.util.HashMap;
  */
 public class AStarAlgorithm {
 
+  //Finds the distance between two nodes
   public static double nodeDistance(Node start, Node end) {
     return Math.sqrt(
         Math.pow((end.xcoord - start.xcoord), 2) + Math.pow((end.ycoord - start.ycoord), 2));
@@ -148,8 +149,17 @@ public class AStarAlgorithm {
     return path;
   }
 
-  // Organizes a group of unsorted goalIDs based on the nearestNeighbor algorithm
-  // Currently running using euclidean distance between points instead of the actual path distance.
+  /**
+   * Uses the principle of find the nearest neighbor each point to locate the next node it should move to
+   * in order to generate a semi-optimized path. Usually won't be completely optimal, but it should be an
+   * improvement.
+   *
+   * @param g an adjacency-matrix-representation of the graph where (x,y) is the weight of the edge
+   *     or 0 if there is no edge.
+   * @param startID the node to start from.
+   * @param goalIDs the nodes we're searching for in no particular order.
+   * @return modified to return the goalIDs in an ordered semi-optimal form.
+   */
   public static ArrayList<String> nearestNeighbor(
       Graph g, String startID, ArrayList<String> goalIDs) {
 

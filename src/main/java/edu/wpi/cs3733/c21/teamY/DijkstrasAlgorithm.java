@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class DijkstrasAlgorithm {
 
+  //Finds the minimum distance the algorithm can travel to reach a new node.
   static String minDistance(HashMap<String, Double> dist, HashMap<String, Boolean> inShortest) {
     // Initialize min value
     double min = Double.MAX_VALUE;
@@ -20,14 +21,22 @@ public class DijkstrasAlgorithm {
     return min_node;
   }
 
+  //Finds the distance between two nodes
   static double nodeDistance(Node start, Node end) {
     return Math.sqrt(
         Math.pow((end.xcoord - start.xcoord), 2) + Math.pow((end.ycoord - start.ycoord), 2));
   }
 
-  // Function that implements Dijkstra's on a single starting point
-  // It will calculate the shortest paths to every point in the map
-  // Returns these paths as a hashmap of the node and the shortest path cost to that node
+  /**
+   * Calculates the shortest paths to every point in the map until all goalID's are calculated
+   *
+   * @param g an adjacency-matrix-representation of the graph where (x,y) is the weight of the edge
+   *     or 0 if there is no edge.
+   * @param startID the node to start from.
+   * @param goalIDs the nodes we're searching for.
+   * @return modified to return these paths as a hashmap of the node and the shortest path cost to
+   *     that node.
+   */
   static HashMap<String, Double> dijkstra(Graph g, String startID, ArrayList<String> goalIDs) {
     ArrayList<String> localGoals = new ArrayList<>();
     localGoals = (ArrayList<String>) goalIDs.clone();
@@ -82,13 +91,18 @@ public class DijkstrasAlgorithm {
     return dist;
   }
 
-  // Function that uses Dijkstra's to find the desired detour type
-  // It will find the closest detourType (bathroom for example) to the nodes in the path
-  // Returns the nodeID of the detour location that is closest.
+  /**
+   * Locates the closest detourType (bathroom for example) to the nodes in the path
+   *
+   * @param g an adjacency-matrix-representation of the graph where (x,y) is the weight of the edge
+   *     or 0 if there is no edge.
+   * @param startID the node to start from.
+   * @param pathGoalIDs the goal nodes on our path.
+   * @param detourType the type of detour we're looking for.
+   * @return modified to return the node id of the closest detourType.
+   */
   static String dijkstraDetour(
       Graph g, String startID, ArrayList<String> pathGoalIDs, String detourType) {
-    ArrayList<String> localGoals = new ArrayList<>();
-    localGoals = (ArrayList<String>) pathGoalIDs.clone();
     // dist will hold the shortest distance from startNode to node
     HashMap<String, Double> dist = new HashMap<>();
 
@@ -98,6 +112,8 @@ public class DijkstrasAlgorithm {
 
     // Initialize dists as infinite and inShortest as false
     for (Node node : g.nodeList) {
+      // for the nodes already in the path we'll set the distance to zero so this runs on all the
+      // nodes in the path sequence
       if (pathGoalIDs.contains(node.nodeID) || startID.equals(node.nodeID)) {
         dist.put(node.nodeID, 0.0);
       } else {
@@ -109,7 +125,7 @@ public class DijkstrasAlgorithm {
     // This loop will run once for each node
     for (int i = 0; i < g.nodeList.length - 1; i++) {
       // Pick the minimum distance node from the set of nodes not yet checked.
-      // min is always equal to start in first iteration.
+      // min is always equal to start or pathGoalIDs in first iterations.
       String min = minDistance(dist, inShortest);
 
       // Mark the picked node as processed
@@ -131,8 +147,6 @@ public class DijkstrasAlgorithm {
         }
       }
       // Checks whether we've found a node of detourType
-      // System.out.println(g.nodeFromID(min).nodeType);
-      System.out.println(min);
       if (g.nodeFromID(min).nodeType.equals(detourType)) {
         return min;
       }

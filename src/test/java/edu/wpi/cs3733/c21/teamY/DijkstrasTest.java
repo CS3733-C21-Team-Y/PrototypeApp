@@ -12,6 +12,7 @@ public class DijkstrasTest {
     HashMap<String, Double> distance = new HashMap<>();
     HashMap<String, Boolean> shortList = new HashMap<>();
 
+    // We will simulate starting at node ten and moving out from that point
     // 10 is our start node. All distances are from 10 to that node
     distance.put("1", Double.MAX_VALUE);
     distance.put("2", Double.MAX_VALUE);
@@ -35,7 +36,7 @@ public class DijkstrasTest {
     shortList.put("9", false);
     shortList.put("10", true);
 
-    // First test that the basic functionality of aStar is working
+    // First test that the basic functionality of minDistance is working
     assertEquals("7", DijkstrasAlgorithm.minDistance(distance, shortList));
 
     ActiveGraph.initialize();
@@ -50,6 +51,7 @@ public class DijkstrasTest {
     distance.put("8", 9.75);
     shortList.put("7", true);
 
+    // Second test on the next iteration of the sequence
     assertEquals("5", DijkstrasAlgorithm.minDistance(distance, shortList));
   }
 
@@ -81,7 +83,8 @@ public class DijkstrasTest {
     HashMap<String, Double> answerKey = new HashMap<>();
     answerKey = DijkstrasAlgorithm.dijkstra(ActiveGraph.getActiveGraph(), "1", destinations);
 
-    // First test that the basic functionality of aStar is working
+    // First tests that the basic functionality of dijkstras is working
+    // We're checking that the hashmap was generated correctly for a few specific examples
     assertEquals(4.5, answerKey.get("3"));
     assertEquals(
         3.25
