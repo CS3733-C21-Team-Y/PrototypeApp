@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public class AStarAlgorithm {
 
-  //Finds the distance between two nodes
+  // Finds the distance between two nodes
   public static double nodeDistance(Node start, Node end) {
     return Math.sqrt(
         Math.pow((end.xcoord - start.xcoord), 2) + Math.pow((end.ycoord - start.ycoord), 2));
@@ -150,9 +150,9 @@ public class AStarAlgorithm {
   }
 
   /**
-   * Uses the principle of find the nearest neighbor each point to locate the next node it should move to
-   * in order to generate a semi-optimized path. Usually won't be completely optimal, but it should be an
-   * improvement.
+   * Uses the principle of find the nearest neighbor each point to locate the next node it should
+   * move to in order to generate a semi-optimized path. Usually won't be completely optimal, but it
+   * should be an improvement.
    *
    * @param g an adjacency-matrix-representation of the graph where (x,y) is the weight of the edge
    *     or 0 if there is no edge.

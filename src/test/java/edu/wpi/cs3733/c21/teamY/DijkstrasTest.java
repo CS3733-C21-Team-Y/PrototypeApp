@@ -39,15 +39,15 @@ public class DijkstrasTest {
     // First test that the basic functionality of minDistance is working
     assertEquals("7", DijkstrasAlgorithm.minDistance(distance, shortList));
 
-    ActiveGraph.initialize();
+    TestGraph.initialize();
 
     distance.put("5", 9.5);
     distance.put(
         "9",
         7.5
             + DijkstrasAlgorithm.nodeDistance(
-                ActiveGraph.getActiveGraph().nodeFromID("7"),
-                ActiveGraph.getActiveGraph().nodeFromID("9")));
+                TestGraph.getActiveGraph().nodeFromID("7"),
+                TestGraph.getActiveGraph().nodeFromID("9")));
     distance.put("8", 9.75);
     shortList.put("7", true);
 
@@ -74,14 +74,14 @@ public class DijkstrasTest {
 
   @Test
   public void testDijkstraHash() {
-    ActiveGraph.initialize();
+    TestGraph.initialize();
 
     ArrayList<String> destinations = new ArrayList<>();
     destinations.add("3");
     destinations.add("4");
 
     HashMap<String, Double> answerKey = new HashMap<>();
-    answerKey = DijkstrasAlgorithm.dijkstra(ActiveGraph.getActiveGraph(), "1", destinations);
+    answerKey = DijkstrasAlgorithm.dijkstra(TestGraph.getActiveGraph(), "1", destinations);
 
     // First tests that the basic functionality of dijkstras is working
     // We're checking that the hashmap was generated correctly for a few specific examples
@@ -89,14 +89,14 @@ public class DijkstrasTest {
     assertEquals(
         3.25
             + DijkstrasAlgorithm.nodeDistance(
-                ActiveGraph.getActiveGraph().nodeFromID("2"),
-                ActiveGraph.getActiveGraph().nodeFromID("4")),
+                TestGraph.getActiveGraph().nodeFromID("2"),
+                TestGraph.getActiveGraph().nodeFromID("4")),
         answerKey.get("4"));
   }
 
   @Test
   public void testDijkstraDetour() {
-    ActiveGraph.initialize();
+    TestGraph.initialize();
 
     ArrayList<String> destinations = new ArrayList<>();
     destinations.add("3");
@@ -105,7 +105,7 @@ public class DijkstrasTest {
     // First test that the basic functionality of detour is working
     assertEquals(
         "5",
-        DijkstrasAlgorithm.dijkstraDetour(ActiveGraph.getActiveGraph(), "1", destinations, "FOOD"));
+        DijkstrasAlgorithm.dijkstraDetour(TestGraph.getActiveGraph(), "1", destinations, "FOOD"));
 
     destinations.remove("3");
     destinations.add("6");
@@ -113,6 +113,6 @@ public class DijkstrasTest {
     // Second test that detour works if a node included is already the detour type
     assertEquals(
         "6",
-        DijkstrasAlgorithm.dijkstraDetour(ActiveGraph.getActiveGraph(), "1", destinations, "FOOD"));
+        DijkstrasAlgorithm.dijkstraDetour(TestGraph.getActiveGraph(), "1", destinations, "FOOD"));
   }
 }
