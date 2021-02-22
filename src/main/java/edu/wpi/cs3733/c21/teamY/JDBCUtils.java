@@ -51,13 +51,18 @@ public class JDBCUtils {
               + "shortName varchar(50) not null ,\n"
               + "teamAssigned char not null )";
       stmt.executeUpdate(sqlNode);
-
+      String sqlService =
+          "create table Service(serviceID int PRIMARY KEY , type varchar(20) not null ,"
+              + "description varchar(255) , location varchar(30), category varchar(20), "
+              + "urgency varchar(10), date varchar(20),status int,check ( status=-1 OR status =0 OR status=1 ));";
+      stmt.executeUpdate(sqlService);
       String sqlEdge =
           "create table Edge(edgeID varchar(40) PRIMARY KEY NOT NULL ,\n"
               + "startNode varchar(30) not null ,\n"
               + "endNode varchar(30) not null )";
 
       stmt.executeUpdate(sqlEdge);
+
     } catch (SQLException ignored) {
 
     }
