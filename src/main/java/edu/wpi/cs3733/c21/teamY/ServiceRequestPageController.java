@@ -7,26 +7,29 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class ServiceRequestPageController {
+public class ServiceRequestPageController extends GenericPage {
 
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
-  @FXML private Button toHomePageBtn;
+  @FXML private Button backBtn;
   @FXML private Button toLaundryBtn;
   @FXML private Button toMaintenanceBtn;
+  @FXML private Button exitBtn;
 
   // unused constructor
-  public ServiceRequestPageController() {}
+  public ServiceRequestPageController() {
+    super();
+  }
 
   // this runs once the FXML loads in to attach functions to components
   @FXML
   private void initialize() {
     // attaches a handler to the button with a lambda expression
-    toHomePageBtn.setOnAction(e -> buttonClicked(e));
+    backBtn.setOnAction(e -> buttonClicked(e));
     toLaundryBtn.setOnAction(e -> buttonClicked(e));
     toMaintenanceBtn.setOnAction(e -> buttonClicked(e));
+    exitBtn.setOnAction(e -> exitButtonClicked());
   }
-
   // button event handler
   @FXML
   private void buttonClicked(ActionEvent e) {
@@ -35,9 +38,9 @@ public class ServiceRequestPageController {
       // initializing stage
       Stage stage = null;
 
-      if (e.getSource() == toHomePageBtn) {
+      if (e.getSource() == backBtn) {
         // gets the current stage
-        stage = (Stage) toHomePageBtn.getScene().getWindow();
+        stage = (Stage) backBtn.getScene().getWindow();
         // sets the new scene to the alex page
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
 

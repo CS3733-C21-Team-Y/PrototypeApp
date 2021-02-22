@@ -1,49 +1,63 @@
 package edu.wpi.cs3733.c21.teamY;
 
-import javafx.event.ActionEvent;
+import java.sql.SQLException;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
+import javafx.scene.control.*;
 
-public class MaintenancePageController {
+public class MaintenancePageController extends GenericServiceFormPage {
 
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
-  @FXML private Button toHomeBtn;
+  @FXML private Button cancelBtn;
+  @FXML private Button clearBtn;
+  @FXML private Button exitBtn;
+  @FXML private Button backBtn;
+  @FXML private Button submitBtn;
+  @FXML private ComboBox category;
+  @FXML private TextArea description;
+  @FXML private ComboBox urgency;
+  @FXML private DatePicker date;
+  @FXML private TextField locationField;
 
   // unused constructor
-  public MaintenancePageController() {}
+  public MaintenancePageController() {
+    super();
+  }
 
   // this runs once the FXML loads in to attach functions to components
   @FXML
   private void initialize() {
     // attaches a handler to the button with a lambda expression
-    toHomeBtn.setOnAction(e -> buttonClicked(e));
+    cancelBtn.setOnAction(e -> serviceButtonClicked(e, "MaintenancePage.fxml"));
+    clearBtn.setOnAction(e -> serviceButtonClicked(e, "MaintenancePage.fxml"));
+    backBtn.setOnAction(e -> serviceButtonClicked(e, "MaintenancePage.fxml"));
+    submitBtn.setOnAction(e -> submitBtnClicked());
+    exitBtn.setOnAction(e -> exitButtonClicked());
   }
 
-  // button event handler
   @FXML
-  private void buttonClicked(ActionEvent e) {
-    // error handling for FXMLLoader.load
+  private void submitBtnClicked() {
+    // put code for submitting a service request here
+    Service service = new Service(this.IDCount, "Maintenance");
+    this.IDCount++;
+    System.out.println(this.IDCount);
+    service.setCategory(category.getAccessibleText());
+    service.setLocation(locationField.getText());
+    service.setDescription(description.getText());
+    service.setUrgency(urgency.getAccessibleText());
+    service.setDate(date.getAccessibleText());
     try {
-      // initializing stage
-      Stage stage = null;
-
-      if (e.getSource() == toHomeBtn) {
-        // gets the current stage
-        stage = (Stage) toHomeBtn.getScene().getWindow();
-        // sets the new scene to the alex page
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
-
-      } else {
-
-      }
-
-      // display new stage
-      stage.show();
-    } catch (Exception exp) {
+      ServiceRequestDBops.saveService(service);
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    } catch (NoSuchFieldException e) {
+      e.printStackTrace();
+    } catch (InstantiationException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
     }
   }
 }

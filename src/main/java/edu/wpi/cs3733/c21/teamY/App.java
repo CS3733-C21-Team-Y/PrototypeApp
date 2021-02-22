@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +18,29 @@ public class App extends Application {
   @Override
   public void init() {
     log.info("Starting Up");
+    log.info("Attempting to load database from CSV file");
+
+    try {
+      ActiveGraph.initialize();
+    } catch (SQLException e) {
+      e.printStackTrace();
+      log.info("Error initializing ActiveGraph");
+    }
+
+    try {
+      ActiveGraphNoStairs.initialize();
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+      log.info("Error initializing ActiveGraphNoStairs");
+    }
+
+    try {
+      JDBCUtils.fillTablesFromCSV();
+    } catch (Exception e) {
+      e.printStackTrace();
+      log.info("Error loading CSV into DB");
+    }
   }
 
   @Override
