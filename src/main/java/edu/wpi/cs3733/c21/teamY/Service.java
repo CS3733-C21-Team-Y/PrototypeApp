@@ -115,4 +115,27 @@ public class Service {
   public void setDate(String date) {
     this.date = date;
   }
+
+  public int getStatus() {
+    return status;
+  }
+
+  @Override
+  public String toString() {
+    return serviceID
+        + ","
+        + type
+        + ","
+        + description
+        + ","
+        + location
+        + ","
+        + category
+        + ","
+        + urgency
+        + ","
+        + date
+        + ","
+        + status;
+  }
 }

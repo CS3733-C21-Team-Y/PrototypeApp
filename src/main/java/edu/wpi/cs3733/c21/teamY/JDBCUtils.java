@@ -58,6 +58,13 @@ public class JDBCUtils {
               + "endNode varchar(30) not null )";
 
       stmt.executeUpdate(sqlEdge);
+
+      String sqlService =
+          "create table Service(serviceID int PRIMARY KEY , type varchar(20) not null ,"
+              + "description varchar(255) , location varchar(30), category varchar(20), "
+              + "urgency varchar(10), date varchar(20),status int,check ( status=-1 OR status =0 OR status=1 ));";
+      stmt.executeUpdate(sqlService);
+
     } catch (SQLException ignored) {
 
     }

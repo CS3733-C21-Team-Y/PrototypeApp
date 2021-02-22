@@ -1,12 +1,10 @@
 package edu.wpi.cs3733.c21.teamY;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class ServiceRequestDBops {
+
   /**
    * @param service a service to be saved to DB
    * @throws ClassNotFoundException
@@ -18,7 +16,8 @@ public class ServiceRequestDBops {
   public static void saveService(Service service)
       throws ClassNotFoundException, SQLException, NoSuchFieldException, InstantiationException,
           IllegalAccessException {
-    JDBCUtils.insert(8, service, "Service");
+    JDBCUtils.insert(8, service, "Service"); // save to database
+    ServiceCSV.saveServiceToCSV(service); // save to CSV file
   }
 
   /**
@@ -110,6 +109,38 @@ public class ServiceRequestDBops {
       System.out.println("update successful");
       return true;
     }
+  }
+
+  /**
+   * @param service a service to be isnerted into DB
+   * @param conn the connection to use
+   * @param preparedStatement prepare statement
+   * @param insert the string represent the SQL query
+   * @return true if insert successful
+   */
+  public static boolean preparedStatementInsert(
+      Service service, Connection conn, PreparedStatement preparedStatement, String insert) {
+
+    boolean hasBeenUpdated = false;
+
+    try {
+
+      preparedStatement.setInt(1, service.getServiceID());
+      preparedStatement.setString(2, service.getType());
+      preparedStatement.setString(3, service.getDescription());
+      preparedStatement.setString(4, service.getLocation());
+      preparedStatement.setString(5, service.getCategory());
+      preparedStatement.setString(6, service.getUrgency());
+      preparedStatement.setString(7, service.getDate());
+      preparedStatement.setInt(8, service.getStatus());
+      preparedStatement.executeUpdate();
+      hasBeenUpdated = true;
+
+    } catch (SQLException throwables) {
+      System.out.println("connection get failed ");
+      throwables.printStackTrace();
+    }
+    return hasBeenUpdated;
   }
 
   /*    public static int getStatus(int ServiceID) throws SQLException {
