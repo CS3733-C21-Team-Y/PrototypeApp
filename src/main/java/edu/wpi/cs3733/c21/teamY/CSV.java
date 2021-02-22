@@ -131,6 +131,7 @@ public class CSV {
    * @param node: a node you want to write to CSV
    * @return true if write successful, false otherwise
    */
+  @Deprecated
   public static boolean saveNodeCSV(Node node) {
 
     try {
@@ -152,6 +153,7 @@ public class CSV {
    * @param edge: a edge you want to write(save) to CSV
    * @return true if write successful, false otherwise
    */
+  @Deprecated
   public static boolean saveEdgeCSV(Edge edge) {
 
     try {
@@ -202,13 +204,25 @@ public class CSV {
       Statement statement = conn.createStatement();
       ResultSet resultSet = statement.executeQuery(str);
       StringBuilder stringBuilder = new StringBuilder("");
-      System.out.println("exporting" + mode + "from database to CSV files");
+      System.out.println("exporting " + mode + " from database to CSV files");
+      if (mode.equals("EDGE")) {
+        bufferedWriter.write("edgeID,startNode,endNode"); // writes header line with fields to CSV
+        bufferedWriter.newLine();
+      } else if (mode.equals("NODE")) {
+        bufferedWriter.write(
+            "nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned"); // writes header line with fields to CSV
+        bufferedWriter.newLine();
+      }
       while (resultSet.next()) {
         for (int i = 1; i < numAttributes; i++) {
+          System.out.println(resultSet.getString(i));
           stringBuilder.append(resultSet.getString(i)).append(",");
         }
+        stringBuilder.deleteCharAt(
+            stringBuilder.length() - 1); // Gets rid of final unnecessary comma
         bufferedWriter.write(stringBuilder.toString());
         bufferedWriter.newLine();
+        stringBuilder.setLength(0); // Clears stringBuilder for the new line
       }
       resultSet.close();
       JDBCUtils.close(null, null, statement, conn);
@@ -221,6 +235,7 @@ public class CSV {
     return true;
   }
   // out-dated version of generating CSV file
+  @Deprecated
   public static boolean generateEdgeCSV() throws SQLException {
     Connection conn = JDBCUtils.getConn();
     boolean generatedSuccessful = false;
@@ -321,6 +336,46 @@ public class CSV {
     return null;
   }
 
+  public static ArrayList<Edge> getListOfEdgeNoStairs() throws SQLException {
+    // Connection conn=JDBCUtils.getConn();
+    Connection conn = JDBCUtils.getConn();
+    String str = "SELECT * FROM ADMIN.EDGE";
+    ArrayList<Edge> edges = new ArrayList<>();
+    String edgeID = "";
+    String startNodeID = "";
+    String endNodeID = "";
+    try {
+      Statement statement = conn.createStatement();
+      ResultSet resultSet = statement.executeQuery(str);
+      System.out.println("exporting Nodes from database to list of nodes");
+      while (resultSet.next()) {
+        edgeID = resultSet.getString(1);
+        startNodeID = resultSet.getString(2);
+        endNodeID = resultSet.getString(3);
+        if (startNodeID.contains("STAI") || endNodeID.contains("STAI")) {
+          continue;
+        }
+        Edge edge = new Edge(edgeID, startNodeID, endNodeID);
+        edges.add(edge);
+        JDBCUtils.insert(3, edge, "Edge");
+      }
+      resultSet.close();
+      JDBCUtils.close(null, null, statement, conn);
+      return edges;
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    } catch (InstantiationException e) {
+      e.printStackTrace();
+    } catch (NoSuchFieldException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
   /** @return a list of nodes */
   public static ArrayList<Node> getListOfNodes() throws SQLException {
     // Connection conn=JDBCUtils.getConn();
@@ -350,6 +405,64 @@ public class CSV {
         longName = resultSet.getString(7);
         shortName = resultSet.getString(8);
         teamAssigned = resultSet.getString(9).charAt(0);
+
+        Node node =
+            new Node(
+                nodeType,
+                xcoord,
+                ycoord,
+                floor,
+                building,
+                longName,
+                shortName,
+                teamAssigned,
+                nodeID);
+        nodes.add(node);
+      }
+      resultSet.close();
+      JDBCUtils.close(null, null, statement, conn);
+      return nodes;
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+    if (nodes.size() == 0) {
+      System.out.println("zero node in the list, there could be no rows in the table");
+    }
+    return nodes;
+  }
+
+  public static ArrayList<Node> getListOfNodesNoStairs() throws SQLException {
+    // Connection conn=JDBCUtils.getConn();
+    Connection conn = JDBCUtils.getConn();
+    String str = "SELECT * FROM ADMIN.NODE";
+    ArrayList<Node> nodes = new ArrayList<>();
+    String nodeType = "";
+    double xcoord = 0;
+    double ycoord = 0;
+    String floor = "";
+    String building = "";
+    String longName = "";
+    String shortName = "";
+    char teamAssigned = 'X';
+    String nodeID = "";
+    try {
+      Statement statement = conn.createStatement();
+      ResultSet resultSet = statement.executeQuery(str);
+      System.out.println("exporting Nodes from database to list of nodes");
+      while (resultSet.next()) {
+        nodeID = resultSet.getString(1);
+        nodeType = resultSet.getString(2);
+        xcoord = resultSet.getDouble(3);
+        ycoord = resultSet.getDouble(4);
+        floor = resultSet.getString(5);
+        building = resultSet.getString(6);
+        longName = resultSet.getString(7);
+        shortName = resultSet.getString(8);
+        teamAssigned = resultSet.getString(9).charAt(0);
+
+        if (nodeID.contains("STAI")) {
+          continue;
+        }
 
         Node node =
             new Node(
