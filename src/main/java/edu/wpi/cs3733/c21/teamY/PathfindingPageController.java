@@ -1,12 +1,15 @@
 package edu.wpi.cs3733.c21.teamY;
 
 import java.util.ArrayList;
+
+import com.jfoenix.controls.JFXDialog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -25,6 +28,8 @@ public class PathfindingPageController {
   @FXML private StackPane stackPane;
   @FXML private ComboBox startLocationBox;
   @FXML private ComboBox endLocationBox;
+  @FXML private Button toolTip;
+
 
   private ArrayList<Node> nodes = new ArrayList<Node>();
   private ArrayList<Edge> edges = new ArrayList<Edge>();
@@ -52,7 +57,7 @@ public class PathfindingPageController {
     resetView.toFront();
     mapInsertController.containerStackPane.setOnScroll(e -> mapInsertController.zoom(e));
 
-    /*
+
     JFXDialog dialog = new JFXDialog();
     dialog.setContent(
             new Label(
@@ -61,7 +66,7 @@ public class PathfindingPageController {
                             + "\n Hold SHIFT + Scroll to Pan left and right"
                             + "\n Reset brings back the original framing"));
     toolTip.setOnAction((action) -> dialog.show(stackPane));
-    toolTip.toFront();*/
+    toolTip.toFront();
 
     mapInsertController.getFloorMenu().setText("Select A Floor");
     mapInsertController.changeImage(MapController.MAP_PAGE.PARKING);
