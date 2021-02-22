@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamY;
 
 import com.jfoenix.controls.JFXDialog;
 import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,6 +34,8 @@ public class PathfindingPageController {
   private ArrayList<Edge> edges = new ArrayList<Edge>();
   private Graph graph;
 
+  private boolean pathActive = false;
+
   // unused constructor
   public PathfindingPageController() {}
 
@@ -58,6 +61,9 @@ public class PathfindingPageController {
     resetView.setOnAction(e -> mapInsertController.resetMapView());
     resetView.toFront();
 
+    // Set the starting image early because otherwise it will flash default
+    mapInsertController.changeImage(MapController.MAP_PAGE.PARKING);
+
     // Tooltip box
     JFXDialog dialog = new JFXDialog();
     dialog.setContent(
@@ -68,10 +74,6 @@ public class PathfindingPageController {
                 + "\n Reset brings back the original framing"));
     toolTip.setOnAction((action) -> dialog.show(stackPane));
     toolTip.toFront();
-
-    // Init Image
-    mapInsertController.getFloorMenu().setText("Select A Floor");
-    mapInsertController.changeImage(MapController.MAP_PAGE.PARKING);
 
     // Node selection menus Keys
     startLocationBox.setOnKeyPressed(
@@ -88,6 +90,8 @@ public class PathfindingPageController {
             (options, oldValue, newValue) -> {
               if ((oldValue == null && newValue != null) || (!oldValue.equals(newValue))) {
                 calculatePath();
+              } else {
+                pathActive = false;
               }
             });
 
@@ -105,6 +109,8 @@ public class PathfindingPageController {
             (options, oldValue, newValue) -> {
               if ((oldValue == null && newValue != null) || (!oldValue.equals(newValue))) {
                 calculatePath();
+              } else {
+                pathActive = false;
               }
             });
 
@@ -143,6 +149,19 @@ public class PathfindingPageController {
 
     // Select startNodeBox
     startLocationBox.requestFocus();
+
+    // Init Map
+    Platform.runLater(
+        () -> {
+          mapInsertController.getFloorMenu().setText("Parking");
+          mapInsertController.changeImage(MapController.MAP_PAGE.PARKING);
+
+          mapInsertController.drawFromCSV(nodes, edges, mapInsertController.floorNumber);
+
+          resetMouseHandlingForAdorners();
+        });
+
+    Platform.runLater(() -> startLocationBox.requestFocus());
   }
 
   // button event handler
@@ -186,13 +205,49 @@ public class PathfindingPageController {
   private void setNodeOnClick(MapController.CircleEx node) {
     node.setOnMouseClicked(
         w -> {
-          if (startLocationBox.isFocused()) {
-            mapInsertController.selectCircle((MapController.CircleEx) node);
-            startLocationBox.setValue(node.getId());
+          if (!node.hasFocus || (node.hasFocus && pathActive)) {
+            if (startLocationBox.isFocused()) {
+              if (startLocationBox.getValue() != null) {
+                MapController.CircleEx n =
+                    (MapController.CircleEx)
+                        mapInsertController
+                            .getAdornerPane()
+                            .getScene()
+                            .lookup("#" + startLocationBox.getValue());
+                if (n != null) {
+                  mapInsertController.deSelectCircle(n);
+                }
+              }
 
-          } else if (endLocationBox.isFocused()) {
-            mapInsertController.selectCircle((MapController.CircleEx) node);
-            endLocationBox.setValue(node.getId());
+              mapInsertController.selectCircle((MapController.CircleEx) node);
+              startLocationBox.setValue(node.getId());
+
+            } else if (endLocationBox.isFocused()) {
+
+              if (endLocationBox.getValue() != null) {
+                MapController.CircleEx n =
+                    (MapController.CircleEx)
+                        mapInsertController
+                            .getAdornerPane()
+                            .getScene()
+                            .lookup("#" + endLocationBox.getValue());
+                if (n != null) {
+                  mapInsertController.deSelectCircle(n);
+                }
+              }
+
+              mapInsertController.selectCircle((MapController.CircleEx) node);
+              endLocationBox.setValue(node.getId());
+            }
+          } else {
+            if (startLocationBox.isFocused()) {
+              mapInsertController.selectCircle((MapController.CircleEx) node);
+              startLocationBox.setValue("");
+
+            } else if (endLocationBox.isFocused()) {
+              mapInsertController.selectCircle((MapController.CircleEx) node);
+              endLocationBox.setValue("");
+            }
           }
         });
   }
@@ -210,6 +265,8 @@ public class PathfindingPageController {
 
   public void calculatePath() {
     if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
+
+      pathActive = true;
 
       mapInsertController.clearSelection();
       ArrayList<Node> nodes =
