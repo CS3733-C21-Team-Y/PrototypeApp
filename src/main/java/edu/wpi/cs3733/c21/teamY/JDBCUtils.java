@@ -166,6 +166,7 @@ public class JDBCUtils {
       field.setAccessible(true);
 
       String param = String.valueOf(field.get(object));
+      System.out.println(param + " counter value " + parameterCounter);
       psInsert.setString(parameterCounter, param);
     }
 

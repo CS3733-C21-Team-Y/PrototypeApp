@@ -2,8 +2,7 @@ package edu.wpi.cs3733.c21.teamY;
 
 public class Service {
 
-  public static int IDCount = 0;
-
+  private int serviceID;
   private String type;
 
   private String description;
@@ -13,8 +12,6 @@ public class Service {
   private String date;
   private int status;
 
-  private int serviceID;
-
   public Service(int serviceID, String type) {
     this.serviceID = serviceID;
     this.type = type;
@@ -23,6 +20,7 @@ public class Service {
     category = "";
     urgency = "";
     date = "";
+    status = -1;
   }
 
   public Service(
@@ -40,6 +38,7 @@ public class Service {
     this.category = category;
     this.urgency = urgency;
     this.date = date;
+    this.status = -1;
   }
 
   public Service(

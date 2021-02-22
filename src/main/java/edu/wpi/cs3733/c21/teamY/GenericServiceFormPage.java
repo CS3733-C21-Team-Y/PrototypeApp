@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 
 public class GenericServiceFormPage extends GenericPage {
 
+  public static int IDCount = 0;
+
   public GenericServiceFormPage() {
     super();
   }
