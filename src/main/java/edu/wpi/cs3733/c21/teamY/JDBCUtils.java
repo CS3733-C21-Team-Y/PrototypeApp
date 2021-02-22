@@ -166,7 +166,7 @@ public class JDBCUtils {
       field.setAccessible(true);
 
       String param = String.valueOf(field.get(object));
-      System.out.println(param + " counter value " + parameterCounter);
+      // System.out.println(param + " counter value " + parameterCounter);
       psInsert.setString(parameterCounter, param);
     }
 
@@ -200,8 +200,10 @@ public class JDBCUtils {
         // e.printStackTrace();
         if (object instanceof Node) {
           JDBCUtils.update((Node) object);
-        } else {
+        } else if (object instanceof Edge) {
           JDBCUtils.update((Edge) object);
+        } else {
+          // JDBCUtils.update((Service) object);
         }
       }
     }

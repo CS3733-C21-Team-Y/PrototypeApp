@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c21.teamY;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,10 +11,16 @@ import javafx.stage.Stage;
 
 public class GenericServiceFormPage extends GenericPage {
 
-  public static int IDCount = 0;
+  public int IDCount;
 
   public GenericServiceFormPage() {
     super();
+    try {
+      ArrayList<Service> services = ServiceRequestDBops.exportService("");
+      IDCount = services.size();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
   }
 
   // button event handler

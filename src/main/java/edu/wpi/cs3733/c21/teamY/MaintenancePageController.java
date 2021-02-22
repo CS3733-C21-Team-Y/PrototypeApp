@@ -38,8 +38,9 @@ public class MaintenancePageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
-    Service service = new Service(GenericServiceFormPage.IDCount, "Maintenance");
-    GenericServiceFormPage.IDCount++;
+    Service service = new Service(this.IDCount, "Maintenance");
+    this.IDCount++;
+    System.out.println(this.IDCount);
     service.setCategory(category.getAccessibleText());
     service.setLocation(locationField.getText());
     service.setDescription(description.getText());
