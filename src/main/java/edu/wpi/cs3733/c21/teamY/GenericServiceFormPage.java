@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c21.teamY;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,8 +11,16 @@ import javafx.stage.Stage;
 
 public class GenericServiceFormPage extends GenericPage {
 
+  public int IDCount;
+
   public GenericServiceFormPage() {
     super();
+    try {
+      ArrayList<Service> services = ServiceRequestDBops.exportService("");
+      IDCount = services.size();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
   }
 
   // button event handler
@@ -23,6 +33,9 @@ public class GenericServiceFormPage extends GenericPage {
       stage = (Stage) ((Button) e.getSource()).getScene().getWindow();
       if (((Button) e.getSource()).getText().equals("Back")
           || ((Button) e.getSource()).getText().equals("Cancel")) {
+        // Attempts saving the service DB to a CSV file
+        CSV.DBtoCSV("SERVICE");
+
         // sets the new scene to the alex page
         stage.setScene(
             new Scene(FXMLLoader.load(getClass().getResource("ServiceRequestPage.fxml"))));

@@ -37,7 +37,7 @@ public class JDBCUtils {
 
       e.printStackTrace();
     }
-
+    /** create node and edge table */
     try {
       Statement stmt = conn.createStatement();
       String sqlNode =
@@ -50,6 +50,7 @@ public class JDBCUtils {
               + "longName varchar(100) not null ,\n"
               + "shortName varchar(50) not null ,\n"
               + "teamAssigned char not null )";
+
       stmt.executeUpdate(sqlNode);
 
       String sqlEdge =
@@ -58,8 +59,15 @@ public class JDBCUtils {
               + "endNode varchar(30) not null )";
 
       stmt.executeUpdate(sqlEdge);
-    } catch (SQLException ignored) {
 
+      String sqlService =
+          "create table Service(serviceID int PRIMARY KEY , type varchar(20) not null ,"
+              + "description varchar(255) , location varchar(30), category varchar(20), "
+              + "urgency varchar(10), date varchar(20),status int,check ( status=-1 OR status =0 OR status=1 ))";
+      stmt.executeUpdate(sqlService);
+
+    } catch (SQLException ignored) {
+      // ignored.printStackTrace();
     }
   }
 
@@ -166,6 +174,7 @@ public class JDBCUtils {
       field.setAccessible(true);
 
       String param = String.valueOf(field.get(object));
+      // System.out.println(param + " counter value " + parameterCounter);
       psInsert.setString(parameterCounter, param);
     }
 
@@ -199,8 +208,10 @@ public class JDBCUtils {
         // e.printStackTrace();
         if (object instanceof Node) {
           JDBCUtils.update((Node) object);
-        } else {
+        } else if (object instanceof Edge) {
           JDBCUtils.update((Edge) object);
+        } else {
+          // JDBCUtils.update((Service) object);
         }
       }
     }

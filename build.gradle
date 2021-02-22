@@ -49,17 +49,32 @@ jar {
 }
 
 def codeCoverageExcludes = [
-        'edu.wpi.yellowyetis.App',
-        'edu.wpi.yellowyetis.Main',
-        'edu.wpi.yellowyetis.HomePageController',
-        'edu.wpi.yellowyetis.LaundryPageController',
-        'edu.wpi.yellowyetis.MaintenancePageController',
-        'edu.wpi.yellowyetis.ServiceRequestPageController',
-        'edu.wpi.yellowyetis.PathfindingPageController',
-        'edu.wpi.yellowyetis.nodeEdgeDispController',
-        'edu.wpi.yellowyetis.Node',
-        'edu.wpi.yellowyetis.Edge',
-        'edu.wpi.yellowyetis.nodeEdgeDispController',
+        'edu.wpi.cs3733.c21.teamY.App',
+        'edu.wpi.cs3733.c21.teamY.Main',
+        'edu.wpi.cs3733.c21.teamY.HomePageController',
+        'edu.wpi.cs3733.c21.teamY.LaundryPageController',
+        'edu.wpi.cs3733.c21.teamY.MaintenancePageController',
+        'edu.wpi.cs3733.c21.teamY.ServiceRequestPageController',
+        'edu.wpi.cs3733.c21.teamY.PathfindingPageController',
+        'edu.wpi.cs3733.c21.teamY.Node',
+        'edu.wpi.cs3733.c21.teamY.Edge',
+        'edu.wpi.cs3733.c21.teamY.nodeEdgeDispController',
+        'edu.wpi.cs3733.c21.teamY.MapController.MAP_PAGE',
+        'edu.wpi.cs3733.c21.teamY.CustomMapController',
+        'edu.wpi.cs3733.c21.teamY.DatabaseQueryAdministrator',
+        'edu.wpi.cs3733.c21.teamY.Service',
+        'edu.wpi.cs3733.c21.teamY.GenericPage',
+        'edu.wpi.cs3733.c21.teamY.RequestsManagerController',
+        'edu.wpi.cs3733.c21.teamY.GenericServiceFormPage',
+        'edu.wpi.cs3733.c21.teamY.MapController',
+        'edu.wpi.cs3733.c21.teamY.ActiveGraph',
+        'edu.wpi.cs3733.c21.teamY.ServiceRequestInfoPageController',
+        'edu.wpi.cs3733.c21.teamY.MapController.CircleEx',
+        'edu.wpi.cs3733.c21.teamY.GraphEditPageController',
+        'edu.wpi.cs3733.c21.teamY.MapController.LineEx',
+        // Test these later
+        'edu.wpi.cs3733.c21.teamY.ServiceRequestDBops',
+        'edu.wpi.cs3733.c21.teamY.ActiveGraphNoStairs'
 ]
 
 jacoco {
