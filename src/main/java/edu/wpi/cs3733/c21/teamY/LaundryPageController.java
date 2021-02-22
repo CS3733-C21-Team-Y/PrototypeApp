@@ -41,7 +41,7 @@ public class LaundryPageController extends GenericServiceFormPage {
     // put code for submitting a service request here
     Service service = new Service(this.IDCount, "Laundry");
     this.IDCount++;
-    service.setCategory(category.getAccessibleText());
+    service.setCategory((String) category.getValue());
     service.setLocation(locationField.getText());
     service.setDescription(description.getText());
     try {

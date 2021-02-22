@@ -7,6 +7,8 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -72,7 +74,10 @@ public class RequestsManagerController extends GenericPage {
       status.setText("Not Started");
       status.setId("notStartedService");
     }
-
+    status.setPrefWidth(80);
+    status.setAlignment(Pos.CENTER);
+    status.setPadding(new Insets(5, 5, 5, 5));
+    CheckBox checkBox = new CheckBox();
     Button button = new Button("View");
     button.setOnAction(e -> serviceClicked(service));
     // serviceGrid.addColumn(rowCount);
@@ -81,7 +86,8 @@ public class RequestsManagerController extends GenericPage {
     serviceGrid.add(serviceLocation, 1, rowCount);
     serviceGrid.add(serviceID, 2, rowCount);
     serviceGrid.add(status, 3, rowCount);
-    serviceGrid.add(button, 4, rowCount);
+    serviceGrid.add(checkBox, 4, rowCount);
+    serviceGrid.add(button, 5, rowCount);
 
     RowConstraints constraints = new RowConstraints();
     constraints.setMinHeight(35);
