@@ -9,7 +9,10 @@ public class Service {
   private String urgency;
   private String date;
 
-  public Service(String type) {
+  private int serviceID;
+
+  public Service(int serviceID, String type) {
+    this.serviceID = serviceID;
     this.type = type;
     description = "";
     location = "";
@@ -19,18 +22,28 @@ public class Service {
   }
 
   public Service(
+      int serviceID,
       String type,
       String description,
       String location,
       String category,
       String urgency,
       String date) {
+    this.serviceID = serviceID;
     this.type = type;
     this.description = description;
     this.location = location;
     this.category = category;
     this.urgency = urgency;
     this.date = date;
+  }
+
+  public int getServiceID() {
+    return serviceID;
+  }
+
+  public void setServiceID(int serviceID) {
+    this.serviceID = serviceID;
   }
 
   public String getType() {
