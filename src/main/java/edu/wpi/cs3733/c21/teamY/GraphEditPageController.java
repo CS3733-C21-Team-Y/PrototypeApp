@@ -378,6 +378,7 @@ public class GraphEditPageController {
         CSV.DBtoCSV("NODE");
         CSV.DBtoCSV("EDGE");
         ActiveGraph.initialize();
+        ActiveGraphNoStairs.initialize();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
 
       } else {
@@ -499,6 +500,7 @@ public class GraphEditPageController {
     }
     try {
       ActiveGraph.initialize();
+      ActiveGraphNoStairs.initialize();
     } catch (Exception exception) {
       System.out.println("GraphEditPageController.updateNodes");
     }

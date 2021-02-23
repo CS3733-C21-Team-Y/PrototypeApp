@@ -96,6 +96,12 @@
                                     <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                                  </padding>
                               </CheckBox>
+                              <Line endX="101.2512435913086" endY="-15.041640281677246" startX="1.9583470821380615" startY="-15.0416259765625" />
+                              <CheckBox fx:id="noStairsCheckBox" mnemonicParsing="false" text="No Stairs">
+                                 <padding>
+                                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                 </padding>
+                              </CheckBox>
                            </children>
                            <HBox.margin>
                               <Insets top="10.0" />

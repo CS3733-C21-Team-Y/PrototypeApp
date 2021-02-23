@@ -29,6 +29,7 @@ public class PathfindingPageController {
   @FXML private CheckBox bathroomCheck;
   @FXML private CheckBox cafeCheck;
   @FXML private CheckBox kioskCheck;
+  @FXML private CheckBox noStairsCheckBox;
 
   @FXML private Slider zoomSlider;
   @FXML private Button upButton;
@@ -142,6 +143,58 @@ public class PathfindingPageController {
         .addListener(
             (options, oldValue, newValue) -> {
               calculatePath();
+            });
+
+    noStairsCheckBox
+        .selectedProperty()
+        .addListener(
+            (options, oldValue, newValue) -> {
+              if (oldValue != newValue) {
+
+                String start = (String) startLocationBox.getValue();
+                String end = (String) endLocationBox.getValue();
+
+                if (!newValue) {
+                  nodes = ActiveGraph.getNodes();
+                  edges = ActiveGraph.getEdges();
+                  graph = ActiveGraph.getActiveGraph();
+
+                  startLocationBox.getItems().remove(0, startLocationBox.getItems().size());
+                  endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
+
+                  for (Node node : nodes) {
+                    startLocationBox.getItems().add(node.nodeID);
+                  }
+
+                  for (Node node : nodes) {
+                    endLocationBox.getItems().add(node.nodeID);
+                  }
+                } else {
+                  nodes = ActiveGraphNoStairs.getNodes();
+                  edges = ActiveGraphNoStairs.getEdges();
+                  graph = ActiveGraphNoStairs.getActiveGraph();
+
+                  startLocationBox.getItems().remove(0, startLocationBox.getItems().size());
+                  endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
+
+                  for (Node node : nodes) {
+                    startLocationBox.getItems().add(node.nodeID);
+                  }
+
+                  for (Node node : nodes) {
+                    endLocationBox.getItems().add(node.nodeID);
+                  }
+                }
+
+                mapInsertController.removeAllAdornerElements();
+                mapInsertController.drawFromCSV(nodes, edges, mapInsertController.floorNumber);
+
+                resetMouseHandlingForAdorners();
+
+                startLocationBox.setValue(start);
+                endLocationBox.setValue(end);
+                calculatePath();
+              }
             });
 
     // Floor selection menu population
