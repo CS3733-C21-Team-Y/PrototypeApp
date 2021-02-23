@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
@@ -61,7 +63,20 @@
                               <Insets left="10.0" right="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Line endX="99.29289245605469" endY="0.9999855160713196" startX="-250.0">
+                        <SplitMenuButton fx:id="floorMenu" mnemonicParsing="false" styleClass="button" text="Floor Select Menu">
+                          <items>
+                              <MenuItem fx:id="parkingPage" mnemonicParsing="false" text="Parking lot" />
+                              <MenuItem fx:id="floorOnePage" mnemonicParsing="false" text="Floor 1" />
+                              <MenuItem fx:id="floorTwoPage" mnemonicParsing="false" text="Floor 2" />
+                              <MenuItem fx:id="floorThreePage" mnemonicParsing="false" text="Floor 3" />
+                              <MenuItem fx:id="floorFourPage" mnemonicParsing="false" text="Floor 4" />
+                              <MenuItem fx:id="floorFivePage" mnemonicParsing="false" text="Floor 5" />
+                          </items>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </SplitMenuButton>
+                        <Line endX="13.492843627929688" endY="-1.000116229057312" startX="-250.0">
                            <HBox.margin>
                               <Insets bottom="10.0" />
                            </HBox.margin>
@@ -81,11 +96,6 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="loadNodesButton" mnemonicParsing="false" text="Faulkner Map Load" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
-                           <GridPane.margin>
-                              <Insets bottom="20.0" />
-                           </GridPane.margin>
-                        </Button>
                         <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                            <children>
                               <GridPane alignment="TOP_CENTER">
@@ -94,14 +104,28 @@
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <TextField fx:id="newX" maxWidth="90.0" text="newX" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                    <TextField fx:id="newY" maxWidth="90.0" text="newY" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                    <CheckBox fx:id="addNodecb" alignment="TOP_CENTER" mnemonicParsing="false" text="add Node" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <CheckBox fx:id="addEdgecb" mnemonicParsing="false" text="add Edge" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <TextField fx:id="newX" maxWidth="90.0" text="newX" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                                    <TextField fx:id="newY" maxWidth="90.0" text="newY" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                                    <CheckBox fx:id="addNodecb" alignment="TOP_CENTER" mnemonicParsing="false" text="add Node" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                                    <CheckBox fx:id="addEdgecb" mnemonicParsing="false" text="add Edge" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                                    <Button fx:id="deleteNode" mnemonicParsing="false" prefWidth="100.0" text="Delete Node">
+                                       <GridPane.margin>
+                                          <Insets right="5.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                    <Text fx:id="nodeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Node" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                                    <Button fx:id="deleteEdge" mnemonicParsing="false" prefWidth="100.0" text="Delete Edge" GridPane.columnIndex="1">
+                                       <GridPane.margin>
+                                          <Insets left="5.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                    <Text fx:id="edgeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Edge" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                                  </children>
                               </GridPane>
                               <Button fx:id="addNode" mnemonicParsing="false" prefWidth="100.0" text="Add Node">
@@ -111,45 +135,68 @@
                               </Button>
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="2">
+                        <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="2">
                            <children>
-                              <Button fx:id="deleteNode" mnemonicParsing="false" prefWidth="100.0" text="Delete Node">
+                              <SplitMenuButton fx:id="selectNewMapImage" mnemonicParsing="false" styleClass="button" text="Select New Map Image">
+                                 <items>
+                                    <MenuItem fx:id="setParkingPage" mnemonicParsing="false" text="Parking lot" />
+                                    <MenuItem fx:id="setFloorOnePage" mnemonicParsing="false" text="Floor 1" />
+                                    <MenuItem fx:id="setFloorTwoPage" mnemonicParsing="false" text="Floor 2" />
+                                    <MenuItem fx:id="setFloorThreePage" mnemonicParsing="false" text="Floor 3" />
+                                    <MenuItem fx:id="setFloorFourPage" mnemonicParsing="false" text="Floor 4" />
+                                    <MenuItem fx:id="setFloorFivePage" mnemonicParsing="false" text="Floor 5" />
+                                 </items>
                                  <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    <Insets bottom="5.0" />
                                  </VBox.margin>
-                              </Button>
-                              <Text fx:id="nodeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Node" />
-                              <Button fx:id="deleteEdge" mnemonicParsing="false" prefWidth="100.0" text="Delete Edge">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Text fx:id="edgeDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Selected Edge" />
+                              </SplitMenuButton>
+                              <Label text="Pan on Map" />
+                              <GridPane alignment="TOP_CENTER" prefHeight="104.0" prefWidth="146.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <JFXButton fx:id="panUpButton" text="Up" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                                    <JFXButton fx:id="panLeftButton" text="Left" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                                    <JFXButton fx:id="panDownButton" text="Down" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                                    <JFXButton fx:id="panRightButton" text="Right" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                                 </children>
+                              </GridPane>
                            </children>
                         </VBox>
-                        <SplitMenuButton fx:id="floorMenu" mnemonicParsing="false" styleClass="button" text="Floor Select Menu" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-                          <items>
-                              <MenuItem fx:id="parkingPage" mnemonicParsing="false" text="Parking lot" />
-                              <MenuItem fx:id="floorOnePage" mnemonicParsing="false" text="Floor 1" />
-                              <MenuItem fx:id="floorTwoPage" mnemonicParsing="false" text="Floor 2" />
-                              <MenuItem fx:id="floorThreePage" mnemonicParsing="false" text="Floor 3" />
-                              <MenuItem fx:id="floorFourPage" mnemonicParsing="false" text="Floor 4" />
-                              <MenuItem fx:id="floorFivePage" mnemonicParsing="false" text="Floor 5" />
-                          </items>
-                           <GridPane.margin>
-                              <Insets top="30.0" />
-                           </GridPane.margin>
-                        </SplitMenuButton>
-                        <SplitMenuButton fx:id="selectNewMapImage" mnemonicParsing="false" styleClass="button" text="Select New Map Image" GridPane.halignment="CENTER">
-                           <items>
-                              <MenuItem fx:id="setParkingPage" mnemonicParsing="false" text="Parking lot" />
-                              <MenuItem fx:id="setFloorOnePage" mnemonicParsing="false" text="Floor 1" />
-                              <MenuItem fx:id="setFloorTwoPage" mnemonicParsing="false" text="Floor 2" />
-                              <MenuItem fx:id="setFloorThreePage" mnemonicParsing="false" text="Floor 3" />
-                              <MenuItem fx:id="setFloorFourPage" mnemonicParsing="false" text="Floor 4" />
-                              <MenuItem fx:id="setFloorFivePage" mnemonicParsing="false" text="Floor 5" />
-                           </items>
-                        </SplitMenuButton>
+                        <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Button fx:id="loadNodesButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" text="Faulkner Map Load">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                              <Label text="Move Selected Node" />
+                              <GridPane alignment="TOP_CENTER" prefHeight="104.0" prefWidth="146.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <JFXButton fx:id="moveNodeUpButton" text="Up" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <JFXButton fx:id="moveNodeLeftButton" text="Left" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                                    <JFXButton fx:id="moveNodeDownButton" text="Down" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                                    <JFXButton fx:id="moveNodeRightButton" text="Right" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </VBox>
                      </children>
                      <padding>
                         <Insets left="20.0" right="20.0" />
