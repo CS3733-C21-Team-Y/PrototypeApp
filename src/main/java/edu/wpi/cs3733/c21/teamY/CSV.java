@@ -318,7 +318,7 @@ public class CSV {
     try {
       Statement statement = conn.createStatement();
       ResultSet resultSet = statement.executeQuery(str);
-      System.out.println("exporting Nodes from database to list of nodes");
+      System.out.println("exporting Edge from database to list of nodes");
       while (resultSet.next()) {
         edgeID = resultSet.getString(1);
         startNodeID = resultSet.getString(2);
@@ -355,7 +355,7 @@ public class CSV {
     try {
       Statement statement = conn.createStatement();
       ResultSet resultSet = statement.executeQuery(str);
-      System.out.println("exporting Nodes from database to list of nodes");
+      System.out.println("exporting Edge from database to list of nodes (No Stairs)");
       while (resultSet.next()) {
         edgeID = resultSet.getString(1);
         startNodeID = resultSet.getString(2);
@@ -456,7 +456,7 @@ public class CSV {
     try {
       Statement statement = conn.createStatement();
       ResultSet resultSet = statement.executeQuery(str);
-      System.out.println("exporting Nodes from database to list of nodes");
+      System.out.println("exporting Nodes from database to list of nodes (No Stairs)");
       while (resultSet.next()) {
         nodeID = resultSet.getString(1);
         nodeType = resultSet.getString(2);
