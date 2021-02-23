@@ -449,6 +449,28 @@ public class MapController {
     containerStackPane.setOnScroll(s -> zoom(s));
   }
 
+  protected void panOnButtons(String dir) {
+    int movement = 10;
+    if (dir.equals("up")) {
+      mapImageView.translateYProperty().setValue(mapImageView.getTranslateY() + movement);
+      adornerPane.translateYProperty().setValue(adornerPane.getTranslateY() + movement);
+    } else if (dir.equals("down")) {
+      mapImageView.translateYProperty().setValue(mapImageView.getTranslateY() - movement);
+      adornerPane.translateYProperty().setValue(adornerPane.getTranslateY() - movement);
+    } else if (dir.equals("right")) {
+      mapImageView.translateXProperty().setValue(mapImageView.getTranslateX() - movement);
+      adornerPane.translateXProperty().setValue(adornerPane.getTranslateX() - movement);
+    } else if (dir.equals("left")) {
+      mapImageView.translateXProperty().setValue(mapImageView.getTranslateX() + movement);
+      adornerPane.translateXProperty().setValue(adornerPane.getTranslateX() + movement);
+    } else {
+    }
+
+    Rectangle viewWindow =
+        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
+    containerStackPane.setClip(viewWindow);
+  }
+
   protected void resetMapView() {
     mapImageView.setScaleX(1);
     mapImageView.setScaleY(1);
@@ -480,6 +502,31 @@ public class MapController {
 
     mapImageView.setScaleY(mapImageView.getScaleY() + scale);
     mapImageView.setScaleX(mapImageView.getScaleX() + scale);
+  }
+
+  protected void zoomOnButtons(String dir) {
+    double scale = 0.1;
+    if (dir.equals("in")) {
+      adornerPane.setScaleY(adornerPane.getScaleY() + scale);
+      adornerPane.setScaleX(adornerPane.getScaleX() + scale);
+
+      mapImageView.setScaleY(mapImageView.getScaleY() + scale);
+      mapImageView.setScaleX(mapImageView.getScaleX() + scale);
+
+    } else if (dir.equals("out")) {
+
+      adornerPane.setScaleY(adornerPane.getScaleY() - scale);
+      adornerPane.setScaleX(adornerPane.getScaleX() - scale);
+
+      mapImageView.setScaleY(mapImageView.getScaleY() - scale);
+      mapImageView.setScaleX(mapImageView.getScaleX() - scale);
+
+    } else {
+    }
+
+    Rectangle viewWindow =
+        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
+    containerStackPane.setClip(viewWindow);
   }
 
   // Better Adorners

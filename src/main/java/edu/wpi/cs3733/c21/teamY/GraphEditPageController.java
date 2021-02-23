@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamY;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -64,6 +65,13 @@ public class GraphEditPageController {
   private int nodeIDCounter;
   private boolean shiftPressed = false;
 
+  @FXML private JFXButton panUpButton;
+  @FXML private JFXButton panDownButton;
+  @FXML private JFXButton panRightButton;
+  @FXML private JFXButton panLeftButton;
+  @FXML private JFXButton zoomInButton;
+  @FXML private JFXButton zoomOutButton;
+
   @FXML private MapController mapInsertController;
 
   public GraphEditPageController() {}
@@ -101,6 +109,13 @@ public class GraphEditPageController {
     resetView.setOnAction(e -> mapInsertController.resetMapView());
     resetView.toFront();
     mapInsertController.containerStackPane.setOnScroll(e -> mapInsertController.zoom(e));
+
+    panUpButton.setOnAction(e -> mapInsertController.panOnButtons("up"));
+    panDownButton.setOnAction(e -> mapInsertController.panOnButtons("down"));
+    panLeftButton.setOnAction(e -> mapInsertController.panOnButtons("left"));
+    panRightButton.setOnAction(e -> mapInsertController.panOnButtons("right"));
+    zoomInButton.setOnAction(e -> mapInsertController.zoomOnButtons("in"));
+    zoomOutButton.setOnAction(e -> mapInsertController.zoomOnButtons("out"));
 
     selectNewMapImage.setText("Select New Map");
     setParkingPage.setOnAction(
