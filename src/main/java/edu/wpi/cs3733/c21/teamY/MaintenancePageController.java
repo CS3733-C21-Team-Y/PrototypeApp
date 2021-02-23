@@ -1,9 +1,13 @@
 package edu.wpi.cs3733.c21.teamY;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 public class MaintenancePageController extends GenericServiceFormPage {
 
@@ -54,6 +58,7 @@ public class MaintenancePageController extends GenericServiceFormPage {
 
   @FXML
   private void submitBtnClicked() {
+    Stage stage = null;
     // put code for submitting a service request here
     Service service = new Service(this.IDCount, "Maintenance");
     this.IDCount++;
@@ -63,8 +68,12 @@ public class MaintenancePageController extends GenericServiceFormPage {
     service.setDescription(description.getText());
     service.setUrgency((String) urgency.getValue());
     service.setDate(date.getValue().toString());
+    Stage popUp = new Stage();
     try {
       ServiceRequestDBops.saveService(service);
+      stage = (Stage) submitBtn.getScene().getWindow();
+      stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("ServiceRequestPage.fxml"))));
+      stage.show();
     } catch (ClassNotFoundException e) {
       e.printStackTrace();
     } catch (SQLException throwables) {
@@ -74,6 +83,8 @@ public class MaintenancePageController extends GenericServiceFormPage {
     } catch (InstantiationException e) {
       e.printStackTrace();
     } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
