@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamY;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,9 +37,14 @@ public class RequestsManagerController extends GenericPage {
     // addServiceBtn.setOnAction(
     //     e -> addServiceToGrid(new Service(rowCount, "Laundry", "", "Cafeteria", "", "", "")));
     rowCount = 0;
+    RowConstraints constraints = new RowConstraints();
+    constraints.setMinHeight(50);
+    serviceGrid.getRowConstraints().add(constraints);
+    Platform.runLater(() -> loadServicesFromDB());
   }
 
   private void loadServicesFromDB() {
+
     try {
       ArrayList<Service> serviceList = ServiceRequestDBops.exportService("");
       for (Service service : serviceList) {
@@ -55,27 +61,45 @@ public class RequestsManagerController extends GenericPage {
     Label serviceType = new Label(service.getType());
     Label serviceLocation = new Label(service.getLocation());
     Label serviceID = new Label(("" + service.getServiceID()));
-    CheckBox checkBox = new CheckBox();
+    Label status = new Label();
+    if (service.getStatus() == 1) {
+      status.setText("Complete");
+      status.setId("completeService");
+    } else if (service.getStatus() == 0) {
+      status.setText("In Progress");
+      status.setId("incompleteService");
+    } else {
+      status.setText("Not Started");
+      status.setId("notStartedService");
+    }
+
     Button button = new Button("View");
     button.setOnAction(e -> serviceClicked(service));
-    serviceGrid.addColumn(rowCount);
+    // serviceGrid.addColumn(rowCount);
+    serviceGrid.addRow(rowCount);
     serviceGrid.add(serviceType, 0, rowCount);
     serviceGrid.add(serviceLocation, 1, rowCount);
     serviceGrid.add(serviceID, 2, rowCount);
-    serviceGrid.add(checkBox, 3, rowCount);
+    serviceGrid.add(status, 3, rowCount);
     serviceGrid.add(button, 4, rowCount);
+
+    RowConstraints constraints = new RowConstraints();
+    constraints.setMinHeight(35);
+    serviceGrid.getRowConstraints().add(constraints);
   }
 
   @FXML
   private void serviceClicked(Service service) {
     // error handling for FXMLLoader.load
     // System.out.println("hello world");
+
     try {
       // initializing stage
       Stage stage = null;
 
       // gets the current stage
       stage = (Stage) backBtn.getScene().getWindow();
+
       // sets the new scene to the alex page
       stage.setUserData(service);
       Parent root = FXMLLoader.load(getClass().getResource("ServiceRequestInfoPage.fxml"));
@@ -84,6 +108,7 @@ public class RequestsManagerController extends GenericPage {
       stage.setScene(newScene);
 
       // display new stage
+
       stage.show();
     } catch (Exception exp) {
     }

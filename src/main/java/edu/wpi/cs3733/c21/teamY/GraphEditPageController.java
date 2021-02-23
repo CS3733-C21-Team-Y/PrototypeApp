@@ -16,12 +16,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class nodeEdgeDispController {
+public class GraphEditPageController {
 
   @FXML private Pane anchor;
   @FXML private HBox header;
@@ -34,7 +33,6 @@ public class nodeEdgeDispController {
   @FXML private CheckBox addEdgecb;
 
   @FXML private Button deleteNode;
-  @FXML private Button deleteEdge;
 
   @FXML private Text nodeDisplay = new Text("Selected Node");
   @FXML private Text edgeDisplay = new Text("Selected Edge");
@@ -52,14 +50,6 @@ public class nodeEdgeDispController {
   @FXML private Button toolTip;
   @FXML private Button resetView;
 
-  @FXML private SplitMenuButton floorMenu;
-  @FXML private MenuItem parkingPage;
-  @FXML private MenuItem floorOnePage;
-  @FXML private MenuItem floorTwoPage;
-  @FXML private MenuItem floorThreePage;
-  @FXML private MenuItem floorFourPage;
-  @FXML private MenuItem floorFivePage;
-
   @FXML private SplitMenuButton selectNewMapImage;
   @FXML private MenuItem setParkingPage;
   @FXML private MenuItem setFloorOnePage;
@@ -68,14 +58,15 @@ public class nodeEdgeDispController {
   @FXML private MenuItem setFloorFourPage;
   @FXML private MenuItem setFloorFivePage;
 
-  private ArrayList<Edge> edges;
-  private ArrayList<edu.wpi.cs3733.c21.teamY.Node> nodes;
+  private ArrayList<Edge> edges = new ArrayList<Edge>();
+  private ArrayList<edu.wpi.cs3733.c21.teamY.Node> nodes = new ArrayList<Node>();
 
   private int nodeIDCounter;
+  private boolean shiftPressed = false;
 
   @FXML private MapController mapInsertController;
 
-  public nodeEdgeDispController() {}
+  public GraphEditPageController() {}
 
   @FXML
   private void initialize() {
@@ -84,13 +75,32 @@ public class nodeEdgeDispController {
         e -> {
           mapInsertController.scrollOnPress(e);
           Rectangle viewWindow =
-              new Rectangle(0, 0, stackPane.getWidth(), mapInsertController.stackPane.getHeight());
-          mapInsertController.stackPane.setClip(viewWindow);
+              new Rectangle(
+                  0, 0, stackPane.getWidth(), mapInsertController.containerStackPane.getHeight());
+          mapInsertController.containerStackPane.setClip(viewWindow);
+
+          // SHOULD BE IMPROVED
+
+          if (e.isShiftDown()) {
+            shiftPressed = true;
+          } else {
+            shiftPressed = false;
+          }
         });
-    anchor.setOnKeyReleased(e -> mapInsertController.scrollOnRelease(e));
+
+    anchor.setOnKeyReleased(
+        e -> {
+          mapInsertController.scrollOnRelease(e);
+
+          if (e.isShiftDown()) {
+            shiftPressed = true;
+          } else {
+            shiftPressed = false;
+          }
+        });
     resetView.setOnAction(e -> mapInsertController.resetMapView());
     resetView.toFront();
-    mapInsertController.stackPane.setOnScroll(e -> mapInsertController.zoom(e));
+    mapInsertController.containerStackPane.setOnScroll(e -> mapInsertController.zoom(e));
 
     selectNewMapImage.setText("Select New Map");
     setParkingPage.setOnAction(
@@ -98,42 +108,42 @@ public class nodeEdgeDispController {
           mapInsertController.setImage(
               mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.PARKING);
-          updateMenuPreview(e, selectNewMapImage);
+          mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorOnePage.setOnAction(
         e -> {
           mapInsertController.setImage(
               mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR1);
-          updateMenuPreview(e, selectNewMapImage);
+          mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorTwoPage.setOnAction(
         e -> {
           mapInsertController.setImage(
               mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR2);
-          updateMenuPreview(e, selectNewMapImage);
+          mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorThreePage.setOnAction(
         e -> {
           mapInsertController.setImage(
               mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR3);
-          updateMenuPreview(e, selectNewMapImage);
+          mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorFourPage.setOnAction(
         e -> {
           mapInsertController.setImage(
               mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR4);
-          updateMenuPreview(e, selectNewMapImage);
+          mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorFivePage.setOnAction(
         e -> {
           mapInsertController.setImage(
               mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR5);
-          updateMenuPreview(e, selectNewMapImage);
+          mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
 
     JFXDialog dialog = new JFXDialog();
@@ -142,47 +152,29 @@ public class nodeEdgeDispController {
             " Scroll to Zoom"
                 + "\n Hold CTRL + Scroll to Pan Up and down"
                 + "\n Hold SHIFT + Scroll to Pan left and right"
+                + "\n Hold SHIFT to select multiple nodes"
                 + "\n Reset brings back the original framing"));
     toolTip.setOnAction((action) -> dialog.show(stackPane));
     toolTip.toFront();
 
     initImage();
-    floorMenu.setText("Parking Lot");
+    mapInsertController.getFloorMenu().setText("Parking Lot");
+
     loadNodesButton.setOnAction(
         e -> {
           initiateDrawing();
         });
 
-    parkingPage.setOnAction(
-        e -> {
-          controlImageShown(e, MapController.MAP_PAGE.PARKING);
-          updateMenuPreview(e, floorMenu);
-        });
-    floorOnePage.setOnAction(
-        e -> {
-          controlImageShown(e, MapController.MAP_PAGE.FLOOR1);
-          updateMenuPreview(e, floorMenu);
-        });
-    floorTwoPage.setOnAction(
-        e -> {
-          controlImageShown(e, MapController.MAP_PAGE.FLOOR2);
-          updateMenuPreview(e, floorMenu);
-        });
-    floorThreePage.setOnAction(
-        e -> {
-          controlImageShown(e, MapController.MAP_PAGE.FLOOR3);
-          updateMenuPreview(e, floorMenu);
-        });
-    floorFourPage.setOnAction(
-        e -> {
-          controlImageShown(e, MapController.MAP_PAGE.FLOOR4);
-          updateMenuPreview(e, floorMenu);
-        });
-    floorFivePage.setOnAction(
-        e -> {
-          controlImageShown(e, MapController.MAP_PAGE.FLOOR5);
-          updateMenuPreview(e, floorMenu);
-        });
+    int i = 0;
+    for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
+      int index = i;
+      menuItem.setOnAction(
+          e -> {
+            mapInsertController.switchImage(e, mapInsertController.getMapOrder().get(index));
+            mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
+          });
+      i++;
+    }
 
     // attaches a handler to the button with a lambda expression
     toHomeBtn.setOnAction(e -> buttonClicked(e));
@@ -195,11 +187,7 @@ public class nodeEdgeDispController {
 
     deleteNode.setOnAction(
         e -> {
-          removeNode(e);
-        });
-    deleteEdge.setOnAction(
-        e -> {
-          removeEdge(e);
+          removeSelected(e);
         });
 
     // when checkbox is selected, unselect the other
@@ -213,37 +201,78 @@ public class nodeEdgeDispController {
           addEdgecb.setSelected(false);
         });
 
+    resetMouseHandlingForAdorners();
+
+    // Deselect if not shifting and clicked on not an Adorner
     mapInsertController
-        .getPane()
+        .getAdornerPane()
         .setOnMouseClicked(
             e -> {
-              mapInsertController.getPaneNode();
-              mapInsertController.highlightCircle();
-              mapInsertController.highlightLine();
-
               if (addEdgecb.isSelected()) {
-                mapInsertController.unHighlightCircle();
-                mapInsertController.unHighglightLine();
                 createEdgecb(e);
               } else if (addNodecb.isSelected()) {
-                mapInsertController.unHighlightCircle();
-                mapInsertController.unHighglightLine();
+                mapInsertController.clearSelection();
                 createNodecb(e);
               } else {
-                mapInsertController.highlightCircle();
-                mapInsertController.highlightLine();
+                if (!shiftPressed
+                    && startEdgeFlag
+                    && !(e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
+                        || e.getPickResult().getIntersectedNode() instanceof MapController.LineEx))
+                  mapInsertController.clearSelection();
               }
             });
   }
 
-  private void updateMenuPreview(ActionEvent e, SplitMenuButton s) {
-    s.setText(((MenuItem) e.getSource()).getText());
+  // Set selection click handlers
+  protected void resetMouseHandlingForAdorners() {
+    for (javafx.scene.Node p : mapInsertController.getAdornerPane().getChildren()) {
+      try {
+
+        if (p instanceof MapController.CircleEx) {
+          setNodeOnClick((MapController.CircleEx) p);
+        } else if (p instanceof MapController.LineEx) {
+          setEdgeOnClick((MapController.LineEx) p);
+        } else {
+          System.out.println("Invalid Type Found: " + p.getTypeSelector());
+        }
+
+      } catch (Exception exp) {
+        System.out.println("no point selected");
+      }
+    }
+  }
+
+  private void setNodeOnClick(MapController.CircleEx node) {
+    node.setOnMouseClicked(
+        w -> {
+          if (!shiftPressed) {
+            mapInsertController.clearSelection();
+          }
+          mapInsertController.selectCircle((MapController.CircleEx) node);
+          lastSelectedNode = (MapController.CircleEx) node;
+        });
+  }
+
+  private void setEdgeOnClick(MapController.LineEx edge) {
+    edge.setOnMouseClicked(
+        w -> {
+          if (!shiftPressed) {
+            mapInsertController.clearSelection();
+          }
+          mapInsertController.selectLine((MapController.LineEx) edge);
+        });
   }
 
   // this sucks
   private void initiateDrawing() {
-    removeAll();
-    drawFromCSV();
+    mapInsertController.removeAllAdornerElements();
+
+    nodeIDCounter = nodes.size() + 1;
+
+    nodes = mapInsertController.loadNodesFromCSV();
+    edges = mapInsertController.loadEdgesFromCSV();
+    mapInsertController.drawFromCSV(nodes, edges, mapInsertController.floorNumber);
+    resetMouseHandlingForAdorners();
   }
 
   private void initImage() {
@@ -251,20 +280,6 @@ public class nodeEdgeDispController {
     //    map.setFitHeight(500);
     //    map.fitHeightProperty().bind(anchor.heightProperty());
     //    map.fitWidthProperty().bind(anchor.widthProperty());
-  }
-
-  private void controlImageShown(ActionEvent e, MapController.MAP_PAGE mp) {
-    removeAll();
-    mapInsertController.changeImage(mp);
-  }
-
-  // --delete functions only work taking off screen not deleting from DB - oops
-  private void removeAll() {
-    mapInsertController
-        .getPane()
-        .getChildren()
-        .remove(0, mapInsertController.getPane().getChildren().size());
-    mapInsertController.updateMapScreen();
   }
 
   //  private void removeEdge(ActionEvent e) throws SQLException {
@@ -284,9 +299,13 @@ public class nodeEdgeDispController {
   //    stage.show();
   //  }
 
+  /*
   private void removeEdge(ActionEvent e) {
     String edgeID = mapInsertController.currentSelectedLine.getId();
-    mapInsertController.getPane().getChildren().remove(mapInsertController.currentSelectedLine);
+    mapInsertController
+        .getAdornerPane()
+        .getChildren()
+        .remove(mapInsertController.currentSelectedLine);
     mapInsertController.updateMapScreen();
     try {
       JDBCUtils.deleteEdge(edgeID);
@@ -297,13 +316,46 @@ public class nodeEdgeDispController {
 
   private void removeNode(ActionEvent e) {
     String nodeID = mapInsertController.currentSelectedCircle.getId();
-    mapInsertController.getPane().getChildren().remove(mapInsertController.currentSelectedCircle);
+    mapInsertController
+        .getAdornerPane()
+        .getChildren()
+        .remove(mapInsertController.currentSelectedCircle);
     mapInsertController.updateMapScreen();
     try {
       JDBCUtils.deleteNode(nodeID);
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
+  }*/
+
+  private void removeSelected(ActionEvent e) {
+    ArrayList<String> nodeIDs = new ArrayList<String>();
+    for (MapController.CircleEx node : mapInsertController.getSelectedNodes()) {
+      nodeIDs.add(node.getId());
+    }
+
+    ArrayList<String> edgeIDs = new ArrayList<String>();
+    for (MapController.LineEx edge : mapInsertController.getSelectedEdges()) {
+      nodeIDs.add(edge.getId());
+    }
+
+    for (String nodeId : nodeIDs) {
+      try {
+        JDBCUtils.deleteNode(nodeId);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    }
+
+    for (String edgeId : edgeIDs) {
+      try {
+        JDBCUtils.deleteNode(edgeId);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    }
+
+    mapInsertController.removeSelected();
   }
 
   // button event handler
@@ -332,18 +384,21 @@ public class nodeEdgeDispController {
     }
   }
 
+  private MapController.CircleEx lastSelectedNode;
+
   // --create node and edges
   private void createEdgecb(MouseEvent e) {
     // creates an edge between two selected points when the checkbox is selected
-    if (addEdgecb.isSelected()) {
+    ArrayList<MapController.CircleEx> selectedNodes = mapInsertController.getSelectedNodes();
+    if (addEdgecb.isSelected() && lastSelectedNode != null) {
       if (startEdgeFlag) { // decides if its te starting or ending point being selected
         System.out.println(startEdgeFlag);
-        mapInsertController.highlightCircle();
+
         startEdgeFlag = !startEdgeFlag;
         try {
-          startNodeID = mapInsertController.currentSelectedCircle.getId();
-          startx = mapInsertController.currentSelectedCircle.getCenterX();
-          starty = mapInsertController.currentSelectedCircle.getCenterY();
+          startNodeID = lastSelectedNode.getId();
+          startx = lastSelectedNode.getCenterX();
+          starty = lastSelectedNode.getCenterY();
         } catch (Exception exception) {
           System.out.println("no start point");
         }
@@ -351,9 +406,9 @@ public class nodeEdgeDispController {
         System.out.println(startEdgeFlag);
         startEdgeFlag = !startEdgeFlag;
         try {
-          endNodeID = mapInsertController.currentSelectedCircle.getId();
-          endx = mapInsertController.currentSelectedCircle.getCenterX();
-          endy = mapInsertController.currentSelectedCircle.getCenterY();
+          endNodeID = lastSelectedNode.getId();
+          endx = lastSelectedNode.getCenterX();
+          endy = lastSelectedNode.getCenterY();
         } catch (Exception exception) {
           System.out.println("no end point");
         }
@@ -361,6 +416,7 @@ public class nodeEdgeDispController {
         // creating the line and adding as a child to the pane
         String edgeID = startNodeID + "_" + endNodeID;
         Edge ed = new Edge(edgeID, startNodeID, endNodeID);
+
         // JDBCUtils.insert(3, ed, "EDGE");
         // JDBCUtils.insert(JDBCUtils.insertString(ed));
 
@@ -383,7 +439,8 @@ public class nodeEdgeDispController {
           System.out.println("nodeEdgeDispController.createEdgecb");
         }
         //        CSV.saveEdge(ed);
-        mapInsertController.addEdgeLine(ed);
+        setEdgeOnClick(mapInsertController.addEdgeLine(ed));
+        mapInsertController.clearSelection();
       }
     }
   }
@@ -429,50 +486,7 @@ public class nodeEdgeDispController {
         System.out.println("nodeEdgeDispController.createNodecb");
       }
 
-      mapInsertController.addNodeCircle(n);
-    }
-  }
-
-  private void drawFromCSV() {
-    try {
-      nodes = CSV.getListOfNodes();
-      edges = CSV.getListOfEdge();
-    } catch (Exception exception) {
-      System.out.println("nodeEdgeDispController.drawFromCSV");
-    }
-
-    nodeIDCounter = nodes.size() + 1;
-
-    for (edu.wpi.cs3733.c21.teamY.Node n : nodes) {
-      if (n.floor.equals(mapInsertController.floorNumber)) {
-
-        double x = n.getXcoord();
-        double y = n.getYcoord();
-
-        mapInsertController.addNodeCircle(n);
-
-      } else {
-        // do nothing
-      }
-    }
-
-    for (Edge e : edges) {
-      // System.out.println(pane.getScene());
-      try {
-        Circle n =
-            (Circle) mapInsertController.getPane().getScene().lookup("#" + e.getStartNodeID());
-        Circle m = (Circle) mapInsertController.getPane().getScene().lookup("#" + e.getEndNodeID());
-
-        startx = n.getCenterX();
-        starty = n.getCenterY();
-        endx = m.getCenterX();
-        endy = m.getCenterY();
-      } catch (Exception exception) { // needs work - problem with nodes connecting floors
-        endx = startx; // biases the start node and forgets the end
-        endy = starty;
-      }
-
-      mapInsertController.addEdgeLine(e);
+      setNodeOnClick(mapInsertController.addNodeCircle(n));
     }
   }
 
@@ -494,13 +508,14 @@ public class nodeEdgeDispController {
 
       JDBCUtils.insert(9, n, "Node");
 
-      mapInsertController.addNodeCircle(n);
+      setNodeOnClick(mapInsertController.addNodeCircle(n));
 
     } catch (Exception exception) {
       System.out.println("Can't create a node with text in the field input");
     }
   }
 
+  /*
   // --display info on nodes/edges
   private void setCurrentDisplay() {
     nodeDisplay.setText(
@@ -515,5 +530,5 @@ public class nodeEdgeDispController {
             mapInsertController.currentSelectedLine.getStartY(),
             mapInsertController.currentSelectedLine.getEndX(),
             mapInsertController.currentSelectedLine.getEndY()));
-  }
+  }*/
 }
