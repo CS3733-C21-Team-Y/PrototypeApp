@@ -125,4 +125,23 @@ public class Service {
     this.date = date;
     status = -1;
   }
+
+  @Override
+  public String toString() {
+    return serviceID
+        + ","
+        + type
+        + ","
+        + description
+        + ","
+        + location
+        + ","
+        + category
+        + ","
+        + urgency
+        + ","
+        + date
+        + ","
+        + status;
+  }
 }

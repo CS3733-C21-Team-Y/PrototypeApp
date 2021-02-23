@@ -21,7 +21,7 @@ public class CSV {
   public static String edgeTestCSVpath = "src/main/resources/edu/wpi/cs3733/c21/teamY/TestEdge.csv";
   public static String nodeTestCSVpath = "src/main/resources/edu/wpi/cs3733/c21/teamY/TestNode.csv";
   public static String serviceTestCSVpath =
-      "src/main/resources/edu/wpi/cs3733/c21/teamY/TestService.csv";
+      "src/main/resources/edu/wpi/cs3733/c21/teamY/Services.csv";
 
   /** load the BufferedReader for node */
   static {
@@ -225,7 +225,6 @@ public class CSV {
       while (resultSet.next()) {
         for (int i = 1; i <= numAttributes; i++) {
           stringBuilder.append(resultSet.getString(i)).append(",");
-          System.out.println(resultSet.getString(i));
         }
         stringBuilder.deleteCharAt(
             stringBuilder.length() - 1); // Gets rid of final unnecessary comma
