@@ -123,29 +123,35 @@ public class GraphEditPageController {
     zoomOutButton.setOnAction(e -> mapInsertController.zoomOnButtons("out"));
 
     moveNodeUpButton.setOnAction(
-        e ->
-            mapInsertController.moveSelected(
-                mapInsertController.getSelectedNodes(),
-                mapInsertController.getSelectedEdges(),
-                "up"));
+        e -> {
+          mapInsertController.moveSelected(
+              mapInsertController.getSelectedNodes(), mapInsertController.getSelectedEdges(), "up");
+          updateNodes();
+        });
     moveNodeDownButton.setOnAction(
-        e ->
-            mapInsertController.moveSelected(
-                mapInsertController.getSelectedNodes(),
-                mapInsertController.getSelectedEdges(),
-                "down"));
+        e -> {
+          mapInsertController.moveSelected(
+              mapInsertController.getSelectedNodes(),
+              mapInsertController.getSelectedEdges(),
+              "down");
+          updateNodes();
+        });
     moveNodeLeftButton.setOnAction(
-        e ->
-            mapInsertController.moveSelected(
-                mapInsertController.getSelectedNodes(),
-                mapInsertController.getSelectedEdges(),
-                "left"));
+        e -> {
+          mapInsertController.moveSelected(
+              mapInsertController.getSelectedNodes(),
+              mapInsertController.getSelectedEdges(),
+              "left");
+          updateNodes();
+        });
     moveNodeRightButton.setOnAction(
-        e ->
-            mapInsertController.moveSelected(
-                mapInsertController.getSelectedNodes(),
-                mapInsertController.getSelectedEdges(),
-                "right"));
+        e -> {
+          mapInsertController.moveSelected(
+              mapInsertController.getSelectedNodes(),
+              mapInsertController.getSelectedEdges(),
+              "right");
+          updateNodes();
+        });
 
     selectNewMapImage.setText("Select New Map");
     setParkingPage.setOnAction(
@@ -481,5 +487,18 @@ public class GraphEditPageController {
     } catch (Exception exception) {
       System.out.println("Can't create a node with text in the field input");
     }
+  }
+
+  private void updateNodes() {
+    for (MapController.CircleEx c : mapInsertController.movedNodes) {
+      JDBCUtils.updateNodeCoordsOnly(
+          c.getId(), Math.floor(c.getCenterX()), Math.floor(c.getCenterY()));
+    }
+    try {
+      ActiveGraph.initialize();
+    } catch (Exception exception) {
+      System.out.println("GraphEditPageController.updateNodes");
+    }
+    mapInsertController.updateMapScreen();
   }
 }

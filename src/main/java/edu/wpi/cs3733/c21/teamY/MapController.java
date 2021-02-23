@@ -39,6 +39,8 @@ public class MapController {
   private ArrayList<CircleEx> selectedNodes = new ArrayList<CircleEx>();
   private ArrayList<LineEx> selectedEdges = new ArrayList<LineEx>();
 
+  protected ArrayList<CircleEx> movedNodes = new ArrayList<CircleEx>();
+
   private FileChooser fc = new FileChooser();
   private File file;
 
@@ -432,12 +434,10 @@ public class MapController {
             zoom(s);
           } else if (direction.equals("up/down")) {
             mapImageView.translateYProperty().setValue(mapImageView.getTranslateY() + scaleY);
-            //            adornerPane.translateYProperty().setValue(adornerPane.getTranslateY() +
-            // scaleY);
+            adornerPane.translateYProperty().setValue(adornerPane.getTranslateY() + scaleY);
           } else if (direction.equals("left/right")) {
             mapImageView.translateXProperty().setValue(mapImageView.getTranslateX() + scaleX);
-            //            adornerPane.translateXProperty().setValue(adornerPane.getTranslateX() +
-            // scaleX);
+            adornerPane.translateXProperty().setValue(adornerPane.getTranslateX() + scaleX);
           } else {
 
           }
@@ -576,7 +576,13 @@ public class MapController {
       } else {
 
       }
+
+      if (!movedNodes.contains(c)) {
+        movedNodes.add(c);
+      }
     }
+
+    System.out.println(movedNodes);
 
     for (LineEx l : lines) {
       if (dir.equals("up")) {
