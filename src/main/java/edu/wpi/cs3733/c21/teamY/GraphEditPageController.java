@@ -79,6 +79,8 @@ public class GraphEditPageController {
 
   @FXML private MapController mapInsertController;
 
+  JFXDialog dialog = new JFXDialog();
+
   public GraphEditPageController() {}
 
   @FXML
@@ -196,8 +198,6 @@ public class GraphEditPageController {
               MapController.MAP_PAGE.FLOOR5);
           mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
-
-    JFXDialog dialog = new JFXDialog();
     dialog.setContent(
         new Label(
             " Scroll to Zoom"
