@@ -39,6 +39,8 @@ public class MapController {
   private ArrayList<CircleEx> selectedNodes = new ArrayList<CircleEx>();
   private ArrayList<LineEx> selectedEdges = new ArrayList<LineEx>();
 
+  protected ArrayList<CircleEx> movedNodes = new ArrayList<CircleEx>();
+
   private FileChooser fc = new FileChooser();
   private File file;
 
@@ -70,22 +72,20 @@ public class MapController {
   private double scaleMax = 2.5;
   private String direction = "in/out";
 
-  javafx.scene.image.Image parking =
-      new javafx.scene.image.Image("edu/wpi/cs3733/c21/teamY/FaulknerCampus.png");
-  javafx.scene.image.Image f1 =
-      new javafx.scene.image.Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor1_Updated.png");
-  javafx.scene.image.Image f2 =
-      new javafx.scene.image.Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor2_Updated.png");
-  javafx.scene.image.Image f3 =
-      new javafx.scene.image.Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor3_Updated.png");
-  javafx.scene.image.Image f4 =
-      new javafx.scene.image.Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor4_Updated.png");
-  javafx.scene.image.Image f5 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor5_Updated.png");
+  // these need to be imageViews
+  Image parking = new Image("edu/wpi/cs3733/c21/teamY/FaulknerParking.png");
+  Image f1 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor1_Updated.png");
+  Image f2 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor2_Updated.png");
+  Image f3 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor3_Updated.png");
+  Image f4 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor4_Updated.png");
+  Image f5 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor5_Updated.png");
 
   public MapController() {}
 
   @FXML
   private void initialize() {
+
+    // scale and fit parking map
 
     adornerPane.toFront();
     mapOverlayUIGridPane.toFront();
@@ -449,6 +449,28 @@ public class MapController {
     containerStackPane.setOnScroll(s -> zoom(s));
   }
 
+  protected void panOnButtons(String dir) {
+    int movement = 10;
+    if (dir.equals("up")) {
+      mapImageView.translateYProperty().setValue(mapImageView.getTranslateY() + movement);
+      adornerPane.translateYProperty().setValue(adornerPane.getTranslateY() + movement);
+    } else if (dir.equals("down")) {
+      mapImageView.translateYProperty().setValue(mapImageView.getTranslateY() - movement);
+      adornerPane.translateYProperty().setValue(adornerPane.getTranslateY() - movement);
+    } else if (dir.equals("right")) {
+      mapImageView.translateXProperty().setValue(mapImageView.getTranslateX() - movement);
+      adornerPane.translateXProperty().setValue(adornerPane.getTranslateX() - movement);
+    } else if (dir.equals("left")) {
+      mapImageView.translateXProperty().setValue(mapImageView.getTranslateX() + movement);
+      adornerPane.translateXProperty().setValue(adornerPane.getTranslateX() + movement);
+    } else {
+    }
+
+    Rectangle viewWindow =
+        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
+    containerStackPane.setClip(viewWindow);
+  }
+
   protected void resetMapView() {
     mapImageView.setScaleX(1);
     mapImageView.setScaleY(1);
@@ -482,6 +504,31 @@ public class MapController {
     mapImageView.setScaleX(mapImageView.getScaleX() + scale);
   }
 
+  protected void zoomOnButtons(String dir) {
+    double scale = 0.1;
+    if (dir.equals("in")) {
+      adornerPane.setScaleY(adornerPane.getScaleY() + scale);
+      adornerPane.setScaleX(adornerPane.getScaleX() + scale);
+
+      mapImageView.setScaleY(mapImageView.getScaleY() + scale);
+      mapImageView.setScaleX(mapImageView.getScaleX() + scale);
+
+    } else if (dir.equals("out")) {
+
+      adornerPane.setScaleY(adornerPane.getScaleY() - scale);
+      adornerPane.setScaleX(adornerPane.getScaleX() - scale);
+
+      mapImageView.setScaleY(mapImageView.getScaleY() - scale);
+      mapImageView.setScaleX(mapImageView.getScaleX() - scale);
+
+    } else {
+    }
+
+    Rectangle viewWindow =
+        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
+    containerStackPane.setClip(viewWindow);
+  }
+
   // Better Adorners
   public class CircleEx extends Circle {
     public boolean hasFocus = false;
@@ -512,6 +559,47 @@ public class MapController {
 
     public LineEx(double startX, double startY, double endX, double endY) {
       super(startX, startY, endX, endY);
+    }
+  }
+
+  protected void moveSelected(ArrayList<CircleEx> circles, ArrayList<LineEx> lines, String dir) {
+    int movement = 10;
+    for (CircleEx c : circles) {
+      if (dir.equals("up")) {
+        c.setCenterY(c.getCenterY() - movement);
+      } else if (dir.equals("down")) {
+        c.setCenterY(c.getCenterY() + movement);
+      } else if (dir.equals("left")) {
+        c.setCenterX(c.getCenterX() - movement);
+      } else if (dir.equals("right")) {
+        c.setCenterX(c.getCenterX() + movement);
+      } else {
+
+      }
+
+      if (!movedNodes.contains(c)) {
+        movedNodes.add(c);
+      }
+    }
+
+    System.out.println(movedNodes);
+
+    for (LineEx l : lines) {
+      if (dir.equals("up")) {
+        l.setStartY(l.getStartY() - movement);
+        l.setEndY(l.getEndY() - movement);
+      } else if (dir.equals("down")) {
+        l.setStartY(l.getStartY() + movement);
+        l.setEndY(l.getEndY() + movement);
+      } else if (dir.equals("left")) {
+        l.setStartX(l.getStartX() - movement);
+        l.setEndX(l.getEndX() - movement);
+      } else if (dir.equals("right")) {
+        l.setStartX(l.getStartX() + movement);
+        l.setEndX(l.getEndX() + movement);
+      } else {
+
+      }
     }
   }
 }
