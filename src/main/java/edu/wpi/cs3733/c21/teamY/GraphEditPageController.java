@@ -492,7 +492,9 @@ public class GraphEditPageController {
   private void updateNodes() {
     for (MapController.CircleEx c : mapInsertController.movedNodes) {
       JDBCUtils.updateNodeCoordsOnly(
-          c.getId(), Math.floor(c.getCenterX()), Math.floor(c.getCenterY()));
+          c.getId(),
+          Math.floor(mapInsertController.scaleUpXCoords(c.getCenterX())),
+          Math.floor(mapInsertController.scaleUpYCoords(c.getCenterY())));
     }
     try {
       ActiveGraph.initialize();
