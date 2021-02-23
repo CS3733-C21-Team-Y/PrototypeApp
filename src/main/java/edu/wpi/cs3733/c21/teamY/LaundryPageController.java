@@ -46,6 +46,8 @@ public class LaundryPageController extends GenericServiceFormPage {
     backBtn.setOnAction(e -> serviceButtonClicked(e, "LaundryPage.fxml"));
     submitBtn.setOnAction(e -> submitBtnClicked());
     exitBtn.setOnAction(e -> exitButtonClicked());
+
+    for (String c : categories) category.getItems().add(c);
   }
 
   @FXML
@@ -60,7 +62,7 @@ public class LaundryPageController extends GenericServiceFormPage {
     try {
       stage = (Stage) submitBtn.getScene().getWindow();
       ServiceRequestDBops.saveService(service);
-      stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("ServiceRequestPage.fxml"))));
+      stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("LaundryPage.fxml"))));
       stage.show();
     } catch (ClassNotFoundException e) {
       e.printStackTrace();
