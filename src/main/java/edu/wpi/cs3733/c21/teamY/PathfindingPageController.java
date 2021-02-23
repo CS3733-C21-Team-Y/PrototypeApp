@@ -114,6 +114,27 @@ public class PathfindingPageController {
               }
             });
 
+    bathroomCheck
+        .selectedProperty()
+        .addListener(
+            (options, oldValue, newValue) -> {
+              calculatePath();
+            });
+
+    cafeCheck
+        .selectedProperty()
+        .addListener(
+            (options, oldValue, newValue) -> {
+              calculatePath();
+            });
+
+    kioskCheck
+        .selectedProperty()
+        .addListener(
+            (options, oldValue, newValue) -> {
+              calculatePath();
+            });
+
     // Floor selection menu population
     int i = 0;
     for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
@@ -134,8 +155,11 @@ public class PathfindingPageController {
     }
 
     // Populate local graph and selection menus
-    nodes = mapInsertController.loadNodesFromCSV();
-    edges = mapInsertController.loadEdgesFromCSV();
+    // nodes = mapInsertController.loadNodesFromCSV();
+    // edges = mapInsertController.loadEdgesFromCSV();
+    nodes = ActiveGraph.getNodes();
+    edges = ActiveGraph.getEdges();
+    graph = ActiveGraph.getActiveGraph();
 
     for (Node node : nodes) {
       startLocationBox.getItems().add(node.nodeID);
@@ -144,8 +168,6 @@ public class PathfindingPageController {
     for (Node node : nodes) {
       endLocationBox.getItems().add(node.nodeID);
     }
-
-    graph = new Graph(nodes, edges);
 
     // Select startNodeBox
     startLocationBox.requestFocus();
@@ -273,12 +295,14 @@ public class PathfindingPageController {
             0,
             DijkstrasAlgorithm.dijkstraDetour(
                 graph, (String) startLocationBox.getValue(), endLocations, "REST"));
-      } else if (cafeCheck.isSelected()) {
+      }
+      if (cafeCheck.isSelected()) {
         endLocations.add(
             0,
             DijkstrasAlgorithm.dijkstraDetour(
                 graph, (String) startLocationBox.getValue(), endLocations, "FOOD"));
-      } else if (kioskCheck.isSelected()) {
+      }
+      if (kioskCheck.isSelected()) {
         endLocations.add(
             0,
             DijkstrasAlgorithm.dijkstraDetour(
