@@ -104,7 +104,8 @@ public class ServiceCSV {
   public static void loadCSVtoDB() throws IOException, SQLException {
     boolean loadSuccess = false;
     String line = "";
-    Connection connection = JDBCUtils.getConn();
+    Connection connection = null;
+    connection = JDBCUtils.getConn();
     System.out.println("start loading service CSV to database");
     String insert = "insert into ADMIN.SERVICE values(?,?,?,?,?,?,?,?)";
     PreparedStatement preparedStatement = connection.prepareStatement(insert);

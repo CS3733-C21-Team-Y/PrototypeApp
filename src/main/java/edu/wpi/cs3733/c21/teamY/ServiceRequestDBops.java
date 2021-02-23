@@ -137,8 +137,8 @@ public class ServiceRequestDBops {
       hasBeenUpdated = true;
 
     } catch (SQLException throwables) {
-      System.out.println("connection get failed ");
-      throwables.printStackTrace();
+      //System.out.println("connection get failed ");
+      //throwables.printStackTrace();
     }
     return hasBeenUpdated;
   }
