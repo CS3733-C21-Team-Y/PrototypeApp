@@ -76,6 +76,7 @@ public class ServiceCSV {
    * @param service a service a be saved
    * @return true if write successfully, false otherwise
    */
+  @Deprecated
   public static boolean saveServiceToCSV(Service service) {
     boolean hasBeenWritten = false;
 
@@ -107,6 +108,7 @@ public class ServiceCSV {
     System.out.println("start loading service CSV to database");
     String insert = "insert into ADMIN.SERVICE values(?,?,?,?,?,?,?,?)";
     PreparedStatement preparedStatement = connection.prepareStatement(insert);
+    brService.readLine(); // Reads first line to clear the attributes line
     while ((line = brService.readLine()) != null) {
       String[] strService = line.split(splitBy);
       int serviceID = Integer.parseInt(strService[0]);

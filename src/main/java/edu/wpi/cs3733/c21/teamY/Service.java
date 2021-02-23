@@ -126,10 +126,6 @@ public class Service {
     status = -1;
   }
 
-  public int getStatus() {
-    return status;
-  }
-
   @Override
   public String toString() {
     return serviceID

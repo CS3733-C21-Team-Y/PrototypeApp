@@ -37,6 +37,7 @@ public class App extends Application {
 
     try {
       JDBCUtils.fillTablesFromCSV();
+      ServiceCSV.loadCSVtoDB();
     } catch (Exception e) {
       e.printStackTrace();
       log.info("Error loading CSV into DB");
