@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -65,51 +64,53 @@
                                 <Insets />
                             </VBox.margin>
                         </GridPane>
-                        <GridPane>
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="5.0" minWidth="5.0" prefWidth="5.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="5.0" minWidth="5.0" prefWidth="5.0" />
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                            </rowConstraints>
-                            <children>
-                                <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="0.0" minWidth="0.0" pannable="true" stylesheets="@UIStyles.css" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                              <Label minWidth="0.0" text="Requests Manager" textAlignment="CENTER" textFill="#555555">
+                                  <font>
+                                      <Font name="Arial Bold" size="18.0" />
+                                  </font>
+                              </Label>
+                              <GridPane minWidth="0.0">
+                                  <columnConstraints>
+                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+                                      <ColumnConstraints fx:id="test" hgrow="ALWAYS" minWidth="10.0" />
+                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+                                  </columnConstraints>
+                                  <rowConstraints>
+                                      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                  </rowConstraints>
+                                  <children>
+                                      <AnchorPane prefHeight="17.0" prefWidth="245.0" GridPane.columnIndex="1">
+                                          <children>
+                                              <Label maxWidth="-Infinity" styleClass="serviceRequestCat" stylesheets="@UIStyles.css" text="Current Service Requests" textFill="#555555" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                  <font>
+                                                      <Font name="Arial" size="12.0" />
+                                                  </font>
+                                              </Label>
+                                          </children>
+                                      </AnchorPane>
+                                  </children>
+                              </GridPane>
+                  <GridPane prefHeight="9999999.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="90.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                                <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="0.0" minWidth="0.0" pannable="true" stylesheets="@UIStyles.css" GridPane.columnIndex="1">
                                     <content>
                                         <VBox alignment="TOP_CENTER" minWidth="0.0" spacing="10.0" styleClass="scroll-pane">
                                             <children>
-                                                <Label minWidth="0.0" text="Requests Manager" textAlignment="CENTER" textFill="#555555">
-                                                    <font>
-                                                        <Font name="Arial Bold" size="18.0" />
-                                                    </font>
-                                                </Label>
-                                                <GridPane minWidth="0.0">
+                                                <GridPane fx:id="serviceGrid">
                                                     <columnConstraints>
-                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
-                                                        <ColumnConstraints fx:id="test" hgrow="ALWAYS" minWidth="10.0" />
-                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="5.0" prefWidth="100.0" />
-                                                    </columnConstraints>
-                                                    <rowConstraints>
-                                                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                                    </rowConstraints>
-                                                    <children>
-                                                        <AnchorPane prefHeight="17.0" prefWidth="245.0" GridPane.columnIndex="1">
-                                                            <children>
-                                                                <Label maxWidth="-Infinity" styleClass="serviceRequestCat" stylesheets="@UIStyles.css" text="Current Service Requests" textFill="#555555" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                                                                    <font>
-                                                                        <Font name="Arial" size="12.0" />
-                                                                    </font>
-                                                                </Label>
-                                                            </children>
-                                                        </AnchorPane>
-                                                    </children>
-                                                </GridPane>
-                                                <GridPane fx:id="serviceGrid" minHeight="50.0" minWidth="0.0">
-                                                    <columnConstraints>
-                                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.0" minWidth="10.0" prefWidth="214.0" />
+                                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="305.0" minWidth="10.0" percentWidth="22.0" prefWidth="214.0" />
                                                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="121.0" />
-                                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="43.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" percentWidth="15.0" prefWidth="121.0" />
+                                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" percentWidth="15.0" prefWidth="43.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
                                                     </columnConstraints>
                                                     <rowConstraints>
                                                         <RowConstraints fx:id="firstRow" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -118,28 +119,35 @@
                                                         <Insets left="10.0" right="10.0" top="-5.0" />
                                                     </padding>
                                                     <children>
-                                                        <CheckBox fx:id="reqCheckbox" alignment="CENTER" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                                                        <Button fx:id="serviceReqItem" mnemonicParsing="false" text="Button" GridPane.rowIndex="1" />
-                                                        <Label text="Request" />
+                                                        <Label text="Service Type" />
                                                         <Label text="Location" GridPane.columnIndex="1" />
-                                                        <Label text="Status" GridPane.columnIndex="2" />
+                                                        <Label text="Status" GridPane.columnIndex="3" />
+                                          <Label text="Details" GridPane.columnIndex="4" />
+                                          <Label text="Service ID" GridPane.columnIndex="2" />
                                                     </children>
                                                 </GridPane>
-                                                <Label minWidth="0.0" text="© 2021 The Yellow Yetis, LLC." textFill="#555555">
-                                                    <font>
-                                                        <Font size="10.0" />
-                                                    </font>
-                                                    <VBox.margin>
-                                                        <Insets top="15.0" />
-                                                    </VBox.margin>
-                                                </Label>
-                                                <Button fx:id="addServiceBtn" mnemonicParsing="false" text="Button" />
                                             </children>
                                         </VBox>
                                     </content>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
                                 </ScrollPane>
-                            </children>
-                        </GridPane>
+                     </children>
+                  </GridPane>
+                  <Button fx:id="addServiceBtn" mnemonicParsing="false" text="Load Information">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                  </Button>
+                              <Label minWidth="0.0" text="© 2021 The Yellow Yetis, LLC." textFill="#555555">
+                                  <font>
+                                      <Font size="10.0" />
+                                  </font>
+                     <VBox.margin>
+                        <Insets top="-10.0" />
+                     </VBox.margin>
+                              </Label>
                     </children>
                 </VBox>
             </children>

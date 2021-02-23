@@ -20,6 +20,8 @@ public class CSV {
       "src/main/resources/edu/wpi/cs3733/c21/teamY/MapYEdgesAllFloors.csv";
   public static String edgeTestCSVpath = "src/main/resources/edu/wpi/cs3733/c21/teamY/TestEdge.csv";
   public static String nodeTestCSVpath = "src/main/resources/edu/wpi/cs3733/c21/teamY/TestNode.csv";
+  public static String serviceTestCSVpath =
+      "src/main/resources/edu/wpi/cs3733/c21/teamY/TestService.csv";
 
   /** load the BufferedReader for node */
   static {
@@ -189,8 +191,12 @@ public class CSV {
       CSVpath = edgeTestCSVpath;
     } else if (mode.equals("NODE")) {
       str = "SELECT * FROM ADMIN.NODE";
-      numAttributes = 10;
+      numAttributes = 9;
       CSVpath = nodeTestCSVpath;
+    } else if (mode.equals("SERVICE")) {
+      str = "SELECT * FROM ADMIN.SERVICE";
+      numAttributes = 8;
+      CSVpath = serviceTestCSVpath;
     }
     BufferedWriter bufferedWriter; // true = append, false = overwrite
     try {
@@ -212,11 +218,14 @@ public class CSV {
         bufferedWriter.write(
             "nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned"); // writes header line with fields to CSV
         bufferedWriter.newLine();
+      } else if (mode.equals("SERVICE")) {
+        bufferedWriter.write("serviceID,type,description,location,category,urgency,date,status");
+        bufferedWriter.newLine();
       }
       while (resultSet.next()) {
-        for (int i = 1; i < numAttributes; i++) {
-          System.out.println(resultSet.getString(i));
+        for (int i = 1; i <= numAttributes; i++) {
           stringBuilder.append(resultSet.getString(i)).append(",");
+          System.out.println(resultSet.getString(i));
         }
         stringBuilder.deleteCharAt(
             stringBuilder.length() - 1); // Gets rid of final unnecessary comma
