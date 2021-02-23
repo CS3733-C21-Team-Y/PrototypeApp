@@ -30,6 +30,15 @@ public class PathfindingPageController {
   @FXML private CheckBox cafeCheck;
   @FXML private CheckBox kioskCheck;
 
+  @FXML private Slider zoomSlider;
+  @FXML private Button upButton;
+  @FXML private Button downButton;
+  @FXML private Button leftButton;
+  @FXML private Button rightButton;
+  @FXML private Button zoomInButton;
+  @FXML private Button zoomOutButton;
+  @FXML private Label zoomLabel;
+
   private ArrayList<Node> nodes = new ArrayList<Node>();
   private ArrayList<Edge> edges = new ArrayList<Edge>();
   private Graph graph;
@@ -153,6 +162,17 @@ public class PathfindingPageController {
           });
       i++;
     }
+
+    upButton.setOnAction(e -> mapInsertController.panOnButtons("up"));
+    downButton.setOnAction(e -> mapInsertController.panOnButtons("down"));
+    leftButton.setOnAction(e -> mapInsertController.panOnButtons("left"));
+    rightButton.setOnAction(e -> mapInsertController.panOnButtons("right"));
+    zoomInButton.setOnAction(e -> mapInsertController.zoomOnButtons("in"));
+    zoomOutButton.setOnAction(e -> mapInsertController.zoomOnButtons("out"));
+
+    zoomSlider.setDisable(true);
+
+    zoomLabel.setText("Zoom");
 
     // Populate local graph and selection menus
     // nodes = mapInsertController.loadNodesFromCSV();
