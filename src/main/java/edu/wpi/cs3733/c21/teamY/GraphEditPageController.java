@@ -377,6 +377,7 @@ public class GraphEditPageController {
         // sets the new scene to the alex page
         CSV.DBtoCSV("NODE");
         CSV.DBtoCSV("EDGE");
+        ActiveGraph.initialize();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
 
       } else {
