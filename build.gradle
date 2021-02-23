@@ -72,6 +72,7 @@ def codeCoverageExcludes = [
         'edu.wpi.cs3733.c21.teamY.MapController.CircleEx',
         'edu.wpi.cs3733.c21.teamY.GraphEditPageController',
         'edu.wpi.cs3733.c21.teamY.MapController.LineEx',
+        'edu.wpi.cs3733.c21.teamY.ServiceCSV',
         // Test these later
         'edu.wpi.cs3733.c21.teamY.ServiceRequestDBops',
         'edu.wpi.cs3733.c21.teamY.ActiveGraphNoStairs'
