@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamY;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +40,7 @@ public class RequestsManagerController extends GenericPage {
     RowConstraints constraints = new RowConstraints();
     constraints.setMinHeight(50);
     serviceGrid.getRowConstraints().add(constraints);
+    Platform.runLater(() -> loadServicesFromDB());
   }
 
   private void loadServicesFromDB() {
