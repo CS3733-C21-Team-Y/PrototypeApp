@@ -7,10 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -29,6 +26,9 @@ public class PathfindingPageController {
   @FXML private ComboBox startLocationBox;
   @FXML private ComboBox endLocationBox;
   @FXML private Button toolTip;
+  @FXML private CheckBox bathroomCheck;
+  @FXML private CheckBox cafeCheck;
+  @FXML private CheckBox kioskCheck;
 
   private ArrayList<Node> nodes = new ArrayList<Node>();
   private ArrayList<Edge> edges = new ArrayList<Edge>();
@@ -266,12 +266,30 @@ public class PathfindingPageController {
   public void calculatePath() {
     if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
 
+      ArrayList<String> endLocations = new ArrayList<>();
+      endLocations.add((String) endLocationBox.getValue());
+      if (bathroomCheck.isSelected()) {
+        endLocations.add(
+            0,
+            DijkstrasAlgorithm.dijkstraDetour(
+                graph, (String) startLocationBox.getValue(), endLocations, "REST"));
+      } else if (cafeCheck.isSelected()) {
+        endLocations.add(
+            0,
+            DijkstrasAlgorithm.dijkstraDetour(
+                graph, (String) startLocationBox.getValue(), endLocations, "FOOD"));
+      } else if (kioskCheck.isSelected()) {
+        endLocations.add(
+            0,
+            DijkstrasAlgorithm.dijkstraDetour(
+                graph, (String) startLocationBox.getValue(), endLocations, "KIOS"));
+      }
+
       pathActive = true;
 
       mapInsertController.clearSelection();
       ArrayList<Node> nodes =
-          AStarAlgorithm.aStar(
-              graph, (String) startLocationBox.getValue(), (String) endLocationBox.getValue());
+          AStarAlgorithm.aStar(graph, (String) startLocationBox.getValue(), endLocations);
 
       if (nodes != null) {
         for (int i = 0; i < nodes.size() - 1; i++) {
