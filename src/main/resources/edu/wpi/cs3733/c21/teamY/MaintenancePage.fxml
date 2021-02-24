@@ -34,7 +34,7 @@
                      <children>
                         <ImageView fitHeight="150.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                            <image>
-                              <Image url="@BWLogo.png" />
+                              <Image url="@images/BWLogo.png" />
                            </image>
                            <GridPane.margin>
                               <Insets top="5.0" />

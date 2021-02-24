@@ -30,7 +30,7 @@
                      <children>
                         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" scaleX="0.75" scaleY="0.75">
                            <image>
-                              <Image url="@BWHLogoShield.png" />
+                              <Image url="@images/BWHLogoShield.png" />
                            </image>
                            <HBox.margin>
                               <Insets right="330.0" />

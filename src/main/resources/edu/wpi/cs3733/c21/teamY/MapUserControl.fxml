@@ -47,7 +47,7 @@
                   <Insets />
                </StackPane.margin>
                <image>
-                  <Image url="@FaulknerFloor1_Updated.png" />
+                  <Image url="@images/FaulknerFloor1_Updated.png" />
                </image>
             </ImageView>
             <Pane fx:id="adornerPane" StackPane.alignment="TOP_LEFT">

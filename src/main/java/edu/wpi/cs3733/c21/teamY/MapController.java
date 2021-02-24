@@ -76,12 +76,12 @@ public class MapController {
   private String direction = "in/out";
 
   // these need to be imageViews
-  Image parking = new Image("edu/wpi/cs3733/c21/teamY/FaulknerParking.png");
-  Image f1 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor1_Updated.png");
-  Image f2 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor2_Updated.png");
-  Image f3 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor3_Updated.png");
-  Image f4 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor4_Updated.png");
-  Image f5 = new Image("edu/wpi/cs3733/c21/teamY/FaulknerFloor5_Updated.png");
+  Image parking = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerParking.png");
+  Image f1 = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerFloor1_Updated.png");
+  Image f2 = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerFloor2_Updated.png");
+  Image f3 = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerFloor3_Updated.png");
+  Image f4 = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerFloor4_Updated.png");
+  Image f5 = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerFloor5_Updated.png");
 
   public MapController() {}
 
