@@ -1,5 +1,6 @@
-package edu.wpi.cs3733.c21.teamY;
+package edu.wpi.cs3733.c21.teamY.entity;
 
+import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import java.sql.SQLException;
 import java.util.ArrayList;
 

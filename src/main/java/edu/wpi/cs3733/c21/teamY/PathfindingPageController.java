@@ -1,6 +1,9 @@
 package edu.wpi.cs3733.c21.teamY;
 
 import com.jfoenix.controls.JFXDialog;
+import edu.wpi.cs3733.c21.teamY.algorithms.AStarAlgorithm;
+import edu.wpi.cs3733.c21.teamY.algorithms.DijkstrasAlgorithm;
+import edu.wpi.cs3733.c21.teamY.entity.*;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

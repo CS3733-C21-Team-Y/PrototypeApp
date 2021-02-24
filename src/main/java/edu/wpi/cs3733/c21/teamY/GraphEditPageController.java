@@ -2,6 +2,12 @@ package edu.wpi.cs3733.c21.teamY;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import edu.wpi.cs3733.c21.teamY.dataops.CSV;
+import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
+import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
+import edu.wpi.cs3733.c21.teamY.entity.ActiveGraphNoStairs;
+import edu.wpi.cs3733.c21.teamY.entity.Edge;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
@@ -60,7 +66,7 @@ public class GraphEditPageController {
   @FXML private MenuItem setFloorFivePage;
 
   private ArrayList<Edge> edges = new ArrayList<Edge>();
-  private ArrayList<edu.wpi.cs3733.c21.teamY.Node> nodes = new ArrayList<Node>();
+  private ArrayList<Node> nodes = new ArrayList<Node>();
 
   private int nodeIDCounter;
   private boolean shiftPressed = false;
@@ -446,8 +452,8 @@ public class GraphEditPageController {
     String nodeID = String.valueOf(nodeIDCounter);
     nodeIDCounter++;
     if (addNodecb.isSelected()) {
-      edu.wpi.cs3733.c21.teamY.Node n =
-          new edu.wpi.cs3733.c21.teamY.Node(
+      Node n =
+          new Node(
               Math.floor(mapInsertController.scaleUpXCoords(e.getX())),
               Math.floor(mapInsertController.scaleUpYCoords(e.getY())),
               mapInsertController.floorNumber,
@@ -472,8 +478,8 @@ public class GraphEditPageController {
     String nodeID = String.valueOf(nodeIDCounter);
     nodeIDCounter++;
     try {
-      edu.wpi.cs3733.c21.teamY.Node n =
-          new edu.wpi.cs3733.c21.teamY.Node(
+      Node n =
+          new Node(
               mapInsertController.scaleUpXCoords(Double.parseDouble(newX.getText())),
               mapInsertController.scaleUpYCoords(Double.parseDouble(newY.getText())),
               mapInsertController.floorNumber,

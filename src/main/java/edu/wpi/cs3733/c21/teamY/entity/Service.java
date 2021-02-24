@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamY;
+package edu.wpi.cs3733.c21.teamY.entity;
 
 public class Service {
 

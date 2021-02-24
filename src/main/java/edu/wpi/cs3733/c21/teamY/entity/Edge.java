@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamY;
+package edu.wpi.cs3733.c21.teamY.entity;
 
 public class Edge {
   public Edge(String edgeID, String startNodeID, String endNodeID) {
@@ -7,9 +7,9 @@ public class Edge {
     this.endNodeID = endNodeID;
   }
 
-  String edgeID;
-  String startNodeID;
-  String endNodeID;
+  public String edgeID;
+  public String startNodeID;
+  public String endNodeID;
 
   public String getEdgeID() {
     return edgeID;

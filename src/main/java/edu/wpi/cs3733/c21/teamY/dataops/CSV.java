@@ -1,5 +1,7 @@
-package edu.wpi.cs3733.c21.teamY;
+package edu.wpi.cs3733.c21.teamY.dataops;
 
+import edu.wpi.cs3733.c21.teamY.entity.Edge;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;

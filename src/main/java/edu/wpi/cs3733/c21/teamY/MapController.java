@@ -1,5 +1,8 @@
 package edu.wpi.cs3733.c21.teamY;
 
+import edu.wpi.cs3733.c21.teamY.dataops.CSV;
+import edu.wpi.cs3733.c21.teamY.entity.Edge;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -177,7 +180,7 @@ public class MapController {
   }
 
   // Adorner Elements
-  protected CircleEx addNodeCircle(edu.wpi.cs3733.c21.teamY.Node node) {
+  protected CircleEx addNodeCircle(Node node) {
     CircleEx circleEx =
         new CircleEx(scaleXCoords(node.getXcoord()), scaleXCoords(node.getYcoord()), 3);
     circleEx.setId(node.getNodeID());
@@ -188,7 +191,7 @@ public class MapController {
     return circleEx;
   }
 
-  protected LineEx addEdgeLine(edu.wpi.cs3733.c21.teamY.Edge e) {
+  protected LineEx addEdgeLine(Edge e) {
     try {
       CircleEx n = (CircleEx) adornerPane.getScene().lookup("#" + e.getStartNodeID());
       CircleEx m = (CircleEx) adornerPane.getScene().lookup("#" + e.getEndNodeID());
@@ -245,7 +248,7 @@ public class MapController {
     if (nodes.size() == 0 || edges.size() == 1) {
       System.out.println("No nodes or edges");
     }
-    for (edu.wpi.cs3733.c21.teamY.Node n : nodes) {
+    for (Node n : nodes) {
       if (n.floor.equals(floorNumber)) {
 
         double x = n.getXcoord();
