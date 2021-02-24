@@ -83,6 +83,39 @@ public class MapController {
   Image f4 = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerFloor4_Updated.png");
   Image f5 = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerFloor5_Updated.png");
 
+  // Getters
+  protected Pane getAdornerPane() {
+    return adornerPane;
+  }
+
+  protected SplitMenuButton getFloorMenu() {
+    return floorMenu;
+  }
+
+  protected ArrayList<MAP_PAGE> getMapOrder() {
+    return mapOrder;
+  }
+
+  protected ArrayList<CircleEx> getSelectedNodes() {
+    return selectedNodes;
+  }
+
+  protected ArrayList<LineEx> getSelectedEdges() {
+    return selectedEdges;
+  }
+
+  public StackPane getContainerStackPane() {
+    return containerStackPane;
+  }
+
+  public ImageView getMapImageView() {
+    return mapImageView;
+  }
+
+  public GridPane getMapOverlayUIGridPane() {
+    return mapOverlayUIGridPane;
+  }
+
   public MapController() {}
 
   @FXML
@@ -104,7 +137,7 @@ public class MapController {
   }
 
   // Image stuff
-  protected void changeImage(MapController.MAP_PAGE floor) {
+  protected void changeMapImage(MapController.MAP_PAGE floor) {
     switch (floor) {
       case FLOOR1:
         mapImageView.setImage(f1);
@@ -134,7 +167,7 @@ public class MapController {
     }
   }
 
-  protected void setImage(Image image, MapController.MAP_PAGE floor) {
+  protected void setNewMapImage(Image image, MapController.MAP_PAGE floor) {
     switch (floor) {
       case FLOOR1:
         f1 = image;
@@ -161,7 +194,7 @@ public class MapController {
     updateMapScreen();
   }
 
-  public Image chooseImage(Stage stage) {
+  public Image chooseImageNewFile(Stage stage) {
     fc.setTitle("New Map Image");
     fc.getExtensionFilters()
         .addAll(
@@ -177,6 +210,11 @@ public class MapController {
       e.printStackTrace();
     }
     return im;
+  }
+
+  // Menu Updates
+  protected void updateMenuPreview(ActionEvent e, SplitMenuButton s) {
+    s.setText(((MenuItem) e.getSource()).getText());
   }
 
   // Adorner Elements
@@ -217,27 +255,7 @@ public class MapController {
     return lineEx;
   }
 
-  protected ArrayList<Node> loadNodesFromCSV() {
-    try {
-      return CSV.getListOfNodes();
-
-    } catch (Exception exception) {
-      System.out.println("nodeEdgeDispController.drawFromCSV");
-      return null;
-    }
-  }
-
-  protected ArrayList<Edge> loadEdgesFromCSV() {
-    try {
-      return CSV.getListOfEdge();
-
-    } catch (Exception exception) {
-      System.out.println("nodeEdgeDispController.drawFromCSV");
-      return null;
-    }
-  }
-
-  protected void drawFromCSV(ArrayList<Node> nodes, ArrayList<Edge> edges, String floor) {
+  protected void addAdornerElements(ArrayList<Node> nodes, ArrayList<Edge> edges, String floor) {
 
     if (nodes == null || edges == null) {
       nodes = loadNodesFromCSV();
@@ -279,7 +297,54 @@ public class MapController {
     }
   }
 
-  // scale functions
+  protected void removeAllAdornerElements() {
+    adornerPane.getChildren().remove(0, adornerPane.getChildren().size());
+    selectedNodes = new ArrayList<CircleEx>();
+    selectedEdges = new ArrayList<LineEx>();
+    updateMapScreen();
+  }
+
+  protected void updateMapScreen() {
+    // adding the node and refreshing the scene
+    Stage stage = (Stage) containerStackPane.getScene().getWindow();
+    stage.setScene(containerStackPane.getScene());
+    stage.show();
+  }
+
+  protected void removeSelected() {
+    for (CircleEx c : selectedNodes) {
+      adornerPane.getChildren().remove(c);
+    }
+    for (LineEx l : selectedEdges) {
+      adornerPane.getChildren().remove(l);
+    }
+
+    selectedNodes = new ArrayList<CircleEx>();
+    selectedEdges = new ArrayList<LineEx>();
+  }
+
+  // Load From CSV
+  protected ArrayList<Node> loadNodesFromCSV() {
+    try {
+      return CSV.getListOfNodes();
+
+    } catch (Exception exception) {
+      System.out.println("nodeEdgeDispController.drawFromCSV");
+      return null;
+    }
+  }
+
+  protected ArrayList<Edge> loadEdgesFromCSV() {
+    try {
+      return CSV.getListOfEdge();
+
+    } catch (Exception exception) {
+      System.out.println("nodeEdgeDispController.drawFromCSV");
+      return null;
+    }
+  }
+
+  // Scale functions
   protected double scaleXCoords(double x) {
     double scale = 1485.0 / 350.0;
     return x / scale;
@@ -300,24 +365,7 @@ public class MapController {
     return y * scale;
   }
 
-  protected void switchImage(ActionEvent e, MapController.MAP_PAGE mp) {
-    removeAllAdornerElements();
-    changeImage(mp);
-  }
-
-  // --delete functions only work taking off screen not deleting from DB - oops
-  protected void removeAllAdornerElements() {
-    adornerPane.getChildren().remove(0, adornerPane.getChildren().size());
-    selectedNodes = new ArrayList<CircleEx>();
-    selectedEdges = new ArrayList<LineEx>();
-    updateMapScreen();
-  }
-
-  protected void updateMenuPreview(ActionEvent e, SplitMenuButton s) {
-    s.setText(((MenuItem) e.getSource()).getText());
-  }
-
-  // selection functions
+  // Selection functions
   protected void clearSelection() {
     // Cannot just deselect because for loop
     for (CircleEx c : selectedNodes) {
@@ -369,59 +417,7 @@ public class MapController {
     }
   }
 
-  protected void removeSelected() {
-    for (CircleEx c : selectedNodes) {
-      adornerPane.getChildren().remove(c);
-    }
-    for (LineEx l : selectedEdges) {
-      adornerPane.getChildren().remove(l);
-    }
-
-    selectedNodes = new ArrayList<CircleEx>();
-    selectedEdges = new ArrayList<LineEx>();
-  }
-
-  // Getters
-  protected Pane getAdornerPane() {
-    return adornerPane;
-  }
-
-  protected SplitMenuButton getFloorMenu() {
-    return floorMenu;
-  }
-
-  protected ArrayList<MAP_PAGE> getMapOrder() {
-    return mapOrder;
-  }
-
-  protected ArrayList<CircleEx> getSelectedNodes() {
-    return selectedNodes;
-  }
-
-  protected ArrayList<LineEx> getSelectedEdges() {
-    return selectedEdges;
-  }
-
-  public StackPane getContainerStackPane() {
-    return containerStackPane;
-  }
-
-  public ImageView getMapImageView() {
-    return mapImageView;
-  }
-
-  public GridPane getMapOverlayUIGridPane() {
-    return mapOverlayUIGridPane;
-  }
-
-  protected void updateMapScreen() {
-    // adding the node and refreshing the scene
-    Stage stage = (Stage) containerStackPane.getScene().getWindow();
-    stage.setScene(containerStackPane.getScene());
-    stage.show();
-  }
-
-  // Zoom
+  // Zoom and Pan
   protected void scrollOnPress(KeyEvent e) {
     if (e.getCode() == KeyCode.CONTROL) {
       direction = "up/down";

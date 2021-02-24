@@ -75,7 +75,7 @@ public class PathfindingPageController {
     resetView.toFront();
 
     // Set the starting image early because otherwise it will flash default
-    mapInsertController.changeImage(MapController.MAP_PAGE.PARKING);
+    mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
 
     // Tooltip box
     JFXDialog dialog = new JFXDialog();
@@ -190,7 +190,8 @@ public class PathfindingPageController {
                 }
 
                 mapInsertController.removeAllAdornerElements();
-                mapInsertController.drawFromCSV(nodes, edges, mapInsertController.floorNumber);
+                mapInsertController.addAdornerElements(
+                    nodes, edges, mapInsertController.floorNumber);
 
                 resetMouseHandlingForAdorners();
 
@@ -206,13 +207,12 @@ public class PathfindingPageController {
       int index = i;
       menuItem.setOnAction(
           e -> {
-            mapInsertController.switchImage(e, mapInsertController.getMapOrder().get(index));
-
             mapInsertController.removeAllAdornerElements();
-            mapInsertController.drawFromCSV(nodes, edges, mapInsertController.floorNumber);
+            mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(index));
+            mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
             resetMouseHandlingForAdorners();
-            mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
+            // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
 
             calculatePath();
           });
@@ -252,9 +252,9 @@ public class PathfindingPageController {
     Platform.runLater(
         () -> {
           mapInsertController.getFloorMenu().setText("Parking");
-          mapInsertController.changeImage(MapController.MAP_PAGE.PARKING);
+          mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
 
-          mapInsertController.drawFromCSV(nodes, edges, mapInsertController.floorNumber);
+          mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
           resetMouseHandlingForAdorners();
         });

@@ -164,43 +164,49 @@ public class GraphEditPageController {
     selectNewMapImage.setText("Select New Map");
     setParkingPage.setOnAction(
         e -> {
-          mapInsertController.setImage(
-              mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+          mapInsertController.setNewMapImage(
+              mapInsertController.chooseImageNewFile(
+                  (Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.PARKING);
           mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorOnePage.setOnAction(
         e -> {
-          mapInsertController.setImage(
-              mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+          mapInsertController.setNewMapImage(
+              mapInsertController.chooseImageNewFile(
+                  (Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR1);
           mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorTwoPage.setOnAction(
         e -> {
-          mapInsertController.setImage(
-              mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+          mapInsertController.setNewMapImage(
+              mapInsertController.chooseImageNewFile(
+                  (Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR2);
           mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorThreePage.setOnAction(
         e -> {
-          mapInsertController.setImage(
-              mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+          mapInsertController.setNewMapImage(
+              mapInsertController.chooseImageNewFile(
+                  (Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR3);
           mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorFourPage.setOnAction(
         e -> {
-          mapInsertController.setImage(
-              mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+          mapInsertController.setNewMapImage(
+              mapInsertController.chooseImageNewFile(
+                  (Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR4);
           mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorFivePage.setOnAction(
         e -> {
-          mapInsertController.setImage(
-              mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+          mapInsertController.setNewMapImage(
+              mapInsertController.chooseImageNewFile(
+                  (Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR5);
           mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
@@ -227,7 +233,8 @@ public class GraphEditPageController {
       int index = i;
       menuItem.setOnAction(
           e -> {
-            mapInsertController.switchImage(e, mapInsertController.getMapOrder().get(index));
+            mapInsertController.removeAllAdornerElements();
+            mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(index));
             mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
           });
       i++;
@@ -328,12 +335,12 @@ public class GraphEditPageController {
 
     nodes = mapInsertController.loadNodesFromCSV();
     edges = mapInsertController.loadEdgesFromCSV();
-    mapInsertController.drawFromCSV(nodes, edges, mapInsertController.floorNumber);
+    mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
     resetMouseHandlingForAdorners();
   }
 
   private void initImage() {
-    mapInsertController.changeImage(MapController.MAP_PAGE.PARKING);
+    mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
     //    map.setFitHeight(500);
     //    map.fitHeightProperty().bind(anchor.heightProperty());
     //    map.fitWidthProperty().bind(anchor.widthProperty());
