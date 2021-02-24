@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ServiceCSV {
-  public static String serviceCSVpath = "Services.csv";
+  public static String serviceCSVpath = "src/main/resources/edu/wpi/cs3733/c21/teamY/Services.csv";
   public static BufferedReader brService;
   public static BufferedWriter bwService;
   public static final String splitBy = ",";

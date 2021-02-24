@@ -14,11 +14,14 @@ public class CSV {
   public static ArrayList<Node> nodes = new ArrayList<Node>();
   public static ArrayList<Edge> edges = new ArrayList<Edge>();
   public static final String splitBy = ",";
-  public static String nodeCSVpath = "MapYNodesAllFloors.csv";
-  public static String edgeCSVpath = "MapYEdgesAllFloors.csv";
+  public static String nodeCSVpath =
+      "src/main/resources/edu/wpi/cs3733/c21/teamY/MapYNodesAllFloors.csv";
+  public static String edgeCSVpath =
+      "src/main/resources/edu/wpi/cs3733/c21/teamY/MapYEdgesAllFloors.csv";
   public static String edgeTestCSVpath = "src/main/resources/edu/wpi/cs3733/c21/teamY/TestEdge.csv";
   public static String nodeTestCSVpath = "src/main/resources/edu/wpi/cs3733/c21/teamY/TestNode.csv";
-  public static String serviceTestCSVpath = "Services.csv";
+  public static String serviceTestCSVpath =
+      "src/main/resources/edu/wpi/cs3733/c21/teamY/Services.csv";
 
   /** load the BufferedReader for node */
   static {
@@ -185,11 +188,11 @@ public class CSV {
     if (mode.equals("EDGE")) {
       str = "SELECT * FROM ADMIN.EDGE";
       numAttributes = 3;
-      CSVpath = edgeCSVpath;
+      CSVpath = edgeTestCSVpath;
     } else if (mode.equals("NODE")) {
       str = "SELECT * FROM ADMIN.NODE";
       numAttributes = 9;
-      CSVpath = nodeCSVpath;
+      CSVpath = nodeTestCSVpath;
     } else if (mode.equals("SERVICE")) {
       str = "SELECT * FROM ADMIN.SERVICE";
       numAttributes = 8;
