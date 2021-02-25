@@ -1,10 +1,14 @@
-package edu.wpi.cs3733.c21.teamY;
+package edu.wpi.cs3733.c21.teamY.dataops;
 
+import edu.wpi.cs3733.c21.teamY.entity.Edge;
+import edu.wpi.cs3733.c21.teamY.entity.Graph;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+@Deprecated
 public class DatabaseQueryAdministrator {
 
   // static Connection conn;

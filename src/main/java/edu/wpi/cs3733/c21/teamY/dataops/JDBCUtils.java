@@ -1,5 +1,7 @@
-package edu.wpi.cs3733.c21.teamY;
+package edu.wpi.cs3733.c21.teamY.dataops;
 
+import edu.wpi.cs3733.c21.teamY.entity.Edge;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.*;
@@ -432,5 +434,30 @@ public class JDBCUtils {
     PreparedStatement statement = createPreparedStatementDeleteEdge(edgeID);
     statement.execute();
     statement.closeOnCompletion();
+  }
+
+  public static PreparedStatement createPreparedStatementUpdateCoordsOnly(
+      String nodeID, double xcoord, double ycoord) throws SQLException {
+    Connection connection = getConn();
+    return connection.prepareStatement(
+        "update Admin.NODE set "
+            + " XCOORD = '"
+            + xcoord
+            + "', YCOORD = '"
+            + ycoord
+            + "' where NODEID = '"
+            + nodeID
+            + "'");
+  }
+
+  public static void updateNodeCoordsOnly(String nodeID, double xcoord, double ycoord) {
+    try {
+      PreparedStatement statement = createPreparedStatementUpdateCoordsOnly(nodeID, xcoord, ycoord);
+      statement.executeUpdate();
+      getConn().commit();
+      statement.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 }

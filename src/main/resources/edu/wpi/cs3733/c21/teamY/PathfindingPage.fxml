@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
@@ -62,10 +63,10 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <VBox prefHeight="200.0" prefWidth="375.0">
+                        <VBox prefHeight="90.0" prefWidth="278.0">
                            <children>
-                              <ComboBox fx:id="startLocationBox" editable="true" minHeight="40.0" prefWidth="370.0" promptText="Start Location" />
-                              <ComboBox fx:id="endLocationBox" editable="true" minHeight="40.0" prefWidth="370.0" promptText="End Location">
+                              <ComboBox fx:id="startLocationBox" editable="true" minHeight="40.0" prefHeight="40.0" prefWidth="225.0" promptText="Start Location" />
+                              <ComboBox fx:id="endLocationBox" editable="true" minHeight="40.0" prefHeight="40.0" prefWidth="225.0" promptText="End Location">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin>
@@ -73,6 +74,37 @@
                            </children>
                            <HBox.margin>
                               <Insets left="10.0" top="10.0" />
+                           </HBox.margin>
+                        </VBox>
+                        <VBox prefHeight="100.0" prefWidth="122.0">
+                           <children>
+                              <CheckBox fx:id="bathroomCheck" alignment="CENTER" mnemonicParsing="false" text="Bathroom">
+                                 <padding>
+                                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                 </padding>
+                              </CheckBox>
+                              <CheckBox fx:id="cafeCheck" mnemonicParsing="false" text="Cafeteria">
+                                 <padding>
+                                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                 </padding>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </CheckBox>
+                              <CheckBox fx:id="kioskCheck" mnemonicParsing="false" text="Kiosk">
+                                 <padding>
+                                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                 </padding>
+                              </CheckBox>
+                              <Line endX="101.2512435913086" endY="-15.041640281677246" startX="1.9583470821380615" startY="-15.0416259765625" />
+                              <CheckBox fx:id="noStairsCheckBox" mnemonicParsing="false" text="No Stairs">
+                                 <padding>
+                                    <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                                 </padding>
+                              </CheckBox>
+                           </children>
+                           <HBox.margin>
+                              <Insets top="10.0" />
                            </HBox.margin>
                         </VBox>
                         <VBox prefHeight="100.0" prefWidth="280.0">
@@ -91,12 +123,12 @@
                                           <Slider fx:id="zoomSlider" max="200.0" min="10.0" value="100.0" />
                                           <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                                              <children>
-                                                <Button fx:id="zoomInButton" minWidth="30.0" mnemonicParsing="false" text="-">
+                                                <Button fx:id="zoomOutButton" minWidth="30.0" mnemonicParsing="false" text="-">
                                                    <HBox.margin>
                                                       <Insets right="10.0" />
                                                    </HBox.margin>
                                                 </Button>
-                                                <Button fx:id="zoomOutButton" minWidth="30.0" mnemonicParsing="false" text="+">
+                                                <Button fx:id="zoomInButton" minWidth="30.0" mnemonicParsing="false" text="+">
                                                    <HBox.margin>
                                                       <Insets left="10.0" />
                                                    </HBox.margin>
@@ -143,6 +175,7 @@
                                     <Insets right="10.0" top="-10.0" />
                                  </VBox.margin>
                               </HBox>
+                              <HBox prefHeight="100.0" prefWidth="200.0" />
                            </children>
                         </VBox>
                      </children>

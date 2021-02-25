@@ -1,5 +1,7 @@
-package edu.wpi.cs3733.c21.teamY;
+package edu.wpi.cs3733.c21.teamY.dataops;
 
+import edu.wpi.cs3733.c21.teamY.entity.Edge;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,13 +17,15 @@ public class CSV {
   public static ArrayList<Edge> edges = new ArrayList<Edge>();
   public static final String splitBy = ",";
   public static String nodeCSVpath =
-      "src/main/resources/edu/wpi/cs3733/c21/teamY/MapYNodesAllFloors.csv";
+      "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/MapYNodesAllFloors.csv";
   public static String edgeCSVpath =
-      "src/main/resources/edu/wpi/cs3733/c21/teamY/MapYEdgesAllFloors.csv";
-  public static String edgeTestCSVpath = "src/main/resources/edu/wpi/cs3733/c21/teamY/TestEdge.csv";
-  public static String nodeTestCSVpath = "src/main/resources/edu/wpi/cs3733/c21/teamY/TestNode.csv";
+      "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/MapYEdgesAllFloors.csv";
+  public static String edgeTestCSVpath =
+      "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/TestEdge.csv";
+  public static String nodeTestCSVpath =
+      "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/TestNode.csv";
   public static String serviceTestCSVpath =
-      "src/main/resources/edu/wpi/cs3733/c21/teamY/Services.csv";
+      "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/Services.csv";
 
   /** load the BufferedReader for node */
   static {

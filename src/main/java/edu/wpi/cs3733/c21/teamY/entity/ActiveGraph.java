@@ -1,5 +1,6 @@
-package edu.wpi.cs3733.c21.teamY;
+package edu.wpi.cs3733.c21.teamY.entity;
 
+import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -25,11 +26,19 @@ public class ActiveGraph {
 
   private static Graph activeGraph;
 
+  public static ArrayList<Node> getNodes() {
+    return nodes;
+  }
+
+  public static ArrayList<Edge> getEdges() {
+    return edges;
+  }
+
+  private static ArrayList<Node> nodes = new ArrayList<Node>();
+  private static ArrayList<Edge> edges = new ArrayList<Edge>();
+
   /** Initializes graph from csv. TO BE REPLACED LATER */
   public static void initialize() throws SQLException {
-    ArrayList<Node> nodes = new ArrayList<Node>();
-    ArrayList<Edge> edges = new ArrayList<Edge>();
-
     nodes = CSV.getListOfNodes();
     edges = CSV.getListOfEdge();
 

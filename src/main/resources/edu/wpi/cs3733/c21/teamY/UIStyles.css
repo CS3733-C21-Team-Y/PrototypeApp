@@ -3,6 +3,7 @@
     -fx-font-family: arial;
     -fx-font-weight: bold;
     -fx-text-fill: #656565;
+
 }
 .button:hover{
     -fx-background-color: #656565;

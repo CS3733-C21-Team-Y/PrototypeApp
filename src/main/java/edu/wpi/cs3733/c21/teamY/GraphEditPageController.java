@@ -1,6 +1,13 @@
 package edu.wpi.cs3733.c21.teamY;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import edu.wpi.cs3733.c21.teamY.dataops.CSV;
+import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
+import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
+import edu.wpi.cs3733.c21.teamY.entity.ActiveGraphNoStairs;
+import edu.wpi.cs3733.c21.teamY.entity.Edge;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
@@ -59,12 +66,26 @@ public class GraphEditPageController {
   @FXML private MenuItem setFloorFivePage;
 
   private ArrayList<Edge> edges = new ArrayList<Edge>();
-  private ArrayList<edu.wpi.cs3733.c21.teamY.Node> nodes = new ArrayList<Node>();
+  private ArrayList<Node> nodes = new ArrayList<Node>();
 
   private int nodeIDCounter;
   private boolean shiftPressed = false;
 
+  @FXML private JFXButton panUpButton;
+  @FXML private JFXButton panDownButton;
+  @FXML private JFXButton panRightButton;
+  @FXML private JFXButton panLeftButton;
+  @FXML private JFXButton zoomInButton;
+  @FXML private JFXButton zoomOutButton;
+
+  @FXML private JFXButton moveNodeUpButton;
+  @FXML private JFXButton moveNodeDownButton;
+  @FXML private JFXButton moveNodeLeftButton;
+  @FXML private JFXButton moveNodeRightButton;
+
   @FXML private MapController mapInsertController;
+
+  JFXDialog dialog = new JFXDialog();
 
   public GraphEditPageController() {}
 
@@ -102,51 +123,93 @@ public class GraphEditPageController {
     resetView.toFront();
     mapInsertController.containerStackPane.setOnScroll(e -> mapInsertController.zoom(e));
 
+    panUpButton.setOnAction(e -> mapInsertController.panOnButtons("up"));
+    panDownButton.setOnAction(e -> mapInsertController.panOnButtons("down"));
+    panLeftButton.setOnAction(e -> mapInsertController.panOnButtons("left"));
+    panRightButton.setOnAction(e -> mapInsertController.panOnButtons("right"));
+    zoomInButton.setOnAction(e -> mapInsertController.zoomOnButtons("in"));
+    zoomOutButton.setOnAction(e -> mapInsertController.zoomOnButtons("out"));
+
+    moveNodeUpButton.setOnAction(
+        e -> {
+          mapInsertController.moveSelected(
+              mapInsertController.getSelectedNodes(), mapInsertController.getSelectedEdges(), "up");
+          updateNodes();
+        });
+    moveNodeDownButton.setOnAction(
+        e -> {
+          mapInsertController.moveSelected(
+              mapInsertController.getSelectedNodes(),
+              mapInsertController.getSelectedEdges(),
+              "down");
+          updateNodes();
+        });
+    moveNodeLeftButton.setOnAction(
+        e -> {
+          mapInsertController.moveSelected(
+              mapInsertController.getSelectedNodes(),
+              mapInsertController.getSelectedEdges(),
+              "left");
+          updateNodes();
+        });
+    moveNodeRightButton.setOnAction(
+        e -> {
+          mapInsertController.moveSelected(
+              mapInsertController.getSelectedNodes(),
+              mapInsertController.getSelectedEdges(),
+              "right");
+          updateNodes();
+        });
+
     selectNewMapImage.setText("Select New Map");
     setParkingPage.setOnAction(
         e -> {
-          mapInsertController.setImage(
-              mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+          mapInsertController.setNewMapImage(
+              mapInsertController.chooseImageNewFile(
+                  (Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.PARKING);
           mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorOnePage.setOnAction(
         e -> {
-          mapInsertController.setImage(
-              mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+          mapInsertController.setNewMapImage(
+              mapInsertController.chooseImageNewFile(
+                  (Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR1);
           mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorTwoPage.setOnAction(
         e -> {
-          mapInsertController.setImage(
-              mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+          mapInsertController.setNewMapImage(
+              mapInsertController.chooseImageNewFile(
+                  (Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR2);
           mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorThreePage.setOnAction(
         e -> {
-          mapInsertController.setImage(
-              mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+          mapInsertController.setNewMapImage(
+              mapInsertController.chooseImageNewFile(
+                  (Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR3);
           mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorFourPage.setOnAction(
         e -> {
-          mapInsertController.setImage(
-              mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+          mapInsertController.setNewMapImage(
+              mapInsertController.chooseImageNewFile(
+                  (Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR4);
           mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
     setFloorFivePage.setOnAction(
         e -> {
-          mapInsertController.setImage(
-              mapInsertController.chooseImage((Stage) selectNewMapImage.getScene().getWindow()),
+          mapInsertController.setNewMapImage(
+              mapInsertController.chooseImageNewFile(
+                  (Stage) selectNewMapImage.getScene().getWindow()),
               MapController.MAP_PAGE.FLOOR5);
           mapInsertController.updateMenuPreview(e, selectNewMapImage);
         });
-
-    JFXDialog dialog = new JFXDialog();
     dialog.setContent(
         new Label(
             " Scroll to Zoom"
@@ -170,7 +233,8 @@ public class GraphEditPageController {
       int index = i;
       menuItem.setOnAction(
           e -> {
-            mapInsertController.switchImage(e, mapInsertController.getMapOrder().get(index));
+            mapInsertController.removeAllAdornerElements();
+            mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(index));
             mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
           });
       i++;
@@ -271,62 +335,16 @@ public class GraphEditPageController {
 
     nodes = mapInsertController.loadNodesFromCSV();
     edges = mapInsertController.loadEdgesFromCSV();
-    mapInsertController.drawFromCSV(nodes, edges, mapInsertController.floorNumber);
+    mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
     resetMouseHandlingForAdorners();
   }
 
   private void initImage() {
-    mapInsertController.changeImage(MapController.MAP_PAGE.PARKING);
+    mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
     //    map.setFitHeight(500);
     //    map.fitHeightProperty().bind(anchor.heightProperty());
     //    map.fitWidthProperty().bind(anchor.widthProperty());
   }
-
-  //  private void removeEdge(ActionEvent e) throws SQLException {
-  //    String edgeID = currentSelectedLine.getId();
-  //    pane.getChildren().remove(currentSelectedLine);
-  //    JDBCUtils.deleteEdge(edgeID);
-  //  }
-
-  //  private void removeNode(ActionEvent e) throws SQLException {
-  //    String nodeID = currentSelectedCircle.getId();
-  //    pane.getChildren().remove(currentSelectedCircle);
-  //    JDBCUtils.deleteNode(nodeID);
-  //
-  //    // adding the node and refreshing the scene
-  //    Stage stage = (Stage) deleteNode.getScene().getWindow();
-  //    stage.setScene(deleteNode.getScene());
-  //    stage.show();
-  //  }
-
-  /*
-  private void removeEdge(ActionEvent e) {
-    String edgeID = mapInsertController.currentSelectedLine.getId();
-    mapInsertController
-        .getAdornerPane()
-        .getChildren()
-        .remove(mapInsertController.currentSelectedLine);
-    mapInsertController.updateMapScreen();
-    try {
-      JDBCUtils.deleteEdge(edgeID);
-    } catch (Exception throwables) {
-      throwables.printStackTrace();
-    }
-  }
-
-  private void removeNode(ActionEvent e) {
-    String nodeID = mapInsertController.currentSelectedCircle.getId();
-    mapInsertController
-        .getAdornerPane()
-        .getChildren()
-        .remove(mapInsertController.currentSelectedCircle);
-    mapInsertController.updateMapScreen();
-    try {
-      JDBCUtils.deleteNode(nodeID);
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    }
-  }*/
 
   private void removeSelected(ActionEvent e) {
     ArrayList<String> nodeIDs = new ArrayList<String>();
@@ -372,6 +390,8 @@ public class GraphEditPageController {
         // sets the new scene to the alex page
         CSV.DBtoCSV("NODE");
         CSV.DBtoCSV("EDGE");
+        ActiveGraph.initialize();
+        ActiveGraphNoStairs.initialize();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
 
       } else {
@@ -420,18 +440,6 @@ public class GraphEditPageController {
         // JDBCUtils.insert(3, ed, "EDGE");
         // JDBCUtils.insert(JDBCUtils.insertString(ed));
 
-        //        JDBCUtils.insert(3, ed, "Edge");
-        //        Line line = new Line(startx, starty, endx, endy);
-        //        line.setId(ed.getEdgeID());
-
-        //        line.setStrokeWidth(3);
-        //        pane.getChildren().add(line);
-        //        line.toBack();
-        //        // refreshing and adding to the scene
-        //        Stage stage = (Stage) addEdge.getScene().getWindow();
-        //        stage.setScene(addEdge.getScene());
-        //        stage.show();
-
         try {
           //          DatabaseQueryAdministrator.insertEdge(ed);
           JDBCUtils.insert(3, ed, "Edge");
@@ -451,27 +459,8 @@ public class GraphEditPageController {
     String nodeID = String.valueOf(nodeIDCounter);
     nodeIDCounter++;
     if (addNodecb.isSelected()) {
-      edu.wpi.cs3733.c21.teamY.Node n =
-          new edu.wpi.cs3733.c21.teamY.Node(
-              // <<<<<<< HEAD
-              //              Math.floor(mapInsertController.scaleUpXCoords(e.getX())),
-              //              Math.floor(mapInsertController.scaleUpYCoords(e.getY())),
-              //              mapInsertController.floorNumber,
-              //              nodeID);
-              //      // JDBCUtils.insert(10, n, "NODE");
-              //      // JDBCUtils.insert(JDBCUtils.insertString(n));
-              //      JDBCUtils.insert(9, n, "Node");
-              //
-              //    }
-              //  }
-
-              //  private void drawFromCSV()
-              //      throws IllegalAccessException, IOException, NoSuchFieldException,
-              // SQLException,
-              //          InstantiationException, ClassNotFoundException {
-              //    nodes = CSV.getListOfNodes();
-              //    edges = CSV.getListOfEdge();
-              // ==========================================================================================
+      Node n =
+          new Node(
               Math.floor(mapInsertController.scaleUpXCoords(e.getX())),
               Math.floor(mapInsertController.scaleUpYCoords(e.getY())),
               mapInsertController.floorNumber,
@@ -496,8 +485,8 @@ public class GraphEditPageController {
     String nodeID = String.valueOf(nodeIDCounter);
     nodeIDCounter++;
     try {
-      edu.wpi.cs3733.c21.teamY.Node n =
-          new edu.wpi.cs3733.c21.teamY.Node(
+      Node n =
+          new Node(
               mapInsertController.scaleUpXCoords(Double.parseDouble(newX.getText())),
               mapInsertController.scaleUpYCoords(Double.parseDouble(newY.getText())),
               mapInsertController.floorNumber,
@@ -515,20 +504,19 @@ public class GraphEditPageController {
     }
   }
 
-  /*
-  // --display info on nodes/edges
-  private void setCurrentDisplay() {
-    nodeDisplay.setText(
-        String.format(
-            "x: %.2f, y: %.2f",
-            mapInsertController.currentSelectedCircle.getCenterX(),
-            mapInsertController.currentSelectedCircle.getCenterY()));
-    edgeDisplay.setText(
-        String.format(
-            "start x: %.2f, y: %.2f \nend x: %.2f, %.2f",
-            mapInsertController.currentSelectedLine.getStartX(),
-            mapInsertController.currentSelectedLine.getStartY(),
-            mapInsertController.currentSelectedLine.getEndX(),
-            mapInsertController.currentSelectedLine.getEndY()));
-  }*/
+  private void updateNodes() {
+    for (MapController.CircleEx c : mapInsertController.movedNodes) {
+      JDBCUtils.updateNodeCoordsOnly(
+          c.getId(),
+          Math.floor(mapInsertController.scaleUpXCoords(c.getCenterX())),
+          Math.floor(mapInsertController.scaleUpYCoords(c.getCenterY())));
+    }
+    try {
+      ActiveGraph.initialize();
+      ActiveGraphNoStairs.initialize();
+    } catch (Exception exception) {
+      System.out.println("GraphEditPageController.updateNodes");
+    }
+    mapInsertController.updateMapScreen();
+  }
 }

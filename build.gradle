@@ -24,16 +24,21 @@ dependencies {
             'org.apache.derby:derby:10.14.2.0',
 
             'org.slf4j:slf4j-api:1.7.30',
+            'org.slf4j:slf4j-log4j12:1.7.30',
             'org.slf4j:slf4j-simple:1.7.30',
     )
-    implementation 'org.projectlombok:lombok:1.18.16'
-    implementation 'org.testng:testng:7.1.0'
-    implementation 'org.jetbrains:annotations:20.1.0'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.30'
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
+    compile group: 'org.apache.derby', name: 'derby', version: '10.14.2.0'
+    compile group: 'com.jfoenix', name:'jfoenix', version: '8.0.10'
     testCompile(
             "org.testfx:testfx-core:4.0.16-alpha",
             'org.junit.jupiter:junit-jupiter:5.6.0',
             'org.testfx:testfx-junit5:4.0.16-alpha',
+            'org.slf4j:slf4j-log4j12:1.7.30',
     )
+
 }
 
 
@@ -43,7 +48,9 @@ test {
 
 jar {
     manifest {
-        attributes 'Main-Class': mainClassName
+        exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+        attributes 'Main-Class': mainClassName,
+                'Class-Path': configurations.runtime.files.collect { "$it.name"}.join(' ')
     }
     from configurations.runtime.collect { zipTree(it) }
 }
@@ -56,26 +63,26 @@ def codeCoverageExcludes = [
         'edu.wpi.cs3733.c21.teamY.MaintenancePageController',
         'edu.wpi.cs3733.c21.teamY.ServiceRequestPageController',
         'edu.wpi.cs3733.c21.teamY.PathfindingPageController',
-        'edu.wpi.cs3733.c21.teamY.Node',
-        'edu.wpi.cs3733.c21.teamY.Edge',
+        'edu.wpi.cs3733.c21.teamY.entity.Node',
+        'edu.wpi.cs3733.c21.teamY.entity.Edge',
         'edu.wpi.cs3733.c21.teamY.nodeEdgeDispController',
         'edu.wpi.cs3733.c21.teamY.MapController.MAP_PAGE',
         'edu.wpi.cs3733.c21.teamY.CustomMapController',
-        'edu.wpi.cs3733.c21.teamY.DatabaseQueryAdministrator',
-        'edu.wpi.cs3733.c21.teamY.Service',
+        'edu.wpi.cs3733.c21.teamY.dataops.DatabaseQueryAdministrator',
+        'edu.wpi.cs3733.c21.teamY.entity.Service',
         'edu.wpi.cs3733.c21.teamY.GenericPage',
         'edu.wpi.cs3733.c21.teamY.RequestsManagerController',
         'edu.wpi.cs3733.c21.teamY.GenericServiceFormPage',
         'edu.wpi.cs3733.c21.teamY.MapController',
-        'edu.wpi.cs3733.c21.teamY.ActiveGraph',
+        'edu.wpi.cs3733.c21.teamY.entity.ActiveGraph',
         'edu.wpi.cs3733.c21.teamY.ServiceRequestInfoPageController',
         'edu.wpi.cs3733.c21.teamY.MapController.CircleEx',
         'edu.wpi.cs3733.c21.teamY.GraphEditPageController',
         'edu.wpi.cs3733.c21.teamY.MapController.LineEx',
-        'edu.wpi.cs3733.c21.teamY.ServiceCSV',
+        'edu.wpi.cs3733.c21.teamY.dataops.ServiceCSV',
         // Test these later
-        'edu.wpi.cs3733.c21.teamY.ServiceRequestDBops',
-        'edu.wpi.cs3733.c21.teamY.ActiveGraphNoStairs'
+        'edu.wpi.cs3733.c21.teamY.dataops.ServiceRequestDBops',
+        'edu.wpi.cs3733.c21.teamY.entity.ActiveGraphNoStairs'
 ]
 
 jacoco {

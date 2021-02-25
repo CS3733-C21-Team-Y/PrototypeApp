@@ -1,5 +1,7 @@
-package edu.wpi.cs3733.c21.teamY;
+package edu.wpi.cs3733.c21.teamY.algorithms;
 
+import edu.wpi.cs3733.c21.teamY.entity.Graph;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +9,8 @@ import java.util.Map;
 public class DijkstrasAlgorithm {
 
   // Finds the minimum distance the algorithm can travel to reach a new node.
-  static String minDistance(HashMap<String, Double> dist, HashMap<String, Boolean> inShortest) {
+  public static String minDistance(
+      HashMap<String, Double> dist, HashMap<String, Boolean> inShortest) {
     // Initialize min value
     double min = Double.MAX_VALUE;
     String min_node = null;
@@ -22,7 +25,7 @@ public class DijkstrasAlgorithm {
   }
 
   // Finds the distance between two nodes
-  static double nodeDistance(Node start, Node end) {
+  public static double nodeDistance(Node start, Node end) {
     // if executing neighbor calcs ignore floors
     if (start.getNeighbors().contains(end)) {
       return Math.sqrt(
@@ -46,7 +49,8 @@ public class DijkstrasAlgorithm {
    * @return modified to return these paths as a hashmap of the node and the shortest path cost to
    *     that node.
    */
-  static HashMap<String, Double> dijkstra(Graph g, String startID, ArrayList<String> goalIDs) {
+  public static HashMap<String, Double> dijkstra(
+      Graph g, String startID, ArrayList<String> goalIDs) {
     ArrayList<String> localGoals = new ArrayList<>();
     localGoals = (ArrayList<String>) goalIDs.clone();
     // dist will hold the shortest distance from startNode to node
@@ -110,7 +114,7 @@ public class DijkstrasAlgorithm {
    * @param detourType the type of detour we're looking for.
    * @return modified to return the node id of the closest detourType.
    */
-  static String dijkstraDetour(
+  public static String dijkstraDetour(
       Graph g, String startID, ArrayList<String> pathGoalIDs, String detourType) {
     // dist will hold the shortest distance from startNode to node
     HashMap<String, Double> dist = new HashMap<>();

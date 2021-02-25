@@ -1,5 +1,8 @@
 package edu.wpi.cs3733.c21.teamY;
 
+import edu.wpi.cs3733.c21.teamY.dataops.ServiceRequestDBops;
+import edu.wpi.cs3733.c21.teamY.entity.Service;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,7 +42,7 @@ public class ServiceRequestInfoPageController extends GenericPage {
     completeBtn.setOnAction(e -> buttonClicked(e));
     incompleteBtn.setOnAction(e -> buttonClicked(e));
     notStartedBtn.setOnAction(e -> buttonClicked(e));
-    // loadInformation();
+    Platform.runLater(() -> loadInformation());
   }
 
   private void loadInformation() {

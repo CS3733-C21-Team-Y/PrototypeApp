@@ -1,5 +1,9 @@
 package edu.wpi.cs3733.c21.teamY;
 
+import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
+import edu.wpi.cs3733.c21.teamY.dataops.ServiceCSV;
+import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
+import edu.wpi.cs3733.c21.teamY.entity.ActiveGraphNoStairs;
 import java.io.IOException;
 import java.sql.SQLException;
 import javafx.application.Application;
@@ -21,6 +25,14 @@ public class App extends Application {
     log.info("Attempting to load database from CSV file");
 
     try {
+      JDBCUtils.fillTablesFromCSV();
+      ServiceCSV.loadCSVtoDB();
+    } catch (Exception e) {
+      e.printStackTrace();
+      log.info("Error loading CSV into DB");
+    }
+
+    try {
       ActiveGraph.initialize();
     } catch (SQLException e) {
       e.printStackTrace();
@@ -33,14 +45,6 @@ public class App extends Application {
     } catch (SQLException e) {
       e.printStackTrace();
       log.info("Error initializing ActiveGraphNoStairs");
-    }
-
-    try {
-      JDBCUtils.fillTablesFromCSV();
-      ServiceCSV.loadCSVtoDB();
-    } catch (Exception e) {
-      e.printStackTrace();
-      log.info("Error loading CSV into DB");
     }
   }
 
