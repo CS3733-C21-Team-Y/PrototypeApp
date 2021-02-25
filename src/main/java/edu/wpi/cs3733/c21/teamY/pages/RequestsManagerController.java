@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamY;
+package edu.wpi.cs3733.c21.teamY.pages;
 
 import edu.wpi.cs3733.c21.teamY.dataops.ServiceRequestDBops;
 import edu.wpi.cs3733.c21.teamY.entity.Service;

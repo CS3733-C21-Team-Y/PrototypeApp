@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="anchorpane" stylesheets="@UIStyles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.HomePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="anchorpane" stylesheets="@../UIStyles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.HomePageController">
     <children>
         <GridPane layoutX="40.0" layoutY="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="20.0">
             <columnConstraints>
@@ -27,7 +27,7 @@
             <children>
                 <VBox alignment="TOP_CENTER" minHeight="360.0" minWidth="300.0" spacing="10.0" styleClass="mainVBox" GridPane.columnIndex="1">
                <children>
-                  <GridPane alignment="CENTER" maxHeight="50.0" minHeight="50.0" styleClass="menuBar" stylesheets="@UIStyles.css">
+                  <GridPane alignment="CENTER" maxHeight="50.0" minHeight="50.0" styleClass="menuBar" stylesheets="@../UIStyles.css">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
@@ -38,7 +38,7 @@
                      <children>
                         <ImageView fitHeight="150.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                            <image>
-                              <Image url="@images/BWLogo.png" />
+                              <Image url="@../images/BWLogo.png" />
                            </image>
                            <GridPane.margin>
                               <Insets top="5.0" />
@@ -46,7 +46,7 @@
                         </ImageView>
                         <HBox maxHeight="0.0" maxWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                            <children>
-                              <Button id="backbutton" fx:id="exitBtn" maxWidth="70.0" minHeight="20.0" minWidth="70.0" mnemonicParsing="false" style="-fx-text-fill: white; -fx-background-color: #d64d4d;" stylesheets="@UIStyles.css" text="Exit" textFill="#656565">
+                              <Button id="backbutton" fx:id="exitBtn" maxWidth="70.0" minHeight="20.0" minWidth="70.0" mnemonicParsing="false" style="-fx-text-fill: white; -fx-background-color: #d64d4d;" stylesheets="@../UIStyles.css" text="Exit" textFill="#656565">
                                  <HBox.margin>
                                     <Insets right="5.0" />
                                  </HBox.margin>
@@ -69,7 +69,7 @@
                            <children>
                               <ImageView fitHeight="150.0" pickOnBounds="true" preserveRatio="true" scaleX="0.5" scaleY="0.5">
                                  <image>
-                                    <Image url="@images/BWHLogoShield.png" />
+                                    <Image url="@../images/BWHLogoShield.png" />
                                  </image>
                                  <HBox.margin>
                                     <Insets left="-40.0" />

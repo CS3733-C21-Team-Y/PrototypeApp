@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamY;
+package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.algorithms.AStarAlgorithm;

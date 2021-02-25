@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="anchorpane" stylesheets="@UIStyles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.ServiceRequestInfoPageController">
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="anchorpane" stylesheets="@../UIStyles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.ServiceRequestInfoPageController">
     <children>
         <GridPane layoutX="40.0" layoutY="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="20.0">
             <columnConstraints>
@@ -28,7 +28,7 @@
             <children>
                 <VBox alignment="TOP_CENTER" minHeight="360.0" minWidth="300.0" spacing="10.0" styleClass="mainVBox" GridPane.columnIndex="1">
                     <children>
-                        <GridPane alignment="CENTER" maxHeight="50.0" minHeight="50.0" styleClass="menuBar" stylesheets="@UIStyles.css">
+                        <GridPane alignment="CENTER" maxHeight="50.0" minHeight="50.0" styleClass="menuBar" stylesheets="@../UIStyles.css">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
@@ -39,7 +39,7 @@
                             <children>
                                 <ImageView fitHeight="150.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                                     <image>
-                                        <Image url="@images/BWLogo.png" />
+                                        <Image url="@../images/BWLogo.png" />
                                     </image>
                                     <GridPane.margin>
                                         <Insets top="5.0" />
@@ -47,12 +47,12 @@
                                 </ImageView>
                                 <HBox maxHeight="0.0" maxWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                                     <children>
-                                        <Button id="backbutton" fx:id="backBtn" maxWidth="70.0" minHeight="20.0" minWidth="70.0" mnemonicParsing="false" style="-fx-text-fill: white; -fx-background-color: #757575;" stylesheets="@UIStyles.css" text="Back" textFill="#656565">
+                                        <Button id="backbutton" fx:id="backBtn" maxWidth="70.0" minHeight="20.0" minWidth="70.0" mnemonicParsing="false" style="-fx-text-fill: white; -fx-background-color: #757575;" stylesheets="@../UIStyles.css" text="Back" textFill="#656565">
                                             <HBox.margin>
                                                 <Insets right="15.0" />
                                             </HBox.margin>
                                         </Button>
-                                        <Button id="backbutton" fx:id="exitBtn" maxWidth="70.0" minHeight="20.0" minWidth="70.0" mnemonicParsing="false" style="-fx-text-fill: white; -fx-background-color: #d64d4d;" stylesheets="@UIStyles.css" text="Exit" textFill="#656565">
+                                        <Button id="backbutton" fx:id="exitBtn" maxWidth="70.0" minHeight="20.0" minWidth="70.0" mnemonicParsing="false" style="-fx-text-fill: white; -fx-background-color: #d64d4d;" stylesheets="@../UIStyles.css" text="Exit" textFill="#656565">
                                             <HBox.margin>
                                                 <Insets right="5.0" />
                                             </HBox.margin>
@@ -74,7 +74,7 @@
                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="0.0" minWidth="0.0" pannable="true" stylesheets="@UIStyles.css" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                                <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="0.0" minWidth="0.0" pannable="true" stylesheets="@../UIStyles.css" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                                     <content>
                                         <VBox alignment="TOP_CENTER" minWidth="0.0" spacing="10.0" styleClass="scroll-pane">
                                             <children>
@@ -109,7 +109,7 @@
                                                     <children>
                                                         <AnchorPane prefHeight="17.0" prefWidth="245.0" GridPane.columnIndex="1">
                                                             <children>
-                                                                <Label maxWidth="-Infinity" styleClass="serviceRequestCat" stylesheets="@UIStyles.css" text="Current Service Requests" textFill="#555555" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                                <Label maxWidth="-Infinity" styleClass="serviceRequestCat" stylesheets="@../UIStyles.css" text="Current Service Requests" textFill="#555555" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                                                     <font>
                                                                         <Font name="Arial" size="12.0" />
                                                                     </font>
@@ -142,13 +142,13 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                                        </rowConstraints>
                                        <children>
-                                          <Button fx:id="notStartedBtn" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #d64d4d; -fx-text-fill: #FFFFFF; -fx-font-size: 12;" stylesheets="@UIStyles.css" text="Not Started" textFill="WHITE">
+                                          <Button fx:id="notStartedBtn" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #d64d4d; -fx-text-fill: #FFFFFF; -fx-font-size: 12;" stylesheets="@../UIStyles.css" text="Not Started" textFill="WHITE">
                                              <GridPane.margin>
                                                 <Insets />
                                              </GridPane.margin>
                                           </Button>
-                                          <Button fx:id="incompleteBtn" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" style="-fx-font-size: 12; -fx-text-fill: #FFF; -fx-background-color: #f5c542;" stylesheets="@UIStyles.css" text="In Progress" textFill="#656565" GridPane.columnIndex="1" />
-                                          <Button fx:id="completeBtn" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #6cc968; -fx-font-size: 12; -fx-text-fill: #FFFFFF;" stylesheets="@UIStyles.css" text="Complete" GridPane.columnIndex="2" />
+                                          <Button fx:id="incompleteBtn" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" style="-fx-font-size: 12; -fx-text-fill: #FFF; -fx-background-color: #f5c542;" stylesheets="@../UIStyles.css" text="In Progress" textFill="#656565" GridPane.columnIndex="1" />
+                                          <Button fx:id="completeBtn" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" style="-fx-background-color: #6cc968; -fx-font-size: 12; -fx-text-fill: #FFFFFF;" stylesheets="@../UIStyles.css" text="Complete" GridPane.columnIndex="2" />
                                        </children>
                                     </GridPane>
                                                 <Label minWidth="0.0" text="© 2021 The Yellow Yetis, LLC." textFill="#555555">
