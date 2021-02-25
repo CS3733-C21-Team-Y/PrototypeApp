@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
-import edu.wpi.cs3733.c21.teamY.dataops.ServiceRequestDBops;
+import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class RequestsManagerController extends GenericPage {
   private void loadServicesFromDB() {
 
     try {
-      ArrayList<Service> serviceList = ServiceRequestDBops.exportService("");
+      ArrayList<Service> serviceList = JDBCUtils.exportService("");
       for (Service service : serviceList) {
         addServiceToGrid(service);
       }
