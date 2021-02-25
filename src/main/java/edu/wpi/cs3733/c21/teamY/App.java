@@ -53,7 +53,7 @@ public class App extends Application {
     stage = primaryStage;
 
     // makes the main fxml page into the primary page
-    Parent main = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
+    Parent main = FXMLLoader.load(getClass().getResource("pages/HomePage.fxml"));
     mainPage = new Scene(main);
 
     // sets the title of the window in the upper right

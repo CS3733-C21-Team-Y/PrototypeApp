@@ -20,17 +20,17 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchor" maxHeight="650.0" minHeight="650.0" prefHeight="1000.0" prefWidth="800.0" styleClass="anchorpane" stylesheets="@UIStyles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.GraphEditPageController">
+<AnchorPane fx:id="anchor" maxHeight="650.0" minHeight="650.0" prefHeight="1000.0" prefWidth="800.0" styleClass="anchorpane" stylesheets="@../UIStyles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.GraphEditPageController">
    <children>
       <HBox alignment="CENTER" layoutY="14.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
          <children>
-            <VBox fx:id="mapBox" styleClass="largeVBox" stylesheets="@UIStyles.css" HBox.hgrow="NEVER">
+            <VBox fx:id="mapBox" styleClass="largeVBox" stylesheets="@../UIStyles.css" HBox.hgrow="NEVER">
                <children>
                   <HBox fx:id="header" alignment="TOP_CENTER">
                      <children>
                         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" scaleX="0.75" scaleY="0.75">
                            <image>
-                              <Image url="@images/BWHLogoShield.png" />
+                              <Image url="@../images/BWHLogoShield.png" />
                            </image>
                            <HBox.margin>
                               <Insets right="330.0" />
