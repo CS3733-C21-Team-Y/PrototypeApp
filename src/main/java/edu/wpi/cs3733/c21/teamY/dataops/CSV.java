@@ -2,39 +2,39 @@ package edu.wpi.cs3733.c21.teamY.dataops;
 
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
+import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
-// import com.opencsv.CSVWriter;
-// import org.apache.commons.csv.CSVFormat;
-// import org.apache.commons.csv.CSVPrinter;
-
 public class CSV {
+  public static final String splitBy = ",";
   public static BufferedReader brNode;
   public static BufferedReader brEdge;
-  public static ArrayList<Node> nodes = new ArrayList<Node>();
-  public static ArrayList<Edge> edges = new ArrayList<Edge>();
-  public static final String splitBy = ",";
-  public static String nodeCSVpath =
+  public static ArrayList<Node> nodes = new ArrayList<>();
+  public static ArrayList<Edge> edges = new ArrayList<>();
+  public static String nodePath =
       "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/MapYNodesAllFloors.csv";
-  public static String edgeCSVpath =
+  public static String edgePath =
       "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/MapYEdgesAllFloors.csv";
-  public static String edgeTestCSVpath =
+  public static String edgeTestPath =
       "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/TestEdge.csv";
-  public static String nodeTestCSVpath =
+  public static String nodeTestPath =
       "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/TestNode.csv";
-  public static String serviceTestCSVpath =
+  public static String serviceTestPath =
       "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/Services.csv";
+  public static String servicePath = "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/Services.csv";
+  public static BufferedReader brService;
+  public static BufferedWriter bwService;
 
-  /** load the BufferedReader for node */
+  // load the BufferedReader for node
   static {
     try {
       System.out.println("Working Directory = " + System.getProperty("user.dir"));
       // parsing a CSV file into BufferedReader class constructor
 
       try {
-        brNode = new BufferedReader(new FileReader(nodeCSVpath));
+        brNode = new BufferedReader(new FileReader(nodePath));
         System.out.println("BufferedReader initialized successful!");
       } catch (FileNotFoundException e) {
         e.printStackTrace();
@@ -44,30 +44,61 @@ public class CSV {
     }
   }
 
-  /** load the BufferedReader for edge */
+  // load the BufferedReader for edge
   static {
     try {
       System.out.println("Working Directory = " + System.getProperty("user.dir"));
       // parsing a CSV file into BufferedReader class constructor
 
       try {
-        brEdge = new BufferedReader(new FileReader(edgeCSVpath));
+        brEdge = new BufferedReader(new FileReader(edgePath));
         System.out.println("BufferedReader initialized successful!");
       } catch (FileNotFoundException e) {
         e.printStackTrace();
       }
     } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  // Load buffered reader for Service
+  static {
+    try {
+      System.out.println("Working Directory = " + System.getProperty("user.dir"));
+      // parsing a CSV file into BufferedReader class constructor
+
+      try {
+        CSV.brService = new BufferedReader(new FileReader(CSV.servicePath));
+        System.out.println("Service BufferedReader initialized successful!");
+      } catch (FileNotFoundException e) {
+        System.out.println("Service BufferedReader initialized failed!");
+
+        e.printStackTrace();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  // load the bufferWriter for service
+  static {
+    try {
+      CSV.bwService = new BufferedWriter(new FileWriter(CSV.servicePath, true));
+      System.out.println("Service BufferedWriter initialized successful!");
+    } catch (FileNotFoundException e) {
+      System.out.println("Service BufferedWriter initialized failed!");
+
+      e.printStackTrace();
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
   /**
+   * @throws IOException handle I/O error
    * @return: list of edges from CSV
-   * @throws IOException
    */
-  public static ArrayList<Edge> getEdgesCSV()
-      throws IOException, ClassNotFoundException, NoSuchFieldException, InstantiationException,
-          IllegalAccessException {
+  public static ArrayList<Edge> getEdgesCSV() throws IOException, IllegalAccessException {
     String line = brEdge.readLine(); // get rid of first line
     while ((line = brEdge.readLine()) != null) {
       String[] stringEdge = line.split(splitBy); // use comma as separator
@@ -90,12 +121,10 @@ public class CSV {
   }
 
   /**
+   * @throws IOException handle I/O error
    * @return: list of nodes from CSV
-   * @throws IOException
    */
-  public static ArrayList<Node> getNodesCSV()
-      throws IOException, ClassNotFoundException, SQLException, NoSuchFieldException,
-          InstantiationException, IllegalAccessException {
+  public static ArrayList<Node> getNodesCSV() throws IOException, IllegalAccessException {
     String line = brNode.readLine(); // get rid of first line
     while ((line = brNode.readLine()) != null) {
       String[] stringEdge = line.split(splitBy); // use comma as separator
@@ -110,13 +139,11 @@ public class CSV {
       String shortName = stringEdge[7];
       String teamAssigned = stringEdge[8];
 
-      // System.out.println(xcoord);
-
       Node node =
           new Node(
               nodeType,
-              (double) Integer.parseInt(xcoord),
-              (double) Integer.parseInt(ycoord),
+              Integer.parseInt(xcoord),
+              Integer.parseInt(ycoord),
               floor,
               building,
               longName,
@@ -142,7 +169,7 @@ public class CSV {
 
     try {
       BufferedWriter bufferedWriter =
-          new BufferedWriter(new FileWriter(nodeCSVpath, true)); // true = append, false = overwrite
+          new BufferedWriter(new FileWriter(nodePath, true)); // true = append, false = overwrite
       bufferedWriter.write(node.toString() + "\n");
       bufferedWriter.close();
       System.out.println("node Write successfully");
@@ -164,7 +191,7 @@ public class CSV {
 
     try {
       BufferedWriter bufferedWriter =
-          new BufferedWriter(new FileWriter(edgeCSVpath, true)); // true = append, false = overwrite
+          new BufferedWriter(new FileWriter(edgePath, true)); // true = append, false = overwrite
       bufferedWriter.write(edge.toString() + "\n");
       bufferedWriter.close();
       System.out.println("edge Write successfully");
@@ -182,25 +209,29 @@ public class CSV {
 
   /**
    * @param mode can be either "EDGE" or "NODE"
-   * @return true if generated successfully, false otherwise
+   * @throws SQLException if there are duplicate keys trying to be inserted or SQL syntax error
    */
-  public static boolean DBtoCSV(String mode) throws SQLException {
+  public static void DBtoCSV(String mode) throws SQLException {
     Connection conn = JDBCUtils.getConn();
     String str = ""; // SQL query
     String CSVpath = ""; // CSV file path
     int numAttributes = 0; // number of attributes in that object
-    if (mode.equals("EDGE")) {
-      str = "SELECT * FROM ADMIN.EDGE";
-      numAttributes = 3;
-      CSVpath = edgeTestCSVpath;
-    } else if (mode.equals("NODE")) {
-      str = "SELECT * FROM ADMIN.NODE";
-      numAttributes = 9;
-      CSVpath = nodeTestCSVpath;
-    } else if (mode.equals("SERVICE")) {
-      str = "SELECT * FROM ADMIN.SERVICE";
-      numAttributes = 8;
-      CSVpath = serviceTestCSVpath;
+    switch (mode) {
+      case "EDGE":
+        str = "SELECT * FROM ADMIN.EDGE";
+        numAttributes = 3;
+        CSVpath = edgeTestPath;
+        break;
+      case "NODE":
+        str = "SELECT * FROM ADMIN.NODE";
+        numAttributes = 9;
+        CSVpath = nodeTestPath;
+        break;
+      case "SERVICE":
+        str = "SELECT * FROM ADMIN.SERVICE";
+        numAttributes = 8;
+        CSVpath = serviceTestPath;
+        break;
     }
     BufferedWriter bufferedWriter; // true = append, false = overwrite
     try {
@@ -208,23 +239,29 @@ public class CSV {
     } catch (IOException e) {
       e.printStackTrace();
       System.out.println("initialize bufferWriter failed");
-      return false;
+      return;
     }
     try {
       Statement statement = conn.createStatement();
       ResultSet resultSet = statement.executeQuery(str);
-      StringBuilder stringBuilder = new StringBuilder("");
+      StringBuilder stringBuilder = new StringBuilder();
       System.out.println("exporting " + mode + " from database to CSV files");
-      if (mode.equals("EDGE")) {
-        bufferedWriter.write("edgeID,startNode,endNode"); // writes header line with fields to CSV
-        bufferedWriter.newLine();
-      } else if (mode.equals("NODE")) {
-        bufferedWriter.write(
-            "nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned"); // writes header line with fields to CSV
-        bufferedWriter.newLine();
-      } else if (mode.equals("SERVICE")) {
-        bufferedWriter.write("serviceID,type,description,location,category,urgency,date,status");
-        bufferedWriter.newLine();
+      switch (mode) {
+        case "EDGE":
+          bufferedWriter.write("edgeID,startNode,endNode"); // writes header line with fields to CSV
+
+          bufferedWriter.newLine();
+          break;
+        case "NODE":
+          bufferedWriter.write(
+              "nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned"); // writes header line with fields to CSV
+
+          bufferedWriter.newLine();
+          break;
+        case "SERVICE":
+          bufferedWriter.write("serviceID,type,description,location,category,urgency,date,status");
+          bufferedWriter.newLine();
+          break;
       }
       while (resultSet.next()) {
         for (int i = 1; i <= numAttributes; i++) {
@@ -240,12 +277,11 @@ public class CSV {
       JDBCUtils.close(null, null, statement, conn);
       bufferedWriter.flush();
       bufferedWriter.close();
-      return true;
     } catch (SQLException | IOException throwables) {
       throwables.printStackTrace();
     }
-    return true;
   }
+
   // out-dated version of generating CSV file
   @Deprecated
   public static boolean generateEdgeCSV() throws SQLException {
@@ -254,12 +290,12 @@ public class CSV {
     String str = "SELECT * FROM ADMIN.EDGE";
     BufferedWriter bufferedWriter; // true = append, false = overwrite
     try {
-      bufferedWriter = new BufferedWriter(new FileWriter(edgeTestCSVpath, false));
+      bufferedWriter = new BufferedWriter(new FileWriter(edgeTestPath, false));
     } catch (IOException e) {
 
       e.printStackTrace();
       System.out.println("initialize bufferWriter failed");
-      return generatedSuccessful;
+      return false;
     }
 
     try {
@@ -268,14 +304,9 @@ public class CSV {
 
       System.out.println("exporting Edges from database to CSV files");
       while (resultSet.next()) {
-        StringBuilder stringBuilder = new StringBuilder("");
-        stringBuilder
-            .append(resultSet.getString(1))
-            .append(",")
-            .append(resultSet.getString(2))
-            .append(",")
-            .append(resultSet.getString(3));
-        bufferedWriter.write(stringBuilder.toString());
+        String stringBuilder =
+            resultSet.getString(1) + "," + resultSet.getString(2) + "," + resultSet.getString(3);
+        bufferedWriter.write(stringBuilder);
         bufferedWriter.newLine();
       }
       resultSet.close();
@@ -290,35 +321,13 @@ public class CSV {
     return generatedSuccessful;
   }
 
-  /*
-  public static void SQLexportCSV() {
-    PreparedStatement ps = null;
-    try {
-      ps = JDBCUtils.getConn().prepareStatement("CALLSYSCS_UTIL.SYSCS_EXPORT_TABLE (?,?,?,?,?,?)");
-      ps.setString(1, null);
-      ps.setString(2, "EDGES");
-      ps.setString(3, "TestEdge.csv");
-      ps.setString(4, null);
-      ps.setString(5, null);
-      ps.setString(6, null);
-      ps.execute();
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    }
-
-
-  }
-
-   */
-
   public static ArrayList<Edge> getListOfEdge() throws SQLException {
-    // Connection conn=JDBCUtils.getConn();
     Connection conn = JDBCUtils.getConn();
     String str = "SELECT * FROM ADMIN.EDGE";
     ArrayList<Edge> edges = new ArrayList<>();
-    String edgeID = "";
-    String startNodeID = "";
-    String endNodeID = "";
+    String edgeID;
+    String startNodeID;
+    String endNodeID;
     try {
       Statement statement = conn.createStatement();
       ResultSet resultSet = statement.executeQuery(str);
@@ -334,28 +343,19 @@ public class CSV {
       resultSet.close();
       JDBCUtils.close(null, null, statement, conn);
       return edges;
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (NoSuchFieldException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (ClassNotFoundException e) {
+    } catch (SQLException | IllegalAccessException e) {
       e.printStackTrace();
     }
     return null;
   }
 
   public static ArrayList<Edge> getListOfEdgeNoStairs() throws SQLException {
-    // Connection conn=JDBCUtils.getConn();
     Connection conn = JDBCUtils.getConn();
     String str = "SELECT * FROM ADMIN.EDGE";
     ArrayList<Edge> edges = new ArrayList<>();
-    String edgeID = "";
-    String startNodeID = "";
-    String endNodeID = "";
+    String edgeID;
+    String startNodeID;
+    String endNodeID;
     try {
       Statement statement = conn.createStatement();
       ResultSet resultSet = statement.executeQuery(str);
@@ -374,15 +374,7 @@ public class CSV {
       resultSet.close();
       JDBCUtils.close(null, null, statement, conn);
       return edges;
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (NoSuchFieldException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (ClassNotFoundException e) {
+    } catch (SQLException | IllegalAccessException e) {
       e.printStackTrace();
     }
     return null;
@@ -394,15 +386,15 @@ public class CSV {
     Connection conn = JDBCUtils.getConn();
     String str = "SELECT * FROM ADMIN.NODE";
     ArrayList<Node> nodes = new ArrayList<>();
-    String nodeType = "";
-    double xcoord = 0;
-    double ycoord = 0;
-    String floor = "";
-    String building = "";
-    String longName = "";
-    String shortName = "";
-    char teamAssigned = 'X';
-    String nodeID = "";
+    String nodeType;
+    double xcoord;
+    double ycoord;
+    String floor;
+    String building;
+    String longName;
+    String shortName;
+    char teamAssigned;
+    String nodeID;
     try {
       Statement statement = conn.createStatement();
       ResultSet resultSet = statement.executeQuery(str);
@@ -434,8 +426,8 @@ public class CSV {
       resultSet.close();
       JDBCUtils.close(null, null, statement, conn);
       return nodes;
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
     if (nodes.size() == 0) {
       System.out.println("zero node in the list, there could be no rows in the table");
@@ -448,15 +440,15 @@ public class CSV {
     Connection conn = JDBCUtils.getConn();
     String str = "SELECT * FROM ADMIN.NODE";
     ArrayList<Node> nodes = new ArrayList<>();
-    String nodeType = "";
-    double xcoord = 0;
-    double ycoord = 0;
-    String floor = "";
-    String building = "";
-    String longName = "";
-    String shortName = "";
-    char teamAssigned = 'X';
-    String nodeID = "";
+    String nodeType;
+    double xcoord;
+    double ycoord;
+    String floor;
+    String building;
+    String longName;
+    String shortName;
+    char teamAssigned;
+    String nodeID;
     try {
       Statement statement = conn.createStatement();
       ResultSet resultSet = statement.executeQuery(str);
@@ -499,5 +491,90 @@ public class CSV {
       System.out.println("zero node in the list, there could be no rows in the table");
     }
     return nodes;
+  }
+
+  /**
+   * close the writer
+   *
+   * @param bw the bufferedWriter
+   */
+  public static void closeWriter(BufferedWriter bw) {
+    try {
+      bw.flush();
+      bw.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * close the reader
+   *
+   * @param br the bufferedReader
+   */
+  public static void closeReader(BufferedReader br) {
+    try {
+      br.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * save the service to CSV
+   *
+   * @param service a service a be saved
+   * @return true if write successfully, false otherwise
+   */
+  @Deprecated
+  public static boolean saveServiceToCSV(Service service) {
+    boolean hasBeenWritten = false;
+
+    try {
+      bwService.write(service.toString());
+      System.out.println(service.toString());
+      bwService.newLine();
+      hasBeenWritten = true;
+      bwService.flush();
+      // bwService.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    System.out.println("service Write successfully");
+    return hasBeenWritten;
+  }
+
+  /**
+   * load the CSV file to the DB
+   *
+   * @throws IOException handles I/O exceptions
+   * @throws SQLException if there are duplicate keys trying to be inserted or SQL syntax error
+   */
+  public static void loadCSVtoDB() throws IOException, SQLException {
+    String line;
+    Connection connection;
+    connection = JDBCUtils.getConn();
+    System.out.println("start loading service CSV to database");
+    String insert = "insert into ADMIN.SERVICE values(?,?,?,?,?,?,?,?)";
+    PreparedStatement preparedStatement = connection.prepareStatement(insert);
+    brService.readLine(); // Reads first line to clear the attributes line
+    while ((line = brService.readLine()) != null) {
+      String[] strService = line.split(splitBy);
+      int serviceID = Integer.parseInt(strService[0]);
+      String type = strService[1];
+      String description = strService[2];
+      String location = strService[3];
+      String category = strService[4];
+      String urgency = strService[5];
+      String date = strService[6];
+      int status = Integer.parseInt(strService[7]);
+      Service service =
+          new Service(serviceID, type, description, location, category, urgency, date, status);
+      JDBCUtils.preparedStatementInsert(service, preparedStatement);
+    }
+    System.out.println("Loading successful");
+    JDBCUtils.close(preparedStatement, null, null, connection);
+    closeReader(brService);
   }
 }

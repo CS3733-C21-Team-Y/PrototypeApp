@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
-import edu.wpi.cs3733.c21.teamY.dataops.ServiceRequestDBops;
+import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -63,17 +63,11 @@ public class LaundryPageController extends GenericServiceFormPage {
     service.setDescription(description.getText());
     try {
       stage = (Stage) submitBtn.getScene().getWindow();
-      ServiceRequestDBops.saveService(service);
+      JDBCUtils.saveService(service);
       stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("LaundryPage.fxml"))));
       stage.show();
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
     } catch (SQLException throwables) {
       throwables.printStackTrace();
-    } catch (NoSuchFieldException e) {
-      e.printStackTrace();
-    } catch (InstantiationException e) {
-      e.printStackTrace();
     } catch (IllegalAccessException e) {
       e.printStackTrace();
     } catch (IOException e) {

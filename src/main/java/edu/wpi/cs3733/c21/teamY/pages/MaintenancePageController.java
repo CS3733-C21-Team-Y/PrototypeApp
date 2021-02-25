@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
-import edu.wpi.cs3733.c21.teamY.dataops.ServiceRequestDBops;
+import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -72,18 +72,12 @@ public class MaintenancePageController extends GenericServiceFormPage {
     service.setDate(date.getValue().toString());
     Stage popUp = new Stage();
     try {
-      ServiceRequestDBops.saveService(service);
+      JDBCUtils.saveService(service);
       stage = (Stage) submitBtn.getScene().getWindow();
       stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("MaintenancePage.fxml"))));
       stage.show();
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
     } catch (SQLException throwables) {
       throwables.printStackTrace();
-    } catch (NoSuchFieldException e) {
-      e.printStackTrace();
-    } catch (InstantiationException e) {
-      e.printStackTrace();
     } catch (IllegalAccessException e) {
       e.printStackTrace();
     } catch (IOException e) {

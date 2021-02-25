@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
-import edu.wpi.cs3733.c21.teamY.dataops.ServiceRequestDBops;
+import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -130,11 +130,11 @@ public class ServiceRequestInfoPageController extends GenericPage {
         // sets the new scene to the alex page
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("RequestsManager.fxml"))));
       } else if ((e.getSource()) == completeBtn) {
-        ServiceRequestDBops.updateServiceStatus(service, 1);
+        JDBCUtils.updateServiceStatus(service, 1);
       } else if ((e.getSource()) == incompleteBtn) {
-        ServiceRequestDBops.updateServiceStatus(service, 0);
+        JDBCUtils.updateServiceStatus(service, 0);
       } else if ((e.getSource()) == notStartedBtn) {
-        ServiceRequestDBops.updateServiceStatus(service, -1);
+        JDBCUtils.updateServiceStatus(service, -1);
       }
       // display new stage
       stage.show();
