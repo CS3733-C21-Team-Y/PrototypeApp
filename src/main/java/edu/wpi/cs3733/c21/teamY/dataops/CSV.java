@@ -371,15 +371,7 @@ public class CSV {
       resultSet.close();
       JDBCUtils.close(null, null, statement, conn);
       return edges;
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (NoSuchFieldException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (ClassNotFoundException e) {
+    } catch (SQLException | IllegalAccessException e) {
       e.printStackTrace();
     }
     return null;
@@ -411,15 +403,7 @@ public class CSV {
       resultSet.close();
       JDBCUtils.close(null, null, statement, conn);
       return edges;
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (NoSuchFieldException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (ClassNotFoundException e) {
+    } catch (SQLException | IllegalAccessException e) {
       e.printStackTrace();
     }
     return null;
@@ -617,7 +601,7 @@ public class CSV {
       int status = Integer.parseInt(strService[7]);
       Service service =
           new Service(serviceID, type, description, location, category, urgency, date, status);
-      JDBCUtils.preparedStatementInsert(service, connection, preparedStatement, insert);
+      JDBCUtils.preparedStatementInsert(service, preparedStatement);
     }
     System.out.println("Loading successful");
     JDBCUtils.close(preparedStatement, null, null, connection);

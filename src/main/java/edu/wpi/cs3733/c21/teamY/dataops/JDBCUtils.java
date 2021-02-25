@@ -33,14 +33,12 @@ public class JDBCUtils {
     // Attempting Connection
     try {
       conn = DriverManager.getConnection(connectionURL + ";create=true;", user, password);
-      Statement stmt = conn.createStatement();
     } catch (Exception e) {
       // catching failed connection
       System.out.println("Connection Failed! Check output console");
 
       e.printStackTrace();
     }
-    /** create node and edge table */
     try {
       Statement stmt = conn.createStatement();
       String sqlNode =
@@ -89,10 +87,10 @@ public class JDBCUtils {
   /**
    * Closes the given PreparedStatement, ResultSet, Statement, from a given connection
    *
-   * @param ps
-   * @param rs
-   * @param stmt
-   * @param conn
+   * @param ps the prepared statement to close
+   * @param rs the result set to close
+   * @param stmt the statement to close
+   * @param conn the database connection to close
    */
   public static void close(PreparedStatement ps, ResultSet rs, Statement stmt, Connection conn) {
     if (ps != null) {
@@ -131,15 +129,11 @@ public class JDBCUtils {
   /**
    * Creates a prepared statement for either an "insert into" or "update" query type of Node or Edge
    *
-   * @param numArguments
-   * @param object
-   * @param tableName
-   * @return
-   * @throws SQLException
-   * @throws NoSuchFieldException
-   * @throws ClassNotFoundException
-   * @throws IllegalAccessException
-   * @throws InstantiationException
+   * @param numArguments number of arguments for the given entity in the table
+   * @param object either an object of type Node or Edge to be inserted into the table
+   * @param tableName the name of the table to insert into ("Node" or "Edge")
+   * @throws SQLException handling exception regarding sql syntax, duplicate keys, etc.
+   * @throws IllegalAccessException if access is blocked when retrieving information
    */
   public static PreparedStatement createPreparedStatementInsert(
       int numArguments, Object object, String tableName)
@@ -187,18 +181,14 @@ public class JDBCUtils {
   /**
    * Inserts into specified table the inputted object
    *
-   * @param numArgs
-   * @param object
-   * @param tableName
+   * @param numArgs numArguments number of arguments for the given entity in the table
+   * @param object object either an object of type Node or Edge to be inserted into the table
+   * @param tableName tableName the name of the table to insert into ("Node" or "Edge")
    * @throws SQLException if there is a duplicate key and updates instead
-   * @throws ClassNotFoundException
-   * @throws InstantiationException
-   * @throws IllegalAccessException
-   * @throws NoSuchFieldException
+   * @throws IllegalAccessException if access is blocked when retrieving information
+
    */
-  public static void insert(int numArgs, Object object, String tableName)
-      throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException,
-          NoSuchFieldException {
+  public static void insert(int numArgs, Object object, String tableName) throws SQLException, IllegalAccessException {
     PreparedStatement statement = createPreparedStatementInsert(numArgs, object, tableName);
     try {
       statement.execute();
@@ -213,28 +203,22 @@ public class JDBCUtils {
           JDBCUtils.update((Node) object);
         } else if (object instanceof Edge) {
           JDBCUtils.update((Edge) object);
-        } else {
-          // JDBCUtils.update((Service) object);
         }
+
       }
     }
     close(statement, null, null, null);
   }
 
   /**
-   * <<<<<<< HEAD Takes in an arrayList<Node> and one by one inserts them into the Node Table
-   *
-   * @throws SQLException
-   * @throws ClassNotFoundException
-   * @throws NoSuchFieldException
-   * @throws InstantiationException
-   * @throws IllegalAccessException
+   * Takes in an ArrayList<Node> and inputs them (in total) into the "Node" table
+   * @param nodes represents the nodes to be inserted
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
+   * @throws IllegalAccessException if access is blocked when retrieving information
    */
   public static void insertArrayListNode(ArrayList<Node> nodes)
-      throws SQLException, ClassNotFoundException, NoSuchFieldException, InstantiationException,
-          IllegalAccessException {
+      throws SQLException, IllegalAccessException {
 
-    int size = nodes.size();
     for (Node node : nodes) {
       JDBCUtils.insert(9, node, "Node");
     }
@@ -244,18 +228,13 @@ public class JDBCUtils {
   /**
    * Takes in an ArrayList<Edge> and one by one inserts them into the Edge Table
    *
-   * @param edges
-   * @throws SQLException
-   * @throws ClassNotFoundException
-   * @throws NoSuchFieldException
-   * @throws InstantiationException
-   * @throws IllegalAccessException
+   * @param edges represents the edges that will be inserted into the "Edge" table
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
+   * @throws IllegalAccessException if access is blocked when retrieving information
    */
   public static void insertArrayListEdge(ArrayList<Edge> edges)
-      throws SQLException, ClassNotFoundException, NoSuchFieldException, InstantiationException,
-          IllegalAccessException {
+      throws SQLException, IllegalAccessException {
 
-    int size = edges.size();
     for (Edge edge : edges) {
       JDBCUtils.insert(3, edge, "Edge");
     }
@@ -265,16 +244,12 @@ public class JDBCUtils {
    * <<<<<<< HEAD Fills both the Node and Edge table with the data in the CSV files that store Node
    * and Edge data respectively
    *
-   * @throws IllegalAccessException
-   * @throws IOException
-   * @throws NoSuchFieldException
-   * @throws SQLException
-   * @throws InstantiationException
-   * @throws ClassNotFoundException
+   * @throws IllegalAccessException if access is blocked when retrieving information
+   * @throws NoSuchFieldException if the field of an object cannot be found
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
+
    */
-  public static void fillTablesFromCSV()
-      throws IllegalAccessException, IOException, NoSuchFieldException, SQLException,
-          InstantiationException, ClassNotFoundException {
+  public static void fillTablesFromCSV() throws IllegalAccessException, IOException, NoSuchFieldException, SQLException, InstantiationException, ClassNotFoundException {
     ArrayList<Node> nodes = CSV.getNodesCSV();
     ArrayList<Edge> edges = CSV.getEdgesCSV();
     insertArrayListNode(nodes);
@@ -285,9 +260,9 @@ public class JDBCUtils {
    * Creates the prepared statement that will be executed by the update method for an update on the
    * Node table
    *
-   * @param node
-   * @return
-   * @throws SQLException
+   * @param node represents the node in which to update the table with
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
+   * @return a PreparedStatement to be used by the update method
    */
   public static PreparedStatement createPreparedStatementUpdate(Node node) throws SQLException {
     Connection connection = getConn();
@@ -318,36 +293,30 @@ public class JDBCUtils {
    * Creates the prepared statement that will be executed by the update method for an update on the
    * Edge table
    *
-   * @param edge
-   * @return
-   * @throws SQLException
+   * @param edge represents the edge to update
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
+   * @return a PreparedStatement to be used by the update method
    */
   public static PreparedStatement createPreparedStatementUpdate(Edge edge) throws SQLException {
     Connection connection = getConn();
-    PreparedStatement statement =
-        connection.prepareStatement(
-            "update ADMIN.EDGE set "
-                // + "EDGEID = '"
-                // + edge.edgeID
-                + "STARTNODE = '"
-                + edge.startNodeID
-                + "', ENDNODE = '"
-                + edge.endNodeID
-                + "' where edgeID = '"
-                + edge.edgeID
-                + "'");
-    return statement;
+    return connection.prepareStatement(
+        "update ADMIN.EDGE set "
+            // + "EDGEID = '"
+            // + edge.edgeID
+            + "STARTNODE = '"
+            + edge.startNodeID
+            + "', ENDNODE = '"
+            + edge.endNodeID
+            + "' where edgeID = '"
+            + edge.edgeID
+            + "'");
   }
 
   /**
    * Updates the specified Node with its matching nodeID in the Node table
    *
-   * @param node
-   * @throws ClassNotFoundException
-   * @throws SQLException
-   * @throws InstantiationException
-   * @throws IllegalAccessException
-   * @throws NoSuchFieldException
+   * @param node represents the node to be updated within the DB table
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
   public static void update(Node node) throws SQLException {
     try {
@@ -363,8 +332,8 @@ public class JDBCUtils {
   /**
    * Updates the specified Edge with its matching edgeID in the Edge table
    *
-   * @param edge
-   * @throws SQLException
+   * @param edge represents the edge to be updated in the DB table "Edge"
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
   public static void update(Edge edge) throws SQLException {
     PreparedStatement statement = createPreparedStatementUpdate(edge);
@@ -376,13 +345,13 @@ public class JDBCUtils {
   /**
    * Functionality to create a resultSet of a select statement from a given table
    *
-   * @param tableName
-   * @throws SQLException
+   * @param tableName represents the table in which to update into
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
   public static void selectQuery(String tableName) throws SQLException {
 
     String sql = "SELECT * FROM ADMIN." + tableName;
-    Statement stmt = null;
+    Statement stmt;
     stmt = conn.createStatement();
     stmt.executeQuery(sql);
     stmt.close();
@@ -392,8 +361,9 @@ public class JDBCUtils {
    * Creates the prepared statement that will be executed by the delete method for an delete on the
    * Edge table
    *
-   * @param nodeID@return
-   * @throws SQLException
+   * @param nodeID the ID of the node to be deleted from the table
+   * @return a PreparedStatement to be used by the delete method
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
   public static PreparedStatement createPreparedStatementDeleteNode(String nodeID)
       throws SQLException {
@@ -405,9 +375,9 @@ public class JDBCUtils {
    * Creates the prepared statement that will be executed by the delete method for a delete on the
    * Edge table
    *
-   * @param edgeID
-   * @return
-   * @throws SQLException
+   * @param edgeID the ID of the edge to be deleted from the table
+   * @return a PreparedStatement to be used in the delete method
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
   public static PreparedStatement createPreparedStatementDeleteEdge(String edgeID)
       throws SQLException {
@@ -464,27 +434,22 @@ public class JDBCUtils {
 
   /**
    * @param service a service to be saved to DB
-   * @throws ClassNotFoundException
-   * @throws SQLException
-   * @throws NoSuchFieldException
-   * @throws InstantiationException
-   * @throws IllegalAccessException
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
+   * @throws IllegalAccessException if access is denied
    */
-  public static void saveService(Service service)
-      throws ClassNotFoundException, SQLException, NoSuchFieldException, InstantiationException,
-          IllegalAccessException {
+  public static void saveService(Service service) throws SQLException, IllegalAccessException {
     insert(8, service, "Service"); // save to database
-    CSV.saveServiceToCSV(service); // save to CSV file
+    //Used to save to CSV as well but marked deprecated - look into
   }
 
   /**
    * @param serviceType type of service to be exported. Leave as empty string if ny preference type
    * @return a list of services
-   * @throws SQLException
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
   public static ArrayList<Service> exportService(String serviceType) throws SQLException {
     ArrayList<Service> services = new ArrayList<>();
-    String string = "";
+    String string;
     if (serviceType.equals("")) {
       string = "select * from ADMIN.Service";
     } else {
@@ -523,10 +488,9 @@ public class JDBCUtils {
    * remove a service from database
    *
    * @param ID service ID of the service to be removed
-   * @return false if no such row exist, true delete successful
-   * @throws SQLException
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
-  public static boolean removeService(int ID) throws SQLException {
+  public static void removeService(int ID) throws SQLException {
     String string = "delete from ADMIN.Service where ADMIN.Service.serviceID=" + ID;
     Connection conn = getConn();
     Statement statement = conn.createStatement();
@@ -534,26 +498,23 @@ public class JDBCUtils {
     close(null, null, statement, conn);
     if (numRows == 0) {
       System.out.println("no rows have been deleted");
-      return false;
     } else {
       System.out.println("delete successful");
-      return true;
     }
   }
 
   /**
-   * update a serice's status code
+   * update a service's status code
    *
    * @param service a service to be updated
    * @param status the new status
-   * @return true if update successful, false if no row is updated
-   * @throws SQLException
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
-  public static boolean updateServiceStatus(Service service, int status) throws SQLException {
+  public static void updateServiceStatus(Service service, int status) throws SQLException {
     String string =
-        "update ADMIN.SERVICE set status="
+        "update ADMIN.SERVICE set status= "
             + status
-            + "where ADMIN.SERVICE.SERVICEID="
+            + " where ADMIN.SERVICE.SERVICEID="
             + service.getServiceID();
     Connection conn = getConn();
     Statement statement = conn.createStatement();
@@ -561,24 +522,17 @@ public class JDBCUtils {
     close(null, null, statement, conn);
     if (rowsAffected == 0) {
       System.out.println("update failed");
-      return false;
     } else {
       System.out.println("update successful");
-      return true;
     }
   }
 
   /**
-   * @param service a service to be isnerted into DB
-   * @param conn the connection to use
+   * @param service a service to be inserted into DB
    * @param preparedStatement prepare statement
-   * @param insert the string represent the SQL query
-   * @return true if insert successful
    */
-  public static boolean preparedStatementInsert(
-      Service service, Connection conn, PreparedStatement preparedStatement, String insert) {
-
-    boolean hasBeenUpdated = false;
+  public static void preparedStatementInsert(
+          Service service, PreparedStatement preparedStatement) {
 
     try {
 
@@ -591,12 +545,9 @@ public class JDBCUtils {
       preparedStatement.setString(7, service.getDate());
       preparedStatement.setInt(8, service.getStatus());
       preparedStatement.executeUpdate();
-      hasBeenUpdated = true;
 
-    } catch (SQLException throwables) {
-      // System.out.println("connection get failed ");
-      // throwables.printStackTrace();
+    } catch (SQLException e) {
+      System.out.print("It seems there is an error in the SQL syntax");
     }
-    return hasBeenUpdated;
   }
 }
