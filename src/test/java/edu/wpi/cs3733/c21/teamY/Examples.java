@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c21.teamY;
 
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
-import edu.wpi.cs3733.c21.teamY.dataops.ServiceRequestDBops;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
@@ -16,7 +15,7 @@ public class Examples {
     JDBCUtils.deleteEdge("edge1");
     JDBCUtils.deleteNode("node1");
     JDBCUtils.deleteNode("node2");
-    ServiceRequestDBops.removeService(500);
+    JDBCUtils.removeService(500);
   }
 
   @Test
