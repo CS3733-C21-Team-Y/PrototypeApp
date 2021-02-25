@@ -50,7 +50,11 @@ public class App extends Application {
 
   @Override
   public void start(Stage primaryStage) throws IOException {
+
     stage = primaryStage;
+
+    stage.setOnCloseRequest(
+        e -> System.out.println("put stuff here to run when the x button is pressed"));
 
     // makes the main fxml page into the primary page
     Parent main = FXMLLoader.load(getClass().getResource("pages/HomePage.fxml"));
