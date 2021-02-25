@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.c21.teamY;
 
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
-import edu.wpi.cs3733.c21.teamY.dataops.ServiceRequestDBops;
+import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class GenericServiceFormPage extends GenericPage {
   public GenericServiceFormPage() {
     super();
     try {
-      ArrayList<Service> services = ServiceRequestDBops.exportService("");
+      ArrayList<Service> services = JDBCUtils.exportService("");
       IDCount = services.size();
     } catch (SQLException throwables) {
       throwables.printStackTrace();

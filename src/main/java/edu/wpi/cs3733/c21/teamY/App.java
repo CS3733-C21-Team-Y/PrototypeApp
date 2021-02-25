@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.c21.teamY;
 
+import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
-import edu.wpi.cs3733.c21.teamY.dataops.ServiceCSV;
 import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
 import edu.wpi.cs3733.c21.teamY.entity.ActiveGraphNoStairs;
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class App extends Application {
 
     try {
       JDBCUtils.fillTablesFromCSV();
-      ServiceCSV.loadCSVtoDB();
+      CSV.loadCSVtoDB();
     } catch (Exception e) {
       e.printStackTrace();
       log.info("Error loading CSV into DB");

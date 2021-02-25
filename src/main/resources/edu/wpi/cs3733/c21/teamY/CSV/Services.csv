@@ -7,3 +7,4 @@ serviceID,type,description,location,category,urgency,date,status
 5,Maintenance,I broke a table,Cafeteria,Property Damage,Low,2021-02-25,1
 6,Laundry,Come wash my clothes,Psychiatric Ward,Clothing,,,0
 7,Laundry,Dirty Pile of Clothes in the Hallway,Hallway,Clothing,,,-1
+8,Laundry,,,Dry Cleaning,,,-1
