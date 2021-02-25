@@ -76,14 +76,8 @@ public class MaintenancePageController extends GenericServiceFormPage {
       stage = (Stage) submitBtn.getScene().getWindow();
       stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("MaintenancePage.fxml"))));
       stage.show();
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
     } catch (SQLException throwables) {
       throwables.printStackTrace();
-    } catch (NoSuchFieldException e) {
-      e.printStackTrace();
-    } catch (InstantiationException e) {
-      e.printStackTrace();
     } catch (IllegalAccessException e) {
       e.printStackTrace();
     } catch (IOException e) {

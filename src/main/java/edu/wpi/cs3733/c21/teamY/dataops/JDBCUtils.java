@@ -186,9 +186,9 @@ public class JDBCUtils {
    * @param tableName tableName the name of the table to insert into ("Node" or "Edge")
    * @throws SQLException if there is a duplicate key and updates instead
    * @throws IllegalAccessException if access is blocked when retrieving information
-
    */
-  public static void insert(int numArgs, Object object, String tableName) throws SQLException, IllegalAccessException {
+  public static void insert(int numArgs, Object object, String tableName)
+      throws SQLException, IllegalAccessException {
     PreparedStatement statement = createPreparedStatementInsert(numArgs, object, tableName);
     try {
       statement.execute();
@@ -204,7 +204,6 @@ public class JDBCUtils {
         } else if (object instanceof Edge) {
           JDBCUtils.update((Edge) object);
         }
-
       }
     }
     close(statement, null, null, null);
@@ -212,6 +211,7 @@ public class JDBCUtils {
 
   /**
    * Takes in an ArrayList<Node> and inputs them (in total) into the "Node" table
+   *
    * @param nodes represents the nodes to be inserted
    * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    * @throws IllegalAccessException if access is blocked when retrieving information
@@ -247,9 +247,10 @@ public class JDBCUtils {
    * @throws IllegalAccessException if access is blocked when retrieving information
    * @throws NoSuchFieldException if the field of an object cannot be found
    * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
-
    */
-  public static void fillTablesFromCSV() throws IllegalAccessException, IOException, NoSuchFieldException, SQLException, InstantiationException, ClassNotFoundException {
+  public static void fillTablesFromCSV()
+      throws IllegalAccessException, IOException, NoSuchFieldException, SQLException,
+          InstantiationException, ClassNotFoundException {
     ArrayList<Node> nodes = CSV.getNodesCSV();
     ArrayList<Edge> edges = CSV.getEdgesCSV();
     insertArrayListNode(nodes);
@@ -439,7 +440,7 @@ public class JDBCUtils {
    */
   public static void saveService(Service service) throws SQLException, IllegalAccessException {
     insert(8, service, "Service"); // save to database
-    //Used to save to CSV as well but marked deprecated - look into
+    // Used to save to CSV as well but marked deprecated - look into
   }
 
   /**
@@ -531,8 +532,7 @@ public class JDBCUtils {
    * @param service a service to be inserted into DB
    * @param preparedStatement prepare statement
    */
-  public static void preparedStatementInsert(
-          Service service, PreparedStatement preparedStatement) {
+  public static void preparedStatementInsert(Service service, PreparedStatement preparedStatement) {
 
     try {
 
