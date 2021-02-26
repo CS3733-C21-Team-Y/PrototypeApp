@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.dataops;
 
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
+import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
@@ -66,6 +67,11 @@ public class JDBCUtils {
               + "description varchar(255) , location varchar(30), category varchar(20), "
               + "urgency varchar(10), date varchar(20),status int,check ( status=-1 OR status =0 OR status=1 ))";
       stmt.executeUpdate(sqlService);
+
+      String sqlEmployee =
+          "create table Employee(firstName varchar(30) not null, lastName varchar(30) not null, employeeID varchar(30) PRIMARY KEY not null, "
+              + "accessLevel int not null, primaryWorkspace varchar(30))";
+      stmt.executeUpdate(sqlEmployee);
 
     } catch (SQLException ignored) {
       // ignored.printStackTrace();
@@ -248,9 +254,7 @@ public class JDBCUtils {
    * @throws NoSuchFieldException if the field of an object cannot be found
    * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
-  public static void fillTablesFromCSV()
-      throws IllegalAccessException, IOException, SQLException
-           {
+  public static void fillTablesFromCSV() throws IllegalAccessException, IOException, SQLException {
     ArrayList<Node> nodes = CSV.getNodesCSV();
     ArrayList<Edge> edges = CSV.getEdgesCSV();
     insertArrayListNode(nodes);
@@ -532,7 +536,8 @@ public class JDBCUtils {
    * @param service a service to be inserted into DB
    * @param preparedStatement prepare statement
    */
-  public static void preparedStatementInsert(Service service, PreparedStatement preparedStatement) {
+  public static void createPreparedStatementInsert(
+      Service service, PreparedStatement preparedStatement) {
 
     try {
 
@@ -548,6 +553,75 @@ public class JDBCUtils {
 
     } catch (SQLException e) {
       System.out.print("It seems there is an error in the SQL syntax");
+    }
+  }
+
+  public static PreparedStatement createPreparedStatementInsert(Employee employee)
+      throws SQLException {
+    PreparedStatement stmt =
+        JDBCUtils.conn.prepareStatement("insert into ADMIN.EMPLOYEE values ((?),(?),(?),(?),(?))");
+    stmt.setString(1, employee.getFirstName());
+    stmt.setString(2, employee.getLastName());
+    stmt.setString(3, employee.getEmployeeID());
+    stmt.setInt(4, employee.getAccessLevel());
+    stmt.setString(5, employee.getPrimaryWorkspace());
+    //                "'"
+    //            + employee.getFirstName()
+    //            + "', '"
+    //            + employee.getLastName()
+    //            + "', "
+    //            + employee.getEmployeeID()
+    //            + "' , '"
+    //            + employee.getAccessLevel()
+    //            + "', '"
+    //            + employee.getPrimaryWorkspace()
+    //            + "')");
+
+    return stmt;
+  }
+
+  public static void insert(Employee employee) throws SQLException {
+    PreparedStatement stmt = createPreparedStatementInsert(employee);
+
+    try {
+      stmt.execute();
+      stmt.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static PreparedStatement createPreparedStatementUpdate(Employee employee)
+      throws SQLException {
+    return conn.prepareStatement(
+        "UPDATE ADMIN.EMPLOYEE set "
+            + "ADMIN.EMPLOYEE.FIRSTNAME = '"
+            + employee.getFirstName()
+            + "', "
+            + "ADMIN.EMPLOYEE.LASTNAME = '"
+            + employee.getLastName()
+            + "', "
+            + "ADMIN.EMPLOYEE.EMPLOYEEID = '"
+            + employee.getEmployeeID()
+            + "', "
+            + "ADMIN.EMPLOYEE.ACCESSLEVEL = "
+            + employee.getAccessLevel()
+            + ", "
+            + "ADMIN.EMPLOYEE.PRIMARYWORKSPACE = '"
+            + employee.getPrimaryWorkspace()
+            + "' "
+            + "WHERE ADMIN.EMPLOYEE.EMPLOYEEID = '"
+            + employee.getEmployeeID()
+            + "'");
+  }
+
+  public static void update(Employee employee) throws SQLException {
+    PreparedStatement stmt = createPreparedStatementUpdate(employee);
+    try {
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
   }
 }

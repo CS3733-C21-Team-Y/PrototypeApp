@@ -571,7 +571,7 @@ public class CSV {
       int status = Integer.parseInt(strService[7]);
       Service service =
           new Service(serviceID, type, description, location, category, urgency, date, status);
-      JDBCUtils.preparedStatementInsert(service, preparedStatement);
+      JDBCUtils.createPreparedStatementInsert(service, preparedStatement);
     }
     System.out.println("Loading successful");
     JDBCUtils.close(preparedStatement, null, null, connection);
