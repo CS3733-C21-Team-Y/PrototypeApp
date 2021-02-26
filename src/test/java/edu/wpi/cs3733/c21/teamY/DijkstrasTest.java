@@ -76,25 +76,19 @@ public class DijkstrasTest {
   }
 
   @Test
-  public void testDijkstraHash() {
+  public void testDijkstra() {
     TestGraph.initialize();
 
     ArrayList<String> destinations = new ArrayList<>();
     destinations.add("3");
     destinations.add("4");
 
-    HashMap<String, Double> answerKey = new HashMap<>();
+    String answerKey;
     answerKey = DijkstrasAlgorithm.dijkstra(TestGraph.getActiveGraph(), "1", destinations);
 
     // First tests that the basic functionality of dijkstras is working
     // We're checking that the hashmap was generated correctly for a few specific examples
-    assertEquals(4.5, answerKey.get("3"));
-    assertEquals(
-        3.25
-            + DijkstrasAlgorithm.nodeDistance(
-                TestGraph.getActiveGraph().nodeFromID("2"),
-                TestGraph.getActiveGraph().nodeFromID("4")),
-        answerKey.get("4"));
+    assertEquals("3", answerKey);
   }
 
   @Test

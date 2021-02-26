@@ -31,8 +31,7 @@ public class AlgorithmCalls {
     return DijkstrasAlgorithm.minDistance(dist, inShortest);
   }
 
-  public static HashMap<String, Double> dijkstra(
-      Graph g, String startID, ArrayList<String> goalIDs) {
+  public static String dijkstra(Graph g, String startID, ArrayList<String> goalIDs) {
     return DijkstrasAlgorithm.dijkstra(g, startID, goalIDs);
   }
 

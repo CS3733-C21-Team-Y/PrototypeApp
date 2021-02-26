@@ -40,17 +40,15 @@ public class DijkstrasAlgorithm {
   }
 
   /**
-   * Calculates the shortest paths to every point in the map until all goalID's are calculated
+   * Calculates the shortest paths to every point in the map until the first goalID is calculated
    *
    * @param g an adjacency-matrix-representation of the graph where (x,y) is the weight of the edge
    *     or 0 if there is no edge.
    * @param startID the node to start from.
    * @param goalIDs the nodes we're searching for.
-   * @return modified to return these paths as a hashmap of the node and the shortest path cost to
-   *     that node.
+   * @return modified to return as a stringID of the closest destination
    */
-  public static HashMap<String, Double> dijkstra(
-      Graph g, String startID, ArrayList<String> goalIDs) {
+  public static String dijkstra(Graph g, String startID, ArrayList<String> goalIDs) {
     ArrayList<String> localGoals = new ArrayList<>();
     localGoals = (ArrayList<String>) goalIDs.clone();
     // dist will hold the shortest distance from startNode to node
@@ -95,13 +93,10 @@ public class DijkstrasAlgorithm {
       }
       // Checks whether we've found all our goal nodes and exits early if so
       if (localGoals.contains(min)) {
-        localGoals.remove(min);
-        if (localGoals.size() == 0) {
-          return dist;
-        }
+        return min;
       }
     }
-    return dist;
+    return null;
   }
 
   /**

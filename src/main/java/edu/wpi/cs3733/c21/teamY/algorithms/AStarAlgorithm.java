@@ -166,25 +166,13 @@ public class AStarAlgorithm {
     ArrayList<String> goals = new ArrayList<>();
     goals = (ArrayList<String>) goalIDs.clone();
 
-    HashMap<String, Double> dijkstraHash = new HashMap<>();
-    double minDist = Double.MAX_VALUE;
-    double tempDist = 0;
-    String min = "";
+    String min;
 
     for (int i = 0; i < goalIDs.size(); i++) {
-      dijkstraHash = DijkstrasAlgorithm.dijkstra(g, startID, goals);
-
-      for (int j = 0; j < goals.size(); j++) {
-        tempDist = dijkstraHash.get(goals.get(j));
-        if (tempDist < minDist) {
-          minDist = tempDist;
-          min = goals.get(j);
-        }
-      }
+      min = DijkstrasAlgorithm.dijkstra(g, startID, goals);
 
       organized.add(min);
       goals.remove(min);
-      minDist = Double.MAX_VALUE;
     }
     return organized;
   }
