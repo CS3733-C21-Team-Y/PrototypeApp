@@ -249,8 +249,8 @@ public class JDBCUtils {
    * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
   public static void fillTablesFromCSV()
-      throws IllegalAccessException, IOException, NoSuchFieldException, SQLException,
-          InstantiationException, ClassNotFoundException {
+      throws IllegalAccessException, IOException, SQLException
+           {
     ArrayList<Node> nodes = CSV.getNodesCSV();
     ArrayList<Edge> edges = CSV.getEdgesCSV();
     insertArrayListNode(nodes);
