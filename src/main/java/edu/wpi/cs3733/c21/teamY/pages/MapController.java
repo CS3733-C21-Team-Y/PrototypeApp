@@ -417,6 +417,18 @@ public class MapController {
     }
   }
 
+  protected void selectCirclesFromList(ArrayList<CircleEx> list) {
+    for (CircleEx circle : list) {
+      selectCircle(circle);
+    }
+  }
+
+  protected void selectLinesFromList(ArrayList<LineEx> list) {
+    for (LineEx line : list) {
+      selectLine(line);
+    }
+  }
+
   // Zoom and Pan
   protected void scrollOnPress(KeyEvent e) {
     if (e.getCode() == KeyCode.CONTROL) {

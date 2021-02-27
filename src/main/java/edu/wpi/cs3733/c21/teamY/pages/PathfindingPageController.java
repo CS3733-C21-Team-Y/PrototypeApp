@@ -45,9 +45,14 @@ public class PathfindingPageController {
 
   private ArrayList<Node> nodes = new ArrayList<Node>();
   private ArrayList<Edge> edges = new ArrayList<Edge>();
-  private Graph graph;
 
-  private boolean pathActive = false;
+  private ArrayList<Node> pathNodes = new ArrayList<Node>(); // Used to store path between floors
+
+  // Used to save start/end node on a floor
+  MapController.CircleEx startNode;
+  MapController.CircleEx endNode;
+
+  private Graph graph;
 
   // unused constructor
   public PathfindingPageController() {}
@@ -103,8 +108,6 @@ public class PathfindingPageController {
             (options, oldValue, newValue) -> {
               if ((oldValue == null && newValue != null) || (!oldValue.equals(newValue))) {
                 calculatePath();
-              } else {
-                pathActive = false;
               }
             });
 
@@ -122,8 +125,6 @@ public class PathfindingPageController {
             (options, oldValue, newValue) -> {
               if ((oldValue == null && newValue != null) || (!oldValue.equals(newValue))) {
                 calculatePath();
-              } else {
-                pathActive = false;
               }
             });
 
@@ -212,13 +213,13 @@ public class PathfindingPageController {
             mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
             resetMouseHandlingForAdorners();
-            // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
-
-            calculatePath();
+            drawPath(pathNodes);
+            mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
           });
       i++;
     }
 
+    // Movement and zoom buttons
     upButton.setOnAction(e -> mapInsertController.panOnButtons("up"));
     downButton.setOnAction(e -> mapInsertController.panOnButtons("down"));
     leftButton.setOnAction(e -> mapInsertController.panOnButtons("left"));
@@ -300,68 +301,65 @@ public class PathfindingPageController {
     }
   }
 
+  private boolean isPathActive() {
+    return pathNodes.size() > 2;
+  }
+
   private void setNodeOnClick(MapController.CircleEx node) {
     node.setOnMouseClicked(
         w -> {
-          if (!node.hasFocus || (node.hasFocus && pathActive)) {
+          if (!node.hasFocus || (node.hasFocus && isPathActive())) {
+
+            // Start node box is selected -> deselect old start node, use new one
             if (startLocationBox.isFocused()) {
-              if (startLocationBox.getValue() != null) {
-                MapController.CircleEx n =
-                    (MapController.CircleEx)
-                        mapInsertController
-                            .getAdornerPane()
-                            .getScene()
-                            .lookup("#" + startLocationBox.getValue());
-                if (n != null) {
-                  mapInsertController.deSelectCircle(n);
-                }
+              if (startLocationBox.getValue() != null && startNode != null) {
+                mapInsertController.deSelectCircle(startNode);
               }
-
-              mapInsertController.selectCircle((MapController.CircleEx) node);
               startLocationBox.setValue(node.getId());
+              startNode = node;
 
-            } else if (endLocationBox.isFocused()) {
+              mapInsertController.selectCircle(node);
+            }
 
+            // End node box is selected -> deselect old end node, use new one
+            else if (endLocationBox.isFocused()) {
               if (endLocationBox.getValue() != null) {
-                MapController.CircleEx n =
-                    (MapController.CircleEx)
-                        mapInsertController
-                            .getAdornerPane()
-                            .getScene()
-                            .lookup("#" + endLocationBox.getValue());
-                if (n != null) {
-                  mapInsertController.deSelectCircle(n);
+                if (endLocationBox.getValue() != null && endNode != null) {
+                  mapInsertController.deSelectCircle(endNode);
                 }
               }
-
-              mapInsertController.selectCircle((MapController.CircleEx) node);
+              mapInsertController.selectCircle(node);
               endLocationBox.setValue(node.getId());
             }
-          } else {
+
+          }
+          // Deselect start or end node
+          else {
             if (startLocationBox.isFocused()) {
-              mapInsertController.selectCircle((MapController.CircleEx) node);
-              startLocationBox.setValue("");
+              mapInsertController.deSelectCircle(node);
+              startLocationBox.setValue(null);
+              startNode = null;
+              clearPath();
+              if (endNode != null) {
+                mapInsertController.selectCircle(endNode);
+              }
 
             } else if (endLocationBox.isFocused()) {
-              mapInsertController.selectCircle((MapController.CircleEx) node);
-              endLocationBox.setValue("");
+              mapInsertController.deSelectCircle(node);
+              endLocationBox.setValue(null);
+              endNode = null;
+              clearPath();
+              if (startNode != null) {
+                mapInsertController.selectCircle(startNode);
+              }
             }
           }
         });
   }
 
-  /* Dont need it
-  private void setEdgeOnClick(MapController.LineEx edge) {
-    edge.setOnMouseClicked(
-            w -> {
-              if (!shiftPressed) {
-                mapInsertController.clearSelection();
-              }
-              mapInsertController.selectLine((MapController.LineEx) edge);
-            });
-  }*/
-
+  // Calculates and draws the path
   public void calculatePath() {
+    clearPath();
     if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
 
       ArrayList<String> endLocations = new ArrayList<>();
@@ -385,55 +383,64 @@ public class PathfindingPageController {
                 graph, (String) startLocationBox.getValue(), endLocations, "KIOS"));
       }
 
-      pathActive = true;
-
       mapInsertController.clearSelection();
       ArrayList<Node> nodes =
           AStarAlgorithm.aStar(graph, (String) startLocationBox.getValue(), endLocations);
 
-      if (nodes != null) {
-        for (int i = 0; i < nodes.size() - 1; i++) {
-          MapController.CircleEx n =
-              (MapController.CircleEx)
-                  mapInsertController.getAdornerPane().getScene().lookup("#" + nodes.get(i).nodeID);
-          MapController.CircleEx m =
-              (MapController.CircleEx)
+      pathNodes = nodes;
+      drawPath(pathNodes);
+    }
+  }
+
+  public void drawPath(ArrayList<Node> nodes) {
+    if (nodes != null) {
+      for (int i = 0; i < nodes.size() - 1; i++) {
+        MapController.CircleEx n =
+            (MapController.CircleEx)
+                mapInsertController.getAdornerPane().getScene().lookup("#" + nodes.get(i).nodeID);
+        MapController.CircleEx m =
+            (MapController.CircleEx)
+                mapInsertController
+                    .getAdornerPane()
+                    .getScene()
+                    .lookup("#" + nodes.get(i + 1).nodeID);
+
+        if (n != null) {
+          mapInsertController.selectCircle(n);
+        }
+        if (m != null && i == nodes.size() - 2) { // Selects last node in path
+          mapInsertController.selectCircle(m);
+        }
+
+        if (n != null && m != null) {
+          MapController.LineEx l =
+              (MapController.LineEx)
                   mapInsertController
                       .getAdornerPane()
                       .getScene()
-                      .lookup("#" + nodes.get(i + 1).nodeID);
+                      .lookup("#" + nodes.get(i).nodeID + "_" + nodes.get(i + 1).nodeID);
 
-          if (n != null) {
-            mapInsertController.selectCircle(n);
-          }
-          if (m != null) {
-            mapInsertController.selectCircle(m);
-          }
-
-          if (n != null && m != null) {
-            MapController.LineEx l =
+          if (l == null) {
+            l =
                 (MapController.LineEx)
                     mapInsertController
                         .getAdornerPane()
                         .getScene()
-                        .lookup("#" + nodes.get(i).nodeID + "_" + nodes.get(i + 1).nodeID);
+                        .lookup("#" + nodes.get(i + 1).nodeID + "_" + nodes.get(i).nodeID);
+          }
 
-            if (l == null) {
-              l =
-                  (MapController.LineEx)
-                      mapInsertController
-                          .getAdornerPane()
-                          .getScene()
-                          .lookup("#" + nodes.get(i + 1).nodeID + "_" + nodes.get(i).nodeID);
-            }
-
-            if (l != null) mapInsertController.selectLine(l);
-            else {
-              System.out.println("Could not identify line");
-            }
+          if (l != null) {
+            mapInsertController.selectLine(l);
+          } else {
+            System.out.println("Could not identify line");
           }
         }
       }
     }
+  }
+
+  public void clearPath() {
+    mapInsertController.clearSelection();
+    pathNodes = new ArrayList<Node>();
   }
 }
