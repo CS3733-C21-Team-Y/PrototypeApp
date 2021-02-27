@@ -558,25 +558,14 @@ public class JDBCUtils {
 
   public static PreparedStatement createPreparedStatementInsert(Employee employee)
       throws SQLException {
+    Connection connection = JDBCUtils.getConn();
     PreparedStatement stmt =
-        JDBCUtils.conn.prepareStatement("insert into ADMIN.EMPLOYEE values ((?),(?),(?),(?),(?))");
+        connection.prepareStatement("insert into ADMIN.EMPLOYEE values ((?),(?),(?),(?),(?))");
     stmt.setString(1, employee.getFirstName());
     stmt.setString(2, employee.getLastName());
     stmt.setString(3, employee.getEmployeeID());
     stmt.setInt(4, employee.getAccessLevel());
     stmt.setString(5, employee.getPrimaryWorkspace());
-    //                "'"
-    //            + employee.getFirstName()
-    //            + "', '"
-    //            + employee.getLastName()
-    //            + "', "
-    //            + employee.getEmployeeID()
-    //            + "' , '"
-    //            + employee.getAccessLevel()
-    //            + "', '"
-    //            + employee.getPrimaryWorkspace()
-    //            + "')");
-
     return stmt;
   }
 
@@ -593,7 +582,8 @@ public class JDBCUtils {
 
   public static PreparedStatement createPreparedStatementUpdate(Employee employee)
       throws SQLException {
-    return conn.prepareStatement(
+    Connection connection = JDBCUtils.getConn();
+    return connection.prepareStatement(
         "UPDATE ADMIN.EMPLOYEE set "
             + "ADMIN.EMPLOYEE.FIRSTNAME = '"
             + employee.getFirstName()
@@ -623,5 +613,24 @@ public class JDBCUtils {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+  }
+
+  public static PreparedStatement createPreparedStatementDeleteEmployee(String employeeID)
+      throws SQLException {
+    Connection connection = getConn();
+    return connection.prepareStatement(
+        "DELETE FROM ADMIN.EMPLOYEE WHERE EMPLOYEEID = '" + employeeID + "'");
+  }
+
+  public static void deleteEmployee(Employee employee) throws SQLException {
+    PreparedStatement stmt = createPreparedStatementDeleteEmployee(employee.getEmployeeID());
+    stmt.executeUpdate();
+    stmt.closeOnCompletion();
+  }
+
+  public static void deleteEmployee(String employeeID) throws SQLException {
+    PreparedStatement stmt = createPreparedStatementDeleteEmployee(employeeID);
+    stmt.executeUpdate();
+    stmt.closeOnCompletion();
   }
 }

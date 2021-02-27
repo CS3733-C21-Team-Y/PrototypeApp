@@ -63,6 +63,14 @@ public class DataOperations {
     JDBCUtils.deleteEdge(edgeID);
   }
 
+  public static void deleteEmployee(Employee employee) throws SQLException {
+    JDBCUtils.deleteEmployee(employee);
+  }
+
+  public static void deleteEmployee(String employeeID) throws SQLException {
+    JDBCUtils.deleteEmployee(employeeID);
+  }
+
   public static void updateNodeCoordsOnly(String nodeID, double xcoord, double ycoord) {
     JDBCUtils.updateNodeCoordsOnly(nodeID, xcoord, ycoord);
   }
