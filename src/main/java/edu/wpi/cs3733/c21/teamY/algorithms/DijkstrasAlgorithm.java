@@ -159,17 +159,19 @@ public class DijkstrasAlgorithm {
       int end = 0;
       if (minNode.nodeType.equals(detourType)) {
         for (int j = 0; j < path.size(); j++) {
-          if (path.get(j).getNeighbors().contains(minNode)) {
+          if (path.get(j).getNeighbors().contains(minNode) || path.get(j) == minNode) {
             endLocations.add(end, min);
-            break;
+            return endLocations;
           }
           if (endLocations.contains(path.get(j).nodeID)) {
             end++;
           }
         }
+        endLocations.add(endLocations.size() - 1, min);
         return endLocations;
       }
     }
+
     return endLocations;
   }
   /*
