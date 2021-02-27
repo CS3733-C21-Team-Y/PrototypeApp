@@ -74,3 +74,19 @@
     -fx-font-size: 12;
     -fx-text-fill: white;
 }
+.darkPane{
+    -fx-background-color: #26274D;
+}
+.mediumPane{
+    -fx-background-color: #45477a;
+}
+.unselectedMenu{
+    -fx-background-color: #3b3d73;
+    -fx-border-width: 0 0 0.5 0;
+    -fx-border-color: black;
+
+}
+.jfx-hamburger StackPane {
+    -fx-background-color: #8d8ea4;
+    -fx-background-radius: 4;
+}
