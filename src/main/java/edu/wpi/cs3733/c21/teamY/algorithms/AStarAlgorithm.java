@@ -79,7 +79,7 @@ public class AStarAlgorithm {
         }
         path.add(0, g.nodeList[start]);
         System.out.println(path);
-        return path; // distances[lowestPriorityIndex];
+        return path;
       }
 
       System.out.println(
@@ -102,22 +102,12 @@ public class AStarAlgorithm {
                 distances[i] + DijkstrasAlgorithm.nodeDistance(g.nodeList[i], g.nodeList[goal]);
 
             cameFrom.put(i, lowestPriorityIndex);
-            System.out.println(
-                "Updating distance of node "
-                    + g.nodeList[i].nodeID
-                    + " to "
-                    + distances[i]
-                    + " and priority to "
-                    + priorities[i]);
           }
         }
       }
 
       // Lastly, note that we are finished with this node.
       visited[lowestPriorityIndex] = true;
-      // System.out.println("Visited nodes: " + Arrays.toString(visited));
-      // System.out.println("Currently lowest distances: " + Arrays.toString(distances));
-
     }
   }
 

@@ -31,11 +31,12 @@ public class DijkstrasAlgorithm {
       return Math.sqrt(
           Math.pow((end.xcoord - start.xcoord), 2) + Math.pow((end.ycoord - start.ycoord), 2));
     } else {
-      // TODO: Modify to account for floor distance
-      // Our end node isn't on the same floor as we are
-      // Should return distance to the stair we want to path to
+      // TODO: Modify to efficiently account for floor distance
+      // If our end node isn't on the same floor as we are
+      // Ideally returns distance to the stair we want to path to
       return Math.sqrt(
-          Math.pow((end.xcoord - start.xcoord), 2) + Math.pow((end.ycoord - start.ycoord), 2));
+              Math.pow((end.xcoord - start.xcoord), 2) + Math.pow((end.ycoord - start.ycoord), 2))
+          + (Math.abs(Integer.parseInt(end.floor) - Integer.parseInt(start.floor)) * 210);
     }
   }
 
@@ -171,60 +172,6 @@ public class DijkstrasAlgorithm {
         return endLocations;
       }
     }
-
     return endLocations;
   }
-  /*
-  public static String dijkstraDetour(
-      Graph g, String startID, ArrayList<String> pathGoalIDs, String detourType) {
-    // dist will hold the shortest distance from startNode to node
-    HashMap<String, Double> dist = new HashMap<>();
-
-    // inShortest will true if node is included in shortest path
-    // or if the distance from the startNode to node is finalized
-    HashMap<String, Boolean> inShortest = new HashMap<>(g.nodeList.length);
-
-    // Initialize dists as infinite and inShortest as false
-    for (Node node : g.nodeList) {
-      // for the nodes already in the path we'll set the distance to zero so this runs on all the
-      // nodes in the path sequence
-      if (pathGoalIDs.contains(node.nodeID) || startID.equals(node.nodeID)) {
-        dist.put(node.nodeID, 0.0);
-      } else {
-        dist.put(node.nodeID, Double.MAX_VALUE);
-      }
-      inShortest.put(node.nodeID, false);
-    }
-
-    // This loop will run once for each node
-    for (int i = 0; i < g.nodeList.length - 1; i++) {
-      // Pick the minimum distance node from the set of nodes not yet checked.
-      // min is always equal to start or pathGoalIDs in first iterations.
-      String min = minDistance(dist, inShortest);
-
-      // Mark the picked node as processed
-      inShortest.put(min, true);
-
-      // Update dist value of the adjacent nodes of the picked node.
-      for (Map.Entry<String, Double> mapElement : dist.entrySet()) {
-        // Update dist of the current mapElement only if is not inShortest,
-        // there is an edge from min to mapElement,
-        // and total weight of path from startNode to mapElement through min
-        // is less than the dist of the current mapElement
-        double edgeDist = nodeDistance(g.nodeFromID(min), g.nodeFromID(mapElement.getKey()));
-        ArrayList<Node> neighbors = g.nodeFromID(mapElement.getKey()).getNeighbors();
-        if (!inShortest.get(mapElement.getKey())
-            && neighbors.contains(g.nodeFromID(min))
-            && dist.get(min) != Integer.MAX_VALUE
-            && dist.get(min) + edgeDist < dist.get(mapElement.getKey())) {
-          dist.put(mapElement.getKey(), dist.get(min) + edgeDist);
-        }
-      }
-      // Checks whether we've found a node of detourType
-      if (g.nodeFromID(min).nodeType.equals(detourType)) {
-        return min;
-      }
-    }
-    return null;
-  }*/
 }
