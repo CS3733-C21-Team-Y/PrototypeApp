@@ -172,7 +172,6 @@ public class DijkstrasAlgorithm {
         return endLocations;
       }
     }
-
     return endLocations;
   }
 }
