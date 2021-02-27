@@ -14,6 +14,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -249,6 +251,17 @@ public class PathfindingPageController {
     // Select startNodeBox
     startLocationBox.requestFocus();
 
+    // Mouse Click on Map not Node
+    mapInsertController
+        .getAdornerPane()
+        .setOnMouseClicked(
+            e -> {
+              MapController.CircleEx p = getNearestNode(e.getX(), e.getY());
+              if (p != null) {
+                handleClickOnNode(p);
+              }
+            });
+
     // Init Map
     Platform.runLater(
         () -> {
@@ -261,6 +274,50 @@ public class PathfindingPageController {
         });
 
     Platform.runLater(() -> startLocationBox.requestFocus());
+  }
+
+  /**
+   * Gets the nearest to node to an x and y coord double
+   *
+   * @param xCoord
+   * @param yCoord
+   * @return MapController.CircleEx node
+   */
+  private MapController.CircleEx getNearestNode(double xCoord, double yCoord) {
+    ArrayList<MapController.CircleEx> nodesWithinRange = new ArrayList<>();
+
+    // Draw circle
+    Circle circle = new Circle();
+    circle.setCenterX(xCoord);
+    circle.setCenterY(yCoord);
+    circle.setRadius(25); // Change to adjust selection range
+    circle.setFill(Color.TRANSPARENT);
+
+    // get nodes within circle
+    mapInsertController.getAdornerPane().getChildren().add(circle);
+    for (javafx.scene.Node node : mapInsertController.getAdornerPane().getChildren()) {
+      if (node instanceof MapController.CircleEx) {
+        if (circle.intersects(node.getBoundsInLocal())) {
+          nodesWithinRange.add((MapController.CircleEx) node);
+        }
+      }
+    }
+
+    // use nearest neighbor to find nearest node
+    double minDistance = circle.getRadius();
+    MapController.CircleEx minNode = null;
+    for (MapController.CircleEx n : nodesWithinRange) {
+      double distX = n.getCenterX() - circle.getCenterX();
+      double distY = n.getCenterY() - circle.getCenterY();
+      double pythagoras = Math.sqrt(distX * distX + distY * distY);
+      if (pythagoras < minDistance) {
+        minNode = n;
+        minDistance = pythagoras;
+      }
+    }
+    mapInsertController.getAdornerPane().getChildren().remove(circle);
+    circle = null;
+    return minNode;
   }
 
   // button event handler
@@ -308,53 +365,58 @@ public class PathfindingPageController {
   private void setNodeOnClick(MapController.CircleEx node) {
     node.setOnMouseClicked(
         w -> {
-          if (!node.hasFocus || (node.hasFocus && isPathActive())) {
-
-            // Start node box is selected -> deselect old start node, use new one
-            if (startLocationBox.isFocused()) {
-              if (startLocationBox.getValue() != null && startNode != null) {
-                mapInsertController.deSelectCircle(startNode);
-              }
-              startLocationBox.setValue(node.getId());
-              startNode = node;
-
-              mapInsertController.selectCircle(node);
-            }
-
-            // End node box is selected -> deselect old end node, use new one
-            else if (endLocationBox.isFocused()) {
-              if (endLocationBox.getValue() != null) {
-                if (endLocationBox.getValue() != null && endNode != null) {
-                  mapInsertController.deSelectCircle(endNode);
-                }
-              }
-              mapInsertController.selectCircle(node);
-              endLocationBox.setValue(node.getId());
-            }
-
-          }
-          // Deselect start or end node
-          else {
-            if (startLocationBox.isFocused()) {
-              mapInsertController.deSelectCircle(node);
-              startLocationBox.setValue(null);
-              startNode = null;
-              clearPath();
-              if (endNode != null) {
-                mapInsertController.selectCircle(endNode);
-              }
-
-            } else if (endLocationBox.isFocused()) {
-              mapInsertController.deSelectCircle(node);
-              endLocationBox.setValue(null);
-              endNode = null;
-              clearPath();
-              if (startNode != null) {
-                mapInsertController.selectCircle(startNode);
-              }
-            }
-          }
+          handleClickOnNode(node);
         });
+  }
+
+  // Select Node
+  private void handleClickOnNode(MapController.CircleEx node) {
+    if (!node.hasFocus || (node.hasFocus && isPathActive())) {
+
+      // Start node box is selected -> deselect old start node, use new one
+      if (startLocationBox.isFocused()) {
+        if (startLocationBox.getValue() != null && startNode != null) {
+          mapInsertController.deSelectCircle(startNode);
+        }
+        startLocationBox.setValue(node.getId());
+        startNode = node;
+
+        mapInsertController.selectCircle(node);
+      }
+
+      // End node box is selected -> deselect old end node, use new one
+      else if (endLocationBox.isFocused()) {
+        if (endLocationBox.getValue() != null) {
+          if (endLocationBox.getValue() != null && endNode != null) {
+            mapInsertController.deSelectCircle(endNode);
+          }
+        }
+        mapInsertController.selectCircle(node);
+        endLocationBox.setValue(node.getId());
+      }
+
+    }
+    // Deselect start or end node
+    else {
+      if (startLocationBox.isFocused()) {
+        mapInsertController.deSelectCircle(node);
+        startLocationBox.setValue(null);
+        startNode = null;
+        clearPath();
+        if (endNode != null) {
+          mapInsertController.selectCircle(endNode);
+        }
+
+      } else if (endLocationBox.isFocused()) {
+        mapInsertController.deSelectCircle(node);
+        endLocationBox.setValue(null);
+        endNode = null;
+        clearPath();
+        if (startNode != null) {
+          mapInsertController.selectCircle(startNode);
+        }
+      }
+    }
   }
 
   // Calculates and draws the path
