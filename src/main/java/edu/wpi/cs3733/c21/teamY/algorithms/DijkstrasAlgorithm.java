@@ -104,11 +104,75 @@ public class DijkstrasAlgorithm {
    *
    * @param g an adjacency-matrix-representation of the graph where (x,y) is the weight of the edge
    *     or 0 if there is no edge.
-   * @param startID the node to start from.
-   * @param pathGoalIDs the goal nodes on our path.
+   * @param path the current path from start to end nodes
+   * @param endLocations the goal nodes in our path.
    * @param detourType the type of detour we're looking for.
    * @return modified to return the node id of the closest detourType.
    */
+  public static ArrayList<String> dijkstraDetour(
+      Graph g, ArrayList<Node> path, ArrayList<String> endLocations, String detourType) {
+    // dist will hold the shortest distance from startNode to node
+    HashMap<String, Double> dist = new HashMap<>();
+
+    // inShortest will true if node is included in shortest path
+    // or if the distance from the startNode to node is finalized
+    HashMap<String, Boolean> inShortest = new HashMap<>(g.nodeList.length);
+
+    // Initialize dists as infinite and inShortest as false
+    for (Node node : g.nodeList) {
+      // for the nodes already in the path we'll set the distance to zero so this runs on all the
+      // nodes in the path sequence
+      if (path.contains(g.nodeFromID(node.nodeID))) {
+        dist.put(node.nodeID, 0.0);
+      } else {
+        dist.put(node.nodeID, Double.MAX_VALUE);
+      }
+      inShortest.put(node.nodeID, false);
+    }
+
+    // This loop will run once for each node
+    for (int i = 0; i < g.nodeList.length - 1; i++) {
+      // Pick the minimum distance node from the set of nodes not yet checked.
+      // min is always equal to start or pathGoalIDs in first iterations.
+      String min = minDistance(dist, inShortest);
+
+      // Mark the picked node as processed
+      inShortest.put(min, true);
+
+      // Update dist value of the adjacent nodes of the picked node.
+      for (Map.Entry<String, Double> mapElement : dist.entrySet()) {
+        // Update dist of the current mapElement only if is not inShortest,
+        // there is an edge from min to mapElement,
+        // and total weight of path from startNode to mapElement through min
+        // is less than the dist of the current mapElement
+        double edgeDist = nodeDistance(g.nodeFromID(min), g.nodeFromID(mapElement.getKey()));
+        ArrayList<Node> neighbors = g.nodeFromID(mapElement.getKey()).getNeighbors();
+        if (!inShortest.get(mapElement.getKey())
+            && neighbors.contains(g.nodeFromID(min))
+            && dist.get(min) != Integer.MAX_VALUE
+            && dist.get(min) + edgeDist < dist.get(mapElement.getKey())) {
+          dist.put(mapElement.getKey(), dist.get(min) + edgeDist);
+        }
+      }
+      // Checks whether we've found a node of detourType
+      Node minNode = g.nodeFromID(min);
+      int end = 0;
+      if (minNode.nodeType.equals(detourType)) {
+        for (int j = 0; j < path.size(); j++) {
+          if (path.get(j).getNeighbors().contains(minNode)) {
+            endLocations.add(end, min);
+            break;
+          }
+          if (endLocations.contains(path.get(j).nodeID)) {
+            end++;
+          }
+        }
+        return endLocations;
+      }
+    }
+    return endLocations;
+  }
+  /*
   public static String dijkstraDetour(
       Graph g, String startID, ArrayList<String> pathGoalIDs, String detourType) {
     // dist will hold the shortest distance from startNode to node
@@ -160,5 +224,5 @@ public class DijkstrasAlgorithm {
       }
     }
     return null;
-  }
+  }*/
 }

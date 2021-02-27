@@ -362,6 +362,7 @@ public class CSV {
     return null;
   }
 
+  @Deprecated
   public static ArrayList<Edge> getListOfEdgeNoStairs() throws SQLException {
     Connection conn = JDBCUtils.getConn();
     String str = "SELECT * FROM ADMIN.EDGE";

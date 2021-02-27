@@ -35,8 +35,14 @@ public class AlgorithmCalls {
     return DijkstrasAlgorithm.dijkstra(g, startID, goalIDs);
   }
 
-  public static String dijkstraDetour(
+  public static ArrayList<String> dijkstraDetour(
+      Graph g, ArrayList<Node> path, ArrayList<String> endLocations, String detourType) {
+    return DijkstrasAlgorithm.dijkstraDetour(g, path, endLocations, detourType);
+  }
+  /*public static String dijkstraDetour(
       Graph g, String startID, ArrayList<String> goalIDs, String detourType) {
     return DijkstrasAlgorithm.dijkstraDetour(g, startID, goalIDs, detourType);
   }
+
+   */
 }

@@ -379,30 +379,30 @@ public class PathfindingPageController {
 
       ArrayList<String> endLocations = new ArrayList<>();
       endLocations.add((String) endLocationBox.getValue());
-      if (bathroomCheck.isSelected()) {
-        endLocations.add(
-            0,
-            AlgorithmCalls.dijkstraDetour(
-                graph, (String) startLocationBox.getValue(), endLocations, "REST"));
-      }
-      if (cafeCheck.isSelected()) {
-        endLocations.add(
-            0,
-            AlgorithmCalls.dijkstraDetour(
-                graph, (String) startLocationBox.getValue(), endLocations, "FOOD"));
-      }
-      if (kioskCheck.isSelected()) {
-        endLocations.add(
-            0,
-            AlgorithmCalls.dijkstraDetour(
-                graph, (String) startLocationBox.getValue(), endLocations, "KIOS"));
-      }
 
       pathActive = true;
 
       mapInsertController.clearSelection();
       ArrayList<Node> nodes =
           AlgorithmCalls.aStar(graph, (String) startLocationBox.getValue(), endLocations);
+
+      boolean detour = false;
+      if (bathroomCheck.isSelected()) {
+        endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "REST");
+        detour = true;
+      }
+      if (cafeCheck.isSelected()) {
+        endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "FOOD");
+        detour = true;
+      }
+      if (kioskCheck.isSelected()) {
+        endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "KIOS");
+        detour = true;
+      }
+      // If we've taken a detour, regenerate aStar
+      if (detour) {
+        nodes = AlgorithmCalls.aStar(graph, (String) startLocationBox.getValue(), endLocations);
+      }
 
       if (nodes != null) {
         for (int i = 0; i < nodes.size() - 1; i++) {
