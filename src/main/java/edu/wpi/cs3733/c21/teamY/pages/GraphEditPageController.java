@@ -127,32 +127,22 @@ public class GraphEditPageController {
 
     moveNodeUpButton.setOnAction(
         e -> {
-          mapInsertController.moveSelected(
-              mapInsertController.getSelectedNodes(), mapInsertController.getSelectedEdges(), "up");
+          moveSelected(mapInsertController.getSelectedNodes(), "up");
           updateNodes();
         });
     moveNodeDownButton.setOnAction(
         e -> {
-          mapInsertController.moveSelected(
-              mapInsertController.getSelectedNodes(),
-              mapInsertController.getSelectedEdges(),
-              "down");
+          moveSelected(mapInsertController.getSelectedNodes(), "down");
           updateNodes();
         });
     moveNodeLeftButton.setOnAction(
         e -> {
-          mapInsertController.moveSelected(
-              mapInsertController.getSelectedNodes(),
-              mapInsertController.getSelectedEdges(),
-              "left");
+          moveSelected(mapInsertController.getSelectedNodes(), "left");
           updateNodes();
         });
     moveNodeRightButton.setOnAction(
         e -> {
-          mapInsertController.moveSelected(
-              mapInsertController.getSelectedNodes(),
-              mapInsertController.getSelectedEdges(),
-              "right");
+          moveSelected(mapInsertController.getSelectedNodes(), "right");
           updateNodes();
         });
 
@@ -220,7 +210,7 @@ public class GraphEditPageController {
 
     loadNodesButton.setOnAction(
         e -> {
-          initiateDrawing();
+          loadMapFromCSV();
         });
 
     int i = 0;
@@ -267,8 +257,8 @@ public class GraphEditPageController {
             e -> {
               // Node
               if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
-                if (addEdgecb.isSelected()) {
-                  createEdgecb(e);
+                if (addEdgecb.isSelected() && mapInsertController.getSelectedNodes().size() == 1) {
+                  createEdge((MapController.CircleEx) e.getPickResult().getIntersectedNode());
                 } else {
                   handleClickOnNode(
                       (MapController.CircleEx) e.getPickResult().getIntersectedNode());
@@ -314,7 +304,6 @@ public class GraphEditPageController {
           || mapInsertController.getSelectedEdges().size() > 1) {
         mapInsertController.clearSelection();
         mapInsertController.selectCircle((MapController.CircleEx) node);
-        lastSelectedNode = (MapController.CircleEx) node;
       }
       // if its the only thing selected and u click again, it turns off
       else {
@@ -327,11 +316,9 @@ public class GraphEditPageController {
         // No shift means clear and only select clicked
         mapInsertController.clearSelection();
         mapInsertController.selectCircle((MapController.CircleEx) node);
-        lastSelectedNode = (MapController.CircleEx) node;
       } else {
         // Shift adds node to selection
         mapInsertController.selectCircle((MapController.CircleEx) node);
-        lastSelectedNode = (MapController.CircleEx) node;
       }
     }
   }
@@ -367,8 +354,7 @@ public class GraphEditPageController {
     }
   }
 
-  // this sucks
-  private void initiateDrawing() {
+  private void loadMapFromCSV() {
     mapInsertController.removeAllAdornerElements();
 
     nodeIDCounter = nodes.size() + 1;
@@ -443,51 +429,48 @@ public class GraphEditPageController {
     }
   }
 
-  private MapController.CircleEx lastSelectedNode;
-
-  // --create node and edges
-  private void createEdgecb(MouseEvent e) {
+  // creates edge
+  private void createEdge(MapController.CircleEx endNode) {
     // creates an edge between two selected points when the checkbox is selected
     ArrayList<MapController.CircleEx> selectedNodes = mapInsertController.getSelectedNodes();
-    if (addEdgecb.isSelected() && lastSelectedNode != null) {
-      if (startEdgeFlag) { // decides if its te starting or ending point being selected
-        System.out.println(startEdgeFlag);
+    if (addEdgecb.isSelected() && selectedNodes.size() == 1 && endNode != selectedNodes.get(0)) {
 
-        startEdgeFlag = !startEdgeFlag;
-        try {
-          startNodeID = lastSelectedNode.getId();
-          startx = lastSelectedNode.getCenterX();
-          starty = lastSelectedNode.getCenterY();
-        } catch (Exception exception) {
-          System.out.println("no start point");
-        }
-      } else {
-        System.out.println(startEdgeFlag);
-        startEdgeFlag = !startEdgeFlag;
-        try {
-          endNodeID = lastSelectedNode.getId();
-          endx = lastSelectedNode.getCenterX();
-          endy = lastSelectedNode.getCenterY();
-        } catch (Exception exception) {
-          System.out.println("no end point");
-        }
-
-        // creating the line and adding as a child to the pane
-        String edgeID = startNodeID + "_" + endNodeID;
-        Edge ed = new Edge(edgeID, startNodeID, endNodeID);
-
-        // JDBCUtils.insert(3, ed, "EDGE");
-        // JDBCUtils.insert(JDBCUtils.insertString(ed));
-
-        try {
-          //          DatabaseQueryAdministrator.insertEdge(ed);
-          JDBCUtils.insert(3, ed, "Edge");
-        } catch (Exception exception) {
-          System.out.println("nodeEdgeDispController.createEdgecb");
-        }
-        //        CSV.saveEdge(ed);
-        mapInsertController.clearSelection();
+      MapController.CircleEx lastSelectedNode = selectedNodes.get(0);
+      try {
+        startNodeID = lastSelectedNode.getId();
+        startx = lastSelectedNode.getCenterX();
+        starty = lastSelectedNode.getCenterY();
+      } catch (Exception exception) {
+        System.out.println("Could not identify start point");
+        return;
       }
+
+      try {
+        endNodeID = endNode.getId();
+        endx = endNode.getCenterX();
+        endy = endNode.getCenterY();
+      } catch (Exception exception) {
+        System.out.println("Could not identify end point");
+        return;
+      }
+
+      // creating the line and adding as a child to the pane
+      String edgeID = startNodeID + "_" + endNodeID;
+      Edge ed = new Edge(edgeID, startNodeID, endNodeID);
+
+      // JDBCUtils.insert(3, ed, "EDGE");
+      // JDBCUtils.insert(JDBCUtils.insertString(ed));
+
+      try {
+        //          DatabaseQueryAdministrator.insertEdge(ed);
+        JDBCUtils.insert(3, ed, "Edge");
+      } catch (Exception exception) {
+        System.out.println("nodeEdgeDispController.createEdgecb");
+        return;
+      }
+      //        CSV.saveEdge(ed);
+      mapInsertController.clearSelection();
+      mapInsertController.selectLine(mapInsertController.addEdgeLine(ed));
     }
   }
 
@@ -511,7 +494,11 @@ public class GraphEditPageController {
         JDBCUtils.insert(9, n, "Node");
       } catch (Exception exception) {
         System.out.println("nodeEdgeDispController.createNodecb");
+        return;
       }
+      mapInsertController.clearSelection();
+      MapController.CircleEx c = mapInsertController.addNodeCircle(n);
+      mapInsertController.selectCircle(c);
     }
   }
 
@@ -539,18 +526,46 @@ public class GraphEditPageController {
   }
 
   private void updateNodes() {
-    for (MapController.CircleEx c : mapInsertController.movedNodes) {
+    for (MapController.CircleEx c : movedNodes) {
       JDBCUtils.updateNodeCoordsOnly(
           c.getId(),
           Math.floor(mapInsertController.scaleUpXCoords(c.getCenterX())),
           Math.floor(mapInsertController.scaleUpYCoords(c.getCenterY())));
+      c.updateAdjacentEdges();
     }
+
+    // Absolutely not. do not update active graph every time you move a node thats rediculouis
+    /*
     try {
       ActiveGraph.initialize();
       ActiveGraphNoStairs.initialize();
     } catch (Exception exception) {
       System.out.println("GraphEditPageController.updateNodes");
-    }
+    }*/
     mapInsertController.updateMapScreen();
+  }
+
+  private ArrayList<MapController.CircleEx> movedNodes = new ArrayList<MapController.CircleEx>();
+
+  protected void moveSelected(ArrayList<MapController.CircleEx> circles, String dir) {
+    int movement = 10;
+    for (MapController.CircleEx c : circles) {
+      if (dir.equals("up")) {
+        c.setCenterY(c.getCenterY() - movement);
+      } else if (dir.equals("down")) {
+        c.setCenterY(c.getCenterY() + movement);
+      } else if (dir.equals("left")) {
+        c.setCenterX(c.getCenterX() - movement);
+      } else if (dir.equals("right")) {
+        c.setCenterX(c.getCenterX() + movement);
+      } else {
+
+      }
+
+      if (!movedNodes.contains(c)) {
+        movedNodes.add(c);
+      }
+    }
+    System.out.println(movedNodes);
   }
 }

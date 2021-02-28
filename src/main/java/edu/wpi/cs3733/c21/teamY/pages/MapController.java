@@ -50,8 +50,6 @@ public class MapController {
   private ArrayList<CircleEx> selectedNodes = new ArrayList<CircleEx>();
   private ArrayList<LineEx> selectedEdges = new ArrayList<LineEx>();
 
-  protected ArrayList<CircleEx> movedNodes = new ArrayList<CircleEx>();
-
   private FileChooser fc = new FileChooser();
   private File file;
 
@@ -302,9 +300,11 @@ public class MapController {
   }
 
   protected LineEx addEdgeLine(Edge e) {
+    CircleEx n = null;
+    CircleEx m = null;
     try {
-      CircleEx n = (CircleEx) adornerPane.getScene().lookup("#" + e.getStartNodeID());
-      CircleEx m = (CircleEx) adornerPane.getScene().lookup("#" + e.getEndNodeID());
+      n = (CircleEx) adornerPane.getScene().lookup("#" + e.getStartNodeID());
+      m = (CircleEx) adornerPane.getScene().lookup("#" + e.getEndNodeID());
 
       // System.out.println(e.edgeID);
       startx = n.getCenterX();
@@ -317,10 +317,19 @@ public class MapController {
     }
 
     LineEx lineEx = new LineEx(startx, starty, endx, endy);
+    lineEx.startNode = n;
+    lineEx.endNode = m;
     lineEx.setId(e.getEdgeID());
     lineEx.setStrokeWidth(3);
     adornerPane.getChildren().add(lineEx);
     lineEx.toBack();
+
+    if (n != null && !n.connectingEdges.contains(lineEx)) {
+      n.connectingEdges.add(lineEx);
+    }
+    if (m != null && !m.connectingEdges.contains(lineEx)) {
+      m.connectingEdges.add(lineEx);
+    }
 
     updateMapScreen();
 
@@ -607,6 +616,21 @@ public class MapController {
   // Better Adorners
   public class CircleEx extends Circle {
     public boolean hasFocus = false;
+    public ArrayList<LineEx> connectingEdges = new ArrayList<LineEx>();
+
+    public void updateAdjacentEdges() {
+      for (LineEx edge : connectingEdges) {
+        if (edge.startNode == this) {
+          edge.setStartX(this.getCenterX());
+          edge.setStartY(this.getCenterY());
+        } else if (edge.endNode == this) {
+          edge.setEndX(this.getCenterX());
+          edge.setEndY(this.getCenterY());
+        } else {
+          System.out.println("Circle found edge that didnt have it added");
+        }
+      }
+    }
 
     public CircleEx(double radius) {
       super(radius);
@@ -630,51 +654,13 @@ public class MapController {
   public class LineEx extends Line {
     public boolean hasFocus = false;
 
+    public CircleEx startNode;
+    public CircleEx endNode;
+
     public LineEx() {}
 
     public LineEx(double startX, double startY, double endX, double endY) {
       super(startX, startY, endX, endY);
-    }
-  }
-
-  protected void moveSelected(ArrayList<CircleEx> circles, ArrayList<LineEx> lines, String dir) {
-    int movement = 10;
-    for (CircleEx c : circles) {
-      if (dir.equals("up")) {
-        c.setCenterY(c.getCenterY() - movement);
-      } else if (dir.equals("down")) {
-        c.setCenterY(c.getCenterY() + movement);
-      } else if (dir.equals("left")) {
-        c.setCenterX(c.getCenterX() - movement);
-      } else if (dir.equals("right")) {
-        c.setCenterX(c.getCenterX() + movement);
-      } else {
-
-      }
-
-      if (!movedNodes.contains(c)) {
-        movedNodes.add(c);
-      }
-    }
-
-    System.out.println(movedNodes);
-
-    for (LineEx l : lines) {
-      if (dir.equals("up")) {
-        l.setStartY(l.getStartY() - movement);
-        l.setEndY(l.getEndY() - movement);
-      } else if (dir.equals("down")) {
-        l.setStartY(l.getStartY() + movement);
-        l.setEndY(l.getEndY() + movement);
-      } else if (dir.equals("left")) {
-        l.setStartX(l.getStartX() - movement);
-        l.setEndX(l.getEndX() - movement);
-      } else if (dir.equals("right")) {
-        l.setStartX(l.getStartX() + movement);
-        l.setEndX(l.getEndX() + movement);
-      } else {
-
-      }
     }
   }
 }
