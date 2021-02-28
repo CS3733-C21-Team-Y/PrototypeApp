@@ -86,14 +86,16 @@ public class GraphEditPageController {
 
   @FXML private MapController mapInsertController;
 
-  private double dragStartX;
-  private double dragStartY;
+  private double dragStartXRelativeEdge;
+  private double dragStartYRelativeEdge;
 
-  private boolean draggingNode = false;
-  private ArrayList<MapController.CircleEx> nodesBeingDragged =
+  private boolean isDraggingAdorner = false;
+  private ArrayList<MapController.CircleEx> nodesAffectedByDrag =
       new ArrayList<MapController.CircleEx>();
+  private ArrayList<MapController.LineEx> edgesAffectedByDrag =
+      new ArrayList<MapController.LineEx>();
 
-  private MapController.CircleEx headNodeBeingDragged = null;
+  private javafx.scene.Node jfxNodeBeingDragged = null;
 
   JFXDialog dialog = new JFXDialog();
 
@@ -139,25 +141,25 @@ public class GraphEditPageController {
     moveNodeUpButton.setOnAction(
         e -> {
           // up
-          moveSelectedBy(mapInsertController.getSelectedNodes(), 0, 0 - getOneTapMoveDist());
+          moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0, 0 - getOneTapMoveDist());
           updateNodePositionsInDB();
         });
     moveNodeDownButton.setOnAction(
         e -> {
           // down
-          moveSelectedBy(mapInsertController.getSelectedNodes(), 0, getOneTapMoveDist());
+          moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0, getOneTapMoveDist());
           updateNodePositionsInDB();
         });
     moveNodeLeftButton.setOnAction(
         e -> {
           // left
-          moveSelectedBy(mapInsertController.getSelectedNodes(), 0, 0 - getOneTapMoveDist());
+          moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0, 0 - getOneTapMoveDist());
           updateNodePositionsInDB();
         });
     moveNodeRightButton.setOnAction(
         e -> {
           // right
-          moveSelectedBy(mapInsertController.getSelectedNodes(), 0, getOneTapMoveDist());
+          moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0, getOneTapMoveDist());
           updateNodePositionsInDB();
         });
 
@@ -271,18 +273,57 @@ public class GraphEditPageController {
         .setOnMousePressed(
             e -> {
               mapInsertController.defaultOnMousePressed(e);
-              if ((e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx)) {
+
+              boolean clickedNode =
+                  e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx;
+              boolean clickedEdge =
+                  e.getPickResult().getIntersectedNode() instanceof MapController.LineEx;
+              if ((clickedNode || clickedEdge)) {
                 // Tentatively initiate them for drag
-                MapController.CircleEx mouseDownNode =
-                    (MapController.CircleEx) e.getPickResult().getIntersectedNode();
-                if (mouseDownNode.hasFocus) {
-                  nodesBeingDragged = mapInsertController.getSelectedNodes();
+                boolean headHasFocus = false;
+                if (clickedNode) {
+                  jfxNodeBeingDragged =
+                      (MapController.CircleEx) e.getPickResult().getIntersectedNode();
+                  headHasFocus = ((MapController.CircleEx) jfxNodeBeingDragged).hasFocus;
+                } else if (clickedEdge) {
+                  jfxNodeBeingDragged =
+                      (MapController.LineEx) e.getPickResult().getIntersectedNode();
+                  headHasFocus = ((MapController.LineEx) jfxNodeBeingDragged).hasFocus;
+                } else {
+                  // Cannot pass
+                  return;
                 }
-                headNodeBeingDragged = mouseDownNode;
-                nodesBeingDragged.add(headNodeBeingDragged);
+
+                // already selected one or more nodes/edges
+                if (headHasFocus) {
+                  nodesAffectedByDrag = mapInsertController.getSelectedNodes();
+                  edgesAffectedByDrag = mapInsertController.getSelectedEdges();
+                }
+                // Starting selection from scratch
+                else {
+                  if (clickedNode) {
+                    nodesAffectedByDrag.add((MapController.CircleEx) jfxNodeBeingDragged);
+                  } else if (clickedEdge) {
+                    edgesAffectedByDrag.add((MapController.LineEx) jfxNodeBeingDragged);
+
+                    dragStartXRelativeEdge =
+                        e.getX() - ((MapController.LineEx) jfxNodeBeingDragged).getStartX();
+                    dragStartYRelativeEdge =
+                        e.getY() - ((MapController.LineEx) jfxNodeBeingDragged).getStartY();
+                  }
+                }
+
+                // adding dangly nodes that are part of loose edges
+
+                for (MapController.LineEx edge : edgesAffectedByDrag) {
+                  if (!nodesAffectedByDrag.contains(edge.startNode)) {
+                    nodesAffectedByDrag.add(edge.startNode);
+                  }
+                  if (!nodesAffectedByDrag.contains(edge.endNode)) {
+                    nodesAffectedByDrag.add(edge.endNode);
+                  }
+                }
               }
-              dragStartX = e.getX();
-              dragStartY = e.getY();
             });
 
     // Mouse Dragged Override
@@ -290,15 +331,23 @@ public class GraphEditPageController {
         .getAdornerPane()
         .setOnMouseDragged(
             e -> {
-              if (nodesBeingDragged.size() > 0) {
-                draggingNode = true;
+              if (nodesAffectedByDrag.size() > 0) {
+                isDraggingAdorner = true;
 
                 mapInsertController.clearSelection();
-                mapInsertController.selectCirclesFromList(nodesBeingDragged);
-
-                double deltaX = e.getX() - headNodeBeingDragged.getCenterX();
-                double deltaY = e.getY() - headNodeBeingDragged.getCenterY();
-                moveSelectedBy(mapInsertController.getSelectedNodes(), deltaX, deltaY);
+                mapInsertController.selectCirclesFromList(nodesAffectedByDrag);
+                mapInsertController.selectLinesFromList(edgesAffectedByDrag);
+                if (jfxNodeBeingDragged instanceof MapController.CircleEx) {
+                  MapController.CircleEx handle = (MapController.CircleEx) jfxNodeBeingDragged;
+                  double deltaX = e.getX() - handle.getCenterX();
+                  double deltaY = e.getY() - handle.getCenterY();
+                  moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), deltaX, deltaY);
+                } else if (jfxNodeBeingDragged instanceof MapController.LineEx) {
+                  MapController.LineEx handle = (MapController.LineEx) jfxNodeBeingDragged;
+                  double deltaX = e.getX() - handle.getStartX() - dragStartXRelativeEdge;
+                  double deltaY = e.getY() - handle.getStartY() - dragStartYRelativeEdge;
+                  moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), deltaX, deltaY);
+                }
               } else {
                 mapInsertController.defaultOnMouseDragged(e);
               }
@@ -312,7 +361,7 @@ public class GraphEditPageController {
               // If not letting go of a drag
               mapInsertController.defaultOnMouseReleased(e);
 
-              if (!mapInsertController.wasLastClickDrag() && !draggingNode) {
+              if (!mapInsertController.wasLastClickDrag() && !isDraggingAdorner) {
 
                 // Node
                 if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
@@ -351,14 +400,16 @@ public class GraphEditPageController {
                 }
               }
               // If this is a node drag end
-              else if (draggingNode) {
+              else if (isDraggingAdorner) {
                 updateNodePositionsInDB();
               }
 
               // Needs to happen anyway because of tentative selecition
-              draggingNode = false;
-              nodesBeingDragged = new ArrayList<MapController.CircleEx>();
-              headNodeBeingDragged = null;
+              isDraggingAdorner = false;
+              nodesAffectedByDrag = new ArrayList<MapController.CircleEx>();
+              edgesAffectedByDrag = new ArrayList<MapController.LineEx>();
+
+              jfxNodeBeingDragged = null;
             });
   }
 
@@ -617,31 +668,11 @@ public class GraphEditPageController {
 
   private ArrayList<MapController.CircleEx> movedNodes = new ArrayList<MapController.CircleEx>();
 
-  protected void moveSelectedBy(
+  protected void moveSelectedCirclesBy(
       ArrayList<MapController.CircleEx> circles, double deltaX, double deltaY) {
     for (MapController.CircleEx c : circles) {
       c.setCenterX(c.getCenterX() + deltaX);
       c.setCenterY(c.getCenterY() + deltaY);
-
-      if (!movedNodes.contains(c)) {
-        movedNodes.add(c);
-      }
-
-      c.updateAdjacentEdges();
-    }
-  }
-
-  /**
-   * moveSelectedTo takes in coords relative to anchorpane and moves the circles there
-   *
-   * @param circles
-   * @param x
-   * @param y
-   */
-  protected void moveSelectedTo(ArrayList<MapController.CircleEx> circles, double x, double y) {
-    for (MapController.CircleEx c : circles) {
-      c.setCenterX(x);
-      c.setCenterY(y);
 
       if (!movedNodes.contains(c)) {
         movedNodes.add(c);
