@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -39,6 +40,12 @@ public class MapController {
   @FXML private SplitMenuButton floorMenu;
 
   private double startx, starty, endx, endy;
+
+  private boolean dragging = false;
+  private boolean lastClickDrag = false;
+
+  private double dragStartX;
+  private double dragStartY;
 
   private ArrayList<CircleEx> selectedNodes = new ArrayList<CircleEx>();
   private ArrayList<LineEx> selectedEdges = new ArrayList<LineEx>();
@@ -117,6 +124,14 @@ public class MapController {
     return mapOverlayUIGridPane;
   }
 
+  public boolean isDragging() {
+    return dragging;
+  }
+
+  public boolean wasLastClickDrag() {
+    return lastClickDrag;
+  }
+
   public MapController() {}
 
   @FXML
@@ -136,30 +151,18 @@ public class MapController {
 
     mapOverlayUIGridPane.setPickOnBounds(false);
 
+    // Default AdornerPane click and drag
     adornerPane.setOnMousePressed(
         e -> {
-          dragStartX = e.getX();
-          dragStartY = e.getY();
-          System.out.println("Started at " + dragStartX + ", " + dragStartY);
+          defaultOnMousePressed(e);
         });
-
     adornerPane.setOnMouseDragged(
         e -> {
-          double dragDeltaX = dragStartX - e.getX();
-          double dragDeltaY = dragStartY - e.getY();
-
-          mapImageView
-              .translateXProperty()
-              .setValue(mapImageView.getTranslateX() - dragDeltaX * mapImageView.getScaleX());
-          mapImageView
-              .translateYProperty()
-              .setValue(mapImageView.getTranslateY() - dragDeltaY * mapImageView.getScaleY());
-          adornerPane
-              .translateXProperty()
-              .setValue(adornerPane.getTranslateX() - dragDeltaX * mapImageView.getScaleX());
-          adornerPane
-              .translateYProperty()
-              .setValue(adornerPane.getTranslateY() - dragDeltaY * mapImageView.getScaleY());
+          defaultOnMouseDragged(e);
+        });
+    adornerPane.setOnMouseReleased(
+        e -> {
+          defaultOnMouseReleased(e);
         });
 
     // Sets Map clip so nothing can appear outside map bounds
@@ -171,9 +174,31 @@ public class MapController {
         });
   }
 
-  private double dragStartX;
-  private double dragStartY;
-  private boolean dragging = false;
+  // Default Drag Handlers
+  protected void defaultOnMousePressed(MouseEvent e) {
+    dragStartX = e.getX();
+    dragStartY = e.getY();
+  }
+
+  protected void defaultOnMouseDragged(MouseEvent e) {
+
+    dragging = true;
+
+    double dragDeltaX = dragStartX - e.getX();
+    double dragDeltaY = dragStartY - e.getY();
+
+    mapImageView.setTranslateX(
+        mapImageView.getTranslateX() - dragDeltaX * mapImageView.getScaleX());
+    mapImageView.setTranslateY(
+        mapImageView.getTranslateY() - dragDeltaY * mapImageView.getScaleY());
+    adornerPane.setTranslateX(adornerPane.getTranslateX() - dragDeltaX * mapImageView.getScaleX());
+    adornerPane.setTranslateY(adornerPane.getTranslateY() - dragDeltaY * mapImageView.getScaleY());
+  }
+
+  protected void defaultOnMouseReleased(MouseEvent e) {
+    lastClickDrag = dragging;
+    dragging = false;
+  }
 
   // Image stuff
   protected void changeMapImage(MapController.MAP_PAGE floor) {

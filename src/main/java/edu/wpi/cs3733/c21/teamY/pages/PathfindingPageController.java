@@ -199,7 +199,7 @@ public class PathfindingPageController {
                 mapInsertController.addAdornerElements(
                     nodes, edges, mapInsertController.floorNumber);
 
-                resetMouseHandlingForAdorners();
+                // resetMouseHandlingForAdorners();
 
                 startLocationBox.setValue(start);
                 endLocationBox.setValue(end);
@@ -217,7 +217,7 @@ public class PathfindingPageController {
             mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(index));
             mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
-            resetMouseHandlingForAdorners();
+            // resetMouseHandlingForAdorners();
             drawPath(pathNodes);
             mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
           });
@@ -254,18 +254,24 @@ public class PathfindingPageController {
     // Select startNodeBox
     startLocationBox.requestFocus();
 
-    /*
     // Mouse Click on Map not Node
     mapInsertController
         .getAdornerPane()
-        .setOnMouseClicked(
+        .setOnMouseReleased(
             e -> {
+              if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
+                handleClickOnNode((MapController.CircleEx) e.getPickResult().getIntersectedNode());
+              } else { // Clicked on blank map
+                mapInsertController.defaultOnMouseReleased(e);
 
-              MapController.CircleEx p = getNearestNode(e.getX(), e.getY());
-              if (p != null) {
-                handleClickOnNode(p);
+                if (!mapInsertController.wasLastClickDrag()) {
+                  MapController.CircleEx p = getNearestNode(e.getX(), e.getY());
+                  if (p != null) {
+                    handleClickOnNode(p);
+                  }
+                }
               }
-            });*/
+            });
 
     // Init Map
     Platform.runLater(
@@ -275,7 +281,7 @@ public class PathfindingPageController {
 
           mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
-          resetMouseHandlingForAdorners();
+          // resetMouseHandlingForAdorners();
         });
 
     Platform.runLater(() -> startLocationBox.requestFocus());
@@ -308,7 +314,7 @@ public class PathfindingPageController {
       }
     }
 
-    // use nearest neighbor to find nearest node
+    // use circle to find nearest node
     double minDistance = circle.getRadius();
     MapController.CircleEx minNode = null;
     for (MapController.CircleEx n : nodesWithinRange) {
@@ -345,21 +351,6 @@ public class PathfindingPageController {
       // display new stage
       stage.show();
     } catch (Exception exp) {
-    }
-  }
-
-  // Set selection click handlers
-  protected void resetMouseHandlingForAdorners() {
-    for (javafx.scene.Node p : mapInsertController.getAdornerPane().getChildren()) {
-      try {
-
-        if (p instanceof MapController.CircleEx) {
-          setNodeOnClick((MapController.CircleEx) p);
-        }
-
-      } catch (Exception exp) {
-        // System.out.println("no point selected");
-      }
     }
   }
 
