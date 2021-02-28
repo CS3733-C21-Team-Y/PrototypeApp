@@ -2,9 +2,9 @@ package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
-import edu.wpi.cs3733.c21.teamY.algorithms.AStarAlgorithm;
-import edu.wpi.cs3733.c21.teamY.algorithms.DijkstrasAlgorithm;
+import edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls;
 import edu.wpi.cs3733.c21.teamY.entity.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -151,8 +151,37 @@ public class PathfindingPageController {
                 String start = (String) startLocationBox.getValue();
                 String end = (String) endLocationBox.getValue();
 
-                resetGraphNodesEdges(!newValue);
-                resetComboBoxes();
+                if (!newValue) {
+                  nodes = ActiveGraph.getNodes();
+                  edges = ActiveGraph.getEdges();
+                  graph = ActiveGraph.getActiveGraph();
+
+                  startLocationBox.getItems().remove(0, startLocationBox.getItems().size());
+                  endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
+
+                  for (Node node : nodes) {
+                    startLocationBox.getItems().add(node.nodeID);
+                  }
+
+                  for (Node node : nodes) {
+                    endLocationBox.getItems().add(node.nodeID);
+                  }
+                } else {
+                  nodes = ActiveGraphNoStairs.getNodes();
+                  edges = ActiveGraphNoStairs.getEdges();
+                  graph = ActiveGraphNoStairs.getActiveGraph();
+
+                  startLocationBox.getItems().remove(0, startLocationBox.getItems().size());
+                  endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
+
+                  for (Node node : nodes) {
+                    startLocationBox.getItems().add(node.nodeID);
+                  }
+
+                  for (Node node : nodes) {
+                    endLocationBox.getItems().add(node.nodeID);
+                  }
+                }
 
                 mapInsertController.removeAllAdornerElements();
                 mapInsertController.addAdornerElements(
@@ -172,14 +201,15 @@ public class PathfindingPageController {
       i++;
     }
 
-    // Movement and zoom buttons
     upButton.setOnAction(e -> mapInsertController.panOnButtons("up"));
     downButton.setOnAction(e -> mapInsertController.panOnButtons("down"));
     leftButton.setOnAction(e -> mapInsertController.panOnButtons("left"));
     rightButton.setOnAction(e -> mapInsertController.panOnButtons("right"));
     zoomInButton.setOnAction(e -> mapInsertController.zoomOnButtons("in"));
     zoomOutButton.setOnAction(e -> mapInsertController.zoomOnButtons("out"));
+
     zoomSlider.setDisable(true);
+
     zoomLabel.setText("Zoom");
 
     // Set handler for Mouse Click Anywhere on Map
@@ -200,7 +230,7 @@ public class PathfindingPageController {
     // Init Map
     Platform.runLater(
         () -> {
-          mapInsertController.getFloorMenu().setText("Parking lot");
+          mapInsertController.getFloorMenu().setText("Parking");
           mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
 
           mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
@@ -349,11 +379,7 @@ public class PathfindingPageController {
     mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   }
 
-  /**
-   * Return to homepage button
-   *
-   * @param e
-   */
+  // button event handler
   @FXML
   private void buttonClicked(ActionEvent e) {
     // error handling for FXMLLoader.load
@@ -430,25 +456,27 @@ public class PathfindingPageController {
       if (bathroomCheck.isSelected()) {
         endLocations.add(
             0,
-            DijkstrasAlgorithm.dijkstraDetour(
+            AlgorithmCalls.dijkstraDetour(
                 graph, (String) startLocationBox.getValue(), endLocations, "REST"));
       }
       if (cafeCheck.isSelected()) {
         endLocations.add(
             0,
-            DijkstrasAlgorithm.dijkstraDetour(
+            AlgorithmCalls.dijkstraDetour(
                 graph, (String) startLocationBox.getValue(), endLocations, "FOOD"));
       }
       if (kioskCheck.isSelected()) {
         endLocations.add(
             0,
-            DijkstrasAlgorithm.dijkstraDetour(
+            AlgorithmCalls.dijkstraDetour(
                 graph, (String) startLocationBox.getValue(), endLocations, "KIOS"));
       }
 
+      pathActive = true;
+
       mapInsertController.clearSelection();
       ArrayList<Node> nodes =
-          AStarAlgorithm.aStar(graph, (String) startLocationBox.getValue(), endLocations);
+          AlgorithmCalls.aStar(graph, (String) startLocationBox.getValue(), endLocations);
 
       pathNodes = nodes;
       drawPath(pathNodes);
