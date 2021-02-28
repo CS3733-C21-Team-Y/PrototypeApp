@@ -1,8 +1,7 @@
 package edu.wpi.cs3733.c21.teamY;
 
-import java.io.IOException;
-
 import edu.wpi.cs3733.c21.teamY.pages.StageInformation;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -53,7 +52,8 @@ public class App extends Application {
     stage.setOnCloseRequest(
         e -> System.out.println("put stuff here to run when the x button is pressed"));
 
-    stage.setUserData(new StageInformation("ServiceRequestNavigator.fxml", "ServiceRequestManagerSubpage.fxml"));
+    stage.setUserData(
+        new StageInformation("ServiceRequestNavigator.fxml", "ServiceRequestManagerSubpage.fxml"));
     // makes the main fxml page into the primary page
     Parent main = FXMLLoader.load(getClass().getResource("pages/MainPage.fxml"));
     mainPage = new Scene(main);
