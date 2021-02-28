@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -15,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -39,10 +41,14 @@ public class MapController {
 
   private double startx, starty, endx, endy;
 
+  private boolean dragging = false;
+  private boolean lastClickDrag = false;
+
+  private double dragStartX;
+  private double dragStartY;
+
   private ArrayList<CircleEx> selectedNodes = new ArrayList<CircleEx>();
   private ArrayList<LineEx> selectedEdges = new ArrayList<LineEx>();
-
-  protected ArrayList<CircleEx> movedNodes = new ArrayList<CircleEx>();
 
   private FileChooser fc = new FileChooser();
   private File file;
@@ -116,6 +122,14 @@ public class MapController {
     return mapOverlayUIGridPane;
   }
 
+  public boolean isDragging() {
+    return dragging;
+  }
+
+  public boolean wasLastClickDrag() {
+    return lastClickDrag;
+  }
+
   public MapController() {}
 
   @FXML
@@ -134,6 +148,62 @@ public class MapController {
     adornerPane.setScaleY(mapImageView.getScaleY());
 
     mapOverlayUIGridPane.setPickOnBounds(false);
+
+    // Default AdornerPane click and drag
+    adornerPane.setOnMousePressed(
+        e -> {
+          defaultOnMousePressed(e);
+        });
+    adornerPane.setOnMouseDragged(
+        e -> {
+          defaultOnMouseDragged(e);
+        });
+    adornerPane.setOnMouseReleased(
+        e -> {
+          defaultOnMouseReleased(e);
+        });
+
+    // Set Zoom
+    anchor.setOnKeyPressed(
+        e -> {
+          scrollOnPress(e);
+        });
+    anchor.setOnKeyReleased(e -> scrollOnRelease(e));
+    containerStackPane.setOnScroll(e -> zoom(e));
+
+    // Sets Map clip so nothing can appear outside map bounds
+    Platform.runLater(
+        () -> {
+          Rectangle viewWindow =
+              new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
+          containerStackPane.setClip(viewWindow);
+        });
+  }
+
+  // Default Drag Handlers
+  protected void defaultOnMousePressed(MouseEvent e) {
+    dragStartX = e.getX();
+    dragStartY = e.getY();
+  }
+
+  protected void defaultOnMouseDragged(MouseEvent e) {
+
+    dragging = true;
+
+    double dragDeltaX = dragStartX - e.getX();
+    double dragDeltaY = dragStartY - e.getY();
+
+    mapImageView.setTranslateX(
+        mapImageView.getTranslateX() - dragDeltaX * mapImageView.getScaleX());
+    mapImageView.setTranslateY(
+        mapImageView.getTranslateY() - dragDeltaY * mapImageView.getScaleY());
+    adornerPane.setTranslateX(adornerPane.getTranslateX() - dragDeltaX * mapImageView.getScaleX());
+    adornerPane.setTranslateY(adornerPane.getTranslateY() - dragDeltaY * mapImageView.getScaleY());
+  }
+
+  protected void defaultOnMouseReleased(MouseEvent e) {
+    lastClickDrag = dragging;
+    dragging = false;
   }
 
   // Image stuff
@@ -230,9 +300,11 @@ public class MapController {
   }
 
   protected LineEx addEdgeLine(Edge e) {
+    CircleEx n = null;
+    CircleEx m = null;
     try {
-      CircleEx n = (CircleEx) adornerPane.getScene().lookup("#" + e.getStartNodeID());
-      CircleEx m = (CircleEx) adornerPane.getScene().lookup("#" + e.getEndNodeID());
+      n = (CircleEx) adornerPane.getScene().lookup("#" + e.getStartNodeID());
+      m = (CircleEx) adornerPane.getScene().lookup("#" + e.getEndNodeID());
 
       // System.out.println(e.edgeID);
       startx = n.getCenterX();
@@ -245,10 +317,19 @@ public class MapController {
     }
 
     LineEx lineEx = new LineEx(startx, starty, endx, endy);
+    lineEx.startNode = n;
+    lineEx.endNode = m;
     lineEx.setId(e.getEdgeID());
     lineEx.setStrokeWidth(3);
     adornerPane.getChildren().add(lineEx);
     lineEx.toBack();
+
+    if (n != null && !n.connectingEdges.contains(lineEx)) {
+      n.connectingEdges.add(lineEx);
+    }
+    if (m != null && !m.connectingEdges.contains(lineEx)) {
+      m.connectingEdges.add(lineEx);
+    }
 
     updateMapScreen();
 
@@ -368,17 +449,24 @@ public class MapController {
   // Selection functions
   protected void clearSelection() {
     // Cannot just deselect because for loop
+    clearCircleSelection();
+    clearLineSelection();
+  }
+
+  protected void clearCircleSelection() {
     for (CircleEx c : selectedNodes) {
       c.setStrokeWidth(0);
       c.hasFocus = false;
     }
+    selectedNodes = new ArrayList<CircleEx>();
+  }
+
+  protected void clearLineSelection() {
     for (LineEx l : selectedEdges) {
       l.setStrokeWidth(3);
       l.setStroke(Paint.valueOf("BLACK"));
       l.hasFocus = false;
     }
-
-    selectedNodes = new ArrayList<CircleEx>();
     selectedEdges = new ArrayList<LineEx>();
   }
 
@@ -414,6 +502,18 @@ public class MapController {
       l.setStroke(Paint.valueOf("BLACK"));
       selectedEdges.remove(l);
       l.hasFocus = false;
+    }
+  }
+
+  protected void selectCirclesFromList(ArrayList<CircleEx> list) {
+    for (CircleEx circle : list) {
+      selectCircle(circle);
+    }
+  }
+
+  protected void selectLinesFromList(ArrayList<LineEx> list) {
+    for (LineEx line : list) {
+      selectLine(line);
     }
   }
 
@@ -464,10 +564,6 @@ public class MapController {
       adornerPane.translateXProperty().setValue(adornerPane.getTranslateX() + movement);
     } else {
     }
-
-    Rectangle viewWindow =
-        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
-    containerStackPane.setClip(viewWindow);
   }
 
   protected void resetMapView() {
@@ -522,15 +618,26 @@ public class MapController {
 
     } else {
     }
-
-    Rectangle viewWindow =
-        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
-    containerStackPane.setClip(viewWindow);
   }
 
   // Better Adorners
   public class CircleEx extends Circle {
     public boolean hasFocus = false;
+    public ArrayList<LineEx> connectingEdges = new ArrayList<LineEx>();
+
+    public void updateAdjacentEdges() {
+      for (LineEx edge : connectingEdges) {
+        if (edge.startNode == this) {
+          edge.setStartX(this.getCenterX());
+          edge.setStartY(this.getCenterY());
+        } else if (edge.endNode == this) {
+          edge.setEndX(this.getCenterX());
+          edge.setEndY(this.getCenterY());
+        } else {
+          System.out.println("Circle found edge that didnt have it added");
+        }
+      }
+    }
 
     public CircleEx(double radius) {
       super(radius);
@@ -554,51 +661,13 @@ public class MapController {
   public class LineEx extends Line {
     public boolean hasFocus = false;
 
+    public CircleEx startNode;
+    public CircleEx endNode;
+
     public LineEx() {}
 
     public LineEx(double startX, double startY, double endX, double endY) {
       super(startX, startY, endX, endY);
-    }
-  }
-
-  protected void moveSelected(ArrayList<CircleEx> circles, ArrayList<LineEx> lines, String dir) {
-    int movement = 10;
-    for (CircleEx c : circles) {
-      if (dir.equals("up")) {
-        c.setCenterY(c.getCenterY() - movement);
-      } else if (dir.equals("down")) {
-        c.setCenterY(c.getCenterY() + movement);
-      } else if (dir.equals("left")) {
-        c.setCenterX(c.getCenterX() - movement);
-      } else if (dir.equals("right")) {
-        c.setCenterX(c.getCenterX() + movement);
-      } else {
-
-      }
-
-      if (!movedNodes.contains(c)) {
-        movedNodes.add(c);
-      }
-    }
-
-    System.out.println(movedNodes);
-
-    for (LineEx l : lines) {
-      if (dir.equals("up")) {
-        l.setStartY(l.getStartY() - movement);
-        l.setEndY(l.getEndY() - movement);
-      } else if (dir.equals("down")) {
-        l.setStartY(l.getStartY() + movement);
-        l.setEndY(l.getEndY() + movement);
-      } else if (dir.equals("left")) {
-        l.setStartX(l.getStartX() - movement);
-        l.setEndX(l.getEndX() - movement);
-      } else if (dir.equals("right")) {
-        l.setStartX(l.getStartX() + movement);
-        l.setEndX(l.getEndX() + movement);
-      } else {
-
-      }
     }
   }
 }
