@@ -52,7 +52,7 @@ public class App extends Application {
         e -> System.out.println("put stuff here to run when the x button is pressed"));
 
     // makes the main fxml page into the primary page
-    Parent main = FXMLLoader.load(getClass().getResource("pages/MasterPage.fxml"));
+    Parent main = FXMLLoader.load(getClass().getResource("pages/MainPage.fxml"));
     mainPage = new Scene(main);
 
     // sets the title of the window in the upper right
