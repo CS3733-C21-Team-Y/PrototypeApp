@@ -86,6 +86,15 @@ public class GraphEditPageController {
 
   @FXML private MapController mapInsertController;
 
+  private double dragStartX;
+  private double dragStartY;
+
+  private boolean draggingNode = false;
+  private ArrayList<MapController.CircleEx> nodesBeingDragged =
+      new ArrayList<MapController.CircleEx>();
+
+  private MapController.CircleEx headNodeBeingDragged = null;
+
   JFXDialog dialog = new JFXDialog();
 
   public GraphEditPageController() {}
@@ -130,26 +139,26 @@ public class GraphEditPageController {
     moveNodeUpButton.setOnAction(
         e -> {
           // up
-          moveSelected(mapInsertController.getSelectedNodes(), 0, 0 - getOneTapMoveDist());
-          updateNodes();
+          moveSelectedBy(mapInsertController.getSelectedNodes(), 0, 0 - getOneTapMoveDist());
+          updateNodePositionsInDB();
         });
     moveNodeDownButton.setOnAction(
         e -> {
           // down
-          moveSelected(mapInsertController.getSelectedNodes(), 0, getOneTapMoveDist());
-          updateNodes();
+          moveSelectedBy(mapInsertController.getSelectedNodes(), 0, getOneTapMoveDist());
+          updateNodePositionsInDB();
         });
     moveNodeLeftButton.setOnAction(
         e -> {
           // left
-          moveSelected(mapInsertController.getSelectedNodes(), 0, 0 - getOneTapMoveDist());
-          updateNodes();
+          moveSelectedBy(mapInsertController.getSelectedNodes(), 0, 0 - getOneTapMoveDist());
+          updateNodePositionsInDB();
         });
     moveNodeRightButton.setOnAction(
         e -> {
           // right
-          moveSelected(mapInsertController.getSelectedNodes(), 0, getOneTapMoveDist());
-          updateNodes();
+          moveSelectedBy(mapInsertController.getSelectedNodes(), 0, getOneTapMoveDist());
+          updateNodePositionsInDB();
         });
 
     selectNewMapImage.setText("Select New Map");
@@ -256,45 +265,100 @@ public class GraphEditPageController {
           addEdgecb.setSelected(false);
         });
 
-    // Deselect if not shifting and clicked on not an Adorner
+    // Mouse Down Override
+    mapInsertController
+        .getAdornerPane()
+        .setOnMousePressed(
+            e -> {
+              mapInsertController.defaultOnMousePressed(e);
+              if ((e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx)) {
+                // Tentatively initiate them for drag
+                MapController.CircleEx mouseDownNode =
+                    (MapController.CircleEx) e.getPickResult().getIntersectedNode();
+                if (mouseDownNode.hasFocus) {
+                  nodesBeingDragged = mapInsertController.getSelectedNodes();
+                }
+                headNodeBeingDragged = mouseDownNode;
+                nodesBeingDragged.add(headNodeBeingDragged);
+              }
+              dragStartX = e.getX();
+              dragStartY = e.getY();
+            });
+
+    // Mouse Dragged Override
+    mapInsertController
+        .getAdornerPane()
+        .setOnMouseDragged(
+            e -> {
+              if (nodesBeingDragged.size() > 0) {
+                draggingNode = true;
+
+                mapInsertController.clearSelection();
+                mapInsertController.selectCirclesFromList(nodesBeingDragged);
+
+                double deltaX = e.getX() - headNodeBeingDragged.getCenterX();
+                double deltaY = e.getY() - headNodeBeingDragged.getCenterY();
+                moveSelectedBy(mapInsertController.getSelectedNodes(), deltaX, deltaY);
+              } else {
+                mapInsertController.defaultOnMouseDragged(e);
+              }
+            });
+
+    // Mouse Up Override
     mapInsertController
         .getAdornerPane()
         .setOnMouseReleased(
             e -> {
-              // Node
-              if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
-                if (addEdgecb.isSelected() && mapInsertController.getSelectedNodes().size() == 1) {
-                  createEdge((MapController.CircleEx) e.getPickResult().getIntersectedNode());
-                } else {
-                  handleClickOnNode(
-                      (MapController.CircleEx) e.getPickResult().getIntersectedNode());
-                }
-              }
-              // Edge
-              else if (e.getPickResult().getIntersectedNode() instanceof MapController.LineEx) {
-                handleClickOnEdge((MapController.LineEx) e.getPickResult().getIntersectedNode());
-              }
-              // Blank Map
-              else {
-                // Clicked on blank map
-                mapInsertController.defaultOnMouseReleased(e);
+              // If not letting go of a drag
+              mapInsertController.defaultOnMouseReleased(e);
 
-                if (!mapInsertController.wasLastClickDrag()) {
-                  // If wasnt a drag, but clicked on blank map
-                  if (addNodecb.isSelected()) {
-                    mapInsertController.clearSelection();
-                    createNodecb(e);
+              if (!mapInsertController.wasLastClickDrag() && !draggingNode) {
+
+                // Node
+                if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
+                  if (addEdgecb.isSelected()
+                      && mapInsertController.getSelectedNodes().size() == 1) {
+                    createEdge((MapController.CircleEx) e.getPickResult().getIntersectedNode());
                   } else {
-                    if (!shiftPressed
-                        && startEdgeFlag
-                        && !(e.getPickResult().getIntersectedNode()
-                                instanceof MapController.CircleEx
-                            || e.getPickResult().getIntersectedNode()
-                                instanceof MapController.LineEx))
+                    handleClickOnNode(
+                        (MapController.CircleEx) e.getPickResult().getIntersectedNode());
+                  }
+                }
+                // Edge
+                else if (e.getPickResult().getIntersectedNode() instanceof MapController.LineEx) {
+                  handleClickOnEdge((MapController.LineEx) e.getPickResult().getIntersectedNode());
+                }
+                // Blank Map
+                else {
+                  // Clicked on blank map
+                  mapInsertController.defaultOnMouseReleased(e);
+
+                  if (!mapInsertController.wasLastClickDrag()) {
+                    // If wasnt a drag, but clicked on blank map
+                    if (addNodecb.isSelected()) {
                       mapInsertController.clearSelection();
+                      createNodecb(e);
+                    } else {
+                      if (!shiftPressed
+                          && startEdgeFlag
+                          && !(e.getPickResult().getIntersectedNode()
+                                  instanceof MapController.CircleEx
+                              || e.getPickResult().getIntersectedNode()
+                                  instanceof MapController.LineEx))
+                        mapInsertController.clearSelection();
+                    }
                   }
                 }
               }
+              // If this is a node drag end
+              else if (draggingNode) {
+                updateNodePositionsInDB();
+              }
+
+              // Needs to happen anyway because of tentative selecition
+              draggingNode = false;
+              nodesBeingDragged = new ArrayList<MapController.CircleEx>();
+              headNodeBeingDragged = null;
             });
   }
 
@@ -531,13 +595,13 @@ public class GraphEditPageController {
     }
   }
 
-  private void updateNodes() {
+  private void updateNodePositionsInDB() {
     for (MapController.CircleEx c : movedNodes) {
+      // System.out.println("updating DB with moved nodes");
       JDBCUtils.updateNodeCoordsOnly(
           c.getId(),
           Math.floor(mapInsertController.scaleUpXCoords(c.getCenterX())),
           Math.floor(mapInsertController.scaleUpYCoords(c.getCenterY())));
-      c.updateAdjacentEdges();
     }
 
     // Absolutely not. do not update active graph every time you move a node thats rediculouis
@@ -553,7 +617,7 @@ public class GraphEditPageController {
 
   private ArrayList<MapController.CircleEx> movedNodes = new ArrayList<MapController.CircleEx>();
 
-  protected void moveSelected(
+  protected void moveSelectedBy(
       ArrayList<MapController.CircleEx> circles, double deltaX, double deltaY) {
     for (MapController.CircleEx c : circles) {
       c.setCenterX(c.getCenterX() + deltaX);
@@ -562,8 +626,29 @@ public class GraphEditPageController {
       if (!movedNodes.contains(c)) {
         movedNodes.add(c);
       }
+
+      c.updateAdjacentEdges();
     }
-    System.out.println(movedNodes);
+  }
+
+  /**
+   * moveSelectedTo takes in coords relative to anchorpane and moves the circles there
+   *
+   * @param circles
+   * @param x
+   * @param y
+   */
+  protected void moveSelectedTo(ArrayList<MapController.CircleEx> circles, double x, double y) {
+    for (MapController.CircleEx c : circles) {
+      c.setCenterX(x);
+      c.setCenterY(y);
+
+      if (!movedNodes.contains(c)) {
+        movedNodes.add(c);
+      }
+
+      c.updateAdjacentEdges();
+    }
   }
 
   private double getOneTapMoveDist() {
