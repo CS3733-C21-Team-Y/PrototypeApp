@@ -70,6 +70,8 @@ public class GraphEditPageController {
   private int nodeIDCounter;
   private boolean shiftPressed = false;
 
+  private double minimumSelectionMove = 10;
+
   @FXML private JFXButton panUpButton;
   @FXML private JFXButton panDownButton;
   @FXML private JFXButton panRightButton;
@@ -127,22 +129,26 @@ public class GraphEditPageController {
 
     moveNodeUpButton.setOnAction(
         e -> {
-          moveSelected(mapInsertController.getSelectedNodes(), "up");
+          // up
+          moveSelected(mapInsertController.getSelectedNodes(), 0, 0 - getOneTapMoveDist());
           updateNodes();
         });
     moveNodeDownButton.setOnAction(
         e -> {
-          moveSelected(mapInsertController.getSelectedNodes(), "down");
+          // down
+          moveSelected(mapInsertController.getSelectedNodes(), 0, getOneTapMoveDist());
           updateNodes();
         });
     moveNodeLeftButton.setOnAction(
         e -> {
-          moveSelected(mapInsertController.getSelectedNodes(), "left");
+          // left
+          moveSelected(mapInsertController.getSelectedNodes(), 0, 0 - getOneTapMoveDist());
           updateNodes();
         });
     moveNodeRightButton.setOnAction(
         e -> {
-          moveSelected(mapInsertController.getSelectedNodes(), "right");
+          // right
+          moveSelected(mapInsertController.getSelectedNodes(), 0, getOneTapMoveDist());
           updateNodes();
         });
 
@@ -547,25 +553,20 @@ public class GraphEditPageController {
 
   private ArrayList<MapController.CircleEx> movedNodes = new ArrayList<MapController.CircleEx>();
 
-  protected void moveSelected(ArrayList<MapController.CircleEx> circles, String dir) {
-    int movement = 10;
+  protected void moveSelected(
+      ArrayList<MapController.CircleEx> circles, double deltaX, double deltaY) {
     for (MapController.CircleEx c : circles) {
-      if (dir.equals("up")) {
-        c.setCenterY(c.getCenterY() - movement);
-      } else if (dir.equals("down")) {
-        c.setCenterY(c.getCenterY() + movement);
-      } else if (dir.equals("left")) {
-        c.setCenterX(c.getCenterX() - movement);
-      } else if (dir.equals("right")) {
-        c.setCenterX(c.getCenterX() + movement);
-      } else {
-
-      }
+      c.setCenterX(c.getCenterX() + deltaX);
+      c.setCenterY(c.getCenterY() + deltaY);
 
       if (!movedNodes.contains(c)) {
         movedNodes.add(c);
       }
     }
     System.out.println(movedNodes);
+  }
+
+  private double getOneTapMoveDist() {
+    return minimumSelectionMove / mapInsertController.getAdornerPane().getScaleX();
   }
 }

@@ -449,17 +449,24 @@ public class MapController {
   // Selection functions
   protected void clearSelection() {
     // Cannot just deselect because for loop
+    clearCircleSelection();
+    clearLineSelection();
+  }
+
+  protected void clearCircleSelection() {
     for (CircleEx c : selectedNodes) {
       c.setStrokeWidth(0);
       c.hasFocus = false;
     }
+    selectedNodes = new ArrayList<CircleEx>();
+  }
+
+  protected void clearLineSelection() {
     for (LineEx l : selectedEdges) {
       l.setStrokeWidth(3);
       l.setStroke(Paint.valueOf("BLACK"));
       l.hasFocus = false;
     }
-
-    selectedNodes = new ArrayList<CircleEx>();
     selectedEdges = new ArrayList<LineEx>();
   }
 
