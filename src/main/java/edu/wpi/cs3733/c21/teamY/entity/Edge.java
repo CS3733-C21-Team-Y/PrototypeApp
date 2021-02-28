@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.entity;
 
-public class Edge {
+public class Edge extends Entity {
   public Edge(String edgeID, String startNodeID, String endNodeID) {
     this.edgeID = edgeID;
     this.startNodeID = startNodeID;

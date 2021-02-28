@@ -2,7 +2,7 @@ package edu.wpi.cs3733.c21.teamY.entity;
 
 import java.util.ArrayList;
 
-public class Node {
+public class Node extends Entity {
   private ArrayList<Node> neighbors;
 
   // DO NOT PUT ANY FIELDS BEFORE THESE OR CHANGE THEIR ORDER PLEASE!!
