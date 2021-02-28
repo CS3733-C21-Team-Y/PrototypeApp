@@ -23,7 +23,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -95,13 +94,8 @@ public class GraphEditPageController {
     anchor.setOnKeyPressed(
         e -> {
           mapInsertController.scrollOnPress(e);
-          Rectangle viewWindow =
-              new Rectangle(
-                  0, 0, stackPane.getWidth(), mapInsertController.containerStackPane.getHeight());
-          mapInsertController.containerStackPane.setClip(viewWindow);
 
-          // SHOULD BE IMPROVED
-
+          // Should be improved
           if (e.isShiftDown()) {
             shiftPressed = true;
           } else {
@@ -119,6 +113,7 @@ public class GraphEditPageController {
             shiftPressed = false;
           }
         });
+
     resetView.setOnAction(e -> mapInsertController.resetMapView());
     resetView.toFront();
     mapInsertController.containerStackPane.setOnScroll(e -> mapInsertController.zoom(e));
@@ -265,66 +260,111 @@ public class GraphEditPageController {
           addEdgecb.setSelected(false);
         });
 
-    resetMouseHandlingForAdorners();
-
     // Deselect if not shifting and clicked on not an Adorner
     mapInsertController
         .getAdornerPane()
-        .setOnMouseClicked(
+        .setOnMouseReleased(
             e -> {
-              if (addEdgecb.isSelected()) {
-                createEdgecb(e);
-              } else if (addNodecb.isSelected()) {
-                mapInsertController.clearSelection();
-                createNodecb(e);
-              } else {
-                if (!shiftPressed
-                    && startEdgeFlag
-                    && !(e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
-                        || e.getPickResult().getIntersectedNode() instanceof MapController.LineEx))
-                  mapInsertController.clearSelection();
+              // Node
+              if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
+                if (addEdgecb.isSelected()) {
+                  createEdgecb(e);
+                } else {
+                  handleClickOnNode(
+                      (MapController.CircleEx) e.getPickResult().getIntersectedNode());
+                }
+              }
+              // Edge
+              else if (e.getPickResult().getIntersectedNode() instanceof MapController.LineEx) {
+                handleClickOnEdge((MapController.LineEx) e.getPickResult().getIntersectedNode());
+              }
+              // Blank Map
+              else {
+                // Clicked on blank map
+                mapInsertController.defaultOnMouseReleased(e);
+
+                if (!mapInsertController.wasLastClickDrag()) {
+                  // If wasnt a drag, but clicked on blank map
+                  if (addNodecb.isSelected()) {
+                    mapInsertController.clearSelection();
+                    createNodecb(e);
+                  } else {
+                    if (!shiftPressed
+                        && startEdgeFlag
+                        && !(e.getPickResult().getIntersectedNode()
+                                instanceof MapController.CircleEx
+                            || e.getPickResult().getIntersectedNode()
+                                instanceof MapController.LineEx))
+                      mapInsertController.clearSelection();
+                  }
+                }
               }
             });
   }
 
-  // Set selection click handlers
-  protected void resetMouseHandlingForAdorners() {
-    for (javafx.scene.Node p : mapInsertController.getAdornerPane().getChildren()) {
-      try {
-
-        if (p instanceof MapController.CircleEx) {
-          setNodeOnClick((MapController.CircleEx) p);
-        } else if (p instanceof MapController.LineEx) {
-          setEdgeOnClick((MapController.LineEx) p);
-        } else {
-          System.out.println("Invalid Type Found: " + p.getTypeSelector());
-        }
-
-      } catch (Exception exp) {
-        System.out.println("no point selected");
+  private void handleClickOnNode(MapController.CircleEx node) {
+    // Node is selected
+    if (node.hasFocus) {
+      // If shift is pressed, deselect only clicked node
+      if (shiftPressed) {
+        mapInsertController.deSelectCircle(node);
+      }
+      // if shift not pressed, but multiple things are selected, only select clicked node
+      else if (mapInsertController.getSelectedNodes().size() > 1
+          || mapInsertController.getSelectedEdges().size() > 1) {
+        mapInsertController.clearSelection();
+        mapInsertController.selectCircle((MapController.CircleEx) node);
+        lastSelectedNode = (MapController.CircleEx) node;
+      }
+      // if its the only thing selected and u click again, it turns off
+      else {
+        mapInsertController.clearSelection();
+      }
+    }
+    // Node is not selected
+    else {
+      if (!shiftPressed) {
+        // No shift means clear and only select clicked
+        mapInsertController.clearSelection();
+        mapInsertController.selectCircle((MapController.CircleEx) node);
+        lastSelectedNode = (MapController.CircleEx) node;
+      } else {
+        // Shift adds node to selection
+        mapInsertController.selectCircle((MapController.CircleEx) node);
+        lastSelectedNode = (MapController.CircleEx) node;
       }
     }
   }
 
-  private void setNodeOnClick(MapController.CircleEx node) {
-    node.setOnMouseClicked(
-        w -> {
-          if (!shiftPressed) {
-            mapInsertController.clearSelection();
-          }
-          mapInsertController.selectCircle((MapController.CircleEx) node);
-          lastSelectedNode = (MapController.CircleEx) node;
-        });
-  }
-
-  private void setEdgeOnClick(MapController.LineEx edge) {
-    edge.setOnMouseClicked(
-        w -> {
-          if (!shiftPressed) {
-            mapInsertController.clearSelection();
-          }
-          mapInsertController.selectLine((MapController.LineEx) edge);
-        });
+  private void handleClickOnEdge(MapController.LineEx edge) {
+    // Node is selected
+    if (edge.hasFocus) {
+      // If shift is pressed, deselect only clicked node
+      if (shiftPressed) {
+        mapInsertController.deSelectLine((MapController.LineEx) edge);
+      }
+      // if shift not pressed, but multiple things are selected, only select clicked edge
+      else if (mapInsertController.getSelectedNodes().size() > 1
+          || mapInsertController.getSelectedEdges().size() > 1) {
+        mapInsertController.clearSelection();
+        mapInsertController.selectLine((MapController.LineEx) edge);
+      }
+      // if its the only thing selected and u click again, it turns off
+      else {
+        mapInsertController.clearSelection();
+      }
+    }
+    // Node is not selected
+    else {
+      if (!shiftPressed) {
+        // No shift means clear and only select clicked
+        mapInsertController.clearSelection();
+        mapInsertController.selectLine((MapController.LineEx) edge);
+      } else {
+        // Shift adds node to selection
+        mapInsertController.selectLine((MapController.LineEx) edge);
+      }
+    }
   }
 
   // this sucks
@@ -336,7 +376,6 @@ public class GraphEditPageController {
     nodes = mapInsertController.loadNodesFromCSV();
     edges = mapInsertController.loadEdgesFromCSV();
     mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
-    resetMouseHandlingForAdorners();
   }
 
   private void initImage() {
@@ -447,7 +486,6 @@ public class GraphEditPageController {
           System.out.println("nodeEdgeDispController.createEdgecb");
         }
         //        CSV.saveEdge(ed);
-        setEdgeOnClick(mapInsertController.addEdgeLine(ed));
         mapInsertController.clearSelection();
       }
     }
@@ -474,8 +512,6 @@ public class GraphEditPageController {
       } catch (Exception exception) {
         System.out.println("nodeEdgeDispController.createNodecb");
       }
-
-      setNodeOnClick(mapInsertController.addNodeCircle(n));
     }
   }
 
@@ -496,8 +532,6 @@ public class GraphEditPageController {
       // JDBCUtils.insert(JDBCUtils.insertString(n));
 
       JDBCUtils.insert(9, n, "Node");
-
-      setNodeOnClick(mapInsertController.addNodeCircle(n));
 
     } catch (Exception exception) {
       System.out.println("Can't create a node with text in the field input");
