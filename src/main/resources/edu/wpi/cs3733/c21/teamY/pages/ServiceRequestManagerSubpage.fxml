@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import de.jensd.fx.glyphs.octicons.OctIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="541.0" prefWidth="448.0" style="-fx-background-color: F5F5F5;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.ServiceRequestManagerSubpage">
+   <children>
+      <GridPane layoutY="7.0" prefHeight="260.0" prefWidth="248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="80.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <HBox alignment="CENTER" minHeight="40.0" prefHeight="40.0" prefWidth="399.0" style="-fx-background-color: efeff9;">
+               <children>
+                  <Label text="SERVICE REQUESTS" textAlignment="CENTER" textFill="#3b3d73">
+                     <font>
+                        <Font name="Calibri Bold" size="23.0" />
+                     </font>
+                  </Label>
+               </children>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="#0000004d" />
+               </effect>
+               <GridPane.margin>
+                  <Insets bottom="10.0" />
+               </GridPane.margin>
+            </HBox>
+            <GridPane GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="12.5" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" percentWidth="75.0" prefWidth="350.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="12.5" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <GridPane GridPane.columnIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" percentHeight="75.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: efeff9; -fx-background-radius: 10 10 0 0;">
+                           <children>
+                              <Label text="Human Resources" textFill="#5a5c94">
+                                 <font>
+                                    <Font name="Calibri Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </HBox>
+                        <GridPane GridPane.rowIndex="1">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 0 10;">
+                                 <children>
+                                    <JFXButton contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" style="-fx-background-color: transparent;" text="Language (Alex)">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="#5a5c94" glyphName="COMMENTS_ALT" size="30" />
+                                       </graphic>
+                                       <font>
+                                          <Font name="Calibri" size="11.0" />
+                                       </font>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF;" GridPane.columnIndex="1">
+                                 <children>
+                                    <JFXButton contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" style="-fx-background-color: transparent;" text="Gift Delivery (Cole)" textAlignment="CENTER" wrapText="true">
+                                       <font>
+                                          <Font name="Calibri" size="11.0" />
+                                       </font>
+                                       <graphic>
+                                          <OctIconView fill="#5a5c94" glyphName="GIFT" size="30" />
+                                       </graphic>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF;" GridPane.columnIndex="2">
+                                 <children>
+                                    <JFXButton contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" style="-fx-background-color: transparent;" text="Laundry (Brian)">
+                                       <font>
+                                          <Font name="Calibri" size="11.0" />
+                                       </font>
+                                       <graphic>
+                                          <MaterialDesignIconView fill="#5a5c94" glyphName="TSHIRT_CREW" size="30" />
+                                       </graphic>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="3">
+                                 <children>
+                                    <JFXButton contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" style="-fx-background-color: transparent;" text="Floral Delivery (Pat)" textAlignment="CENTER" wrapText="true">
+                                       <font>
+                                          <Font name="Calibri" size="11.0" />
+                                       </font>
+                                       <graphic>
+                                          <MaterialDesignIconView fill="#5a5c94" glyphName="FLOWER" size="30" />
+                                       </graphic>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </GridPane>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </GridPane.margin>
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" color="#0000004d" />
+                     </effect>
+                  </GridPane>
+                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" percentHeight="75.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: efeff9; -fx-background-radius: 10 10 0 0;">
+                                 <children>
+                                    <Label text="IT Help" textFill="#5a5c94">
+                                       <font>
+                                          <Font name="Calibri Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </HBox>
+                              <GridPane GridPane.rowIndex="1">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 0 10;">
+                                       <children>
+                                          <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="118.0" prefWidth="99.0" style="-fx-background-color: transparent;" text="Audio Visual (Corinne)" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font name="Calibri" size="11.0" />
+                                             </font>
+                                             <graphic>
+                                                <MaterialDesignIconView fill="#5a5c94" glyphName="HEADSET" size="30" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
+                                       <children>
+                                          <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="115.0" prefWidth="89.0" style="-fx-background-color: transparent;" text="Computer (Lia)" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font name="Calibri" size="11.0" />
+                                             </font>
+                                             <graphic>
+                                                <MaterialDesignIconView fill="#5a5c94" glyphName="LAPTOP_WINDOWS" size="30" text="" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                       <GridPane.margin>
+                                          <Insets right="10.0" />
+                                       </GridPane.margin>
+                                    </HBox>
+                                 </children>
+                              </GridPane>
+                           </children>
+                           <effect>
+                              <DropShadow blurType="GAUSSIAN" color="#0000004d" />
+                           </effect>
+                        </GridPane>
+                        <GridPane GridPane.columnIndex="1">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" percentHeight="75.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <HBox alignment="CENTER_LEFT" style="-fx-background-color: efeff9; -fx-background-radius: 10 10 0 0;">
+                                 <children>
+                                    <Label text="Medical Resources" textFill="#5a5c94">
+                                       <font>
+                                          <Font name="Calibri Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin>
+                                 <padding>
+                                    <Insets left="5.0" />
+                                 </padding>
+                              </HBox>
+                              <GridPane GridPane.rowIndex="1">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 0 10;">
+                                       <children>
+                                          <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="98.0" prefWidth="129.0" style="-fx-background-color: transparent;" text="Medicine (Ian)" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font name="Calibri" size="11.0" />
+                                             </font>
+                                             <graphic>
+                                                <MaterialDesignIconView fill="#5a5c94" glyphName="PILL" size="30" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                       <GridPane.margin>
+                                          <Insets left="10.0" />
+                                       </GridPane.margin>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
+                                       <children>
+                                          <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="141.0" prefWidth="123.0" style="-fx-background-color: transparent;" text="Sanitation (Manu)" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font name="Calibri" size="11.0" />
+                                             </font>
+                                             <graphic>
+                                                <MaterialDesignIconView fill="#5a5c94" glyphName="AUTO_FIX" size="30" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </GridPane>
+                           </children>
+                           <effect>
+                              <DropShadow blurType="GAUSSIAN" color="#0000004d" />
+                           </effect>
+                        </GridPane>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </GridPane.margin>
+                  </GridPane>
+                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" percentHeight="75.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: efeff9; -fx-background-radius: 10 10 0 0;">
+                                 <children>
+                                    <Label text="Facilities" textFill="#5a5c94">
+                                       <font>
+                                          <Font name="Calibri Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                              </HBox>
+                              <GridPane GridPane.rowIndex="1">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 0 10;">
+                                       <children>
+                                          <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="144.0" prefWidth="125.0" style="-fx-background-color: transparent;" text="Security (Greg)">
+                                             <font>
+                                                <Font name="Calibri" size="11.0" />
+                                             </font>
+                                             <graphic>
+                                                <MaterialDesignIconView fill="#5a5c94" glyphName="SHIELD_OUTLINE" size="30" text="" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
+                                       <children>
+                                          <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="116.0" prefWidth="121.0" style="-fx-background-color: transparent;" text="Maintenance (Brian)" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font name="Calibri" size="11.0" />
+                                             </font>
+                                             <graphic>
+                                                <OctIconView fill="#5a5c94" glyphName="TOOLS" size="30" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </GridPane>
+                           </children>
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                           <effect>
+                              <DropShadow blurType="GAUSSIAN" color="#0000004d" />
+                           </effect>
+                        </GridPane>
+                        <GridPane GridPane.columnIndex="1">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" percentHeight="75.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: efeff9; -fx-background-radius: 10 10 0 0;">
+                                 <children>
+                                    <Label text="Transportation" textFill="#5a5c94">
+                                       <font>
+                                          <Font name="Calibri Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </HBox>
+                              <GridPane GridPane.rowIndex="1">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 0 10;">
+                                       <children>
+                                          <Button contentDisplay="TOP" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Inside Hospital (Sam)" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font name="Calibri" size="11.0" />
+                                             </font>
+                                             <graphic>
+                                                <MaterialDesignIconView fill="#5a5c94" glyphName="DOWNLOAD" size="30" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
+                                       <children>
+                                          <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="98.0" prefWidth="102.0" style="-fx-background-color: transparent;" text="Outside Hospital (Yonghua)" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font name="Calibri" size="11.0" />
+                                             </font>
+                                             <graphic>
+                                                <MaterialDesignIconView fill="#5a5c94" glyphName="UPLOAD" size="30" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </GridPane>
+                           </children>
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                           <effect>
+                              <DropShadow blurType="GAUSSIAN" color="#0000004d" />
+                           </effect>
+                        </GridPane>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </GridPane.margin>
+                  </GridPane>
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="10.0" />
+               </GridPane.margin>
+            </GridPane>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
