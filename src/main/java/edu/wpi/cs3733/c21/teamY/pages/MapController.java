@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -134,7 +135,45 @@ public class MapController {
     adornerPane.setScaleY(mapImageView.getScaleY());
 
     mapOverlayUIGridPane.setPickOnBounds(false);
+
+    adornerPane.setOnMousePressed(
+        e -> {
+          dragStartX = e.getX();
+          dragStartY = e.getY();
+          System.out.println("Started at " + dragStartX + ", " + dragStartY);
+        });
+
+    adornerPane.setOnMouseDragged(
+        e -> {
+          double dragDeltaX = dragStartX - e.getX();
+          double dragDeltaY = dragStartY - e.getY();
+
+          mapImageView
+              .translateXProperty()
+              .setValue(mapImageView.getTranslateX() - dragDeltaX * mapImageView.getScaleX());
+          mapImageView
+              .translateYProperty()
+              .setValue(mapImageView.getTranslateY() - dragDeltaY * mapImageView.getScaleY());
+          adornerPane
+              .translateXProperty()
+              .setValue(adornerPane.getTranslateX() - dragDeltaX * mapImageView.getScaleX());
+          adornerPane
+              .translateYProperty()
+              .setValue(adornerPane.getTranslateY() - dragDeltaY * mapImageView.getScaleY());
+        });
+
+    // Sets Map clip so nothing can appear outside map bounds
+    Platform.runLater(
+        () -> {
+          Rectangle viewWindow =
+              new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
+          containerStackPane.setClip(viewWindow);
+        });
   }
+
+  private double dragStartX;
+  private double dragStartY;
+  private boolean dragging = false;
 
   // Image stuff
   protected void changeMapImage(MapController.MAP_PAGE floor) {
@@ -476,10 +515,6 @@ public class MapController {
       adornerPane.translateXProperty().setValue(adornerPane.getTranslateX() + movement);
     } else {
     }
-
-    Rectangle viewWindow =
-        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
-    containerStackPane.setClip(viewWindow);
   }
 
   protected void resetMapView() {
@@ -534,10 +569,6 @@ public class MapController {
 
     } else {
     }
-
-    Rectangle viewWindow =
-        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
-    containerStackPane.setClip(viewWindow);
   }
 
   // Better Adorners

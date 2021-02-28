@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.algorithms.AStarAlgorithm;
 import edu.wpi.cs3733.c21.teamY.algorithms.DijkstrasAlgorithm;
@@ -55,6 +56,8 @@ public class PathfindingPageController {
   MapController.CircleEx endNode;
 
   private Graph graph;
+
+  private JFXComboBox<String> cmb = new JFXComboBox<>();
 
   // unused constructor
   public PathfindingPageController() {}
@@ -251,16 +254,18 @@ public class PathfindingPageController {
     // Select startNodeBox
     startLocationBox.requestFocus();
 
+    /*
     // Mouse Click on Map not Node
     mapInsertController
         .getAdornerPane()
         .setOnMouseClicked(
             e -> {
+
               MapController.CircleEx p = getNearestNode(e.getX(), e.getY());
               if (p != null) {
                 handleClickOnNode(p);
               }
-            });
+            });*/
 
     // Init Map
     Platform.runLater(
