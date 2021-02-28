@@ -65,7 +65,7 @@ public class JDBCUtils {
       String sqlService =
           "create table Service(serviceID int PRIMARY KEY , type varchar(20) not null ,"
               + "description varchar(255) , location varchar(30), category varchar(20), "
-              + "urgency varchar(10), date varchar(20),status int,check ( status=-1 OR status =0 OR status=1 ))";
+              + "urgency varchar(10), date varchar(20), additionalInfo varchar(255), status int, check ( status=-1 OR status =0 OR status=1 ))";
       stmt.executeUpdate(sqlService);
 
       String sqlEmployee =
@@ -443,7 +443,7 @@ public class JDBCUtils {
    * @throws IllegalAccessException if access is denied
    */
   public static void saveService(Service service) throws SQLException, IllegalAccessException {
-    insert(8, service, "Service"); // save to database
+    insert(9, service, "Service"); // save to database
     // Used to save to CSV as well but marked deprecated - look into
   }
 
@@ -458,7 +458,7 @@ public class JDBCUtils {
     if (serviceType.equals("")) {
       string = "select * from ADMIN.Service";
     } else {
-      string = "select * from ADMIN.Service where type=" + serviceType;
+      string = "select * from ADMIN.Service where type ='" + serviceType + "'";
     }
     Connection conn = getConn();
     Statement statement = conn.createStatement();
@@ -471,6 +471,7 @@ public class JDBCUtils {
     String urgency;
     String date;
     int status;
+    String additionalInfo;
     while (resultSet.next()) {
       serviceID = resultSet.getInt(1);
       type = resultSet.getString(2);
@@ -479,9 +480,19 @@ public class JDBCUtils {
       category = resultSet.getString(5);
       urgency = resultSet.getString(6);
       date = resultSet.getString(7);
-      status = resultSet.getInt(8);
+      additionalInfo = resultSet.getString(8);
+      status = resultSet.getInt(9);
       Service service =
-          new Service(serviceID, type, description, location, category, urgency, date, status);
+          new Service(
+              serviceID,
+              type,
+              description,
+              location,
+              category,
+              urgency,
+              date,
+              additionalInfo,
+              status);
       services.add(service);
     }
     resultSet.close();
@@ -548,7 +559,9 @@ public class JDBCUtils {
       preparedStatement.setString(5, service.getCategory());
       preparedStatement.setString(6, service.getUrgency());
       preparedStatement.setString(7, service.getDate());
-      preparedStatement.setInt(8, service.getStatus());
+      preparedStatement.setString(8, service.getAdditionalInfo());
+      preparedStatement.setInt(9, service.getStatus());
+
       preparedStatement.executeUpdate();
 
     } catch (SQLException e) {
