@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="541.0" prefWidth="448.0" style="-fx-background-color: F5F5F5;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.ServiceRequestManagerSubpage">
+<AnchorPane prefHeight="541.0" prefWidth="448.0" style="-fx-background-color: F5F5F5;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.ServiceRequestManagerSubpageController">
    <children>
       <GridPane layoutY="7.0" prefHeight="260.0" prefWidth="248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -44,7 +44,7 @@
             <GridPane GridPane.rowIndex="1">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="12.5" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" percentWidth="75.0" prefWidth="350.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" percentWidth="75.0" prefWidth="0.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="12.5" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
@@ -119,7 +119,7 @@
                                           <Font name="Calibri" size="11.0" />
                                        </font>
                                        <graphic>
-                                          <MaterialDesignIconView fill="#5a5c94" glyphName="TSHIRT_CREW" size="30" />
+                                          <MaterialDesignIconView fx:id="laundryBtn" fill="#5a5c94" glyphName="TSHIRT_CREW" size="30" />
                                        </graphic>
                                     </JFXButton>
                                  </children>
