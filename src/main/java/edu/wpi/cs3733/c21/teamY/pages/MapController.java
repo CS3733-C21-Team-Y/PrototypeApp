@@ -165,6 +165,14 @@ public class MapController {
           defaultOnMouseReleased(e);
         });
 
+    // Set Zoom
+    anchor.setOnKeyPressed(
+        e -> {
+          scrollOnPress(e);
+        });
+    anchor.setOnKeyReleased(e -> scrollOnRelease(e));
+    containerStackPane.setOnScroll(e -> zoom(e));
+
     // Sets Map clip so nothing can appear outside map bounds
     Platform.runLater(
         () -> {

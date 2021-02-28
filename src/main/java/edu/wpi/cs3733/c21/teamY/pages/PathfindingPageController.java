@@ -13,12 +13,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javax.swing.*;
 
 public class PathfindingPageController {
 
@@ -59,26 +60,14 @@ public class PathfindingPageController {
 
   private JFXComboBox<String> cmb = new JFXComboBox<>();
 
-  // unused constructor
+  /** Do not use it. It does nothing. */
   public PathfindingPageController() {}
 
-  // this runs once the FXML loads in to attach functions to components
+  /** FXML initialise runs after loading FXML and sets important stuff */
   @FXML
   private void initialize() {
     // attaches a handler to the button with a lambda expression
     toHomeBtn.setOnAction(e -> buttonClicked(e));
-
-    // scroll
-    anchor.setOnKeyPressed(
-        e -> {
-          mapInsertController.scrollOnPress(e);
-          Rectangle viewWindow =
-              new Rectangle(
-                  0, 0, stackPane.getWidth(), mapInsertController.containerStackPane.getHeight());
-          mapInsertController.containerStackPane.setClip(viewWindow);
-        });
-    anchor.setOnKeyReleased(e -> mapInsertController.scrollOnRelease(e));
-    mapInsertController.containerStackPane.setOnScroll(e -> mapInsertController.zoom(e));
 
     // Reset view button
     resetView.setOnAction(e -> mapInsertController.resetMapView());
@@ -106,6 +95,7 @@ public class PathfindingPageController {
           }
         });
 
+    // Start and End location box events
     startLocationBox
         .getSelectionModel()
         .selectedItemProperty()
@@ -115,14 +105,12 @@ public class PathfindingPageController {
                 calculatePath();
               }
             });
-
     endLocationBox.setOnKeyPressed(
         e -> {
           if (e.getCode() == KeyCode.ENTER) {
             calculatePath();
           }
         });
-
     endLocationBox
         .getSelectionModel()
         .selectedItemProperty()
@@ -133,20 +121,19 @@ public class PathfindingPageController {
               }
             });
 
+    // Detour checkbox events
     bathroomCheck
         .selectedProperty()
         .addListener(
             (options, oldValue, newValue) -> {
               calculatePath();
             });
-
     cafeCheck
         .selectedProperty()
         .addListener(
             (options, oldValue, newValue) -> {
               calculatePath();
             });
-
     kioskCheck
         .selectedProperty()
         .addListener(
@@ -154,6 +141,7 @@ public class PathfindingPageController {
               calculatePath();
             });
 
+    // No Stairs checkbox events
     noStairsCheckBox
         .selectedProperty()
         .addListener(
@@ -163,43 +151,12 @@ public class PathfindingPageController {
                 String start = (String) startLocationBox.getValue();
                 String end = (String) endLocationBox.getValue();
 
-                if (!newValue) {
-                  nodes = ActiveGraph.getNodes();
-                  edges = ActiveGraph.getEdges();
-                  graph = ActiveGraph.getActiveGraph();
-
-                  startLocationBox.getItems().remove(0, startLocationBox.getItems().size());
-                  endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
-
-                  for (Node node : nodes) {
-                    startLocationBox.getItems().add(node.nodeID);
-                  }
-
-                  for (Node node : nodes) {
-                    endLocationBox.getItems().add(node.nodeID);
-                  }
-                } else {
-                  nodes = ActiveGraphNoStairs.getNodes();
-                  edges = ActiveGraphNoStairs.getEdges();
-                  graph = ActiveGraphNoStairs.getActiveGraph();
-
-                  startLocationBox.getItems().remove(0, startLocationBox.getItems().size());
-                  endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
-
-                  for (Node node : nodes) {
-                    startLocationBox.getItems().add(node.nodeID);
-                  }
-
-                  for (Node node : nodes) {
-                    endLocationBox.getItems().add(node.nodeID);
-                  }
-                }
+                resetGraphNodesEdges(!newValue);
+                resetComboBoxes();
 
                 mapInsertController.removeAllAdornerElements();
                 mapInsertController.addAdornerElements(
                     nodes, edges, mapInsertController.floorNumber);
-
-                // resetMouseHandlingForAdorners();
 
                 startLocationBox.setValue(start);
                 endLocationBox.setValue(end);
@@ -211,16 +168,7 @@ public class PathfindingPageController {
     int i = 0;
     for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
       int index = i;
-      menuItem.setOnAction(
-          e -> {
-            mapInsertController.removeAllAdornerElements();
-            mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(index));
-            mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
-
-            // resetMouseHandlingForAdorners();
-            drawPath(pathNodes);
-            mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
-          });
+      menuItem.setOnAction(e -> handleFloorChanged(e, index));
       i++;
     }
 
@@ -231,62 +179,37 @@ public class PathfindingPageController {
     rightButton.setOnAction(e -> mapInsertController.panOnButtons("right"));
     zoomInButton.setOnAction(e -> mapInsertController.zoomOnButtons("in"));
     zoomOutButton.setOnAction(e -> mapInsertController.zoomOnButtons("out"));
-
     zoomSlider.setDisable(true);
-
     zoomLabel.setText("Zoom");
 
-    // Populate local graph and selection menus
-    // nodes = mapInsertController.loadNodesFromCSV();
-    // edges = mapInsertController.loadEdgesFromCSV();
-    nodes = ActiveGraph.getNodes();
-    edges = ActiveGraph.getEdges();
-    graph = ActiveGraph.getActiveGraph();
-
-    for (Node node : nodes) {
-      startLocationBox.getItems().add(node.nodeID);
-    }
-
-    for (Node node : nodes) {
-      endLocationBox.getItems().add(node.nodeID);
-    }
-
-    // Select startNodeBox
-    startLocationBox.requestFocus();
-
-    // Mouse Click on Map not Node
+    // Set handler for Mouse Click Anywhere on Map
     mapInsertController
         .getAdornerPane()
         .setOnMouseReleased(
             e -> {
-              if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
-                handleClickOnNode((MapController.CircleEx) e.getPickResult().getIntersectedNode());
-              } else { // Clicked on blank map
-                mapInsertController.defaultOnMouseReleased(e);
-
-                if (!mapInsertController.wasLastClickDrag()) {
-                  MapController.CircleEx p = getNearestNode(e.getX(), e.getY());
-                  if (p != null) {
-                    handleClickOnNode(p);
-                  }
-                }
-              }
+              handleClickOnMap(e);
             });
+
+    // Select startNodeBox
+    startLocationBox.requestFocus();
+
+    // Init Graph
+    resetGraphNodesEdges(true);
+    resetComboBoxes();
 
     // Init Map
     Platform.runLater(
         () -> {
-          mapInsertController.getFloorMenu().setText("Parking");
+          mapInsertController.getFloorMenu().setText("Parking lot");
           mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
 
           mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
-          // resetMouseHandlingForAdorners();
+          startLocationBox.requestFocus();
         });
-
-    Platform.runLater(() -> startLocationBox.requestFocus());
   }
 
+  // NEAREST NODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   /**
    * Gets the nearest to node to an x and y coord double
    *
@@ -301,7 +224,7 @@ public class PathfindingPageController {
     Circle circle = new Circle();
     circle.setCenterX(xCoord);
     circle.setCenterY(yCoord);
-    circle.setRadius(25); // Change to adjust selection range
+    circle.setRadius(50); // Change to adjust selection range
     circle.setFill(Color.TRANSPARENT);
 
     // get nodes within circle
@@ -331,41 +254,36 @@ public class PathfindingPageController {
     return minNode;
   }
 
-  // button event handler
-  @FXML
-  private void buttonClicked(ActionEvent e) {
-    // error handling for FXMLLoader.load
-    try {
-      // initializing stage
-      Stage stage = null;
+  // EVENT HANDLING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-      if (e.getSource() == toHomeBtn) {
-        // gets the current stage
-        stage = (Stage) toHomeBtn.getScene().getWindow();
-        // sets the new scene to the alex page
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
+  /**
+   * handleClickOnMap handles all clicking on map, whether that be on a node or not
+   *
+   * @param e MouseEvent
+   */
+  private void handleClickOnMap(MouseEvent e) {
+    // Click intersects with node
+    if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
+      handleClickOnNode((MapController.CircleEx) e.getPickResult().getIntersectedNode());
+    } else {
+      // Clicked on blank map
+      mapInsertController.defaultOnMouseReleased(e);
 
-      } else {
+      if (!mapInsertController.wasLastClickDrag()) {
+        // If wasnt a drag, but clicked on blank map, select nearest node within reason
+        MapController.CircleEx p = getNearestNode(e.getX(), e.getY());
+        if (p != null) {
+          handleClickOnNode(p);
+        }
       }
-
-      // display new stage
-      stage.show();
-    } catch (Exception exp) {
     }
   }
 
-  private boolean isPathActive() {
-    return pathNodes.size() > 2;
-  }
-
-  private void setNodeOnClick(MapController.CircleEx node) {
-    node.setOnMouseClicked(
-        w -> {
-          handleClickOnNode(node);
-        });
-  }
-
-  // Select Node
+  /**
+   * handleClickOnNode Functionality for clicking on a node
+   *
+   * @param node CircleEx that is passed in
+   */
   private void handleClickOnNode(MapController.CircleEx node) {
     if (!node.hasFocus || (node.hasFocus && isPathActive())) {
 
@@ -415,8 +333,95 @@ public class PathfindingPageController {
     }
   }
 
-  // Calculates and draws the path
-  public void calculatePath() {
+  /**
+   * Handles changing of floors in floor menu
+   *
+   * @param e
+   * @param menuItemIndex
+   */
+  private void handleFloorChanged(ActionEvent e, int menuItemIndex) {
+    // This should be optimised to only switch if the floor actually changed, but its very fast, so
+    // I cant be bothered
+    mapInsertController.removeAllAdornerElements();
+    mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
+    mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
+    drawPath(pathNodes);
+    mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
+  }
+
+  /**
+   * Return to homepage button
+   *
+   * @param e
+   */
+  @FXML
+  private void buttonClicked(ActionEvent e) {
+    // error handling for FXMLLoader.load
+    try {
+      // initializing stage
+      Stage stage = null;
+
+      if (e.getSource() == toHomeBtn) {
+        // gets the current stage
+        stage = (Stage) toHomeBtn.getScene().getWindow();
+        // sets the new scene to the alex page
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
+
+      } else {
+      }
+
+      // display new stage
+      stage.show();
+    } catch (Exception exp) {
+    }
+  }
+
+  // PATHFINDING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  /**
+   * resetGraphNodesEdges sets graph, nodes, stairs, to updated values in ActiveGraph
+   *
+   * <p>WARNING: Uses old ActiveGraph/ActiveGraph implementation.
+   *
+   * @param stairs
+   */
+  private void resetGraphNodesEdges(boolean stairs) {
+    if (stairs) {
+      nodes = ActiveGraph.getNodes();
+      edges = ActiveGraph.getEdges();
+      graph = ActiveGraph.getActiveGraph();
+    } else {
+      nodes = ActiveGraphNoStairs.getNodes();
+      edges = ActiveGraphNoStairs.getEdges();
+      graph = ActiveGraphNoStairs.getActiveGraph();
+    }
+  }
+
+  /** resetComboBoxes Resets node comboboxes with values from nodes and edges */
+  private void resetComboBoxes() {
+    startLocationBox.getItems().remove(0, startLocationBox.getItems().size());
+    endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
+
+    for (Node node : nodes) {
+      startLocationBox.getItems().add(node.nodeID);
+    }
+
+    for (Node node : nodes) {
+      endLocationBox.getItems().add(node.nodeID);
+    }
+  }
+
+  /**
+   * isPathActive
+   *
+   * @return returns if there is a path that should be on screen (or if the saved path has > 2
+   *     nodes)
+   */
+  private boolean isPathActive() {
+    return pathNodes.size() > 2;
+  }
+
+  /** calculatePath Calculates the path between two nodes in the comboboxes and saves it to path */
+  private void calculatePath() {
     clearPath();
     if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
 
@@ -450,7 +455,12 @@ public class PathfindingPageController {
     }
   }
 
-  public void drawPath(ArrayList<Node> nodes) {
+  /**
+   * drawPath Selects all nodes and edges in passed in path
+   *
+   * @param nodes is the path passed in
+   */
+  private void drawPath(ArrayList<Node> nodes) {
     if (nodes != null) {
       for (int i = 0; i < nodes.size() - 1; i++) {
         MapController.CircleEx n =
@@ -497,7 +507,8 @@ public class PathfindingPageController {
     }
   }
 
-  public void clearPath() {
+  /** clearPath deselects all and clears saved path */
+  private void clearPath() {
     mapInsertController.clearSelection();
     pathNodes = new ArrayList<Node>();
   }
