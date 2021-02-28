@@ -70,7 +70,7 @@ public class JDBCUtils {
 
       String sqlEmployee =
           "create table Employee(firstName varchar(30) not null, lastName varchar(30) not null, employeeID varchar(30) PRIMARY KEY not null, "
-              + "accessLevel int not null, primaryWorkspace varchar(30))";
+              + "password varchar(40), email varchar(50), accessLevel int not null, primaryWorkspace varchar(30))";
       stmt.executeUpdate(sqlEmployee);
 
     } catch (SQLException ignored) {
@@ -231,6 +231,7 @@ public class JDBCUtils {
   }
 
   // INTRODUCE BATCHING FOR PERFORMANCE
+
   /**
    * Takes in an ArrayList<Edge> and one by one inserts them into the Edge Table
    *
@@ -266,8 +267,8 @@ public class JDBCUtils {
    * Node table
    *
    * @param node represents the node in which to update the table with
-   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    * @return a PreparedStatement to be used by the update method
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
   public static PreparedStatement createPreparedStatementUpdate(Node node) throws SQLException {
     Connection connection = getConn();
@@ -299,8 +300,8 @@ public class JDBCUtils {
    * Edge table
    *
    * @param edge represents the edge to update
-   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    * @return a PreparedStatement to be used by the update method
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
   public static PreparedStatement createPreparedStatementUpdate(Edge edge) throws SQLException {
     Connection connection = getConn();
@@ -573,12 +574,15 @@ public class JDBCUtils {
       throws SQLException {
     Connection connection = JDBCUtils.getConn();
     PreparedStatement stmt =
-        connection.prepareStatement("insert into ADMIN.EMPLOYEE values ((?),(?),(?),(?),(?))");
+        connection.prepareStatement(
+            "insert into ADMIN.EMPLOYEE values ((?),(?),(?),(?),(?),(?),(?))");
     stmt.setString(1, employee.getFirstName());
     stmt.setString(2, employee.getLastName());
     stmt.setString(3, employee.getEmployeeID());
-    stmt.setInt(4, employee.getAccessLevel());
-    stmt.setString(5, employee.getPrimaryWorkspace());
+    stmt.setString(4, employee.getPassword());
+    stmt.setString(5, employee.getEmail());
+    stmt.setInt(6, employee.getAccessLevel());
+    stmt.setString(7, employee.getPrimaryWorkspace());
     return stmt;
   }
 
@@ -606,6 +610,12 @@ public class JDBCUtils {
             + "', "
             + "ADMIN.EMPLOYEE.EMPLOYEEID = '"
             + employee.getEmployeeID()
+            + "', "
+            + "ADMIN.EMPLOYEE.PASSWORD = '"
+            + employee.getPassword()
+            + "', "
+            + "ADMIN.EMPLOYEE.EMAIL = '"
+            + employee.getEmail()
             + "', "
             + "ADMIN.EMPLOYEE.ACCESSLEVEL = "
             + employee.getAccessLevel()
