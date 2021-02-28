@@ -113,12 +113,12 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF;" GridPane.columnIndex="2">
                                  <children>
-                                    <JFXButton contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Laundry (Brian)" textAlignment="CENTER" wrapText="true">
+                                    <JFXButton fx:id="laundryBtn" contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Laundry (Brian)" textAlignment="CENTER" wrapText="true">
                                        <font>
                                           <Font name="Calibri" size="11.0" />
                                        </font>
                                        <graphic>
-                                          <MaterialDesignIconView fx:id="laundryBtn" fill="#5a5c94" glyphName="TSHIRT_CREW" size="30" />
+                                          <MaterialDesignIconView fill="#5a5c94" glyphName="TSHIRT_CREW" size="30" />
                                        </graphic>
                                     </JFXButton>
                                  </children>
@@ -361,7 +361,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
                                        <children>
-                                          <JFXButton contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Maintenance (Brian)" textAlignment="CENTER" wrapText="true">
+                                          <JFXButton fx:id="maintenanceBtn" contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Maintenance (Brian)" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="11.0" />
                                              </font>
