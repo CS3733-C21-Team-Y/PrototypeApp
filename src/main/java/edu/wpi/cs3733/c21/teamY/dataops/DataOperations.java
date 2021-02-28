@@ -113,8 +113,6 @@ public class DataOperations {
 
   public static ArrayList<Edge> getListOfEdgeNoStairs() throws SQLException {
 
-    return CSV.getListOfEdgeNoStairs();
-
     return CSV.getListOfEdge(ActiveGraph.FilterMapElements.NoStairs);
 
   }
@@ -124,8 +122,6 @@ public class DataOperations {
   }
 
   public static ArrayList<Node> getListOfNodeNoStairs() throws SQLException {
-
-    return CSV.getListOfNodesNoStairs();
 
     return CSV.getListOfNodes(ActiveGraph.FilterMapElements.NoStairs);
 
