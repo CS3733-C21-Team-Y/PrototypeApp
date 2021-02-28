@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
-import edu.wpi.cs3733.c21.teamY.entity.ActiveGraphNoStairs;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.sql.SQLException;
@@ -391,7 +390,6 @@ public class GraphEditPageController {
         CSV.DBtoCSV("NODE");
         CSV.DBtoCSV("EDGE");
         ActiveGraph.initialize();
-        ActiveGraphNoStairs.initialize();
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
 
       } else {
@@ -513,7 +511,6 @@ public class GraphEditPageController {
     }
     try {
       ActiveGraph.initialize();
-      ActiveGraphNoStairs.initialize();
     } catch (Exception exception) {
       System.out.println("GraphEditPageController.updateNodes");
     }

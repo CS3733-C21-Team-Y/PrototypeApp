@@ -1,4 +1,5 @@
 package edu.wpi.cs3733.c21.teamY.dataops;
+import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
 
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
@@ -25,9 +26,11 @@ public class DataOperations {
     JDBCUtils.insert(numArgs, object, tableName);
   }
 
+
   public static void insert(Employee employee) throws SQLException {
     JDBCUtils.insert(employee);
   }
+
 
   public static void insertArrayListNode(ArrayList<Node> nodes)
       throws SQLException, IllegalAccessException {
@@ -54,6 +57,7 @@ public class DataOperations {
   public static void update(Employee employee) throws SQLException {
     JDBCUtils.update(employee);
   }
+
 
   public static void deleteNode(String nodeID) throws SQLException {
     JDBCUtils.deleteNode(nodeID);
@@ -108,7 +112,11 @@ public class DataOperations {
   }
 
   public static ArrayList<Edge> getListOfEdgeNoStairs() throws SQLException {
+
     return CSV.getListOfEdgeNoStairs();
+
+    return CSV.getListOfEdge(ActiveGraph.FilterMapElements.NoStairs);
+
   }
 
   public static ArrayList<Node> getListOfNodes() throws SQLException {
@@ -116,7 +124,11 @@ public class DataOperations {
   }
 
   public static ArrayList<Node> getListOfNodeNoStairs() throws SQLException {
+
     return CSV.getListOfNodesNoStairs();
+
+    return CSV.getListOfNodes(ActiveGraph.FilterMapElements.NoStairs);
+
   }
 
   public static void loadCSVtoDB() throws IOException, SQLException {
