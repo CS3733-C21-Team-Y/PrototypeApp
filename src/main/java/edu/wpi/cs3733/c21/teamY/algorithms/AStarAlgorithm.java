@@ -21,7 +21,7 @@ public class AStarAlgorithm {
    * @param goalID the node we're searching for.
    * @return modified to return the path.
    */
-  public static ArrayList<Node> aStar(Graph g, String startID, String goalID) {
+  public static ArrayList<Node> aStar(Graph g, String startID, String goalID, String accessType) {
 
     // instantiating adjacency matrix
     double[][] graph = g.adjMatrix;
@@ -52,13 +52,14 @@ public class AStarAlgorithm {
 
     // While there are nodes left to visit...
     while (true) {
-
       // ... find the node with the currently lowest priority...
       double lowestPriority = Integer.MAX_VALUE;
       int lowestPriorityIndex = -1;
       for (int i = 0; i < priorities.length; i++) {
         // ... by going through all nodes that haven't been visited yet
-        if (priorities[i] < lowestPriority && !visited[i]) {
+        if (priorities[i] < lowestPriority
+            && !visited[i]
+            && !g.nodeList[i].nodeType.equals(accessType)) {
           lowestPriority = priorities[i];
           lowestPriorityIndex = i;
         }
@@ -121,12 +122,13 @@ public class AStarAlgorithm {
    * @param goalIDs the nodes we're searching for in desired order.
    * @return modified to return the path.
    */
-  public static ArrayList<Node> aStar(Graph g, String startID, ArrayList<String> goalIDs) {
+  public static ArrayList<Node> aStar(
+      Graph g, String startID, ArrayList<String> goalIDs, String accessType) {
     ArrayList<Node> path;
-    path = aStar(g, startID, goalIDs.get(0));
+    path = aStar(g, startID, goalIDs.get(0), accessType);
     for (int i = 1; i < goalIDs.size(); i++) {
       ArrayList<Node> tempPath;
-      tempPath = aStar(g, goalIDs.get(i - 1), goalIDs.get(i));
+      tempPath = aStar(g, goalIDs.get(i - 1), goalIDs.get(i), accessType);
       // Remove the first element to avoid duplicates
       tempPath.remove(0);
       // Append the path for these nodes to the path
