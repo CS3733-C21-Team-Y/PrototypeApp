@@ -157,12 +157,13 @@ public class AStarAlgorithm {
     goals = (ArrayList<String>) goalIDs.clone();
 
     String min;
+    String start = startID;
 
     for (int i = 0; i < goalIDs.size(); i++) {
-      min = DijkstrasAlgorithm.dijkstra(g, startID, goals);
-
+      min = DijkstrasAlgorithm.dijkstra(g, start, goals);
       organized.add(min);
       goals.remove(min);
+      start = min;
     }
     return organized;
   }
