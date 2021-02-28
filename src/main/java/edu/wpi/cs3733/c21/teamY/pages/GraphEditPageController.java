@@ -8,6 +8,7 @@ import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
 import edu.wpi.cs3733.c21.teamY.entity.ActiveGraphNoStairs;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
+import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
@@ -23,6 +24,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -89,6 +92,9 @@ public class GraphEditPageController {
   private double dragStartXRelativeEdge;
   private double dragStartYRelativeEdge;
 
+  private double dragStartX;
+  private double dragStartY;
+
   private boolean isDraggingAdorner = false;
   private ArrayList<MapController.CircleEx> nodesAffectedByDrag =
       new ArrayList<MapController.CircleEx>();
@@ -96,6 +102,7 @@ public class GraphEditPageController {
       new ArrayList<MapController.LineEx>();
 
   private javafx.scene.Node jfxNodeBeingDragged = null;
+  private Rectangle rectangleSelection = null;
 
   JFXDialog dialog = new JFXDialog();
 
@@ -273,6 +280,8 @@ public class GraphEditPageController {
         .setOnMousePressed(
             e -> {
               mapInsertController.defaultOnMousePressed(e);
+              dragStartX = e.getX();
+              dragStartY = e.getY();
 
               boolean clickedNode =
                   e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx;
@@ -316,10 +325,11 @@ public class GraphEditPageController {
                 // adding dangly nodes that are part of loose edges
 
                 for (MapController.LineEx edge : edgesAffectedByDrag) {
-                  if (!nodesAffectedByDrag.contains(edge.startNode)) {
+
+                  if (edge.startNode != null && !nodesAffectedByDrag.contains(edge.startNode)) {
                     nodesAffectedByDrag.add(edge.startNode);
                   }
-                  if (!nodesAffectedByDrag.contains(edge.endNode)) {
+                  if (edge.endNode != null && !nodesAffectedByDrag.contains(edge.endNode)) {
                     nodesAffectedByDrag.add(edge.endNode);
                   }
                 }
@@ -337,17 +347,52 @@ public class GraphEditPageController {
                 mapInsertController.clearSelection();
                 mapInsertController.selectCirclesFromList(nodesAffectedByDrag);
                 mapInsertController.selectLinesFromList(edgesAffectedByDrag);
+                // Circle
                 if (jfxNodeBeingDragged instanceof MapController.CircleEx) {
                   MapController.CircleEx handle = (MapController.CircleEx) jfxNodeBeingDragged;
                   double deltaX = e.getX() - handle.getCenterX();
                   double deltaY = e.getY() - handle.getCenterY();
                   moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), deltaX, deltaY);
-                } else if (jfxNodeBeingDragged instanceof MapController.LineEx) {
+                }
+                // Line
+                else if (jfxNodeBeingDragged instanceof MapController.LineEx) {
                   MapController.LineEx handle = (MapController.LineEx) jfxNodeBeingDragged;
                   double deltaX = e.getX() - handle.getStartX() - dragStartXRelativeEdge;
                   double deltaY = e.getY() - handle.getStartY() - dragStartYRelativeEdge;
                   moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), deltaX, deltaY);
                 }
+              } else if (shiftPressed) {
+                if (rectangleSelection == null) {
+                  rectangleSelection = new Rectangle();
+                  rectangleSelection.setX(dragStartX);
+                  rectangleSelection.setY(dragStartY);
+
+                  rectangleSelection.setStroke(Paint.valueOf("Blue"));
+                  rectangleSelection.setFill(Paint.valueOf("TRANSPARENT"));
+
+                  mapInsertController.getAdornerPane().getChildren().add(rectangleSelection);
+                }
+
+                rectangleSelection.setStrokeWidth(
+                    1 / mapInsertController.getAdornerPane().getScaleX());
+
+                rectangleSelection.setX(dragStartX);
+                rectangleSelection.setY(dragStartY);
+
+                double desiredWidth = e.getX() - rectangleSelection.getX();
+                double desiredHeight = e.getY() - rectangleSelection.getY();
+
+                if (desiredWidth < 0) {
+                  rectangleSelection.setX(dragStartX + desiredWidth);
+                  desiredWidth *= -1;
+                }
+                if (desiredHeight < 0) {
+                  rectangleSelection.setY(dragStartY + desiredHeight);
+                  desiredHeight *= -1;
+                }
+
+                rectangleSelection.setWidth(desiredWidth);
+                rectangleSelection.setHeight(desiredHeight);
               } else {
                 mapInsertController.defaultOnMouseDragged(e);
               }
@@ -361,7 +406,9 @@ public class GraphEditPageController {
               // If not letting go of a drag
               mapInsertController.defaultOnMouseReleased(e);
 
-              if (!mapInsertController.wasLastClickDrag() && !isDraggingAdorner) {
+              if (!mapInsertController.wasLastClickDrag()
+                  && !isDraggingAdorner
+                  && rectangleSelection == null) {
 
                 // Node
                 if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
@@ -400,14 +447,40 @@ public class GraphEditPageController {
                 }
               }
               // If this is a node drag end
-              else if (isDraggingAdorner) {
+              else if (isDraggingAdorner
+                  && !mapInsertController.wasLastClickDrag()
+                  && rectangleSelection == null) {
                 updateNodePositionsInDB();
+              } else if (rectangleSelection != null) {
+                ArrayList<MapController.CircleEx> intersectedCircles =
+                    new ArrayList<MapController.CircleEx>();
+                ArrayList<MapController.LineEx> intersectedLines =
+                    new ArrayList<MapController.LineEx>();
+
+                for (javafx.scene.Node adorner :
+                    mapInsertController.getAdornerPane().getChildren()) {
+                  if (adorner instanceof MapController.CircleEx) {
+                    if (rectangleSelection.intersects(adorner.getBoundsInLocal())) {
+                      intersectedCircles.add((MapController.CircleEx) adorner);
+                    }
+                  } else if (adorner instanceof MapController.LineEx) {
+                    if (rectangleSelection.intersects(adorner.getBoundsInLocal())) {
+                      intersectedLines.add((MapController.LineEx) adorner);
+                    }
+                  }
+                }
+
+                mapInsertController.selectCirclesFromList(intersectedCircles);
+                mapInsertController.selectLinesFromList(intersectedLines);
+                mapInsertController.getAdornerPane().getChildren().remove(rectangleSelection);
+                rectangleSelection = null;
               }
 
               // Needs to happen anyway because of tentative selecition
               isDraggingAdorner = false;
               nodesAffectedByDrag = new ArrayList<MapController.CircleEx>();
               edgesAffectedByDrag = new ArrayList<MapController.LineEx>();
+              rectangleSelection = null; // just in case
 
               jfxNodeBeingDragged = null;
             });
@@ -454,8 +527,19 @@ public class GraphEditPageController {
       // if shift not pressed, but multiple things are selected, only select clicked edge
       else if (mapInsertController.getSelectedNodes().size() > 1
           || mapInsertController.getSelectedEdges().size() > 1) {
-        mapInsertController.clearSelection();
-        mapInsertController.selectLine((MapController.LineEx) edge);
+
+        // Weird bug. selected nodes returns > 1 because adjacent nodes are selected when clicking
+        // on lit
+        if ((mapInsertController.getSelectedNodes().contains(edge.startNode)
+                || mapInsertController.getSelectedNodes().contains(edge.endNode))
+            && (!edge.startNode.hasFocus || !edge.endNode.hasFocus)) {
+          mapInsertController.clearSelection();
+        } else {
+          // System.out.println(mapInsertController.getSelectedNodes());
+
+          mapInsertController.clearSelection();
+          mapInsertController.selectLine((MapController.LineEx) edge);
+        }
       }
       // if its the only thing selected and u click again, it turns off
       else {
