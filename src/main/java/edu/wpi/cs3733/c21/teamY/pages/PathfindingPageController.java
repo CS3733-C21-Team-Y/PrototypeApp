@@ -152,35 +152,11 @@ public class PathfindingPageController {
                 String end = (String) endLocationBox.getValue();
 
                 if (!newValue) {
-                  nodes = ActiveGraph.getNodes();
-                  edges = ActiveGraph.getEdges();
-                  graph = ActiveGraph.getActiveGraph();
-
-                  startLocationBox.getItems().remove(0, startLocationBox.getItems().size());
-                  endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
-
-                  for (Node node : nodes) {
-                    startLocationBox.getItems().add(node.nodeID);
-                  }
-
-                  for (Node node : nodes) {
-                    endLocationBox.getItems().add(node.nodeID);
-                  }
+                  resetGraphNodesEdges(true);
+                  resetComboBoxes();
                 } else {
-                  nodes = ActiveGraphNoStairs.getNodes();
-                  edges = ActiveGraphNoStairs.getEdges();
-                  graph = ActiveGraphNoStairs.getActiveGraph();
-
-                  startLocationBox.getItems().remove(0, startLocationBox.getItems().size());
-                  endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
-
-                  for (Node node : nodes) {
-                    startLocationBox.getItems().add(node.nodeID);
-                  }
-
-                  for (Node node : nodes) {
-                    endLocationBox.getItems().add(node.nodeID);
-                  }
+                  resetGraphNodesEdges(false);
+                  resetComboBoxes();
                 }
 
                 mapInsertController.removeAllAdornerElements();
@@ -411,15 +387,24 @@ public class PathfindingPageController {
    * @param stairs
    */
   private void resetGraphNodesEdges(boolean stairs) {
+
     if (stairs) {
-      nodes = ActiveGraph.getNodes();
-      edges = ActiveGraph.getEdges();
-      graph = ActiveGraph.getActiveGraph();
+      try {
+        ActiveGraph.initialize(ActiveGraph.FilterMapElements.None);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
     } else {
-      nodes = ActiveGraphNoStairs.getNodes();
-      edges = ActiveGraphNoStairs.getEdges();
-      graph = ActiveGraphNoStairs.getActiveGraph();
+      try {
+        ActiveGraph.initialize(ActiveGraph.FilterMapElements.NoStairs);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
     }
+
+    nodes = ActiveGraph.getNodes();
+    edges = ActiveGraph.getEdges();
+    graph = ActiveGraph.getActiveGraph();
   }
 
   /** resetComboBoxes Resets node comboboxes with values from nodes and edges */
@@ -471,8 +456,6 @@ public class PathfindingPageController {
             AlgorithmCalls.dijkstraDetour(
                 graph, (String) startLocationBox.getValue(), endLocations, "KIOS"));
       }
-
-      pathActive = true;
 
       mapInsertController.clearSelection();
       ArrayList<Node> nodes =

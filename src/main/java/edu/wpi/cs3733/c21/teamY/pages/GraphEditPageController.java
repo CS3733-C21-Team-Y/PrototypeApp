@@ -159,13 +159,13 @@ public class GraphEditPageController {
     moveNodeLeftButton.setOnAction(
         e -> {
           // left
-          moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0, 0 - getOneTapMoveDist());
+          moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0 - getOneTapMoveDist(), 0);
           updateNodePositionsInDB();
         });
     moveNodeRightButton.setOnAction(
         e -> {
           // right
-          moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0, getOneTapMoveDist());
+          moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), getOneTapMoveDist(), 0);
           updateNodePositionsInDB();
         });
 
