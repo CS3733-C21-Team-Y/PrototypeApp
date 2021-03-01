@@ -7,8 +7,8 @@ public class Settings {
   private int currentPermissions;
 
   private Settings() {
-    this.currentUsername = null;
-    this.currentPermissions = -1;
+    this.currentUsername = "guest";
+    this.currentPermissions = 0;
   }
 
   public String getCurrentUsername() {
