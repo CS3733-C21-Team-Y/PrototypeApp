@@ -58,6 +58,8 @@ public class PathfindingPageController {
 
   private Graph graph;
 
+  private boolean pathActive = false;
+  private String noType = "";
   private JFXComboBox<String> cmb = new JFXComboBox<>();
 
   /** Do not use it. It does nothing. */
@@ -152,11 +154,9 @@ public class PathfindingPageController {
                 String end = (String) endLocationBox.getValue();
 
                 if (!newValue) {
-                  resetGraphNodesEdges(true);
-                  resetComboBoxes();
+                  noType = "";
                 } else {
-                  resetGraphNodesEdges(false);
-                  resetComboBoxes();
+                  noType = "STAI";
                 }
 
                 mapInsertController.removeAllAdornerElements();
@@ -420,7 +420,6 @@ public class PathfindingPageController {
       endLocationBox.getItems().add(node.nodeID);
     }
   }
-
   /**
    * isPathActive
    *
@@ -430,36 +429,36 @@ public class PathfindingPageController {
   private boolean isPathActive() {
     return pathNodes.size() > 2;
   }
-
   /** calculatePath Calculates the path between two nodes in the comboboxes and saves it to path */
-  private void calculatePath() {
+  public void calculatePath() {
     clearPath();
     if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
 
       ArrayList<String> endLocations = new ArrayList<>();
       endLocations.add((String) endLocationBox.getValue());
-      if (bathroomCheck.isSelected()) {
-        endLocations.add(
-            0,
-            AlgorithmCalls.dijkstraDetour(
-                graph, (String) startLocationBox.getValue(), endLocations, "REST"));
-      }
-      if (cafeCheck.isSelected()) {
-        endLocations.add(
-            0,
-            AlgorithmCalls.dijkstraDetour(
-                graph, (String) startLocationBox.getValue(), endLocations, "FOOD"));
-      }
-      if (kioskCheck.isSelected()) {
-        endLocations.add(
-            0,
-            AlgorithmCalls.dijkstraDetour(
-                graph, (String) startLocationBox.getValue(), endLocations, "KIOS"));
-      }
 
       mapInsertController.clearSelection();
       ArrayList<Node> nodes =
-          AlgorithmCalls.aStar(graph, (String) startLocationBox.getValue(), endLocations);
+          AlgorithmCalls.aStar(graph, (String) startLocationBox.getValue(), endLocations, noType);
+
+      boolean detour = false;
+      if (bathroomCheck.isSelected()) {
+        endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "REST");
+        detour = true;
+      }
+      if (cafeCheck.isSelected()) {
+        endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "FOOD");
+        detour = true;
+      }
+      if (kioskCheck.isSelected()) {
+        endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "KIOS");
+        detour = true;
+      }
+      // If we've taken a detour, regenerate aStar
+      if (detour) {
+        nodes =
+            AlgorithmCalls.aStar(graph, (String) startLocationBox.getValue(), endLocations, noType);
+      }
 
       pathNodes = nodes;
       drawPath(pathNodes);
