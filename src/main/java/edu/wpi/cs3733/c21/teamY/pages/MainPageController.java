@@ -51,7 +51,7 @@ public class MainPageController {
     else if (e.getSource() == serviceRequestBtn) {
       instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
       instance.loadCenterSubPage("ServiceRequestNavigator.fxml");
-    } else if (e.getSource() == adminToolsBtn) instance.loadRightSubPage("EditNodeTable.fxml");
+    } else if (e.getSource() == adminToolsBtn) instance.loadRightSubPage("AdminPage.fxml");
   }
 
   public void setCenterColumnWidth(double width) {
