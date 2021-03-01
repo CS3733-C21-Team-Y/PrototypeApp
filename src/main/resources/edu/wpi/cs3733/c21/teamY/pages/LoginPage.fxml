@@ -75,7 +75,7 @@
                         </HBox>
                         <HBox alignment="CENTER" maxWidth="300.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #5a5c94;" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <children>
-                              <JFXButton fx:id="loginBtn" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" ripplerFill="#efeff9" style="-fx-background-color: transparent;" text="Login" textAlignment="CENTER" textFill="#fff9f9">
+                              <JFXButton fx:id="loginBtn" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" ripplerFill="#efeff9" style="-fx-background-color: transparent;" text="Login" textAlignment="CENTER" textFill="#fff9f9">
                                  <font>
                                     <Font name="Calibri" size="16.0" />
                                  </font>
@@ -96,7 +96,7 @@
                         </HBox>
                         <HBox alignment="CENTER" maxWidth="300.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: efeff9;" GridPane.columnIndex="1" GridPane.rowIndex="6">
                            <children>
-                              <JFXButton fx:id="guestBtn" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Sign in as guest" textAlignment="CENTER" textFill="#5a5c94">
+                              <JFXButton fx:id="guestBtn" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Sign in as guest" textAlignment="CENTER" textFill="#5a5c94">
                                  <font>
                                     <Font name="Calibri" size="16.0" />
                                  </font>

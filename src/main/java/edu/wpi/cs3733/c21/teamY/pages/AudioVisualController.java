@@ -30,6 +30,7 @@ public class AudioVisualController extends RightPage {
     // initialize buttons
     // avClearBtn.setOnAction(e -> serviceButtonClicked(e, "AudioVisualSubPage.fxml"));
     avSubmitBtn.setOnAction(e -> avSubmitClicked());
+    backBtn.setOnAction(e -> buttonClicked(e));
 
     // initialize text area
     avDesc = new JFXTextArea();
