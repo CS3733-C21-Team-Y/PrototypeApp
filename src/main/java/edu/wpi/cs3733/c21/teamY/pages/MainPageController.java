@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
 
 public class MainPageController {
   @FXML private AnchorPane origRightPane;
@@ -15,24 +16,29 @@ public class MainPageController {
   @FXML private JFXButton navigationBtn;
   @FXML private JFXButton serviceRequestBtn;
   @FXML private JFXButton adminToolsBtn;
+  @FXML private ColumnConstraints origCenterColumn;
 
   private AnchorPane rightPane;
   private AnchorPane centerPane;
+  private ColumnConstraints centerColumn;
   //  @FXML private JFXButton SRMenuBtn;
   private static MainPageController instance;
 
   public MainPageController() {}
 
-  public MainPageController(AnchorPane centerPane, AnchorPane rightPane) {
+  public MainPageController(
+      AnchorPane centerPane, AnchorPane rightPane, ColumnConstraints centerColumn) {
     this.centerPane = centerPane;
     this.rightPane = rightPane;
+    this.centerColumn = centerColumn;
     loadRightSubPage("LoginPage.fxml");
-    loadCenterSubPage("ServiceRequestNavigator.fxml");
+    // loadCenterSubPage("ServiceRequestNavigator.fxml");
   }
 
   @FXML
   private void initialize() {
-    instance = new MainPageController(origCenterPane, origRightPane);
+    instance = new MainPageController(origCenterPane, origRightPane, origCenterColumn);
+    instance.setCenterColumnWidth(0);
     navigationBtn.setOnAction(e -> buttonClicked(e));
     serviceRequestBtn.setOnAction(e -> buttonClicked(e));
     adminToolsBtn.setOnAction(e -> buttonClicked(e));
@@ -42,9 +48,21 @@ public class MainPageController {
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == navigationBtn) instance.loadRightSubPage("PathfindingPage.fxml");
     else if (e.getSource() == signInBtn) instance.loadRightSubPage("LoginPage.fxml");
-    else if (e.getSource() == serviceRequestBtn)
+    else if (e.getSource() == serviceRequestBtn) {
       instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
-    else if (e.getSource() == adminToolsBtn) instance.loadRightSubPage("EditNodeTable.fxml");
+      instance.loadCenterSubPage("ServiceRequestNavigator.fxml");
+    } else if (e.getSource() == adminToolsBtn) instance.loadRightSubPage("EditNodeTable.fxml");
+  }
+
+  public void setCenterColumnWidth(double width) {
+    centerColumn.setMinWidth(width);
+    centerColumn.setPrefWidth(width);
+    centerColumn.setMaxWidth(width);
+    if (width == 0) {
+      centerPane.setVisible(false);
+    } else {
+      centerPane.setVisible(true);
+    }
   }
 
   public void loadRightSubPage(String fxml) {
@@ -54,10 +72,15 @@ public class MainPageController {
       Node node = fxmlLoader.load(getClass().getResource(fxml).openStream());
       RightPage controller = (RightPage) fxmlLoader.getController();
       controller.setParent(this);
+      controller.loadNavigationBar();
       rightPane.getChildren().add(node);
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public void printWords() {
+    System.out.println("Hello");
   }
 
   public void loadCenterSubPage(String fxml) {
@@ -65,8 +88,8 @@ public class MainPageController {
     FXMLLoader fxmlLoader = new FXMLLoader();
     try {
       Node node = fxmlLoader.load(getClass().getResource(fxml).openStream());
-      ServiceRequestNavigatorController controller = fxmlLoader.getController();
-      // controller.setParent(instance);
+      CenterPage controller = fxmlLoader.getController();
+      controller.setParent(this);
       centerPane.getChildren().add(node);
     } catch (IOException e) {
       e.printStackTrace();

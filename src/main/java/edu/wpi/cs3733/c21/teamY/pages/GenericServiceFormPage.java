@@ -16,6 +16,11 @@ public class GenericServiceFormPage extends RightPage {
 
   public int IDCount;
 
+  @Override
+  public void loadNavigationBar() {
+    parent.setCenterColumnWidth(350);
+  }
+
   public GenericServiceFormPage() {
     super();
     try {

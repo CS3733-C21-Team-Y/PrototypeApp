@@ -32,6 +32,11 @@ public class ServiceRequestManagerSubpageController extends RightPage {
     outsideHosBtn.setOnAction(e -> pageButtonClicked(e));
   }
 
+  @Override
+  public void loadNavigationBar() {
+    parent.setCenterColumnWidth(350);
+  }
+
   @FXML
   private void pageButtonClicked(ActionEvent e) {
 

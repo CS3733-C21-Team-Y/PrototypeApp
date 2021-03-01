@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
+import edu.wpi.cs3733.c21.teamY.entity.Service;
+
 public class StageInformation {
 
   private String centerPaneFXML;
@@ -7,6 +9,8 @@ public class StageInformation {
 
   private double width;
   private double height;
+
+  private Service service;
 
   public StageInformation(String centerPaneFXML, String rightPaneFXML) {
     this.centerPaneFXML = centerPaneFXML;
@@ -29,6 +33,14 @@ public class StageInformation {
 
   public void setCenterPaneFXML(String centerPaneFXML) {
     this.centerPaneFXML = centerPaneFXML;
+  }
+
+  public Service getService() {
+    return service;
+  }
+
+  public void setService(Service service) {
+    this.service = service;
   }
 
   public String getRightPaneFXML() {
