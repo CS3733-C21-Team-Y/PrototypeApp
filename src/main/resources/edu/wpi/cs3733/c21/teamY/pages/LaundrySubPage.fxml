@@ -85,14 +85,6 @@
                         </JFXButton>
                      </children>
                   </GridPane>
-                  <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" " GridPane.valignment="TOP">
-                     <graphic>
-                        <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />
-                     </graphic>
-                     <GridPane.margin>
-                        <Insets left="2.0" top="-10.0" />
-                     </GridPane.margin>
-                  </JFXButton>
                </children>
                <GridPane.margin>
                   <Insets />
@@ -112,5 +104,10 @@
             </HBox>
          </children>
       </GridPane>
+      <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" layoutX="-25.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" " AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0">
+         <graphic>
+            <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />
+         </graphic>
+      </JFXButton>
    </children>
 </AnchorPane>

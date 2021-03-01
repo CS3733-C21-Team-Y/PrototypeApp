@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,6 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
+
 <AnchorPane prefHeight="546.0" prefWidth="437.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.MedicineSubPageController">
     <children>
         <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -101,5 +104,10 @@
                 </GridPane>
             </children>
         </GridPane>
+      <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" layoutX="-15.0" layoutY="10.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" " AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0">
+         <graphic>
+            <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />
+         </graphic>
+      </JFXButton>
     </children>
 </AnchorPane>
