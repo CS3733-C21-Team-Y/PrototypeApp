@@ -10,8 +10,29 @@ public class Service {
   private String category;
   private String urgency;
   private String date;
-
+  private String additionalInfo;
   private int status;
+
+  public Service(
+      int serviceID,
+      String type,
+      String description,
+      String location,
+      String category,
+      String urgency,
+      String date,
+      String additionalInfo,
+      int status) {
+    this.serviceID = serviceID;
+    this.type = type;
+    this.description = description;
+    this.location = location;
+    this.category = category;
+    this.urgency = urgency;
+    this.date = date;
+    this.additionalInfo = additionalInfo;
+    this.status = status;
+  }
 
   public Service(int serviceID, String type) {
     this.serviceID = serviceID;
@@ -59,6 +80,10 @@ public class Service {
     this.urgency = urgency;
     this.date = date;
     this.status = status;
+  }
+
+  public String getAdditionalInfo() {
+    return additionalInfo;
   }
 
   public int getStatus() {
