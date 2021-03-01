@@ -85,12 +85,12 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <JFXButton buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: #c2c3ed; -fx-font-family: Calibri; -fx-font-weight: bold; -fx-font-size: 16;" text="Clear" textFill="#5a5c94" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                <JFXButton fx:id="clearBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: #c2c3ed; -fx-font-family: Calibri; -fx-font-weight: bold; -fx-font-size: 16;" text="Clear" textFill="#5a5c94" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                                     <GridPane.margin>
                                         <Insets top="20.0" />
                                     </GridPane.margin>
                                 </JFXButton>
-                                <JFXButton buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: #efeff9; -fx-font-family: Calibri; -fx-font-weight: bold; -fx-font-size: 16;" text="Submit" textFill="#5a5c94" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                <JFXButton fx:id="submitBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: #efeff9; -fx-font-family: Calibri; -fx-font-weight: bold; -fx-font-size: 16;" text="Submit" textFill="#5a5c94" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                                     <GridPane.margin>
                                         <Insets top="20.0" />
                                     </GridPane.margin>

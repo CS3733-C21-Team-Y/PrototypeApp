@@ -60,8 +60,8 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <JFXButton buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: c5c5dd; -fx-font-family: arial; -fx-font-weight: bold; -fx-font-size: 16;" text="Clear" />
-                                <JFXButton buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: efeff9; -fx-font-family: arial; -fx-font-weight: bold; -fx-font-size: 16;" text="Submit" GridPane.columnIndex="1" />
+                                <JFXButton fx:id="testBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: c5c5dd; -fx-font-family: arial; -fx-font-weight: bold; -fx-font-size: 16;" text="Clear" />
+                                <JFXButton fx:id="testBtn2" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: efeff9; -fx-font-family: arial; -fx-font-weight: bold; -fx-font-size: 16;" text="Submit" GridPane.columnIndex="1" />
                             </children>
                         </GridPane>
                         <JFXComboBox maxWidth="1.7976931348623157E308" promptText="Urgency" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
