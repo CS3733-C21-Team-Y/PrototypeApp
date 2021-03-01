@@ -27,7 +27,7 @@
          <children>
             <HBox alignment="CENTER" minHeight="40.0" prefHeight="40.0" prefWidth="399.0" style="-fx-background-color: #efeff9;">
                <children>
-                  <Label prefHeight="72.0" prefWidth="271.0" text="Inside Hospital Transportation Request" textAlignment="CENTER" textFill="#3b3d73" wrapText="true">
+                  <Label prefHeight="48.0" prefWidth="378.0" text="Inside Hospital Transportation Request" textAlignment="CENTER" textFill="#3b3d73" wrapText="true">
                      <font>
                         <Font name="Calibri Bold" size="23.0" />
                      </font>
@@ -107,14 +107,14 @@
                         </JFXButton>
                      </children>
                   </GridPane>
+                  <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" ">
+                     <graphic>
+                        <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />
+                     </graphic>
+                  </JFXButton>
                </children>
             </GridPane>
          </children>
       </GridPane>
-      <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" layoutX="-15.0" layoutY="10.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" " AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0">
-         <graphic>
-            <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />
-         </graphic>
-      </JFXButton>
    </children>
 </AnchorPane>

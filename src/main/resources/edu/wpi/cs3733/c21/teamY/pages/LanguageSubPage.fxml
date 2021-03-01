@@ -51,7 +51,7 @@
                         <JFXComboBox maxWidth="1.7976931348623157E308" promptText="Language Needed" GridPane.columnIndex="1" />
                         <JFXComboBox maxWidth="1.7976931348623157E308" promptText="Room Location" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <JFXTextArea promptText="Description" style="-fx-border-color: #777;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <GridPane GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <GridPane fx:id="clearBtn" GridPane.columnIndex="1" GridPane.rowIndex="4">
                             <columnConstraints>
                                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -65,6 +65,11 @@
                             </children>
                         </GridPane>
                         <JFXComboBox maxWidth="1.7976931348623157E308" promptText="Urgency" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                  <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" ">
+                     <graphic>
+                        <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />
+                     </graphic>
+                  </JFXButton>
                     </children>
                 </GridPane>
                 <VBox prefHeight="200.0" prefWidth="100.0">
@@ -76,10 +81,5 @@
                </padding></VBox>
             </children>
         </GridPane>
-      <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" layoutX="-15.0" layoutY="10.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" " AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0">
-         <graphic>
-            <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />
-         </graphic>
-      </JFXButton>
     </children>
 </AnchorPane>
