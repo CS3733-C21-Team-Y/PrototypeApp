@@ -122,7 +122,7 @@ public class DataOperations {
     return CSV.getListOfNodes(ActiveGraph.FilterMapElements.NoStairs);
   }
 
-  public static void loadCSVtoDB() throws IOException, SQLException {
-    CSV.loadCSVtoDB();
+  public static void findUser(String username, String password) throws SQLException {
+    JDBCUtils.findUser(username, password);
   }
 }
