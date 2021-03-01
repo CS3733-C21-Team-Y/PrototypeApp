@@ -67,4 +67,30 @@ public class Employee {
   public String getPrimaryWorkspace() {
     return primaryWorkspace;
   }
+
+  @Override
+  public String toString() {
+    return "Employee{"
+        + "firstName='"
+        + firstName
+        + '\''
+        + ", lastName='"
+        + lastName
+        + '\''
+        + ", employeeID='"
+        + employeeID
+        + '\''
+        + ", password='"
+        + password
+        + '\''
+        + ", email='"
+        + email
+        + '\''
+        + ", accessLevel="
+        + accessLevel
+        + ", primaryWorkspace='"
+        + primaryWorkspace
+        + '\''
+        + '}';
+  }
 }

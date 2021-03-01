@@ -1,9 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.dataops;
 
-import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
-import edu.wpi.cs3733.c21.teamY.entity.Edge;
-import edu.wpi.cs3733.c21.teamY.entity.Node;
-import edu.wpi.cs3733.c21.teamY.entity.Service;
+import edu.wpi.cs3733.c21.teamY.entity.*;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,6 +22,8 @@ public class CSV {
   public static String serviceTestPath =
       "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/Services.csv";
   public static String servicePath = "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/Services.csv";
+  public static String employeePath =
+      "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/Employee.CSV";
   public static BufferedReader brService;
   public static BufferedWriter bwService;
 
@@ -543,5 +542,36 @@ public class CSV {
     System.out.println("Loading successful");
     JDBCUtils.close(preparedStatement, null, null, connection);
     closeReader(brService);
+  }
+
+  public static void loadCSVtoDBEmployee() throws IOException, SQLException {
+    String line;
+    Connection connection;
+    connection = JDBCUtils.getConn();
+    System.out.println("start loading employee CSV to database");
+    String insert = "insert into ADMIN.EMPLOYEE values(?,?,?,?,?,?,?)";
+    PreparedStatement preparedStatement = connection.prepareStatement(insert);
+    BufferedReader brEmployee = new BufferedReader(new FileReader(employeePath));
+    while ((line = brEmployee.readLine()) != null) {
+      String[] strEmployee = line.split(splitBy);
+      String firstName = strEmployee[0];
+      preparedStatement.setString(1, firstName);
+      String lastName = strEmployee[1];
+      preparedStatement.setString(2, lastName);
+      String employeeID = strEmployee[2];
+      preparedStatement.setString(3, employeeID);
+      String password = strEmployee[3];
+      preparedStatement.setString(4, password);
+      String email = strEmployee[4];
+      preparedStatement.setString(5, email);
+      int accessLevel = Integer.parseInt(strEmployee[5]);
+      preparedStatement.setInt(6, accessLevel);
+      String primaryWorkspace = strEmployee[6];
+      preparedStatement.setString(7, primaryWorkspace);
+      preparedStatement.executeUpdate();
+    }
+    System.out.println("Loading successful");
+    JDBCUtils.close(preparedStatement, null, null, connection);
+    closeReader(brEmployee);
   }
 }

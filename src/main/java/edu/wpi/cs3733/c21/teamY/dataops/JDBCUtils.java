@@ -63,7 +63,7 @@ public class JDBCUtils {
       stmt.executeUpdate(sqlEdge);
 
       String sqlService =
-          "create table Service(serviceID int PRIMARY KEY , type varchar(20) not null ,"
+          "create table Service(serviceID int PRIMARY KEY , type varchar(20),"
               + "description varchar(255) , location varchar(30), category varchar(20), "
               + "urgency varchar(10), date varchar(20), additionalInfo varchar(255), requester varchar(30), status int, "
               + "constraint FK_Employee_ID FOREIGN KEY (requester) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE, check( status=-1 OR status =0 OR status=1 ))";
@@ -496,6 +496,7 @@ public class JDBCUtils {
               urgency,
               date,
               additionalInfo,
+              requester,
               status);
       services.add(service);
     }
@@ -659,6 +660,36 @@ public class JDBCUtils {
     PreparedStatement stmt = createPreparedStatementDeleteEmployee(employeeID);
     stmt.executeUpdate();
     stmt.closeOnCompletion();
+  }
+
+  public static ArrayList<Employee> exportListOfEmployee() throws SQLException {
+    ArrayList<Employee> employees = new ArrayList<>();
+    String s = "select * from ADMIN.EMPLOYEE";
+    Statement statement = getConn().createStatement();
+    java.sql.ResultSet resultSet = statement.executeQuery(s);
+    String firstName;
+    String lastName;
+    String employeeID;
+    String password;
+    String email;
+    int accessLevel;
+    String primaryWorkspace;
+    while (resultSet.next()) {
+      firstName = resultSet.getString(1);
+      lastName = resultSet.getString(2);
+      employeeID = resultSet.getString(3);
+      password = resultSet.getString(4);
+      email = resultSet.getString(5);
+      accessLevel = resultSet.getInt(6);
+      primaryWorkspace = resultSet.getString(7);
+      Employee employee =
+          new Employee(
+              firstName, lastName, employeeID, password, email, accessLevel, primaryWorkspace);
+      employees.add(employee);
+    }
+    resultSet.close();
+    close(null, null, statement, conn);
+    return employees;
   }
 
   public static boolean findUser(String username, String password) throws SQLException {
