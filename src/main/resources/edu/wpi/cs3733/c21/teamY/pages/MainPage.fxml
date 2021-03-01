@@ -50,7 +50,7 @@
                   </HBox>
                         <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="mediumPane" stylesheets="@../UIStyles.css" GridPane.rowIndex="1">
                             <children>
-                                <JFXButton fx:id="signInBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Not Signed In" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
+                                <JFXButton fx:id="origSignInBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Not Signed In" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
                                     <VBox.margin>
                                         <Insets bottom="1.0" />
                                     </VBox.margin>
@@ -60,17 +60,17 @@
                               <MaterialDesignIconView fill="#8d8ea4" glyphName="ACCOUNT_CIRCLE" size="40" />
                            </graphic>
                                 </JFXButton>
-                        <JFXButton fx:id="navigationBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Navigation" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
+                        <JFXButton fx:id="origNavigationBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Navigation" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
                            <graphic>
                               <FontAwesomeIconView fill="#8d8ea4" glyphName="LOCATION_ARROW" size="40" text="" />
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="serviceRequestBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Service Requests" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
+                        <JFXButton fx:id="origServiceRequestBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Service Requests" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
                            <graphic>
                               <FontAwesomeIconView fill="#8d8ea4" glyphName="COG" size="40" />
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="adminToolsBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Admin Tools" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
+                        <JFXButton fx:id="origAdminToolsBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Admin Tools" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
                            <graphic>
                               <MaterialDesignIconView fill="#8d8ea4" glyphName="WII" size="40" />
                            </graphic>
