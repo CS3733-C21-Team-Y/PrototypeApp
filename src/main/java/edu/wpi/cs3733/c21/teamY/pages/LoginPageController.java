@@ -31,6 +31,7 @@ public class LoginPageController extends RightPage {
       try {
         if (DataOperations.findUser(tryID, tryPwd)) {
           parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+          parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
         } else {
           JFXDialog errorMsg = new JFXDialog();
           errorMsg.setContent(
