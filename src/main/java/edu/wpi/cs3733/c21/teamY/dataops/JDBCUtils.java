@@ -58,20 +58,21 @@ public class JDBCUtils {
       String sqlEdge =
           "create table Edge(edgeID varchar(40) PRIMARY KEY NOT NULL ,\n"
               + "startNode varchar(30) not null ,\n"
-              + "endNode varchar(30) not null )";
+              + "endNode varchar(30) not null)";
 
       stmt.executeUpdate(sqlEdge);
 
       String sqlService =
           "create table Service(serviceID int PRIMARY KEY , type varchar(20) not null ,"
               + "description varchar(255) , location varchar(30), category varchar(20), "
-              + "urgency varchar(10), date varchar(20), additionalInfo varchar(255), status int, check ( status=-1 OR status =0 OR status=1 ))";
-      stmt.executeUpdate(sqlService);
+              + "urgency varchar(10), date varchar(20), additionalInfo varchar(255), requester varchar(30), status int, "
+              + "constraint FK_Employee_ID FOREIGN KEY (requester) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE, check( status=-1 OR status =0 OR status=1 ))";
 
       String sqlEmployee =
           "create table Employee(firstName varchar(30) not null, lastName varchar(30) not null, employeeID varchar(30) PRIMARY KEY not null, "
               + "password varchar(40), email varchar(50), accessLevel int not null, primaryWorkspace varchar(30))";
       stmt.executeUpdate(sqlEmployee);
+      stmt.executeUpdate(sqlService);
 
     } catch (SQLException ignored) {
       // ignored.printStackTrace();
@@ -444,7 +445,7 @@ public class JDBCUtils {
    * @throws IllegalAccessException if access is denied
    */
   public static void saveService(Service service) throws SQLException, IllegalAccessException {
-    insert(9, service, "Service"); // save to database
+    insert(10, service, "Service"); // save to database
     // Used to save to CSV as well but marked deprecated - look into
   }
 
@@ -471,6 +472,7 @@ public class JDBCUtils {
     String category;
     String urgency;
     String date;
+    String requester;
     int status;
     String additionalInfo;
     while (resultSet.next()) {
@@ -482,7 +484,8 @@ public class JDBCUtils {
       urgency = resultSet.getString(6);
       date = resultSet.getString(7);
       additionalInfo = resultSet.getString(8);
-      status = resultSet.getInt(9);
+      requester = resultSet.getString(9);
+      status = resultSet.getInt(10);
       Service service =
           new Service(
               serviceID,
@@ -561,7 +564,8 @@ public class JDBCUtils {
       preparedStatement.setString(6, service.getUrgency());
       preparedStatement.setString(7, service.getDate());
       preparedStatement.setString(8, service.getAdditionalInfo());
-      preparedStatement.setInt(9, service.getStatus());
+      preparedStatement.setString(9, service.getRequester());
+      preparedStatement.setInt(10, service.getStatus());
 
       preparedStatement.executeUpdate();
 
