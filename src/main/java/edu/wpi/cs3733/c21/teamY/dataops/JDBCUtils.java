@@ -677,11 +677,11 @@ public class JDBCUtils {
 
     java.sql.ResultSet resultSet = statement.executeQuery(sql);
 
-    if (resultSet == null) {
+    if (!resultSet.next()) {
       return false;
     } else {
       Settings settings = Settings.getSettings();
-      resultSet.next();
+      // resultSet.next();
       settings.loginSuccess(username, resultSet.getInt(1));
       return true;
     }
