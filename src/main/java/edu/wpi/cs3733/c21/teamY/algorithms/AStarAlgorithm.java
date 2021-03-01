@@ -79,6 +79,7 @@ public class AStarAlgorithm {
         }
         path.add(0, g.nodeList[start]);
         System.out.println(path);
+
         return path;
       }
 
@@ -134,6 +135,71 @@ public class AStarAlgorithm {
     }
 
     return path;
+  }
+
+  public static double directionOfPoint(Node node1, Node node2, Node P) {
+    // subtracting co-ordinates of point A
+    // from B and P, to make A as origin
+
+    double ZERO = 0.0;
+
+    double v1_x = node2.xcoord - node1.xcoord;
+    double v1_y = node2.ycoord - node1.ycoord;
+
+    double v2_x = P.xcoord - node2.xcoord;
+    double v2_y = P.ycoord - node2.ycoord;
+
+    double dot_product = (v1_x * v2_x) + (v1_y * v2_y);
+
+    double v1Mag = Math.sqrt(Math.pow(v1_x, 2) + Math.pow(v1_y, 2));
+    double v2Mag = Math.sqrt(Math.pow(v2_x, 2) + Math.pow(v2_y, 2));
+    double angle = (180 / Math.PI) * Math.acos(dot_product / (v1Mag * v2Mag));
+
+    // Determining cross Product
+    double cross_product = (node2.xcoord * P.ycoord - node2.ycoord * P.xcoord);
+    angle = cross_product * angle;
+
+    // return ZERO if dot_product is zero.
+    if (angle == 0.0) return Math.abs(angle);
+
+    // return RIGHT if cross product is positive
+    if (angle > 0) return angle;
+
+    // return LEFT if cross product is negative
+    if (angle < 0) return angle;
+
+    // return ZERO if cross product is zero.
+    return ZERO;
+  }
+
+  public static ArrayList<String> textDirections(ArrayList<Node> path) {
+
+    ArrayList<String> pathDirections = new ArrayList<>();
+
+    pathDirections.add("Start from " + path.get(0).longName + " to " + path.get(1).longName);
+
+    for (int i = 0; i < path.size() - 2; i++) {
+      double crossProd = directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2));
+      System.out.println(crossProd);
+      if (crossProd < 0) {
+        pathDirections.add(
+            "Turn left from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
+      } else if (crossProd > 0) {
+        pathDirections.add(
+            "Turn right from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
+      } else if (crossProd == 0.0) {
+        pathDirections.add(
+            "Continue Straight from "
+                + path.get(i + 1).longName
+                + " to "
+                + path.get(i + 2).longName);
+      }
+    }
+
+    // TODO check for duplicate "continue straights" and delete the intermediary ones
+
+    pathDirections.add("You have reached your destination.");
+    return pathDirections;
   }
 
   /**

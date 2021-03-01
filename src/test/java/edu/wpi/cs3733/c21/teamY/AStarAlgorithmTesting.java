@@ -177,4 +177,44 @@ public class AStarAlgorithmTesting {
         answerKey, AStarAlgorithm.nearestNeighbor(TestGraph.getActiveGraph(), "1", destinations));
     System.out.println("Test 7 Complete \n");
   }
+
+  @Test
+  public void testCrossProductDirection() {
+    TestGraph.initialize();
+
+    ArrayList<Node> nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", "7");
+    // First test that the basic functionality of aStar is working
+    assertEquals(1, AStarAlgorithm.directionOfPoint(nodes.get(0), nodes.get(1), nodes.get(2)));
+
+    nodes.clear();
+    nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", "4");
+    assertEquals(-1, AStarAlgorithm.directionOfPoint(nodes.get(0), nodes.get(1), nodes.get(2)));
+
+    nodes.clear();
+    nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", "3");
+    assertEquals(0, AStarAlgorithm.directionOfPoint(nodes.get(0), nodes.get(1), nodes.get(2)));
+  }
+
+  @Test
+  public void testCrossProductDirection1() {
+    TestGraph.initialize();
+
+    ArrayList<Node> nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "7", "10");
+    assertEquals(0.0, AStarAlgorithm.directionOfPoint(nodes.get(0), nodes.get(1), nodes.get(2)));
+  }
+
+  @Test
+  public void testTextDirections() {
+    TestGraph.initialize();
+
+    ArrayList<String> answerList = new ArrayList<>();
+    answerList.add("Start from Node1 to Node5");
+    answerList.add("Turn right from Node5 to Node7");
+    answerList.add("Turn left from Node7 to Node6");
+    answerList.add("Continue Straight from Node6 to Node10");
+    answerList.add("You have reached your destination.");
+
+    ArrayList<Node> nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", "10");
+    assertEquals(answerList, AStarAlgorithm.textDirections(nodes));
+  }
 }
