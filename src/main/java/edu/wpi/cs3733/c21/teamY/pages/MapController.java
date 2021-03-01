@@ -18,7 +18,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -31,7 +30,6 @@ import javafx.stage.Stage;
 
 public class MapController {
 
-  @FXML private AnchorPane anchor;
   @FXML private ImageView mapImageView;
   @FXML private Pane adornerPane;
   @FXML protected StackPane containerStackPane;
@@ -237,11 +235,11 @@ public class MapController {
         });
 
     // Set Zoom
-    anchor.setOnKeyPressed(
+    containerStackPane.setOnKeyPressed(
         e -> {
           scrollOnPress(e);
         });
-    anchor.setOnKeyReleased(e -> scrollOnRelease(e));
+    containerStackPane.setOnKeyReleased(e -> scrollOnRelease(e));
     containerStackPane.setOnScroll(e -> zoom(e));
 
     // Sets Map clip so nothing can appear outside map bounds
