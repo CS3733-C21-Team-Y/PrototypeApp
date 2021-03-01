@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
@@ -18,6 +19,7 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
   @FXML private JFXComboBox locationField;
   @FXML private JFXComboBox giftType;
   @FXML private JFXTextField description;
+  @FXML private JFXDatePicker datePicker;
 
   private Settings settings;
 
@@ -31,6 +33,13 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
 
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
+
+    locationField.getItems().add("Room 142");
+    locationField.getItems().add("Room 736");
+    locationField.getItems().add("Room 246");
+    giftType.getItems().add("Teddy Bear");
+    giftType.getItems().add("Snack Basket");
+    giftType.getItems().add("Blanket");
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -46,6 +55,7 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
     service.setCategory((String) giftType.getValue());
     service.setLocation((String) locationField.getValue());
     service.setDescription(description.getText());
+    service.setDate(datePicker.getValue().toString());
     service.setRequester(settings.getCurrentUsername());
 
     try {

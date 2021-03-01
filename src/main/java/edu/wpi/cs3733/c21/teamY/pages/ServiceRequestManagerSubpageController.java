@@ -49,7 +49,7 @@ public class ServiceRequestManagerSubpageController extends RightPage {
     else if (e.getSource() == medicineBtn) parent.loadRightSubPage("MedicineSubPage.fxml");
     else if (e.getSource() == securityBtn) parent.loadRightSubPage("SecuritySubPage.fxml");
     else if (e.getSource() == insideHosBtn) parent.loadRightSubPage("InsideHospitalSubPage.fxml");
-    else if (e.getSource() == computerBtn) parent.loadRightSubPage("ComputerSubPage.fxml");
+    else if (e.getSource() == computerBtn) parent.loadRightSubPage("ITSubPage.fxml");
     else if (e.getSource() == outsideHosBtn) parent.loadRightSubPage("OutsideHospitalSubPage.fxml");
   }
 }
