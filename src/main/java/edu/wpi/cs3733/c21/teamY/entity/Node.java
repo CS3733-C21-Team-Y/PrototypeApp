@@ -59,6 +59,18 @@ public class Node {
     // this.nodeID = ("" + teamAssigned + nodeType + room + floor).toUpperCase(Locale.ROOT);
   }
 
+  public Node(TableNodes tb) {
+    this.nodeType = tb.nodeType.getValue();
+    this.xcoord = Double.parseDouble(tb.xcoord.getValue());
+    this.ycoord = Double.parseDouble(tb.ycoord.getValue());
+    this.floor = tb.floor.getValue();
+    this.building = tb.building.getValue();
+    this.longName = tb.longName.getValue();
+    this.shortName = tb.shortName.getValue();
+    this.teamAssigned = 'y';
+    this.nodeID = tb.getNodeID().getValue();
+  }
+
   public boolean addEdge(Node node) {
     return neighbors.add(node);
   }
