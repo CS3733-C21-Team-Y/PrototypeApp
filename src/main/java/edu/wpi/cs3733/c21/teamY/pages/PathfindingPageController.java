@@ -203,6 +203,8 @@ public class PathfindingPageController extends RightPage {
     resetGraphNodesEdges(true);
     resetComboBoxes();
 
+    mapInsertController.setDisplayUnselectedAdorners(false);
+
     // Init Map
     Platform.runLater(
         () -> {
@@ -419,6 +421,15 @@ public class PathfindingPageController extends RightPage {
     for (Node node : nodes) {
       endLocationBox.getItems().add(node.nodeID);
     }
+    /*
+    for (javafx.scene.Node node : mapInsertController.getAdornerPane().getChildren()) {
+      if(node instanceof MapController.CircleEx){
+        String nodeLongName = ((MapController.CircleEx) node).getNode().longName;
+
+        startLocationBox.getItems().add(nodeLongName);
+        endLocationBox.getItems().add(nodeLongName);
+      }
+    }*/
   }
   /**
    * isPathActive
