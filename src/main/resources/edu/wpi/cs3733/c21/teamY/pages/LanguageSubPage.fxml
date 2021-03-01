@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -48,9 +49,9 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <JFXComboBox maxWidth="1.7976931348623157E308" promptText="Language Needed" GridPane.columnIndex="1" />
-                        <JFXComboBox maxWidth="1.7976931348623157E308" promptText="Room Location" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <JFXTextArea promptText="Description" style="-fx-border-color: #777;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <JFXComboBox fx:id="langOptions" maxWidth="1.7976931348623157E308" promptText="Language Needed" GridPane.columnIndex="1" />
+                  <JFXTextField fx:id="location" promptText="Room Location" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXTextArea fx:id="description" promptText="Description" style="-fx-border-color: #777;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <GridPane fx:id="clearBtn" GridPane.columnIndex="1" GridPane.rowIndex="4">
                             <columnConstraints>
                                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -64,7 +65,7 @@
                                 <JFXButton fx:id="testBtn2" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: efeff9; -fx-font-family: arial; -fx-font-weight: bold; -fx-font-size: 16;" text="Submit" GridPane.columnIndex="1" />
                             </children>
                         </GridPane>
-                        <JFXComboBox maxWidth="1.7976931348623157E308" promptText="Urgency" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                        <JFXComboBox fx:id="urgency" maxWidth="1.7976931348623157E308" promptText="Urgency" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
                   <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" ">
                      <graphic>
                         <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />

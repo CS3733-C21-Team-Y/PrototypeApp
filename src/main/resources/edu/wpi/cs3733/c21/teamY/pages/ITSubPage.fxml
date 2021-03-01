@@ -48,7 +48,7 @@
                         <RowConstraints minHeight="60.0" percentHeight="30.0" prefHeight="70.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <JFXComboBox focusColor="#5a5c94" labelFloat="true" prefHeight="27.0" prefWidth="40000.0" promptText="Category" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1">
+                        <JFXComboBox fx:id="categoryComboBox" focusColor="#5a5c94" labelFloat="true" prefHeight="27.0" prefWidth="40000.0" promptText="Category" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1">
                             <opaqueInsets>
                                 <Insets />
                             </opaqueInsets>
@@ -56,7 +56,7 @@
                                 <Insets left="15.0" right="15.0" top="15.0" />
                             </padding>
                         </JFXComboBox>
-                        <JFXComboBox focusColor="#5a5c94" labelFloat="true" prefWidth="40000.0" promptText="Location" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                        <JFXComboBox fx:id="locationComboBox" focusColor="#5a5c94" labelFloat="true" prefWidth="40000.0" promptText="Location" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                             <opaqueInsets>
                                 <Insets />
                             </opaqueInsets>
@@ -103,7 +103,7 @@
                                 </JFXButton>
                             </children>
                         </GridPane>
-                        <JFXComboBox focusColor="#5a5c94" labelFloat="true" prefHeight="27.0" prefWidth="40000.0" promptText="This issue affects" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <JFXComboBox fx:id="affectsComboBox" focusColor="#5a5c94" labelFloat="true" prefHeight="27.0" prefWidth="40000.0" promptText="This issue affects" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                             <opaqueInsets>
                                 <Insets />
                             </opaqueInsets>

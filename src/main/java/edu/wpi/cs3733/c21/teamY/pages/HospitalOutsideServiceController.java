@@ -33,7 +33,6 @@ public class HospitalOutsideServiceController extends GenericServiceFormPage {
     serviceDate = new JFXDatePicker();
     backBtn.setOnAction(this::buttonClicked);
     submitBtn.setOnAction(e -> submitBtnClicked());
-    // submitBtn.setOnAction(e -> submitBtnClicked());
   }
 
   @FXML
@@ -46,7 +45,7 @@ public class HospitalOutsideServiceController extends GenericServiceFormPage {
     Service service = new Service(this.IDCount, "Outside Hospital");
     this.IDCount++;
     service.setLocation(locationTextField.getText());
-    service.setDate(serviceDate.getAccessibleText());
+    service.setDate(serviceDate.getValue().toString());
     service.setDescription(descriptionTextArea.getText());
     service.setRequester(settings.getCurrentUsername());
     System.out.println("here");

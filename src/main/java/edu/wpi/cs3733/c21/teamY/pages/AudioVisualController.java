@@ -59,6 +59,7 @@ public class AudioVisualController extends GenericServiceFormPage {
     this.IDCount++;
     service.setCategory((String) avTypeComboBox.getValue());
     service.setLocation((String) avLocationComboBox.getValue());
+    service.setDate(avDate.getValue().toString());
     service.setDescription(avDesc.getText());
     service.setRequester(settings.getCurrentUsername());
 
