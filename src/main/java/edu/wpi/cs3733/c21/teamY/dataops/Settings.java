@@ -6,7 +6,10 @@ public class Settings {
   private String currentUsername;
   private String currentPermissions;
 
-  private Settings() {}
+  private Settings() {
+    this.currentUsername = null;
+    this.currentPermissions = null;
+  }
 
   public String getCurrentUsername() {
     return currentUsername;
@@ -14,6 +17,10 @@ public class Settings {
 
   public String getCurrentPermissions() {
     return currentPermissions;
+  }
+
+  public static Settings getSettings() {
+    return settings;
   }
 
   public void loginSuccess(String username, String permissions) {
