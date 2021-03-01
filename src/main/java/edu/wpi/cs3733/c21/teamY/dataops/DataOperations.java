@@ -125,4 +125,12 @@ public class DataOperations {
   public static boolean findUser(String username, String password) throws SQLException {
     return JDBCUtils.findUser(username, password);
   }
+
+  public static ArrayList<Employee> getListOfEmployeeFromDB() throws SQLException {
+    return JDBCUtils.exportListOfEmployee();
+  }
+
+  public static void loadEmployeeCSV() throws IOException, SQLException {
+    CSV.loadCSVtoDBEmployee();
+  }
 }
