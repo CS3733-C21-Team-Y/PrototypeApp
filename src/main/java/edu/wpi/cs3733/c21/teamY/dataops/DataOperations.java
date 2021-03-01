@@ -80,8 +80,9 @@ public class DataOperations {
     JDBCUtils.saveService(service);
   }
 
-  public static ArrayList<Service> exportService(String serviceType) throws SQLException {
-    return JDBCUtils.exportService(serviceType);
+  public static ArrayList<Service> exportService(String serviceType, String requester)
+      throws SQLException {
+    return JDBCUtils.exportService(serviceType, requester);
   }
 
   public static void removeService(int ID) throws SQLException {

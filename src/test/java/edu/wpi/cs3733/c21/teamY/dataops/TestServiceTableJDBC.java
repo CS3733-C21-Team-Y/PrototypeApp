@@ -42,7 +42,7 @@ public class TestServiceTableJDBC {
 
   @Test
   public void testExportService() throws SQLException {
-    System.out.println(DataOperations.exportService("Maintenance"));
+    System.out.println(DataOperations.exportService("Maintenance", ""));
   }
 
   @Test

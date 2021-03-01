@@ -44,4 +44,10 @@ class JDBCUtilsTestEmployee {
   public void TestLoadEmployeeCSVtoDB() throws IOException, SQLException {
     CSV.loadCSVtoDBEmployee();
   }
+
+  @Test
+  public void TestNewExportListOfService() throws SQLException {
+    int i = JDBCUtils.exportService("", "").size();
+    System.out.println(i);
+  }
 }
