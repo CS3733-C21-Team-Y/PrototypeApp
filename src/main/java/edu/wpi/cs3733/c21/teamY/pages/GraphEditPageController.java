@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
@@ -20,9 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -86,7 +83,10 @@ public class GraphEditPageController {
   @FXML private JFXButton moveNodeLeftButton;
   @FXML private JFXButton moveNodeRightButton;
 
+  @FXML private VBox mapBox;
+
   @FXML private MapController mapInsertController;
+  @FXML private EditNodeTableController editNodeTableController;
 
   private double dragStartXRelativeEdge;
   private double dragStartYRelativeEdge;
@@ -234,6 +234,9 @@ public class GraphEditPageController {
     loadNodesButton.setOnAction(
         e -> {
           loadMapFromCSV();
+          //          System.out.println(nodes);
+          editNodeTableController.setList(nodes);
+          editNodeTableController.setColumns();
         });
 
     int i = 0;

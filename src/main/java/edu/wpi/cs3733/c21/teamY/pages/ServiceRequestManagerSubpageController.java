@@ -14,6 +14,8 @@ public class ServiceRequestManagerSubpageController extends RightPage {
   @FXML private JFXButton medicineBtn;
   @FXML private JFXButton securityBtn;
   @FXML private JFXButton insideHosBtn;
+  @FXML private JFXButton computerBtn;
+  @FXML private JFXButton outsideHosBtn;
 
   @FXML
   private void initialize() {
@@ -26,6 +28,8 @@ public class ServiceRequestManagerSubpageController extends RightPage {
     medicineBtn.setOnAction(e -> pageButtonClicked(e));
     securityBtn.setOnAction(e -> pageButtonClicked(e));
     insideHosBtn.setOnAction(e -> pageButtonClicked(e));
+    computerBtn.setOnAction(e -> pageButtonClicked(e));
+    outsideHosBtn.setOnAction(e -> pageButtonClicked(e));
   }
 
   @FXML
@@ -40,5 +44,7 @@ public class ServiceRequestManagerSubpageController extends RightPage {
     else if (e.getSource() == medicineBtn) parent.loadRightSubPage("MedicineSubPage.fxml");
     else if (e.getSource() == securityBtn) parent.loadRightSubPage("SecuritySubPage.fxml");
     else if (e.getSource() == insideHosBtn) parent.loadRightSubPage("InsideHospitalSubPage.fxml");
+    else if (e.getSource() == computerBtn) parent.loadRightSubPage("ComputerSubPage.fxml");
+    else if (e.getSource() == outsideHosBtn) parent.loadRightSubPage("OutsideHospitalSubPage.fxml");
   }
 }

@@ -1,0 +1,251 @@
+package edu.wpi.cs3733.c21.teamY.pages;
+
+import com.jfoenix.controls.JFXTreeTableColumn;
+import com.jfoenix.controls.JFXTreeTableView;
+import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.cells.editors.TextFieldEditorBuilder;
+import com.jfoenix.controls.cells.editors.base.GenericEditableTreeTableCell;
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
+import edu.wpi.cs3733.c21.teamY.entity.TableNodes;
+import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
+
+public class EditNodeTableController extends RightPage {
+
+  @FXML public JFXTreeTableView<TableNodes> treeTable;
+  public JFXTreeTableColumn<TableNodes, String> nodeIDCol;
+  public JFXTreeTableColumn<TableNodes, String> nodeTypeCol;
+  public JFXTreeTableColumn<TableNodes, String> xcoordCol;
+  public JFXTreeTableColumn<TableNodes, String> ycoordCol;
+  public JFXTreeTableColumn<TableNodes, String> floorCol;
+  public JFXTreeTableColumn<TableNodes, String> buildingCol;
+  public JFXTreeTableColumn<TableNodes, String> roomCol;
+  public JFXTreeTableColumn<TableNodes, String> longNameCol;
+  public JFXTreeTableColumn<TableNodes, String> shortNameCol;
+
+  private ArrayList<Node> nodes = new ArrayList<Node>();
+
+  public EditNodeTableController() {}
+
+  public void initialize() {
+    treeTable.setPrefHeight(300);
+
+    // tree table stuff
+
+    nodeIDCol = new JFXTreeTableColumn<>("Node ID");
+    nodeIDCol.setPrefWidth(100);
+    nodeIDCol.setCellValueFactory(
+        (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
+          if (nodeIDCol.validateValue(param)) {
+            return param.getValue().getValue().getNodeID();
+          } else {
+            return nodeIDCol.getComputedValue(param);
+          }
+        });
+    nodeTypeCol = new JFXTreeTableColumn<>("Node Type");
+    nodeTypeCol.setPrefWidth(100);
+    nodeTypeCol.setCellValueFactory(
+        (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
+          if (nodeTypeCol.validateValue(param)) {
+            return param.getValue().getValue().getNodeType();
+          } else {
+            return nodeTypeCol.getComputedValue(param);
+          }
+        });
+    xcoordCol = new JFXTreeTableColumn<>("X Coord");
+    xcoordCol.setPrefWidth(100);
+    xcoordCol.setCellValueFactory(
+        (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
+          if (xcoordCol.validateValue(param)) {
+            return param.getValue().getValue().getXcoord();
+          } else {
+            return xcoordCol.getComputedValue(param);
+          }
+        });
+    ycoordCol = new JFXTreeTableColumn<>("Y Coord");
+    ycoordCol.setPrefWidth(100);
+    ycoordCol.setCellValueFactory(
+        (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
+          if (ycoordCol.validateValue(param)) {
+            return param.getValue().getValue().getYcoord();
+          } else {
+            return ycoordCol.getComputedValue(param);
+          }
+        });
+    floorCol = new JFXTreeTableColumn<>("Floor");
+    floorCol.setPrefWidth(100);
+    floorCol.setCellValueFactory(
+        (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
+          if (floorCol.validateValue(param)) {
+            return param.getValue().getValue().getFloor();
+          } else {
+            return floorCol.getComputedValue(param);
+          }
+        });
+    buildingCol = new JFXTreeTableColumn<>("Building");
+    buildingCol.setPrefWidth(100);
+    buildingCol.setCellValueFactory(
+        (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
+          if (buildingCol.validateValue(param)) {
+            return param.getValue().getValue().getBuilding();
+          } else {
+            return buildingCol.getComputedValue(param);
+          }
+        });
+    roomCol = new JFXTreeTableColumn<>("Room");
+    roomCol.setPrefWidth(100);
+    roomCol.setCellValueFactory(
+        (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
+          if (roomCol.validateValue(param)) {
+            return param.getValue().getValue().getRoom();
+          } else {
+            return roomCol.getComputedValue(param);
+          }
+        });
+    longNameCol = new JFXTreeTableColumn<>("Long Name");
+    longNameCol.setPrefWidth(100);
+    longNameCol.setCellValueFactory(
+        (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
+          if (longNameCol.validateValue(param)) {
+            return param.getValue().getValue().getLongName();
+          } else {
+            return longNameCol.getComputedValue(param);
+          }
+        });
+    shortNameCol = new JFXTreeTableColumn<>("Short Name");
+    shortNameCol.setPrefWidth(100);
+    shortNameCol.setCellValueFactory(
+        (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
+          if (shortNameCol.validateValue(param)) {
+            return param.getValue().getValue().getShortName();
+          } else {
+            return shortNameCol.getComputedValue(param);
+          }
+        });
+
+    nodeIDCol.setCellFactory(
+        (TreeTableColumn<TableNodes, String> param) ->
+            new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+    nodeIDCol.setOnEditCommit(
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
+            t.getTreeTableView()
+                .getTreeItem(t.getTreeTablePosition().getRow())
+                .getValue()
+                .getNodeID()
+                .set(t.getNewValue()));
+    nodeTypeCol.setCellFactory(
+        (TreeTableColumn<TableNodes, String> param) ->
+            new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+    nodeTypeCol.setOnEditCommit(
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
+            t.getTreeTableView()
+                .getTreeItem(t.getTreeTablePosition().getRow())
+                .getValue()
+                .getNodeType()
+                .set(t.getNewValue()));
+    xcoordCol.setCellFactory(
+        (TreeTableColumn<TableNodes, String> param) ->
+            new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+    xcoordCol.setOnEditCommit(
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
+            t.getTreeTableView()
+                .getTreeItem(t.getTreeTablePosition().getRow())
+                .getValue()
+                .getXcoord()
+                .set(t.getNewValue()));
+    ycoordCol.setCellFactory(
+        (TreeTableColumn<TableNodes, String> param) ->
+            new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+    ycoordCol.setOnEditCommit(
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
+            t.getTreeTableView()
+                .getTreeItem(t.getTreeTablePosition().getRow())
+                .getValue()
+                .getYcoord()
+                .set(t.getNewValue()));
+    floorCol.setCellFactory(
+        (TreeTableColumn<TableNodes, String> param) ->
+            new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+    floorCol.setOnEditCommit(
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
+            t.getTreeTableView()
+                .getTreeItem(t.getTreeTablePosition().getRow())
+                .getValue()
+                .getFloor()
+                .set(t.getNewValue()));
+    buildingCol.setCellFactory(
+        (TreeTableColumn<TableNodes, String> param) ->
+            new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+    buildingCol.setOnEditCommit(
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
+            t.getTreeTableView()
+                .getTreeItem(t.getTreeTablePosition().getRow())
+                .getValue()
+                .getBuilding()
+                .set(t.getNewValue()));
+    roomCol.setCellFactory(
+        (TreeTableColumn<TableNodes, String> param) ->
+            new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+    roomCol.setOnEditCommit(
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
+            t.getTreeTableView()
+                .getTreeItem(t.getTreeTablePosition().getRow())
+                .getValue()
+                .getRoom()
+                .set(t.getNewValue()));
+    longNameCol.setCellFactory(
+        (TreeTableColumn<TableNodes, String> param) ->
+            new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+    longNameCol.setOnEditCommit(
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
+            t.getTreeTableView()
+                .getTreeItem(t.getTreeTablePosition().getRow())
+                .getValue()
+                .getLongName()
+                .set(t.getNewValue()));
+    shortNameCol.setCellFactory(
+        (TreeTableColumn<TableNodes, String> param) ->
+            new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+    shortNameCol.setOnEditCommit(
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
+            t.getTreeTableView()
+                .getTreeItem(t.getTreeTablePosition().getRow())
+                .getValue()
+                .getShortName()
+                .set(t.getNewValue()));
+
+    treeTable.setShowRoot(false);
+    treeTable.setEditable(true);
+    treeTable
+        .getColumns()
+        .setAll(
+            nodeIDCol,
+            nodeTypeCol,
+            xcoordCol,
+            ycoordCol,
+            floorCol,
+            buildingCol,
+            roomCol,
+            longNameCol,
+            shortNameCol);
+  }
+
+  public void setColumns() {
+    ObservableList<TableNodes> tn = FXCollections.observableArrayList();
+    for (Node node : nodes) {
+      tn.add(new TableNodes(node));
+    }
+    final TreeItem<TableNodes> root = new RecursiveTreeItem<>(tn, RecursiveTreeObject::getChildren);
+
+    treeTable.setRoot(root);
+  }
+
+  public void setList(ArrayList<Node> n) {
+    this.nodes = n;
+  }
+}

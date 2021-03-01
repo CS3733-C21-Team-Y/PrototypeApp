@@ -204,7 +204,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
                                        <children>
-                                          <JFXButton contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Computer (Lia)" textAlignment="CENTER" wrapText="true">
+                                          <JFXButton fx:id="computerBtn" contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="IT Services (Lia)" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="11.0" />
                                              </font>
@@ -280,7 +280,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
                                        <children>
-                                          <JFXButton contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Sanitization (Manu)" textAlignment="CENTER" wrapText="true">
+                                          <JFXButton fx:id="sanitizationBtn" contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Sanitization (Manu)" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="11.0" />
                                              </font>
@@ -428,7 +428,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
                                        <children>
-                                          <JFXButton contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Outisde Hospital (Yonghua)" textAlignment="CENTER" wrapText="true">
+                                          <JFXButton fx:id="outsideHosBtn" contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Outisde Hospital (Yonghua)" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="11.0" />
                                              </font>
