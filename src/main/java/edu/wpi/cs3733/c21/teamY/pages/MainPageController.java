@@ -44,7 +44,7 @@ public class MainPageController {
     else if (e.getSource() == signInBtn) instance.loadRightSubPage("LoginPage.fxml");
     else if (e.getSource() == serviceRequestBtn)
       instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
-    else if (e.getSource() == adminToolsBtn) instance.loadRightSubPage("nodeEdgeDisplay.fxml");
+    else if (e.getSource() == adminToolsBtn) instance.loadRightSubPage("EditNodeTable.fxml");
   }
 
   public void loadRightSubPage(String fxml) {

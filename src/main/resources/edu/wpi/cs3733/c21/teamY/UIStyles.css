@@ -101,48 +101,11 @@
     -fx-border-width: 0 0 1 0;
     -fx-border-color: #8d8ea4;
 }
-/* The main scrollbar **track** CSS class  */
-.workspace-grid .scroll-bar:horizontal .track,
-.workspace-grid .scroll-bar:vertical .track{
-    -fx-background-color:transparent;
-    -fx-border-color:transparent;
-    -fx-background-radius: 0em;
-    -fx-border-radius:2em;
-    -fx-opacity: 1;
+.SRElement {
+    -fx-background-color: #323467;
+    -fx-background-radius: 5;
 }
-
-/* The increment and decrement button CSS class of scrollbar */
-.workspace-grid .scroll-bar:horizontal .increment-button ,
-.workspace-grid .scroll-bar:horizontal .decrement-button {
-    -fx-background-color:transparent;
-    -fx-background-radius: 0em;
-    -fx-padding:0 0 10 0;
-
-}
-
-/* The increment and decrement button CSS class of scrollbar */
-
-.workspace-grid .scroll-bar:vertical .increment-button ,
-.workspace-grid .scroll-bar:vertical .decrement-button {
-
-    -fx-background-color:transparent;
-    -fx-background-radius: 0em;
-    -fx-padding:0 10 0 0;
-
-}
-
-.workspace-grid .scroll-bar .increment-arrow,
-.workspace-grid .scroll-bar .decrement-arrow
-{
-    -fx-shape: " ";
-    -fx-padding:0;
-}
-
-/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
-.workspace-grid .scroll-bar:horizontal .thumb,
-.workspace-grid .scroll-bar:vertical .thumb {
-    -fx-background-color:derive(black,90%);
-    -fx-background-insets: 2, 0, 0;
-    -fx-background-radius: 2em;
+.SRElementAnchor {
+    -fx-background-color: #3f417a;
 
 }

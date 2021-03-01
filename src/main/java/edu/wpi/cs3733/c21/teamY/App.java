@@ -17,31 +17,31 @@ public class App extends Application {
 
   @Override
   public void init() {
-    //    log.info("Starting Up");
-    //    log.info("Attempting to load database from CSV file");
+    //        log.info("Starting Up");
+    //        log.info("Attempting to load database from CSV file");
     //
-    //    try {
-    //      JDBCUtils.fillTablesFromCSV();
-    //      CSV.loadCSVtoDB();
-    //    } catch (Exception e) {
-    //      e.printStackTrace();
-    //      log.info("Error loading CSV into DB");
-    //    }
+    //        try {
+    //          JDBCUtils.fillTablesFromCSV();
+    //          DataOperations
+    //        } catch (Exception e) {
+    //          e.printStackTrace();
+    //          log.info("Error loading CSV into DB");
+    //        }
     //
-    //    try {
-    //      ActiveGraph.initialize();
-    //    } catch (SQLException e) {
-    //      e.printStackTrace();
-    //      log.info("Error initializing ActiveGraph");
-    //    }
+    //        try {
+    //          ActiveGraph.initialize();
+    //        } catch (SQLException e) {
+    //          e.printStackTrace();
+    //          log.info("Error initializing ActiveGraph");
+    //        }
     //
-    //    try {
-    //      ActiveGraphNoStairs.initialize();
+    //        try {
+    //          ActiveGraphNoStairs.initialize();
     //
-    //    } catch (SQLException e) {
-    //      e.printStackTrace();
-    //      log.info("Error initializing ActiveGraphNoStairs");
-    //    }
+    //        } catch (SQLException e) {
+    //          e.printStackTrace();
+    //          log.info("Error initializing ActiveGraphNoStairs");
+    //        }
   }
 
   @Override
