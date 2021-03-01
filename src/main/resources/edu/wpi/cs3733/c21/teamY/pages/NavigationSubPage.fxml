@@ -45,9 +45,9 @@
                                     <MaterialDesignIconView fill="WHITE" glyphName="STAIRS" size="20" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="4">
+                              <JFXButton fx:id="noStairsButton" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="4">
                                  <graphic>
-                                    <MaterialDesignIconView fx:id="noStairsButton" fill="WHITE" glyphName="ELEVATOR" size="20" />
+                                    <MaterialDesignIconView fill="WHITE" glyphName="ELEVATOR" size="20" />
                                  </graphic>
                               </JFXButton>
                               <JFXComboBox fx:id="floorMenuComboBox" focusColor="WHITE" prefWidth="999.0" promptText="Floor 1" unFocusColor="WHITE" GridPane.columnIndex="1">
@@ -133,9 +133,8 @@
                   </VBox>
                </children>
             </VBox>
-            <StackPane fx:id="map" GridPane.columnIndex="1">
+            <StackPane fx:id="mapSection" GridPane.columnIndex="1">
                <children>
-                  <fx:include fx:id="map" source="MapUserControl.fxml" />
                </children>
             </StackPane>
          </children>
