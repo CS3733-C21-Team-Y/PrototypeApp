@@ -35,7 +35,6 @@ public class RequestsManagerController extends GenericPage {
 
   @FXML
   private void initialize() {
-    exitBtn.setOnAction(e -> exitButtonClicked());
     backBtn.setOnAction(e -> buttonClicked(e));
     addServiceBtn.setOnAction(e -> loadServicesFromDB());
     // addServiceBtn.setOnAction(

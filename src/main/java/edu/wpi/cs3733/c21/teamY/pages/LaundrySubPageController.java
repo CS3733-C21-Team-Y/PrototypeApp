@@ -1,38 +1,34 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javax.swing.*;
 
-public class LaundryPageController extends GenericServiceFormPage {
-
+public class LaundrySubPageController extends GenericServiceFormPage {
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
-  @FXML private Button cancelBtn;
-  @FXML private Button clearBtn;
-  @FXML private Button exitBtn;
-  @FXML private Button backBtn;
-  @FXML private Button submitBtn;
-  @FXML private ComboBox category;
-  @FXML private TextArea description;
-  @FXML private TextField locationField;
+  @FXML private JFXButton clearBtn;
+  @FXML private JFXButton backBtn;
+  @FXML private JFXButton submitBtn;
+  @FXML private JFXComboBox category;
+  @FXML private JFXTextArea description;
+  @FXML private JFXComboBox locationField;
 
   private ArrayList<String> categories;
 
   // unused constructor
-  public LaundryPageController() {
-    super();
-  }
+  public LaundrySubPageController() {}
 
   // this runs once the FXML loads in to attach functions to components
   @FXML
@@ -43,12 +39,15 @@ public class LaundryPageController extends GenericServiceFormPage {
     categories.add("Dry Cleaning");
     categories.add("Clothing");
     // attaches a handler to the button with a lambda expression
-    cancelBtn.setOnAction(e -> serviceButtonClicked(e, "LaundryPage.fxml"));
-    clearBtn.setOnAction(e -> serviceButtonClicked(e, "LaundryPage.fxml"));
-    backBtn.setOnAction(e -> serviceButtonClicked(e, "LaundryPage.fxml"));
-    submitBtn.setOnAction(e -> submitBtnClicked());
+
+    backBtn.setOnAction(e -> buttonClicked(e));
+    // submitBtn.setOnAction(e -> submitBtnClicked());
 
     for (String c : categories) category.getItems().add(c);
+  }
+
+  private void buttonClicked(ActionEvent e) {
+    if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
   }
 
   @FXML
@@ -56,9 +55,9 @@ public class LaundryPageController extends GenericServiceFormPage {
     // put code for submitting a service request here
     Stage stage = null;
     Service service = new Service(this.IDCount, "Laundry");
-    this.IDCount++;
+    // this.IDCount++;
     service.setCategory((String) category.getValue());
-    service.setLocation(locationField.getText());
+    service.setLocation((String) locationField.getValue());
     service.setDescription(description.getText());
     try {
       stage = (Stage) submitBtn.getScene().getWindow();

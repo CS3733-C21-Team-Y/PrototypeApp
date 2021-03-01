@@ -29,7 +29,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class MapController {
+public class MapController extends RightPage {
 
   @FXML private AnchorPane anchor;
   @FXML private ImageView mapImageView;
