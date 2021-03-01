@@ -1,3 +1,3 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
-public class LanguageSubpageController extends RightPage {}
+public class LanguageSubpageController extends GenericServiceFormPage {}

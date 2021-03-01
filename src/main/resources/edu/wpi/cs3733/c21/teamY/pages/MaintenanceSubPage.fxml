@@ -49,14 +49,6 @@
                 <RowConstraints minHeight="60.0" percentHeight="30.0" prefHeight="70.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" ">
-                     <graphic>
-                        <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />
-                     </graphic>
-                     <GridPane.margin>
-                        <Insets left="2.0" top="-10.0" />
-                     </GridPane.margin>
-                  </JFXButton>
                   <JFXComboBox fx:id="locationField" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefHeight="45.0" prefWidth="9999999.0" promptText="Location" style="-fx-border-color: #dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: #8f8f8f;" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets />
@@ -125,5 +117,10 @@
             </GridPane>
          </children>
       </GridPane>
+      <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" layoutX="-15.0" layoutY="10.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" " AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0">
+         <graphic>
+            <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" text="" />
+         </graphic>
+      </JFXButton>
    </children>
 </AnchorPane>
