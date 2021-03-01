@@ -74,7 +74,7 @@
                         <Insets />
                      </VBox.margin>
                   </HBox>
-                  <JFXTreeTableView fx:id="jfxTreeTableView" minHeight="300.0" prefHeight="400.0" prefWidth="614.0" />
+                   <fx:include fx:id="editNodeTable" source="EditNodeTable.fxml" />
                   <GridPane maxHeight="160.0" minHeight="200.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
