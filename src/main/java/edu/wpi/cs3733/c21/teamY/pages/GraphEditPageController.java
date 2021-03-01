@@ -303,6 +303,13 @@ public class GraphEditPageController {
                   return;
                 }
 
+                if (clickedEdge) {
+                  dragStartXRelativeEdge =
+                      e.getX() - ((MapController.LineEx) jfxNodeBeingDragged).getStartX();
+                  dragStartYRelativeEdge =
+                      e.getY() - ((MapController.LineEx) jfxNodeBeingDragged).getStartY();
+                }
+
                 // already selected one or more nodes/edges
                 if (headHasFocus) {
                   nodesAffectedByDrag = mapInsertController.getSelectedNodes();
@@ -314,11 +321,6 @@ public class GraphEditPageController {
                     nodesAffectedByDrag.add((MapController.CircleEx) jfxNodeBeingDragged);
                   } else if (clickedEdge) {
                     edgesAffectedByDrag.add((MapController.LineEx) jfxNodeBeingDragged);
-
-                    dragStartXRelativeEdge =
-                        e.getX() - ((MapController.LineEx) jfxNodeBeingDragged).getStartX();
-                    dragStartYRelativeEdge =
-                        e.getY() - ((MapController.LineEx) jfxNodeBeingDragged).getStartY();
                   }
                 }
 
@@ -484,6 +486,12 @@ public class GraphEditPageController {
 
               jfxNodeBeingDragged = null;
             });
+
+    // Resize the adorners so that they are easier to see
+    // Only has to happen once on page load
+    mapInsertController.setBaseCircleRadius(6);
+    mapInsertController.setBaseLineWidth(5);
+    mapInsertController.setSelectedWidthRatio(5.0 / 3);
   }
 
   private void handleClickOnNode(MapController.CircleEx node) {
