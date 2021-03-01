@@ -2,14 +2,16 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="289.0" prefWidth="687.0" styleClass="SRElementAnchor" stylesheets="@../UIStyles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.ServiceRequestElement">
+<AnchorPane prefHeight="200.0" prefWidth="300.0" styleClass="SRElementAnchor" stylesheets="@../UIStyles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.ServiceRequestElementController">
    <children>
       <GridPane layoutX="150.0" layoutY="222.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -20,13 +22,64 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="SRElement" stylesheets="@../UIStyles.css" />
-            <JFXButton maxWidth="20.0" minWidth="20.0" prefWidth="20.0" styleClass="SRElementAnchor" stylesheets="@../UIStyles.css" text=" " GridPane.columnIndex="1">
+            <GridPane styleClass="SRElement" stylesheets="@../UIStyles.css">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="type" text="alksdjglk" textFill="WHITE" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                     <font>
+                        <Font name="Calibri" size="29.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="20.0" top="15.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="test" text="Label" textFill="#9495b0" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                     <GridPane.margin>
+                        <Insets left="20.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Calibri" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="status" alignment="CENTER" contentDisplay="CENTER" maxHeight="25.0" maxWidth="120.0" minHeight="25.0" minWidth="120.0" style="-fx-background-color: #e0e0ef; -fx-background-radius: 12.5;" text="INCOMPLETE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets bottom="20.0" right="15.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="serviceID" text="Label" textFill="WHITE" GridPane.rowIndex="1" />
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </GridPane.margin>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="#292929" height="30.0" radius="14.5" width="30.0" />
+               </effect>
+            </GridPane>
+            <JFXButton maxWidth="40.0" minWidth="40.0" prefWidth="40.0" style="-fx-background-radius: 20;" styleClass="SRElementAnchor" stylesheets="@../UIStyles.css" text=" " GridPane.columnIndex="1" GridPane.valignment="TOP">
                <graphic>
-                  <MaterialDesignIconView fill="#6f7095" glyphName="DOTS_VERTICAL" size="50" />
+                  <MaterialDesignIconView fill="#6f7095" glyphName="DOTS_VERTICAL" size="60" />
                </graphic>
+               <GridPane.margin>
+                  <Insets top="10.0" />
+               </GridPane.margin>
+               <padding>
+                  <Insets left="-10.0" />
+               </padding>
             </JFXButton>
          </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
       </GridPane>
    </children>
 </AnchorPane>
