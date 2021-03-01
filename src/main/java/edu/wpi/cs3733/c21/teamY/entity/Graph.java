@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Graph {
-  public HashMap<String, Integer> allNodes; // NodeID int index
+  public HashMap<String, Integer> allNodes, longNodes; // NodeID int index
   public Node[] nodeList;
   public double[][] adjMatrix;
   public double[][] heuristicMatrix;
@@ -14,6 +14,7 @@ public class Graph {
   public Graph(ArrayList<Node> nodes, ArrayList<Edge> edges) {
     this.vertices = nodes.size();
     allNodes = new HashMap<>(vertices * 5);
+    longNodes = new HashMap<>(vertices * 5);
 
     nodeList = new Node[vertices];
     adjMatrix = new double[vertices][vertices];
@@ -24,6 +25,7 @@ public class Graph {
       int i = 0;
       for (Node node : nodes) {
         allNodes.put(node.nodeID, i);
+        longNodes.put(node.longName,i);
         nodeList[i] = node;
         i++;
       }
@@ -60,6 +62,10 @@ public class Graph {
 
   public int indexFromID(String id) {
     return allNodes.get(id);
+  }
+
+  public int indexFromLongName(String id) {
+    return longNodes.get(id);
   }
 
   // UNTESTED
