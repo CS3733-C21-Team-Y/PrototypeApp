@@ -517,12 +517,13 @@ public class CSV {
    * @throws IOException handles I/O exceptions
    * @throws SQLException if there are duplicate keys trying to be inserted or SQL syntax error
    */
+  @Deprecated
   public static void loadCSVtoDB() throws IOException, SQLException {
     String line;
     Connection connection;
     connection = JDBCUtils.getConn();
     System.out.println("start loading service CSV to database");
-    String insert = "insert into ADMIN.SERVICE values(?,?,?,?,?,?,?,?)";
+    String insert = "insert into ADMIN.SERVICE values(?,?,?,?,?,?,?,?,?)";
     PreparedStatement preparedStatement = connection.prepareStatement(insert);
     brService.readLine(); // Reads first line to clear the attributes line
     while ((line = brService.readLine()) != null) {
