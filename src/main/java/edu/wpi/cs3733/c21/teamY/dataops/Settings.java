@@ -4,18 +4,18 @@ public class Settings {
 
   private static Settings settings = new Settings();
   private String currentUsername;
-  private String currentPermissions;
+  private int currentPermissions;
 
   private Settings() {
     this.currentUsername = null;
-    this.currentPermissions = null;
+    this.currentPermissions = -1;
   }
 
   public String getCurrentUsername() {
     return currentUsername;
   }
 
-  public String getCurrentPermissions() {
+  public int getCurrentPermissions() {
     return currentPermissions;
   }
 
@@ -23,13 +23,13 @@ public class Settings {
     return settings;
   }
 
-  public void loginSuccess(String username, String permissions) {
+  public void loginSuccess(String username, int permissions) {
     this.currentUsername = username;
     this.currentPermissions = permissions;
   }
 
   public void logout() {
     this.currentUsername = null;
-    this.currentPermissions = null;
+    this.currentPermissions = -1;
   }
 }
