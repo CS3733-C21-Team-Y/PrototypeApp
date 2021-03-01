@@ -22,7 +22,7 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints maxHeight="329.0" minHeight="10.0" percentHeight="20.0" prefHeight="147.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="544.0" minHeight="10.0" percentHeight="80.0" prefHeight="521.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
@@ -30,7 +30,7 @@
                     <children>
                         <Label alignment="CENTER" prefHeight="85.0" prefWidth="381.0" text="Outside Hospital Service" textAlignment="CENTER" textFill="#3d3d73">
                             <font>
-                                <Font name="Arial Bold" size="29.0" />
+                                <Font name="Calibri Bold" size="23.0" />
                             </font>
                         </Label>
                     </children>

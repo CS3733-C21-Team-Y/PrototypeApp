@@ -29,7 +29,7 @@
                     <children>
                         <Label text="Language Request" textFill="#3b3d73">
                             <font>
-                                <Font name="Arial Bold" size="23.0" />
+                                <Font name="Calibri Bold" size="23.0" />
                             </font>
                         </Label>
                     </children>
@@ -78,7 +78,8 @@
                </GridPane.margin>
                <padding>
                   <Insets left="10.0" top="20.0" />
-               </padding></VBox>
+               </padding>
+            </VBox>
             </children>
         </GridPane>
     </children>
