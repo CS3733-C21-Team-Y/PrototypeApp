@@ -13,12 +13,13 @@ public class AlgorithmCalls {
     return DijkstrasAlgorithm.nodeDistance(start, end);
   }
 
-  public static ArrayList<Node> aStar(Graph g, String startID, String goalID) {
-    return AStarAlgorithm.aStar(g, startID, goalID);
+  public static ArrayList<Node> aStar(Graph g, String startID, String goalID, String accessType) {
+    return AStarAlgorithm.aStar(g, startID, goalID, accessType);
   }
 
-  public static ArrayList<Node> aStar(Graph g, String startID, ArrayList<String> goalIDs) {
-    return AStarAlgorithm.aStar(g, startID, goalIDs);
+  public static ArrayList<Node> aStar(
+      Graph g, String startID, ArrayList<String> goalIDs, String accessType) {
+    return AStarAlgorithm.aStar(g, startID, goalIDs, accessType);
   }
 
   public static ArrayList<String> nearestNeighbor(
@@ -39,10 +40,4 @@ public class AlgorithmCalls {
       Graph g, ArrayList<Node> path, ArrayList<String> endLocations, String detourType) {
     return DijkstrasAlgorithm.dijkstraDetour(g, path, endLocations, detourType);
   }
-  /*public static String dijkstraDetour(
-      Graph g, String startID, ArrayList<String> goalIDs, String detourType) {
-    return DijkstrasAlgorithm.dijkstraDetour(g, startID, goalIDs, detourType);
-  }
-
-   */
 }

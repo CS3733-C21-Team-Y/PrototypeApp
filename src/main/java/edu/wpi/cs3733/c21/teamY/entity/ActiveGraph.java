@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.entity;
 
-import edu.wpi.cs3733.c21.teamY.dataops.CSV;
+import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -42,8 +42,8 @@ public class ActiveGraph {
   }
   /** Initializes graph from csv. TO BE REPLACED LATER */
   public static void initialize(FilterMapElements filters) throws SQLException {
-    nodes = CSV.getListOfNodes(filters);
-    edges = CSV.getListOfEdge(filters);
+    nodes = DataOperations.getListOfNodes();
+    edges = DataOperations.getListOfEdge();
 
     Graph g = new Graph(nodes, edges);
     activeGraph = g;
