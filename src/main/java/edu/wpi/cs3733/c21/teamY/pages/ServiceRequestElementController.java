@@ -16,7 +16,15 @@ public class ServiceRequestElementController {
   public void populateInformation(Service service) {
     type.setText(service.getType());
     test.setText(service.getLocation());
-    serviceID.setText("" + service.getServiceID());
-    status.setText("" + service.getStatus());
+    serviceID.setText("ID #: " + service.getServiceID());
+    if (service.getStatus() == -1) {
+      status.setText("INCOMPLETE");
+    } else if (service.getStatus() == 0) {
+      status.setText("IN PROGRESS");
+    } else if (service.getStatus() == 1) {
+      status.setText("COMPLETE");
+    }
   }
+
+  public void openRequest() {}
 }
