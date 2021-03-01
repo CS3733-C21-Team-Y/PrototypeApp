@@ -122,7 +122,7 @@ public class DataOperations {
     return CSV.getListOfNodes(ActiveGraph.FilterMapElements.NoStairs);
   }
 
-  public static void findUser(String username, String password) throws SQLException {
-    JDBCUtils.findUser(username, password);
+  public static boolean findUser(String username, String password) throws SQLException {
+    return JDBCUtils.findUser(username, password);
   }
 }
