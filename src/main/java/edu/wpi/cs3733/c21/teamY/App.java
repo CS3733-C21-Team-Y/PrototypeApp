@@ -1,9 +1,7 @@
 package edu.wpi.cs3733.c21.teamY;
 
-import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.pages.StageInformation;
 import java.io.IOException;
-import java.sql.SQLException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,40 +17,31 @@ public class App extends Application {
 
   @Override
   public void init() {
-    try {
-      DataOperations.fillTablesFromCSV();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    //    log.info("Starting Up");
-    //    log.info("Attempting to load database from CSV file");
+    //        log.info("Starting Up");
+    //        log.info("Attempting to load database from CSV file");
     //
-    //    try {
-    //      JDBCUtils.fillTablesFromCSV();
-    //      CSV.loadCSVtoDB();
-    //    } catch (Exception e) {
-    //      e.printStackTrace();
-    //      log.info("Error loading CSV into DB");
-    //    }
+    //        try {
+    //          JDBCUtils.fillTablesFromCSV();
+    //          DataOperations
+    //        } catch (Exception e) {
+    //          e.printStackTrace();
+    //          log.info("Error loading CSV into DB");
+    //        }
     //
-    //    try {
-    //      ActiveGraph.initialize();
-    //    } catch (SQLException e) {
-    //      e.printStackTrace();
-    //      log.info("Error initializing ActiveGraph");
-    //    }
+    //        try {
+    //          ActiveGraph.initialize();
+    //        } catch (SQLException e) {
+    //          e.printStackTrace();
+    //          log.info("Error initializing ActiveGraph");
+    //        }
     //
-    //    try {
-    //      ActiveGraphNoStairs.initialize();
+    //        try {
+    //          ActiveGraphNoStairs.initialize();
     //
-    //    } catch (SQLException e) {
-    //      e.printStackTrace();
-    //      log.info("Error initializing ActiveGraphNoStairs");
-    //    }
+    //        } catch (SQLException e) {
+    //          e.printStackTrace();
+    //          log.info("Error initializing ActiveGraphNoStairs");
+    //        }
   }
 
   @Override

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<AnchorPane prefHeight="289.0" prefWidth="687.0" styleClass="SRElementAnchor" stylesheets="@../UIStyles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.ServiceRequestElement">
+   <children>
+      <GridPane layoutX="150.0" layoutY="222.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="8.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="SRElement" stylesheets="@../UIStyles.css" />
+            <JFXButton maxWidth="20.0" minWidth="20.0" prefWidth="20.0" styleClass="SRElementAnchor" stylesheets="@../UIStyles.css" text=" " GridPane.columnIndex="1">
+               <graphic>
+                  <MaterialDesignIconView fill="#6f7095" glyphName="DOTS_VERTICAL" size="50" />
+               </graphic>
+            </JFXButton>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

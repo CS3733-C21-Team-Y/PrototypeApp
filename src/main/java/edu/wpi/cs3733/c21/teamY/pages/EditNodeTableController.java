@@ -15,7 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 
-public class EditNodeTableController {
+public class EditNodeTableController extends RightPage {
 
   @FXML public JFXTreeTableView<TableNodes> treeTable;
   public JFXTreeTableColumn<TableNodes, String> nodeIDCol;
