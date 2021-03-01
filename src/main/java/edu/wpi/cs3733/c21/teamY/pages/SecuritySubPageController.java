@@ -1,3 +1,25 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
-public class SecuritySubPageController extends GenericServiceFormPage {}
+import com.jfoenix.controls.JFXButton;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+
+public class SecuritySubPageController extends GenericServiceFormPage {
+
+  @FXML private JFXButton clearBtn;
+  @FXML private JFXButton backBtn;
+  @FXML private JFXButton submitBtn;
+
+  public SecuritySubPageController() {}
+
+  @FXML
+  private void initialize() {
+
+    backBtn.setOnAction(e -> buttonClicked(e));
+    // submitBtn.setOnAction(e -> submitBtnClicked());
+  }
+
+  private void buttonClicked(ActionEvent e) {
+    if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+  }
+}

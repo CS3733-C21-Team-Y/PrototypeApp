@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamY.pages;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -14,6 +15,7 @@ public class AudioVisualController extends RightPage {
   @FXML private JFXComboBox avLocationComboBox;
   @FXML private JFXDatePicker avDate;
   @FXML private JFXTextArea avDesc;
+  @FXML private Button backBtn;
 
   public AudioVisualController() {}
 
@@ -34,6 +36,10 @@ public class AudioVisualController extends RightPage {
 
     // initialize date picker
     avDate = new JFXDatePicker();
+  }
+
+  private void buttonClicked(ActionEvent e) {
+    if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
   }
 
   private void avSubmitClicked() {}

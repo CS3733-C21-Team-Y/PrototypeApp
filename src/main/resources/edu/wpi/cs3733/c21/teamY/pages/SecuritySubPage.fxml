@@ -67,8 +67,8 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <JFXButton fx:id="clearButton" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" ripplerFill="#5a5c94" style="-fx-background-radius: 8; -fx-font-family: Arial; -fx-font-weight: bold; -fx-font-size: 16; -fx-background-color: c2c3ed;" text="Clear" textFill="#5a5c94" />
-                                <JFXButton fx:id="submitButton" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: efeff9; -fx-background-radius: 8; -fx-font-family: Arial; -fx-font-weight: bold; -fx-font-size: 16;" text="Submit" textFill="#5a5c94" GridPane.columnIndex="1" />
+                                <JFXButton fx:id="clearBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" ripplerFill="#5a5c94" style="-fx-background-radius: 8; -fx-font-family: Arial; -fx-font-weight: bold; -fx-font-size: 16; -fx-background-color: c2c3ed;" text="Clear" textFill="#5a5c94" />
+                                <JFXButton fx:id="submitBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: efeff9; -fx-background-radius: 8; -fx-font-family: Arial; -fx-font-weight: bold; -fx-font-size: 16;" text="Submit" textFill="#5a5c94" GridPane.columnIndex="1" />
                             </children>
                         </GridPane>
                         <JFXComboBox fx:id="locationComboBox" labelFloat="true" minHeight="40.0" prefHeight="40.0" prefWidth="999999.0" promptText="Location" style="-fx-border-color: #dedede; -fx-border-width: 0.5; -fx-border-radius: 6;" GridPane.columnIndex="1" GridPane.rowIndex="1">
