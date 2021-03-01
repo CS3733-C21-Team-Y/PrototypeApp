@@ -47,6 +47,8 @@ public class MapController {
   private double dragStartX;
   private double dragStartY;
 
+  private boolean displayUnselectedAdorners = true;
+
   private ArrayList<CircleEx> selectedNodes = new ArrayList<CircleEx>();
   private ArrayList<LineEx> selectedEdges = new ArrayList<LineEx>();
 
@@ -54,6 +56,15 @@ public class MapController {
   private File file;
 
   protected String floorNumber = "0";
+
+  private double baseCircleRadius = 4;
+  private double baseLineWidth = 2;
+  private double selectedWidthRatio = 3;
+
+  // Need to update these values properly
+  private double scaledCircleRadius = 0;
+  private double scaledLineWidth = 0;
+  private double scaledLineWidthSelected = 0;
 
   protected enum MAP_PAGE {
     PARKING,
@@ -130,6 +141,41 @@ public class MapController {
     return lastClickDrag;
   }
 
+  public boolean isDisplayUnselectedAdorners() {
+    return displayUnselectedAdorners;
+  }
+
+  public void setDisplayUnselectedAdorners(boolean displayUnselectedAdorners) {
+    if (displayUnselectedAdorners != this.displayUnselectedAdorners) {
+      this.displayUnselectedAdorners = displayUnselectedAdorners;
+
+      if (!displayUnselectedAdorners) {
+        for (javafx.scene.Node child : adornerPane.getChildren()) {
+
+          if (child instanceof CircleEx) {
+            CircleEx c = (CircleEx) child;
+            if (c.isVisible() && c.hasFocus) {
+              c.setVisible(false);
+            }
+          }
+
+          if (child instanceof LineEx) {
+            LineEx l = (LineEx) child;
+            if (l.isVisible() && l.hasFocus) {
+              l.setVisible(false);
+            }
+          }
+        }
+      } else {
+        for (javafx.scene.Node child : adornerPane.getChildren()) {
+          if (!child.isVisible()) {
+            child.setVisible(true);
+          }
+        }
+      }
+    }
+  }
+
   public MapController() {}
 
   @FXML
@@ -177,6 +223,7 @@ public class MapController {
           Rectangle viewWindow =
               new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
           containerStackPane.setClip(viewWindow);
+          updateAdornerVisualsOnZoom();
         });
   }
 
@@ -290,21 +337,29 @@ public class MapController {
   // Adorner Elements
   protected CircleEx addNodeCircle(Node node) {
     CircleEx circleEx =
-        new CircleEx(scaleXCoords(node.getXcoord()), scaleXCoords(node.getYcoord()), 3);
+        new CircleEx(
+            scaleXCoords(node.getXcoord()),
+            scaleXCoords(node.getYcoord()),
+            baseCircleRadius / adornerPane.getScaleX());
     circleEx.setId(node.getNodeID());
     circleEx.setFill(Paint.valueOf("RED"));
+    circleEx.setNode(node);
     adornerPane.getChildren().add(circleEx);
+
+    if (!displayUnselectedAdorners) {
+      circleEx.setVisible(false);
+    }
 
     updateMapScreen();
     return circleEx;
   }
 
-  protected LineEx addEdgeLine(Edge e) {
+  protected LineEx addEdgeLine(Edge edge) {
     CircleEx n = null;
     CircleEx m = null;
     try {
-      n = (CircleEx) adornerPane.getScene().lookup("#" + e.getStartNodeID());
-      m = (CircleEx) adornerPane.getScene().lookup("#" + e.getEndNodeID());
+      n = (CircleEx) adornerPane.getScene().lookup("#" + edge.getStartNodeID());
+      m = (CircleEx) adornerPane.getScene().lookup("#" + edge.getEndNodeID());
 
       // System.out.println(e.edgeID);
       startx = n.getCenterX();
@@ -319,10 +374,15 @@ public class MapController {
     LineEx lineEx = new LineEx(startx, starty, endx, endy);
     lineEx.startNode = n;
     lineEx.endNode = m;
-    lineEx.setId(e.getEdgeID());
-    lineEx.setStrokeWidth(3);
+    lineEx.setId(edge.getEdgeID());
+    lineEx.setStrokeWidth(scaledLineWidth);
+    lineEx.setEdge(edge);
     adornerPane.getChildren().add(lineEx);
     lineEx.toBack();
+
+    if (!displayUnselectedAdorners) {
+      lineEx.setVisible(false);
+    }
 
     if (n != null && !n.connectingEdges.contains(lineEx)) {
       n.connectingEdges.add(lineEx);
@@ -448,7 +508,7 @@ public class MapController {
 
   // Selection functions
   protected void clearSelection() {
-    // Cannot just deselect because for loop
+    // Cannot just deselect because for loop cannot be edited during loop
     clearCircleSelection();
     clearLineSelection();
   }
@@ -457,25 +517,32 @@ public class MapController {
     for (CircleEx c : selectedNodes) {
       c.setStrokeWidth(0);
       c.hasFocus = false;
+      if (!displayUnselectedAdorners) {
+        c.setVisible(false);
+      }
     }
     selectedNodes = new ArrayList<CircleEx>();
   }
 
   protected void clearLineSelection() {
     for (LineEx l : selectedEdges) {
-      l.setStrokeWidth(3);
+      l.setStrokeWidth(scaledLineWidth);
       l.setStroke(Paint.valueOf("BLACK"));
       l.hasFocus = false;
+      if (!displayUnselectedAdorners) {
+        l.setVisible(false);
+      }
     }
     selectedEdges = new ArrayList<LineEx>();
   }
 
   protected void selectCircle(CircleEx c) {
     if (!c.hasFocus) {
-      c.setStrokeWidth(2);
+      c.setStrokeWidth(scaledLineWidth);
       c.setStroke(Paint.valueOf("BLUE"));
       selectedNodes.add(c);
       c.hasFocus = true;
+      c.setVisible(true);
     }
   }
 
@@ -484,24 +551,31 @@ public class MapController {
       c.setStrokeWidth(0);
       selectedNodes.remove(c);
       c.hasFocus = false;
+      if (!displayUnselectedAdorners) {
+        c.setVisible(false);
+      }
     }
   }
 
   protected void selectLine(LineEx l) {
     if (!l.hasFocus) {
-      l.setStrokeWidth(5);
+      l.setStrokeWidth(scaledLineWidthSelected);
       l.setStroke(Paint.valueOf("BLUE"));
       selectedEdges.add(l);
       l.hasFocus = true;
+      l.setVisible(true);
     }
   }
 
   protected void deSelectLine(LineEx l) {
     if (l.hasFocus) {
-      l.setStrokeWidth(3);
+      l.setStrokeWidth(scaledLineWidth);
       l.setStroke(Paint.valueOf("BLACK"));
       selectedEdges.remove(l);
       l.hasFocus = false;
+      if (!displayUnselectedAdorners) {
+        l.setVisible(false);
+      }
     }
   }
 
@@ -540,6 +614,7 @@ public class MapController {
           } else {
 
           }
+          updateAdornerVisualsOnZoom();
         });
   }
 
@@ -576,6 +651,7 @@ public class MapController {
     mapImageView.translateYProperty().setValue(0);
     adornerPane.translateXProperty().setValue(0);
     adornerPane.translateYProperty().setValue(0);
+    updateAdornerVisualsOnZoom();
   }
 
   protected void zoom(ScrollEvent e) {
@@ -597,6 +673,7 @@ public class MapController {
 
     mapImageView.setScaleY(mapImageView.getScaleY() + scale);
     mapImageView.setScaleX(mapImageView.getScaleX() + scale);
+    updateAdornerVisualsOnZoom();
   }
 
   protected void zoomOnButtons(String dir) {
@@ -618,6 +695,32 @@ public class MapController {
 
     } else {
     }
+    updateAdornerVisualsOnZoom();
+  }
+
+  protected void updateAdornerVisualsOnZoom() {
+    scaledCircleRadius = baseCircleRadius / adornerPane.getScaleX();
+    scaledLineWidth = baseLineWidth / adornerPane.getScaleX();
+    scaledLineWidthSelected = baseLineWidth / adornerPane.getScaleX() * selectedWidthRatio;
+
+    for (javafx.scene.Node adorner : adornerPane.getChildren()) {
+      if (adorner instanceof CircleEx) {
+        CircleEx circ = (CircleEx) adorner;
+        if (circ.hasFocus) {
+          circ.setStrokeWidth(scaledLineWidth);
+        }
+        circ.setRadius(scaledCircleRadius);
+      } else {
+        if (adorner instanceof LineEx) {
+          LineEx line = (LineEx) adorner;
+          if (line.hasFocus) {
+            line.setStrokeWidth(scaledLineWidthSelected);
+          } else {
+            line.setStrokeWidth(scaledLineWidth);
+          }
+        }
+      }
+    }
   }
 
   // Better Adorners
@@ -637,6 +740,16 @@ public class MapController {
           System.out.println("Circle found edge that didnt have it added");
         }
       }
+    }
+
+    private Node node;
+
+    public Node getNode() {
+      return node;
+    }
+
+    public void setNode(Node n) {
+      node = n;
     }
 
     public CircleEx(double radius) {
@@ -663,6 +776,16 @@ public class MapController {
 
     public CircleEx startNode;
     public CircleEx endNode;
+
+    private Edge edge;
+
+    public Edge getEdge() {
+      return edge;
+    }
+
+    public void setEdge(Edge e) {
+      edge = e;
+    }
 
     public LineEx() {}
 
