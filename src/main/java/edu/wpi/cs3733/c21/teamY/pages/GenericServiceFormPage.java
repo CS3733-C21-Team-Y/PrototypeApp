@@ -12,14 +12,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class GenericServiceFormPage extends GenericPage {
+public class GenericServiceFormPage extends RightPage {
 
   public int IDCount;
+
+  @Override
+  public void loadNavigationBar() {
+    parent.setCenterColumnWidth(350);
+  }
 
   public GenericServiceFormPage() {
     super();
     try {
-      ArrayList<Service> services = JDBCUtils.exportService("");
+      ArrayList<Service> services = JDBCUtils.exportService("", "");
       IDCount = services.size();
     } catch (SQLException throwables) {
       throwables.printStackTrace();

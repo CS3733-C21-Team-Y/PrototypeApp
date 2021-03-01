@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -15,8 +16,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -27,27 +28,42 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class MapController {
+public class MapController extends RightPage {
 
-  @FXML private AnchorPane anchor;
   @FXML private ImageView mapImageView;
   @FXML private Pane adornerPane;
   @FXML protected StackPane containerStackPane;
 
+  //YAY?!
   @FXML private GridPane mapOverlayUIGridPane;
   @FXML private SplitMenuButton floorMenu;
 
   private double startx, starty, endx, endy;
 
+  private boolean dragging = false;
+  private boolean lastClickDrag = false;
+
+  private double dragStartX;
+  private double dragStartY;
+
+  private boolean displayUnselectedAdorners = true;
+
   private ArrayList<CircleEx> selectedNodes = new ArrayList<CircleEx>();
   private ArrayList<LineEx> selectedEdges = new ArrayList<LineEx>();
-
-  protected ArrayList<CircleEx> movedNodes = new ArrayList<CircleEx>();
 
   private FileChooser fc = new FileChooser();
   private File file;
 
   protected String floorNumber = "0";
+
+  private double baseCircleRadius = 3;
+  private double baseLineWidth = 2;
+  private double selectedWidthRatio = 2;
+
+  // Need to update these values properly
+  private double scaledCircleRadius = 0;
+  private double scaledLineWidth = 0;
+  private double scaledLineWidthSelected = 0;
 
   protected enum MAP_PAGE {
     PARKING,
@@ -116,6 +132,76 @@ public class MapController {
     return mapOverlayUIGridPane;
   }
 
+  public boolean isDragging() {
+    return dragging;
+  }
+
+  public boolean wasLastClickDrag() {
+    return lastClickDrag;
+  }
+
+  public boolean isDisplayUnselectedAdorners() {
+    return displayUnselectedAdorners;
+  }
+
+  public double getBaseCircleRadius() {
+    return baseCircleRadius;
+  }
+
+  public void setBaseCircleRadius(double baseCircleRadius) {
+    this.baseCircleRadius = baseCircleRadius;
+    updateAdornerVisualsOnZoom();
+  }
+
+  public double getBaseLineWidth() {
+    return baseLineWidth;
+  }
+
+  public void setBaseLineWidth(double baseLineWidth) {
+    this.baseLineWidth = baseLineWidth;
+    updateAdornerVisualsOnZoom();
+  }
+
+  public double getSelectedWidthRatio() {
+    return selectedWidthRatio;
+  }
+
+  public void setSelectedWidthRatio(double selectedWidthRatio) {
+    this.selectedWidthRatio = selectedWidthRatio;
+    updateAdornerVisualsOnZoom();
+  }
+
+  public void setDisplayUnselectedAdorners(boolean displayUnselectedAdorners) {
+    if (displayUnselectedAdorners != this.displayUnselectedAdorners) {
+      this.displayUnselectedAdorners = displayUnselectedAdorners;
+
+      if (!displayUnselectedAdorners) {
+        for (javafx.scene.Node child : adornerPane.getChildren()) {
+
+          if (child instanceof CircleEx) {
+            CircleEx c = (CircleEx) child;
+            if (c.isVisible() && c.hasFocus) {
+              c.setVisible(false);
+            }
+          }
+
+          if (child instanceof LineEx) {
+            LineEx l = (LineEx) child;
+            if (l.isVisible() && l.hasFocus) {
+              l.setVisible(false);
+            }
+          }
+        }
+      } else {
+        for (javafx.scene.Node child : adornerPane.getChildren()) {
+          if (!child.isVisible()) {
+            child.setVisible(true);
+          }
+        }
+      }
+    }
+  }
+
   public MapController() {}
 
   @FXML
@@ -134,6 +220,63 @@ public class MapController {
     adornerPane.setScaleY(mapImageView.getScaleY());
 
     mapOverlayUIGridPane.setPickOnBounds(false);
+
+    // Default AdornerPane click and drag
+    adornerPane.setOnMousePressed(
+        e -> {
+          defaultOnMousePressed(e);
+        });
+    adornerPane.setOnMouseDragged(
+        e -> {
+          defaultOnMouseDragged(e);
+        });
+    adornerPane.setOnMouseReleased(
+        e -> {
+          defaultOnMouseReleased(e);
+        });
+
+    // Set Zoom
+    containerStackPane.setOnKeyPressed(
+        e -> {
+          scrollOnPress(e);
+        });
+    containerStackPane.setOnKeyReleased(e -> scrollOnRelease(e));
+    containerStackPane.setOnScroll(e -> zoom(e));
+
+    // Sets Map clip so nothing can appear outside map bounds
+    Platform.runLater(
+        () -> {
+          Rectangle viewWindow =
+              new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
+          containerStackPane.setClip(viewWindow);
+          updateAdornerVisualsOnZoom();
+        });
+  }
+
+  // Default Drag Handlers
+  protected void defaultOnMousePressed(MouseEvent e) {
+    dragStartX = e.getX();
+    dragStartY = e.getY();
+  }
+
+  protected void defaultOnMouseDragged(MouseEvent e) {
+
+    dragging = true;
+
+    double dragDeltaX = dragStartX - e.getX();
+    double dragDeltaY = dragStartY - e.getY();
+
+    mapImageView.setTranslateX(
+        mapImageView.getTranslateX() - dragDeltaX * mapImageView.getScaleX());
+    mapImageView.setTranslateY(
+        mapImageView.getTranslateY() - dragDeltaY * mapImageView.getScaleY());
+    adornerPane.setTranslateX(adornerPane.getTranslateX() - dragDeltaX * mapImageView.getScaleX());
+    adornerPane.setTranslateY(adornerPane.getTranslateY() - dragDeltaY * mapImageView.getScaleY());
+  }
+
+  protected void defaultOnMouseReleased(MouseEvent e) {
+    lastClickDrag = dragging;
+    dragging = false;
   }
 
   // Image stuff
@@ -220,19 +363,29 @@ public class MapController {
   // Adorner Elements
   protected CircleEx addNodeCircle(Node node) {
     CircleEx circleEx =
-        new CircleEx(scaleXCoords(node.getXcoord()), scaleXCoords(node.getYcoord()), 3);
+        new CircleEx(
+            scaleXCoords(node.getXcoord()),
+            scaleXCoords(node.getYcoord()),
+            baseCircleRadius / adornerPane.getScaleX());
     circleEx.setId(node.getNodeID());
     circleEx.setFill(Paint.valueOf("RED"));
+    circleEx.setNode(node);
     adornerPane.getChildren().add(circleEx);
+
+    if (!displayUnselectedAdorners) {
+      circleEx.setVisible(false);
+    }
 
     updateMapScreen();
     return circleEx;
   }
 
-  protected LineEx addEdgeLine(Edge e) {
+  protected LineEx addEdgeLine(Edge edge) {
+    CircleEx n = null;
+    CircleEx m = null;
     try {
-      CircleEx n = (CircleEx) adornerPane.getScene().lookup("#" + e.getStartNodeID());
-      CircleEx m = (CircleEx) adornerPane.getScene().lookup("#" + e.getEndNodeID());
+      n = (CircleEx) adornerPane.getScene().lookup("#" + edge.getStartNodeID());
+      m = (CircleEx) adornerPane.getScene().lookup("#" + edge.getEndNodeID());
 
       // System.out.println(e.edgeID);
       startx = n.getCenterX();
@@ -245,10 +398,24 @@ public class MapController {
     }
 
     LineEx lineEx = new LineEx(startx, starty, endx, endy);
-    lineEx.setId(e.getEdgeID());
-    lineEx.setStrokeWidth(3);
+    lineEx.startNode = n;
+    lineEx.endNode = m;
+    lineEx.setId(edge.getEdgeID());
+    lineEx.setStrokeWidth(scaledLineWidth);
+    lineEx.setEdge(edge);
     adornerPane.getChildren().add(lineEx);
     lineEx.toBack();
+
+    if (!displayUnselectedAdorners) {
+      lineEx.setVisible(false);
+    }
+
+    if (n != null && !n.connectingEdges.contains(lineEx)) {
+      n.connectingEdges.add(lineEx);
+    }
+    if (m != null && !m.connectingEdges.contains(lineEx)) {
+      m.connectingEdges.add(lineEx);
+    }
 
     updateMapScreen();
 
@@ -367,27 +534,41 @@ public class MapController {
 
   // Selection functions
   protected void clearSelection() {
-    // Cannot just deselect because for loop
+    // Cannot just deselect because for loop cannot be edited during loop
+    clearCircleSelection();
+    clearLineSelection();
+  }
+
+  protected void clearCircleSelection() {
     for (CircleEx c : selectedNodes) {
       c.setStrokeWidth(0);
       c.hasFocus = false;
+      if (!displayUnselectedAdorners) {
+        c.setVisible(false);
+      }
     }
+    selectedNodes = new ArrayList<CircleEx>();
+  }
+
+  protected void clearLineSelection() {
     for (LineEx l : selectedEdges) {
-      l.setStrokeWidth(3);
+      l.setStrokeWidth(scaledLineWidth);
       l.setStroke(Paint.valueOf("BLACK"));
       l.hasFocus = false;
+      if (!displayUnselectedAdorners) {
+        l.setVisible(false);
+      }
     }
-
-    selectedNodes = new ArrayList<CircleEx>();
     selectedEdges = new ArrayList<LineEx>();
   }
 
   protected void selectCircle(CircleEx c) {
     if (!c.hasFocus) {
-      c.setStrokeWidth(2);
+      c.setStrokeWidth(scaledLineWidth);
       c.setStroke(Paint.valueOf("BLUE"));
       selectedNodes.add(c);
       c.hasFocus = true;
+      c.setVisible(true);
     }
   }
 
@@ -396,24 +577,43 @@ public class MapController {
       c.setStrokeWidth(0);
       selectedNodes.remove(c);
       c.hasFocus = false;
+      if (!displayUnselectedAdorners) {
+        c.setVisible(false);
+      }
     }
   }
 
   protected void selectLine(LineEx l) {
     if (!l.hasFocus) {
-      l.setStrokeWidth(5);
+      l.setStrokeWidth(scaledLineWidthSelected);
       l.setStroke(Paint.valueOf("BLUE"));
       selectedEdges.add(l);
       l.hasFocus = true;
+      l.setVisible(true);
     }
   }
 
   protected void deSelectLine(LineEx l) {
     if (l.hasFocus) {
-      l.setStrokeWidth(3);
+      l.setStrokeWidth(scaledLineWidth);
       l.setStroke(Paint.valueOf("BLACK"));
       selectedEdges.remove(l);
       l.hasFocus = false;
+      if (!displayUnselectedAdorners) {
+        l.setVisible(false);
+      }
+    }
+  }
+
+  protected void selectCirclesFromList(ArrayList<CircleEx> list) {
+    for (CircleEx circle : list) {
+      selectCircle(circle);
+    }
+  }
+
+  protected void selectLinesFromList(ArrayList<LineEx> list) {
+    for (LineEx line : list) {
+      selectLine(line);
     }
   }
 
@@ -440,6 +640,7 @@ public class MapController {
           } else {
 
           }
+          updateAdornerVisualsOnZoom();
         });
   }
 
@@ -464,10 +665,6 @@ public class MapController {
       adornerPane.translateXProperty().setValue(adornerPane.getTranslateX() + movement);
     } else {
     }
-
-    Rectangle viewWindow =
-        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
-    containerStackPane.setClip(viewWindow);
   }
 
   protected void resetMapView() {
@@ -480,6 +677,7 @@ public class MapController {
     mapImageView.translateYProperty().setValue(0);
     adornerPane.translateXProperty().setValue(0);
     adornerPane.translateYProperty().setValue(0);
+    updateAdornerVisualsOnZoom();
   }
 
   protected void zoom(ScrollEvent e) {
@@ -501,6 +699,7 @@ public class MapController {
 
     mapImageView.setScaleY(mapImageView.getScaleY() + scale);
     mapImageView.setScaleX(mapImageView.getScaleX() + scale);
+    updateAdornerVisualsOnZoom();
   }
 
   protected void zoomOnButtons(String dir) {
@@ -522,15 +721,62 @@ public class MapController {
 
     } else {
     }
+    updateAdornerVisualsOnZoom();
+  }
 
-    Rectangle viewWindow =
-        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
-    containerStackPane.setClip(viewWindow);
+  protected void updateAdornerVisualsOnZoom() {
+    scaledCircleRadius = baseCircleRadius / adornerPane.getScaleX();
+    scaledLineWidth = baseLineWidth / adornerPane.getScaleX();
+    scaledLineWidthSelected = baseLineWidth / adornerPane.getScaleX() * selectedWidthRatio;
+
+    for (javafx.scene.Node adorner : adornerPane.getChildren()) {
+      if (adorner instanceof CircleEx) {
+        CircleEx circ = (CircleEx) adorner;
+        if (circ.hasFocus) {
+          circ.setStrokeWidth(scaledLineWidth);
+        }
+        circ.setRadius(scaledCircleRadius);
+      } else {
+        if (adorner instanceof LineEx) {
+          LineEx line = (LineEx) adorner;
+          if (line.hasFocus) {
+            line.setStrokeWidth(scaledLineWidthSelected);
+          } else {
+            line.setStrokeWidth(scaledLineWidth);
+          }
+        }
+      }
+    }
   }
 
   // Better Adorners
   public class CircleEx extends Circle {
     public boolean hasFocus = false;
+    public ArrayList<LineEx> connectingEdges = new ArrayList<LineEx>();
+
+    public void updateAdjacentEdges() {
+      for (LineEx edge : connectingEdges) {
+        if (edge.startNode == this) {
+          edge.setStartX(this.getCenterX());
+          edge.setStartY(this.getCenterY());
+        } else if (edge.endNode == this) {
+          edge.setEndX(this.getCenterX());
+          edge.setEndY(this.getCenterY());
+        } else {
+          System.out.println("Circle found edge that didnt have it added");
+        }
+      }
+    }
+
+    private Node node;
+
+    public Node getNode() {
+      return node;
+    }
+
+    public void setNode(Node n) {
+      node = n;
+    }
 
     public CircleEx(double radius) {
       super(radius);
@@ -554,51 +800,23 @@ public class MapController {
   public class LineEx extends Line {
     public boolean hasFocus = false;
 
+    public CircleEx startNode;
+    public CircleEx endNode;
+
+    private Edge edge;
+
+    public Edge getEdge() {
+      return edge;
+    }
+
+    public void setEdge(Edge e) {
+      edge = e;
+    }
+
     public LineEx() {}
 
     public LineEx(double startX, double startY, double endX, double endY) {
       super(startX, startY, endX, endY);
-    }
-  }
-
-  protected void moveSelected(ArrayList<CircleEx> circles, ArrayList<LineEx> lines, String dir) {
-    int movement = 10;
-    for (CircleEx c : circles) {
-      if (dir.equals("up")) {
-        c.setCenterY(c.getCenterY() - movement);
-      } else if (dir.equals("down")) {
-        c.setCenterY(c.getCenterY() + movement);
-      } else if (dir.equals("left")) {
-        c.setCenterX(c.getCenterX() - movement);
-      } else if (dir.equals("right")) {
-        c.setCenterX(c.getCenterX() + movement);
-      } else {
-
-      }
-
-      if (!movedNodes.contains(c)) {
-        movedNodes.add(c);
-      }
-    }
-
-    System.out.println(movedNodes);
-
-    for (LineEx l : lines) {
-      if (dir.equals("up")) {
-        l.setStartY(l.getStartY() - movement);
-        l.setEndY(l.getEndY() - movement);
-      } else if (dir.equals("down")) {
-        l.setStartY(l.getStartY() + movement);
-        l.setEndY(l.getEndY() + movement);
-      } else if (dir.equals("left")) {
-        l.setStartX(l.getStartX() - movement);
-        l.setEndX(l.getEndX() - movement);
-      } else if (dir.equals("right")) {
-        l.setStartX(l.getStartX() + movement);
-        l.setEndX(l.getEndX() + movement);
-      } else {
-
-      }
     }
   }
 }

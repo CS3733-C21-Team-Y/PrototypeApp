@@ -1,13 +1,12 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
-import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
+import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
@@ -26,17 +25,19 @@ public class MaintenancePageController extends GenericServiceFormPage {
   @FXML private DatePicker date;
   @FXML private TextField locationField;
 
+  private Settings settings;
+
   private ArrayList<String> categories;
   private ArrayList<String> urgencies;
 
   // unused constructor
-  public MaintenancePageController() {
-    super();
-  }
+  public MaintenancePageController() {}
 
   // this runs once the FXML loads in to attach functions to components
   @FXML
   private void initialize() {
+    settings = Settings.getSettings();
+
     categories = new ArrayList<String>();
     categories.add("Room Damage");
     categories.add("Electrical");
@@ -48,14 +49,17 @@ public class MaintenancePageController extends GenericServiceFormPage {
     urgencies.add("Medium");
     urgencies.add("High");
     // attaches a handler to the button with a lambda expression
-    cancelBtn.setOnAction(e -> serviceButtonClicked(e, "MaintenancePage.fxml"));
-    clearBtn.setOnAction(e -> serviceButtonClicked(e, "MaintenancePage.fxml"));
-    backBtn.setOnAction(e -> serviceButtonClicked(e, "MaintenancePage.fxml"));
+    // cancelBtn.setOnAction(e -> serviceButtonClicked(e, "MaintenancePage.fxml"));
+    // clearBtn.setOnAction(e -> serviceButtonClicked(e, "MaintenancePage.fxml"));
+    backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
-    exitBtn.setOnAction(e -> exitButtonClicked());
 
     for (String c : categories) category.getItems().add(c);
     for (String c : urgencies) urgency.getItems().add(c);
+  }
+
+  private void buttonClicked(ActionEvent e) {
+    if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
   }
 
   @FXML
@@ -64,13 +68,23 @@ public class MaintenancePageController extends GenericServiceFormPage {
     // put code for submitting a service request here
     Service service = new Service(this.IDCount, "Maintenance");
     this.IDCount++;
-    System.out.println(this.IDCount);
+    // System.out.println(this.IDCount);
     service.setCategory((String) category.getValue());
     service.setLocation(locationField.getText());
     service.setDescription(description.getText());
     service.setUrgency((String) urgency.getValue());
     service.setDate(date.getValue().toString());
     Stage popUp = new Stage();
+
+    try {
+      DataOperations.saveService(service);
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
+
+    /*
     try {
       JDBCUtils.saveService(service);
       stage = (Stage) submitBtn.getScene().getWindow();
@@ -83,5 +97,6 @@ public class MaintenancePageController extends GenericServiceFormPage {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    */
   }
 }

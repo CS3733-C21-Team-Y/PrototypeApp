@@ -1,8 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.dataops;
 
-import edu.wpi.cs3733.c21.teamY.entity.Edge;
-import edu.wpi.cs3733.c21.teamY.entity.Node;
-import edu.wpi.cs3733.c21.teamY.entity.Service;
+import edu.wpi.cs3733.c21.teamY.entity.*;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,6 +22,8 @@ public class CSV {
   public static String serviceTestPath =
       "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/Services.csv";
   public static String servicePath = "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/Services.csv";
+  public static String employeePath =
+      "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/Employee.CSV";
   public static BufferedReader brService;
   public static BufferedWriter bwService;
 
@@ -322,6 +322,11 @@ public class CSV {
   }
 
   public static ArrayList<Edge> getListOfEdge() throws SQLException {
+    return getListOfEdge(ActiveGraph.FilterMapElements.None);
+  }
+
+  public static ArrayList<Edge> getListOfEdge(ActiveGraph.FilterMapElements filters)
+      throws SQLException {
     Connection conn = JDBCUtils.getConn();
     String str = "SELECT * FROM ADMIN.EDGE";
     ArrayList<Edge> edges = new ArrayList<>();
@@ -336,6 +341,13 @@ public class CSV {
         edgeID = resultSet.getString(1);
         startNodeID = resultSet.getString(2);
         endNodeID = resultSet.getString(3);
+
+        if (filters == ActiveGraph.FilterMapElements.NoStairs
+            || filters == ActiveGraph.FilterMapElements.Employee_NoStairs) {
+          if (startNodeID.contains("STAI") || endNodeID.contains("STAI")) {
+            continue;
+          }
+        }
         Edge edge = new Edge(edgeID, startNodeID, endNodeID);
         edges.add(edge);
         JDBCUtils.insert(3, edge, "Edge");
@@ -364,9 +376,7 @@ public class CSV {
         edgeID = resultSet.getString(1);
         startNodeID = resultSet.getString(2);
         endNodeID = resultSet.getString(3);
-        if (startNodeID.contains("STAI") || endNodeID.contains("STAI")) {
-          continue;
-        }
+
         Edge edge = new Edge(edgeID, startNodeID, endNodeID);
         edges.add(edge);
         JDBCUtils.insert(3, edge, "Edge");
@@ -380,8 +390,13 @@ public class CSV {
     return null;
   }
 
-  /** @return a list of nodes */
   public static ArrayList<Node> getListOfNodes() throws SQLException {
+    return getListOfNodes(ActiveGraph.FilterMapElements.None);
+  }
+
+  /** @return a list of nodes filtered by ActiveGraph.FilterMapElements */
+  public static ArrayList<Node> getListOfNodes(ActiveGraph.FilterMapElements filters)
+      throws SQLException {
     // Connection conn=JDBCUtils.getConn();
     Connection conn = JDBCUtils.getConn();
     String str = "SELECT * FROM ADMIN.NODE";
@@ -410,62 +425,11 @@ public class CSV {
         shortName = resultSet.getString(8);
         teamAssigned = resultSet.getString(9).charAt(0);
 
-        Node node =
-            new Node(
-                nodeType,
-                xcoord,
-                ycoord,
-                floor,
-                building,
-                longName,
-                shortName,
-                teamAssigned,
-                nodeID);
-        nodes.add(node);
-      }
-      resultSet.close();
-      JDBCUtils.close(null, null, statement, conn);
-      return nodes;
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    if (nodes.size() == 0) {
-      System.out.println("zero node in the list, there could be no rows in the table");
-    }
-    return nodes;
-  }
-
-  public static ArrayList<Node> getListOfNodesNoStairs() throws SQLException {
-    // Connection conn=JDBCUtils.getConn();
-    Connection conn = JDBCUtils.getConn();
-    String str = "SELECT * FROM ADMIN.NODE";
-    ArrayList<Node> nodes = new ArrayList<>();
-    String nodeType;
-    double xcoord;
-    double ycoord;
-    String floor;
-    String building;
-    String longName;
-    String shortName;
-    char teamAssigned;
-    String nodeID;
-    try {
-      Statement statement = conn.createStatement();
-      ResultSet resultSet = statement.executeQuery(str);
-      System.out.println("exporting Nodes from database to list of nodes (No Stairs)");
-      while (resultSet.next()) {
-        nodeID = resultSet.getString(1);
-        nodeType = resultSet.getString(2);
-        xcoord = resultSet.getDouble(3);
-        ycoord = resultSet.getDouble(4);
-        floor = resultSet.getString(5);
-        building = resultSet.getString(6);
-        longName = resultSet.getString(7);
-        shortName = resultSet.getString(8);
-        teamAssigned = resultSet.getString(9).charAt(0);
-
-        if (nodeID.contains("STAI")) {
-          continue;
+        if (filters == ActiveGraph.FilterMapElements.NoStairs
+            || filters == ActiveGraph.FilterMapElements.Employee_NoStairs) {
+          if (nodeID.contains("STAI")) {
+            continue;
+          }
         }
 
         Node node =
@@ -484,8 +448,8 @@ public class CSV {
       resultSet.close();
       JDBCUtils.close(null, null, statement, conn);
       return nodes;
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
     if (nodes.size() == 0) {
       System.out.println("zero node in the list, there could be no rows in the table");
@@ -551,12 +515,13 @@ public class CSV {
    * @throws IOException handles I/O exceptions
    * @throws SQLException if there are duplicate keys trying to be inserted or SQL syntax error
    */
+  @Deprecated
   public static void loadCSVtoDB() throws IOException, SQLException {
     String line;
     Connection connection;
     connection = JDBCUtils.getConn();
     System.out.println("start loading service CSV to database");
-    String insert = "insert into ADMIN.SERVICE values(?,?,?,?,?,?,?,?)";
+    String insert = "insert into ADMIN.SERVICE values(?,?,?,?,?,?,?,?,?)";
     PreparedStatement preparedStatement = connection.prepareStatement(insert);
     brService.readLine(); // Reads first line to clear the attributes line
     while ((line = brService.readLine()) != null) {
@@ -571,10 +536,41 @@ public class CSV {
       int status = Integer.parseInt(strService[7]);
       Service service =
           new Service(serviceID, type, description, location, category, urgency, date, status);
-      JDBCUtils.preparedStatementInsert(service, preparedStatement);
+      JDBCUtils.createPreparedStatementInsert(service, preparedStatement);
     }
     System.out.println("Loading successful");
     JDBCUtils.close(preparedStatement, null, null, connection);
     closeReader(brService);
+  }
+
+  public static void loadCSVtoDBEmployee() throws IOException, SQLException {
+    String line;
+    Connection connection;
+    connection = JDBCUtils.getConn();
+    System.out.println("start loading employee CSV to database");
+    String insert = "insert into ADMIN.EMPLOYEE values(?,?,?,?,?,?,?)";
+    PreparedStatement preparedStatement = connection.prepareStatement(insert);
+    BufferedReader brEmployee = new BufferedReader(new FileReader(employeePath));
+    while ((line = brEmployee.readLine()) != null) {
+      String[] strEmployee = line.split(splitBy);
+      String firstName = strEmployee[0];
+      preparedStatement.setString(1, firstName);
+      String lastName = strEmployee[1];
+      preparedStatement.setString(2, lastName);
+      String employeeID = strEmployee[2];
+      preparedStatement.setString(3, employeeID);
+      String password = strEmployee[3];
+      preparedStatement.setString(4, password);
+      String email = strEmployee[4];
+      preparedStatement.setString(5, email);
+      int accessLevel = Integer.parseInt(strEmployee[5]);
+      preparedStatement.setInt(6, accessLevel);
+      String primaryWorkspace = strEmployee[6];
+      preparedStatement.setString(7, primaryWorkspace);
+      preparedStatement.executeUpdate();
+    }
+    System.out.println("Loading successful");
+    JDBCUtils.close(preparedStatement, null, null, connection);
+    closeReader(brEmployee);
   }
 }

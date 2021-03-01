@@ -15,7 +15,7 @@ public class Examples {
     JDBCUtils.deleteEdge("edge1");
     JDBCUtils.deleteNode("node1");
     JDBCUtils.deleteNode("node2");
-    JDBCUtils.removeService(500);
+    // JDBCUtils.removeService(500);
   }
 
   @Test
@@ -40,7 +40,7 @@ public class Examples {
 
     JDBCUtils.insert(3, edge1, "Edge");
 
-    JDBCUtils.insert(8, service1, "Service");
+    // JDBCUtils.insert(8, service1, "Service");
 
     JDBCUtils.selectQuery("Node");
   }

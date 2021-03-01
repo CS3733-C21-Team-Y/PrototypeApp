@@ -35,7 +35,6 @@ public class ServiceRequestInfoPageController extends GenericPage {
 
   @FXML
   private void initialize() {
-    exitBtn.setOnAction(e -> exitButtonClicked());
     completeBtn.setOnAction(e -> buttonClicked(e));
     loadBtn.setOnAction(e -> loadInformation());
     backBtn.setOnAction(e -> buttonClicked(e));

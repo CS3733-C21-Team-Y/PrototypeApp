@@ -35,7 +35,6 @@ public class RequestsManagerController extends GenericPage {
 
   @FXML
   private void initialize() {
-    exitBtn.setOnAction(e -> exitButtonClicked());
     backBtn.setOnAction(e -> buttonClicked(e));
     addServiceBtn.setOnAction(e -> loadServicesFromDB());
     // addServiceBtn.setOnAction(
@@ -50,7 +49,7 @@ public class RequestsManagerController extends GenericPage {
   private void loadServicesFromDB() {
 
     try {
-      ArrayList<Service> serviceList = JDBCUtils.exportService("");
+      ArrayList<Service> serviceList = JDBCUtils.exportService("", "");
       for (Service service : serviceList) {
         addServiceToGrid(service);
       }

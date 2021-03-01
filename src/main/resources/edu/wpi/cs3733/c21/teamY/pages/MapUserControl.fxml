@@ -5,57 +5,52 @@
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.MapController">
+<StackPane fx:id="containerStackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <StackPane fx:id="containerStackPane" layoutX="10.0" layoutY="10.0">
+      <GridPane fx:id="mapOverlayUIGridPane">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
-            <GridPane fx:id="mapOverlayUIGridPane">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <SplitMenuButton fx:id="floorMenu" mnemonicParsing="false" text="Floor">
-                    <items>
-                        <MenuItem fx:id="parkingFloorMenuItem" mnemonicParsing="false" text="Parking lot" />
-                        <MenuItem fx:id="floorOneMenuItem" mnemonicParsing="false" text="Floor 1" />
-                        <MenuItem fx:id="floorTwoMenuItem" mnemonicParsing="false" text="Floor 2" />
-                        <MenuItem fx:id="floorThreeMenuItem" mnemonicParsing="false" text="Floor 3" />
-                        <MenuItem fx:id="floorFourMenuItem" mnemonicParsing="false" text="Floor 4" />
-                        <MenuItem fx:id="floorFiveMenuItem" mnemonicParsing="false" text="Floor 5" />
-                    </items>
-                  </SplitMenuButton>
-               </children>
-               <StackPane.margin>
-                  <Insets left="20.0" top="20.0" />
-               </StackPane.margin>
-            </GridPane>
-            <ImageView fx:id="mapImageView" fitHeight="350.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
-               <StackPane.margin>
-                  <Insets />
-               </StackPane.margin>
-               <image>
-                  <Image url="@../images/FaulknerFloor1_Updated.png" />
-               </image>
-            </ImageView>
-            <Pane fx:id="adornerPane" StackPane.alignment="TOP_LEFT">
-               <StackPane.margin>
-                  <Insets />
-               </StackPane.margin>
-            </Pane>
+            <SplitMenuButton fx:id="floorMenu" mnemonicParsing="false" text="Floor">
+               <items>
+                  <MenuItem fx:id="parkingFloorMenuItem" mnemonicParsing="false" text="Parking lot" />
+                  <MenuItem fx:id="floorOneMenuItem" mnemonicParsing="false" text="Floor 1" />
+                  <MenuItem fx:id="floorTwoMenuItem" mnemonicParsing="false" text="Floor 2" />
+                  <MenuItem fx:id="floorThreeMenuItem" mnemonicParsing="false" text="Floor 3" />
+                  <MenuItem fx:id="floorFourMenuItem" mnemonicParsing="false" text="Floor 4" />
+                  <MenuItem fx:id="floorFiveMenuItem" mnemonicParsing="false" text="Floor 5" />
+               </items>
+            </SplitMenuButton>
          </children>
-      </StackPane>
+         <StackPane.margin>
+            <Insets left="20.0" top="20.0" />
+         </StackPane.margin>
+      </GridPane>
+      <ImageView fx:id="mapImageView" fitHeight="350.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
+         <image>
+            <Image url="@CS%203733/PrototypeApp/src/main/resources/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor1_Updated.png" />
+         </image>
+      </ImageView>
+      <Pane fx:id="adornerPane" StackPane.alignment="TOP_LEFT">
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
+      </Pane>
    </children>
-</AnchorPane>
+</StackPane>

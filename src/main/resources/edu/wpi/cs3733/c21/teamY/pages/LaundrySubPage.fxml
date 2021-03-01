@@ -15,15 +15,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="522.0" prefWidth="455.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.LaundrySubPage">
+<AnchorPane prefHeight="522.0" prefWidth="455.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.LaundrySubPageController">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
@@ -40,17 +39,17 @@
                   <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <JFXComboBox minHeight="40.0" prefHeight="40.0" prefWidth="9999.0" promptText="Category" style="-fx-border-color: #dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: #8f8f8f;" GridPane.columnIndex="1">
+                  <JFXComboBox fx:id="category" minHeight="40.0" prefHeight="40.0" prefWidth="9999.0" promptText="Category" style="-fx-border-color: #dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: #8f8f8f;" GridPane.columnIndex="1">
                      <padding>
                         <Insets left="15.0" top="3.0" />
                      </padding>
                   </JFXComboBox>
-                  <JFXComboBox minHeight="30.0" prefHeight="40.0" prefWidth="9999.0" promptText="Location" style="-fx-border-color: #dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: #8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                  <JFXComboBox fx:id="locationField" minHeight="30.0" prefHeight="40.0" prefWidth="9999.0" promptText="Location" style="-fx-border-color: #dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: #8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <padding>
                         <Insets left="15.0" top="3.0" />
                      </padding>
                   </JFXComboBox>
-                  <JFXTextArea maxHeight="150.0" promptText="Description" style="-fx-border-color: #dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: #8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <JFXTextArea fx:id="description" maxHeight="150.0" promptText="Description" style="-fx-border-color: #dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: #8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <padding>
                         <Insets left="15.0" top="3.0" />
                      </padding>
@@ -64,7 +63,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <JFXButton buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: #c2c3ed; -fx-font-family: arial; -fx-font-weight: bold; -fx-font-size: 16;" text="Clear" textFill="#5a5c94" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                        <JFXButton fx:id="clearBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: #c2c3ed; -fx-font-family: arial; -fx-font-weight: bold; -fx-font-size: 16;" text="Clear" textFill="#5a5c94" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                            <effect>
                               <Shadow blurType="GAUSSIAN" radius="4.75" width="0.0">
                                  <input>
@@ -76,7 +75,7 @@
                               <Insets top="30.0" />
                            </GridPane.margin>
                         </JFXButton>
-                        <JFXButton buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: efeff9; -fx-font-family: arial; -fx-font-weight: bold; -fx-font-size: 16;" text="Submit" textFill="#5a5c94" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                        <JFXButton fx:id="submitBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: efeff9; -fx-font-family: arial; -fx-font-weight: bold; -fx-font-size: 16;" text="Submit" textFill="#5a5c94" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                            <effect>
                               <Shadow blurType="GAUSSIAN" />
                            </effect>
@@ -86,7 +85,14 @@
                         </JFXButton>
                      </children>
                   </GridPane>
-                  <FontAwesomeIconView GridPane.halignment="CENTER" GridPane.valignment="TOP" />
+                  <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" " GridPane.valignment="TOP">
+                     <graphic>
+                        <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />
+                     </graphic>
+                     <GridPane.margin>
+                        <Insets left="2.0" top="-10.0" />
+                     </GridPane.margin>
+                  </JFXButton>
                </children>
                <GridPane.margin>
                   <Insets />
@@ -99,7 +105,7 @@
                <children>
                   <Label text="Laundry Service Request" textFill="#3b3d73">
                      <font>
-                        <Font name="Arial Bold" size="23.0" />
+                        <Font name="Calibri Bold" size="23.0" />
                      </font>
                   </Label>
                </children>

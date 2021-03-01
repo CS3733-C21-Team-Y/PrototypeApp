@@ -12,12 +12,6 @@ import java.util.HashMap;
  */
 public class AStarAlgorithm {
 
-  // Finds the distance between two nodes
-  public static double nodeDistance(Node start, Node end) {
-    return Math.sqrt(
-        Math.pow((end.xcoord - start.xcoord), 2) + Math.pow((end.ycoord - start.ycoord), 2));
-  }
-
   /**
    * Finds the shortest distance between two nodes using the A-star algorithm
    *
@@ -51,7 +45,7 @@ public class AStarAlgorithm {
     Arrays.fill(priorities, Integer.MAX_VALUE);
     // start node has a priority equal to straight line distance to goal. It will be the first to be
     // expanded.
-    priorities[start] = nodeDistance(g.nodeList[start], g.nodeList[goal]);
+    priorities[start] = DijkstrasAlgorithm.nodeDistance(g.nodeList[start], g.nodeList[goal]);
 
     // This contains whether a node was already visited
     boolean[] visited = new boolean[graph.length];
@@ -104,7 +98,8 @@ public class AStarAlgorithm {
             // ...save this path as new shortest path
             distances[i] = distances[lowestPriorityIndex] + graph[lowestPriorityIndex][i];
             // ...and set the priority with which we should continue with this node
-            priorities[i] = distances[i] + nodeDistance(g.nodeList[i], g.nodeList[goal]);
+            priorities[i] =
+                distances[i] + DijkstrasAlgorithm.nodeDistance(g.nodeList[i], g.nodeList[goal]);
 
             cameFrom.put(i, lowestPriorityIndex);
             System.out.println(
