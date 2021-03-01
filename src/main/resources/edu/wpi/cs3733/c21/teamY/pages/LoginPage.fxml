@@ -54,7 +54,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <JFXTextField focusColor="#5a5c94" labelFloat="true" minWidth="-Infinity" prefWidth="250.0" promptText="Employee ID" unFocusColor="#5a5c94">
+                        <JFXTextField fx:id="employeeIDTextField" focusColor="#5a5c94" labelFloat="true" minWidth="-Infinity" prefWidth="250.0" promptText="Employee ID" unFocusColor="#5a5c94">
                            <font>
                               <Font name="Calibri Light" size="14.0" />
                            </font>
@@ -63,7 +63,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                        <JFXPasswordField focusColor="#5a5c94" labelFloat="true" minWidth="-Infinity" prefWidth="250.0" promptText="Password" unFocusColor="#575a8f">
+                        <JFXPasswordField fx:id="passwordTextField" focusColor="#5a5c94" labelFloat="true" minWidth="-Infinity" prefWidth="250.0" promptText="Password" unFocusColor="#575a8f">
                            <font>
                               <Font name="Calibri Light" size="14.0" />
                            </font>
@@ -72,7 +72,7 @@
                   </HBox>
                   <HBox alignment="CENTER" maxWidth="300.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #5a5c94;" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
-                        <JFXButton alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" ripplerFill="#efeff9" style="-fx-background-color: transparent;" text="Login" textAlignment="CENTER" textFill="#fff9f9">
+                        <JFXButton fx:id="loginBtn" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" ripplerFill="#efeff9" style="-fx-background-color: transparent;" text="Login" textAlignment="CENTER" textFill="#fff9f9">
                            <font>
                               <Font name="Calibri" size="16.0" />
                            </font>
@@ -93,7 +93,7 @@
                   </HBox>
                   <HBox alignment="CENTER" maxWidth="300.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: efeff9;" GridPane.columnIndex="1" GridPane.rowIndex="6">
                      <children>
-                        <JFXButton alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Sign in as guest" textAlignment="CENTER" textFill="#5a5c94">
+                        <JFXButton fx:id="guestBtn" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="250.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Sign in as guest" textAlignment="CENTER" textFill="#5a5c94">
                            <font>
                               <Font name="Calibri" size="16.0" />
                            </font>

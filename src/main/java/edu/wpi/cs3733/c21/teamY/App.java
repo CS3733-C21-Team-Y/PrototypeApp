@@ -1,7 +1,5 @@
 package edu.wpi.cs3733.c21.teamY;
 
-import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
-import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
 import edu.wpi.cs3733.c21.teamY.pages.StageInformation;
 import java.io.IOException;
 import javafx.application.Application;
