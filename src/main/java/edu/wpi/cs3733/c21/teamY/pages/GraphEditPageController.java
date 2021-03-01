@@ -1,7 +1,9 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.*;
+import com.jfoenix.controls.cells.editors.TextFieldEditorBuilder;
+import com.jfoenix.controls.cells.editors.base.GenericEditableTreeTableCell;
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
@@ -10,6 +12,10 @@ import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,9 +26,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -86,6 +90,13 @@ public class GraphEditPageController {
   @FXML private JFXButton moveNodeLeftButton;
   @FXML private JFXButton moveNodeRightButton;
 
+  @FXML private JFXTreeTableView<TableNode> jfxTreeTableView;
+  private static final String LONG_NAME = "Long Name";
+  private static final String NODE_ID = "Node ID";
+  private static final String NODE_X = "x coord";
+  private static final String NODE_Y = "y coord";
+  @FXML private VBox mapBox;
+
   @FXML private MapController mapInsertController;
 
   private double dragStartXRelativeEdge;
@@ -107,8 +118,88 @@ public class GraphEditPageController {
 
   public GraphEditPageController() {}
 
+  class TableNode extends RecursiveTreeObject<TableNode> {
+    StringProperty longName;
+    StringProperty nodeID;
+    StringProperty floor;
+    
+
+    public TableNode(String longName, String nodeId, String floor) {
+      this.longName = new SimpleStringProperty(longName);
+      this.nodeID = new SimpleStringProperty(nodeId);
+      this.floor = new SimpleStringProperty(floor);
+    }
+  }
+
   @FXML
   private void initialize() {
+
+    jfxTreeTableView.setPrefHeight(300);
+
+    // tree table stuff
+    JFXTreeTableColumn<TableNode, String> longNameCol = new JFXTreeTableColumn<>("Long Name");
+    longNameCol.setPrefWidth(150);
+    longNameCol.setCellValueFactory(
+        (TreeTableColumn.CellDataFeatures<TableNode, String> param) -> {
+          if (longNameCol.validateValue(param)) {
+            return param.getValue().getValue().longName;
+          } else {
+            return longNameCol.getComputedValue(param);
+          }
+        });
+    JFXTreeTableColumn<TableNode, String> nodeIDCol = new JFXTreeTableColumn<>("Node ID");
+    nodeIDCol.setPrefWidth(150);
+    nodeIDCol.setCellValueFactory(
+        (TreeTableColumn.CellDataFeatures<TableNode, String> param) -> {
+          if (nodeIDCol.validateValue(param)) {
+            return param.getValue().getValue().nodeID;
+          } else {
+            return nodeIDCol.getComputedValue(param);
+          }
+        });
+    JFXTreeTableColumn<TableNode, String> floorCol = new JFXTreeTableColumn<>("Floor");
+    floorCol.setPrefWidth(150);
+    floorCol.setCellValueFactory(
+        (TreeTableColumn.CellDataFeatures<TableNode, String> param) -> {
+          if (floorCol.validateValue(param)) {
+            return param.getValue().getValue().floor;
+          } else {
+            return floorCol.getComputedValue(param);
+          }
+        });
+
+    longNameCol.setCellFactory(
+        (TreeTableColumn<TableNode, String> param) ->
+            new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+    longNameCol.setOnEditCommit(
+        (TreeTableColumn.CellEditEvent<TableNode, String> t) ->
+            t.getTreeTableView()
+                .getTreeItem(t.getTreeTablePosition().getRow())
+                .getValue()
+                .longName
+                .set(t.getNewValue()));
+
+    nodeIDCol.setCellFactory(
+        (TreeTableColumn<TableNode, String> param) ->
+            new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+    nodeIDCol.setOnEditCommit(
+        (TreeTableColumn.CellEditEvent<TableNode, String> t) ->
+            t.getTreeTableView()
+                .getTreeItem(t.getTreeTablePosition().getRow())
+                .getValue()
+                .nodeID
+                .set(t.getNewValue()));
+
+    floorCol.setCellFactory(
+        (TreeTableColumn<TableNode, String> param) ->
+            new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+    floorCol.setOnEditCommit(
+        (TreeTableColumn.CellEditEvent<TableNode, String> t) ->
+            t.getTreeTableView()
+                .getTreeItem(t.getTreeTablePosition().getRow())
+                .getValue()
+                .floor
+                .set(t.getNewValue()));
 
     anchor.setOnKeyPressed(
         e -> {
@@ -234,6 +325,23 @@ public class GraphEditPageController {
     loadNodesButton.setOnAction(
         e -> {
           loadMapFromCSV();
+          ObservableList<TableNode> tn = FXCollections.observableArrayList();
+          for (Node node : nodes) {
+            tn.add(new TableNode(node.longName, node.nodeID, node.floor));
+          }
+
+          //    tn.add(new TableNode("long", "ID", "f1"));
+          //    tn.add(new TableNode("long", "ID", "f1"));
+          //    tn.add(new TableNode("long", "ID", "f1"));
+          //      tn.add(new TableNode(node))
+
+          final TreeItem<TableNode> root =
+              new RecursiveTreeItem<>(tn, RecursiveTreeObject::getChildren);
+
+          jfxTreeTableView.setRoot(root);
+          jfxTreeTableView.setShowRoot(false);
+          jfxTreeTableView.setEditable(true);
+          jfxTreeTableView.getColumns().setAll(longNameCol, nodeIDCol, floorCol);
         });
 
     int i = 0;
