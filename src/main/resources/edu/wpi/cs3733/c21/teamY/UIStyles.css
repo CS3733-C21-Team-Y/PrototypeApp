@@ -103,7 +103,7 @@
 }
 .SRElement {
     -fx-background-color: #323467;
-    -fx-background-radius: 5;
+    -fx-background-radius: 10;
 }
 .SRElementAnchor {
     -fx-background-color: #3f417a;

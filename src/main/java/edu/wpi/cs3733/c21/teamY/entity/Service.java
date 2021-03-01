@@ -179,6 +179,14 @@ public class Service {
     status = -1;
   }
 
+  public void setAdditionalInfo(String additionalInfo) {
+    this.additionalInfo = additionalInfo;
+  }
+
+  public void setRequester(String requester) {
+    this.requester = requester;
+  }
+
   @Override
   public String toString() {
     return serviceID
