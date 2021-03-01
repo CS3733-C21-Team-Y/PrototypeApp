@@ -25,7 +25,7 @@ public class Graph {
       int i = 0;
       for (Node node : nodes) {
         allNodes.put(node.nodeID, i);
-        longNodes.put(node.longName,i);
+        longNodes.put(node.longName, i);
         nodeList[i] = node;
         i++;
       }
