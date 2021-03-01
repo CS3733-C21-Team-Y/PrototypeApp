@@ -40,4 +40,12 @@ public class AlgorithmCalls {
       Graph g, ArrayList<Node> path, ArrayList<String> endLocations, String detourType) {
     return DijkstrasAlgorithm.dijkstraDetour(g, path, endLocations, detourType);
   }
+
+  public static double directionOfPoint(Node node1, Node node2, Node P) {
+    return AStarAlgorithm.directionOfPoint(node1, node2, P);
+  }
+
+  public static ArrayList<String> textDirections(ArrayList<Node> path) {
+    return AStarAlgorithm.textDirections(path);
+  }
 }

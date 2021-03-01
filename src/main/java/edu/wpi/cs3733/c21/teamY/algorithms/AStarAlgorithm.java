@@ -159,16 +159,15 @@ public class AStarAlgorithm {
 
     // Determining cross Product
     double cross_product = (node2.xcoord * P.ycoord - node2.ycoord * P.xcoord);
-    angle = cross_product * angle;
 
     // return ZERO if dot_product is zero.
     if (angle == 0.0) return Math.abs(angle);
 
     // return RIGHT if cross product is positive
-    if (angle > 0) return angle;
+    if (cross_product > 0) return angle;
 
     // return LEFT if cross product is negative
-    if (angle < 0) return angle;
+    if (cross_product < 0) return angle * -1;
 
     // return ZERO if cross product is zero.
     return ZERO;
@@ -181,15 +180,44 @@ public class AStarAlgorithm {
     pathDirections.add("Start from " + path.get(0).longName + " to " + path.get(1).longName);
 
     for (int i = 0; i < path.size() - 2; i++) {
-      double crossProd = directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2));
-      System.out.println(crossProd);
-      if (crossProd < 0) {
-        pathDirections.add(
-            "Turn left from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
-      } else if (crossProd > 0) {
-        pathDirections.add(
-            "Turn right from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
-      } else if (crossProd == 0.0) {
+      double angle = directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2));
+      System.out.println("Angle: " + angle);
+      if (angle < -25) {
+        // The Lefts
+        if (angle < -120) {
+          pathDirections.add(
+              "Walk towards "
+                  + path.get(i + 1).longName
+                  + " and turn around facing "
+                  + path.get(i + 2).longName);
+
+        } else if (angle < -60) {
+          pathDirections.add(
+              "Turn left from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
+
+        } else {
+          pathDirections.add(
+              "Bear left from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
+        }
+
+      } else if (angle > 25) {
+        // The Rights
+        if (angle > 120) {
+          pathDirections.add(
+              "Walk towards "
+                  + path.get(i + 1).longName
+                  + " and turn around facing "
+                  + path.get(i + 2).longName);
+
+        } else if (angle > 60) {
+          pathDirections.add(
+              "Turn right from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
+
+        } else {
+          pathDirections.add(
+              "Bear right from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
+        }
+      } else {
         pathDirections.add(
             "Continue Straight from "
                 + path.get(i + 1).longName

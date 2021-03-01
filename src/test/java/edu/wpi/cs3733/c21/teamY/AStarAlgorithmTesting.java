@@ -189,11 +189,11 @@ public class AStarAlgorithmTesting {
 
     ArrayList<Node> nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", "7", "");
     // First test that the basic functionality of aStar is working
-    assertEquals(1, AStarAlgorithm.directionOfPoint(nodes.get(0), nodes.get(1), nodes.get(2)));
+    assertTrue(1 < AStarAlgorithm.directionOfPoint(nodes.get(0), nodes.get(1), nodes.get(2)));
 
     nodes.clear();
     nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", "4", "");
-    assertEquals(-1, AStarAlgorithm.directionOfPoint(nodes.get(0), nodes.get(1), nodes.get(2)));
+    assertTrue(-1 > AStarAlgorithm.directionOfPoint(nodes.get(0), nodes.get(1), nodes.get(2)));
 
     nodes.clear();
     nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", "3", "");
@@ -214,12 +214,24 @@ public class AStarAlgorithmTesting {
 
     ArrayList<String> answerList = new ArrayList<>();
     answerList.add("Start from Node1 to Node5");
-    answerList.add("Turn right from Node5 to Node7");
+    answerList.add("Bear right from Node5 to Node7");
     answerList.add("Turn left from Node7 to Node6");
     answerList.add("Continue Straight from Node6 to Node10");
     answerList.add("You have reached your destination.");
 
     ArrayList<Node> nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", "10", "");
+    assertEquals(answerList, AStarAlgorithm.textDirections(nodes));
+
+    ArrayList<String> dest = new ArrayList<>();
+    dest.add("10");
+    dest.add("7");
+
+    answerList.remove("You have reached your destination.");
+    answerList.add("Walk towards Node10 and turn around facing Node6");
+    answerList.add("Continue Straight from Node6 to Node7");
+    answerList.add("You have reached your destination.");
+
+    nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", dest, "");
     assertEquals(answerList, AStarAlgorithm.textDirections(nodes));
   }
 }
