@@ -57,9 +57,9 @@ public class MapController {
 
   protected String floorNumber = "0";
 
-  private double baseCircleRadius = 4;
+  private double baseCircleRadius = 3;
   private double baseLineWidth = 2;
-  private double selectedWidthRatio = 3;
+  private double selectedWidthRatio = 2;
 
   // Need to update these values properly
   private double scaledCircleRadius = 0;
@@ -143,6 +143,33 @@ public class MapController {
 
   public boolean isDisplayUnselectedAdorners() {
     return displayUnselectedAdorners;
+  }
+
+  public double getBaseCircleRadius() {
+    return baseCircleRadius;
+  }
+
+  public void setBaseCircleRadius(double baseCircleRadius) {
+    this.baseCircleRadius = baseCircleRadius;
+    updateAdornerVisualsOnZoom();
+  }
+
+  public double getBaseLineWidth() {
+    return baseLineWidth;
+  }
+
+  public void setBaseLineWidth(double baseLineWidth) {
+    this.baseLineWidth = baseLineWidth;
+    updateAdornerVisualsOnZoom();
+  }
+
+  public double getSelectedWidthRatio() {
+    return selectedWidthRatio;
+  }
+
+  public void setSelectedWidthRatio(double selectedWidthRatio) {
+    this.selectedWidthRatio = selectedWidthRatio;
+    updateAdornerVisualsOnZoom();
   }
 
   public void setDisplayUnselectedAdorners(boolean displayUnselectedAdorners) {
