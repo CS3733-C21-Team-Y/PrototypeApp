@@ -30,7 +30,6 @@ public class HomePageController extends GenericPage {
     toMapEditBtn.setOnAction(e -> buttonClicked(e));
     toPathfindingBtn.setOnAction(e -> buttonClicked(e));
     toRequestsManager.setOnAction(e -> buttonClicked(e));
-    exitBtn.setOnAction(e -> exitButtonClicked());
     titleLabel.setText("Mobile\nAssistant");
   }
 
