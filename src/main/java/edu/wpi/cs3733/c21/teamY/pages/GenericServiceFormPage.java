@@ -19,7 +19,7 @@ public class GenericServiceFormPage extends RightPage {
   public GenericServiceFormPage() {
     super();
     try {
-      ArrayList<Service> services = JDBCUtils.exportService("");
+      ArrayList<Service> services = JDBCUtils.exportService("", "");
       IDCount = services.size();
     } catch (SQLException throwables) {
       throwables.printStackTrace();

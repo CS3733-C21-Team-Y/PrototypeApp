@@ -454,14 +454,27 @@ public class JDBCUtils {
    * @return a list of services
    * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
-  public static ArrayList<Service> exportService(String serviceType) throws SQLException {
+  public static ArrayList<Service> exportService(String serviceType, String Requester)
+      throws SQLException {
     ArrayList<Service> services = new ArrayList<>();
-    String string;
-    if (serviceType.equals("")) {
+    String string = "";
+    if (serviceType.equals("") && Requester.equals("")) {
       string = "select * from ADMIN.Service";
+    } else if (!serviceType.equals("") && !Requester.equals("")) {
+      string =
+          "select * from ADMIN.Service where type ='"
+              + serviceType
+              + "'"
+              + "AND requester="
+              + Requester;
+    } else if (!serviceType.equals("")) {
+      string = "select * from ADMIN.Service where type =" + serviceType;
+      ;
     } else {
-      string = "select * from ADMIN.Service where type ='" + serviceType + "'";
+      string = "select * from ADMIN.Service where requester =" + Requester;
+      ;
     }
+
     Connection conn = getConn();
     Statement statement = conn.createStatement();
     java.sql.ResultSet resultSet = statement.executeQuery(string);

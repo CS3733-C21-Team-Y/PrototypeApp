@@ -24,7 +24,7 @@ public class ServiceRequestNavigatorController {
   private void loadServicesFromDB() {
 
     try {
-      ArrayList<Service> serviceList = DataOperations.exportService("");
+      ArrayList<Service> serviceList = DataOperations.exportService("", "");
       for (Service service : serviceList) {
         addService(service);
       }

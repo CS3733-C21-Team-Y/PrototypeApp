@@ -49,7 +49,7 @@ public class RequestsManagerController extends GenericPage {
   private void loadServicesFromDB() {
 
     try {
-      ArrayList<Service> serviceList = JDBCUtils.exportService("");
+      ArrayList<Service> serviceList = JDBCUtils.exportService("", "");
       for (Service service : serviceList) {
         addServiceToGrid(service);
       }
