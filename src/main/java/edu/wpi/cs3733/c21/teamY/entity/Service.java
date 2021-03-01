@@ -14,6 +14,7 @@ public class Service {
   private String requester;
   private int status;
 
+  // no requester
   public Service(
       int serviceID,
       String type,
@@ -35,6 +36,7 @@ public class Service {
     this.status = status;
   }
 
+  // requester
   public Service(
       int serviceID,
       String type,

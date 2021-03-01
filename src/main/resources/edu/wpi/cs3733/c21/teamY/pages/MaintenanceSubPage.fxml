@@ -2,8 +2,8 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -65,14 +65,6 @@
                         <Insets bottom="4.0" left="15.0" top="4.0" />
                      </padding>
                   </JFXComboBox>
-                  <JFXDatePicker fx:id="date" defaultColor="#5a5c94" minHeight="50.0" prefHeight="45.0" prefWidth="9999999.0" promptText="Preferred Date" style="-fx-border-color: #dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: #8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                     <padding>
-                        <Insets left="15.0" />
-                     </padding>
-                  </JFXDatePicker>
                   <JFXComboBox fx:id="urgency" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefHeight="45.0" prefWidth="9999999.0" promptText="Urgency" style="-fx-border-color: #dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: #8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets />
@@ -115,6 +107,11 @@
                         <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />
                      </graphic>
                   </JFXButton>
+                  <JFXTextField fx:id="date2" labelFloat="true" minHeight="40.0" prefHeight="40.0" promptText="Date" style="-fx-border-color: dedede; -fx-border-width: .5; -fx-border-radius: 6;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </JFXTextField>
                </children>
                <padding>
                   <Insets top="20.0" />

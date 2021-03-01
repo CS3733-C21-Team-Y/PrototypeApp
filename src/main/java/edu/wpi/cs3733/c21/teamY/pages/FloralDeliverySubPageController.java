@@ -10,7 +10,7 @@ import javafx.fxml.FXML;
 
 public class FloralDeliverySubPageController extends GenericServiceFormPage {
 
-  @FXML private JFXButton clearBtn;
+  // @FXML private JFXButton clearBtn;
   @FXML private JFXButton backBtn;
   @FXML private JFXButton submitBtn;
   @FXML private JFXTextField roomNumberInput;
