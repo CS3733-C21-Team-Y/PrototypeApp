@@ -48,13 +48,13 @@
                         <RowConstraints maxHeight="173.0" minHeight="10.0" percentHeight="30.0" prefHeight="161.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <JFXTextField labelFloat="true" promptText="location" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <JFXDatePicker defaultColor="#3d3d73" promptText="service date" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                        <JFXTextField fx:id="locationTextField" labelFloat="true" promptText="location" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXDatePicker fx:id="serviceDate" defaultColor="#3d3d73" promptText="service date" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
                             </cursor>
                         </JFXDatePicker>
-                        <JFXTextArea promptText="Tell us what we can do for you" GridPane.columnIndex="1">
+                        <JFXTextArea fx:id="descriptionTextArea" promptText="Tell us what we can do for you" GridPane.columnIndex="1">
                             <font>
                                 <Font name="Arial" size="16.0" />
                             </font>
@@ -82,7 +82,10 @@
                         </GridPane>
                   <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" ">
                      <graphic>
-                        <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />
+                        <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" strikethrough="true">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></FontAwesomeIconView>
                      </graphic>
                   </JFXButton>
                     </children>
