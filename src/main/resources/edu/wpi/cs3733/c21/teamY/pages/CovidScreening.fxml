@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="552.0" prefWidth="448.0" style="-fx-background-color: BF696C; -fx-opacity: 60;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.CovidScreeningController">
+<AnchorPane prefHeight="552.0" prefWidth="448.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.CovidScreeningController">
    <children>
       <GridPane layoutX="90.0" layoutY="208.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -25,13 +29,15 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
+                  <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <GridPane GridPane.columnIndex="1">
+                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
@@ -40,7 +46,10 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label prefHeight="55.0" prefWidth="336.0" text="I have recieved a positive COVID-19 test result in the last 14 days " textAlignment="CENTER" wrapText="true" />
+                        <Label prefHeight="55.0" prefWidth="336.0" style="-fx-font-family: calibri;" text="I have recieved a positive COVID-19 test result in the last 14 days " textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="16.0" />
+                           </font></Label>
                         <GridPane GridPane.rowIndex="1">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -50,13 +59,25 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <JFXCheckBox text="Yes" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                              <JFXCheckBox text="No" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <JFXCheckBox fx:id="posY" checkedColor="#bf696c" style="-fx-font-family: calibri;" text="Yes" unCheckedColor="BLACK" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets top="5.0" />
+                                 </GridPane.margin></JFXCheckBox>
+                              <JFXCheckBox fx:id="posN" checkedColor="#bf696c" style="-fx-font-family: calibri;" text="No" unCheckedColor="BLACK" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets top="5.0" />
+                                 </GridPane.margin></JFXCheckBox>
                            </children>
                         </GridPane>
                      </children>
                   </GridPane>
-                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
@@ -74,13 +95,94 @@
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
+                           <children>
+                              <JFXCheckBox fx:id="sympY" checkedColor="#bf696c" style="-fx-font-family: calibri;" text="Yes" unCheckedColor="BLACK" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets top="5.0" />
+                                 </GridPane.margin>
+                              </JFXCheckBox>
+                              <JFXCheckBox fx:id="sympN" checkedColor="#bf696c" style="-fx-font-family: calibri;" text="No" unCheckedColor="BLACK" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets top="5.0" />
+                                 </GridPane.margin>
+                              </JFXCheckBox>
+                           </children>
                         </GridPane>
-                        <Label text="I am experiencing any of the following symptoms:" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                        <Label text="fever over 100, chills, cough, shortness of breath, sore throat, fatigue, headache, muscle/body aches, runny nose/congestion, new loss of taste or smell, nausea, vomiting, or diarrhea " textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <Label style="-fx-font-family: calibri;" text="I am experiencing any of the following symptoms:" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <font>
+                              <Font size="16.0" />
+                           </font></Label>
+                        <Label style="-fx-font-family: calibri;" text="fever over 100, chills, cough, shortness of breath, sore throat, fatigue, headache, muscle/body aches, runny nose/congestion, new loss of taste or smell, nausea, vomiting, or diarrhea " textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
+                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <GridPane GridPane.rowIndex="1">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <JFXCheckBox fx:id="closeN" checkedColor="#bf696c" style="-fx-font-family: calibri;" text="No" unCheckedColor="BLACK" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets top="5.0" />
+                                 </GridPane.margin>
+                              </JFXCheckBox>
+                              <JFXCheckBox fx:id="closeY" checkedColor="#bf696c" style="-fx-font-family: calibri;" text="Yes" unCheckedColor="BLACK" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets top="5.0" />
+                                 </GridPane.margin>
+                              </JFXCheckBox>
+                           </children>
+                        </GridPane>
+                        <Label style="-fx-font-family: calibri;" text="I have been in close contact with someone diagnosed with COVID-19 in the last 14 days" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+                  <JFXButton fx:id="submitBtn" buttonType="RAISED" style="-fx-font-family: calibri; -fx-background-color: #81373a; -fx-background-radius: 8;" text="Submit" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets top="10.0" />
+                     </GridPane.margin>
+                  </JFXButton>
                </children>
             </GridPane>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: d49b9d;">
+               <children>
+                  <Label alignment="CENTER" prefHeight="27.0" prefWidth="326.0" style="-fx-font-family: calibri;" text="COVID-19 Screening" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
          </children>
       </GridPane>
    </children>
