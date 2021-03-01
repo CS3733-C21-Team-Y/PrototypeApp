@@ -65,8 +65,10 @@ public class JDBCUtils {
       String sqlService =
           "create table Service(serviceID int PRIMARY KEY , type varchar(20),"
               + "description varchar(255) , location varchar(30), category varchar(20), "
-              + "urgency varchar(10), date varchar(20), additionalInfo varchar(255), requester varchar(30), status int, "
-              + "constraint FK_Employee_ID FOREIGN KEY (requester) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE, check( status=-1 OR status =0 OR status=1 ))";
+              + "urgency varchar(10), date varchar(20), additionalInfo varchar(255), requester varchar(30) not null, status int,"
+              + " employee varchar(30) DEFAULT 'admin',"
+              + "constraint FK_Requester_ID FOREIGN KEY (requester) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE,"
+              + " check( status=-1 OR status =0 OR status=1))";
 
       String sqlEmployee =
           "create table Employee(firstName varchar(30) not null, lastName varchar(30) not null, employeeID varchar(30) PRIMARY KEY not null, "
@@ -445,7 +447,7 @@ public class JDBCUtils {
    * @throws IllegalAccessException if access is denied
    */
   public static void saveService(Service service) throws SQLException, IllegalAccessException {
-    insert(10, service, "Service"); // save to database
+    insert(11, service, "Service"); // save to database
     // Used to save to CSV as well but marked deprecated - look into
   }
 
@@ -487,6 +489,7 @@ public class JDBCUtils {
     String date;
     String requester;
     int status;
+    String employee;
     String additionalInfo;
     while (resultSet.next()) {
       serviceID = resultSet.getInt(1);
@@ -499,6 +502,7 @@ public class JDBCUtils {
       additionalInfo = resultSet.getString(8);
       requester = resultSet.getString(9);
       status = resultSet.getInt(10);
+      employee = resultSet.getString(11);
       Service service =
           new Service(
               serviceID,
@@ -510,7 +514,8 @@ public class JDBCUtils {
               date,
               additionalInfo,
               requester,
-              status);
+              status,
+              employee);
       services.add(service);
     }
     resultSet.close();
@@ -580,6 +585,7 @@ public class JDBCUtils {
       preparedStatement.setString(8, service.getAdditionalInfo());
       preparedStatement.setString(9, service.getRequester());
       preparedStatement.setInt(10, service.getStatus());
+      preparedStatement.setString(11, service.getEmployee());
 
       preparedStatement.executeUpdate();
 

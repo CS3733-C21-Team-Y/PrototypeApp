@@ -71,9 +71,13 @@ public class MainPageController {
     instance.drawByPermissions();
   }
 
+  public void updateProfileBtn() {
+    this.signInBtn.setText("Welcome,\n" + this.settings.getCurrentUsername());
+  }
+
   private void buttonClicked(ActionEvent e) {
     System.out.println("clicked");
-    if (e.getSource() == origNavigationBtn) instance.loadRightSubPage("PathfindingPage.fxml");
+    if (e.getSource() == origNavigationBtn) instance.loadRightSubPage("NavigationSubPage.fxml");
     else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
     else if (e.getSource() == origServiceRequestBtn) {
       instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");

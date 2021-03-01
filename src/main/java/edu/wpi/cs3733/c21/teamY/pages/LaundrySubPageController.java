@@ -60,6 +60,7 @@ public class LaundrySubPageController extends GenericServiceFormPage {
     service.setCategory((String) category.getValue());
     service.setLocation((String) locationField.getValue());
     service.setDescription(description.getText());
+    System.out.println(settings.getCurrentUsername());
     service.setRequester(settings.getCurrentUsername());
 
     try {

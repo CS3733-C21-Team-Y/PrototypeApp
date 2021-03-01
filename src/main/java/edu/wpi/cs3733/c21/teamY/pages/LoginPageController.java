@@ -30,6 +30,7 @@ public class LoginPageController extends RightPage {
 
       try {
         if (DataOperations.findUser(tryID, tryPwd)) {
+          parent.updateProfileBtn();
           parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
           parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
           parent.drawByPermissions();
