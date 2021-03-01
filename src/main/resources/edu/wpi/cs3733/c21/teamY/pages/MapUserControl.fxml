@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="containerStackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="containerStackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.MapController">
    <children>
       <GridPane fx:id="mapOverlayUIGridPane">
          <columnConstraints>
@@ -44,7 +44,7 @@
             <Insets />
          </StackPane.margin>
          <image>
-            <Image url="@CS%203733/PrototypeApp/src/main/resources/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor1_Updated.png" />
+            <Image url="@../images/FaulknerFloor1_Updated.png" />
          </image>
       </ImageView>
       <Pane fx:id="adornerPane" StackPane.alignment="TOP_LEFT">
