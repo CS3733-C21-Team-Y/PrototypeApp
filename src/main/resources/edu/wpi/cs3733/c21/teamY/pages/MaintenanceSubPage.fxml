@@ -29,7 +29,7 @@
                <children>
                   <Label style="-fx-text-fill: #3b3d73;" text="Maintenance Request" textFill="#3b3d73">
                      <font>
-                        <Font name="Calibri Bold" size="25.0" />
+                        <Font name="Calibri Bold" size="23.0" />
                      </font>
                   </Label>
                </children>
