@@ -47,7 +47,6 @@ public class LaundryPageController extends GenericServiceFormPage {
     clearBtn.setOnAction(e -> serviceButtonClicked(e, "LaundryPage.fxml"));
     backBtn.setOnAction(e -> serviceButtonClicked(e, "LaundryPage.fxml"));
     submitBtn.setOnAction(e -> submitBtnClicked());
-    exitBtn.setOnAction(e -> exitButtonClicked());
 
     for (String c : categories) category.getItems().add(c);
   }

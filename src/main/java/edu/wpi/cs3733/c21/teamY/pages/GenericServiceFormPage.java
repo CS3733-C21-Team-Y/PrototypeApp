@@ -12,7 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class GenericServiceFormPage extends GenericPage {
+public class GenericServiceFormPage extends RightPage {
 
   public int IDCount;
 

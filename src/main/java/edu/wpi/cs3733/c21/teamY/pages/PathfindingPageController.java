@@ -21,7 +21,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javax.swing.*;
 
-public class PathfindingPageController {
+public class PathfindingPageController extends RightPage {
 
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here

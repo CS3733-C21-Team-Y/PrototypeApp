@@ -52,7 +52,6 @@ public class MaintenancePageController extends GenericServiceFormPage {
     clearBtn.setOnAction(e -> serviceButtonClicked(e, "MaintenancePage.fxml"));
     backBtn.setOnAction(e -> serviceButtonClicked(e, "MaintenancePage.fxml"));
     submitBtn.setOnAction(e -> submitBtnClicked());
-    exitBtn.setOnAction(e -> exitButtonClicked());
 
     for (String c : categories) category.getItems().add(c);
     for (String c : urgencies) urgency.getItems().add(c);
