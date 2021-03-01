@@ -86,6 +86,7 @@ public class GraphEditPageController {
   @FXML private VBox mapBox;
 
   @FXML private MapController mapInsertController;
+
   @FXML private EditNodeTableController editNodeTableController;
 
   private double dragStartXRelativeEdge;
@@ -234,9 +235,6 @@ public class GraphEditPageController {
     loadNodesButton.setOnAction(
         e -> {
           loadMapFromCSV();
-          //          System.out.println(nodes);
-          editNodeTableController.setList(nodes);
-          editNodeTableController.setColumns();
         });
 
     int i = 0;

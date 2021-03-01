@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,37 +13,62 @@ import javafx.scene.layout.ColumnConstraints;
 public class MainPageController {
   @FXML private AnchorPane origRightPane;
   @FXML private AnchorPane origCenterPane;
-  @FXML private JFXButton signInBtn;
-  @FXML private JFXButton navigationBtn;
-  @FXML private JFXButton serviceRequestBtn;
-  @FXML private JFXButton adminToolsBtn;
+  @FXML private JFXButton origSignInBtn;
+  @FXML private JFXButton origNavigationBtn;
+  @FXML private JFXButton origServiceRequestBtn;
+  @FXML private JFXButton origAdminToolsBtn;
   @FXML private ColumnConstraints origCenterColumn;
 
+  private JFXButton signInBtn;
+  private JFXButton navigationBtn;
+  private JFXButton serviceRequestBtn;
+  private JFXButton adminToolsBtn;
   private AnchorPane rightPane;
   private AnchorPane centerPane;
   private ColumnConstraints centerColumn;
   //  @FXML private JFXButton SRMenuBtn;
   private static MainPageController instance;
+  Settings settings;
 
   public MainPageController() {}
 
   public MainPageController(
-      AnchorPane centerPane, AnchorPane rightPane, ColumnConstraints centerColumn) {
+      AnchorPane centerPane,
+      AnchorPane rightPane,
+      ColumnConstraints centerColumn,
+      JFXButton signInBtn,
+      JFXButton navigationBtn,
+      JFXButton serviceRequestBtn,
+      JFXButton adminToolsBtn) {
+    this.settings = Settings.getSettings();
     this.centerPane = centerPane;
     this.rightPane = rightPane;
     this.centerColumn = centerColumn;
+    this.signInBtn = signInBtn;
+    this.navigationBtn = navigationBtn;
+    this.serviceRequestBtn = serviceRequestBtn;
+    this.adminToolsBtn = adminToolsBtn;
     loadRightSubPage("LoginPage.fxml");
     // loadCenterSubPage("ServiceRequestNavigator.fxml");
   }
 
   @FXML
   private void initialize() {
-    instance = new MainPageController(origCenterPane, origRightPane, origCenterColumn);
+    instance =
+        new MainPageController(
+            origCenterPane,
+            origRightPane,
+            origCenterColumn,
+            origSignInBtn,
+            origNavigationBtn,
+            origServiceRequestBtn,
+            origAdminToolsBtn);
     instance.setCenterColumnWidth(0);
-    navigationBtn.setOnAction(e -> buttonClicked(e));
-    serviceRequestBtn.setOnAction(e -> buttonClicked(e));
-    adminToolsBtn.setOnAction(e -> buttonClicked(e));
-    signInBtn.setOnAction(e -> buttonClicked(e));
+    origNavigationBtn.setOnAction(e -> buttonClicked(e));
+    origServiceRequestBtn.setOnAction(e -> buttonClicked(e));
+    origAdminToolsBtn.setOnAction(e -> buttonClicked(e));
+    origSignInBtn.setOnAction(e -> buttonClicked(e));
+    instance.drawByPermissions();
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -51,7 +77,7 @@ public class MainPageController {
     else if (e.getSource() == serviceRequestBtn) {
       instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
       instance.loadCenterSubPage("ServiceRequestNavigator.fxml");
-    } else if (e.getSource() == adminToolsBtn) instance.loadRightSubPage("EditNodeTable.fxml");
+    } else if (e.getSource() == adminToolsBtn) instance.loadRightSubPage("AdminPage.fxml");
   }
 
   public void setCenterColumnWidth(double width) {
@@ -94,6 +120,28 @@ public class MainPageController {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public void drawByPermissions() {
+    int perm = Settings.getSettings().getCurrentPermissions();
+    boolean serviceAccess = false;
+    boolean adminAccess = false;
+    switch (perm) {
+      case 0: // guest
+        serviceAccess = false;
+        adminAccess = false;
+        break;
+      case 1: // employee
+        serviceAccess = true;
+        adminAccess = false;
+        break;
+      case 2: // admin
+        serviceAccess = true;
+        adminAccess = true;
+        break;
+    }
+    serviceRequestBtn.setVisible(serviceAccess);
+    adminToolsBtn.setVisible(adminAccess);
   }
   //  public void loadSubPages() {
   //    Stage stage = (Stage) rightPane.getScene().getWindow();

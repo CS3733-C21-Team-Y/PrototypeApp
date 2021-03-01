@@ -6,8 +6,10 @@ import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.cells.editors.TextFieldEditorBuilder;
 import com.jfoenix.controls.cells.editors.base.GenericEditableTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.TableNodes;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -132,92 +134,192 @@ public class EditNodeTableController extends RightPage {
         (TreeTableColumn<TableNodes, String> param) ->
             new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
     nodeIDCol.setOnEditCommit(
-        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
-            t.getTreeTableView()
-                .getTreeItem(t.getTreeTablePosition().getRow())
-                .getValue()
-                .getNodeID()
-                .set(t.getNewValue()));
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) -> {
+          try {
+            DataOperations.deleteNode(
+                t.getTreeTableView()
+                    .getTreeItem(t.getTreeTablePosition().getRow())
+                    .getValue()
+                    .getNodeID()
+                    .getValue());
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+          t.getTreeTableView()
+              .getTreeItem(t.getTreeTablePosition().getRow())
+              .getValue()
+              .getNodeID()
+              .set(t.getNewValue());
+          try {
+            DataOperations.insert(
+                new Node(
+                    t.getTreeTableView()
+                        .getTreeItem(t.getTreeTablePosition().getRow())
+                        .getValue()));
+          } catch (Exception throwables) {
+            throwables.printStackTrace();
+          }
+        });
     nodeTypeCol.setCellFactory(
         (TreeTableColumn<TableNodes, String> param) ->
             new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
     nodeTypeCol.setOnEditCommit(
-        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
-            t.getTreeTableView()
-                .getTreeItem(t.getTreeTablePosition().getRow())
-                .getValue()
-                .getNodeType()
-                .set(t.getNewValue()));
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) -> {
+          t.getTreeTableView()
+              .getTreeItem(t.getTreeTablePosition().getRow())
+              .getValue()
+              .getNodeType()
+              .set(t.getNewValue());
+          try {
+            DataOperations.update(
+                new Node(
+                    t.getTreeTableView()
+                        .getTreeItem(t.getTreeTablePosition().getRow())
+                        .getValue()));
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+        });
     xcoordCol.setCellFactory(
         (TreeTableColumn<TableNodes, String> param) ->
             new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
     xcoordCol.setOnEditCommit(
-        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
-            t.getTreeTableView()
-                .getTreeItem(t.getTreeTablePosition().getRow())
-                .getValue()
-                .getXcoord()
-                .set(t.getNewValue()));
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) -> {
+          t.getTreeTableView()
+              .getTreeItem(t.getTreeTablePosition().getRow())
+              .getValue()
+              .getXcoord()
+              .set(t.getNewValue());
+          try {
+            DataOperations.update(
+                new Node(
+                    t.getTreeTableView()
+                        .getTreeItem(t.getTreeTablePosition().getRow())
+                        .getValue()));
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+        });
     ycoordCol.setCellFactory(
         (TreeTableColumn<TableNodes, String> param) ->
             new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
     ycoordCol.setOnEditCommit(
-        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
-            t.getTreeTableView()
-                .getTreeItem(t.getTreeTablePosition().getRow())
-                .getValue()
-                .getYcoord()
-                .set(t.getNewValue()));
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) -> {
+          t.getTreeTableView()
+              .getTreeItem(t.getTreeTablePosition().getRow())
+              .getValue()
+              .getYcoord()
+              .set(t.getNewValue());
+          try {
+            DataOperations.update(
+                new Node(
+                    t.getTreeTableView()
+                        .getTreeItem(t.getTreeTablePosition().getRow())
+                        .getValue()));
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+        });
     floorCol.setCellFactory(
         (TreeTableColumn<TableNodes, String> param) ->
             new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
     floorCol.setOnEditCommit(
-        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
-            t.getTreeTableView()
-                .getTreeItem(t.getTreeTablePosition().getRow())
-                .getValue()
-                .getFloor()
-                .set(t.getNewValue()));
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) -> {
+          t.getTreeTableView()
+              .getTreeItem(t.getTreeTablePosition().getRow())
+              .getValue()
+              .getFloor()
+              .set(t.getNewValue());
+          try {
+            DataOperations.update(
+                new Node(
+                    t.getTreeTableView()
+                        .getTreeItem(t.getTreeTablePosition().getRow())
+                        .getValue()));
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+        });
     buildingCol.setCellFactory(
         (TreeTableColumn<TableNodes, String> param) ->
             new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
     buildingCol.setOnEditCommit(
-        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
-            t.getTreeTableView()
-                .getTreeItem(t.getTreeTablePosition().getRow())
-                .getValue()
-                .getBuilding()
-                .set(t.getNewValue()));
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) -> {
+          t.getTreeTableView()
+              .getTreeItem(t.getTreeTablePosition().getRow())
+              .getValue()
+              .getBuilding()
+              .set(t.getNewValue());
+          try {
+            DataOperations.update(
+                new Node(
+                    t.getTreeTableView()
+                        .getTreeItem(t.getTreeTablePosition().getRow())
+                        .getValue()));
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+        });
     roomCol.setCellFactory(
         (TreeTableColumn<TableNodes, String> param) ->
             new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
     roomCol.setOnEditCommit(
-        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
-            t.getTreeTableView()
-                .getTreeItem(t.getTreeTablePosition().getRow())
-                .getValue()
-                .getRoom()
-                .set(t.getNewValue()));
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) -> {
+          t.getTreeTableView()
+              .getTreeItem(t.getTreeTablePosition().getRow())
+              .getValue()
+              .getRoom()
+              .set(t.getNewValue());
+          try {
+            DataOperations.update(
+                new Node(
+                    t.getTreeTableView()
+                        .getTreeItem(t.getTreeTablePosition().getRow())
+                        .getValue()));
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+        });
     longNameCol.setCellFactory(
         (TreeTableColumn<TableNodes, String> param) ->
             new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
     longNameCol.setOnEditCommit(
-        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
-            t.getTreeTableView()
-                .getTreeItem(t.getTreeTablePosition().getRow())
-                .getValue()
-                .getLongName()
-                .set(t.getNewValue()));
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) -> {
+          t.getTreeTableView()
+              .getTreeItem(t.getTreeTablePosition().getRow())
+              .getValue()
+              .getLongName()
+              .set(t.getNewValue());
+          try {
+            DataOperations.update(
+                new Node(
+                    t.getTreeTableView()
+                        .getTreeItem(t.getTreeTablePosition().getRow())
+                        .getValue()));
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+        });
     shortNameCol.setCellFactory(
         (TreeTableColumn<TableNodes, String> param) ->
             new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
     shortNameCol.setOnEditCommit(
-        (TreeTableColumn.CellEditEvent<TableNodes, String> t) ->
-            t.getTreeTableView()
-                .getTreeItem(t.getTreeTablePosition().getRow())
-                .getValue()
-                .getShortName()
-                .set(t.getNewValue()));
+        (TreeTableColumn.CellEditEvent<TableNodes, String> t) -> {
+          t.getTreeTableView()
+              .getTreeItem(t.getTreeTablePosition().getRow())
+              .getValue()
+              .getShortName()
+              .set(t.getNewValue());
+          try {
+            DataOperations.update(
+                new Node(
+                    t.getTreeTableView()
+                        .getTreeItem(t.getTreeTablePosition().getRow())
+                        .getValue()));
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+        });
 
     treeTable.setShowRoot(false);
     treeTable.setEditable(true);
@@ -233,6 +335,9 @@ public class EditNodeTableController extends RightPage {
             roomCol,
             longNameCol,
             shortNameCol);
+
+    setList();
+    setColumns();
   }
 
   public void setColumns() {
@@ -245,7 +350,14 @@ public class EditNodeTableController extends RightPage {
     treeTable.setRoot(root);
   }
 
-  public void setList(ArrayList<Node> n) {
-    this.nodes = n;
+  public void setList() {
+    // get list of nodes from database
+    try {
+      this.nodes = DataOperations.getListOfNodes();
+    } catch (Exception e) {
+
+    }
   }
+
+  public void updateDB() {}
 }

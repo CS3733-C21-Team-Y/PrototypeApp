@@ -30,6 +30,10 @@ public class DataOperations {
     JDBCUtils.insert(employee);
   }
 
+  public static void insert(Node node) throws SQLException, IllegalAccessException {
+    JDBCUtils.insert(9, node, "Node");
+  }
+
   public static void insertArrayListNode(ArrayList<Node> nodes)
       throws SQLException, IllegalAccessException {
     JDBCUtils.insertArrayListNode(nodes);
