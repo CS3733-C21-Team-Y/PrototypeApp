@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamY.dataops;
 
 import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
+import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
@@ -23,6 +24,10 @@ public class DataOperations {
   public static void insert(int numArgs, Object object, String tableName)
       throws SQLException, IllegalAccessException {
     JDBCUtils.insert(numArgs, object, tableName);
+  }
+
+  public static void insert(Employee employee) throws SQLException {
+    JDBCUtils.insert(employee);
   }
 
   public static void insertArrayListNode(ArrayList<Node> nodes)
@@ -47,12 +52,24 @@ public class DataOperations {
     JDBCUtils.update(edge);
   }
 
+  public static void update(Employee employee) throws SQLException {
+    JDBCUtils.update(employee);
+  }
+
   public static void deleteNode(String nodeID) throws SQLException {
     JDBCUtils.deleteNode(nodeID);
   }
 
   public static void deleteEdge(String edgeID) throws SQLException {
     JDBCUtils.deleteEdge(edgeID);
+  }
+
+  public static void deleteEmployee(Employee employee) throws SQLException {
+    JDBCUtils.deleteEmployee(employee);
+  }
+
+  public static void deleteEmployee(String employeeID) throws SQLException {
+    JDBCUtils.deleteEmployee(employeeID);
   }
 
   public static void updateNodeCoordsOnly(String nodeID, double xcoord, double ycoord) {
@@ -92,6 +109,7 @@ public class DataOperations {
   }
 
   public static ArrayList<Edge> getListOfEdgeNoStairs() throws SQLException {
+
     return CSV.getListOfEdge(ActiveGraph.FilterMapElements.NoStairs);
   }
 
@@ -100,6 +118,7 @@ public class DataOperations {
   }
 
   public static ArrayList<Node> getListOfNodeNoStairs() throws SQLException {
+
     return CSV.getListOfNodes(ActiveGraph.FilterMapElements.NoStairs);
   }
 
