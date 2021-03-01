@@ -26,7 +26,7 @@ public class MainPageController {
   public MainPageController(AnchorPane centerPane, AnchorPane rightPane) {
     this.centerPane = centerPane;
     this.rightPane = rightPane;
-    loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+    loadRightSubPage("LoginPage.fxml");
     loadCenterSubPage("ServiceRequestNavigator.fxml");
   }
 
