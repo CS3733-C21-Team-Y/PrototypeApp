@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
@@ -49,11 +48,6 @@
                   <RowConstraints minHeight="60.0" percentHeight="20.0" prefHeight="70.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <JFXDatePicker defaultColor="#5a5c94" maxWidth="9999999.0" minHeight="35.0" prefHeight="40.0" promptText="Date" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f; -fx-text-font: Calibri;" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-                     <padding>
-                        <Insets left="5.0" />
-                     </padding>
-                  </JFXDatePicker>
                   <JFXTextArea fx:id="description" focusColor="#5a5c94" minHeight="20.0" prefHeight="28.0" prefWidth="299.0" promptText="Description" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                      <padding>
                         <Insets left="5.0" />
@@ -67,7 +61,7 @@
                         <Font name="Calibri" size="12.0" />
                      </font>
                   </JFXTextField>
-                  <JFXTextField focusColor="#5a5c94" labelFloat="true" minHeight="30.0" prefHeight="30.0" prefWidth="299.0" promptText="Patient's Current Location" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
+                  <JFXTextField fx:id="currentLocation" focusColor="#5a5c94" labelFloat="true" minHeight="30.0" prefHeight="30.0" prefWidth="299.0" promptText="Patient's Current Location" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets top="4.0" />
                      </GridPane.margin>
@@ -78,7 +72,7 @@
                         <Font name="Calibri" size="12.0" />
                      </font>
                   </JFXTextField>
-                  <JFXTextField focusColor="#5a5c94" labelFloat="true" minHeight="30.0" prefHeight="30.0" prefWidth="299.0" promptText="Patient's Desired Location" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                  <JFXTextField fx:id="desiredLocation" focusColor="#5a5c94" labelFloat="true" minHeight="30.0" prefHeight="30.0" prefWidth="299.0" promptText="Patient's Desired Location" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                      <padding>
                         <Insets left="5.0" />
                      </padding>
@@ -112,6 +106,14 @@
                         <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />
                      </graphic>
                   </JFXButton>
+                  <JFXTextField fx:id="date" focusColor="#5a5c94" labelFloat="true" layoutX="60.0" layoutY="169.0" minHeight="30.0" prefHeight="30.0" prefWidth="299.0" promptText="Date" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                     <font>
+                        <Font name="Calibri" size="12.0" />
+                     </font>
+                  </JFXTextField>
                </children>
             </GridPane>
          </children>

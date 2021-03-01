@@ -17,6 +17,9 @@ public class InsideHospitalSidePageController extends GenericServiceFormPage {
   @FXML private JFXButton submitBtn;
   @FXML private JFXTextField patientName;
   @FXML private JFXTextArea description;
+  @FXML private JFXTextField date;
+  @FXML private JFXTextField currentLocation;
+  @FXML private JFXTextField desiredLocation;
 
   public InsideHospitalSidePageController() {}
 
@@ -39,11 +42,16 @@ public class InsideHospitalSidePageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    Service service = new Service(this.IDCount, "Inside Hospital Transportation");
+    Service service = new Service(this.IDCount, "Inside Transport");
     this.IDCount++;
     // service.setCategory((String) patientName.getText());
     // service.setLocation((String) patientName.getValue());
     service.setDescription(description.getText());
+    service.setRequester(settings.getCurrentUsername());
+    service.setLocation(currentLocation.getText());
+    service.setCategory(patientName.getText());
+    service.setDate(date.getText());
+    service.setAdditionalInfo(desiredLocation.getText());
     service.setRequester(settings.getCurrentUsername());
 
     try {
