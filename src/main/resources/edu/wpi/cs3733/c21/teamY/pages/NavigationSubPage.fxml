@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.PathfindingPageController">
    <children>
       <GridPane prefHeight="600.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -40,17 +40,17 @@
                               <RowConstraints minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <JFXButton contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="3">
+                              <JFXButton fx:id="stairsButton" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="3">
                                  <graphic>
                                     <MaterialDesignIconView fill="WHITE" glyphName="STAIRS" size="20" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="4">
+                              <JFXButton fx:id="noStairsButton" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="4">
                                  <graphic>
                                     <MaterialDesignIconView fill="WHITE" glyphName="ELEVATOR" size="20" />
                                  </graphic>
                               </JFXButton>
-                              <JFXComboBox focusColor="WHITE" prefWidth="999.0" promptText="Floor 1" unFocusColor="WHITE" GridPane.columnIndex="1">
+                              <JFXComboBox fx:id="floorMenuComboBox" focusColor="WHITE" prefWidth="999.0" promptText="Floor 1" unFocusColor="WHITE" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets />
                                  </GridPane.margin>
@@ -72,13 +72,13 @@
                            <children>
                               <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                                  <children>
-                                    <JFXComboBox editable="true" focusColor="WHITE" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="99999.0" promptText="Start Location" style="-fx: White;" unFocusColor="WHITE" />
-                                    <JFXComboBox editable="true" focusColor="WHITE" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="9999.0" promptText="End Location" unFocusColor="WHITE" />
+                                    <JFXComboBox fx:id="startLocationBox" editable="true" focusColor="WHITE" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="99999.0" promptText="Start Location" style="-fx: White;" unFocusColor="WHITE" />
+                                    <JFXComboBox fx:id="endLocationBox" editable="true" focusColor="WHITE" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="9999.0" promptText="End Location" unFocusColor="WHITE" />
                                  </children>
                               </VBox>
                               <JFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="40.0" prefWidth="40.0" textFill="WHITE" textOverrun="CLIP" GridPane.columnIndex="2">
                                  <graphic>
-                                    <MaterialDesignIconView fill="WHITE" glyphName="SWAP_VERTICAL" size="20" strokeLineCap="ROUND" strokeLineJoin="ROUND" />
+                                    <MaterialDesignIconView fx:id="swapLocationsBox" fill="WHITE" glyphName="SWAP_VERTICAL" size="20" strokeLineCap="ROUND" strokeLineJoin="ROUND" />
                                  </graphic>
                               </JFXButton>
                            </children>
@@ -107,17 +107,17 @@
                               <RowConstraints minHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <JFXButton buttonType="RAISED" contentDisplay="TOP" text="WC" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <JFXButton fx:id="toiletDetourButton" buttonType="RAISED" contentDisplay="TOP" text="WC" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <graphic>
                                     <MaterialDesignIconView fill="#5a5c94" glyphName="EMOTICON_POOP" size="20" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton buttonType="RAISED" contentDisplay="TOP" text="Food" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                              <JFXButton fx:id="foodDetourButton" buttonType="RAISED" contentDisplay="TOP" text="Food" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                  <graphic>
                                     <MaterialDesignIconView fill="#5a5c94" glyphName="FOOD" size="20" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton buttonType="RAISED" contentDisplay="TOP" text="Info" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                              <JFXButton fx:id="kioskDetourButton" buttonType="RAISED" contentDisplay="TOP" text="Info" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                  <graphic>
                                     <MaterialDesignIconView fill="#5a5c94" glyphName="INFORMATION_OUTLINE" size="20" />
                                  </graphic>
@@ -133,9 +133,8 @@
                   </VBox>
                </children>
             </VBox>
-            <StackPane GridPane.columnIndex="1">
+            <StackPane fx:id="mapSection" GridPane.columnIndex="1">
                <children>
-                   <fx:include fx:id="mapInsert" source="MapUserControl.fxml" />
                </children>
             </StackPane>
          </children>

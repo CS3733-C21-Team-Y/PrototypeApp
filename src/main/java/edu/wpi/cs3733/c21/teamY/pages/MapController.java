@@ -34,7 +34,7 @@ public class MapController extends RightPage {
   @FXML private Pane adornerPane;
   @FXML protected StackPane containerStackPane;
 
-  //YAY?!
+  // YAY?!
   @FXML private GridPane mapOverlayUIGridPane;
   @FXML private SplitMenuButton floorMenu;
 
