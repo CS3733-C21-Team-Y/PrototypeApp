@@ -14,6 +14,8 @@ public class Service {
   private String requester;
   private int status;
 
+  private String employee;
+
   // no requester
   public Service(
       int serviceID,
@@ -34,6 +36,7 @@ public class Service {
     this.date = date;
     this.additionalInfo = additionalInfo;
     this.status = status;
+    this.employee = "admin";
   }
 
   // requester
@@ -58,6 +61,7 @@ public class Service {
     this.additionalInfo = additionalInfo;
     this.requester = requester;
     this.status = status;
+    this.employee = "admin";
   }
 
   public Service(int serviceID, String type) {
@@ -69,6 +73,7 @@ public class Service {
     urgency = "";
     date = "";
     status = -1;
+    this.employee = "admin";
   }
 
   public Service(
@@ -87,6 +92,7 @@ public class Service {
     this.urgency = urgency;
     this.date = date;
     this.status = -1;
+    this.employee = "admin";
   }
 
   public Service(
@@ -106,6 +112,40 @@ public class Service {
     this.urgency = urgency;
     this.date = date;
     this.status = status;
+    this.employee = "admin";
+  }
+
+  public Service(
+      int serviceID,
+      String type,
+      String description,
+      String location,
+      String category,
+      String urgency,
+      String date,
+      String additionalInfo,
+      String requester,
+      int status,
+      String employee) {
+    this.serviceID = serviceID;
+    this.type = type;
+    this.description = description;
+    this.location = location;
+    this.category = category;
+    this.urgency = urgency;
+    this.date = date;
+    this.additionalInfo = additionalInfo;
+    this.requester = requester;
+    this.status = status;
+    this.employee = employee;
+  }
+
+  public String getEmployee() {
+    return employee;
+  }
+
+  public void setEmployee(String employee) {
+    this.employee = employee;
   }
 
   public String getRequester() {

@@ -25,31 +25,44 @@
         </rowConstraints>
          <children>
             <GridPane>
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="100.0" minHeight="100.0" percentHeight="20.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
-                  <VBox alignment="CENTER" maxWidth="30.0" prefHeight="200.0" prefWidth="100.0" styleClass="menuTab" stylesheets="@../UIStyles.css" GridPane.valignment="BOTTOM">
-                     <children>
-                        <Label minHeight="50.0" minWidth="70.0" rotate="-90.0" text="My Services" textFill="#8d8ea4">
-                           <VBox.margin>
-                              <Insets left="-20.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font name="Calibri" size="14.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets right="-20.0" />
-                     </padding>
-                  </VBox>
+                  <JFXButton fx:id="myRequestsBtn" minWidth="90.0" rotate="-90.0" style="-fx-background-color: #3b3d73;" text="My Requests" textFill="#8d8ea4" textOverrun="CLIP" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="-30.0" top="10.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Calibri" size="15.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="assignedBtn" minWidth="90.0" rotate="-90.0" style="-fx-background-color: #3b3d73;" text="Assigned" textFill="#8d8ea4" textOverrun="CLIP" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="-30.0" top="10.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Calibri" size="15.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="allRequestsBtn" minWidth="90.0" rotate="-90.0" style="-fx-background-color: #3b3d73;" text="All Requests" textFill="#8d8ea4" textOverrun="CLIP" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="-30.0" top="10.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Calibri" size="15.0" />
+                     </font>
+                  </JFXButton>
                </children>
                <GridPane.margin>
-                  <Insets top="50.0" />
+                  <Insets />
                </GridPane.margin>
             </GridPane>
             <GridPane GridPane.columnIndex="1">
