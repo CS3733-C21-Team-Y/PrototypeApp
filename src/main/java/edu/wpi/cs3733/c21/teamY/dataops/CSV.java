@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.dataops;
 
+import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
@@ -322,6 +323,11 @@ public class CSV {
   }
 
   public static ArrayList<Edge> getListOfEdge() throws SQLException {
+    return getListOfEdge(ActiveGraph.FilterMapElements.None);
+  }
+
+  public static ArrayList<Edge> getListOfEdge(ActiveGraph.FilterMapElements filters)
+      throws SQLException {
     Connection conn = JDBCUtils.getConn();
     String str = "SELECT * FROM ADMIN.EDGE";
     ArrayList<Edge> edges = new ArrayList<>();
@@ -336,6 +342,13 @@ public class CSV {
         edgeID = resultSet.getString(1);
         startNodeID = resultSet.getString(2);
         endNodeID = resultSet.getString(3);
+
+        if (filters == ActiveGraph.FilterMapElements.NoStairs
+            || filters == ActiveGraph.FilterMapElements.Employee_NoStairs) {
+          if (startNodeID.contains("STAI") || endNodeID.contains("STAI")) {
+            continue;
+          }
+        }
         Edge edge = new Edge(edgeID, startNodeID, endNodeID);
         edges.add(edge);
         JDBCUtils.insert(3, edge, "Edge");
@@ -364,9 +377,7 @@ public class CSV {
         edgeID = resultSet.getString(1);
         startNodeID = resultSet.getString(2);
         endNodeID = resultSet.getString(3);
-        if (startNodeID.contains("STAI") || endNodeID.contains("STAI")) {
-          continue;
-        }
+
         Edge edge = new Edge(edgeID, startNodeID, endNodeID);
         edges.add(edge);
         JDBCUtils.insert(3, edge, "Edge");
@@ -380,8 +391,13 @@ public class CSV {
     return null;
   }
 
-  /** @return a list of nodes */
   public static ArrayList<Node> getListOfNodes() throws SQLException {
+    return getListOfNodes(ActiveGraph.FilterMapElements.None);
+  }
+
+  /** @return a list of nodes filtered by ActiveGraph.FilterMapElements */
+  public static ArrayList<Node> getListOfNodes(ActiveGraph.FilterMapElements filters)
+      throws SQLException {
     // Connection conn=JDBCUtils.getConn();
     Connection conn = JDBCUtils.getConn();
     String str = "SELECT * FROM ADMIN.NODE";
@@ -410,62 +426,11 @@ public class CSV {
         shortName = resultSet.getString(8);
         teamAssigned = resultSet.getString(9).charAt(0);
 
-        Node node =
-            new Node(
-                nodeType,
-                xcoord,
-                ycoord,
-                floor,
-                building,
-                longName,
-                shortName,
-                teamAssigned,
-                nodeID);
-        nodes.add(node);
-      }
-      resultSet.close();
-      JDBCUtils.close(null, null, statement, conn);
-      return nodes;
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    if (nodes.size() == 0) {
-      System.out.println("zero node in the list, there could be no rows in the table");
-    }
-    return nodes;
-  }
-
-  public static ArrayList<Node> getListOfNodesNoStairs() throws SQLException {
-    // Connection conn=JDBCUtils.getConn();
-    Connection conn = JDBCUtils.getConn();
-    String str = "SELECT * FROM ADMIN.NODE";
-    ArrayList<Node> nodes = new ArrayList<>();
-    String nodeType;
-    double xcoord;
-    double ycoord;
-    String floor;
-    String building;
-    String longName;
-    String shortName;
-    char teamAssigned;
-    String nodeID;
-    try {
-      Statement statement = conn.createStatement();
-      ResultSet resultSet = statement.executeQuery(str);
-      System.out.println("exporting Nodes from database to list of nodes (No Stairs)");
-      while (resultSet.next()) {
-        nodeID = resultSet.getString(1);
-        nodeType = resultSet.getString(2);
-        xcoord = resultSet.getDouble(3);
-        ycoord = resultSet.getDouble(4);
-        floor = resultSet.getString(5);
-        building = resultSet.getString(6);
-        longName = resultSet.getString(7);
-        shortName = resultSet.getString(8);
-        teamAssigned = resultSet.getString(9).charAt(0);
-
-        if (nodeID.contains("STAI")) {
-          continue;
+        if (filters == ActiveGraph.FilterMapElements.NoStairs
+            || filters == ActiveGraph.FilterMapElements.Employee_NoStairs) {
+          if (nodeID.contains("STAI")) {
+            continue;
+          }
         }
 
         Node node =
@@ -484,8 +449,8 @@ public class CSV {
       resultSet.close();
       JDBCUtils.close(null, null, statement, conn);
       return nodes;
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
     if (nodes.size() == 0) {
       System.out.println("zero node in the list, there could be no rows in the table");
@@ -571,7 +536,7 @@ public class CSV {
       int status = Integer.parseInt(strService[7]);
       Service service =
           new Service(serviceID, type, description, location, category, urgency, date, status);
-      JDBCUtils.preparedStatementInsert(service, preparedStatement);
+      JDBCUtils.createPreparedStatementInsert(service, preparedStatement);
     }
     System.out.println("Loading successful");
     JDBCUtils.close(preparedStatement, null, null, connection);

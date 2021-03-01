@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.dataops;
 
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
+import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
@@ -64,8 +65,13 @@ public class JDBCUtils {
       String sqlService =
           "create table Service(serviceID int PRIMARY KEY , type varchar(20) not null ,"
               + "description varchar(255) , location varchar(30), category varchar(20), "
-              + "urgency varchar(10), date varchar(20),status int,check ( status=-1 OR status =0 OR status=1 ))";
+              + "urgency varchar(10), date varchar(20), additionalInfo varchar(255), status int, check ( status=-1 OR status =0 OR status=1 ))";
       stmt.executeUpdate(sqlService);
+
+      String sqlEmployee =
+          "create table Employee(firstName varchar(30) not null, lastName varchar(30) not null, employeeID varchar(30) PRIMARY KEY not null, "
+              + "accessLevel int not null, primaryWorkspace varchar(30))";
+      stmt.executeUpdate(sqlEmployee);
 
     } catch (SQLException ignored) {
       // ignored.printStackTrace();
@@ -248,9 +254,7 @@ public class JDBCUtils {
    * @throws NoSuchFieldException if the field of an object cannot be found
    * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
-  public static void fillTablesFromCSV()
-      throws IllegalAccessException, IOException, NoSuchFieldException, SQLException,
-          InstantiationException, ClassNotFoundException {
+  public static void fillTablesFromCSV() throws IllegalAccessException, IOException, SQLException {
     ArrayList<Node> nodes = CSV.getNodesCSV();
     ArrayList<Edge> edges = CSV.getEdgesCSV();
     insertArrayListNode(nodes);
@@ -439,7 +443,7 @@ public class JDBCUtils {
    * @throws IllegalAccessException if access is denied
    */
   public static void saveService(Service service) throws SQLException, IllegalAccessException {
-    insert(8, service, "Service"); // save to database
+    insert(9, service, "Service"); // save to database
     // Used to save to CSV as well but marked deprecated - look into
   }
 
@@ -454,7 +458,7 @@ public class JDBCUtils {
     if (serviceType.equals("")) {
       string = "select * from ADMIN.Service";
     } else {
-      string = "select * from ADMIN.Service where type=" + serviceType;
+      string = "select * from ADMIN.Service where type ='" + serviceType + "'";
     }
     Connection conn = getConn();
     Statement statement = conn.createStatement();
@@ -467,6 +471,7 @@ public class JDBCUtils {
     String urgency;
     String date;
     int status;
+    String additionalInfo;
     while (resultSet.next()) {
       serviceID = resultSet.getInt(1);
       type = resultSet.getString(2);
@@ -475,9 +480,19 @@ public class JDBCUtils {
       category = resultSet.getString(5);
       urgency = resultSet.getString(6);
       date = resultSet.getString(7);
-      status = resultSet.getInt(8);
+      additionalInfo = resultSet.getString(8);
+      status = resultSet.getInt(9);
       Service service =
-          new Service(serviceID, type, description, location, category, urgency, date, status);
+          new Service(
+              serviceID,
+              type,
+              description,
+              location,
+              category,
+              urgency,
+              date,
+              additionalInfo,
+              status);
       services.add(service);
     }
     resultSet.close();
@@ -532,7 +547,8 @@ public class JDBCUtils {
    * @param service a service to be inserted into DB
    * @param preparedStatement prepare statement
    */
-  public static void preparedStatementInsert(Service service, PreparedStatement preparedStatement) {
+  public static void createPreparedStatementInsert(
+      Service service, PreparedStatement preparedStatement) {
 
     try {
 
@@ -543,11 +559,91 @@ public class JDBCUtils {
       preparedStatement.setString(5, service.getCategory());
       preparedStatement.setString(6, service.getUrgency());
       preparedStatement.setString(7, service.getDate());
-      preparedStatement.setInt(8, service.getStatus());
+      preparedStatement.setString(8, service.getAdditionalInfo());
+      preparedStatement.setInt(9, service.getStatus());
+
       preparedStatement.executeUpdate();
 
     } catch (SQLException e) {
       System.out.print("It seems there is an error in the SQL syntax");
     }
+  }
+
+  public static PreparedStatement createPreparedStatementInsert(Employee employee)
+      throws SQLException {
+    Connection connection = JDBCUtils.getConn();
+    PreparedStatement stmt =
+        connection.prepareStatement("insert into ADMIN.EMPLOYEE values ((?),(?),(?),(?),(?))");
+    stmt.setString(1, employee.getFirstName());
+    stmt.setString(2, employee.getLastName());
+    stmt.setString(3, employee.getEmployeeID());
+    stmt.setInt(4, employee.getAccessLevel());
+    stmt.setString(5, employee.getPrimaryWorkspace());
+    return stmt;
+  }
+
+  public static void insert(Employee employee) throws SQLException {
+    PreparedStatement stmt = createPreparedStatementInsert(employee);
+
+    try {
+      stmt.execute();
+      stmt.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static PreparedStatement createPreparedStatementUpdate(Employee employee)
+      throws SQLException {
+    Connection connection = JDBCUtils.getConn();
+    return connection.prepareStatement(
+        "UPDATE ADMIN.EMPLOYEE set "
+            + "ADMIN.EMPLOYEE.FIRSTNAME = '"
+            + employee.getFirstName()
+            + "', "
+            + "ADMIN.EMPLOYEE.LASTNAME = '"
+            + employee.getLastName()
+            + "', "
+            + "ADMIN.EMPLOYEE.EMPLOYEEID = '"
+            + employee.getEmployeeID()
+            + "', "
+            + "ADMIN.EMPLOYEE.ACCESSLEVEL = "
+            + employee.getAccessLevel()
+            + ", "
+            + "ADMIN.EMPLOYEE.PRIMARYWORKSPACE = '"
+            + employee.getPrimaryWorkspace()
+            + "' "
+            + "WHERE ADMIN.EMPLOYEE.EMPLOYEEID = '"
+            + employee.getEmployeeID()
+            + "'");
+  }
+
+  public static void update(Employee employee) throws SQLException {
+    PreparedStatement stmt = createPreparedStatementUpdate(employee);
+    try {
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static PreparedStatement createPreparedStatementDeleteEmployee(String employeeID)
+      throws SQLException {
+    Connection connection = getConn();
+    return connection.prepareStatement(
+        "DELETE FROM ADMIN.EMPLOYEE WHERE EMPLOYEEID = '" + employeeID + "'");
+  }
+
+  public static void deleteEmployee(Employee employee) throws SQLException {
+    PreparedStatement stmt = createPreparedStatementDeleteEmployee(employee.getEmployeeID());
+    stmt.executeUpdate();
+    stmt.closeOnCompletion();
+  }
+
+  public static void deleteEmployee(String employeeID) throws SQLException {
+    PreparedStatement stmt = createPreparedStatementDeleteEmployee(employeeID);
+    stmt.executeUpdate();
+    stmt.closeOnCompletion();
   }
 }
