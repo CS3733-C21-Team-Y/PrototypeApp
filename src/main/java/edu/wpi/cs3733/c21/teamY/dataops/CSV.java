@@ -26,6 +26,8 @@ public class CSV {
       "src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/Employee.CSV";
   public static BufferedReader brService;
   public static BufferedWriter bwService;
+  public static BufferedReader brEmployee;
+  public static BufferedWriter bwEmployee;
 
   // load the BufferedReader for node
   static {
@@ -80,6 +82,24 @@ public class CSV {
     }
   }
 
+  static {
+    try {
+      System.out.println("Working Directory = " + System.getProperty("user.dir"));
+      // parsing a CSV file into BufferedReader class constructor
+
+      try {
+        CSV.brEmployee = new BufferedReader(new FileReader(CSV.employeePath));
+        System.out.println("Employee BufferedReader initialized successful!");
+      } catch (FileNotFoundException e) {
+        System.out.println("Employee BufferedReader initialized failed!");
+
+        e.printStackTrace();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   // load the bufferWriter for service
   static {
     try {
@@ -87,6 +107,19 @@ public class CSV {
       System.out.println("Service BufferedWriter initialized successful!");
     } catch (FileNotFoundException e) {
       System.out.println("Service BufferedWriter initialized failed!");
+
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  static {
+    try {
+      CSV.bwEmployee = new BufferedWriter(new FileWriter(CSV.employeePath, true));
+      System.out.println("Employee BufferedWriter initialized successful!");
+    } catch (FileNotFoundException e) {
+      System.out.println("Employee BufferedWriter initialized failed!");
 
       e.printStackTrace();
     } catch (IOException e) {
@@ -152,12 +185,82 @@ public class CSV {
               nodeID);
       nodes.add(node);
       try {
-        JDBCUtils.insert(10, node, "Node");
+        JDBCUtils.insert(9, node, "Node");
+      } catch (SQLException ignore) {
+        ignore.printStackTrace();
+      }
+    }
+    return nodes;
+  }
+
+  public static void getEmployeesCSV() throws IOException, IllegalAccessException {
+    String line = brEmployee.readLine(); // get rid of first line
+    while ((line = brEmployee.readLine()) != null) {
+      String[] stringEdge = line.split(splitBy); // use comma as separator
+
+      String firstName = stringEdge[0];
+      String lastName = stringEdge[1];
+      String employeeID = stringEdge[2];
+      String password = stringEdge[3];
+      String email = stringEdge[4];
+      String accessLevel = stringEdge[5];
+      String primaryWorkSpace = stringEdge[6];
+
+      Employee employee =
+          new Employee(
+              firstName,
+              lastName,
+              employeeID,
+              password,
+              email,
+              Integer.parseInt(accessLevel),
+              primaryWorkSpace);
+
+      try {
+        JDBCUtils.insert(7, employee, "Employee");
       } catch (SQLException ignore) {
 
       }
     }
-    return nodes;
+  }
+
+  public static void getServiceCSV() throws IOException, IllegalAccessException {
+    String line = brService.readLine(); // get rid of first line
+    while ((line = brService.readLine()) != null) {
+
+      String[] stringEdge = line.split(splitBy); // use comma as separator
+
+      String serviceID = stringEdge[0];
+      String type = stringEdge[1];
+      String description = stringEdge[2];
+      String location = stringEdge[3];
+      String category = stringEdge[4];
+      String urgency = stringEdge[5];
+      String date = stringEdge[6];
+      String additionalInfo = stringEdge[7];
+      String requester = stringEdge[8];
+      String status = stringEdge[9];
+      String employee = stringEdge[10];
+
+      Service service =
+          new Service(
+              Integer.parseInt(serviceID),
+              type,
+              description,
+              location,
+              category,
+              urgency,
+              date,
+              additionalInfo,
+              requester,
+              Integer.parseInt(status));
+
+      try {
+        JDBCUtils.insert(11, service, "Service");
+      } catch (SQLException ignore) {
+
+      }
+    }
   }
 
   /**
@@ -229,8 +332,13 @@ public class CSV {
         break;
       case "SERVICE":
         str = "SELECT * FROM ADMIN.SERVICE";
-        numAttributes = 8;
+        numAttributes = 11;
         CSVpath = serviceTestPath;
+        break;
+      case "EMPLOYEE":
+        str = "SELECT * FROM ADMIN.EMPLOYEE";
+        numAttributes = 7;
+        CSVpath = employeePath;
         break;
     }
     BufferedWriter bufferedWriter; // true = append, false = overwrite
@@ -259,9 +367,14 @@ public class CSV {
           bufferedWriter.newLine();
           break;
         case "SERVICE":
-          bufferedWriter.write("serviceID,type,description,location,category,urgency,date,status");
+          bufferedWriter.write(
+              "serviceID,type,description,location,category,urgency,date,additionalInfo,requester,status,employee");
           bufferedWriter.newLine();
           break;
+        case "EMPLOYEE":
+          bufferedWriter.write(
+              "firstName,lastName,employeeID,password,email,accessLevel,primaryWorkspace");
+          bufferedWriter.newLine();
       }
       while (resultSet.next()) {
         for (int i = 1; i <= numAttributes; i++) {
