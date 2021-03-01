@@ -233,5 +233,12 @@ public class AStarAlgorithmTesting {
 
     nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", dest, "");
     assertEquals(answerList, AStarAlgorithm.textDirections(nodes));
+
+    answerList.clear();
+    answerList.add("Start from Node1 to Node2");
+    answerList.add("Continue Straight from Node2 to Node9");
+    answerList.add("You have reached your destination.");
+    nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", "9", "");
+    assertEquals(answerList, AStarAlgorithm.textDirections(nodes));
   }
 }

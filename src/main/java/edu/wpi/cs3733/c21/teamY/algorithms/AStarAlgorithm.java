@@ -79,16 +79,9 @@ public class AStarAlgorithm {
           pathIndex = cameFrom.get(pathIndex);
         }
         path.add(0, g.nodeList[start]);
-        System.out.println(path);
 
         return path;
       }
-
-      System.out.println(
-          "Visiting node "
-              + g.nodeList[lowestPriorityIndex].nodeID
-              + " with currently lowest priority of "
-              + lowestPriority);
 
       // ...then, for all neighboring nodes that haven't been visited yet....
       for (int i = 0; i < graph[lowestPriorityIndex].length; i++) {
@@ -181,7 +174,6 @@ public class AStarAlgorithm {
 
     for (int i = 0; i < path.size() - 2; i++) {
       double angle = directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2));
-      System.out.println("Angle: " + angle);
       if (angle < -25) {
         // The Lefts
         if (angle < -120) {
@@ -227,6 +219,23 @@ public class AStarAlgorithm {
     }
 
     // TODO check for duplicate "continue straights" and delete the intermediary ones
+    for (int j = 0; j < pathDirections.size() - 1; j++) {
+      if (pathDirections.get(j).contains("Continue Straight")
+          && pathDirections.get(j + 1).contains("Continue Straight")) {
+        String temp = pathDirections.get(j).substring(0, pathDirections.get(j).indexOf("to ") + 3);
+        String other =
+            pathDirections
+                .get(j + 1)
+                .substring(
+                    pathDirections.get(j + 1).indexOf("to ") + 3,
+                    pathDirections.get(j + 1).length());
+        System.out.println("Yo" + other);
+        temp = temp + other;
+        pathDirections.set(j, temp);
+        pathDirections.remove(j + 1);
+        j--;
+      }
+    }
 
     pathDirections.add("You have reached your destination.");
     return pathDirections;
