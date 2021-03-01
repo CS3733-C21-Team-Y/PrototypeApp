@@ -9,10 +9,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="357.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.LaundryInfoPage">
+<AnchorPane prefHeight="400.0" prefWidth="357.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.RequestInfoPageController">
    <children>
       <GridPane layoutX="10.0" layoutY="17.0" prefHeight="260.0" prefWidth="248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -25,7 +25,7 @@
          <children>
             <HBox alignment="CENTER" minHeight="40.0" prefHeight="40.0" prefWidth="399.0" style="-fx-background-color: efeff9;">
                <children>
-                  <Label text="*fill*" textAlignment="CENTER" textFill="#3b3d73">
+                  <Label fx:id="title" text="Service Request Viewer" textAlignment="CENTER" textFill="#3b3d73">
                      <font>
                         <Font name="Calibri Bold" size="23.0" />
                      </font>
@@ -41,20 +41,24 @@
             <GridPane GridPane.rowIndex="1">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="75.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="80.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <JFXComboBox fx:id="statusCombo" focusColor="#5a5c94" labelFloat="true" prefHeight="25.0" prefWidth="112.0" promptText="Status" unFocusColor="#5a5c94" visibleRowCount="3" />
                      </children>
                   </HBox>
+                  <VBox fx:id="infoBox" prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1">
+                     <padding>
+                        <Insets top="25.0" />
+                     </padding>
+                  </VBox>
                </children>
             </GridPane>
          </children>

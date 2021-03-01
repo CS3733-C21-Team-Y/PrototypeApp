@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
-public abstract class RightPage {
+public class CenterPage {
   public MainPageController getParent() {
     return parent;
   }
@@ -10,8 +10,4 @@ public abstract class RightPage {
   }
 
   protected MainPageController parent;
-
-  public void loadNavigationBar() {
-    parent.setCenterColumnWidth(0);
-  };
 }

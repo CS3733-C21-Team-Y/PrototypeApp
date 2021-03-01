@@ -4,16 +4,19 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class ServiceRequestElementController {
+public class ServiceRequestElementController extends CenterPage {
   @FXML private Label type;
   @FXML private Label test;
   @FXML private Label serviceID;
   @FXML private Label status;
 
+  private Service service;
+
   @FXML
   private void initialize() {}
 
   public void populateInformation(Service service) {
+    this.service = service;
     type.setText(service.getType());
     test.setText(service.getLocation());
     serviceID.setText("ID #: " + service.getServiceID());
@@ -26,5 +29,10 @@ public class ServiceRequestElementController {
     }
   }
 
-  public void openRequest() {}
+  public void openRequest() {
+    parent.loadRightSubPage("RequestInfoPage.fxml");
+    StageInformation info = (StageInformation) type.getScene().getWindow().getUserData();
+    info.setService(service);
+    type.getScene().getWindow().setUserData(info);
+  }
 }
