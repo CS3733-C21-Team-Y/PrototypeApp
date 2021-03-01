@@ -54,12 +54,12 @@
                         <Insets left="5.0" />
                      </padding>
                   </JFXDatePicker>
-                  <JFXTextArea focusColor="#5a5c94" minHeight="20.0" prefHeight="28.0" prefWidth="299.0" promptText="Description" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                  <JFXTextArea fx:id="description" focusColor="#5a5c94" minHeight="20.0" prefHeight="28.0" prefWidth="299.0" promptText="Description" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                      <padding>
                         <Insets left="5.0" />
                      </padding>
                   </JFXTextArea>
-                  <JFXTextField focusColor="#5a5c94" labelFloat="true" minHeight="30.0" prefHeight="30.0" prefWidth="299.0" promptText="Patient Name" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+                  <JFXTextField fx:id="patientName" focusColor="#5a5c94" labelFloat="true" minHeight="30.0" prefHeight="30.0" prefWidth="299.0" promptText="Patient Name" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                      <padding>
                         <Insets left="5.0" />
                      </padding>

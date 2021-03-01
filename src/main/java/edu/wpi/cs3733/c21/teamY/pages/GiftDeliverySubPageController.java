@@ -1,21 +1,25 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
-import java.io.IOException;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 public class GiftDeliverySubPageController extends GenericServiceFormPage {
 
   @FXML private JFXButton clearBtn;
   @FXML private JFXButton backBtn;
   @FXML private JFXButton submitBtn;
+  @FXML private JFXComboBox locationField;
+  @FXML private JFXComboBox giftType;
+  @FXML private JFXTextField description;
+
+  private Settings settings;
 
   public GiftDeliverySubPageController() {}
 
@@ -23,8 +27,10 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
   @FXML
   private void initialize() {
 
+    settings = Settings.getSettings();
+
     backBtn.setOnAction(e -> buttonClicked(e));
-    // submitBtn.setOnAction(e -> submitBtnClicked());
+    submitBtn.setOnAction(e -> submitBtnClicked());
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -34,19 +40,19 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
-    Stage stage = null;
+
     Service service = new Service(this.IDCount, "Gift Delivery");
+    this.IDCount++;
+    service.setCategory((String) giftType.getValue());
+    service.setLocation((String) locationField.getValue());
+    service.setDescription(description.getText());
+    service.setRequester(settings.getCurrentUsername());
+
     try {
-      stage = (Stage) submitBtn.getScene().getWindow();
-      JDBCUtils.saveService(service);
-      stage.setScene(
-          new Scene(FXMLLoader.load(getClass().getResource("GiftDeliverySubPage.fxml"))));
-      stage.show();
+      DataOperations.saveService(service);
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
       e.printStackTrace();
     }
   }

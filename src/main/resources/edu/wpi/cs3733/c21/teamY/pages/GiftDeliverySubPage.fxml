@@ -49,10 +49,10 @@
                         <RowConstraints minHeight="40.0" percentHeight="30.0" prefHeight="60.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <JFXComboBox minHeight="40.0" prefHeight="40.0" prefWidth="999999.0" promptText="Location" GridPane.columnIndex="1" />
-                        <JFXComboBox minHeight="40.0" prefHeight="40.0" prefWidth="9999999.0" promptText="Type Of Gift" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXComboBox fx:id="locationField" minHeight="40.0" prefHeight="40.0" prefWidth="999999.0" promptText="Location" GridPane.columnIndex="1" />
+                        <JFXComboBox fx:id="giftType" minHeight="40.0" prefHeight="40.0" prefWidth="9999999.0" promptText="Type Of Gift" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <JFXDatePicker defaultColor="#3b3d73" minHeight="40.0" prefHeight="40.0" prefWidth="999999.0" promptText="Preferred Date" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <JFXTextField prefHeight="84.0" prefWidth="999999.0" promptText="Description Of Gift" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <JFXTextField fx:id="description" prefHeight="84.0" prefWidth="999999.0" promptText="Description Of Gift" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <JFXTextField prefHeight="84.0" prefWidth="9.9999999E7" promptText="Attached Note (Optional)" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <GridPane GridPane.columnIndex="1" GridPane.rowIndex="5">
                             <columnConstraints>
