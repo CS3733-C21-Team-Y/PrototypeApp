@@ -125,7 +125,7 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="3">
                                  <children>
-                                    <JFXButton contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Floral Delivery (Pat)" textAlignment="CENTER" wrapText="true">
+                                    <JFXButton fx:id="floralBtn" contentDisplay="TOP" prefHeight="104.0" prefWidth="87.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Floral Delivery (Pat)" textAlignment="CENTER" wrapText="true">
                                        <font>
                                           <Font name="Calibri" size="11.0" />
                                        </font>
