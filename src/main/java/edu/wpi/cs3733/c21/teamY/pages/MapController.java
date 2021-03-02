@@ -488,6 +488,8 @@ public class MapController extends RightPage {
     return lineEx;
   }
 
+
+  //eh
   protected void addAdornerElements(ArrayList<Node> nodes, ArrayList<Edge> edges, String floor) {
 
     if (nodes == null || edges == null) {
