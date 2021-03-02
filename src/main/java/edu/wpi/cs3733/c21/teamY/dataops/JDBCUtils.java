@@ -598,6 +598,31 @@ public class JDBCUtils {
   }
 
   /**
+   * update a service's assigned employee
+   *
+   * @param service a service to be updated
+   * @param employee the new employee assigned
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
+   */
+  public static void updateServiceAssignedEmployee(Service service, String employee)
+      throws SQLException {
+    String string =
+        "update ADMIN.SERVICE set employee='"
+            + employee
+            + "' where ADMIN.SERVICE.SERVICEID="
+            + service.getServiceID();
+    Connection conn = getConn();
+    Statement statement = conn.createStatement();
+    int rowsAffected = statement.executeUpdate(string);
+    close(null, null, statement, conn);
+    if (rowsAffected == 0) {
+      System.out.println("update failed");
+    } else {
+      System.out.println("update successful");
+    }
+  }
+
+  /**
    * @param service a service to be inserted into DB
    * @param preparedStatement prepare statement
    */
@@ -766,5 +791,36 @@ public class JDBCUtils {
       settings.loginSuccess(username, resultSet.getInt(1));
       return true;
     }
+  }
+
+  public static String findUserByEmail(String email) throws SQLException {
+    Statement statement;
+    statement = JDBCUtils.getConn().createStatement();
+    String sql =
+        "Select ADMIN.EMPLOYEE.EMPLOYEEID "
+            + "FROM ADMIN.EMPLOYEE "
+            + "WHERE ADMIN.EMPLOYEE.EMAIL = '"
+            + email
+            + "'";
+
+    java.sql.ResultSet resultSet = statement.executeQuery(sql);
+
+    if (!resultSet.next()) {
+      return "false";
+    } else {
+      return resultSet.getString(1);
+    }
+  }
+
+  public static boolean updateUserPassword(String userID, String newPassWord) throws SQLException {
+    String update = "update ADMIN.EMPLOYEE set PASSWORD= (?) WHERE EMPLOYEEID=(?)";
+    // String update = "update ADMIN.EMPLOYEE set PASSWORD= "+newPassWord +" where
+    // ADMIN.EMPLOYEE.EMPLOYEEID="+ userID;
+
+    PreparedStatement preparedStatement = getConn().prepareStatement(update);
+    preparedStatement.setString(1, newPassWord);
+    preparedStatement.setString(2, userID);
+    int check = preparedStatement.executeUpdate();
+    return check != 0;
   }
 }

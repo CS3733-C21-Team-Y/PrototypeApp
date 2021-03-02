@@ -34,7 +34,7 @@ public class Examples {
 
     Edge edge1 = new Edge("edge1", "node1", "node2");
 
-    JDBCUtils.insert(9, node1, "Node");
+    // JDBCUtils.insert(9, node1, "Node");
 
     JDBCUtils.insert(9, node2, "Node");
 

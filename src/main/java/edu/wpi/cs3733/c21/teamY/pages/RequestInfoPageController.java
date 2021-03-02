@@ -22,6 +22,10 @@ public class RequestInfoPageController<label> extends RightPage {
   @FXML private VBox leftBox;
   @FXML private VBox centerBox;
   @FXML private VBox rightBox;
+  @FXML private JFXButton submitBtn;
+  @FXML private JFXTextField employeeText;
+
+  private Service service;
 
   JFXTextField leftArea;
   JFXTextField centerArea;
@@ -34,11 +38,23 @@ public class RequestInfoPageController<label> extends RightPage {
     centerArea = new JFXTextField();
     saveBtn = new JFXButton();
     saveBtn.setOnAction(e -> buttonClicked(e));
+    submitBtn.setOnAction(e -> submitEmployee());
+  }
+
+  private void submitEmployee() {
+    System.out.println(employeeText.getText());
+    service.setEmployee(employeeText.getText());
+
+    try {
+      DataOperations.updateServiceAssignedEmployee(service, service.getEmployee());
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
   }
 
   private void loadInformation() {
     StageInformation info = (StageInformation) title.getScene().getWindow().getUserData();
-    Service service = info.getService();
+    service = info.getService();
 
     createInfoBox("Type: ", service.getType());
     if (service.getDescription().length() > 0)
@@ -48,11 +64,15 @@ public class RequestInfoPageController<label> extends RightPage {
     if (service.getUrgency().length() > 0) createInfoBox("Urgency: ", service.getUrgency());
     if (service.getDate().length() > 0) createInfoBox("Date: ", service.getDate());
     if (service.getRequester().length() > 0) createInfoBox("Requester: ", service.getRequester());
+    if (service.getEmployee().length() > 0)
+      createInfoBox("Employee Assigned: ", service.getEmployee());
     if (service.getAdditionalInfo().length() > 0)
       createInfoBox("Additional Info: ", service.getAdditionalInfo());
+
     if (service.getType().equals("Laundry")) {
 
       saveBtn.setText("Save");
+      saveBtn.setPrefWidth(9999);
       saveBtn.setFont(new Font("Calibri", 15));
       saveBtn.setStyle("-fx-background-color: #efeff9; ");
 

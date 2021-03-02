@@ -2,10 +2,12 @@ package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
+import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.io.File;
 import java.io.FileInputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javafx.application.Platform;
@@ -93,6 +95,10 @@ public class MapController extends RightPage {
   private double scaleMin = 0.75;
   private double scaleMax = 10;
   private String direction = "in/out";
+
+  private ArrayList<Edge> edges = new ArrayList<Edge>();
+  private ArrayList<edu.wpi.cs3733.c21.teamY.entity.Node> nodes =
+      new ArrayList<edu.wpi.cs3733.c21.teamY.entity.Node>();
 
   // these need to be imageViews
   Image parking = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerParking.png");
@@ -209,9 +215,14 @@ public class MapController extends RightPage {
 
   @FXML
   private void initialize() {
-    // System.out.println("Hello2");
-    // scale and fit parking map
-    // rotates the whole thing
+
+    Platform.runLater(
+        () -> {
+          removeAllAdornerElements();
+          nodes = loadNodesFromDB();
+          edges = loadEdgesFromDB();
+          addAdornerElements(nodes, edges, floorNumber);
+        });
 
     categories = new ArrayList<String>();
     categories.add("Parking Lot");
@@ -237,6 +248,7 @@ public class MapController extends RightPage {
     //          e -> {
     //            removeAllAdornerElements();
     //            changeMapImage(getMapOrder().get(index));
+    // get adorner shit
     //            updateMenuPreview(e, getFloorMenu());
     //          });
     //      i++;
@@ -550,6 +562,24 @@ public class MapController extends RightPage {
 
     } catch (Exception exception) {
       System.out.println("nodeEdgeDispController.drawFromCSV");
+      return null;
+    }
+  }
+
+  protected ArrayList<Node> loadNodesFromDB() {
+    try {
+      return DataOperations.getListOfNodes();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+      return null;
+    }
+  }
+
+  protected ArrayList<Edge> loadEdgesFromDB() {
+    try {
+      return DataOperations.getListOfEdge();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
       return null;
     }
   }

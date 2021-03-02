@@ -27,20 +27,29 @@ dependencies {
             'org.slf4j:slf4j-api:1.7.30',
             'org.slf4j:slf4j-log4j12:1.7.30',
             'org.slf4j:slf4j-simple:1.7.30',
-            'junit:junit:4.12'
+            'junit:junit:4.12',
+
+            //Used for emailing
+            'com.sun.mail:javax.mail:1.5',
+            'org.apache.commons:commons-email:1.5',
     )
     compile group: 'de.jensd', name: 'fontawesomefx', version: '8.9'
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.30'
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
     compile group: 'org.apache.derby', name: 'derby', version: '10.14.2.0'
-    compile group: 'com.jfoenix', name:'jfoenix', version: '8.0.10'
+    compile group: 'com.jfoenix', name: 'jfoenix', version: '8.0.10'
+    compile group: 'com.sun.mail', name: 'javax.mail', version: '1.5'
+    compile group: 'org.apache.commons', name: 'commons-email', version: '1.5'
+
     testCompile(
             'de.jensd:fontawesomefx:8.9',
             "org.testfx:testfx-core:4.0.16-alpha",
             'org.junit.jupiter:junit-jupiter:5.6.0',
             'org.testfx:testfx-junit5:4.0.16-alpha',
             'org.slf4j:slf4j-log4j12:1.7.30',
+            'org.apache.commons:commons-email:1.5',
+            'com.sun.mail:javax.mail:1.5',
     )
 
 }
@@ -54,7 +63,7 @@ jar {
     manifest {
         exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
         attributes 'Main-Class': mainClassName,
-                'Class-Path': configurations.runtime.files.collect { "$it.name"}.join(' ')
+                'Class-Path': configurations.runtime.files.collect { "$it.name" }.join(' ')
     }
     from configurations.runtime.collect { zipTree(it) }
 }
@@ -62,28 +71,17 @@ jar {
 def codeCoverageExcludes = [
         'edu.wpi.cs3733.c21.teamY.App',
         'edu.wpi.cs3733.c21.teamY.Main',
-        'edu.wpi.cs3733.c21.teamY.pages.HomePageController',
-        'edu.wpi.cs3733.c21.teamY.pages.LaundryPageController',
-        'edu.wpi.cs3733.c21.teamY.pages.MaintenancePageController',
-        'edu.wpi.cs3733.c21.teamY.pages.ServiceRequestPageController',
-        'edu.wpi.cs3733.c21.teamY.pages.PathfindingPageController',
         'edu.wpi.cs3733.c21.teamY.entity.Node',
         'edu.wpi.cs3733.c21.teamY.entity.Edge',
-        'edu.wpi.cs3733.c21.teamY.pages.MapController.MAP_PAGE',
-        'edu.wpi.cs3733.c21.teamY.pages.CustomMapController',
         'edu.wpi.cs3733.c21.teamY.entity.Service',
-        'edu.wpi.cs3733.c21.teamY.pages.GenericPage',
-        'edu.wpi.cs3733.c21.teamY.pages.RequestsManagerController',
-        'edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage',
-        'edu.wpi.cs3733.c21.teamY.pages.MapController',
         'edu.wpi.cs3733.c21.teamY.entity.ActiveGraph',
-        'edu.wpi.cs3733.c21.teamY.pages.ServiceRequestInfoPageController',
-        'edu.wpi.cs3733.c21.teamY.pages.MapController.CircleEx',
-        'edu.wpi.cs3733.c21.teamY.pages.GraphEditPageController',
-        'edu.wpi.cs3733.c21.teamY.pages.MapController.LineEx',
+        'edu.wpi.cs3733.c21.teamY.entity.TableNodes',
         'edu.wpi.cs3733.c21.teamY.dataops.DataOperations',
-        'edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls'
-
+        'edu.wpi.cs3733.c21.teamY.dataops.GeneratePassword',
+        'edu.wpi.cs3733.c21.teamY.dataops.EmailUtils',
+        'edu.wpi.cs3733.c21.teamY.dataops.Settings',
+        'edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls',
+        'edu.wpi.cs3733.c21.teamY.pages.*'
 ]
 
 jacoco {
