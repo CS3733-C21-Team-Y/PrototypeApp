@@ -17,7 +17,9 @@ public class CovidScreeningController extends RightPage {
   @FXML private JFXCheckBox closeY;
   @FXML private JFXCheckBox closeN;
   @FXML private JFXButton submitBtn;
+  @FXML private Label errorLabel;
   @FXML private StackPane errorStackPane;
+  @FXML private JFXDialog errorDialog;
 
   //  private Settings settings;
 
@@ -46,16 +48,15 @@ public class CovidScreeningController extends RightPage {
     if (!isPositive && !hasSymp && !wasClose) {
       parent.loadRightSubPage("LoginPage.fxml");
     } else {
-      JFXDialog submitted = new JFXDialog();
-      Label message = new Label();
-      message.setText("YOU HAVE COVID YOU FUCK");
-      message.setStyle(" -fx-background-color: #efeff9");
-      message.setStyle(" -fx-background-radius: 10");
-      message.setStyle(" -fx-font-weight: bold");
-      message.setStyle(" -fx-font-size: 30");
-      message.setStyle(" -fx-text-fill: #5a5c94");
-      submitted.setContent(message);
-      submitted.show(errorStackPane);
+      errorLabel.setText("YOU HAVE COVID YOU FUCK");
+      errorDialog.show(errorStackPane);
+      // errorLabel.setStyle(" -fx-background-color: #efeff9");
+      // errorLabel.setStyle(" -fx-background-radius: 10");
+      // errorLabel.setStyle(" -fx-font-weight: bold");
+      // errorLabel.setStyle(" -fx-font-size: 30");
+      // errorLabel.setStyle(" -fx-text-fill: #5a5c94");
+      // errorDiolog.setContent(errorLabel);
+
     }
     //
   }
