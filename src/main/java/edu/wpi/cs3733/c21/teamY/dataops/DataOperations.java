@@ -97,6 +97,11 @@ public class DataOperations {
     JDBCUtils.updateServiceStatus(service, status);
   }
 
+  public static void updateServiceAdditionalInfoOnly(int serviceID, String newInfo)
+      throws SQLException {
+    JDBCUtils.updateServiceAdditionalInfoOnly(serviceID, newInfo);
+  }
+
   public static ArrayList<Edge> getEdgesCSV() throws IOException, IllegalAccessException {
     return CSV.getEdgesCSV();
   }
