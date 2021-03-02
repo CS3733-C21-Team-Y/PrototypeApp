@@ -162,6 +162,15 @@
                                         </GridPane>
                                     </children>
                                 </VBox>
+
+                        <ComboBox fx:id="endLocationBox" prefWidth="150.0" promptText="End location Box" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+                        <ComboBox fx:id="startLocationBox" prefWidth="150.0" promptText="Start location Box" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                        <Button fx:id="addEdge" mnemonicParsing="false" text="Add Edge" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets top="10.0" />
+                           </GridPane.margin>
+                        </Button>
+
                             </children>
                      <VBox.margin>
                         <Insets />

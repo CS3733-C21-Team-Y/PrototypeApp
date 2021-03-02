@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls;
@@ -11,12 +12,13 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -26,28 +28,31 @@ public class PathfindingPageController extends RightPage {
 
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
-  @FXML private Button toHomeBtn;
   @FXML private AnchorPane anchor;
 
   private MapController mapInsertController;
-  @FXML private Button resetView;
+  @FXML private JFXButton resetView;
   @FXML private StackPane stackPane;
   @FXML private ComboBox startLocationBox;
   @FXML private ComboBox endLocationBox;
-  @FXML private Button toolTip;
-  @FXML private CheckBox bathroomCheck;
-  @FXML private CheckBox cafeCheck;
-  @FXML private CheckBox kioskCheck;
-  @FXML private CheckBox noStairsCheckBox;
 
-  @FXML private Slider zoomSlider;
-  @FXML private Button upButton;
-  @FXML private Button downButton;
-  @FXML private Button leftButton;
-  @FXML private Button rightButton;
-  @FXML private Button zoomInButton;
-  @FXML private Button zoomOutButton;
-  @FXML private Label zoomLabel;
+  @FXML private JFXButton bathroomBtn;
+  @FXML private JFXButton cafeBtn;
+  @FXML private JFXButton kioskBtn;
+  @FXML private JFXButton noStairsBtn;
+  @FXML private GridPane overlayGridPane;
+
+  //  @FXML private Slider zoomSlider;
+  //  @FXML private Button upButton;
+  //  @FXML private Button downButton;
+  //  @FXML private Button leftButton;
+  //  @FXML private Button rightButton;
+  @FXML private JFXButton zoomInButton;
+  @FXML private JFXButton zoomOutButton;
+  @FXML private VBox textDirectionsBox;
+  @FXML private VBox textDirectionViewer;
+  @FXML private JFXButton exitDirectionBtn;
+  // @FXML private Label zoomLabel;
 
   private ArrayList<Node> nodes = new ArrayList<Node>();
   private ArrayList<Edge> edges = new ArrayList<Edge>();
@@ -63,6 +68,11 @@ public class PathfindingPageController extends RightPage {
   private boolean pathActive = false;
   private String noType = "";
   private JFXComboBox<String> cmb = new JFXComboBox<>();
+
+  private boolean bathroom = false;
+  private boolean restaurant = false;
+  private boolean noStairs = false;
+  private boolean kiosk = false;
 
   /** Do not use it. It does nothing. */
   public PathfindingPageController() {}
@@ -84,8 +94,10 @@ public class PathfindingPageController extends RightPage {
   @FXML
   private void initialize() {
     loadMap();
+    textDirectionsBox.setVisible(false);
+    overlayGridPane.setPickOnBounds(false);
+    exitDirectionBtn.setOnAction(e -> textDirectionsBox.setVisible(false));
     //         attaches a handler to the button with a lambda expression
-    toHomeBtn.setOnAction(e -> buttonClicked(e));
 
     // Reset view button
     resetView.setOnAction(e -> mapInsertController.resetMapView());
@@ -94,7 +106,6 @@ public class PathfindingPageController extends RightPage {
     // Set the starting image early because otherwise it will flash default
     mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
 
-    // Tooltip box
     JFXDialog dialog = new JFXDialog();
     dialog.setContent(
         new Label(
@@ -102,8 +113,6 @@ public class PathfindingPageController extends RightPage {
                 + "\n Hold CTRL + Scroll to Pan Up and down"
                 + "\n Hold SHIFT + Scroll to Pan left and right"
                 + "\n Reset brings back the original framing"));
-    toolTip.setOnAction((action) -> dialog.show(stackPane));
-    toolTip.toFront();
 
     // Node selection menus Keys
     startLocationBox.setOnKeyPressed(
@@ -139,51 +148,10 @@ public class PathfindingPageController extends RightPage {
               }
             });
 
-    // Detour checkbox events
-    bathroomCheck
-        .selectedProperty()
-        .addListener(
-            (options, oldValue, newValue) -> {
-              calculatePath();
-            });
-    cafeCheck
-        .selectedProperty()
-        .addListener(
-            (options, oldValue, newValue) -> {
-              calculatePath();
-            });
-    kioskCheck
-        .selectedProperty()
-        .addListener(
-            (options, oldValue, newValue) -> {
-              calculatePath();
-            });
-
-    // No Stairs checkbox events
-    noStairsCheckBox
-        .selectedProperty()
-        .addListener(
-            (options, oldValue, newValue) -> {
-              if (oldValue != newValue) {
-
-                String start = (String) startLocationBox.getValue();
-                String end = (String) endLocationBox.getValue();
-
-                if (!newValue) {
-                  noType = "";
-                } else {
-                  noType = "STAI";
-                }
-
-                mapInsertController.removeAllAdornerElements();
-                mapInsertController.addAdornerElements(
-                    nodes, edges, mapInsertController.floorNumber);
-
-                startLocationBox.setValue(start);
-                endLocationBox.setValue(end);
-                calculatePath();
-              }
-            });
+    bathroomBtn.setOnAction(e -> detourBtnPressed(e));
+    cafeBtn.setOnAction(e -> detourBtnPressed(e));
+    kioskBtn.setOnAction(e -> detourBtnPressed(e));
+    noStairsBtn.setOnAction(e -> detourBtnPressed(e));
 
     // Floor selection menu population
     int i = 0;
@@ -193,16 +161,16 @@ public class PathfindingPageController extends RightPage {
       i++;
     }
 
-    upButton.setOnAction(e -> mapInsertController.panOnButtons("up"));
-    downButton.setOnAction(e -> mapInsertController.panOnButtons("down"));
-    leftButton.setOnAction(e -> mapInsertController.panOnButtons("left"));
-    rightButton.setOnAction(e -> mapInsertController.panOnButtons("right"));
+    //    upButton.setOnAction(e -> mapInsertController.panOnButtons("up"));
+    //    downButton.setOnAction(e -> mapInsertController.panOnButtons("down"));
+    //    leftButton.setOnAction(e -> mapInsertController.panOnButtons("left"));
+    //    rightButton.setOnAction(e -> mapInsertController.panOnButtons("right"));
     zoomInButton.setOnAction(e -> mapInsertController.zoomOnButtons("in"));
     zoomOutButton.setOnAction(e -> mapInsertController.zoomOnButtons("out"));
 
-    zoomSlider.setDisable(true);
+    // zoomSlider.setDisable(true);
 
-    zoomLabel.setText("Zoom");
+    // zoomLabel.setText("Zoom");
 
     // Set handler for Mouse Click Anywhere on Map
     mapInsertController
@@ -231,6 +199,29 @@ public class PathfindingPageController extends RightPage {
         });
   }
 
+  private void detourBtnPressed(ActionEvent e) {
+    if (e.getSource() == bathroomBtn) bathroom = !bathroom;
+    else if (e.getSource() == cafeBtn) restaurant = !restaurant;
+    else if (e.getSource() == kioskBtn) kiosk = !kiosk;
+    else if (e.getSource() == noStairsBtn) {
+      noStairs = !noStairs;
+      String start = (String) startLocationBox.getValue();
+      String end = (String) endLocationBox.getValue();
+
+      if (!noStairs) {
+        noType = "";
+      } else {
+        noType = "STAI";
+      }
+
+      mapInsertController.removeAllAdornerElements();
+      mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
+
+      startLocationBox.setValue(start);
+      endLocationBox.setValue(end);
+    }
+    calculatePath();
+  }
   // NEAREST NODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   /**
@@ -380,18 +371,20 @@ public class PathfindingPageController extends RightPage {
       // initializing stage
       Stage stage = null;
 
-      if (e.getSource() == toHomeBtn) {
-        // gets the current stage
-        stage = (Stage) toHomeBtn.getScene().getWindow();
-        // sets the new scene to the alex page
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
-
-      } else {
-      }
-
       // display new stage
       stage.show();
     } catch (Exception exp) {
+    }
+  }
+
+  private void generateTextDirections(ArrayList<Node> pathNodes) {
+    textDirectionViewer.getChildren().clear();
+    textDirectionsBox.setVisible(true);
+    ArrayList<String> directionList = AlgorithmCalls.textDirections(pathNodes);
+    for (String direction : directionList) {
+
+      Label newLabel = new Label(direction);
+      textDirectionViewer.getChildren().add(newLabel);
     }
   }
 
@@ -462,15 +455,15 @@ public class PathfindingPageController extends RightPage {
           AlgorithmCalls.aStar(graph, (String) startLocationBox.getValue(), endLocations, noType);
 
       boolean detour = false;
-      if (bathroomCheck.isSelected()) {
+      if (bathroom) {
         endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "REST");
         detour = true;
       }
-      if (cafeCheck.isSelected()) {
+      if (restaurant) {
         endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "FOOD");
         detour = true;
       }
-      if (kioskCheck.isSelected()) {
+      if (kiosk) {
         endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "KIOS");
         detour = true;
       }
@@ -483,6 +476,7 @@ public class PathfindingPageController extends RightPage {
       pathNodes = nodes;
       drawPath(pathNodes);
     }
+    generateTextDirections(pathNodes);
   }
 
   /**

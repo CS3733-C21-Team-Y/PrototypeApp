@@ -1,197 +1,196 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Slider?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0" fx:id="anchor" maxHeight="650.0" minHeight="650.0" prefHeight="1000.0" prefWidth="800.0" styleClass="anchorpane" stylesheets="@../UIStyles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.PathfindingPageController">
+<AnchorPane fx:id="anchor" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.PathfindingPageController">
     <children>
-        <HBox alignment="CENTER" layoutY="14.0" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
+        <StackPane fx:id="stackPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <GridPane fx:id="overlayGridPane" prefHeight="600.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
             <children>
-                <VBox alignment="TOP_CENTER" styleClass="largeVBox" stylesheets="@../UIStyles.css" HBox.hgrow="NEVER">
+                <VBox fx:id="sideMenuVBox" prefHeight="200.0" prefWidth="100.0">
                     <children>
-                        <HBox fx:id="header" alignment="TOP_CENTER">
+                        <VBox maxHeight="150.0" maxWidth="400.0" minHeight="150.0" minWidth="400.0" prefHeight="150.0" prefWidth="400.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 0 0 15 0;">
                             <children>
-                                <Label text="Navigation">
-                                    <HBox.margin>
-                                        <Insets left="15.0" top="15.0" />
-                                    </HBox.margin>
-                                    <font>
-                                        <Font size="20.0" />
-                                    </font>
-                                </Label>
-                                <Button fx:id="toHomeBtn" mnemonicParsing="false" style="-fx-background-color: #d64d4d; -fx-text-fill: white;" text="Return to Home">
-                                    <HBox.margin>
-                                        <Insets left="300.0" right="15.0" top="20.0" />
-                                    </HBox.margin>
-                                </Button>
-                            </children>
-                        </HBox>
-                        <Line endX="216.2928924560547" endY="0.9999855160713196" startX="-361.1978759765625" startY="-0.4148508310317993" />
-                        <StackPane fx:id="stackPane">
-                            <VBox.margin>
-                                <Insets left="10.0" right="10.0" />
-                            </VBox.margin>
-                            <children>
-
-                            </children>
-                        </StackPane>
-                        <HBox alignment="CENTER" prefHeight="20.0" prefWidth="580.0">
-                            <children>
-                                <Line endX="216.2928924560547" endY="0.9999855160713196" startX="-361.1978759765625" startY="1.9999710321426392">
-                                    <HBox.margin>
-                                        <Insets bottom="5.0" />
-                                    </HBox.margin>
-                                </Line>
-                            </children>
-                            <VBox.margin>
-                                <Insets />
-                            </VBox.margin>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                            <children>
-                                <VBox prefHeight="90.0" prefWidth="278.0">
+                                <GridPane>
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="80.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
                                     <children>
-                                        <ComboBox fx:id="startLocationBox" editable="true" minHeight="40.0" prefHeight="40.0" prefWidth="225.0" promptText="Start Location" />
-                                        <ComboBox fx:id="endLocationBox" editable="true" minHeight="40.0" prefHeight="40.0" prefWidth="225.0" promptText="End Location">
-                                            <VBox.margin>
-                                                <Insets top="10.0" />
-                                            </VBox.margin>
-                                        </ComboBox>
-                                    </children>
-                                    <HBox.margin>
-                                        <Insets left="10.0" top="10.0" />
-                                    </HBox.margin>
-                                </VBox>
-                                <VBox prefHeight="100.0" prefWidth="122.0">
-                                    <children>
-                                        <CheckBox fx:id="bathroomCheck" alignment="CENTER" mnemonicParsing="false" text="Bathroom">
-                                            <padding>
-                                                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                                            </padding>
-                                        </CheckBox>
-                                        <CheckBox fx:id="cafeCheck" mnemonicParsing="false" text="Cafeteria">
-                                            <padding>
-                                                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                                            </padding>
-                                            <VBox.margin>
-                                                <Insets />
-                                            </VBox.margin>
-                                        </CheckBox>
-                                        <CheckBox fx:id="kioskCheck" mnemonicParsing="false" text="Kiosk">
-                                            <padding>
-                                                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                                            </padding>
-                                        </CheckBox>
-                                        <Line endX="101.2512435913086" endY="-15.041640281677246" startX="1.9583470821380615" startY="-15.0416259765625" />
-                                        <CheckBox fx:id="noStairsCheckBox" mnemonicParsing="false" text="No Stairs">
-                                            <padding>
-                                                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-                                            </padding>
-                                        </CheckBox>
-                                    </children>
-                                    <HBox.margin>
-                                        <Insets top="10.0" />
-                                    </HBox.margin>
-                                </VBox>
-                                <VBox prefHeight="100.0" prefWidth="280.0">
-                                    <HBox.margin>
-                                        <Insets left="10.0" top="10.0" />
-                                    </HBox.margin>
-                                    <children>
-                                        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                                        <GridPane maxHeight="35.0" minHeight="35.0" prefHeight="35.0" GridPane.columnIndex="1">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
                                             <children>
-                                                <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
-                                                    <HBox.margin>
-                                                        <Insets right="20.0" />
-                                                    </HBox.margin>
-                                                    <children>
-                                                        <Label fx:id="zoomLabel" text="Zoom: 100%" />
-                                                        <Slider fx:id="zoomSlider" max="200.0" min="10.0" value="100.0" />
-                                                        <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-                                                            <children>
-                                                                <Button fx:id="zoomOutButton" minWidth="30.0" mnemonicParsing="false" text="-">
-                                                                    <HBox.margin>
-                                                                        <Insets right="10.0" />
-                                                                    </HBox.margin>
-                                                                </Button>
-                                                                <Button fx:id="zoomInButton" minWidth="30.0" mnemonicParsing="false" text="+">
-                                                                    <HBox.margin>
-                                                                        <Insets left="10.0" />
-                                                                    </HBox.margin>
-                                                                </Button>
-                                                            </children>
-                                                        </HBox>
-                                                        <HBox prefHeight="100.0" prefWidth="200.0">
-                                                            <children>
-                                                                <Button fx:id="resetView" mnemonicParsing="false" text="Reset View">
-                                                                    <HBox.margin>
-                                                                        <Insets left="10.0" right="10.0" />
-                                                                    </HBox.margin>
-                                                                </Button>
-                                                            </children>
-                                                        </HBox>
-                                                    </children>
-                                                </VBox>
-                                                <StackPane minHeight="100.0" minWidth="100.0" prefHeight="100.0" prefWidth="100.0">
-                                                    <children>
-                                                        <Circle fill="WHITE" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
-                                                        <GridPane minWidth="100.0" prefWidth="100.0">
-                                                            <columnConstraints>
-                                                                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                            </columnConstraints>
-                                                            <rowConstraints>
-                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                            </rowConstraints>
-                                                            <children>
-                                                                <Button fx:id="upButton" minHeight="25.0" minWidth="40.0" mnemonicParsing="false" text="^" GridPane.columnIndex="1" />
-                                                                <Button fx:id="rightButton" minHeight="40.0" minWidth="25.0" mnemonicParsing="false" text="&gt;" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                                                <Button fx:id="downButton" minHeight="25.0" minWidth="40.0" mnemonicParsing="false" text="v" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                                                <Button fx:id="leftButton" minHeight="40.0" minWidth="25.0" mnemonicParsing="false" text="&lt;" GridPane.rowIndex="1" />
-                                                                <Button fx:id="toolTip" mnemonicParsing="false" text="?" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                                            </children>
-                                                        </GridPane>
-                                                    </children>
-                                                </StackPane>
+                                                <JFXButton fx:id="bathroomBtn" contentDisplay="GRAPHIC_ONLY" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                    <graphic>
+                                                        <MaterialDesignIconView fill="#8d8eae" glyphName="HUMAN_MALE_FEMALE" size="25" />
+                                                    </graphic>
+                                                </JFXButton>
+                                                <JFXButton fx:id="cafeBtn" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                    <graphic>
+                                                        <MaterialDesignIconView fill="#8d8eae" glyphName="HAMBURGER" size="25" />
+                                                    </graphic>
+                                                </JFXButton>
+                                                <JFXButton fx:id="kioskBtn" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                    <graphic>
+                                                        <MaterialDesignIconView fill="#8d8eae" glyphName="HAMBURGER" size="25" />
+                                                    </graphic>
+                                                </JFXButton>
+                                                <JFXButton fx:id="noStairsButton2" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                    <graphic>
+                                                        <MaterialDesignIconView fill="#8d8eae" glyphName="STAIRS" size="25" />
+                                                    </graphic>
+                                                </JFXButton>
+                                                <JFXButton fx:id="noStairsBtn" contentDisplay="GRAPHIC_ONLY" text="Button" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                    <graphic>
+                                                        <MaterialDesignIconView fill="#8d8eae" glyphName="ELEVATOR" size="25" />
+                                                    </graphic>
+                                                </JFXButton>
                                             </children>
-                                            <VBox.margin>
-                                                <Insets right="10.0" top="-10.0" />
-                                            </VBox.margin>
-                                        </HBox>
-                                        <HBox prefHeight="100.0" prefWidth="200.0" />
+                                        </GridPane>
+                                        <JFXComboBox fx:id="startLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="99999.0" promptText="Start Location" style="-fx-prompt-text-fill: #8d8eae;" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                            <GridPane.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                            </GridPane.margin>
+                                        </JFXComboBox>
+                                        <JFXComboBox fx:id="endLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="9999.0" promptText="End Location" style="-fx-prompt-text-fill: #8d8eae;" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                            <GridPane.margin>
+                                                <Insets left="5.0" right="5.0" />
+                                            </GridPane.margin>
+                                        </JFXComboBox>
+                                        <JFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="40.0" prefWidth="40.0" textFill="WHITE" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                                            <graphic>
+                                                <MaterialDesignIconView fx:id="swapLocationsBox" fill="#8d8eae" glyphName="SWAP_VERTICAL" size="30" strokeLineCap="ROUND" strokeLineJoin="ROUND" text="" />
+                                            </graphic>
+                                            <GridPane.margin>
+                                                <Insets bottom="-20.0" left="-10.0" />
+                                            </GridPane.margin>
+                                        </JFXButton>
+                                        <GridPane GridPane.rowIndex="1">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                            <children>
+                                                <MaterialDesignIconView fill="#8d8eae" glyphName="ADJUST" size="16" GridPane.halignment="CENTER">
+                                                    <GridPane.margin>
+                                                        <Insets />
+                                                    </GridPane.margin>
+                                                </MaterialDesignIconView>
+                                                <MaterialDesignIconView fill="#8d8eae" glyphName="DOTS_VERTICAL" size="20" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                                    <GridPane.margin>
+                                                        <Insets bottom="5.0" top="5.0" />
+                                                    </GridPane.margin>
+                                                </MaterialDesignIconView>
+                                                <FontAwesomeIconView fill="#8d8eae" glyphName="MAP_MARKER" size="16" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                                            </children>
+                                            <GridPane.margin>
+                                                <Insets left="10.0" top="75.0" />
+                                            </GridPane.margin>
+                                        </GridPane>
                                     </children>
-                                </VBox>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </VBox.margin>
+                                </GridPane>
                             </children>
-                            <padding>
-                                <Insets bottom="5.0" />
-                            </padding>
-                        </HBox>
+                            <effect>
+                                <DropShadow />
+                            </effect>
+                        </VBox>
+                          <VBox fx:id="textDirectionsBox" maxWidth="300.0" prefHeight="9999.0" prefWidth="300.0" style="-fx-background-color: white;">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <children>
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" percentHeight="90.0" prefHeight="9999.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" percentHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <JFXButton fx:id="exitDirectionBtn" buttonType="RAISED" style="-fx-background-color: #efeff9;" text="Exit Direction View" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font name="Calibri" size="14.0" />
+                                 </font>
+                              </JFXButton>
+                              <VBox fx:id="textDirectionViewer" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                                 <padding>
+                                    <Insets left="20.0" top="20.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </VBox>
                     </children>
                 </VBox>
+            <JFXButton fx:id="resetView" buttonType="RAISED" style="-fx-background-color: #efeff9;" text="Reset View" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="5.0" right="5.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="zoomInButton" buttonType="RAISED" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" style="-fx-background-color: #efeff9; -fx-background-radius: 25;" text="+" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="110.0" right="22.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Calibri" size="27.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="zoomOutButton" buttonType="RAISED" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" style="-fx-background-color: #efeff9; -fx-background-radius: 25;" text="-" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="50.0" right="22.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="Calibri" size="28.0" />
+               </font>
+            </JFXButton>
             </children>
-            <padding>
-                <Insets bottom="20.0" top="20.0" />
-            </padding>
-        </HBox>
+        </GridPane>
     </children>
-    <padding>
-        <Insets bottom="20.0" top="20.0" />
-    </padding>
 </AnchorPane>

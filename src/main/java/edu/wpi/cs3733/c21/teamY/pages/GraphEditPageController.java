@@ -8,6 +8,7 @@ import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,6 +41,8 @@ public class GraphEditPageController extends RightPage {
   @FXML private CheckBox addEdgecb;
 
   @FXML private Button deleteNode;
+
+  @FXML private Button addEdge;
 
   @FXML private Text nodeDisplay = new Text("Selected Node");
   @FXML private Text edgeDisplay = new Text("Selected Edge");
@@ -86,7 +89,6 @@ public class GraphEditPageController extends RightPage {
   @FXML private JFXButton moveNodeRightButton;
   @FXML private ComboBox startLocationBox;
   @FXML private ComboBox endLocationBox;
-  @FXML private Button addEdge;
 
   @FXML private EditNodeTableController editNodeTableController;
   @FXML private MapController mapInsertController;
@@ -230,6 +232,7 @@ public class GraphEditPageController extends RightPage {
     loadNodesButton.setOnAction(
         e -> {
           loadMapFromCSV();
+          resetComboBoxes();
         });
 
     int i = 0;
@@ -481,6 +484,37 @@ public class GraphEditPageController extends RightPage {
 
               jfxNodeBeingDragged = null;
             });
+
+    // Node selection menus Keys
+    addEdge.setOnAction(
+        e -> {
+          if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
+            MapController.CircleEx startNode = null;
+            MapController.CircleEx endNode = null;
+            try {
+              startNode =
+                  (MapController.CircleEx)
+                      mapInsertController
+                          .getAdornerPane()
+                          .lookup("#" + (String) startLocationBox.getValue());
+              endNode =
+                  (MapController.CircleEx)
+                      mapInsertController
+                          .getAdornerPane()
+                          .lookup("#" + (String) endLocationBox.getValue());
+            } catch (Exception eeeee) {
+              return;
+            }
+
+            if (startNode != null && endNode != null) {
+              createEdge(startNode, endNode);
+            }
+          }
+        });
+    Platform.runLater(
+        () -> {
+          resetComboBoxes();
+        });
   }
 
   private void handleClickOnNode(MapController.CircleEx node) {
@@ -511,6 +545,19 @@ public class GraphEditPageController extends RightPage {
         // Shift adds node to selection
         mapInsertController.selectCircle((MapController.CircleEx) node);
       }
+    }
+  }
+
+  private void resetComboBoxes() {
+    startLocationBox.getItems().remove(0, startLocationBox.getItems().size());
+    endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
+
+    for (Node node : nodes) {
+      startLocationBox.getItems().add(node.nodeID);
+    }
+
+    for (Node node : nodes) {
+      endLocationBox.getItems().add(node.nodeID);
     }
   }
 
@@ -673,6 +720,45 @@ public class GraphEditPageController extends RightPage {
       mapInsertController.clearSelection();
       mapInsertController.selectLine(mapInsertController.addEdgeLine(ed));
     }
+  }
+
+  private void createEdge(MapController.CircleEx startNode, MapController.CircleEx endNode) {
+
+    try {
+      startNodeID = startNode.getId();
+      startx = startNode.getCenterX();
+      starty = startNode.getCenterY();
+    } catch (Exception exception) {
+      System.out.println("Could not identify start point");
+      return;
+    }
+
+    try {
+      endNodeID = endNode.getId();
+      endx = endNode.getCenterX();
+      endy = endNode.getCenterY();
+    } catch (Exception exception) {
+      System.out.println("Could not identify end point");
+      return;
+    }
+
+    // creating the line and adding as a child to the pane
+    String edgeID = startNodeID + "_" + endNodeID;
+    Edge ed = new Edge(edgeID, startNodeID, endNodeID);
+
+    // JDBCUtils.insert(3, ed, "EDGE");
+    // JDBCUtils.insert(JDBCUtils.insertString(ed));
+
+    try {
+      //          DatabaseQueryAdministrator.insertEdge(ed);
+      JDBCUtils.insert(3, ed, "Edge");
+    } catch (Exception exception) {
+      System.out.println("nodeEdgeDispController.createEdgecb");
+      return;
+    }
+    //        CSV.saveEdge(ed);
+    mapInsertController.clearSelection();
+    mapInsertController.selectLine(mapInsertController.addEdgeLine(ed));
   }
 
   private void createNodecb(MouseEvent e) {
