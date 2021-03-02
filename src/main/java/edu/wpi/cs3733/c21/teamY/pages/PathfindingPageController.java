@@ -17,6 +17,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -33,6 +34,10 @@ public class PathfindingPageController extends RightPage {
   @FXML private JFXButton noStairsButton;
   @FXML private StackPane mapSection;
   @FXML private GridPane overlayGridPane;
+
+  @FXML private VBox textDirectionsVBox;
+  @FXML private VBox textDirectionsDetoursVBox;
+  @FXML private VBox sideMenuVBox;
 
   private MapController mapController;
 
@@ -71,6 +76,7 @@ public class PathfindingPageController extends RightPage {
   private void initialize() {
 
     loadMap();
+
     /*
     // attaches a handler to the button with a lambda expression
     toHomeBtn.setOnAction(e -> buttonClicked(e));
@@ -83,6 +89,10 @@ public class PathfindingPageController extends RightPage {
     mapController.changeMapImage(MapController.MAP_PAGE.PARKING);
 
     overlayGridPane.setPickOnBounds(false);
+    sideMenuVBox.setPickOnBounds(false);
+    textDirectionsVBox.setPickOnBounds(false);
+    textDirectionsDetoursVBox.setPickOnBounds(false);
+
     // Tooltip box
     JFXDialog dialog = new JFXDialog();
     dialog.setContent(
@@ -212,7 +222,7 @@ public class PathfindingPageController extends RightPage {
     resetGraphNodesEdges(true);
     resetComboBoxes();
 
-    mapController.setDisplayUnselectedAdorners(false);
+    mapController.setDisplayUnselectedAdorners(true);
 
     // Init Map
     Platform.runLater(

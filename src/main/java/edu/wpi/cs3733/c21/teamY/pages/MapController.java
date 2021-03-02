@@ -227,12 +227,9 @@ public class MapController extends RightPage {
     //    mapImageView.setScaleY(4);
     adornerPane.toFront();
     mapOverlayUIGridPane.toFront();
-    containerStackPane.setMaxWidth(mapImageView.getFitWidth());
-    containerStackPane.setMaxHeight(mapImageView.getFitHeight());
 
-    adornerPane.maxWidthProperty().setValue(mapImageView.getImage().widthProperty().getValue());
-
-    adornerPane.maxHeightProperty().setValue(mapImageView.getImage().heightProperty().getValue());
+    adornerPane.maxWidthProperty().setValue(mapImageView.getFitWidth());
+    adornerPane.maxHeightProperty().setValue(mapImageView.getFitHeight());
 
     adornerPane.setScaleX(mapImageView.getScaleX());
     adornerPane.setScaleY(mapImageView.getScaleY());
@@ -531,22 +528,22 @@ public class MapController extends RightPage {
 
   // Scale functions
   protected double scaleXCoords(double x) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
     return x / scale;
   }
 
   protected double scaleUpXCoords(double x) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
     return x * scale;
   }
 
   protected double scaleYCoords(double y) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
     return y / scale;
   }
 
   protected double scaleUpYCoords(double y) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
     return y * scale;
   }
 

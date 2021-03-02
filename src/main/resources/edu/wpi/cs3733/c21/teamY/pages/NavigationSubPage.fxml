@@ -26,7 +26,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox fx:id="sideMenuVBox" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <VBox minWidth="300.0" prefHeight="125.0" prefWidth="250.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 0 0 15 0;">
                      <children>
@@ -96,9 +96,9 @@
                         <DropShadow />
                      </effect>
                   </VBox>
-                  <VBox maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0">
+                  <VBox fx:id="textDirectionsDetoursVBox" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="250.0">
                      <children>
-                        <VBox prefHeight="9999.0" prefWidth="9999.0" />
+                        <VBox fx:id="textDirectionsVBox" prefHeight="9999.0" prefWidth="9999.0" />
                         <Separator prefWidth="200.0" />
                         <GridPane maxHeight="50.0" minHeight="50.0" style="-fx-background-color: white;">
                            <columnConstraints>
