@@ -206,17 +206,30 @@ public class MapController extends RightPage {
 
   @FXML
   private void initialize() {
-    System.out.println("Hello2");
+    // System.out.println("Hello2");
     // scale and fit parking map
+    // rotates the whole thing
 
+    getFloorMenu().setText("Parking Lot");
+    int i = 0;
+    for (MenuItem menuItem : getFloorMenu().getItems()) {
+      int index = i;
+      menuItem.setOnAction(
+          e -> {
+            removeAllAdornerElements();
+            changeMapImage(getMapOrder().get(index));
+            updateMenuPreview(e, getFloorMenu());
+          });
+      i++;
+    }
+
+    //    mapImageView.setScaleX(4);
+    //    mapImageView.setScaleY(4);
     adornerPane.toFront();
     mapOverlayUIGridPane.toFront();
-    containerStackPane.setMaxWidth(mapImageView.getFitWidth());
-    containerStackPane.setMaxHeight(mapImageView.getFitHeight());
 
-    adornerPane.maxWidthProperty().setValue(mapImageView.getImage().widthProperty().getValue());
-
-    adornerPane.maxHeightProperty().setValue(mapImageView.getImage().heightProperty().getValue());
+    adornerPane.maxWidthProperty().setValue(mapImageView.getFitWidth());
+    adornerPane.maxHeightProperty().setValue(mapImageView.getFitHeight());
 
     adornerPane.setScaleX(mapImageView.getScaleX());
     adornerPane.setScaleY(mapImageView.getScaleY());
@@ -515,22 +528,22 @@ public class MapController extends RightPage {
 
   // Scale functions
   protected double scaleXCoords(double x) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
     return x / scale;
   }
 
   protected double scaleUpXCoords(double x) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
     return x * scale;
   }
 
   protected double scaleYCoords(double y) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
     return y / scale;
   }
 
   protected double scaleUpYCoords(double y) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
     return y * scale;
   }
 
