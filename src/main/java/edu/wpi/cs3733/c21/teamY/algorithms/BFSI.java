@@ -10,6 +10,7 @@ public class BFSI implements IAlgorithms {
   @Override
   public ArrayList<Node> run(
       Graph g, String startID, ArrayList<String> goalIDs, String accessType) {
+    System.out.println("Running BFS");
     for (int i = 0; i < g.nodeList.length; i++) {
       visited.add(false);
     }

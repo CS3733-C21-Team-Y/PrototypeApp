@@ -510,7 +510,7 @@ public class GraphEditPageController extends RightPage {
 
           Stage stage = (Stage) toolTip.getScene().getWindow();
           StageInformation info = (StageInformation) stage.getUserData();
-          if (info.getAlgorithmSelection() == null) {
+          if (info.getAlgorithmSelection().getContext() == null) {
             info.setAlgorithmSelection(new AlgoContext());
             info.getAlgorithmSelection().setContext(new AStarI());
             stage.setUserData(info);

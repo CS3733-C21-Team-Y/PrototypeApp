@@ -155,7 +155,6 @@ public class AStarAlgorithm {
 
     // The points 2 and 3 are on-top of each other
     if (P.longName.equals(node2.longName)) {
-      System.out.println("Elevator or Stairs");
       return 500.0;
     }
 
