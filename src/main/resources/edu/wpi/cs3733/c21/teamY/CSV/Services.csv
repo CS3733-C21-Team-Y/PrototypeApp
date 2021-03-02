@@ -1,2 +1,6 @@
-asdfasdfsadfasfsdfs
-0,Maintenance,blahblah,AtriumDoor,Door,very,today,broken,employee,0,admin
+serviceID,type,description,location,category,urgency,date,additionalInfo,requester,status,employee
+0,Laundry,Test,cafeteria,Clothing,,,null,admin,0,employee
+1,Floral Delivery,<3,237,Roses,,Today,Brian Pat,admin,-1,admin
+2,IT Request,,Nurse Station 2,Hardware,,,Daily Tasks,employee,-1,admin
+3,Laundry,test,cafeteria,Clothing,,,null,admin,-1,admin
+4,Gift Delivery,A giant teddy bear,Room 246,Teddy Bear,,2021-03-08,null,guest,-1,admin
