@@ -19,7 +19,7 @@ public class LanguageSubpageController extends GenericServiceFormPage {
   @FXML private JFXButton testBtn2;
   @FXML private JFXComboBox langOptions;
   @FXML private JFXComboBox urgency;
-  @FXML private JFXTextField location;
+  @FXML private JFXTextField locationField;
   @FXML private JFXTextArea description;
 
   @FXML private StackPane stackPane;
@@ -54,7 +54,7 @@ public class LanguageSubpageController extends GenericServiceFormPage {
 
   private void clearButton() {
     langOptions.setValue(null);
-    location.setText("");
+    locationField.setText("");
     description.setText("");
     urgency.setValue(null);
   }
@@ -69,7 +69,7 @@ public class LanguageSubpageController extends GenericServiceFormPage {
       Service service = new Service(this.IDCount, "Language");
       this.IDCount++;
       service.setCategory((String) langOptions.getValue());
-      // service.setLocation(location.getText());
+      service.setLocation(locationField.getText());
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());
 
@@ -83,6 +83,9 @@ public class LanguageSubpageController extends GenericServiceFormPage {
 
       submittedPopUp(stackPane);
       langOptions.setValue(null);
+      locationField.setText("");
+      description.setText("");
+      urgency.setValue(null);
     }
   }
 }
