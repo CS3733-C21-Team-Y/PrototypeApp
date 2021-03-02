@@ -110,7 +110,7 @@
                         <Font name="Calibri" size="23.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="button2" style="-fx-background-color: #8d8ea4;" text="Update" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <JFXButton fx:id="button2" style="-fx-background-color: #8d8ea4;" text="Export" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets right="5.0" />
                      </GridPane.margin>

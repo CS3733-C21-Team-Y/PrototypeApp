@@ -115,7 +115,7 @@ public class DataOperations {
     return CSV.getNodesCSV();
   }
 
-  public static void BDtoCSV(String mode) throws SQLException {
+  public static void DBtoCSV(String mode) throws SQLException {
     CSV.DBtoCSV(mode);
   }
 
