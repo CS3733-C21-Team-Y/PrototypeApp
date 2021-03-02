@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 public class LaundrySubPageController extends GenericServiceFormPage {
   // connects the scenebuilder button to a code button
@@ -20,6 +21,7 @@ public class LaundrySubPageController extends GenericServiceFormPage {
   @FXML private JFXComboBox category;
   @FXML private JFXTextArea description;
   @FXML private JFXComboBox locationField;
+  @FXML private StackPane stackPane;
 
   private Settings settings;
 
@@ -55,20 +57,33 @@ public class LaundrySubPageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    Service service = new Service(this.IDCount, "Laundry");
-    this.IDCount++;
-    service.setCategory((String) category.getValue());
-    service.setLocation((String) locationField.getValue());
-    service.setDescription(description.getText());
-    System.out.println(settings.getCurrentUsername());
-    service.setRequester(settings.getCurrentUsername());
+    if (category.getValue().equals(null)
+        || description.getText().equals("")
+        || locationField.getValue().equals(null)) {
+      nonCompleteForm(stackPane);
+    } else {
 
-    try {
-      DataOperations.saveService(service);
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
+      Service service = new Service(this.IDCount, "Laundry");
+      this.IDCount++;
+      service.setCategory((String) category.getValue());
+      service.setLocation((String) locationField.getValue());
+      service.setDescription(description.getText());
+      System.out.println(settings.getCurrentUsername());
+      service.setRequester(settings.getCurrentUsername());
+
+      try {
+        DataOperations.saveService(service);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      }
+
+      submittedPopUp(stackPane);
+
+      category.setValue(null);
+      description.setText("");
+      locationField.setValue(null);
     }
   }
 }
