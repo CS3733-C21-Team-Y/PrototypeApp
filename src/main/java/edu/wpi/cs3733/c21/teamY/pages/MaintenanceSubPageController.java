@@ -55,6 +55,7 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
 
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
+    clearBtn.setOnAction(e -> clearButton());
 
     for (String c : categories) category.getItems().add(c);
     for (String c : urgencies) urgency.getItems().add(c);
@@ -62,6 +63,14 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
 
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+  }
+
+  private void clearButton() {
+    category.setValue(null);
+    urgency.setValue(null);
+    description.setText("");
+    date2.setText("");
+    locationField.setValue(null);
   }
 
   @FXML

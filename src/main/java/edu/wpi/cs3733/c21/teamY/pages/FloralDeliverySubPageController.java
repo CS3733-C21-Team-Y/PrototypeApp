@@ -12,7 +12,7 @@ import javafx.scene.layout.StackPane;
 
 public class FloralDeliverySubPageController extends GenericServiceFormPage {
 
-  // @FXML private JFXButton clearBtn;
+  @FXML private JFXButton clearBtn;
   @FXML private JFXButton backBtn;
   @FXML private JFXButton submitBtn;
   @FXML private JFXTextField roomNumberInput;
@@ -33,10 +33,20 @@ public class FloralDeliverySubPageController extends GenericServiceFormPage {
     settings = Settings.getSettings();
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
+    clearBtn.setOnAction(e -> clearButton());
   }
 
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+  }
+
+  private void clearButton() {
+    roomNumberInput.setText("");
+    categoryInput.setText("");
+    descriptionInput.setText("");
+    fromInput.setText("");
+    toInput.setText("");
+    dateInput.setText("");
   }
 
   @FXML
@@ -61,6 +71,10 @@ public class FloralDeliverySubPageController extends GenericServiceFormPage {
       roomNumberInput.setText("");
       categoryInput.setText("");
       descriptionInput.setText("");
+      fromInput.setText("");
+      toInput.setText("");
+      dateInput.setText("");
+
       submittedPopUp(stackPane);
       try {
         DataOperations.saveService(service);

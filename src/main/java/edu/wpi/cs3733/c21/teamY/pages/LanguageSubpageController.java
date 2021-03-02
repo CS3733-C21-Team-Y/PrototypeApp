@@ -35,6 +35,7 @@ public class LanguageSubpageController extends GenericServiceFormPage {
 
     backBtn.setOnAction(e -> buttonClicked(e));
     testBtn2.setOnAction(e -> submitBtnClicked());
+    testBtn.setOnAction(e -> clearButton());
 
     langOptions.getItems().add("Spanish");
     langOptions.getItems().add("French");
@@ -49,6 +50,13 @@ public class LanguageSubpageController extends GenericServiceFormPage {
 
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+  }
+
+  private void clearButton() {
+    langOptions.setValue(null);
+    location.setText("");
+    description.setText("");
+    urgency.setValue(null);
   }
 
   @FXML
@@ -75,8 +83,6 @@ public class LanguageSubpageController extends GenericServiceFormPage {
 
       submittedPopUp(stackPane);
       langOptions.setValue(null);
-      location.setText("");
-      description.setText("");
     }
   }
 }

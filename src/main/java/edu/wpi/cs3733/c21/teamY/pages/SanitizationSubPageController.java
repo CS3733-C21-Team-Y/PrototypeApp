@@ -54,6 +54,7 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
 
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
+    clearBtn.setOnAction(e -> clearButton());
 
     for (String c : urgencies) urgency.getItems().add(c);
     for (String c : locationFields) locationField.getItems().add(c);
@@ -62,6 +63,13 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
 
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+  }
+
+  private void clearButton() {
+    locationField.setValue(null);
+    description.setText("");
+    biohazardLevel.setValue(null);
+    urgency.setValue(null);
   }
 
   @FXML
