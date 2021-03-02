@@ -73,7 +73,7 @@
                         </GridPane>
                      </content>
                      <padding>
-                        <Insets left="999.0" right="999.0" />
+                        <Insets left="20.0" right="20.0" />
                      </padding>
                   </ScrollPane>
                   <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">

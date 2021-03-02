@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="anchor" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.PathfindingPageController">
     <children>
@@ -135,24 +136,59 @@
                                 <DropShadow />
                             </effect>
                         </VBox>
-                          <VBox fx:id="textDirectionsBox" maxWidth="275.0" prefHeight="9999.0" prefWidth="275.0" />
+                          <VBox fx:id="textDirectionsBox" maxWidth="300.0" prefHeight="9999.0" prefWidth="300.0" style="-fx-background-color: white;">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                     <children>
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" percentHeight="90.0" prefHeight="9999.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" percentHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <JFXButton fx:id="exitDirectionBtn" buttonType="RAISED" style="-fx-background-color: #efeff9;" text="Exit Direction View" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font name="Calibri" size="14.0" />
+                                 </font>
+                              </JFXButton>
+                              <VBox fx:id="textDirectionViewer" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                                 <padding>
+                                    <Insets left="20.0" top="20.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </VBox>
                     </children>
                 </VBox>
-            <JFXButton fx:id="resetView" text="Reset View" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM" />
-            <JFXButton fx:id="toolTip" text="Tool Tip" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+            <JFXButton fx:id="resetView" buttonType="RAISED" style="-fx-background-color: #efeff9;" text="Reset View" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="25.0" />
+                  <Insets bottom="5.0" right="5.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </JFXButton>
-            <JFXButton fx:id="zoomInButton" text="+" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+            <JFXButton fx:id="zoomInButton" buttonType="RAISED" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" style="-fx-background-color: #efeff9; -fx-background-radius: 25;" text="+" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="50.0" />
+                  <Insets bottom="110.0" right="22.0" />
                </GridPane.margin>
+               <font>
+                  <Font name="Calibri" size="27.0" />
+               </font>
             </JFXButton>
-            <JFXButton fx:id="zoomOutButton" text="-" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+            <JFXButton fx:id="zoomOutButton" buttonType="RAISED" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" style="-fx-background-color: #efeff9; -fx-background-radius: 25;" text="-" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="75.0" />
+                  <Insets bottom="50.0" right="22.0" />
                </GridPane.margin>
+               <font>
+                  <Font name="Calibri" size="28.0" />
+               </font>
             </JFXButton>
             </children>
         </GridPane>

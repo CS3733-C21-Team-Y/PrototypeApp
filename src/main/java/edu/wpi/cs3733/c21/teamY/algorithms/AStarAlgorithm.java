@@ -153,6 +153,9 @@ public class AStarAlgorithm {
     // Determining cross Product
     double cross_product = (node2.xcoord * P.ycoord - node2.ycoord * P.xcoord);
 
+    // The points 2 and 3 are on-top of each other
+    if (v2_x == 0 && v2_y == 0) return 500.0;
+
     // return ZERO if dot_product is zero.
     if (angle == 0.0) return Math.abs(angle);
 
@@ -174,6 +177,16 @@ public class AStarAlgorithm {
 
     for (int i = 0; i < path.size() - 2; i++) {
       double angle = directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2));
+      // 500 is the designated output for stairs
+      if (angle == 500.0) {
+        pathDirections.add(
+            "Walk towards "
+                + path.get(i + 1).longName
+                + " and use "
+                + path.get(i + 2).longName
+                + " to go to floor "
+                + path.get(i + 2).floor);
+      }
       if (angle < -25) {
         // The Lefts
         if (angle < -120) {
