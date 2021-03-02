@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 public class CenterPage {
+  protected MainPageController parent;
+
   public MainPageController getParent() {
     return parent;
   }
@@ -9,5 +11,5 @@ public class CenterPage {
     this.parent = parent;
   }
 
-  protected MainPageController parent;
+
 }
