@@ -206,7 +206,10 @@ public class MapController extends RightPage {
 
   @FXML
   private void initialize() {
-    System.out.println("Hello2");
+    // rotates the whole thing
+    mapImageView.setRotate(-90);
+    adornerPane.setRotate(-90);
+
     // scale and fit parking map
 
     adornerPane.toFront();
