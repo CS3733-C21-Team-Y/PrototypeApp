@@ -10,6 +10,7 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 public class HospitalOutsideServiceController extends GenericServiceFormPage {
 
@@ -20,6 +21,8 @@ public class HospitalOutsideServiceController extends GenericServiceFormPage {
   @FXML private JFXTextField locationTextField;
   @FXML private JFXDatePicker serviceDate;
 
+  @FXML private StackPane stackPane;
+
   private Settings settings;
 
   public HospitalOutsideServiceController() {}
@@ -28,10 +31,7 @@ public class HospitalOutsideServiceController extends GenericServiceFormPage {
   @FXML
   private void initialize() {
     settings = Settings.getSettings();
-    descriptionTextArea = new JFXTextArea();
-    locationTextField = new JFXTextField();
-    serviceDate = new JFXDatePicker();
-    backBtn.setOnAction(this::buttonClicked);
+    backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
   }
 
@@ -42,19 +42,29 @@ public class HospitalOutsideServiceController extends GenericServiceFormPage {
 
   @FXML
   private void submitBtnClicked() {
-    Service service = new Service(this.IDCount, "Outside Hospital");
-    this.IDCount++;
-    service.setLocation(locationTextField.getText());
-    service.setDate(serviceDate.getValue().toString());
-    service.setDescription(descriptionTextArea.getText());
-    service.setRequester(settings.getCurrentUsername());
-    System.out.println("here");
-    System.out.println(service);
-    try {
-      DataOperations.saveService(service);
-      System.out.println("outside hospital save service successfully");
-    } catch (IllegalAccessException | SQLException e) {
-      e.printStackTrace();
+
+    if (locationTextField.getText().equals("")
+        || descriptionTextArea.getText().equals("")
+        || serviceDate.getValue() == null) {
+      nonCompleteForm(stackPane);
+    } else {
+      Service service = new Service(this.IDCount, "Outside Hospital");
+      this.IDCount++;
+      service.setLocation(locationTextField.getText());
+      service.setDate(serviceDate.getValue().toString());
+      service.setDescription(descriptionTextArea.getText());
+      service.setRequester(settings.getCurrentUsername());
+
+      try {
+        DataOperations.saveService(service);
+      } catch (IllegalAccessException | SQLException e) {
+        e.printStackTrace();
+      }
+
+      submittedPopUp(stackPane);
+      locationTextField.setText("");
+      serviceDate.setValue(null);
+      descriptionTextArea.setText("");
     }
   }
 }
