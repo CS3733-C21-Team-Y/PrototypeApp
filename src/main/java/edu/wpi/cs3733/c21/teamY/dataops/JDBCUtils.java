@@ -792,4 +792,35 @@ public class JDBCUtils {
       return true;
     }
   }
+
+  public static String findUserByEmail(String email) throws SQLException {
+    Statement statement;
+    statement = JDBCUtils.getConn().createStatement();
+    String sql =
+        "Select ADMIN.EMPLOYEE.EMPLOYEEID "
+            + "FROM ADMIN.EMPLOYEE "
+            + "WHERE ADMIN.EMPLOYEE.EMAIL = '"
+            + email
+            + "'";
+
+    java.sql.ResultSet resultSet = statement.executeQuery(sql);
+
+    if (!resultSet.next()) {
+      return "false";
+    } else {
+      return resultSet.getString(1);
+    }
+  }
+
+  public static boolean updateUserPassword(String userID, String newPassWord) throws SQLException {
+    String update = "update ADMIN.EMPLOYEE set PASSWORD= (?) WHERE EMPLOYEEID=(?)";
+    // String update = "update ADMIN.EMPLOYEE set PASSWORD= "+newPassWord +" where
+    // ADMIN.EMPLOYEE.EMPLOYEEID="+ userID;
+
+    PreparedStatement preparedStatement = getConn().prepareStatement(update);
+    preparedStatement.setString(1, newPassWord);
+    preparedStatement.setString(2, userID);
+    int check = preparedStatement.executeUpdate();
+    return check != 0;
+  }
 }
