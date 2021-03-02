@@ -70,7 +70,7 @@
                   <DropShadow blurType="GAUSSIAN" color="#292929" height="30.0" radius="14.5" width="30.0" />
                </effect>
             </GridPane>
-            <JFXButton maxWidth="20.0" minWidth="20.0" prefWidth="20.0" style="-fx-background-radius: 20;" styleClass="SRElementAnchor" stylesheets="@../UIStyles.css" text=" " GridPane.columnIndex="1" GridPane.valignment="TOP">
+            <JFXButton fx:id="statusBtn" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" style="-fx-background-radius: 20;" styleClass="SRElementAnchor" stylesheets="@../UIStyles.css" text=" " GridPane.columnIndex="1" GridPane.valignment="TOP">
                <graphic>
                   <MaterialDesignIconView fx:id="editBtn" fill="#6f7095" glyphName="DOTS_VERTICAL" size="30" />
                </graphic>
@@ -85,6 +85,38 @@
          <padding>
             <Insets top="10.0" />
          </padding>
+      </GridPane>
+      <GridPane fx:id="statusGrid" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="8.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <GridPane maxWidth="125.0" minWidth="125.0" prefWidth="125.0" style="-fx-background-color: #cccccc; -fx-background-radius: 25;" GridPane.halignment="RIGHT">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+               </GridPane.margin>
+               <effect>
+                  <DropShadow color="#cccccc" spread="0.15" />
+               </effect>
+               <children>
+                  <JFXButton fx:id="incompleteBtn" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #cccccc; -fx-font-size: 14; -fx-background-radius: 12.5;" text="Incomplete" GridPane.halignment="CENTER" />
+                  <JFXButton fx:id="completeBtn" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #cccccc; -fx-font-size: 14; -fx-background-radius: 12.5;" text="Complete" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                  <JFXButton fx:id="inProgressBtn" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #cccccc; -fx-font-size: 14; -fx-background-radius: 12.5;" text="In Progress" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </children>
       </GridPane>
    </children>
 </AnchorPane>
