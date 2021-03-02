@@ -1,11 +1,12 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
-import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
+import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.io.File;
 import java.io.FileInputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javafx.application.Platform;
@@ -37,7 +38,7 @@ public class MapController extends RightPage {
 
   // YAY?!
   @FXML private GridPane mapOverlayUIGridPane;
-  @FXML private JFXComboBox floorMenu;
+  @FXML private SplitMenuButton floorMenu;
 
   private double startx, starty, endx, endy;
 
@@ -66,8 +67,6 @@ public class MapController extends RightPage {
   private double scaledLineWidth = 0;
   private double scaledLineWidthSelected = 0;
 
-  private ArrayList<String> categories;
-
   protected enum MAP_PAGE {
     PARKING,
     FLOOR1,
@@ -94,6 +93,10 @@ public class MapController extends RightPage {
   private double scaleMax = 10;
   private String direction = "in/out";
 
+  private ArrayList<Edge> edges = new ArrayList<Edge>();
+  private ArrayList<edu.wpi.cs3733.c21.teamY.entity.Node> nodes =
+      new ArrayList<edu.wpi.cs3733.c21.teamY.entity.Node>();
+
   // these need to be imageViews
   Image parking = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerParking.png");
   Image f1 = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerFloor1_Updated.png");
@@ -107,7 +110,7 @@ public class MapController extends RightPage {
     return adornerPane;
   }
 
-  protected JFXComboBox getFloorMenu() {
+  protected SplitMenuButton getFloorMenu() {
     return floorMenu;
   }
 
@@ -209,37 +212,33 @@ public class MapController extends RightPage {
 
   @FXML
   private void initialize() {
-    // rotates the whole thing
 
-    categories = new ArrayList<String>();
-    categories.add("Parking Lot");
-    categories.add("Floor 1");
-    categories.add("Floor 2");
-    categories.add("Floor 3");
-    categories.add("Floor 4");
-    categories.add("Floor 5");
-
-    for (String c : categories) floorMenu.getItems().add(c);
-
-    floorMenu.setPromptText("Parking Lot");
-
-    floorMenu.setOnAction(
-        e -> {
+    Platform.runLater(
+        () -> {
           removeAllAdornerElements();
-          changeMapImage(determineNewMap((String) floorMenu.getValue()));
+          nodes = loadNodesFromDB();
+          edges = loadEdgesFromDB();
+          addAdornerElements(nodes, edges, floorNumber);
         });
-    //    int i = 0;
-    //    for (MenuItem menuItem : getFloorMenu().getItems()) {
-    //      int index = i;
-    //      menuItem.setOnAction(
-    //          e -> {
-    //            removeAllAdornerElements();
-    //            changeMapImage(getMapOrder().get(index));
-    //            updateMenuPreview(e, getFloorMenu());
-    //          });
-    //      i++;
-    //    }
 
+    getFloorMenu().setText("Parking Lot");
+    int i = 0;
+    for (MenuItem menuItem : getFloorMenu().getItems()) {
+      int index = i;
+      menuItem.setOnAction(
+          e -> {
+            removeAllAdornerElements();
+            changeMapImage(getMapOrder().get(index));
+            nodes = loadNodesFromDB();
+            edges = loadEdgesFromDB();
+            addAdornerElements(nodes, edges, floorNumber);
+            updateMenuPreview(e, getFloorMenu());
+          });
+      i++;
+    }
+
+    //    mapImageView.setScaleX(4);
+    //    mapImageView.setScaleY(4);
     adornerPane.toFront();
     mapOverlayUIGridPane.toFront();
 
@@ -280,16 +279,6 @@ public class MapController extends RightPage {
           containerStackPane.setClip(viewWindow);
           updateAdornerVisualsOnZoom();
         });
-  }
-
-  private MAP_PAGE determineNewMap(String mapName) {
-    if (mapName.equals("Parking Lot")) return mapOrder.get(0);
-    else if (mapName.equals("Floor 1")) return mapOrder.get(1);
-    else if (mapName.equals("Floor 2")) return mapOrder.get(2);
-    else if (mapName.equals("Floor 3")) return mapOrder.get(3);
-    else if (mapName.equals("Floor 4")) return mapOrder.get(4);
-    else if (mapName.equals("Floor 5")) return mapOrder.get(5);
-    else return null;
   }
 
   // Default Drag Handlers
@@ -546,6 +535,24 @@ public class MapController extends RightPage {
 
     } catch (Exception exception) {
       System.out.println("nodeEdgeDispController.drawFromCSV");
+      return null;
+    }
+  }
+
+  protected ArrayList<Node> loadNodesFromDB() {
+    try {
+      return DataOperations.getListOfNodes();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+      return null;
+    }
+  }
+
+  protected ArrayList<Edge> loadEdgesFromDB() {
+    try {
+      return DataOperations.getListOfEdge();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
       return null;
     }
   }
