@@ -102,6 +102,11 @@ public class DataOperations {
     JDBCUtils.updateServiceAdditionalInfoOnly(serviceID, newInfo);
   }
 
+  public static void updateServiceAssignedEmployee(Service service, String employee)
+      throws SQLException {
+    JDBCUtils.updateServiceAssignedEmployee(service, employee);
+  }
+
   public static ArrayList<Edge> getEdgesCSV() throws IOException, IllegalAccessException {
     return CSV.getEdgesCSV();
   }
