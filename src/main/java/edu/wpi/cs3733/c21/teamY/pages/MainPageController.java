@@ -48,7 +48,9 @@ public class MainPageController {
     this.navigationBtn = navigationBtn;
     this.serviceRequestBtn = serviceRequestBtn;
     this.adminToolsBtn = adminToolsBtn;
+
     loadRightSubPage("LandingPage.fxml");
+
     // loadCenterSubPage("ServiceRequestNavigator.fxml");
   }
 
