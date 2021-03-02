@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -28,6 +29,8 @@ public class GraphEditPageController extends RightPage {
 
   @FXML private Pane anchor;
   @FXML private HBox header;
+  @FXML private VBox mapBox;
+  @FXML private HBox hBox;
 
   //  @FXML private Button toHomeBtn;
   @FXML private Button addNode;
@@ -85,6 +88,7 @@ public class GraphEditPageController extends RightPage {
   @FXML private ComboBox endLocationBox;
   @FXML private Button addEdge;
 
+  @FXML private EditNodeTableController editNodeTableController;
   @FXML private MapController mapInsertController;
 
   private double dragStartXRelativeEdge;
@@ -119,10 +123,24 @@ public class GraphEditPageController extends RightPage {
     }
   }
 
+  private void loadTable() {
+    FXMLLoader fxmlLoader = new FXMLLoader();
+    try {
+      javafx.scene.Node node =
+          fxmlLoader.load(getClass().getResource("EditNodeTable.fxml").openStream());
+      editNodeTableController = (EditNodeTableController) fxmlLoader.getController();
+      editNodeTableController.setParent(parent);
+      hBox.getChildren().add(node);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   @FXML
   private void initialize() {
 
     loadMap();
+    loadTable();
     anchor.setOnKeyPressed(
         e -> {
           mapInsertController.scrollOnPress(e);

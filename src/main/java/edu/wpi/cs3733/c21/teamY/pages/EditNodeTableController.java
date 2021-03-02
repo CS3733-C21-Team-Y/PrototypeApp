@@ -35,12 +35,13 @@ public class EditNodeTableController extends RightPage {
   public EditNodeTableController() {}
 
   public void initialize() {
-    treeTable.setPrefHeight(300);
+    //    treeTable.setPrefHeight(300);
+    treeTable.setFixedCellSize(30);
 
     // tree table stuff
 
     nodeIDCol = new JFXTreeTableColumn<>("Node ID");
-    nodeIDCol.setPrefWidth(100);
+    nodeIDCol.setPrefWidth(80);
     nodeIDCol.setCellValueFactory(
         (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
           if (nodeIDCol.validateValue(param)) {
@@ -50,7 +51,7 @@ public class EditNodeTableController extends RightPage {
           }
         });
     nodeTypeCol = new JFXTreeTableColumn<>("Node Type");
-    nodeTypeCol.setPrefWidth(100);
+    nodeTypeCol.setPrefWidth(80);
     nodeTypeCol.setCellValueFactory(
         (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
           if (nodeTypeCol.validateValue(param)) {
@@ -60,7 +61,7 @@ public class EditNodeTableController extends RightPage {
           }
         });
     xcoordCol = new JFXTreeTableColumn<>("X Coord");
-    xcoordCol.setPrefWidth(100);
+    xcoordCol.setPrefWidth(80);
     xcoordCol.setCellValueFactory(
         (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
           if (xcoordCol.validateValue(param)) {
@@ -70,7 +71,7 @@ public class EditNodeTableController extends RightPage {
           }
         });
     ycoordCol = new JFXTreeTableColumn<>("Y Coord");
-    ycoordCol.setPrefWidth(100);
+    ycoordCol.setPrefWidth(80);
     ycoordCol.setCellValueFactory(
         (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
           if (ycoordCol.validateValue(param)) {
@@ -80,7 +81,7 @@ public class EditNodeTableController extends RightPage {
           }
         });
     floorCol = new JFXTreeTableColumn<>("Floor");
-    floorCol.setPrefWidth(100);
+    floorCol.setPrefWidth(80);
     floorCol.setCellValueFactory(
         (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
           if (floorCol.validateValue(param)) {
@@ -90,7 +91,7 @@ public class EditNodeTableController extends RightPage {
           }
         });
     buildingCol = new JFXTreeTableColumn<>("Building");
-    buildingCol.setPrefWidth(100);
+    buildingCol.setPrefWidth(80);
     buildingCol.setCellValueFactory(
         (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
           if (buildingCol.validateValue(param)) {
@@ -100,7 +101,7 @@ public class EditNodeTableController extends RightPage {
           }
         });
     roomCol = new JFXTreeTableColumn<>("Room");
-    roomCol.setPrefWidth(100);
+    roomCol.setPrefWidth(80);
     roomCol.setCellValueFactory(
         (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
           if (roomCol.validateValue(param)) {
@@ -110,7 +111,7 @@ public class EditNodeTableController extends RightPage {
           }
         });
     longNameCol = new JFXTreeTableColumn<>("Long Name");
-    longNameCol.setPrefWidth(100);
+    longNameCol.setPrefWidth(80);
     longNameCol.setCellValueFactory(
         (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
           if (longNameCol.validateValue(param)) {
@@ -120,7 +121,7 @@ public class EditNodeTableController extends RightPage {
           }
         });
     shortNameCol = new JFXTreeTableColumn<>("Short Name");
-    shortNameCol.setPrefWidth(100);
+    shortNameCol.setPrefWidth(80);
     shortNameCol.setCellValueFactory(
         (TreeTableColumn.CellDataFeatures<TableNodes, String> param) -> {
           if (shortNameCol.validateValue(param)) {
