@@ -18,6 +18,7 @@ public class ServiceRequestElementController extends CenterPage {
   @FXML private JFXButton statusBtn;
   @FXML private JFXButton incompleteBtn;
   @FXML private JFXButton inProgressBtn;
+  @FXML private JFXButton deleteBtn;
   @FXML private JFXButton completeBtn;
   @FXML private Label employeeLabel;
 
@@ -28,8 +29,17 @@ public class ServiceRequestElementController extends CenterPage {
     incompleteBtn.setOnAction(e -> statusBtnClicked(e));
     inProgressBtn.setOnAction(e -> statusBtnClicked(e));
     completeBtn.setOnAction(e -> statusBtnClicked(e));
+    deleteBtn.setOnAction(e -> deleteService());
     statusBtn.setOnAction(e -> toggleStatusGrid());
     statusGrid.setVisible(false);
+  }
+
+  private void deleteService() {
+    try {
+      DataOperations.removeService(service.getServiceID());
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
   }
 
   private void toggleStatusGrid() {
