@@ -46,6 +46,7 @@ public class GraphEditPageController extends RightPage {
   @FXML private CheckBox addEdgecb;
 
   @FXML private Button deleteNode;
+  @FXML private Button export;
 
   @FXML private Button addEdge;
 
@@ -242,6 +243,10 @@ public class GraphEditPageController extends RightPage {
 
     // attaches a handler to the button with a lambda expression
     //    toHomeBtn.setOnAction(e -> buttonClicked(e));
+    export.setOnAction(
+        e -> {
+          // do things here that need to be done when saving nodes
+        });
 
     // run the create methods on the button click
     addNode.setOnAction(
@@ -506,6 +511,7 @@ public class GraphEditPageController extends RightPage {
         });
     Platform.runLater(
         () -> {
+            
           resetComboBoxes();
 
           Stage stage = (Stage) toolTip.getScene().getWindow();
