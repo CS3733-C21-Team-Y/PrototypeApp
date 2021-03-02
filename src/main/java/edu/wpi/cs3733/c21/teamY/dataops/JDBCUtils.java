@@ -76,8 +76,11 @@ public class JDBCUtils {
       stmt.executeUpdate(sqlEmployee);
       stmt.executeUpdate(sqlService);
 
+      JDBCUtils.fillTablesFromCSV();
     } catch (SQLException ignored) {
       // ignored.printStackTrace();
+    } catch (IllegalAccessException | IOException e) {
+      e.printStackTrace();
     }
   }
 
@@ -261,8 +264,11 @@ public class JDBCUtils {
   public static void fillTablesFromCSV() throws IllegalAccessException, IOException, SQLException {
     ArrayList<Node> nodes = CSV.getNodesCSV();
     ArrayList<Edge> edges = CSV.getEdgesCSV();
-    insertArrayListNode(nodes);
-    insertArrayListEdge(edges);
+    CSV.getEmployeesCSV();
+    CSV.getServiceCSV();
+
+    // insertArrayListNode(nodes);
+    // insertArrayListEdge(edges);
   }
 
   /**
