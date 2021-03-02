@@ -76,6 +76,7 @@ def codeCoverageExcludes = [
         'edu.wpi.cs3733.c21.teamY.entity.Service',
         'edu.wpi.cs3733.c21.teamY.entity.ActiveGraph',
         'edu.wpi.cs3733.c21.teamY.entity.TableNodes',
+        'edu.wpi.cs3733.c21.teamY.entity.Employee',
         'edu.wpi.cs3733.c21.teamY.dataops.DataOperations',
         'edu.wpi.cs3733.c21.teamY.dataops.GeneratePassword',
         'edu.wpi.cs3733.c21.teamY.dataops.EmailUtils',
