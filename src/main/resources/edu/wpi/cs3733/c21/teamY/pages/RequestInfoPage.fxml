@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
@@ -86,6 +88,16 @@
                         <Insets bottom="5.0" top="5.0" />
                      </padding>
                   </GridPane>
+                  <JFXTextField fx:id="employeeText" focusColor="#3b3d73" labelFloat="true" promptText="Assign Employee" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets bottom="5.0" right="60.0" />
+                     </GridPane.margin>
+                  </JFXTextField>
+                  <JFXButton fx:id="submitBtn" text="Submit" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+                     <GridPane.margin>
+                        <Insets bottom="5.0" right="5.0" />
+                     </GridPane.margin>
+                  </JFXButton>
                </children>
             </GridPane>
          </children>

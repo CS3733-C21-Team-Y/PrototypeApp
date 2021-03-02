@@ -248,7 +248,7 @@ public class MapController extends RightPage {
     //          e -> {
     //            removeAllAdornerElements();
     //            changeMapImage(getMapOrder().get(index));
-    //get adorner shit
+    // get adorner shit
     //            updateMenuPreview(e, getFloorMenu());
     //          });
     //      i++;
