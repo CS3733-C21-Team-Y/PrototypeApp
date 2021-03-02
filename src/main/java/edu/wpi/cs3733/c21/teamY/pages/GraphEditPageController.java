@@ -280,6 +280,13 @@ public class GraphEditPageController extends RightPage {
                   return;
                 }
 
+                if (clickedEdge) {
+                  dragStartXRelativeEdge =
+                      e.getX() - ((MapController.LineEx) jfxNodeBeingDragged).getStartX();
+                  dragStartYRelativeEdge =
+                      e.getY() - ((MapController.LineEx) jfxNodeBeingDragged).getStartY();
+                }
+
                 // already selected one or more nodes/edges
                 if (headHasFocus) {
                   nodesAffectedByDrag = mapInsertController.getSelectedNodes();
@@ -291,11 +298,6 @@ public class GraphEditPageController extends RightPage {
                     nodesAffectedByDrag.add((MapController.CircleEx) jfxNodeBeingDragged);
                   } else if (clickedEdge) {
                     edgesAffectedByDrag.add((MapController.LineEx) jfxNodeBeingDragged);
-
-                    dragStartXRelativeEdge =
-                        e.getX() - ((MapController.LineEx) jfxNodeBeingDragged).getStartX();
-                    dragStartYRelativeEdge =
-                        e.getY() - ((MapController.LineEx) jfxNodeBeingDragged).getStartY();
                   }
                 }
 
