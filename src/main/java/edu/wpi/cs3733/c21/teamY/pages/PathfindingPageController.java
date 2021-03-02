@@ -11,16 +11,15 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -55,6 +54,7 @@ public class PathfindingPageController extends RightPage {
   @FXML private VBox textDirectionViewer;
   @FXML private JFXButton exitDirectionBtn;
   @FXML private VBox sideMenuVBox;
+  @FXML private RowConstraints row1;
   // @FXML private Label zoomLabel;
 
   private ArrayList<Node> nodes = new ArrayList<Node>();
@@ -88,6 +88,8 @@ public class PathfindingPageController extends RightPage {
       mapInsertController = (MapController) fxmlLoader.getController();
       mapInsertController.setParent(parent);
       stackPane.getChildren().add(node);
+      node.toBack();
+      // node.setOpacity(0);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -99,6 +101,8 @@ public class PathfindingPageController extends RightPage {
     loadMap();
     textDirectionsBox.setVisible(false);
     overlayGridPane.setPickOnBounds(false);
+    overlayGridPane.toFront();
+
     sideMenuVBox.setPickOnBounds(false);
     exitDirectionBtn.setOnAction(e -> textDirectionsBox.setVisible(false));
     //         attaches a handler to the button with a lambda expression
@@ -106,6 +110,8 @@ public class PathfindingPageController extends RightPage {
     // Reset view button
     resetView.setOnAction(e -> mapInsertController.resetMapView());
     resetView.toFront();
+    zoomInButton.toFront();
+    zoomOutButton.toFront();
 
     // Set the starting image early because otherwise it will flash default
     mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
@@ -200,9 +206,32 @@ public class PathfindingPageController extends RightPage {
           mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
           startLocationBox.requestFocus();
+
+          // overlayGridPane.maxWidthProperty().bind(getWidth());
+
+          // overlayGridPane.prefWidthProperty().bind(overlayGridPane.getScene().widthProperty());
+          overlayGridPane.prefHeightProperty().bind(overlayGridPane.getScene().heightProperty());
+          overlayGridPane
+              .getScene()
+              .widthProperty()
+              .addListener(
+                  new ChangeListener<Number>() {
+                    @Override
+                    public void changed(
+                        ObservableValue<? extends Number> observable,
+                        Number oldValue,
+                        Number newValue) {
+                      overlayGridPane.setPrefWidth(((double) newValue) - 130);
+                    }
+                  });
+          row1.maxHeightProperty().bind(anchor.getScene().heightProperty());
         });
   }
 
+  /* private ReadOnlyDoubleProperty getWidth() {
+    return new ReadOnlyDoubleProperty(overlayGridPane.getScene().widthProperty().getValue() - 130) {
+    };
+  }*/
   private ArrayList<Node> runAlgo(
       Graph g, String startID, ArrayList<String> goalIDs, String accessType) {
     Stage stage = (Stage) resetView.getScene().getWindow();

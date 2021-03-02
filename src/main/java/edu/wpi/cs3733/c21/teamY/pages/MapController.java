@@ -18,10 +18,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -77,8 +74,8 @@ public class MapController extends RightPage {
               MAP_PAGE.FLOOR4,
               MAP_PAGE.FLOOR5));
 
-  private double scaleMin = 0.75;
-  private double scaleMax = 2.5;
+  private double scaleMin = 0.001;
+  private double scaleMax = 500;
   private String direction = "in/out";
 
   // these need to be imageViews
@@ -142,6 +139,7 @@ public class MapController extends RightPage {
     // scale and fit parking map
 
     adornerPane.toFront();
+    floorMenu.toFront();
     mapOverlayUIGridPane.toFront();
     containerStackPane.setMaxWidth(mapImageView.getFitWidth());
     containerStackPane.setMaxHeight(mapImageView.getFitHeight());
@@ -182,8 +180,62 @@ public class MapController extends RightPage {
     // Sets Map clip so nothing can appear outside map bounds
     Platform.runLater(
         () -> {
-          Rectangle viewWindow =
-              new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
+          /*mapImageView
+              .getScene()
+              .getWindow()
+              .widthProperty()
+              .addListener(
+                  new ChangeListener<Number>() {
+                    @Override
+                    public void changed(
+                        ObservableValue<? extends Number> observable,
+                        Number oldValue,
+                        Number newValue) {
+                      mapImageView.setScaleX(
+                          mapImageView.getScene().getWindow().getWidth()
+                              / mapImageView.getFitWidth());
+                    }
+                  });
+
+          mapImageView
+              .getScene()
+              .getWindow()
+              .heightProperty()
+              .addListener(
+                  new ChangeListener<Number>() {
+                    @Override
+                    public void changed(
+                        ObservableValue<? extends Number> observable,
+                        Number oldValue,
+                        Number newValue) {
+                      mapImageView.setScaleY(
+                          mapImageView.getScene().getWindow().getHeight()
+                              / mapImageView.getFitHeight());
+                    }
+                  });*/
+
+          mapImageView.fitWidthProperty().bind(mapImageView.getImage().widthProperty());
+          mapImageView.fitHeightProperty().bind(mapImageView.getImage().heightProperty());
+
+          adornerPane.minWidthProperty().bind(mapImageView.getImage().widthProperty());
+          adornerPane.minHeightProperty().bind(mapImageView.getImage().heightProperty());
+
+          mapImageView.setTranslateX(0 - mapImageView.getFitWidth() / 2);
+          // mapImageView.setTranslateY(0 - mapImageView.getFitHeight() / 2);
+          adornerPane.setTranslateX(0 - mapImageView.getFitWidth() / 2);
+          // adornerPane.setTranslateY(0 - mapImageView.getFitHeight() / 2);
+
+          mapImageView.setScaleX(0.5);
+          mapImageView.setScaleY(0.5);
+          adornerPane.setScaleX(0.5);
+          adornerPane.setScaleY(0.5);
+
+          mapImageView.setTranslateX(mapImageView.getTranslateX() + adornerPane.getWidth() / 2);
+          // mapImageView.setTranslateY(0 - mapImageView.getFitHeight() / 2);
+          adornerPane.setTranslateX(adornerPane.getTranslateX() + adornerPane.getWidth() / 2);
+          // adornerPane.setTranslateY(0 - mapImageView.getFitHeight() / 2);
+
+          Rectangle viewWindow = new Rectangle(0, 0, 9999, 9999999);
           containerStackPane.setClip(viewWindow);
         });
   }
@@ -435,12 +487,12 @@ public class MapController extends RightPage {
 
   // Scale functions
   protected double scaleXCoords(double x) {
-    double scale = 1485.0 / 350.0;
+    double scale = 1; // 1485.0 / 350.0;
     return x / scale;
   }
 
   protected double scaleUpXCoords(double x) {
-    double scale = 1485.0 / 350.0;
+    double scale = 1; // mapImageView.getImage().getWidth() / ;
     return x * scale;
   }
 
@@ -450,7 +502,7 @@ public class MapController extends RightPage {
   }
 
   protected double scaleUpYCoords(double y) {
-    double scale = 1485.0 / 350.0;
+    double scale = 1; // 1485.0 / 350.0;
     return y * scale;
   }
 
@@ -599,7 +651,7 @@ public class MapController extends RightPage {
     }
     Rectangle viewWindow =
         new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
-    containerStackPane.setClip(viewWindow);
+    //    containerStackPane.setClip(viewWindow);
     adornerPane.setScaleY(adornerPane.getScaleY() + scale);
     adornerPane.setScaleX(adornerPane.getScaleX() + scale);
 

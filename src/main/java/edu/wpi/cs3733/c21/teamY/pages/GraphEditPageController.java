@@ -127,6 +127,7 @@ public class GraphEditPageController extends RightPage {
       mapInsertController = (MapController) fxmlLoader.getController();
       mapInsertController.setParent(parent);
       stackPane.getChildren().add(node);
+      node.toFront();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -140,6 +141,7 @@ public class GraphEditPageController extends RightPage {
       editNodeTableController = (EditNodeTableController) fxmlLoader.getController();
       editNodeTableController.setParent(parent);
       hBox.getChildren().add(node);
+      node.toFront();
     } catch (Exception e) {
       e.printStackTrace();
     }
