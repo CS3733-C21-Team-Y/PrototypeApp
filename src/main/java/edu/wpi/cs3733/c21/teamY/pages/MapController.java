@@ -207,10 +207,19 @@ public class MapController extends RightPage {
   @FXML
   private void initialize() {
     // rotates the whole thing
-    mapImageView.setRotate(-90);
-    adornerPane.setRotate(-90);
 
-    // scale and fit parking map
+    getFloorMenu().setText("Parking Lot");
+    int i = 0;
+    for (MenuItem menuItem : getFloorMenu().getItems()) {
+      int index = i;
+      menuItem.setOnAction(
+          e -> {
+            removeAllAdornerElements();
+            changeMapImage(getMapOrder().get(index));
+            updateMenuPreview(e, getFloorMenu());
+          });
+      i++;
+    }
 
     adornerPane.toFront();
     mapOverlayUIGridPane.toFront();
