@@ -3,8 +3,9 @@ package edu.wpi.cs3733.c21.teamY.pages;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import javafx.fxml.FXML;
+import javafx.stage.Stage;
 
-public class CovidScreeningController {
+public class CovidScreeningController extends RightPage{
 
   @FXML private JFXCheckBox posY;
   @FXML private JFXCheckBox posN;
@@ -26,9 +27,14 @@ public class CovidScreeningController {
     closeN.setSelected(false);
   }
 
+  @FXML
   private void submitBtnClicked() {
     // check y/n status on each checkbox
+        if (posN.isSelected() && sympN.isSelected() && closeN.isSelected()){
 
+        } else {
+          // give instructions on how to go to covid entrance point
+        }
     //
 
   }
