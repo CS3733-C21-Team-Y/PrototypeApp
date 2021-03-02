@@ -54,6 +54,7 @@ public class PathfindingPageController extends RightPage {
   @FXML private VBox textDirectionsBox;
   @FXML private VBox textDirectionViewer;
   @FXML private JFXButton exitDirectionBtn;
+  @FXML private VBox sideMenuVBox;
   // @FXML private Label zoomLabel;
 
   private ArrayList<Node> nodes = new ArrayList<Node>();
@@ -98,6 +99,7 @@ public class PathfindingPageController extends RightPage {
     loadMap();
     textDirectionsBox.setVisible(false);
     overlayGridPane.setPickOnBounds(false);
+    sideMenuVBox.setPickOnBounds(false);
     exitDirectionBtn.setOnAction(e -> textDirectionsBox.setVisible(false));
     //         attaches a handler to the button with a lambda expression
 
@@ -205,7 +207,7 @@ public class PathfindingPageController extends RightPage {
       Graph g, String startID, ArrayList<String> goalIDs, String accessType) {
     Stage stage = (Stage) resetView.getScene().getWindow();
     StageInformation info = (StageInformation) stage.getUserData();
-    if (info.getAlgorithmSelection() != null) {
+    if (info.getAlgorithmSelection().getContext() == null) {
       info.setAlgorithmSelection(new AlgoContext());
       info.getAlgorithmSelection().setContext(new AStarI());
       stage.setUserData(info);
@@ -320,7 +322,7 @@ public class PathfindingPageController extends RightPage {
         if (startLocationBox.getValue() != null && startNode != null) {
           mapInsertController.deSelectCircle(startNode);
         }
-        startLocationBox.setValue(graph.nodeFromID(node.getId()).longName);
+        startLocationBox.setValue(node.getId());
         startNode = node;
 
         mapInsertController.selectCircle(node);
@@ -334,7 +336,7 @@ public class PathfindingPageController extends RightPage {
           }
         }
         mapInsertController.selectCircle(node);
-        endLocationBox.setValue(graph.nodeFromID(node.getId()).longName);
+        endLocationBox.setValue(node.getId());
       }
 
     }
@@ -438,11 +440,11 @@ public class PathfindingPageController extends RightPage {
     endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
 
     for (Node node : nodes) {
-      startLocationBox.getItems().add(node.longName);
+      startLocationBox.getItems().add(node.nodeID);
     }
 
     for (Node node : nodes) {
-      endLocationBox.getItems().add(node.longName);
+      endLocationBox.getItems().add(node.nodeID);
     }
   }
 
@@ -462,8 +464,14 @@ public class PathfindingPageController extends RightPage {
     if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
 
       ArrayList<String> endLocations = new ArrayList<>();
-      String endID = graph.longNodes.get((String) endLocationBox.getValue()).nodeID;
-      String startID = graph.longNodes.get((String) startLocationBox.getValue()).nodeID;
+      String endID =
+          (String)
+              endLocationBox
+                  .getValue(); // graph.longNodes.get((String) endLocationBox.getValue()).nodeID;
+      String startID =
+          (String)
+              startLocationBox
+                  .getValue(); // graph.longNodes.get((String) startLocationBox.getValue()).nodeID;
       endLocations.add(endID);
 
       mapInsertController.clearSelection();

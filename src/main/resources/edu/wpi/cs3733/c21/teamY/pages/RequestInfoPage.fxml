@@ -40,7 +40,7 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
             </HBox>
-            <GridPane GridPane.rowIndex="1">
+            <GridPane alignment="TOP_CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="75.0" prefWidth="100.0" />
@@ -54,7 +54,7 @@
                <children>
                   <ScrollPane hvalue="0.5" pannable="true" style="-fx-border-radius: 10;" vbarPolicy="NEVER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                      <content>
-                        <GridPane prefWidth="700.0">
+                        <GridPane alignment="CENTER" prefWidth="700.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="0.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="90.0" prefWidth="100.0" />

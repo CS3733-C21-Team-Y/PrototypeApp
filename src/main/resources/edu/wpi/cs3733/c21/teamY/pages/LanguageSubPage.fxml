@@ -53,7 +53,7 @@
                           </rowConstraints>
                           <children>
                               <JFXComboBox fx:id="langOptions" maxWidth="1.7976931348623157E308" promptText="Language Needed" GridPane.columnIndex="1" />
-                        <JFXTextField fx:id="location" promptText="Room Location" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <JFXTextField fx:id="locationField" promptText="Room Location" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <JFXTextArea fx:id="description" promptText="Description" style="-fx-border-color: #777;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <GridPane fx:id="clearBtn" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                   <columnConstraints>
