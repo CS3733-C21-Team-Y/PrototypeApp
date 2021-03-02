@@ -2,3 +2,4 @@ firstName,lastName,
 Wilson,Wong,admin,admin,@WPI,2,WPI
 Mike,Jake,employee,employee,@WPI,1,WPI
 Your,Name,staff,staff,none,1,WPI
+a,guest,guest,guest,none,0,none
