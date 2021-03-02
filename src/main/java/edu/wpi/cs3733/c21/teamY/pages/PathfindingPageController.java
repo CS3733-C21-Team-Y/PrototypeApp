@@ -437,6 +437,7 @@ public class PathfindingPageController extends RightPage {
     startLocationBox.getItems().remove(0, startLocationBox.getItems().size());
     endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
 
+
     for (Node node : nodes) {
       startLocationBox.getItems().add(node.nodeID);
     }

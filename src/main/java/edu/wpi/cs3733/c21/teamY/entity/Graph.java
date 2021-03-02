@@ -67,26 +67,4 @@ public class Graph {
   public int indexFromLongName(String id) {
     return longNodes.get(id);
   }
-
-  // UNTESTED
-  /*
-  private boolean depthFirstSearch(Node startNode, Node targetNode) {
-    HashMap<Node, Boolean> visited = new HashMap<Node, Boolean>(IDs.size() * 2);
-    return dfsHelper(startNode, targetNode, visited);
-  }
-
-  private boolean dfsHelper(Node startNode, Node targetNode, HashMap<Node, Boolean> visited) {
-    visited.put(startNode, true);
-    if (startNode.nodeID.equals(targetNode.nodeID)) {
-      return true;
-    }
-
-    for (Node node : startNode.getNeighbors()) {
-      if (!visited.get(node)) {
-
-        if (dfsHelper(node, targetNode, visited)) return true;
-      }
-    }
-    return false;
-  }*/
 }
