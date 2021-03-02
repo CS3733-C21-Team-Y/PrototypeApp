@@ -511,7 +511,6 @@ public class GraphEditPageController extends RightPage {
         });
     Platform.runLater(
         () -> {
-            
           resetComboBoxes();
 
           Stage stage = (Stage) toolTip.getScene().getWindow();
