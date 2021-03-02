@@ -81,6 +81,9 @@ public class GraphEditPageController extends RightPage {
   @FXML private JFXButton moveNodeDownButton;
   @FXML private JFXButton moveNodeLeftButton;
   @FXML private JFXButton moveNodeRightButton;
+  @FXML private ComboBox startLocationBox;
+  @FXML private ComboBox endLocationBox;
+  @FXML private Button addEdge;
 
   @FXML private MapController mapInsertController;
 

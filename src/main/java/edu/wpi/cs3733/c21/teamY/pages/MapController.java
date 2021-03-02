@@ -82,12 +82,12 @@ public class MapController extends RightPage {
   private String direction = "in/out";
 
   // these need to be imageViews
-  Image parking = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerParking.png");
-  Image f1 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor1_Updated.png");
-  Image f2 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor2_Updated.png");
-  Image f3 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor3_Updated.png");
-  Image f4 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor4_Updated.png");
-  Image f5 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor5_Updated.png");
+  Image parking = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerCampusIT2.png");
+  Image f1 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor1IT2.png");
+  Image f2 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor2IT2.png");
+  Image f3 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor3IT2.png");
+  Image f4 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor4IT2.png");
+  Image f5 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor5IT2.png");
 
   // Getters
   protected Pane getAdornerPane() {
