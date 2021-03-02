@@ -68,7 +68,7 @@
                                   </padding>
                               </JFXComboBox>
                               <JFXDialog GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <JFXTextArea focusColor="#5a5c94" labelFloat="true" promptText="Please describe the issue" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <JFXTextArea fx:id="description" focusColor="#5a5c94" labelFloat="true" promptText="Please describe the issue" style="-fx-border-color: dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: 8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                   <font>
                                       <Font name="Arial" size="14.0" />
                                   </font>

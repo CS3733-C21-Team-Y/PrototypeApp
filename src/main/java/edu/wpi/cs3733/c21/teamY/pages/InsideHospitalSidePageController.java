@@ -9,6 +9,7 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 public class InsideHospitalSidePageController extends GenericServiceFormPage {
 
@@ -20,6 +21,8 @@ public class InsideHospitalSidePageController extends GenericServiceFormPage {
   @FXML private JFXTextField date;
   @FXML private JFXTextField currentLocation;
   @FXML private JFXTextField desiredLocation;
+
+  @FXML private StackPane stackPane;
 
   public InsideHospitalSidePageController() {}
 
@@ -42,24 +45,39 @@ public class InsideHospitalSidePageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    Service service = new Service(this.IDCount, "Inside Transport");
-    this.IDCount++;
-    // service.setCategory((String) patientName.getText());
-    // service.setLocation((String) patientName.getValue());
-    service.setDescription(description.getText());
-    service.setRequester(settings.getCurrentUsername());
-    service.setLocation(currentLocation.getText());
-    service.setCategory(patientName.getText());
-    service.setDate(date.getText());
-    service.setAdditionalInfo(desiredLocation.getText());
-    service.setRequester(settings.getCurrentUsername());
+    if (description.getText().equals("")
+        || currentLocation.getText().equals("")
+        || patientName.getText().equals("")
+        || date.getText().equals("")) {
+      nonCompleteForm(stackPane);
+    } else {
 
-    try {
-      DataOperations.saveService(service);
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
+      Service service = new Service(this.IDCount, "Inside Transport");
+      this.IDCount++;
+      // service.setCategory((String) patientName.getText());
+      // service.setLocation((String) patientName.getValue());
+      service.setDescription(description.getText());
+      service.setRequester(settings.getCurrentUsername());
+      service.setLocation(currentLocation.getText());
+      service.setCategory(patientName.getText());
+      service.setDate(date.getText());
+      service.setAdditionalInfo(desiredLocation.getText());
+      service.setRequester(settings.getCurrentUsername());
+
+      try {
+        DataOperations.saveService(service);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      }
+
+      submittedPopUp(stackPane);
+      description.setText("");
+      currentLocation.setText("");
+      patientName.setText("");
+      date.setText("");
+      desiredLocation.setText("");
     }
   }
 }
