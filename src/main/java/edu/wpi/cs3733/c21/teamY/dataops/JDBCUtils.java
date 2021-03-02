@@ -457,6 +457,31 @@ public class JDBCUtils {
     // Used to save to CSV as well but marked deprecated - look into
   }
 
+  public static PreparedStatement createPreparedStatementUpdateServiceInfoOnly(
+      int serviceID, String info) throws SQLException {
+    Connection connection = getConn();
+    return connection.prepareStatement(
+        "update Admin.Service set "
+            + " ADDITIONALINFO = '"
+            + info
+            + "'"
+            + " where SERVICEid = "
+            + serviceID
+            + "");
+  }
+
+  public static void updateServiceAdditionalInfoOnly(int serviceID, String newInfo) {
+    try {
+      PreparedStatement statement =
+          createPreparedStatementUpdateServiceInfoOnly(serviceID, newInfo);
+      statement.executeUpdate();
+      getConn().commit();
+      statement.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
   /**
    * @param serviceType type of service to be exported. Leave as empty string if ny preference type
    * @return a list of services
