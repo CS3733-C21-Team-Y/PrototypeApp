@@ -2,9 +2,7 @@ package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
-import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
-import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.io.IOException;
@@ -13,7 +11,6 @@ import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,14 +23,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class GraphEditPageController extends RightPage {
 
   @FXML private Pane anchor;
   @FXML private HBox header;
 
-  @FXML private Button toHomeBtn;
+  //  @FXML private Button toHomeBtn;
   @FXML private Button addNode;
   @FXML private Button loadNodesButton;
 
@@ -58,13 +54,13 @@ public class GraphEditPageController extends RightPage {
   @FXML private Button toolTip;
   @FXML private Button resetView;
 
-  @FXML private SplitMenuButton selectNewMapImage;
-  @FXML private MenuItem setParkingPage;
-  @FXML private MenuItem setFloorOnePage;
-  @FXML private MenuItem setFloorTwoPage;
-  @FXML private MenuItem setFloorThreePage;
-  @FXML private MenuItem setFloorFourPage;
-  @FXML private MenuItem setFloorFivePage;
+  @FXML private SplitMenuButton selectNewAlgo;
+  @FXML private MenuItem depthFirst;
+  @FXML private MenuItem breadthFirst;
+  @FXML private MenuItem aStar;
+  //  @FXML private MenuItem setFloorThreePage;
+  //  @FXML private MenuItem setFloorFourPage;
+  //  @FXML private MenuItem setFloorFivePage;
 
   private ArrayList<Edge> edges = new ArrayList<Edge>();
   private ArrayList<Node> nodes = new ArrayList<Node>();
@@ -85,6 +81,9 @@ public class GraphEditPageController extends RightPage {
   @FXML private JFXButton moveNodeDownButton;
   @FXML private JFXButton moveNodeLeftButton;
   @FXML private JFXButton moveNodeRightButton;
+  @FXML private ComboBox startLocationBox;
+  @FXML private ComboBox endLocationBox;
+  @FXML private Button addEdge;
 
   @FXML private MapController mapInsertController;
 
@@ -183,55 +182,20 @@ public class GraphEditPageController extends RightPage {
           updateNodePositionsInDB();
         });
 
-    selectNewMapImage.setText("Select New Map");
-    setParkingPage.setOnAction(
+    selectNewAlgo.setText("Select Algorithm");
+    depthFirst.setOnAction(
         e -> {
-          mapInsertController.setNewMapImage(
-              mapInsertController.chooseImageNewFile(
-                  (Stage) selectNewMapImage.getScene().getWindow()),
-              MapController.MAP_PAGE.PARKING);
-          mapInsertController.updateMenuPreview(e, selectNewMapImage);
+          // set algo
         });
-    setFloorOnePage.setOnAction(
+    breadthFirst.setOnAction(
         e -> {
-          mapInsertController.setNewMapImage(
-              mapInsertController.chooseImageNewFile(
-                  (Stage) selectNewMapImage.getScene().getWindow()),
-              MapController.MAP_PAGE.FLOOR1);
-          mapInsertController.updateMenuPreview(e, selectNewMapImage);
+          // set algo
         });
-    setFloorTwoPage.setOnAction(
+    aStar.setOnAction(
         e -> {
-          mapInsertController.setNewMapImage(
-              mapInsertController.chooseImageNewFile(
-                  (Stage) selectNewMapImage.getScene().getWindow()),
-              MapController.MAP_PAGE.FLOOR2);
-          mapInsertController.updateMenuPreview(e, selectNewMapImage);
+          // set algo
         });
-    setFloorThreePage.setOnAction(
-        e -> {
-          mapInsertController.setNewMapImage(
-              mapInsertController.chooseImageNewFile(
-                  (Stage) selectNewMapImage.getScene().getWindow()),
-              MapController.MAP_PAGE.FLOOR3);
-          mapInsertController.updateMenuPreview(e, selectNewMapImage);
-        });
-    setFloorFourPage.setOnAction(
-        e -> {
-          mapInsertController.setNewMapImage(
-              mapInsertController.chooseImageNewFile(
-                  (Stage) selectNewMapImage.getScene().getWindow()),
-              MapController.MAP_PAGE.FLOOR4);
-          mapInsertController.updateMenuPreview(e, selectNewMapImage);
-        });
-    setFloorFivePage.setOnAction(
-        e -> {
-          mapInsertController.setNewMapImage(
-              mapInsertController.chooseImageNewFile(
-                  (Stage) selectNewMapImage.getScene().getWindow()),
-              MapController.MAP_PAGE.FLOOR5);
-          mapInsertController.updateMenuPreview(e, selectNewMapImage);
-        });
+
     dialog.setContent(
         new Label(
             " Scroll to Zoom"
@@ -263,7 +227,7 @@ public class GraphEditPageController extends RightPage {
     }
 
     // attaches a handler to the button with a lambda expression
-    toHomeBtn.setOnAction(e -> buttonClicked(e));
+    //    toHomeBtn.setOnAction(e -> buttonClicked(e));
 
     // run the create methods on the button click
     addNode.setOnAction(
@@ -316,6 +280,13 @@ public class GraphEditPageController extends RightPage {
                   return;
                 }
 
+                if (clickedEdge) {
+                  dragStartXRelativeEdge =
+                      e.getX() - ((MapController.LineEx) jfxNodeBeingDragged).getStartX();
+                  dragStartYRelativeEdge =
+                      e.getY() - ((MapController.LineEx) jfxNodeBeingDragged).getStartY();
+                }
+
                 // already selected one or more nodes/edges
                 if (headHasFocus) {
                   nodesAffectedByDrag = mapInsertController.getSelectedNodes();
@@ -327,11 +298,6 @@ public class GraphEditPageController extends RightPage {
                     nodesAffectedByDrag.add((MapController.CircleEx) jfxNodeBeingDragged);
                   } else if (clickedEdge) {
                     edgesAffectedByDrag.add((MapController.LineEx) jfxNodeBeingDragged);
-
-                    dragStartXRelativeEdge =
-                        e.getX() - ((MapController.LineEx) jfxNodeBeingDragged).getStartX();
-                    dragStartYRelativeEdge =
-                        e.getY() - ((MapController.LineEx) jfxNodeBeingDragged).getStartY();
                   }
                 }
 
@@ -620,31 +586,31 @@ public class GraphEditPageController extends RightPage {
   }
 
   // button event handler
-  @FXML
-  private void buttonClicked(ActionEvent e) {
-    // error handling for FXMLLoader.load
-    try {
-      // initializing stage
-      Stage stage = null;
-
-      if (e.getSource() == toHomeBtn) {
-        // gets the current stage
-        stage = (Stage) toHomeBtn.getScene().getWindow();
-        // sets the new scene to the alex page
-        CSV.DBtoCSV("NODE");
-        CSV.DBtoCSV("EDGE");
-        ActiveGraph.initialize();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
-
-      } else {
-
-      }
-
-      // display new stage
-      stage.show();
-    } catch (Exception exp) {
-    }
-  }
+  //  @FXML
+  //  private void buttonClicked(ActionEvent e) {
+  //    // error handling for FXMLLoader.load
+  //    try {
+  //      // initializing stage
+  //      Stage stage = null;
+  //
+  //      if (e.getSource() == toHomeBtn) {
+  //        // gets the current stage
+  //        stage = (Stage) toHomeBtn.getScene().getWindow();
+  //        // sets the new scene to the alex page
+  //        CSV.DBtoCSV("NODE");
+  //        CSV.DBtoCSV("EDGE");
+  //        ActiveGraph.initialize();
+  //        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("HomePage.fxml"))));
+  //
+  //      } else {
+  //
+  //      }
+  //
+  //      // display new stage
+  //      stage.show();
+  //    } catch (Exception exp) {
+  //    }
+  //  }
 
   // creates edge
   private void createEdge(MapController.CircleEx endNode) {
