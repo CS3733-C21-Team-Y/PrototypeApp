@@ -42,7 +42,6 @@ public class AudioVisualController extends GenericServiceFormPage {
     // avClearBtn.setOnAction(e -> serviceButtonClicked(e, "AudioVisualSubPage.fxml"));
     avSubmitBtn.setOnAction(e -> submitBtnClicked());
     backBtn.setOnAction(e -> buttonClicked(e));
-
   }
 
   private void buttonClicked(ActionEvent e) {
