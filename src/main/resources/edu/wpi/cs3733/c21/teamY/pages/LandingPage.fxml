@@ -17,12 +17,12 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints maxHeight="249.0" minHeight="10.0" percentHeight="20.0" prefHeight="115.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="615.0" minHeight="10.0" prefHeight="650.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="249.0" minHeight="10.0" percentHeight="18.0" prefHeight="115.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="615.0" minHeight="10.0" percentHeight="67.0" prefHeight="650.0" valignment="CENTER" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="615.0" minHeight="50.0" percentHeight="15.0" prefHeight="599.0" valignment="CENTER" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <HBox alignment="TOP_CENTER" style="-fx-background-color: #3b3d73;" GridPane.rowIndex="1">
+                <HBox alignment="TOP_CENTER" style="-fx-background-color: 26274D;" GridPane.rowIndex="1">
                     <children>
                         <ImageView fx:id="imageView" fitHeight="445.0" fitWidth="649.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -34,13 +34,13 @@
                         </ImageView>
                     </children>
                     <GridPane.margin>
-                        <Insets top="30.0" />
+                        <Insets />
                     </GridPane.margin>
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
                 </HBox>
-                <HBox alignment="CENTER" prefHeight="143.0" prefWidth="586.0" style="-fx-background-color: efeff9;">
+                <HBox alignment="CENTER" prefHeight="143.0" prefWidth="586.0" style="-fx-background-color: #9b9eb9;">
                     <children>
                         <ImageView fitHeight="82.0" fitWidth="344.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -49,15 +49,15 @@
                         </ImageView>
                     </children>
                 </HBox>
-            <HBox alignment="CENTER" prefHeight="83.0" prefWidth="788.0" style="-fx-background-color: #3b3d73;" GridPane.rowIndex="2">
+            <HBox alignment="CENTER" prefHeight="161.0" prefWidth="799.0" style="-fx-background-color: 26274D;" GridPane.rowIndex="2">
                <children>
-                      <JFXButton fx:id="button" buttonType="RAISED" minHeight="40.0" minWidth="70.0" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: c2c3ed; -fx-background-radius: 8; -fx-font-family: calibri; -fx-font-size: 16; -fx-font-weight: bold;" text="Login">
+                      <JFXButton fx:id="button" buttonType="RAISED" minHeight="60.0" minWidth="120.0" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #9b9eb9; -fx-background-radius: 8; -fx-font-family: calibri; -fx-font-size: 16; -fx-font-weight: bold;" text="Login">
                      <HBox.margin>
-                        <Insets bottom="60.0" top="30.0" />
+                        <Insets bottom="60.0" top="40.0" />
                      </HBox.margin></JFXButton>
                </children>
                <GridPane.margin>
-                  <Insets top="40.0" />
+                  <Insets />
                </GridPane.margin>
             </HBox>
             </children>
