@@ -35,7 +35,7 @@ public class PathfindingPageController extends RightPage {
   @FXML private StackPane stackPane;
   @FXML private ComboBox startLocationBox;
   @FXML private ComboBox endLocationBox;
-  @FXML private JFXButton toolTip;
+
   @FXML private JFXButton bathroomBtn;
   @FXML private JFXButton cafeBtn;
   @FXML private JFXButton kioskBtn;
@@ -47,9 +47,11 @@ public class PathfindingPageController extends RightPage {
   //  @FXML private Button downButton;
   //  @FXML private Button leftButton;
   //  @FXML private Button rightButton;
-  @FXML private Button zoomInButton;
-  @FXML private Button zoomOutButton;
+  @FXML private JFXButton zoomInButton;
+  @FXML private JFXButton zoomOutButton;
   @FXML private VBox textDirectionsBox;
+  @FXML private VBox textDirectionViewer;
+  @FXML private JFXButton exitDirectionBtn;
   // @FXML private Label zoomLabel;
 
   private ArrayList<Node> nodes = new ArrayList<Node>();
@@ -94,6 +96,7 @@ public class PathfindingPageController extends RightPage {
     loadMap();
     textDirectionsBox.setVisible(false);
     overlayGridPane.setPickOnBounds(false);
+    exitDirectionBtn.setOnAction(e -> textDirectionsBox.setVisible(false));
     //         attaches a handler to the button with a lambda expression
 
     // Reset view button
@@ -103,7 +106,6 @@ public class PathfindingPageController extends RightPage {
     // Set the starting image early because otherwise it will flash default
     mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
 
-    // Tooltip box
     JFXDialog dialog = new JFXDialog();
     dialog.setContent(
         new Label(
@@ -111,8 +113,6 @@ public class PathfindingPageController extends RightPage {
                 + "\n Hold CTRL + Scroll to Pan Up and down"
                 + "\n Hold SHIFT + Scroll to Pan left and right"
                 + "\n Reset brings back the original framing"));
-    // toolTip.setOnAction((action) -> dialog.show(stackPane));
-    toolTip.toFront();
 
     // Node selection menus Keys
     startLocationBox.setOnKeyPressed(
@@ -377,6 +377,17 @@ public class PathfindingPageController extends RightPage {
     }
   }
 
+  private void generateTextDirections(ArrayList<Node> pathNodes) {
+    textDirectionViewer.getChildren().clear();
+    textDirectionsBox.setVisible(true);
+    ArrayList<String> directionList = AlgorithmCalls.textDirections(pathNodes);
+    for (String direction : directionList) {
+
+      Label newLabel = new Label(direction);
+      textDirectionViewer.getChildren().add(newLabel);
+    }
+  }
+
   // PATHFINDING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   /**
@@ -465,6 +476,7 @@ public class PathfindingPageController extends RightPage {
       pathNodes = nodes;
       drawPath(pathNodes);
     }
+    generateTextDirections(pathNodes);
   }
 
   /**
