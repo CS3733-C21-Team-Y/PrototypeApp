@@ -68,7 +68,7 @@ public class PathfindingPageController {
   @FXML
   private void initialize() {
 
-    // loadMap();
+    loadMap();
     /*
     // attaches a handler to the button with a lambda expression
     toHomeBtn.setOnAction(e -> buttonClicked(e));
@@ -224,6 +224,7 @@ public class PathfindingPageController {
   }
 
   // NEAREST NODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
   /**
    * Gets the nearest to node to an x and y coord double
    *
@@ -354,7 +355,7 @@ public class PathfindingPageController {
    * @param menuItemIndex
    */
   private void handleFloorChanged(ActionEvent e, int menuItemIndex) {
-    // This should be optimised to only switch if the floor actually changed, but its very fast, so
+    // This should be optimised to only switch if the floor actually changed, but its very fast so
     // I cant be bothered
     mapController.removeAllAdornerElements();
     mapController.changeMapImage(mapController.getMapOrder().get(menuItemIndex));
@@ -388,6 +389,7 @@ public class PathfindingPageController {
   }*/
 
   // PATHFINDING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
   /**
    * resetGraphNodesEdges sets graph, nodes, stairs, to updated values in ActiveGraph
    *

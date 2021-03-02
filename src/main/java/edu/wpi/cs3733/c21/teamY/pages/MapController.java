@@ -206,14 +206,16 @@ public class MapController extends RightPage {
 
   @FXML
   private void initialize() {
-
+    System.out.println("Hello2");
     // scale and fit parking map
 
     adornerPane.toFront();
     mapOverlayUIGridPane.toFront();
     containerStackPane.setMaxWidth(mapImageView.getFitWidth());
     containerStackPane.setMaxHeight(mapImageView.getFitHeight());
+
     adornerPane.maxWidthProperty().setValue(mapImageView.getImage().widthProperty().getValue());
+
     adornerPane.maxHeightProperty().setValue(mapImageView.getImage().heightProperty().getValue());
 
     adornerPane.setScaleX(mapImageView.getScaleX());

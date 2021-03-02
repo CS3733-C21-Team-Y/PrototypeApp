@@ -39,12 +39,9 @@
             <Insets left="20.0" top="20.0" />
          </StackPane.margin>
       </GridPane>
-      <ImageView fx:id="mapImageView" fitHeight="350.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
-         <StackPane.margin>
-            <Insets />
-         </StackPane.margin>
+      <ImageView fx:id="mapImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/FaulknerFloor1_Updated.png" />
+            <Image url="edu/wpi/cs3733/c21/teamY/images/FaulknerFloor5_Updated.png" />
          </image>
       </ImageView>
       <Pane fx:id="adornerPane" StackPane.alignment="TOP_LEFT">
