@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="548.0" prefWidth="788.0" style="-fx-background-color: #3B3D73;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.LandingPageController">
+    <children>
+        <GridPane alignment="CENTER" prefHeight="548.0" prefWidth="788.0" style="-fx-background-color: #3b3d73;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="249.0" minHeight="10.0" percentHeight="20.0" prefHeight="115.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="615.0" minHeight="10.0" prefHeight="599.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="615.0" minHeight="10.0" percentHeight="10.0" prefHeight="599.0" valignment="CENTER" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <HBox alignment="TOP_CENTER" style="-fx-background-color: #3b3d73;" GridPane.rowIndex="1">
+                    <children>
+                        <ImageView fx:id="imageView" fitHeight="445.0" fitWidth="649.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="/edu/wpi/cs3733/c21/teamY/images/doctorPic5.jpeg" />
+                            </image>
+                            <HBox.margin>
+                                <Insets bottom="20.0" top="30.0" />
+                            </HBox.margin>
+                        </ImageView>
+                    </children>
+                    <GridPane.margin>
+                        <Insets top="30.0" />
+                    </GridPane.margin>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="143.0" prefWidth="586.0" style="-fx-background-color: efeff9;">
+                    <children>
+                        <ImageView fitHeight="82.0" fitWidth="344.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="/edu/wpi/cs3733/c21/teamY/images/BWLogo.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #3b3d73;" GridPane.rowIndex="2">
+               <children>
+                      <JFXButton fx:id="button" buttonType="RAISED" minHeight="40.0" minWidth="70.0" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: c2c3ed; -fx-background-radius: 8; -fx-font-family: calibri; -fx-font-size: 16; -fx-font-weight: bold;" text="Login">
+                     <HBox.margin>
+                        <Insets bottom="20.0" top="30.0" />
+                     </HBox.margin></JFXButton>
+               </children>
+               <GridPane.margin>
+                  <Insets top="40.0" />
+               </GridPane.margin>
+            </HBox>
+            </children>
+        </GridPane>
+    </children>
+</AnchorPane>

@@ -4,7 +4,6 @@ import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
-import java.io.IOException;
 import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
 
@@ -15,28 +14,29 @@ public class DatabaseOpsExamples {
   Edge edge1 = new Edge("edge1", "node1", "node2");
   Edge edge2 = new Edge("edge1", "node1", "node3");
 
-  @Test
-  public void FillDatabaseFromCSV()
-      throws IllegalAccessException, ClassNotFoundException, IOException, InstantiationException,
-          SQLException, NoSuchFieldException {
-    JDBCUtils.fillTablesFromCSV();
-  }
+  //  @Test
+  //  public void FillDatabaseFromCSV()
+  //      throws IllegalAccessException, ClassNotFoundException, IOException,
+  // InstantiationException,
+  //          SQLException, NoSuchFieldException {
+  //    JDBCUtils.fillTablesFromCSV();
+  //  }
 
   // Functional!!
-  @Test
-  public void testInsert()
-      throws NoSuchFieldException, SQLException, IllegalAccessException, InstantiationException,
-          ClassNotFoundException {
-
-    System.out.print(JDBCUtils.getConn());
-    JDBCUtils.insert(9, node1, "Node");
-
-    JDBCUtils.insert(9, node2, "Node");
-
-    JDBCUtils.insert(3, edge1, "Edge");
-
-    JDBCUtils.selectQuery("Node");
-  }
+  //  @Test
+  //  public void testInsert()
+  //      throws NoSuchFieldException, SQLException, IllegalAccessException, InstantiationException,
+  //          ClassNotFoundException {
+  //
+  //    System.out.print(JDBCUtils.getConn());
+  //    JDBCUtils.insert(9, node1, "Node");
+  //
+  //    JDBCUtils.insert(9, node2, "Node");
+  //
+  //    JDBCUtils.insert(3, edge1, "Edge");
+  //
+  //    JDBCUtils.selectQuery("Node");
+  //  }
   // FUNCTIONAL!
   @Test
   public void TestUpdate() throws SQLException {

@@ -4,9 +4,11 @@ import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
+import java.awt.*;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 public class FloralDeliverySubPageController extends GenericServiceFormPage {
 
@@ -20,6 +22,8 @@ public class FloralDeliverySubPageController extends GenericServiceFormPage {
   @FXML private JFXTextArea descriptionInput;
   @FXML private JFXTextField dateInput;
   Settings settings;
+
+  @FXML private StackPane stackPane;
 
   public FloralDeliverySubPageController() {}
 
@@ -38,20 +42,33 @@ public class FloralDeliverySubPageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
-    Service service = new Service(this.IDCount, "Floral Delivery");
-    this.IDCount++;
-    service.setLocation(roomNumberInput.getText());
-    service.setCategory(categoryInput.getText());
-    service.setDescription(descriptionInput.getText());
-    service.setRequester(settings.getCurrentUsername());
-    service.setAdditionalInfo(fromInput.getText() + " " + toInput.getText());
-    service.setDate(dateInput.getText());
-    try {
-      DataOperations.saveService(service);
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
+
+    if (roomNumberInput.getText().equals("")
+        || categoryInput.getText().equals("")
+        || descriptionInput.getText().equals("")
+        || dateInput.getText().equals("")) {
+      nonCompleteForm(stackPane);
+    } else {
+      Service service = new Service(this.IDCount, "Floral Delivery");
+      this.IDCount++;
+      service.setLocation(roomNumberInput.getText());
+      service.setCategory(categoryInput.getText());
+      service.setDescription(descriptionInput.getText());
+      service.setRequester(settings.getCurrentUsername());
+      service.setAdditionalInfo(fromInput.getText() + " " + toInput.getText());
+      service.setDate(dateInput.getText());
+
+      roomNumberInput.setText("");
+      categoryInput.setText("");
+      descriptionInput.setText("");
+      submittedPopUp(stackPane);
+      try {
+        DataOperations.saveService(service);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      }
     }
   }
 }

@@ -48,7 +48,7 @@ public class MainPageController {
     this.navigationBtn = navigationBtn;
     this.serviceRequestBtn = serviceRequestBtn;
     this.adminToolsBtn = adminToolsBtn;
-    loadRightSubPage("LoginPage.fxml");
+    loadRightSubPage("LandingPage.fxml");
     // loadCenterSubPage("ServiceRequestNavigator.fxml");
   }
 
@@ -76,6 +76,7 @@ public class MainPageController {
   }
 
   private void buttonClicked(ActionEvent e) {
+
     System.out.println("clicked");
     if (e.getSource() == origNavigationBtn) instance.loadRightSubPage("NavigationSubPage.fxml");
     else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
