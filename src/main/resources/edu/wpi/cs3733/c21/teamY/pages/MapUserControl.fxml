@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,14 +13,14 @@
 
 <AnchorPane prefHeight="346.0" prefWidth="436.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.MapController">
    <children>
-      <StackPane fx:id="containerStackPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <StackPane fx:id="containerStackPane" alignment="TOP_LEFT" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Pane fx:id="adornerPane" StackPane.alignment="TOP_LEFT">
                <StackPane.margin>
                   <Insets />
                </StackPane.margin>
             </Pane>
-            <ImageView fx:id="mapImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="mapImageView" fitHeight="800.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="edu/wpi/cs3733/c21/teamY/images/FaulknerFloor5_Updated.png" />
                </image>
@@ -34,19 +33,11 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <SplitMenuButton fx:id="floorMenu" alignment="CENTER" mnemonicParsing="false" popupSide="TOP" text="Floor" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
-                     <items>
-                        <MenuItem fx:id="parkingFloorMenuItem" mnemonicParsing="false" text="Parking lot" />
-                        <MenuItem fx:id="floorOneMenuItem" mnemonicParsing="false" text="Floor 1" />
-                        <MenuItem fx:id="floorTwoMenuItem" mnemonicParsing="false" text="Floor 2" />
-                        <MenuItem fx:id="floorThreeMenuItem" mnemonicParsing="false" text="Floor 3" />
-                        <MenuItem fx:id="floorFourMenuItem" mnemonicParsing="false" text="Floor 4" />
-                        <MenuItem fx:id="floorFiveMenuItem" mnemonicParsing="false" text="Floor 5" />
-                     </items>
+                  <JFXComboBox fx:id="floorMenu" focusColor="#5a5c94" maxWidth="150.0" minWidth="100.0" prefWidth="150.0" style="-fx-background-color: white; -fx-background-radius: 20;" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets bottom="10.0" right="10.0" />
                      </GridPane.margin>
-                  </SplitMenuButton>
+                  </JFXComboBox>
                </children>
             </GridPane>
          </children>

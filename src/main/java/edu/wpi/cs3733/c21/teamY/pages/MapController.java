@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
@@ -36,7 +37,7 @@ public class MapController extends RightPage {
 
   // YAY?!
   @FXML private GridPane mapOverlayUIGridPane;
-  @FXML private SplitMenuButton floorMenu;
+  @FXML private JFXComboBox floorMenu;
 
   private double startx, starty, endx, endy;
 
@@ -64,6 +65,8 @@ public class MapController extends RightPage {
   private double scaledCircleRadius = 0;
   private double scaledLineWidth = 0;
   private double scaledLineWidthSelected = 0;
+
+  private ArrayList<String> categories;
 
   protected enum MAP_PAGE {
     PARKING,
@@ -104,7 +107,7 @@ public class MapController extends RightPage {
     return adornerPane;
   }
 
-  protected SplitMenuButton getFloorMenu() {
+  protected JFXComboBox getFloorMenu() {
     return floorMenu;
   }
 
@@ -210,29 +213,42 @@ public class MapController extends RightPage {
     // scale and fit parking map
     // rotates the whole thing
 
-    getFloorMenu().setText("Parking Lot");
-    int i = 0;
-    for (MenuItem menuItem : getFloorMenu().getItems()) {
-      int index = i;
-      menuItem.setOnAction(
-          e -> {
-            removeAllAdornerElements();
-            changeMapImage(getMapOrder().get(index));
-            updateMenuPreview(e, getFloorMenu());
-          });
-      i++;
-    }
+    categories = new ArrayList<String>();
+    categories.add("Parking Lot");
+    categories.add("Floor 1");
+    categories.add("Floor 2");
+    categories.add("Floor 3");
+    categories.add("Floor 4");
+    categories.add("Floor 5");
+
+    for (String c : categories) floorMenu.getItems().add(c);
+
+    floorMenu.setPromptText("Parking Lot");
+
+    floorMenu.setOnAction(
+        e -> {
+          removeAllAdornerElements();
+          changeMapImage(determineNewMap((String) floorMenu.getValue()));
+        });
+    //    int i = 0;
+    //    for (MenuItem menuItem : getFloorMenu().getItems()) {
+    //      int index = i;
+    //      menuItem.setOnAction(
+    //          e -> {
+    //            removeAllAdornerElements();
+    //            changeMapImage(getMapOrder().get(index));
+    //            updateMenuPreview(e, getFloorMenu());
+    //          });
+    //      i++;
+    //    }
 
     //    mapImageView.setScaleX(4);
     //    mapImageView.setScaleY(4);
     adornerPane.toFront();
     mapOverlayUIGridPane.toFront();
-    containerStackPane.setMaxWidth(mapImageView.getFitWidth());
-    containerStackPane.setMaxHeight(mapImageView.getFitHeight());
 
-    adornerPane.maxWidthProperty().setValue(mapImageView.getImage().widthProperty().getValue());
-
-    adornerPane.maxHeightProperty().setValue(mapImageView.getImage().heightProperty().getValue());
+    adornerPane.maxWidthProperty().setValue(mapImageView.getFitWidth());
+    adornerPane.maxHeightProperty().setValue(mapImageView.getFitHeight());
 
     adornerPane.setScaleX(mapImageView.getScaleX());
     adornerPane.setScaleY(mapImageView.getScaleY());
@@ -264,11 +280,20 @@ public class MapController extends RightPage {
     // Sets Map clip so nothing can appear outside map bounds
     Platform.runLater(
         () -> {
-          Rectangle viewWindow =
-              new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
+          Rectangle viewWindow = new Rectangle(0, 0, 999999, 999999);
           containerStackPane.setClip(viewWindow);
           updateAdornerVisualsOnZoom();
         });
+  }
+
+  private MAP_PAGE determineNewMap(String mapName) {
+    if (mapName.equals("Parking Lot")) return mapOrder.get(0);
+    else if (mapName.equals("Floor 1")) return mapOrder.get(1);
+    else if (mapName.equals("Floor 2")) return mapOrder.get(2);
+    else if (mapName.equals("Floor 3")) return mapOrder.get(3);
+    else if (mapName.equals("Floor 4")) return mapOrder.get(4);
+    else if (mapName.equals("Floor 5")) return mapOrder.get(5);
+    else return null;
   }
 
   // Default Drag Handlers
@@ -531,22 +556,22 @@ public class MapController extends RightPage {
 
   // Scale functions
   protected double scaleXCoords(double x) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
     return x / scale;
   }
 
   protected double scaleUpXCoords(double x) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
     return x * scale;
   }
 
   protected double scaleYCoords(double y) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getHeight() / adornerPane.getHeight();
     return y / scale;
   }
 
   protected double scaleUpYCoords(double y) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getHeight() / adornerPane.getHeight();
     return y * scale;
   }
 
@@ -709,9 +734,6 @@ public class MapController extends RightPage {
     } else {
 
     }
-    Rectangle viewWindow =
-        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
-    containerStackPane.setClip(viewWindow);
     adornerPane.setScaleY(adornerPane.getScaleY() + scale);
     adornerPane.setScaleX(adornerPane.getScaleX() + scale);
 
