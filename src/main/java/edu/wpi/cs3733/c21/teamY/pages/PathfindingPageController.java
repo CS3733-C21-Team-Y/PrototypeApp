@@ -17,6 +17,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -28,11 +29,15 @@ public class PathfindingPageController extends RightPage {
   @FXML private JFXComboBox<String> startLocationBox;
   @FXML private JFXComboBox<String> endLocationBox;
 
-  @FXML private JFXComboBox<String> floorMenuCombobox;
+  // @FXML private JFXComboBox<String> floorMenuCombobox;
   @FXML private JFXButton stairsButton;
   @FXML private JFXButton noStairsButton;
   @FXML private StackPane mapSection;
   @FXML private GridPane overlayGridPane;
+
+  @FXML private VBox textDirectionsVBox;
+  @FXML private VBox textDirectionsDetoursVBox;
+  @FXML private VBox sideMenuVBox;
 
   private MapController mapController;
 
@@ -71,6 +76,7 @@ public class PathfindingPageController extends RightPage {
   private void initialize() {
 
     loadMap();
+
     /*
     // attaches a handler to the button with a lambda expression
     toHomeBtn.setOnAction(e -> buttonClicked(e));
@@ -83,6 +89,10 @@ public class PathfindingPageController extends RightPage {
     mapController.changeMapImage(MapController.MAP_PAGE.PARKING);
 
     overlayGridPane.setPickOnBounds(false);
+    sideMenuVBox.setPickOnBounds(false);
+    textDirectionsVBox.setPickOnBounds(false);
+    textDirectionsDetoursVBox.setPickOnBounds(false);
+
     // Tooltip box
     JFXDialog dialog = new JFXDialog();
     dialog.setContent(
@@ -179,11 +189,11 @@ public class PathfindingPageController extends RightPage {
 
     // Floor selection menu population
     int i = 0;
-    for (MenuItem menuItem : mapController.getFloorMenu().getItems()) {
-      int index = i;
-      menuItem.setOnAction(e -> handleFloorChanged(e, index));
-      i++;
-    }
+    //    for (MenuItem menuItem : mapController.getFloorMenu().getItems()) {
+    //      int index = i;
+    //      menuItem.setOnAction(e -> handleFloorChanged(e, index));
+    //      i++;
+    //    }
 
     /*
     upButton.setOnAction(e -> map.panOnButtons("up"));
@@ -212,12 +222,12 @@ public class PathfindingPageController extends RightPage {
     resetGraphNodesEdges(true);
     resetComboBoxes();
 
-    mapController.setDisplayUnselectedAdorners(false);
+    mapController.setDisplayUnselectedAdorners(true);
 
     // Init Map
     Platform.runLater(
         () -> {
-          mapController.getFloorMenu().setText("Parking");
+          mapController.getFloorMenu().setPromptText("Parking");
           mapController.changeMapImage(MapController.MAP_PAGE.PARKING);
 
           mapController.addAdornerElements(nodes, edges, mapController.floorNumber);
@@ -364,7 +374,7 @@ public class PathfindingPageController extends RightPage {
     mapController.changeMapImage(mapController.getMapOrder().get(menuItemIndex));
     mapController.addAdornerElements(nodes, edges, mapController.floorNumber);
     drawPath(pathNodes);
-    mapController.updateMenuPreview(e, mapController.getFloorMenu());
+    // mapController.updateMenuPreview(e, mapController.getFloorMenu());
   }
 
   /*

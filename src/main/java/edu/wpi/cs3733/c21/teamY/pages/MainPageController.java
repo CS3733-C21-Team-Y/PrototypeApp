@@ -72,7 +72,7 @@ public class MainPageController {
   }
 
   public void updateProfileBtn() {
-    this.signInBtn.setText("Welcome,\n" + this.settings.getCurrentUsername());
+    this.signInBtn.setText("Welcome\n" + this.settings.getCurrentUsername());
   }
 
   private void buttonClicked(ActionEvent e) {

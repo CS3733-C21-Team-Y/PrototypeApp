@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 
 public class LoginPageController extends RightPage {
@@ -21,6 +23,31 @@ public class LoginPageController extends RightPage {
   @FXML
   private void initialize() {
     loginBtn.setOnAction(e -> buttonClicked(e));
+    employeeIDTextField.setOnKeyPressed(e -> submit(e));
+    passwordTextField.setOnKeyPressed(e -> submit(e));
+  }
+
+  private void submit(KeyEvent e) {
+    if (e.getCode() == KeyCode.ENTER) {
+      String tryID = employeeIDTextField.getText();
+      String tryPwd = passwordTextField.getText();
+
+      try {
+        if (DataOperations.findUser(tryID, tryPwd)) {
+          parent.updateProfileBtn();
+          parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+          parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+          parent.drawByPermissions();
+        } else {
+          JFXDialog errorMsg = new JFXDialog();
+          errorMsg.setContent(
+              new Label("Username or password not recognized" + "\n please try again"));
+          errorMsg.show(stackPane);
+        }
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    }
   }
 
   private void buttonClicked(ActionEvent e) {
