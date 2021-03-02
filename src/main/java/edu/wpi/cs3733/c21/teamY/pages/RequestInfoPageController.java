@@ -64,11 +64,15 @@ public class RequestInfoPageController<label> extends RightPage {
     if (service.getUrgency().length() > 0) createInfoBox("Urgency: ", service.getUrgency());
     if (service.getDate().length() > 0) createInfoBox("Date: ", service.getDate());
     if (service.getRequester().length() > 0) createInfoBox("Requester: ", service.getRequester());
+    if (service.getEmployee().length() > 0)
+      createInfoBox("Employee Assigned: ", service.getEmployee());
     if (service.getAdditionalInfo().length() > 0)
       createInfoBox("Additional Info: ", service.getAdditionalInfo());
+
     if (service.getType().equals("Laundry")) {
 
       saveBtn.setText("Save");
+      saveBtn.setPrefWidth(9999);
       saveBtn.setFont(new Font("Calibri", 15));
       saveBtn.setStyle("-fx-background-color: #efeff9; ");
 
