@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
+import edu.wpi.cs3733.c21.teamY.algorithms.AlgoContext;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 
 public class StageInformation {
@@ -9,6 +10,16 @@ public class StageInformation {
 
   private double width;
   private double height;
+
+  public AlgoContext getAlgorithmSelection() {
+    return AlgorithmSelection;
+  }
+
+  public void setAlgorithmSelection(AlgoContext algorithmSelection) {
+    AlgorithmSelection = algorithmSelection;
+  }
+
+  private AlgoContext AlgorithmSelection = new AlgoContext();
 
   private Service service;
 

@@ -3,6 +3,8 @@ package edu.wpi.cs3733.c21.teamY.pages;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
+import edu.wpi.cs3733.c21.teamY.algorithms.AStarI;
+import edu.wpi.cs3733.c21.teamY.algorithms.AlgoContext;
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls;
 import edu.wpi.cs3733.c21.teamY.entity.*;
 import java.io.IOException;
@@ -197,6 +199,18 @@ public class PathfindingPageController extends RightPage {
 
           startLocationBox.requestFocus();
         });
+  }
+
+  private ArrayList<Node> runAlgo(
+      Graph g, String startID, ArrayList<String> goalIDs, String accessType) {
+    Stage stage = (Stage) resetView.getScene().getWindow();
+    StageInformation info = (StageInformation) stage.getUserData();
+    if (info.getAlgorithmSelection() != null) {
+      info.setAlgorithmSelection(new AlgoContext());
+      info.getAlgorithmSelection().setContext(new AStarI());
+      stage.setUserData(info);
+    }
+    return info.getAlgorithmSelection().run(g, startID, goalIDs, accessType);
   }
 
   private void detourBtnPressed(ActionEvent e) {
@@ -451,8 +465,9 @@ public class PathfindingPageController extends RightPage {
       endLocations.add((String) endLocationBox.getValue());
 
       mapInsertController.clearSelection();
+
       ArrayList<Node> nodes =
-          AlgorithmCalls.aStar(graph, (String) startLocationBox.getValue(), endLocations, noType);
+          runAlgo(graph, (String) startLocationBox.getValue(), endLocations, noType);
 
       boolean detour = false;
       if (bathroom) {
@@ -467,10 +482,9 @@ public class PathfindingPageController extends RightPage {
         endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "KIOS");
         detour = true;
       }
-      // If we've taken a detour, regenerate aStar
+      // If we've taken a detour, regenerate path
       if (detour) {
-        nodes =
-            AlgorithmCalls.aStar(graph, (String) startLocationBox.getValue(), endLocations, noType);
+        nodes = runAlgo(graph, (String) startLocationBox.getValue(), endLocations, noType);
       }
 
       pathNodes = nodes;
