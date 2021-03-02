@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.EmailUtils;
+import edu.wpi.cs3733.c21.teamY.dataops.GeneratePassword;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,14 +50,28 @@ public class ForgotPasswordPageController extends RightPage {
         } else {
           System.out.println(emailExists);
           // Generate Password
-          // TODO: Copy from Yonghua's Captcha Generator
+          String newPassword = GeneratePassword.generatePassword();
+          System.out.println("Generated new password: " + newPassword);
 
           // Update DB with new password
-          // TODO: Need to write SQL stuff
+          Boolean result = false;
+          try {
+            result = DataOperations.updateUserPassword(newPassword, emailExists);
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+          System.out.println("We were able to update the db: " + result);
 
           // Send email with temp password
-          // TODO: Need to read some tutorials
-
+          if (result) {
+            EmailUtils.sendEmail(
+                "passwordreset@yellowyetis.com",
+                emailField.getText(),
+                "Password Reset Request",
+                "Here is your new password for the Brigham and Womans Faulker Hospital: \n "
+                    + newPassword);
+            System.out.println("Should be done sending email");
+          }
         }
       } else {
         errorLabel.setText(
