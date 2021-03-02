@@ -10,6 +10,4 @@ public class CenterPage {
   public void setParent(MainPageController parent) {
     this.parent = parent;
   }
-
-
 }
