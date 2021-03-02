@@ -24,15 +24,7 @@
             <children>
                 <VBox fx:id="mapBox" styleClass="largeVBox" stylesheets="@../UIStyles.css" HBox.hgrow="NEVER">
                     <children>
-                        <HBox fx:id="header" alignment="TOP_CENTER">
-                            <children>
-                                <Button fx:id="toHomeBtn" mnemonicParsing="false" style="-fx-background-color: #d64d4d; -fx-text-fill: white;" text="Return to Home">
-                                    <HBox.margin>
-                                        <Insets right="15.0" top="20.0" />
-                                    </HBox.margin>
-                                </Button>
-                            </children>
-                        </HBox>
+                        <HBox fx:id="header" alignment="TOP_CENTER" />
                         <StackPane fx:id="stackPane">
                             <children>
                             </children>
@@ -113,14 +105,11 @@
                                 </VBox>
                                 <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="2">
                                     <children>
-                                        <SplitMenuButton fx:id="selectNewMapImage" disable="true" mnemonicParsing="false" styleClass="button" text="Select New Map Image">
+                                        <SplitMenuButton fx:id="selectNewAlgo" mnemonicParsing="false" styleClass="button" text="Select New Algorithm">
                                             <items>
-                                                <MenuItem fx:id="setParkingPage" mnemonicParsing="false" text="Parking lot" />
-                                                <MenuItem fx:id="setFloorOnePage" mnemonicParsing="false" text="Floor 1" />
-                                                <MenuItem fx:id="setFloorTwoPage" mnemonicParsing="false" text="Floor 2" />
-                                                <MenuItem fx:id="setFloorThreePage" mnemonicParsing="false" text="Floor 3" />
-                                                <MenuItem fx:id="setFloorFourPage" mnemonicParsing="false" text="Floor 4" />
-                                                <MenuItem fx:id="setFloorFivePage" mnemonicParsing="false" text="Floor 5" />
+                                                <MenuItem fx:id="depthFirst" mnemonicParsing="false" text="Depth First" />
+                                                <MenuItem fx:id="breadthFirst" mnemonicParsing="false" text="Breadth First" />
+                                                <MenuItem fx:id="aStar" mnemonicParsing="false" text="A-Star" />
                                             </items>
                                             <VBox.margin>
                                                 <Insets bottom="5.0" />
