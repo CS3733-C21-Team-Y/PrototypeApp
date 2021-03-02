@@ -71,13 +71,18 @@ public class MainPageController {
     instance.drawByPermissions();
   }
 
+  public void updateProfileBtn() {
+    this.signInBtn.setText("Welcome\n" + this.settings.getCurrentUsername());
+  }
+
   private void buttonClicked(ActionEvent e) {
-    if (e.getSource() == navigationBtn) instance.loadRightSubPage("PathfindingPage.fxml");
-    else if (e.getSource() == signInBtn) instance.loadRightSubPage("LoginPage.fxml");
-    else if (e.getSource() == serviceRequestBtn) {
+    System.out.println("clicked");
+    if (e.getSource() == origNavigationBtn) instance.loadRightSubPage("NavigationSubPage.fxml");
+    else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
+    else if (e.getSource() == origServiceRequestBtn) {
       instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
       instance.loadCenterSubPage("ServiceRequestNavigator.fxml");
-    } else if (e.getSource() == adminToolsBtn) instance.loadRightSubPage("AdminPage.fxml");
+    } else if (e.getSource() == origAdminToolsBtn) instance.loadRightSubPage("AdminPage.fxml");
   }
 
   public void setCenterColumnWidth(double width) {

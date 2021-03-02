@@ -63,5 +63,4 @@ public class SecuritySubPageController extends GenericServiceFormPage {
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
   }
-
 }
