@@ -36,6 +36,7 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
 
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
+    clearBtn.setOnAction(e -> clearButton());
 
     locationField.getItems().add("Room 142");
     locationField.getItems().add("Room 736");
@@ -47,6 +48,13 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
 
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+  }
+
+  private void clearButton() {
+    giftType.setValue(null);
+    locationField.setValue(null);
+    description.setText("");
+    datePicker.setValue(null);
   }
 
   @FXML

@@ -33,11 +33,18 @@ public class HospitalOutsideServiceController extends GenericServiceFormPage {
     settings = Settings.getSettings();
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
+    clearBtn.setOnAction(e -> clearButton());
   }
 
   @FXML
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+  }
+
+  private void clearButton() {
+    locationTextField.setText("");
+    serviceDate.setValue(null);
+    descriptionTextArea.setText("");
   }
 
   @FXML

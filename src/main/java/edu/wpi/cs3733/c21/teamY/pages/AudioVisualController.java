@@ -42,6 +42,7 @@ public class AudioVisualController extends GenericServiceFormPage {
     // avClearBtn.setOnAction(e -> serviceButtonClicked(e, "AudioVisualSubPage.fxml"));
     avSubmitBtn.setOnAction(e -> submitBtnClicked());
     backBtn.setOnAction(e -> buttonClicked(e));
+    avClearBtn.setOnAction(e -> clearButton());
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -49,16 +50,21 @@ public class AudioVisualController extends GenericServiceFormPage {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
   }
 
+  private void clearButton() {
+    avTypeComboBox.getSelectionModel().clearSelection();
+    avTypeComboBox.setValue(null);
+    avLocationComboBox.getSelectionModel().clearSelection();
+    avLocationComboBox.setValue(null);
+    avDate.setValue(null);
+    avDesc.setText("");
+  }
+
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    String avType = (String) avTypeComboBox.getValue();
-    String avLoc = (String) avLocationComboBox.getValue();
-    System.out.println(avType);
-    System.out.println(avLoc);
     System.out.println("hi" + avDesc.getText());
-    if (avLoc.equals("") || avType.equals("") || avDesc.getText().equals("")) {
+    if (avLocationComboBox == null || avTypeComboBox == null || avDesc.getText().equals("")) {
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Audio Visual");

@@ -34,6 +34,7 @@ public class ITSubPageController extends GenericServiceFormPage {
 
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
+    clearBtn.setOnAction(e -> clearButton());
 
     categoryComboBox.getItems().add("Hardware");
     categoryComboBox.getItems().add("Software");
@@ -47,6 +48,13 @@ public class ITSubPageController extends GenericServiceFormPage {
 
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+  }
+
+  private void clearButton() {
+    categoryComboBox.setValue(null);
+    locationComboBox.setValue(null);
+    affectsComboBox.setValue(null);
+    description.setText("");
   }
 
   @FXML

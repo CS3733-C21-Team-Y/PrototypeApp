@@ -44,6 +44,7 @@ public class LaundrySubPageController extends GenericServiceFormPage {
 
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
+    clearBtn.setOnAction(e -> clearButton());
 
     for (String c : categories) category.getItems().add(c);
     locationField.getItems().add("cafeteria");
@@ -51,6 +52,12 @@ public class LaundrySubPageController extends GenericServiceFormPage {
 
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+  }
+
+  private void clearButton() {
+    category.setValue(null);
+    description.setText("");
+    locationField.setValue(null);
   }
 
   @FXML

@@ -35,10 +35,19 @@ public class InsideHospitalSidePageController extends GenericServiceFormPage {
 
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
+    clearBtn.setOnAction(e -> clearButton());
   }
 
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+  }
+
+  private void clearButton() {
+    description.setText("");
+    currentLocation.setText("");
+    patientName.setText("");
+    date.setText("");
+    desiredLocation.setText("");
   }
 
   @FXML

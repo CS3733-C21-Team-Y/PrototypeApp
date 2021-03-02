@@ -32,6 +32,7 @@ public class SecuritySubPageController extends GenericServiceFormPage {
     settings = Settings.getSettings();
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
+    clearBtn.setOnAction(e -> clearButton());
 
     category.getItems().add("Guard");
     locationBox.getItems().add("Lobby");
@@ -40,6 +41,15 @@ public class SecuritySubPageController extends GenericServiceFormPage {
     urgency.getItems().add("Low");
     urgency.getItems().add("Medium");
     urgency.getItems().add("High");
+  }
+
+  private void clearButton() {
+    locationBox.setValue(null);
+    datePickerObject.setValue(null);
+    time.setValue(null);
+    description.setText("");
+    category.setValue(null);
+    urgency.setValue(null);
   }
 
   @FXML

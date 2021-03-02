@@ -35,10 +35,18 @@ public class MedicineSubPageController extends GenericServiceFormPage {
     // attaches a handler to the button with a lambda expression
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
+    clearBtn.setOnAction(e -> clearButton());
   }
 
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+  }
+
+  private void clearButton() {
+    patient.setText("");
+    date.setText("");
+    doctor.setText("");
+    medicine.setText("");
   }
 
   @FXML
