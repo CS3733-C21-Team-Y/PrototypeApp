@@ -48,7 +48,10 @@ public class CovidScreeningController extends RightPage {
     if (!isPositive && !hasSymp && !wasClose) {
       parent.loadRightSubPage("LoginPage.fxml");
     } else {
-      errorLabel.setText("YOU HAVE COVID YOU FUCK");
+      errorLabel.setWrapText(true);
+      errorLabel.setText(
+          "This is where we will direct the User to navigate to the Covid Entrance of the Hospital - Unsure of implementation currently (Click to Remove)");
+
       errorDialog.show(errorStackPane);
       // errorLabel.setStyle(" -fx-background-color: #efeff9");
       // errorLabel.setStyle(" -fx-background-radius: 10");

@@ -29,7 +29,10 @@
                <children>
                   <JFXDialog fx:id="errorDialog" GridPane.rowIndex="1">
                      <children>
-                        <Label fx:id="errorLabel" alignment="CENTER" prefHeight="446.0" prefWidth="422.0" style="-fx-background-color: #171797; -fx-font-weight: bold;" text="Label" textAlignment="CENTER" />
+                        <Label fx:id="errorLabel" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="501.0" prefWidth="500.0" style="-fx-background-color: #ff6666; -fx-font-weight: bold; -fx-font-size: 30;" text="Label" textAlignment="CENTER">
+                           <padding>
+                              <Insets left="10.0" top="10.0" />
+                           </padding></Label>
                      </children>
                   </JFXDialog>
                   <GridPane GridPane.rowIndex="1">
