@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -31,6 +32,7 @@ public class PathfindingPageController {
   @FXML private JFXButton stairsButton;
   @FXML private JFXButton noStairsButton;
   @FXML private StackPane mapSection;
+  @FXML private GridPane overlayGridPane;
 
   private MapController mapController;
 
@@ -80,6 +82,7 @@ public class PathfindingPageController {
     // Set the starting image early because otherwise it will flash default
     mapController.changeMapImage(MapController.MAP_PAGE.PARKING);
 
+    overlayGridPane.setPickOnBounds(false);
     // Tooltip box
     JFXDialog dialog = new JFXDialog();
     dialog.setContent(

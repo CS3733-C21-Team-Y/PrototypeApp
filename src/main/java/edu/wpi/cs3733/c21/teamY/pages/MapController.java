@@ -88,7 +88,7 @@ public class MapController extends RightPage {
               MAP_PAGE.FLOOR5));
 
   private double scaleMin = 0.75;
-  private double scaleMax = 2.5;
+  private double scaleMax = 10;
   private String direction = "in/out";
 
   // these need to be imageViews
