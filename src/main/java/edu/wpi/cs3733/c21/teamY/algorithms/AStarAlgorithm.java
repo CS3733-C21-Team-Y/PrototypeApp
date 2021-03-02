@@ -154,7 +154,10 @@ public class AStarAlgorithm {
     double cross_product = (node2.xcoord * P.ycoord - node2.ycoord * P.xcoord);
 
     // The points 2 and 3 are on-top of each other
-    if (v2_x == 0 && v2_y == 0) return 500.0;
+    if (P.longName.equals(node2.longName)) {
+      System.out.println("Elevator or Stairs");
+      return 500.0;
+    }
 
     // return ZERO if dot_product is zero.
     if (angle == 0.0) return Math.abs(angle);
@@ -186,8 +189,7 @@ public class AStarAlgorithm {
                 + path.get(i + 2).longName
                 + " to go to floor "
                 + path.get(i + 2).floor);
-      }
-      if (angle < -25) {
+      } else if (angle < -25) {
         // The Lefts
         if (angle < -120) {
           pathDirections.add(
@@ -242,7 +244,19 @@ public class AStarAlgorithm {
                 .substring(
                     pathDirections.get(j + 1).indexOf("to ") + 3,
                     pathDirections.get(j + 1).length());
-        System.out.println("Yo" + other);
+        temp = temp + other;
+        pathDirections.set(j, temp);
+        pathDirections.remove(j + 1);
+        j--;
+      } else if (pathDirections.get(j).contains("to go to floor")
+          && pathDirections.get(j + 1).contains("to go to floor")) {
+        String temp = pathDirections.get(j).substring(0, pathDirections.get(j).indexOf("use ") + 4);
+        String other =
+            pathDirections
+                .get(j + 1)
+                .substring(
+                    pathDirections.get(j + 1).indexOf("use ") + 4,
+                    pathDirections.get(j + 1).length());
         temp = temp + other;
         pathDirections.set(j, temp);
         pathDirections.remove(j + 1);
