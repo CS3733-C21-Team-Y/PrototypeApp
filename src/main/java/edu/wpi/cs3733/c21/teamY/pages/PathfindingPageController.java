@@ -320,7 +320,7 @@ public class PathfindingPageController extends RightPage {
         if (startLocationBox.getValue() != null && startNode != null) {
           mapInsertController.deSelectCircle(startNode);
         }
-        startLocationBox.setValue(node.getId());
+        startLocationBox.setValue(graph.nodeFromID(node.getId()).longName);
         startNode = node;
 
         mapInsertController.selectCircle(node);
@@ -334,7 +334,7 @@ public class PathfindingPageController extends RightPage {
           }
         }
         mapInsertController.selectCircle(node);
-        endLocationBox.setValue(node.getId());
+        endLocationBox.setValue(graph.nodeFromID(node.getId()).longName);
       }
 
     }
@@ -437,13 +437,12 @@ public class PathfindingPageController extends RightPage {
     startLocationBox.getItems().remove(0, startLocationBox.getItems().size());
     endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
 
-
     for (Node node : nodes) {
-      startLocationBox.getItems().add(node.nodeID);
+      startLocationBox.getItems().add(node.longName);
     }
 
     for (Node node : nodes) {
-      endLocationBox.getItems().add(node.nodeID);
+      endLocationBox.getItems().add(node.longName);
     }
   }
 
@@ -463,12 +462,13 @@ public class PathfindingPageController extends RightPage {
     if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
 
       ArrayList<String> endLocations = new ArrayList<>();
-      endLocations.add((String) endLocationBox.getValue());
+      String endID = graph.longNodes.get((String) endLocationBox.getValue()).nodeID;
+      String startID = graph.longNodes.get((String) startLocationBox.getValue()).nodeID;
+      endLocations.add(endID);
 
       mapInsertController.clearSelection();
 
-      ArrayList<Node> nodes =
-          runAlgo(graph, (String) startLocationBox.getValue(), endLocations, noType);
+      ArrayList<Node> nodes = runAlgo(graph, startID, endLocations, noType);
 
       boolean detour = false;
       if (bathroom) {
@@ -485,7 +485,7 @@ public class PathfindingPageController extends RightPage {
       }
       // If we've taken a detour, regenerate path
       if (detour) {
-        nodes = runAlgo(graph, (String) startLocationBox.getValue(), endLocations, noType);
+        nodes = runAlgo(graph, startID, endLocations, noType);
       }
 
       pathNodes = nodes;

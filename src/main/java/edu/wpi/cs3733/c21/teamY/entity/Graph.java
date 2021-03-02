@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Graph {
-  public HashMap<String, Integer> allNodes, longNodes; // NodeID int index
+  public HashMap<String, Integer> allNodes; // NodeID int index
+  public HashMap<String, Node> longNodes;
   public Node[] nodeList;
   public double[][] adjMatrix;
   public double[][] heuristicMatrix;
@@ -25,7 +26,7 @@ public class Graph {
       int i = 0;
       for (Node node : nodes) {
         allNodes.put(node.nodeID, i);
-        longNodes.put(node.longName, i);
+        longNodes.put(node.longName, node);
         nodeList[i] = node;
         i++;
       }
@@ -64,7 +65,7 @@ public class Graph {
     return allNodes.get(id);
   }
 
-  public int indexFromLongName(String id) {
+  public Node nodeFromLongName(String id) {
     return longNodes.get(id);
   }
 }
