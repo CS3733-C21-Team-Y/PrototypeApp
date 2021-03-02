@@ -6,6 +6,7 @@ import edu.wpi.cs3733.c21.teamY.algorithms.AStarI;
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgoContext;
 import edu.wpi.cs3733.c21.teamY.algorithms.BFSI;
 import edu.wpi.cs3733.c21.teamY.algorithms.DFSI;
+import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
@@ -245,7 +246,12 @@ public class GraphEditPageController extends RightPage {
     //    toHomeBtn.setOnAction(e -> buttonClicked(e));
     export.setOnAction(
         e -> {
-          // do things here that need to be done when saving nodes
+          try {
+            DataOperations.DBtoCSV("NODE");
+            DataOperations.DBtoCSV("EDGE");
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
         });
 
     // run the create methods on the button click
