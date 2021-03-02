@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Graph {
-  public HashMap<String, Integer> allNodes; // NodeID int index
+  public HashMap<String, Integer> allNodes, longNodes; // NodeID int index
   public Node[] nodeList;
   public double[][] adjMatrix;
   public double[][] heuristicMatrix;
@@ -14,6 +14,7 @@ public class Graph {
   public Graph(ArrayList<Node> nodes, ArrayList<Edge> edges) {
     this.vertices = nodes.size();
     allNodes = new HashMap<>(vertices * 5);
+    longNodes = new HashMap<>(vertices * 5);
 
     nodeList = new Node[vertices];
     adjMatrix = new double[vertices][vertices];
@@ -24,6 +25,7 @@ public class Graph {
       int i = 0;
       for (Node node : nodes) {
         allNodes.put(node.nodeID, i);
+        longNodes.put(node.longName, i);
         nodeList[i] = node;
         i++;
       }
@@ -62,25 +64,7 @@ public class Graph {
     return allNodes.get(id);
   }
 
-  // UNTESTED
-  /*
-  private boolean depthFirstSearch(Node startNode, Node targetNode) {
-    HashMap<Node, Boolean> visited = new HashMap<Node, Boolean>(IDs.size() * 2);
-    return dfsHelper(startNode, targetNode, visited);
+  public int indexFromLongName(String id) {
+    return longNodes.get(id);
   }
-
-  private boolean dfsHelper(Node startNode, Node targetNode, HashMap<Node, Boolean> visited) {
-    visited.put(startNode, true);
-    if (startNode.nodeID.equals(targetNode.nodeID)) {
-      return true;
-    }
-
-    for (Node node : startNode.getNeighbors()) {
-      if (!visited.get(node)) {
-
-        if (dfsHelper(node, targetNode, visited)) return true;
-      }
-    }
-    return false;
-  }*/
 }
