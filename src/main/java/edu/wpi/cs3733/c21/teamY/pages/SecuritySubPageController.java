@@ -7,6 +7,7 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 public class SecuritySubPageController extends GenericServiceFormPage {
 
@@ -19,6 +20,8 @@ public class SecuritySubPageController extends GenericServiceFormPage {
   @FXML private JFXTimePicker time;
   @FXML private JFXDatePicker datePickerObject;
   @FXML private JFXTextArea description;
+
+  @FXML private StackPane stackPane;
 
   Settings settings;
 
@@ -41,22 +44,40 @@ public class SecuritySubPageController extends GenericServiceFormPage {
 
   @FXML
   private void submitBtnClicked() {
-    Service service = new Service(this.IDCount, "Security");
-    this.IDCount++;
-    service.setCategory(category.getAccessibleText());
-    service.setLocation(locationBox.getAccessibleText());
-    service.setUrgency(urgency.getAccessibleText());
-    service.setAdditionalInfo(time.getAccessibleText());
-    service.setDate(datePickerObject.getValue().toString());
-    service.setDescription(description.getText());
-    service.setRequester(settings.getCurrentUsername());
 
-    try {
-      DataOperations.saveService(service);
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
+    if (locationBox.toString().equals("")
+        || description.getText().equals("")
+        || category.toString().equals("")
+        || urgency.toString().equals("")) {
+      nonCompleteForm(stackPane);
+    } else {
+
+      Service service = new Service(this.IDCount, "Security");
+      this.IDCount++;
+      service.setCategory(category.getAccessibleText());
+      service.setLocation(locationBox.getAccessibleText());
+      service.setUrgency(urgency.getAccessibleText());
+      service.setAdditionalInfo(time.getAccessibleText());
+      service.setDate(datePickerObject.getValue().toString());
+      service.setDescription(description.getText());
+      service.setRequester(settings.getCurrentUsername());
+
+      try {
+        DataOperations.saveService(service);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      }
+
+      submittedPopUp(stackPane);
+
+      locationBox.setValue(null);
+      datePickerObject.setValue(null);
+      time.setValue(null);
+      description.setText("");
+      category.setValue(null);
+      urgency.setValue(null);
     }
   }
 
