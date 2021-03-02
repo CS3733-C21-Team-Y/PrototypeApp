@@ -48,7 +48,8 @@ public class MainPageController {
     this.navigationBtn = navigationBtn;
     this.serviceRequestBtn = serviceRequestBtn;
     this.adminToolsBtn = adminToolsBtn;
-    loadRightSubPage("CovidController.fxml");
+    //    loadRightSubPage("LoginPage.fxml");
+    loadRightSubPage("CovidScreening.fxml");
     // loadCenterSubPage("ServiceRequestNavigator.fxml");
   }
 
