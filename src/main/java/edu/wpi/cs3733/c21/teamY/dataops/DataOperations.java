@@ -152,4 +152,8 @@ public class DataOperations {
   public static void loadEmployeeCSV() throws IOException, SQLException {
     CSV.loadCSVtoDBEmployee();
   }
+
+  public boolean updateUserPassword(String newPassword, String userID) throws SQLException {
+    return JDBCUtils.updateUserPassword(userID,newPassword);
+  }
 }

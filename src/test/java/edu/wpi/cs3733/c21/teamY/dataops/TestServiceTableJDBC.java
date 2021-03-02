@@ -40,10 +40,10 @@ public class TestServiceTableJDBC {
     DataOperations.updateServiceStatus(service1, 1);
   }
 
-  @Test
-  public void testExportService() throws SQLException {
-    System.out.println(DataOperations.exportService("Maintenance", ""));
-  }
+  //  @Test
+  //  public void testExportService() throws SQLException {
+  //    System.out.println(DataOperations.exportService("Maintenance", ""));
+  //  }
 
   @Test
   public void testDeleteService() throws SQLException {
