@@ -23,12 +23,20 @@ public class ServiceRequestNavigatorController extends CenterPage {
   @FXML
   private void initialize() {
 
-    button2.setOnAction(e -> loadServicesFromDB());
+    button2.setOnAction(e -> exportServices());
     myRequestsBtn.setOnAction(e -> filterByRequester());
     assignedBtn.setOnAction(e -> filterByEmployee());
     allRequestsBtn.setOnAction(e -> loadServicesFromDB());
     drawByPermissions();
     Platform.runLater(() -> filterByRequester());
+  }
+
+  private void exportServices() {
+    try {
+      DataOperations.DBtoCSV("SERVICE");
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
   }
 
   private void drawByPermissions() {
