@@ -6,6 +6,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -15,7 +16,8 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.PathfindingPageController">
    <children>
-      <GridPane prefHeight="600.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <StackPane fx:id="mapSection" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <GridPane fx:id="overlayGridPane" prefHeight="600.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0" prefWidth="100.0" />
@@ -26,7 +28,7 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <VBox minWidth="300.0" prefHeight="125.0" prefWidth="250.0" style="-fx-background-color: #5a5c94;">
+                  <VBox minWidth="300.0" prefHeight="125.0" prefWidth="250.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 0 0 15 0;">
                      <children>
                         <GridPane minHeight="30.0">
                            <columnConstraints>
@@ -90,12 +92,15 @@
                            </VBox.margin>
                         </GridPane>
                      </children>
+                     <effect>
+                        <DropShadow />
+                     </effect>
                   </VBox>
                   <VBox maxWidth="-Infinity" minWidth="-Infinity" prefWidth="300.0">
                      <children>
-                        <VBox prefHeight="400.0" prefWidth="9999.0" />
+                        <VBox prefHeight="9999.0" prefWidth="9999.0" />
                         <Separator prefWidth="200.0" />
-                        <GridPane maxHeight="50.0" minHeight="50.0" style="-fx-background-color: light;">
+                        <GridPane maxHeight="50.0" minHeight="50.0" style="-fx-background-color: white;">
                            <columnConstraints>
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
                               <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -133,10 +138,6 @@
                   </VBox>
                </children>
             </VBox>
-            <StackPane fx:id="mapSection" GridPane.columnIndex="1">
-               <children>
-               </children>
-            </StackPane>
          </children>
       </GridPane>
    </children>
