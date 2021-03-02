@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 public class AStarAlgorithmTesting {
 
-  @Test
+  @org.junit.Test
   public void testAStarAlgorithm_aStar()
       throws SQLException, ClassNotFoundException, NoSuchFieldException, InstantiationException,
           IllegalAccessException, IOException {

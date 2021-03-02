@@ -2,6 +2,10 @@ package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import edu.wpi.cs3733.c21.teamY.algorithms.AStarI;
+import edu.wpi.cs3733.c21.teamY.algorithms.AlgoContext;
+import edu.wpi.cs3733.c21.teamY.algorithms.BFSI;
+import edu.wpi.cs3733.c21.teamY.algorithms.DFSI;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
@@ -24,6 +28,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class GraphEditPageController extends RightPage {
 
@@ -185,18 +190,6 @@ public class GraphEditPageController extends RightPage {
         });
 
     selectNewAlgo.setText("Select Algorithm");
-    depthFirst.setOnAction(
-        e -> {
-          // set algo
-        });
-    breadthFirst.setOnAction(
-        e -> {
-          // set algo
-        });
-    aStar.setOnAction(
-        e -> {
-          // set algo
-        });
 
     dialog.setContent(
         new Label(
@@ -496,6 +489,29 @@ public class GraphEditPageController extends RightPage {
     Platform.runLater(
         () -> {
           resetComboBoxes();
+
+          Stage stage = (Stage) toolTip.getScene().getWindow();
+          StageInformation info = (StageInformation) stage.getUserData();
+          if (info.getAlgorithmSelection() == null) {
+            info.setAlgorithmSelection(new AlgoContext());
+            info.getAlgorithmSelection().setContext(new AStarI());
+            stage.setUserData(info);
+          }
+          depthFirst.setOnAction(
+              e -> {
+                info.getAlgorithmSelection().setContext(new DFSI());
+                stage.setUserData(info);
+              });
+          breadthFirst.setOnAction(
+              e -> {
+                info.getAlgorithmSelection().setContext(new BFSI());
+                stage.setUserData(info);
+              });
+          aStar.setOnAction(
+              e -> {
+                info.getAlgorithmSelection().setContext(new AStarI());
+                stage.setUserData(info);
+              });
         });
   }
 
