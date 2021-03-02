@@ -11,7 +11,7 @@ import javafx.fxml.FXML;
 
 public class SanitizationSubPageController extends GenericServiceFormPage {
 
-  @FXML private JFXComboBox location;
+  @FXML private JFXTextField locationField;
   @FXML private JFXComboBox urgency;
   @FXML private JFXComboBox biohazardLevel;
   // @FXML private JFXTextField chemHazardLevel;
@@ -52,7 +52,6 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
     biohazardLevels.add("BSL-4");
 
     locations = new ArrayList<>();
-    locations.add("Emergency Room");
     locations.add("ICU");
     locations.add("Operating Room");
 
@@ -76,7 +75,7 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
     Service service = new Service(this.IDCount, "Sanitization");
     this.IDCount++;
     // System.out.println(this.IDCount);
-    service.setLocation((String) location.getValue());
+    service.setLocation(locationField.getText());
     service.setCategory((String) biohazardLevel.getValue());
     service.setDescription(description.getText());
     service.setUrgency((String) urgency.getValue());

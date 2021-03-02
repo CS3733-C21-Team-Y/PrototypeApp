@@ -48,6 +48,10 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
     urgencies.add("Low");
     urgencies.add("Medium");
     urgencies.add("High");
+    ArrayList<String> locations = new ArrayList<String>();
+    locations.add("Lobby");
+    locations.add("Roof");
+    locations.add("Cafeteria");
     // attaches a handler to the button with a lambda expression
     /// clearBtn.setOnAction(e -> serviceButtonClicked(e, "MaintenancePage.fxml"));
 
@@ -56,6 +60,7 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
 
     for (String c : categories) category.getItems().add(c);
     for (String c : urgencies) urgency.getItems().add(c);
+    for (String c : locations) locationField.getItems().add(c);
   }
 
   private void buttonClicked(ActionEvent e) {

@@ -39,12 +39,6 @@ public class AudioVisualController extends GenericServiceFormPage {
     // avClearBtn.setOnAction(e -> serviceButtonClicked(e, "AudioVisualSubPage.fxml"));
     avSubmitBtn.setOnAction(e -> submitBtnClicked());
     backBtn.setOnAction(e -> buttonClicked(e));
-
-    // initialize text area
-    avDesc = new JFXTextArea();
-
-    // initialize date picker
-    avDate = new JFXDatePicker();
   }
 
   private void buttonClicked(ActionEvent e) {

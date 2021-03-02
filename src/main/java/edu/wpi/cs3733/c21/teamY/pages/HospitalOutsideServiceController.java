@@ -28,10 +28,7 @@ public class HospitalOutsideServiceController extends GenericServiceFormPage {
   @FXML
   private void initialize() {
     settings = Settings.getSettings();
-    descriptionTextArea = new JFXTextArea();
-    locationTextField = new JFXTextField();
-    serviceDate = new JFXDatePicker();
-    backBtn.setOnAction(this::buttonClicked);
+    backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
   }
 
