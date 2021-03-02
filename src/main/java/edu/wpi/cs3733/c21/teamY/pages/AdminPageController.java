@@ -74,7 +74,6 @@ public class AdminPageController extends RightPage {
     newX.setVisible(false);
     newY.setVisible(false);
 
-
     Platform.runLater(
         () -> {
           addMapPage();

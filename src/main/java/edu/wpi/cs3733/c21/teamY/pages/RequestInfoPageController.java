@@ -22,6 +22,10 @@ public class RequestInfoPageController<label> extends RightPage {
   @FXML private VBox leftBox;
   @FXML private VBox centerBox;
   @FXML private VBox rightBox;
+  @FXML private JFXButton submitBtn;
+  @FXML private JFXTextField employeeText;
+
+  private Service service;
 
   JFXTextField leftArea;
   JFXTextField centerArea;
@@ -34,11 +38,17 @@ public class RequestInfoPageController<label> extends RightPage {
     centerArea = new JFXTextField();
     saveBtn = new JFXButton();
     saveBtn.setOnAction(e -> buttonClicked(e));
+    submitBtn.setOnAction(e -> submitEmployee());
+  }
+
+  private void submitEmployee() {
+    System.out.println(employeeText.getText());
+    service.setEmployee(employeeText.getText());
   }
 
   private void loadInformation() {
     StageInformation info = (StageInformation) title.getScene().getWindow().getUserData();
-    Service service = info.getService();
+    service = info.getService();
 
     createInfoBox("Type: ", service.getType());
     if (service.getDescription().length() > 0)

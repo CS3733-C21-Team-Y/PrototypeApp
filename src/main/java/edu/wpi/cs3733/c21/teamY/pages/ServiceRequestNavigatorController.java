@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -25,6 +26,17 @@ public class ServiceRequestNavigatorController extends CenterPage {
     myRequestsBtn.setOnAction(e -> filterByRequester());
     assignedBtn.setOnAction(e -> filterByEmployee());
     allRequestsBtn.setOnAction(e -> loadServicesFromDB());
+    drawByPermissions();
+  }
+
+  private void drawByPermissions() {
+    int permissions = Settings.getSettings().getCurrentPermissions();
+    if (permissions < 2) {
+      allRequestsBtn.setVisible(false);
+    }
+    if (permissions < 1) {
+      assignedBtn.setVisible(false);
+    }
   }
 
   private void filterByRequester() {
