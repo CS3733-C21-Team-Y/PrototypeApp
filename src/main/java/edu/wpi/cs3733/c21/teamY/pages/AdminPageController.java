@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
+import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import java.io.IOException;
@@ -15,12 +16,16 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 public class AdminPageController extends RightPage {
 
   @FXML private SplitPane splitPane;
+  @FXML private GridPane grid;
+  @FXML private VBox vBox;
   @FXML private AnchorPane splitPaneTop;
   @FXML private AnchorPane splitPaneBottom;
   @FXML private AnchorPane baseAnchorPane;
@@ -30,10 +35,11 @@ public class AdminPageController extends RightPage {
 
   @FXML private CheckBox addNodecb;
   @FXML private CheckBox addEdgecb;
+  @FXML private JFXButton delete;
   //  private Button toHomeBtn;
   @FXML private TextField newX;
   @FXML private TextField newY;
-  //  private Button resetView;
+  @FXML private JFXButton resetView;
 
   private boolean startEdgeFlag = true;
   private double startx, starty, endx, endy;
@@ -70,15 +76,75 @@ public class AdminPageController extends RightPage {
 
   public void initialize() {
 
-    addEdgecb.setVisible(false);
-    addNodecb.setVisible(false);
+    delete.setOnAction(e -> removeSelected(e));
+
+    //    addEdgecb.setVisible(false);
+    //    addNodecb.setVisible(false);
     newX.setVisible(false);
     newY.setVisible(false);
+
+    addEdgecb.setOnAction(
+        e -> {
+          startEdgeFlag = true;
+          addNodecb.setSelected(false);
+        });
+    addNodecb.setOnAction(
+        e -> {
+          addEdgecb.setSelected(false);
+        });
 
     Platform.runLater(
         () -> {
           addMapPage();
           addTablePage();
+
+          System.out.println("2");
+          mapInsertController.removeAllAdornerElements();
+          nodes = mapInsertController.loadNodesFromDB();
+          edges = mapInsertController.loadEdgesFromDB();
+          mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
+
+          mapInsertController
+              .getFloorMenu()
+              .setOnAction(
+                  e -> {
+                    mapInsertController.changeMapImage(
+                        mapInsertController.determineNewMap(
+                            (String) mapInsertController.getFloorMenu().getValue()));
+                    mapInsertController.removeAllAdornerElements();
+                    nodes = mapInsertController.loadNodesFromDB();
+                    edges = mapInsertController.loadEdgesFromDB();
+                    mapInsertController.addAdornerElements(
+                        nodes, edges, mapInsertController.floorNumber);
+                  });
+
+          baseAnchorPane
+              .getScene()
+              .setOnKeyPressed(
+                  e -> {
+                    System.out.println("SHIFT");
+                    mapInsertController.scrollOnPress(e);
+
+                    // Should be improved
+                    if (e.isShiftDown()) {
+                      shiftPressed = true;
+                    } else {
+                      shiftPressed = false;
+                    }
+                  });
+
+          baseAnchorPane
+              .getScene()
+              .setOnKeyReleased(
+                  e -> {
+                    mapInsertController.scrollOnRelease(e);
+
+                    if (e.isShiftDown()) {
+                      shiftPressed = true;
+                    } else {
+                      shiftPressed = false;
+                    }
+                  });
 
           //          mapInsertController.removeAllAdornerElements();
           //          nodes = mapInsertController.loadNodesFromDB();
@@ -316,46 +382,8 @@ public class AdminPageController extends RightPage {
           System.out.println("1");
         });
 
-    Platform.runLater(
-        () -> {
-          System.out.println("2");
-          mapInsertController.removeAllAdornerElements();
-          nodes = mapInsertController.loadNodesFromDB();
-          edges = mapInsertController.loadEdgesFromDB();
-          mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
-
-          baseAnchorPane
-              .getScene()
-              .setOnKeyPressed(
-                  e -> {
-                    System.out.println("SHIFT");
-                    mapInsertController.scrollOnPress(e);
-
-                    // Should be improved
-                    if (e.isShiftDown()) {
-                      shiftPressed = true;
-                    } else {
-                      shiftPressed = false;
-                    }
-                  });
-
-          baseAnchorPane
-              .getScene()
-              .setOnKeyReleased(
-                  e -> {
-                    mapInsertController.scrollOnRelease(e);
-
-                    if (e.isShiftDown()) {
-                      shiftPressed = true;
-                    } else {
-                      shiftPressed = false;
-                    }
-                  });
-        });
-
-    //    resetView.setOnAction(e -> mapInsertController.resetMapView());
-    //    resetView.toFront();
-
+    resetView.setOnAction(e -> mapInsertController.resetMapView());
+    resetView.toFront();
   }
 
   private void addMapPage() {
@@ -378,7 +406,7 @@ public class AdminPageController extends RightPage {
       editNodeTableController = (EditNodeTableController) fxmlLoader.getController();
       editNodeTableController.setParent(parent);
       // call method before page load
-      splitPaneBottom.getChildren().add(node);
+      vBox.getChildren().add(node);
     } catch (IOException e) {
       e.printStackTrace();
     }

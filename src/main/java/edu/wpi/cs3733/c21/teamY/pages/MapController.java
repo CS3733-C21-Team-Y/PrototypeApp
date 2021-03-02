@@ -309,7 +309,7 @@ public class MapController extends RightPage {
         });
   }
 
-  private MAP_PAGE determineNewMap(String mapName) {
+  public MAP_PAGE determineNewMap(String mapName) {
     if (mapName.equals("Parking Lot")) return mapOrder.get(0);
     else if (mapName.equals("Floor 1")) return mapOrder.get(1);
     else if (mapName.equals("Floor 2")) return mapOrder.get(2);
@@ -484,12 +484,11 @@ public class MapController extends RightPage {
     }
 
     updateMapScreen();
-//sss
+    // sss
     return lineEx;
   }
 
-
-  //eh
+  // eh
   protected void addAdornerElements(ArrayList<Node> nodes, ArrayList<Edge> edges, String floor) {
 
     if (nodes == null || edges == null) {
@@ -754,10 +753,10 @@ public class MapController extends RightPage {
   }
 
   protected void resetMapView() {
-    mapImageView.setScaleX(1);
-    mapImageView.setScaleY(1);
-    adornerPane.setScaleX(1);
-    adornerPane.setScaleY(1);
+    mapImageView.setScaleX(0.5);
+    mapImageView.setScaleY(0.5);
+    adornerPane.setScaleX(0.5);
+    adornerPane.setScaleY(0.5);
 
     mapImageView.translateXProperty().setValue(0);
     mapImageView.translateYProperty().setValue(0);
