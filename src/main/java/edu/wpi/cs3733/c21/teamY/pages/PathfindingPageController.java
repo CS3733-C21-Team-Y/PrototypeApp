@@ -21,7 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class PathfindingPageController {
+public class PathfindingPageController extends RightPage {
 
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
@@ -29,7 +29,7 @@ public class PathfindingPageController {
   @FXML private JFXComboBox<String> startLocationBox;
   @FXML private JFXComboBox<String> endLocationBox;
 
-  // @FXML private JFXComboBox<String> floorMenuCombobox;
+  @FXML private JFXComboBox<String> floorMenuCombobox;
   @FXML private JFXButton stairsButton;
   @FXML private JFXButton noStairsButton;
   @FXML private StackPane mapSection;
@@ -189,11 +189,11 @@ public class PathfindingPageController {
 
     // Floor selection menu population
     int i = 0;
-    //    for (MenuItem menuItem : mapController.getFloorMenu().getItems()) {
-    //      int index = i;
-    //      menuItem.setOnAction(e -> handleFloorChanged(e, index));
-    //      i++;
-    //    }
+    for (MenuItem menuItem : mapController.getFloorMenu().getItems()) {
+      int index = i;
+      menuItem.setOnAction(e -> handleFloorChanged(e, index));
+      i++;
+    }
 
     /*
     upButton.setOnAction(e -> map.panOnButtons("up"));
@@ -227,8 +227,8 @@ public class PathfindingPageController {
     // Init Map
     Platform.runLater(
         () -> {
-          mapController.getFloorMenu().setPromptText("Parking");
-          mapController.changeMapImage(MapController.MAP_PAGE.PARKING);
+          mapController.getFloorMenu().setText("Parking");
+          mapController.changeMapImage(MapController.MAP_PAGE.FLOOR1);
 
           mapController.addAdornerElements(nodes, edges, mapController.floorNumber);
 
@@ -374,7 +374,7 @@ public class PathfindingPageController {
     mapController.changeMapImage(mapController.getMapOrder().get(menuItemIndex));
     mapController.addAdornerElements(nodes, edges, mapController.floorNumber);
     drawPath(pathNodes);
-    // mapController.updateMenuPreview(e, mapController.getFloorMenu());
+    mapController.updateMenuPreview(e, mapController.getFloorMenu());
   }
 
   /*

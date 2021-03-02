@@ -276,8 +276,7 @@ public class MapController extends RightPage {
     // Sets Map clip so nothing can appear outside map bounds
     Platform.runLater(
         () -> {
-          Rectangle viewWindow =
-              new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
+          Rectangle viewWindow = new Rectangle(0, 0, 999999, 999999);
           containerStackPane.setClip(viewWindow);
           updateAdornerVisualsOnZoom();
         });
@@ -563,12 +562,12 @@ public class MapController extends RightPage {
   }
 
   protected double scaleYCoords(double y) {
-    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
+    double scale = mapImageView.getImage().getHeight() / adornerPane.getHeight();
     return y / scale;
   }
 
   protected double scaleUpYCoords(double y) {
-    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
+    double scale = mapImageView.getImage().getHeight() / adornerPane.getHeight();
     return y * scale;
   }
 
@@ -731,9 +730,6 @@ public class MapController extends RightPage {
     } else {
 
     }
-    Rectangle viewWindow =
-        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
-    containerStackPane.setClip(viewWindow);
     adornerPane.setScaleY(adornerPane.getScaleY() + scale);
     adornerPane.setScaleX(adornerPane.getScaleX() + scale);
 
