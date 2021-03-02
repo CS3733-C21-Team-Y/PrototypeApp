@@ -40,12 +40,26 @@ public class CovidScreeningController extends RightPage {
 
   @FXML
   private void submitBtnClicked() {
-
+    boolean isEmpty =
+        (!posY.isSelected()
+            && !posN.isSelected()
+            && !sympY.isSelected()
+            && !sympN.isSelected()
+            && closeY.isSelected()
+            && closeN.isSelected());
+    boolean allResp =
+        (posN.isSelected() || posY.isSelected())
+            && (sympN.isSelected() || sympY.isSelected())
+            && (closeN.isSelected() || closeY.isSelected());
     boolean isPositive = (!posN.isSelected() && posY.isSelected());
     boolean hasSymp = (!sympN.isSelected() && sympY.isSelected());
     boolean wasClose = (!closeN.isSelected() && closeY.isSelected());
     // check y/n status on each checkbox
-    if (!isPositive && !hasSymp && !wasClose) {
+    if (isEmpty || !allResp) {
+      errorLabel.setWrapText(true);
+      errorLabel.setText("Please Select an option for each question");
+      errorDialog.show(errorStackPane);
+    } else if (!isPositive && !hasSymp && !wasClose) {
       parent.loadRightSubPage("LoginPage.fxml");
     } else {
       errorLabel.setWrapText(true);
