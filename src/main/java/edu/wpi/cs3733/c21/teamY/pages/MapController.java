@@ -208,6 +208,20 @@ public class MapController extends RightPage {
   private void initialize() {
     // System.out.println("Hello2");
     // scale and fit parking map
+    // rotates the whole thing
+
+    getFloorMenu().setText("Parking Lot");
+    int i = 0;
+    for (MenuItem menuItem : getFloorMenu().getItems()) {
+      int index = i;
+      menuItem.setOnAction(
+          e -> {
+            removeAllAdornerElements();
+            changeMapImage(getMapOrder().get(index));
+            updateMenuPreview(e, getFloorMenu());
+          });
+      i++;
+    }
 
     //    mapImageView.setScaleX(4);
     //    mapImageView.setScaleY(4);
