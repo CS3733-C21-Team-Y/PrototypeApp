@@ -10,6 +10,7 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 public class GiftDeliverySubPageController extends GenericServiceFormPage {
 
@@ -22,6 +23,8 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
   @FXML private JFXDatePicker datePicker;
 
   private Settings settings;
+
+  @FXML private StackPane stackPane;
 
   public GiftDeliverySubPageController() {}
 
@@ -50,6 +53,10 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
+    if (!giftType.hasProperties()) {
+      nonCompleteForm(stackPane);
+    }
+
     Service service = new Service(this.IDCount, "Gift Delivery");
     this.IDCount++;
     service.setCategory((String) giftType.getValue());
@@ -65,5 +72,10 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
     } catch (IllegalAccessException e) {
       e.printStackTrace();
     }
+    submittedPopUp(stackPane);
+    giftType.setValue(null);
+    locationField.setValue(null);
+    description.setText("");
+    datePicker.setValue(null);
   }
 }

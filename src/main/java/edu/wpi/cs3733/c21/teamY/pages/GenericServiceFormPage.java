@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
+import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
@@ -10,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class GenericServiceFormPage extends RightPage {
@@ -29,6 +32,30 @@ public class GenericServiceFormPage extends RightPage {
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
+  }
+
+  public void submittedPopUp(StackPane stackPane) {
+    JFXDialog submitted = new JFXDialog();
+    Label message = new Label();
+    message.setText("Request Submitted!");
+    message.setStyle(" -fx-background-color: #efeff9");
+    message.setStyle(" -fx-background-radius: 10");
+    message.setStyle(" -fx-font-size: 15");
+    message.setStyle(" -fx-text-fill: #5a5c94");
+    submitted.setContent(message);
+    submitted.show(stackPane);
+  }
+
+  public void nonCompleteForm(StackPane stackPane) {
+    JFXDialog submitted = new JFXDialog();
+    Label message = new Label();
+    message.setStyle(" -fx-background-color: #efeff9");
+    message.setStyle(" -fx-background-radius: 10");
+    message.setStyle(" -fx-font-size: 50");
+    message.setStyle(" -fx-text-fill: #5a5c94");
+    message.setText("Not all forms filled out");
+    submitted.setContent(message);
+    submitted.show(stackPane);
   }
 
   // button event handler

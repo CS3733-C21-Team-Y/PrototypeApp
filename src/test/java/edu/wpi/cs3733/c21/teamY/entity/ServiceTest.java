@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import java.sql.SQLException;
 import org.junit.After;
-import org.junit.jupiter.api.Test;
 
 class ServiceTest {
 
@@ -36,14 +35,14 @@ class ServiceTest {
           "notvalid",
           0);
 
-  @Test
-  public void testInsertService() throws SQLException, IllegalAccessException {
-    DataOperations.insert(employee);
-    DataOperations.saveService(service);
-    DataOperations.saveService(service2);
-    DataOperations.removeService(service.getServiceID());
-    DataOperations.deleteEmployee(employee);
-  }
+  //  @Test
+  //  public void testInsertService() throws SQLException, IllegalAccessException {
+  //    DataOperations.insert(employee);
+  //    DataOperations.saveService(service);
+  //    DataOperations.saveService(service2);
+  //    DataOperations.removeService(service.getServiceID());
+  //    DataOperations.deleteEmployee(employee);
+  //  }
 
   @After
   public void deleteEntries() throws SQLException {
