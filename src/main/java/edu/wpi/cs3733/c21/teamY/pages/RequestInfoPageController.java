@@ -44,6 +44,7 @@ public class RequestInfoPageController<label> extends RightPage {
   private void submitEmployee() {
     System.out.println(employeeText.getText());
     service.setEmployee(employeeText.getText());
+    parent.loadRightSubPage("RequestInfoPage.fxml");
 
     try {
       DataOperations.updateServiceAssignedEmployee(service, service.getEmployee());

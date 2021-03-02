@@ -54,6 +54,7 @@ public class GenericServiceFormPage extends RightPage {
     message.setStyle(" -fx-font-size: 50");
     message.setStyle(" -fx-text-fill: #5a5c94");
     message.setText("Not all forms filled out");
+
     submitted.setContent(message);
     submitted.show(stackPane);
   }
