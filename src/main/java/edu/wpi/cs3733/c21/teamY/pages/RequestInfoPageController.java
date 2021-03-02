@@ -44,6 +44,12 @@ public class RequestInfoPageController<label> extends RightPage {
   private void submitEmployee() {
     System.out.println(employeeText.getText());
     service.setEmployee(employeeText.getText());
+
+    try {
+      DataOperations.updateServiceAssignedEmployee(service, service.getEmployee());
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
   }
 
   private void loadInformation() {

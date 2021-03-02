@@ -598,6 +598,31 @@ public class JDBCUtils {
   }
 
   /**
+   * update a service's assigned employee
+   *
+   * @param service a service to be updated
+   * @param employee the new employee assigned
+   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
+   */
+  public static void updateServiceAssignedEmployee(Service service, String employee)
+      throws SQLException {
+    String string =
+        "update ADMIN.SERVICE set employee='"
+            + employee
+            + "' where ADMIN.SERVICE.SERVICEID="
+            + service.getServiceID();
+    Connection conn = getConn();
+    Statement statement = conn.createStatement();
+    int rowsAffected = statement.executeUpdate(string);
+    close(null, null, statement, conn);
+    if (rowsAffected == 0) {
+      System.out.println("update failed");
+    } else {
+      System.out.println("update successful");
+    }
+  }
+
+  /**
    * @param service a service to be inserted into DB
    * @param preparedStatement prepare statement
    */
