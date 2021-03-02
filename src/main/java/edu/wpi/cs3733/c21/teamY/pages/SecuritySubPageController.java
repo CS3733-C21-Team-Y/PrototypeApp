@@ -7,6 +7,7 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 public class SecuritySubPageController extends GenericServiceFormPage {
 
@@ -20,6 +21,8 @@ public class SecuritySubPageController extends GenericServiceFormPage {
   @FXML private JFXDatePicker datePickerObject;
   @FXML private JFXTextArea description;
 
+  @FXML private StackPane stackPane;
+
   Settings settings;
 
   public SecuritySubPageController() {}
@@ -29,6 +32,7 @@ public class SecuritySubPageController extends GenericServiceFormPage {
     settings = Settings.getSettings();
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
+    clearBtn.setOnAction(e -> clearButton());
 
     category.getItems().add("Guard");
     locationBox.getItems().add("Lobby");
@@ -39,24 +43,50 @@ public class SecuritySubPageController extends GenericServiceFormPage {
     urgency.getItems().add("High");
   }
 
+  private void clearButton() {
+    locationBox.setValue(null);
+    datePickerObject.setValue(null);
+    time.setValue(null);
+    description.setText("");
+    category.setValue(null);
+    urgency.setValue(null);
+  }
+
   @FXML
   private void submitBtnClicked() {
-    Service service = new Service(this.IDCount, "Security");
-    this.IDCount++;
-    service.setCategory((String) category.getValue());
-    service.setLocation((String) locationBox.getValue());
-    service.setUrgency((String) urgency.getValue());
-    service.setAdditionalInfo(time.getValue().toString());
-    service.setDate(datePickerObject.getValue().toString());
-    service.setDescription(description.getText());
-    service.setRequester(settings.getCurrentUsername());
 
-    try {
-      DataOperations.saveService(service);
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
+    if (locationBox.toString().equals("")
+        || description.getText().equals("")
+        || category.toString().equals("")
+        || urgency.toString().equals("")) {
+      nonCompleteForm(stackPane);
+    } else {
+      Service service = new Service(this.IDCount, "Security");
+      this.IDCount++;
+      service.setCategory((String) category.getValue());
+      service.setLocation((String) locationBox.getValue());
+      service.setUrgency((String) urgency.getValue());
+      service.setAdditionalInfo(time.getValue().toString());
+      service.setDate(datePickerObject.getValue().toString());
+      service.setDescription(description.getText());
+      service.setRequester(settings.getCurrentUsername());
+
+      try {
+        DataOperations.saveService(service);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      }
+
+      submittedPopUp(stackPane);
+
+      locationBox.setValue(null);
+      datePickerObject.setValue(null);
+      time.setValue(null);
+      description.setText("");
+      category.setValue(null);
+      urgency.setValue(null);
     }
   }
 

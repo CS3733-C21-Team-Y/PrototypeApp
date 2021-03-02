@@ -1,12 +1,8 @@
 package edu.wpi.cs3733.c21.teamY;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import edu.wpi.cs3733.c21.teamY.dataops.CSV;
+import edu.wpi.cs3733.c21.teamY.dataops.*;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
-import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
-import java.io.IOException;
 import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
 
@@ -40,14 +36,19 @@ class JDBCUtilsTestEmployee {
     System.out.println(JDBCUtils.exportListOfEmployee().get(0).toString());
   }
 
-  @Test
-  public void TestLoadEmployeeCSVtoDB() throws IOException, SQLException {
-    CSV.loadCSVtoDBEmployee();
-  }
+  //  @Test
+  //  public void TestLoadEmployeeCSVtoDB() throws IOException, SQLException {
+  //    CSV.loadCSVtoDBEmployee();
+  //  }
 
   @Test
   public void TestNewExportListOfService() throws SQLException {
     int i = JDBCUtils.exportService("", "").size();
     System.out.println(i);
+  }
+
+  @Test
+  public void TestUpdatePassword() throws SQLException {
+    System.out.println(JDBCUtils.updateUserPassword("mike", "jack"));
   }
 }

@@ -10,6 +10,7 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 public class LanguageSubpageController extends GenericServiceFormPage {
 
@@ -20,6 +21,8 @@ public class LanguageSubpageController extends GenericServiceFormPage {
   @FXML private JFXComboBox urgency;
   @FXML private JFXTextField location;
   @FXML private JFXTextArea description;
+
+  @FXML private StackPane stackPane;
 
   private Settings settings;
 
@@ -32,6 +35,7 @@ public class LanguageSubpageController extends GenericServiceFormPage {
 
     backBtn.setOnAction(e -> buttonClicked(e));
     testBtn2.setOnAction(e -> submitBtnClicked());
+    testBtn.setOnAction(e -> clearButton());
 
     langOptions.getItems().add("Spanish");
     langOptions.getItems().add("French");
@@ -48,23 +52,37 @@ public class LanguageSubpageController extends GenericServiceFormPage {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
   }
 
+  private void clearButton() {
+    langOptions.setValue(null);
+    location.setText("");
+    description.setText("");
+    urgency.setValue(null);
+  }
+
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    Service service = new Service(this.IDCount, "Language");
-    this.IDCount++;
-    service.setCategory((String) langOptions.getValue());
-    // service.setLocation(location.getText());
-    service.setDescription(description.getText());
-    service.setRequester(settings.getCurrentUsername());
+    if (langOptions.getValue() == null || description.getText().equals("")) {
+      nonCompleteForm(stackPane);
+    } else {
+      Service service = new Service(this.IDCount, "Language");
+      this.IDCount++;
+      service.setCategory((String) langOptions.getValue());
+      // service.setLocation(location.getText());
+      service.setDescription(description.getText());
+      service.setRequester(settings.getCurrentUsername());
 
-    try {
-      DataOperations.saveService(service);
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
+      try {
+        DataOperations.saveService(service);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      }
+
+      submittedPopUp(stackPane);
+      langOptions.setValue(null);
     }
   }
 }

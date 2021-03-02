@@ -10,6 +10,7 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 public class GiftDeliverySubPageController extends GenericServiceFormPage {
 
@@ -23,6 +24,8 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
 
   private Settings settings;
 
+  @FXML private StackPane stackPane;
+
   public GiftDeliverySubPageController() {}
 
   // this runs once the FXML loads in to attach functions to components
@@ -33,6 +36,7 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
 
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
+    clearBtn.setOnAction(e -> clearButton());
 
     locationField.getItems().add("Room 142");
     locationField.getItems().add("Room 736");
@@ -46,9 +50,20 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
   }
 
+  private void clearButton() {
+    giftType.setValue(null);
+    locationField.setValue(null);
+    description.setText("");
+    datePicker.setValue(null);
+  }
+
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
+
+    if (!giftType.hasProperties()) {
+      nonCompleteForm(stackPane);
+    }
 
     Service service = new Service(this.IDCount, "Gift Delivery");
     this.IDCount++;
@@ -65,5 +80,10 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
     } catch (IllegalAccessException e) {
       e.printStackTrace();
     }
+    submittedPopUp(stackPane);
+    giftType.setValue(null);
+    locationField.setValue(null);
+    description.setText("");
+    datePicker.setValue(null);
   }
 }

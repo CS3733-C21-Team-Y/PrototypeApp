@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
 
 public class AudioVisualController extends GenericServiceFormPage {
 
@@ -22,6 +23,8 @@ public class AudioVisualController extends GenericServiceFormPage {
   @FXML private Button backBtn;
 
   private Settings settings;
+
+  @FXML private StackPane stackPane;
 
   public AudioVisualController() {}
 
@@ -39,30 +42,54 @@ public class AudioVisualController extends GenericServiceFormPage {
     // avClearBtn.setOnAction(e -> serviceButtonClicked(e, "AudioVisualSubPage.fxml"));
     avSubmitBtn.setOnAction(e -> submitBtnClicked());
     backBtn.setOnAction(e -> buttonClicked(e));
+    avClearBtn.setOnAction(e -> clearButton());
   }
 
   private void buttonClicked(ActionEvent e) {
-    if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+
+    if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
+  }
+
+  private void clearButton() {
+    avTypeComboBox.getSelectionModel().clearSelection();
+    avTypeComboBox.setValue(null);
+    avLocationComboBox.getSelectionModel().clearSelection();
+    avLocationComboBox.setValue(null);
+    avDate.setValue(null);
+    avDesc.setText("");
   }
 
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    Service service = new Service(this.IDCount, "Audio Visual");
-    this.IDCount++;
-    service.setCategory((String) avTypeComboBox.getValue());
-    service.setLocation((String) avLocationComboBox.getValue());
-    service.setDate(avDate.getValue().toString());
-    service.setDescription(avDesc.getText());
-    service.setRequester(settings.getCurrentUsername());
+    System.out.println("hi" + avDesc.getText());
+    if (avLocationComboBox == null || avTypeComboBox == null || avDesc.getText().equals("")) {
+      nonCompleteForm(stackPane);
+    } else {
+      Service service = new Service(this.IDCount, "Audio Visual");
+      this.IDCount++;
+      service.setCategory((String) avTypeComboBox.getValue());
+      service.setLocation((String) avLocationComboBox.getValue());
+      service.setDate(avDate.getValue().toString());
+      service.setDescription(avDesc.getText());
+      service.setRequester(settings.getCurrentUsername());
 
-    try {
-      DataOperations.saveService(service);
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
+      try {
+        DataOperations.saveService(service);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      }
+
+      submittedPopUp(stackPane);
+      avTypeComboBox.getSelectionModel().clearSelection();
+      avTypeComboBox.setValue(null);
+      avLocationComboBox.getSelectionModel().clearSelection();
+      avLocationComboBox.setValue(null);
+      avDate.setValue(null);
+      avDesc.setText("");
     }
   }
 }

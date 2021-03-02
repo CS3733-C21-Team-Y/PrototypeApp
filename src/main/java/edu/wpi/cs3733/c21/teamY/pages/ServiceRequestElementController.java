@@ -54,11 +54,13 @@ public class ServiceRequestElementController extends CenterPage {
     } else if (e.getSource() == completeBtn) {
       service.setStatus(1);
     }
+
     try {
       DataOperations.updateServiceStatus(service, service.getStatus());
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
+
     toggleStatusGrid();
     populateInformation(service);
   }

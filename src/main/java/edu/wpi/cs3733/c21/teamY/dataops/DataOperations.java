@@ -141,11 +141,19 @@ public class DataOperations {
     return JDBCUtils.findUser(username, password);
   }
 
+  public static String findUserByEmail(String email) throws SQLException {
+    return JDBCUtils.findUserByEmail(email);
+  }
+
   public static ArrayList<Employee> getListOfEmployeeFromDB() throws SQLException {
     return JDBCUtils.exportListOfEmployee();
   }
 
   public static void loadEmployeeCSV() throws IOException, SQLException {
     CSV.loadCSVtoDBEmployee();
+  }
+
+  public static boolean updateUserPassword(String newPassword, String userID) throws SQLException {
+    return JDBCUtils.updateUserPassword(userID, newPassword);
   }
 }

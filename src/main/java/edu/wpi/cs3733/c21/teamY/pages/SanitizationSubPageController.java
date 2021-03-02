@@ -8,21 +8,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 public class SanitizationSubPageController extends GenericServiceFormPage {
 
-  @FXML private JFXTextField locationField;
+  @FXML private JFXComboBox locationField;
   @FXML private JFXComboBox urgency;
   @FXML private JFXComboBox biohazardLevel;
   // @FXML private JFXTextField chemHazardLevel;
 
   @FXML private JFXTextArea description;
 
-  /*
-  @FXML private JFXCheckBox bioHazardBox;
-  @FXML private JFXCheckBox chemHazardBox;
-
-   */
+  @FXML private StackPane stackPane;
 
   @FXML private JFXButton submitBtn;
   @FXML private JFXButton clearBtn;
@@ -30,7 +27,7 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
 
   private ArrayList<String> urgencies;
   private ArrayList<String> biohazardLevels;
-  private ArrayList<String> locations;
+  private ArrayList<String> locationFields;
 
   private Settings settings;
 
@@ -39,6 +36,12 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
   @FXML
   private void initialize() {
     settings = Settings.getSettings();
+
+    locationFields = new ArrayList<>();
+    locationFields.add("Emergency Room");
+    locationFields.add("Operating Theatre");
+    locationFields.add("Pediatrics Office");
+    locationFields.add("Intensive Care Unit");
 
     urgencies = new ArrayList<>();
     urgencies.add("Low");
@@ -51,42 +54,60 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
     biohazardLevels.add("BSL-3");
     biohazardLevels.add("BSL-4");
 
-    locations = new ArrayList<>();
-    locations.add("ICU");
-    locations.add("Operating Room");
-
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
+    clearBtn.setOnAction(e -> clearButton());
 
-    // for (String c : locationList) location.getItems().add(c);
     for (String c : urgencies) urgency.getItems().add(c);
+    for (String c : locationFields) locationField.getItems().add(c);
     for (String c : biohazardLevels) biohazardLevel.getItems().add(c);
-    // for (String c : locations) location.getItems().add(c);
   }
 
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
   }
 
+  private void clearButton() {
+    locationField.setValue(null);
+    description.setText("");
+    biohazardLevel.setValue(null);
+    urgency.setValue(null);
+  }
+
   @FXML
   private void submitBtnClicked() {
-    // Stage stage = null;
-    // put code for submitting a service request here
-    Service service = new Service(this.IDCount, "Sanitization");
-    this.IDCount++;
-    // System.out.println(this.IDCount);
-    service.setLocation(locationField.getText());
-    service.setCategory((String) biohazardLevel.getValue());
-    service.setDescription(description.getText());
-    service.setUrgency((String) urgency.getValue());
-    service.setRequester(settings.getCurrentUsername());
 
-    try {
-      DataOperations.saveService(service);
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
+    if (locationField.toString().equals("")
+        || urgency.toString().equals("")
+        || biohazardLevel.toString().equals("")
+        || description.getText().equals("")) {
+      nonCompleteForm(stackPane);
+    } else {
+
+      // put code for submitting a service request here
+      Service service = new Service(this.IDCount, "Sanitization");
+      this.IDCount++;
+      // System.out.println(this.IDCount);
+      service.setLocation((String) locationField.getValue());
+      service.setCategory((String) biohazardLevel.getValue());
+      service.setDescription(description.getText());
+      service.setUrgency((String) urgency.getValue());
+      service.setRequester(settings.getCurrentUsername());
+
+      try {
+        DataOperations.saveService(service);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      }
+
+      submittedPopUp(stackPane);
+
+      locationField.setValue(null);
+      description.setText("");
+      biohazardLevel.setValue(null);
+      urgency.setValue(null);
     }
   }
 }

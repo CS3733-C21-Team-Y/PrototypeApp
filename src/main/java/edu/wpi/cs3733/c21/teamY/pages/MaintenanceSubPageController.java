@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 
 public class MaintenanceSubPageController extends GenericServiceFormPage {
   // connects the scenebuilder button to a code button
@@ -24,6 +25,7 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
   @FXML private JFXComboBox urgency;
   @FXML private JFXTextField date2;
   @FXML private JFXComboBox locationField;
+  @FXML private StackPane stackPane;
 
   private Settings settings;
 
@@ -57,6 +59,7 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
 
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
+    clearBtn.setOnAction(e -> clearButton());
 
     for (String c : categories) category.getItems().add(c);
     for (String c : urgencies) urgency.getItems().add(c);
@@ -67,26 +70,52 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
   }
 
+  private void clearButton() {
+    category.setValue(null);
+    urgency.setValue(null);
+    description.setText("");
+    date2.setText("");
+    locationField.setValue(null);
+  }
+
   @FXML
   private void submitBtnClicked() {
-    // Stage stage = null;
-    // put code for submitting a service request here
-    Service service = new Service(this.IDCount, "Maintenance");
-    this.IDCount++;
-    // System.out.println(this.IDCount);
-    service.setCategory((String) category.getValue());
-    service.setLocation((String) locationField.getValue());
-    service.setDescription(description.getText());
-    service.setUrgency((String) urgency.getValue());
-    service.setDate(date2.getText());
-    service.setRequester(settings.getCurrentUsername());
 
-    try {
-      DataOperations.saveService(service);
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
+    if (category.getValue().equals(null)
+        || description.getText().equals("")
+        || urgency.getValue().equals(null)
+        || date2.getText().equals("")
+        || locationField.getValue().equals(null)) {
+      nonCompleteForm(stackPane);
+    } else {
+
+      // Stage stage = null;
+      // put code for submitting a service request here
+      Service service = new Service(this.IDCount, "Maintenance");
+      this.IDCount++;
+      // System.out.println(this.IDCount);
+      service.setCategory((String) category.getValue());
+      service.setLocation((String) locationField.getValue());
+      service.setDescription(description.getText());
+      service.setUrgency((String) urgency.getValue());
+      service.setDate(date2.getText());
+      service.setRequester(settings.getCurrentUsername());
+
+      try {
+        DataOperations.saveService(service);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      }
+
+      submittedPopUp(stackPane);
+
+      category.setValue(null);
+      urgency.setValue(null);
+      description.setText("");
+      date2.setText("");
+      locationField.setValue(null);
     }
   }
 }
