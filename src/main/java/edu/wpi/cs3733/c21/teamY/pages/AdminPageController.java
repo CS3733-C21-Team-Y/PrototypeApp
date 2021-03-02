@@ -23,6 +23,7 @@ public class AdminPageController extends RightPage {
   @FXML private SplitPane splitPane;
   @FXML private AnchorPane splitPaneTop;
   @FXML private AnchorPane splitPaneBottom;
+  @FXML private AnchorPane baseAnchorPane;
 
   @FXML private MapController mapInsertController;
   @FXML private EditNodeTableController editNodeTableController;
@@ -73,7 +74,6 @@ public class AdminPageController extends RightPage {
     addNodecb.setVisible(false);
     newX.setVisible(false);
     newY.setVisible(false);
-
 
     Platform.runLater(
         () -> {
@@ -312,6 +312,45 @@ public class AdminPageController extends RightPage {
           mapInsertController.setBaseCircleRadius(6);
           mapInsertController.setBaseLineWidth(5);
           mapInsertController.setSelectedWidthRatio(5.0 / 3);
+
+          System.out.println("1");
+        });
+
+    Platform.runLater(
+        () -> {
+          System.out.println("2");
+          mapInsertController.removeAllAdornerElements();
+          nodes = mapInsertController.loadNodesFromDB();
+          edges = mapInsertController.loadEdgesFromDB();
+          mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
+
+          baseAnchorPane
+              .getScene()
+              .setOnKeyPressed(
+                  e -> {
+                    System.out.println("SHIFT");
+                    mapInsertController.scrollOnPress(e);
+
+                    // Should be improved
+                    if (e.isShiftDown()) {
+                      shiftPressed = true;
+                    } else {
+                      shiftPressed = false;
+                    }
+                  });
+
+          baseAnchorPane
+              .getScene()
+              .setOnKeyReleased(
+                  e -> {
+                    mapInsertController.scrollOnRelease(e);
+
+                    if (e.isShiftDown()) {
+                      shiftPressed = true;
+                    } else {
+                      shiftPressed = false;
+                    }
+                  });
         });
 
     //    resetView.setOnAction(e -> mapInsertController.resetMapView());

@@ -227,8 +227,8 @@ public class PathfindingPageController extends RightPage {
     // Init Map
     Platform.runLater(
         () -> {
-          mapController.getFloorMenu().setPromptText("Parking");
-          mapController.changeMapImage(MapController.MAP_PAGE.PARKING);
+          // mapController.getFloorMenu().setPromptText("Parking");
+          // mapController.changeMapImage(MapController.MAP_PAGE.FLOOR1);
 
           mapController.addAdornerElements(nodes, edges, mapController.floorNumber);
 

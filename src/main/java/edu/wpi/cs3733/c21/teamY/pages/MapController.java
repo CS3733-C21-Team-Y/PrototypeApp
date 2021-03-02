@@ -92,7 +92,7 @@ public class MapController extends RightPage {
               MAP_PAGE.FLOOR4,
               MAP_PAGE.FLOOR5));
 
-  private double scaleMin = 0.75;
+  private double scaleMin = 0.01;
   private double scaleMax = 10;
   private String direction = "in/out";
 
@@ -216,14 +216,6 @@ public class MapController extends RightPage {
   @FXML
   private void initialize() {
 
-    Platform.runLater(
-        () -> {
-          removeAllAdornerElements();
-          nodes = loadNodesFromDB();
-          edges = loadEdgesFromDB();
-          addAdornerElements(nodes, edges, floorNumber);
-        });
-
     categories = new ArrayList<String>();
     categories.add("Parking Lot");
     categories.add("Floor 1");
@@ -248,7 +240,7 @@ public class MapController extends RightPage {
     //          e -> {
     //            removeAllAdornerElements();
     //            changeMapImage(getMapOrder().get(index));
-    //get adorner shit
+    // get adorner shit
     //            updateMenuPreview(e, getFloorMenu());
     //          });
     //      i++;
@@ -259,11 +251,17 @@ public class MapController extends RightPage {
     adornerPane.toFront();
     mapOverlayUIGridPane.toFront();
 
+    mapImageView.setFitWidth(mapImageView.getImage().getWidth());
+    mapImageView.setFitHeight(mapImageView.getImage().getHeight());
+
     adornerPane.maxWidthProperty().setValue(mapImageView.getFitWidth());
     adornerPane.maxHeightProperty().setValue(mapImageView.getFitHeight());
 
-    adornerPane.setScaleX(mapImageView.getScaleX());
-    adornerPane.setScaleY(mapImageView.getScaleY());
+    adornerPane.minWidthProperty().setValue(mapImageView.getFitWidth());
+    adornerPane.minHeightProperty().setValue(mapImageView.getFitHeight());
+
+    adornerPane.setTranslateX(mapImageView.getTranslateX());
+    adornerPane.setTranslateY(mapImageView.getTranslateY());
 
     mapOverlayUIGridPane.setPickOnBounds(false);
 
@@ -292,9 +290,22 @@ public class MapController extends RightPage {
     // Sets Map clip so nothing can appear outside map bounds
     Platform.runLater(
         () -> {
-          Rectangle viewWindow = new Rectangle(0, 0, 999999, 999999);
+          Rectangle viewWindow = new Rectangle(0, 0, 50000, 50000);
           containerStackPane.setClip(viewWindow);
           updateAdornerVisualsOnZoom();
+
+          double windowWidth = containerStackPane.getScene().getWindow().getWidth();
+          double initialScale = windowWidth / adornerPane.getWidth();
+
+          mapImageView.setScaleX(initialScale);
+          mapImageView.setScaleY(initialScale);
+          adornerPane.setScaleX(mapImageView.getScaleX());
+          adornerPane.setScaleY(mapImageView.getScaleY());
+
+          changeMapImage(MAP_PAGE.PARKING);
+
+          // mapImageView.setTranslateX(0 - windowWidth);
+          // adornerPane.setTranslateX(0 - windowWidth);
         });
   }
 
@@ -756,14 +767,14 @@ public class MapController extends RightPage {
   protected void zoom(ScrollEvent e) {
     double scale = e.getDeltaY() * 0.005;
     mapImageView.setPreserveRatio(true);
-
+    /*
     if (mapImageView.getScaleY() > scaleMax && scale > 0) {
       scale = 0;
     } else if (mapImageView.getScaleY() < scaleMin && scale < 0) {
       scale = 0;
     } else {
 
-    }
+    }*/
     adornerPane.setScaleY(adornerPane.getScaleY() + scale);
     adornerPane.setScaleX(adornerPane.getScaleX() + scale);
 

@@ -15,16 +15,16 @@
    <children>
       <StackPane fx:id="containerStackPane" alignment="TOP_LEFT" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Pane fx:id="adornerPane" StackPane.alignment="TOP_LEFT">
-               <StackPane.margin>
-                  <Insets />
-               </StackPane.margin>
-            </Pane>
-            <ImageView fx:id="mapImageView" fitHeight="800.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="mapImageView" fitHeight="500.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="edu/wpi/cs3733/c21/teamY/images/FaulknerFloor5_Updated.png" />
                </image>
             </ImageView>
+            <Pane fx:id="adornerPane" style="-fx-border-color: red; -fx-border-width: 60;" StackPane.alignment="TOP_LEFT">
+               <StackPane.margin>
+                  <Insets />
+               </StackPane.margin>
+            </Pane>
             <GridPane fx:id="mapOverlayUIGridPane">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
