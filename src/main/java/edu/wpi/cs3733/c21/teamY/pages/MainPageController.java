@@ -48,8 +48,7 @@ public class MainPageController {
     this.navigationBtn = navigationBtn;
     this.serviceRequestBtn = serviceRequestBtn;
     this.adminToolsBtn = adminToolsBtn;
-    //    loadRightSubPage("LoginPage.fxml");
-    loadRightSubPage("CovidScreening.fxml");
+    loadRightSubPage("LandingPage.fxml");
     // loadCenterSubPage("ServiceRequestNavigator.fxml");
   }
 
@@ -78,13 +77,12 @@ public class MainPageController {
 
   private void buttonClicked(ActionEvent e) {
     System.out.println("clicked");
-    if (e.getSource() == origNavigationBtn) instance.loadRightSubPage("PathfindingPage.fxml");
+    if (e.getSource() == origNavigationBtn) instance.loadRightSubPage("NavigationSubPage.fxml");
     else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
     else if (e.getSource() == origServiceRequestBtn) {
       instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
       instance.loadCenterSubPage("ServiceRequestNavigator.fxml");
-    } else if (e.getSource() == origAdminToolsBtn)
-      instance.loadRightSubPage("nodeEdgeDisplay.fxml");
+    } else if (e.getSource() == origAdminToolsBtn) instance.loadRightSubPage("AdminPage.fxml");
   }
 
   public void setCenterColumnWidth(double width) {
