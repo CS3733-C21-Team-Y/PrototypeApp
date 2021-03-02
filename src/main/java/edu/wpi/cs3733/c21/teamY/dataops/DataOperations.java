@@ -143,7 +143,7 @@ public class DataOperations {
     CSV.loadCSVtoDBEmployee();
   }
 
-  public boolean updateUserPassword(String newPassword, String userID) throws SQLException {
-    return JDBCUtils.updateUserPassword(userID,newPassword);
+  public static boolean updateUserPassword(String newPassword, String userID) throws SQLException {
+    return JDBCUtils.updateUserPassword(userID, newPassword);
   }
 }
