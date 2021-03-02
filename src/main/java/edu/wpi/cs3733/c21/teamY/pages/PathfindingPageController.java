@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -66,6 +65,8 @@ public class PathfindingPageController extends RightPage {
       mapController.setParent(parent);
       // mapController.populateInformation(service);
       mapSection.getChildren().add(node);
+      overlayGridPane.toFront();
+
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -76,6 +77,16 @@ public class PathfindingPageController extends RightPage {
   private void initialize() {
 
     loadMap();
+
+    mapController.getFloorMenu().setPromptText("Parking Lot");
+
+    mapController
+        .getFloorMenu()
+        .setOnAction(
+            e -> {
+              handleFloorChanged(
+                  mapController.determineNewMap((String) mapController.getFloorMenu().getValue()));
+            });
 
     /*
     // attaches a handler to the button with a lambda expression
@@ -230,7 +241,7 @@ public class PathfindingPageController extends RightPage {
           // mapController.getFloorMenu().setPromptText("Parking");
           // mapController.changeMapImage(MapController.MAP_PAGE.FLOOR1);
 
-          mapController.addAdornerElements(nodes, edges, mapController.floorNumber);
+          handleFloorChanged(MapController.MAP_PAGE.FLOOR1);
 
           startLocationBox.requestFocus();
         });
@@ -367,11 +378,11 @@ public class PathfindingPageController extends RightPage {
    * @param e
    * @param menuItemIndex
    */
-  private void handleFloorChanged(ActionEvent e, int menuItemIndex) {
+  private void handleFloorChanged(MapController.MAP_PAGE mappage) {
     // This should be optimised to only switch if the floor actually changed, but its very fast so
     // I cant be bothered
     mapController.removeAllAdornerElements();
-    mapController.changeMapImage(mapController.getMapOrder().get(menuItemIndex));
+    mapController.changeMapImage(mappage);
     mapController.addAdornerElements(nodes, edges, mapController.floorNumber);
     drawPath(pathNodes);
     // mapController.updateMenuPreview(e, mapController.getFloorMenu());

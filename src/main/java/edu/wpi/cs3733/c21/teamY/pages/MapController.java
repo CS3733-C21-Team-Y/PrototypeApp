@@ -232,6 +232,8 @@ public class MapController extends RightPage {
         e -> {
           removeAllAdornerElements();
           changeMapImage(determineNewMap((String) floorMenu.getValue()));
+          System.out.println(floorMenu.getValue());
+          addAdornerElements(nodes, edges, floorNumber);
         });
     //    int i = 0;
     //    for (MenuItem menuItem : getFloorMenu().getItems()) {
@@ -251,17 +253,11 @@ public class MapController extends RightPage {
     adornerPane.toFront();
     mapOverlayUIGridPane.toFront();
 
-    mapImageView.setFitWidth(mapImageView.getImage().getWidth());
-    mapImageView.setFitHeight(mapImageView.getImage().getHeight());
-
-    adornerPane.maxWidthProperty().setValue(mapImageView.getFitWidth());
-    adornerPane.maxHeightProperty().setValue(mapImageView.getFitHeight());
-
-    adornerPane.minWidthProperty().setValue(mapImageView.getFitWidth());
+    /*adornerPane.minWidthProperty().setValue(mapImageView.getFitWidth());
     adornerPane.minHeightProperty().setValue(mapImageView.getFitHeight());
 
     adornerPane.setTranslateX(mapImageView.getTranslateX());
-    adornerPane.setTranslateY(mapImageView.getTranslateY());
+    adornerPane.setTranslateY(mapImageView.getTranslateY());*/
 
     mapOverlayUIGridPane.setPickOnBounds(false);
 
@@ -294,13 +290,22 @@ public class MapController extends RightPage {
           containerStackPane.setClip(viewWindow);
           updateAdornerVisualsOnZoom();
 
-          double windowWidth = containerStackPane.getScene().getWindow().getWidth();
-          double initialScale = windowWidth / adornerPane.getWidth();
-
+          double windowHeight = containerStackPane.getScene().getWindow().getHeight() * 0.75;
+          double initialScale = windowHeight / adornerPane.getWidth();
+          /*
           mapImageView.setScaleX(initialScale);
           mapImageView.setScaleY(initialScale);
           adornerPane.setScaleX(mapImageView.getScaleX());
-          adornerPane.setScaleY(mapImageView.getScaleY());
+          adornerPane.setScaleY(mapImageView.getScaleY());*/
+
+          double scaleImageXToY =
+              mapImageView.getImage().getWidth() / mapImageView.getImage().getHeight();
+
+          mapImageView.setFitWidth(windowHeight * scaleImageXToY);
+          mapImageView.setFitHeight(windowHeight);
+
+          adornerPane.maxWidthProperty().setValue(mapImageView.getFitWidth());
+          adornerPane.maxHeightProperty().setValue(mapImageView.getFitHeight());
 
           changeMapImage(MAP_PAGE.PARKING);
 
@@ -309,7 +314,7 @@ public class MapController extends RightPage {
         });
   }
 
-  public MAP_PAGE determineNewMap(String mapName) {
+  protected MAP_PAGE determineNewMap(String mapName) {
     if (mapName.equals("Parking Lot")) return mapOrder.get(0);
     else if (mapName.equals("Floor 1")) return mapOrder.get(1);
     else if (mapName.equals("Floor 2")) return mapOrder.get(2);
@@ -484,11 +489,12 @@ public class MapController extends RightPage {
     }
 
     updateMapScreen();
-    // sss
+//sss
     return lineEx;
   }
 
-  // eh
+
+  //eh
   protected void addAdornerElements(ArrayList<Node> nodes, ArrayList<Edge> edges, String floor) {
 
     if (nodes == null || edges == null) {
