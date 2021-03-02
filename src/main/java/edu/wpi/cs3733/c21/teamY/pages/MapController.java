@@ -246,12 +246,9 @@ public class MapController extends RightPage {
     //    mapImageView.setScaleY(4);
     adornerPane.toFront();
     mapOverlayUIGridPane.toFront();
-    containerStackPane.setMaxWidth(mapImageView.getFitWidth());
-    containerStackPane.setMaxHeight(mapImageView.getFitHeight());
 
-    adornerPane.maxWidthProperty().setValue(mapImageView.getImage().widthProperty().getValue());
-
-    adornerPane.maxHeightProperty().setValue(mapImageView.getImage().heightProperty().getValue());
+    adornerPane.maxWidthProperty().setValue(mapImageView.getFitWidth());
+    adornerPane.maxHeightProperty().setValue(mapImageView.getFitHeight());
 
     adornerPane.setScaleX(mapImageView.getScaleX());
     adornerPane.setScaleY(mapImageView.getScaleY());
@@ -283,8 +280,7 @@ public class MapController extends RightPage {
     // Sets Map clip so nothing can appear outside map bounds
     Platform.runLater(
         () -> {
-          Rectangle viewWindow =
-              new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
+          Rectangle viewWindow = new Rectangle(0, 0, 999999, 999999);
           containerStackPane.setClip(viewWindow);
           updateAdornerVisualsOnZoom();
         });
@@ -560,22 +556,22 @@ public class MapController extends RightPage {
 
   // Scale functions
   protected double scaleXCoords(double x) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
     return x / scale;
   }
 
   protected double scaleUpXCoords(double x) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
     return x * scale;
   }
 
   protected double scaleYCoords(double y) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getHeight() / adornerPane.getHeight();
     return y / scale;
   }
 
   protected double scaleUpYCoords(double y) {
-    double scale = 1485.0 / 350.0;
+    double scale = mapImageView.getImage().getHeight() / adornerPane.getHeight();
     return y * scale;
   }
 
@@ -738,9 +734,6 @@ public class MapController extends RightPage {
     } else {
 
     }
-    Rectangle viewWindow =
-        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
-    containerStackPane.setClip(viewWindow);
     adornerPane.setScaleY(adornerPane.getScaleY() + scale);
     adornerPane.setScaleX(adornerPane.getScaleX() + scale);
 
