@@ -12,7 +12,7 @@ import javafx.scene.layout.StackPane;
 
 public class SanitizationSubPageController extends GenericServiceFormPage {
 
-  @FXML private JFXComboBox location;
+  @FXML private JFXComboBox locationField;
   @FXML private JFXComboBox urgency;
   @FXML private JFXComboBox biohazardLevel;
   @FXML private JFXTextArea description;
@@ -25,7 +25,7 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
 
   private ArrayList<String> urgencies;
   private ArrayList<String> biohazardLevels;
-  private ArrayList<String> locations;
+  private ArrayList<String> locationFields;
 
   private Settings settings;
 
@@ -35,11 +35,11 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
   private void initialize() {
     settings = Settings.getSettings();
 
-    locations = new ArrayList<>();
-    locations.add("Emergency Room");
-    locations.add("Operating Theatre");
-    locations.add("Pediatrics Office");
-    locations.add("Intensive Care Unit");
+    locationFields = new ArrayList<>();
+    locationFields.add("Emergency Room");
+    locationFields.add("Operating Theatre");
+    locationFields.add("Pediatrics Office");
+    locationFields.add("Intensive Care Unit");
 
     urgencies = new ArrayList<>();
     urgencies.add("Low");
@@ -55,8 +55,8 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
 
-    for (String c : locations) location.getItems().add(c);
     for (String c : urgencies) urgency.getItems().add(c);
+    for (String c : locationFields) locationField.getItems().add(c);
     for (String c : biohazardLevels) biohazardLevel.getItems().add(c);
   }
 
@@ -67,7 +67,7 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
 
-    if (location.toString().equals("")
+    if (locationField.toString().equals("")
         || urgency.toString().equals("")
         || biohazardLevel.toString().equals("")
         || description.getText().equals("")) {
@@ -78,7 +78,7 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
       Service service = new Service(this.IDCount, "Sanitization");
       this.IDCount++;
       // System.out.println(this.IDCount);
-      service.setLocation((String) location.getValue());
+      service.setLocation((String) locationField.getValue());
       service.setCategory((String) biohazardLevel.getValue());
       service.setDescription(description.getText());
       service.setUrgency((String) urgency.getValue());
@@ -94,7 +94,7 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
 
       submittedPopUp(stackPane);
 
-      location.setValue(null);
+      locationField.setValue(null);
       description.setText("");
       biohazardLevel.setValue(null);
       urgency.setValue(null);
