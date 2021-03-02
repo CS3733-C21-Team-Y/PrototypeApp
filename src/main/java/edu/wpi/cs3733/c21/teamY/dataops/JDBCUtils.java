@@ -749,4 +749,16 @@ public class JDBCUtils {
       return resultSet.getString(1);
     }
   }
+
+  public static boolean updateUserPassword(String userID, String newPassWord) throws SQLException {
+    String update = "update ADMIN.EMPLOYEE set PASSWORD= (?) WHERE EMPLOYEEID=(?)";
+    // String update = "update ADMIN.EMPLOYEE set PASSWORD= "+newPassWord +" where
+    // ADMIN.EMPLOYEE.EMPLOYEEID="+ userID;
+
+    PreparedStatement preparedStatement = getConn().prepareStatement(update);
+    preparedStatement.setString(1, newPassWord);
+    preparedStatement.setString(2, userID);
+    int check = preparedStatement.executeUpdate();
+    return check != 0;
+  }
 }
