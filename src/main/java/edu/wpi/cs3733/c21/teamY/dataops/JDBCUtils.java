@@ -730,4 +730,23 @@ public class JDBCUtils {
       return true;
     }
   }
+
+  public static String findUserByEmail(String email) throws SQLException {
+    Statement statement;
+    statement = JDBCUtils.getConn().createStatement();
+    String sql =
+        "Select ADMIN.EMPLOYEE.EMPLOYEEID "
+            + "FROM ADMIN.EMPLOYEE "
+            + "WHERE ADMIN.EMPLOYEE.EMAIL = '"
+            + email
+            + "'";
+
+    java.sql.ResultSet resultSet = statement.executeQuery(sql);
+
+    if (!resultSet.next()) {
+      return "false";
+    } else {
+      return resultSet.getString(1);
+    }
+  }
 }

@@ -17,13 +17,19 @@ public class LoginPageController extends RightPage {
   @FXML JFXButton loginBtn;
   @FXML JFXButton guestBtn;
   @FXML StackPane stackPane;
+  @FXML JFXButton forgotPasswordBtn;
 
   @FXML
   private void initialize() {
     loginBtn.setOnAction(e -> buttonClicked(e));
+    forgotPasswordBtn.setOnAction(e -> buttonClicked(e));
   }
 
   private void buttonClicked(ActionEvent e) {
+    if (e.getSource() == forgotPasswordBtn) {
+      parent.loadRightSubPage("ForgotPasswordPage.fxml");
+    }
+
     if (e.getSource() == loginBtn) {
       String tryID = employeeIDTextField.getText();
       String tryPwd = passwordTextField.getText();

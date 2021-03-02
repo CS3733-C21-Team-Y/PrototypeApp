@@ -35,6 +35,8 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
     compile group: 'org.apache.derby', name: 'derby', version: '10.14.2.0'
     compile group: 'com.jfoenix', name:'jfoenix', version: '8.0.10'
+    compile group: 'org.apache.commons', name: 'commons-email', version: '1.5'
+
     testCompile(
             'de.jensd:fontawesomefx:8.9',
             "org.testfx:testfx-core:4.0.16-alpha",
