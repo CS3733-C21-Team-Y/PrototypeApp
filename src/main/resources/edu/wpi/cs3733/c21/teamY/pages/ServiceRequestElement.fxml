@@ -111,6 +111,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <GridPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
@@ -122,6 +123,7 @@
                   <JFXButton fx:id="incompleteBtn" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #cccccc; -fx-font-size: 14; -fx-background-radius: 12.5;" text="Incomplete" GridPane.halignment="CENTER" />
                   <JFXButton fx:id="completeBtn" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #cccccc; -fx-font-size: 14; -fx-background-radius: 12.5;" text="Complete" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                   <JFXButton fx:id="inProgressBtn" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #cccccc; -fx-font-size: 14; -fx-background-radius: 12.5;" text="In Progress" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <JFXButton fx:id="deleteBtn" layoutX="13.0" layoutY="42.0" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #cccccc; -fx-font-size: 14; -fx-background-radius: 12.5;" text="Delete" GridPane.rowIndex="3" />
                </children>
             </GridPane>
          </children>
