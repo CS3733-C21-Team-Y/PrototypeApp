@@ -21,7 +21,7 @@
     <children>
         <HBox fx:id="hBox" alignment="CENTER" layoutY="130.0" prefHeight="494.0" prefWidth="800.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <VBox fx:id="mapBox" prefHeight="440.0" prefWidth="588.0" styleClass="largeVBox" stylesheets="@../UIStyles.css" HBox.hgrow="NEVER">
+                <VBox fx:id="mapBox" prefHeight="440.0" prefWidth="588.0" styleClass="largeVBox" HBox.hgrow="NEVER">
                     <children>
                         <HBox fx:id="header" alignment="TOP_CENTER" />
                         <StackPane fx:id="stackPane">
@@ -61,6 +61,7 @@
                             </columnConstraints>
                             <rowConstraints>
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints />
                             </rowConstraints>
                             <children>
                                 <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
@@ -89,15 +90,18 @@
                                                         <Insets left="5.0" />
                                                     </GridPane.margin>
                                                 </Button>
-                                              <Button fx:id="addNode" mnemonicParsing="false" prefWidth="100.0" text="Add Node" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <Button fx:id="addEdge" mnemonicParsing="false" text="Add Edge" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                                              <Button fx:id="addNode" mnemonicParsing="false" prefWidth="100.0" text="Add Node" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                        <GridPane.margin>
-                                          <Insets top="10.0" />
+                                          <Insets left="5.0" />
+                                       </GridPane.margin></Button>
+                                    <Button fx:id="addEdge" mnemonicParsing="false" prefWidth="100.0" text="Add Edge" GridPane.rowIndex="2">
+                                       <GridPane.margin>
+                                          <Insets right="5.0" />
                                        </GridPane.margin>
                                     </Button>
                                             </children>
                                         </GridPane>
-                              <ComboBox prefWidth="150.0" promptText="Start location Box" />
+                              <ComboBox fx:id="startLocationBox" prefWidth="150.0" promptText="Start location Box" />
                               <ComboBox fx:id="endLocationBox" prefWidth="150.0" promptText="End location Box" />
                                     </children>
                                 </VBox>
@@ -110,7 +114,7 @@
                                                 <MenuItem fx:id="aStar" mnemonicParsing="false" text="A-Star" />
                                             </items>
                                             <VBox.margin>
-                                                <Insets bottom="5.0" />
+                                                <Insets bottom="10.0" top="-5.0" />
                                             </VBox.margin>
                                         </SplitMenuButton>
                                         <Label text="Control Map" />
@@ -137,6 +141,11 @@
                                 </VBox>
                                 <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
                                     <children>
+                              <Button fx:id="export" mnemonicParsing="false" text="Export">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Button>
                                         <Button fx:id="loadNodesButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" text="Faulkner Map Load">
                                             <VBox.margin>
                                                 <Insets bottom="10.0" />
@@ -162,14 +171,6 @@
                                         </GridPane>
                                     </children>
                                 </VBox>
-
-                        <ComboBox fx:id="endLocationBox" prefWidth="150.0" promptText="End location Box" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
-                        <ComboBox fx:id="startLocationBox" prefWidth="150.0" promptText="Start location Box" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                        <Button fx:id="addEdge" mnemonicParsing="false" text="Add Edge" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                           <GridPane.margin>
-                              <Insets top="10.0" />
-                           </GridPane.margin>
-                        </Button>
 
                             </children>
                      <VBox.margin>

@@ -130,6 +130,10 @@ public class MapController extends RightPage {
     return lastClickDrag;
   }
 
+  public void setFitHeight(double h) {
+    mapImageView.setFitHeight(h);
+  }
+
   public MapController() {}
 
   @FXML
