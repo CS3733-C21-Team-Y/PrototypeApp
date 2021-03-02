@@ -41,7 +41,7 @@ public class ServiceRequestElementController extends CenterPage {
     } else if (e.getSource() == completeBtn) {
       service.setStatus(1);
     }
-    //put code for updating service here
+    // put code for updating service here
     toggleStatusGrid();
     populateInformation(service);
   }

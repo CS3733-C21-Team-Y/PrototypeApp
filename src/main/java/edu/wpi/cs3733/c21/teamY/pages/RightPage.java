@@ -11,8 +11,6 @@ public abstract class RightPage {
     this.parent = parent;
   }
 
-
-
   public void loadNavigationBar() {
     parent.setCenterColumnWidth(0);
   };
