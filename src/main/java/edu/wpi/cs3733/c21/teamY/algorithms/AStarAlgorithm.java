@@ -21,7 +21,7 @@ public class AStarAlgorithm {
    * @param goalID the node we're searching for.
    * @return modified to return the path.
    */
-  public static ArrayList<Node> aStar(Graph g, String startID, String goalID) {
+  public static ArrayList<Node> aStar(Graph g, String startID, String goalID, String accessType) {
 
     // instantiating adjacency matrix
     double[][] graph = g.adjMatrix;
@@ -52,13 +52,14 @@ public class AStarAlgorithm {
 
     // While there are nodes left to visit...
     while (true) {
-
       // ... find the node with the currently lowest priority...
       double lowestPriority = Integer.MAX_VALUE;
       int lowestPriorityIndex = -1;
       for (int i = 0; i < priorities.length; i++) {
         // ... by going through all nodes that haven't been visited yet
-        if (priorities[i] < lowestPriority && !visited[i]) {
+        if (priorities[i] < lowestPriority
+            && !visited[i]
+            && !g.nodeList[i].nodeType.equals(accessType)) {
           lowestPriority = priorities[i];
           lowestPriorityIndex = i;
         }
@@ -78,15 +79,9 @@ public class AStarAlgorithm {
           pathIndex = cameFrom.get(pathIndex);
         }
         path.add(0, g.nodeList[start]);
-        System.out.println(path);
-        return path; // distances[lowestPriorityIndex];
-      }
 
-      System.out.println(
-          "Visiting node "
-              + g.nodeList[lowestPriorityIndex].nodeID
-              + " with currently lowest priority of "
-              + lowestPriority);
+        return path;
+      }
 
       // ...then, for all neighboring nodes that haven't been visited yet....
       for (int i = 0; i < graph[lowestPriorityIndex].length; i++) {
@@ -102,22 +97,12 @@ public class AStarAlgorithm {
                 distances[i] + DijkstrasAlgorithm.nodeDistance(g.nodeList[i], g.nodeList[goal]);
 
             cameFrom.put(i, lowestPriorityIndex);
-            System.out.println(
-                "Updating distance of node "
-                    + g.nodeList[i].nodeID
-                    + " to "
-                    + distances[i]
-                    + " and priority to "
-                    + priorities[i]);
           }
         }
       }
 
       // Lastly, note that we are finished with this node.
       visited[lowestPriorityIndex] = true;
-      // System.out.println("Visited nodes: " + Arrays.toString(visited));
-      // System.out.println("Currently lowest distances: " + Arrays.toString(distances));
-
     }
   }
 
@@ -131,12 +116,13 @@ public class AStarAlgorithm {
    * @param goalIDs the nodes we're searching for in desired order.
    * @return modified to return the path.
    */
-  public static ArrayList<Node> aStar(Graph g, String startID, ArrayList<String> goalIDs) {
+  public static ArrayList<Node> aStar(
+      Graph g, String startID, ArrayList<String> goalIDs, String accessType) {
     ArrayList<Node> path;
-    path = aStar(g, startID, goalIDs.get(0));
+    path = aStar(g, startID, goalIDs.get(0), accessType);
     for (int i = 1; i < goalIDs.size(); i++) {
       ArrayList<Node> tempPath;
-      tempPath = aStar(g, goalIDs.get(i - 1), goalIDs.get(i));
+      tempPath = aStar(g, goalIDs.get(i - 1), goalIDs.get(i), accessType);
       // Remove the first element to avoid duplicates
       tempPath.remove(0);
       // Append the path for these nodes to the path
@@ -144,6 +130,115 @@ public class AStarAlgorithm {
     }
 
     return path;
+  }
+
+  public static double directionOfPoint(Node node1, Node node2, Node P) {
+    // subtracting co-ordinates of point A
+    // from B and P, to make A as origin
+
+    double ZERO = 0.0;
+
+    double v1_x = node2.xcoord - node1.xcoord;
+    double v1_y = node2.ycoord - node1.ycoord;
+
+    double v2_x = P.xcoord - node2.xcoord;
+    double v2_y = P.ycoord - node2.ycoord;
+
+    double dot_product = (v1_x * v2_x) + (v1_y * v2_y);
+
+    double v1Mag = Math.sqrt(Math.pow(v1_x, 2) + Math.pow(v1_y, 2));
+    double v2Mag = Math.sqrt(Math.pow(v2_x, 2) + Math.pow(v2_y, 2));
+    double angle = (180 / Math.PI) * Math.acos(dot_product / (v1Mag * v2Mag));
+
+    // Determining cross Product
+    double cross_product = (node2.xcoord * P.ycoord - node2.ycoord * P.xcoord);
+
+    // return ZERO if dot_product is zero.
+    if (angle == 0.0) return Math.abs(angle);
+
+    // return RIGHT if cross product is positive
+    if (cross_product > 0) return angle;
+
+    // return LEFT if cross product is negative
+    if (cross_product < 0) return angle * -1;
+
+    // return ZERO if cross product is zero.
+    return ZERO;
+  }
+
+  public static ArrayList<String> textDirections(ArrayList<Node> path) {
+
+    ArrayList<String> pathDirections = new ArrayList<>();
+
+    pathDirections.add("Start from " + path.get(0).longName + " to " + path.get(1).longName);
+
+    for (int i = 0; i < path.size() - 2; i++) {
+      double angle = directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2));
+      if (angle < -25) {
+        // The Lefts
+        if (angle < -120) {
+          pathDirections.add(
+              "Walk towards "
+                  + path.get(i + 1).longName
+                  + " and turn around facing "
+                  + path.get(i + 2).longName);
+
+        } else if (angle < -60) {
+          pathDirections.add(
+              "Turn left from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
+
+        } else {
+          pathDirections.add(
+              "Bear left from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
+        }
+
+      } else if (angle > 25) {
+        // The Rights
+        if (angle > 120) {
+          pathDirections.add(
+              "Walk towards "
+                  + path.get(i + 1).longName
+                  + " and turn around facing "
+                  + path.get(i + 2).longName);
+
+        } else if (angle > 60) {
+          pathDirections.add(
+              "Turn right from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
+
+        } else {
+          pathDirections.add(
+              "Bear right from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
+        }
+      } else {
+        pathDirections.add(
+            "Continue Straight from "
+                + path.get(i + 1).longName
+                + " to "
+                + path.get(i + 2).longName);
+      }
+    }
+
+    // TODO check for duplicate "continue straights" and delete the intermediary ones
+    for (int j = 0; j < pathDirections.size() - 1; j++) {
+      if (pathDirections.get(j).contains("Continue Straight")
+          && pathDirections.get(j + 1).contains("Continue Straight")) {
+        String temp = pathDirections.get(j).substring(0, pathDirections.get(j).indexOf("to ") + 3);
+        String other =
+            pathDirections
+                .get(j + 1)
+                .substring(
+                    pathDirections.get(j + 1).indexOf("to ") + 3,
+                    pathDirections.get(j + 1).length());
+        System.out.println("Yo" + other);
+        temp = temp + other;
+        pathDirections.set(j, temp);
+        pathDirections.remove(j + 1);
+        j--;
+      }
+    }
+
+    pathDirections.add("You have reached your destination.");
+    return pathDirections;
   }
 
   /**
@@ -166,25 +261,14 @@ public class AStarAlgorithm {
     ArrayList<String> goals = new ArrayList<>();
     goals = (ArrayList<String>) goalIDs.clone();
 
-    HashMap<String, Double> dijkstraHash = new HashMap<>();
-    double minDist = Double.MAX_VALUE;
-    double tempDist = 0;
-    String min = "";
+    String min;
+    String start = startID;
 
     for (int i = 0; i < goalIDs.size(); i++) {
-      dijkstraHash = DijkstrasAlgorithm.dijkstra(g, startID, goals);
-
-      for (int j = 0; j < goals.size(); j++) {
-        tempDist = dijkstraHash.get(goals.get(j));
-        if (tempDist < minDist) {
-          minDist = tempDist;
-          min = goals.get(j);
-        }
-      }
-
+      min = DijkstrasAlgorithm.dijkstra(g, start, goals);
       organized.add(min);
       goals.remove(min);
-      minDist = Double.MAX_VALUE;
+      start = min;
     }
     return organized;
   }

@@ -1,13 +1,10 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
-import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
-import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.io.File;
 import java.io.FileInputStream;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javafx.application.Platform;
@@ -21,6 +18,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -33,13 +31,13 @@ import javafx.stage.Stage;
 
 public class MapController extends RightPage {
 
+  @FXML private AnchorPane anchor;
   @FXML private ImageView mapImageView;
   @FXML private Pane adornerPane;
   @FXML protected StackPane containerStackPane;
 
-  // YAY?!
   @FXML private GridPane mapOverlayUIGridPane;
-  @FXML private JFXComboBox floorMenu;
+  @FXML private SplitMenuButton floorMenu;
 
   private double startx, starty, endx, endy;
 
@@ -49,8 +47,6 @@ public class MapController extends RightPage {
   private double dragStartX;
   private double dragStartY;
 
-  private boolean displayUnselectedAdorners = true;
-
   private ArrayList<CircleEx> selectedNodes = new ArrayList<CircleEx>();
   private ArrayList<LineEx> selectedEdges = new ArrayList<LineEx>();
 
@@ -58,17 +54,6 @@ public class MapController extends RightPage {
   private File file;
 
   protected String floorNumber = "0";
-
-  private double baseCircleRadius = 3;
-  private double baseLineWidth = 2;
-  private double selectedWidthRatio = 2;
-
-  // Need to update these values properly
-  private double scaledCircleRadius = 0;
-  private double scaledLineWidth = 0;
-  private double scaledLineWidthSelected = 0;
-
-  private ArrayList<String> categories;
 
   protected enum MAP_PAGE {
     PARKING,
@@ -93,27 +78,23 @@ public class MapController extends RightPage {
               MAP_PAGE.FLOOR5));
 
   private double scaleMin = 0.75;
-  private double scaleMax = 10;
+  private double scaleMax = 2.5;
   private String direction = "in/out";
 
-  private ArrayList<Edge> edges = new ArrayList<Edge>();
-  private ArrayList<edu.wpi.cs3733.c21.teamY.entity.Node> nodes =
-      new ArrayList<edu.wpi.cs3733.c21.teamY.entity.Node>();
-
   // these need to be imageViews
-  Image parking = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerParking.png");
-  Image f1 = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerFloor1_Updated.png");
-  Image f2 = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerFloor2_Updated.png");
-  Image f3 = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerFloor3_Updated.png");
-  Image f4 = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerFloor4_Updated.png");
-  Image f5 = new Image("edu/wpi/cs3733/c21/teamY/images/FaulknerFloor5_Updated.png");
+  Image parking = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerParking.png");
+  Image f1 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor1_Updated.png");
+  Image f2 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor2_Updated.png");
+  Image f3 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor3_Updated.png");
+  Image f4 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor4_Updated.png");
+  Image f5 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor5_Updated.png");
 
   // Getters
   protected Pane getAdornerPane() {
     return adornerPane;
   }
 
-  protected JFXComboBox getFloorMenu() {
+  protected SplitMenuButton getFloorMenu() {
     return floorMenu;
   }
 
@@ -149,118 +130,23 @@ public class MapController extends RightPage {
     return lastClickDrag;
   }
 
-  public boolean isDisplayUnselectedAdorners() {
-    return displayUnselectedAdorners;
-  }
-
-  public double getBaseCircleRadius() {
-    return baseCircleRadius;
-  }
-
-  public void setBaseCircleRadius(double baseCircleRadius) {
-    this.baseCircleRadius = baseCircleRadius;
-    updateAdornerVisualsOnZoom();
-  }
-
-  public double getBaseLineWidth() {
-    return baseLineWidth;
-  }
-
-  public void setBaseLineWidth(double baseLineWidth) {
-    this.baseLineWidth = baseLineWidth;
-    updateAdornerVisualsOnZoom();
-  }
-
-  public double getSelectedWidthRatio() {
-    return selectedWidthRatio;
-  }
-
-  public void setSelectedWidthRatio(double selectedWidthRatio) {
-    this.selectedWidthRatio = selectedWidthRatio;
-    updateAdornerVisualsOnZoom();
-  }
-
-  public void setDisplayUnselectedAdorners(boolean displayUnselectedAdorners) {
-    if (displayUnselectedAdorners != this.displayUnselectedAdorners) {
-      this.displayUnselectedAdorners = displayUnselectedAdorners;
-
-      if (!displayUnselectedAdorners) {
-        for (javafx.scene.Node child : adornerPane.getChildren()) {
-
-          if (child instanceof CircleEx) {
-            CircleEx c = (CircleEx) child;
-            if (c.isVisible() && c.hasFocus) {
-              c.setVisible(false);
-            }
-          }
-
-          if (child instanceof LineEx) {
-            LineEx l = (LineEx) child;
-            if (l.isVisible() && l.hasFocus) {
-              l.setVisible(false);
-            }
-          }
-        }
-      } else {
-        for (javafx.scene.Node child : adornerPane.getChildren()) {
-          if (!child.isVisible()) {
-            child.setVisible(true);
-          }
-        }
-      }
-    }
-  }
-
   public MapController() {}
 
   @FXML
   private void initialize() {
 
-    Platform.runLater(
-        () -> {
-          removeAllAdornerElements();
-          nodes = loadNodesFromDB();
-          edges = loadEdgesFromDB();
-          addAdornerElements(nodes, edges, floorNumber);
-        });
+    // scale and fit parking map
 
-    categories = new ArrayList<String>();
-    categories.add("Parking Lot");
-    categories.add("Floor 1");
-    categories.add("Floor 2");
-    categories.add("Floor 3");
-    categories.add("Floor 4");
-    categories.add("Floor 5");
-
-    for (String c : categories) floorMenu.getItems().add(c);
-
-    floorMenu.setPromptText("Parking Lot");
-
-    floorMenu.setOnAction(
-        e -> {
-          removeAllAdornerElements();
-          changeMapImage(determineNewMap((String) floorMenu.getValue()));
-        });
-    //    int i = 0;
-    //    for (MenuItem menuItem : getFloorMenu().getItems()) {
-    //      int index = i;
-    //      menuItem.setOnAction(
-    //          e -> {
-    //            removeAllAdornerElements();
-    //            changeMapImage(getMapOrder().get(index));
-    // get adorner shit
-    //            updateMenuPreview(e, getFloorMenu());
-    //          });
-    //      i++;
-    //    }
-
-    //    mapImageView.setScaleX(4);
-    //    mapImageView.setScaleY(4);
     adornerPane.toFront();
     mapOverlayUIGridPane.toFront();
+    containerStackPane.setMaxWidth(mapImageView.getFitWidth());
+    containerStackPane.setMaxHeight(mapImageView.getFitHeight());
 
-    adornerPane.maxWidthProperty().setValue(mapImageView.getFitWidth());
-    adornerPane.maxHeightProperty().setValue(mapImageView.getFitHeight());
+    Image image = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerParking.png");
+    mapImageView.setImage(image);
+    adornerPane.maxWidthProperty().setValue(mapImageView.getImage().widthProperty().getValue());
+
+    adornerPane.maxHeightProperty().setValue(mapImageView.getImage().heightProperty().getValue());
 
     adornerPane.setScaleX(mapImageView.getScaleX());
     adornerPane.setScaleY(mapImageView.getScaleY());
@@ -282,30 +168,20 @@ public class MapController extends RightPage {
         });
 
     // Set Zoom
-    containerStackPane.setOnKeyPressed(
+    anchor.setOnKeyPressed(
         e -> {
           scrollOnPress(e);
         });
-    containerStackPane.setOnKeyReleased(e -> scrollOnRelease(e));
+    anchor.setOnKeyReleased(e -> scrollOnRelease(e));
     containerStackPane.setOnScroll(e -> zoom(e));
 
     // Sets Map clip so nothing can appear outside map bounds
     Platform.runLater(
         () -> {
-          Rectangle viewWindow = new Rectangle(0, 0, 999999, 999999);
+          Rectangle viewWindow =
+              new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
           containerStackPane.setClip(viewWindow);
-          updateAdornerVisualsOnZoom();
         });
-  }
-
-  private MAP_PAGE determineNewMap(String mapName) {
-    if (mapName.equals("Parking Lot")) return mapOrder.get(0);
-    else if (mapName.equals("Floor 1")) return mapOrder.get(1);
-    else if (mapName.equals("Floor 2")) return mapOrder.get(2);
-    else if (mapName.equals("Floor 3")) return mapOrder.get(3);
-    else if (mapName.equals("Floor 4")) return mapOrder.get(4);
-    else if (mapName.equals("Floor 5")) return mapOrder.get(5);
-    else return null;
   }
 
   // Default Drag Handlers
@@ -418,29 +294,21 @@ public class MapController extends RightPage {
   // Adorner Elements
   protected CircleEx addNodeCircle(Node node) {
     CircleEx circleEx =
-        new CircleEx(
-            scaleXCoords(node.getXcoord()),
-            scaleXCoords(node.getYcoord()),
-            baseCircleRadius / adornerPane.getScaleX());
+        new CircleEx(scaleXCoords(node.getXcoord()), scaleXCoords(node.getYcoord()), 3);
     circleEx.setId(node.getNodeID());
     circleEx.setFill(Paint.valueOf("RED"));
-    circleEx.setNode(node);
     adornerPane.getChildren().add(circleEx);
-
-    if (!displayUnselectedAdorners) {
-      circleEx.setVisible(false);
-    }
 
     updateMapScreen();
     return circleEx;
   }
 
-  protected LineEx addEdgeLine(Edge edge) {
+  protected LineEx addEdgeLine(Edge e) {
     CircleEx n = null;
     CircleEx m = null;
     try {
-      n = (CircleEx) adornerPane.getScene().lookup("#" + edge.getStartNodeID());
-      m = (CircleEx) adornerPane.getScene().lookup("#" + edge.getEndNodeID());
+      n = (CircleEx) adornerPane.getScene().lookup("#" + e.getStartNodeID());
+      m = (CircleEx) adornerPane.getScene().lookup("#" + e.getEndNodeID());
 
       // System.out.println(e.edgeID);
       startx = n.getCenterX();
@@ -455,15 +323,10 @@ public class MapController extends RightPage {
     LineEx lineEx = new LineEx(startx, starty, endx, endy);
     lineEx.startNode = n;
     lineEx.endNode = m;
-    lineEx.setId(edge.getEdgeID());
-    lineEx.setStrokeWidth(scaledLineWidth);
-    lineEx.setEdge(edge);
+    lineEx.setId(e.getEdgeID());
+    lineEx.setStrokeWidth(3);
     adornerPane.getChildren().add(lineEx);
     lineEx.toBack();
-
-    if (!displayUnselectedAdorners) {
-      lineEx.setVisible(false);
-    }
 
     if (n != null && !n.connectingEdges.contains(lineEx)) {
       n.connectingEdges.add(lineEx);
@@ -566,48 +429,30 @@ public class MapController extends RightPage {
     }
   }
 
-  protected ArrayList<Node> loadNodesFromDB() {
-    try {
-      return DataOperations.getListOfNodes();
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-      return null;
-    }
-  }
-
-  protected ArrayList<Edge> loadEdgesFromDB() {
-    try {
-      return DataOperations.getListOfEdge();
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-      return null;
-    }
-  }
-
   // Scale functions
   protected double scaleXCoords(double x) {
-    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
+    double scale = 1485.0 / 350.0;
     return x / scale;
   }
 
   protected double scaleUpXCoords(double x) {
-    double scale = mapImageView.getImage().getWidth() / adornerPane.getWidth();
+    double scale = 1485.0 / 350.0;
     return x * scale;
   }
 
   protected double scaleYCoords(double y) {
-    double scale = mapImageView.getImage().getHeight() / adornerPane.getHeight();
+    double scale = 1485.0 / 350.0;
     return y / scale;
   }
 
   protected double scaleUpYCoords(double y) {
-    double scale = mapImageView.getImage().getHeight() / adornerPane.getHeight();
+    double scale = 1485.0 / 350.0;
     return y * scale;
   }
 
   // Selection functions
   protected void clearSelection() {
-    // Cannot just deselect because for loop cannot be edited during loop
+    // Cannot just deselect because for loop
     clearCircleSelection();
     clearLineSelection();
   }
@@ -616,32 +461,25 @@ public class MapController extends RightPage {
     for (CircleEx c : selectedNodes) {
       c.setStrokeWidth(0);
       c.hasFocus = false;
-      if (!displayUnselectedAdorners) {
-        c.setVisible(false);
-      }
     }
     selectedNodes = new ArrayList<CircleEx>();
   }
 
   protected void clearLineSelection() {
     for (LineEx l : selectedEdges) {
-      l.setStrokeWidth(scaledLineWidth);
+      l.setStrokeWidth(3);
       l.setStroke(Paint.valueOf("BLACK"));
       l.hasFocus = false;
-      if (!displayUnselectedAdorners) {
-        l.setVisible(false);
-      }
     }
     selectedEdges = new ArrayList<LineEx>();
   }
 
   protected void selectCircle(CircleEx c) {
     if (!c.hasFocus) {
-      c.setStrokeWidth(scaledLineWidth);
+      c.setStrokeWidth(2);
       c.setStroke(Paint.valueOf("BLUE"));
       selectedNodes.add(c);
       c.hasFocus = true;
-      c.setVisible(true);
     }
   }
 
@@ -650,31 +488,24 @@ public class MapController extends RightPage {
       c.setStrokeWidth(0);
       selectedNodes.remove(c);
       c.hasFocus = false;
-      if (!displayUnselectedAdorners) {
-        c.setVisible(false);
-      }
     }
   }
 
   protected void selectLine(LineEx l) {
     if (!l.hasFocus) {
-      l.setStrokeWidth(scaledLineWidthSelected);
+      l.setStrokeWidth(5);
       l.setStroke(Paint.valueOf("BLUE"));
       selectedEdges.add(l);
       l.hasFocus = true;
-      l.setVisible(true);
     }
   }
 
   protected void deSelectLine(LineEx l) {
     if (l.hasFocus) {
-      l.setStrokeWidth(scaledLineWidth);
+      l.setStrokeWidth(3);
       l.setStroke(Paint.valueOf("BLACK"));
       selectedEdges.remove(l);
       l.hasFocus = false;
-      if (!displayUnselectedAdorners) {
-        l.setVisible(false);
-      }
     }
   }
 
@@ -713,7 +544,6 @@ public class MapController extends RightPage {
           } else {
 
           }
-          updateAdornerVisualsOnZoom();
         });
   }
 
@@ -750,7 +580,6 @@ public class MapController extends RightPage {
     mapImageView.translateYProperty().setValue(0);
     adornerPane.translateXProperty().setValue(0);
     adornerPane.translateYProperty().setValue(0);
-    updateAdornerVisualsOnZoom();
   }
 
   protected void zoom(ScrollEvent e) {
@@ -764,12 +593,14 @@ public class MapController extends RightPage {
     } else {
 
     }
+    Rectangle viewWindow =
+        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
+    containerStackPane.setClip(viewWindow);
     adornerPane.setScaleY(adornerPane.getScaleY() + scale);
     adornerPane.setScaleX(adornerPane.getScaleX() + scale);
 
     mapImageView.setScaleY(mapImageView.getScaleY() + scale);
     mapImageView.setScaleX(mapImageView.getScaleX() + scale);
-    updateAdornerVisualsOnZoom();
   }
 
   protected void zoomOnButtons(String dir) {
@@ -791,32 +622,6 @@ public class MapController extends RightPage {
 
     } else {
     }
-    updateAdornerVisualsOnZoom();
-  }
-
-  protected void updateAdornerVisualsOnZoom() {
-    scaledCircleRadius = baseCircleRadius / adornerPane.getScaleX();
-    scaledLineWidth = baseLineWidth / adornerPane.getScaleX();
-    scaledLineWidthSelected = baseLineWidth / adornerPane.getScaleX() * selectedWidthRatio;
-
-    for (javafx.scene.Node adorner : adornerPane.getChildren()) {
-      if (adorner instanceof CircleEx) {
-        CircleEx circ = (CircleEx) adorner;
-        if (circ.hasFocus) {
-          circ.setStrokeWidth(scaledLineWidth);
-        }
-        circ.setRadius(scaledCircleRadius);
-      } else {
-        if (adorner instanceof LineEx) {
-          LineEx line = (LineEx) adorner;
-          if (line.hasFocus) {
-            line.setStrokeWidth(scaledLineWidthSelected);
-          } else {
-            line.setStrokeWidth(scaledLineWidth);
-          }
-        }
-      }
-    }
   }
 
   // Better Adorners
@@ -836,16 +641,6 @@ public class MapController extends RightPage {
           System.out.println("Circle found edge that didnt have it added");
         }
       }
-    }
-
-    private Node node;
-
-    public Node getNode() {
-      return node;
-    }
-
-    public void setNode(Node n) {
-      node = n;
     }
 
     public CircleEx(double radius) {
@@ -872,16 +667,6 @@ public class MapController extends RightPage {
 
     public CircleEx startNode;
     public CircleEx endNode;
-
-    private Edge edge;
-
-    public Edge getEdge() {
-      return edge;
-    }
-
-    public void setEdge(Edge e) {
-      edge = e;
-    }
 
     public LineEx() {}
 

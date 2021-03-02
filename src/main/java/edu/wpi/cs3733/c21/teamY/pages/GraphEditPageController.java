@@ -1,12 +1,13 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
-import java.awt.*;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
@@ -19,13 +20,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class GraphEditPageController {
+public class GraphEditPageController extends RightPage {
 
   @FXML private Pane anchor;
   @FXML private HBox header;
@@ -83,11 +86,7 @@ public class GraphEditPageController {
   @FXML private JFXButton moveNodeLeftButton;
   @FXML private JFXButton moveNodeRightButton;
 
-  @FXML private VBox mapBox;
-
   @FXML private MapController mapInsertController;
-
-  @FXML private EditNodeTableController editNodeTableController;
 
   private double dragStartXRelativeEdge;
   private double dragStartYRelativeEdge;
@@ -108,9 +107,23 @@ public class GraphEditPageController {
 
   public GraphEditPageController() {}
 
+  private void loadMap() {
+    FXMLLoader fxmlLoader = new FXMLLoader();
+    try {
+      javafx.scene.Node node =
+          fxmlLoader.load(getClass().getResource("MapUserControl.fxml").openStream());
+      mapInsertController = (MapController) fxmlLoader.getController();
+      mapInsertController.setParent(parent);
+      stackPane.getChildren().add(node);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   @FXML
   private void initialize() {
 
+    loadMap();
     anchor.setOnKeyPressed(
         e -> {
           mapInsertController.scrollOnPress(e);
@@ -230,7 +243,7 @@ public class GraphEditPageController {
     toolTip.toFront();
 
     initImage();
-    mapInsertController.getFloorMenu().setPromptText("Parking Lot");
+    mapInsertController.getFloorMenu().setText("Parking Lot");
 
     loadNodesButton.setOnAction(
         e -> {
@@ -238,16 +251,16 @@ public class GraphEditPageController {
         });
 
     int i = 0;
-    //    for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
-    //      int index = i;
-    //      menuItem.setOnAction(
-    //          e -> {
-    //            mapInsertController.removeAllAdornerElements();
-    //            mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(index));
-    //            mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
-    //          });
-    //      i++;
-    //    }
+    for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
+      int index = i;
+      menuItem.setOnAction(
+          e -> {
+            mapInsertController.removeAllAdornerElements();
+            mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(index));
+            mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
+          });
+      i++;
+    }
 
     // attaches a handler to the button with a lambda expression
     toHomeBtn.setOnAction(e -> buttonClicked(e));
@@ -303,13 +316,6 @@ public class GraphEditPageController {
                   return;
                 }
 
-                if (clickedEdge) {
-                  dragStartXRelativeEdge =
-                      e.getX() - ((MapController.LineEx) jfxNodeBeingDragged).getStartX();
-                  dragStartYRelativeEdge =
-                      e.getY() - ((MapController.LineEx) jfxNodeBeingDragged).getStartY();
-                }
-
                 // already selected one or more nodes/edges
                 if (headHasFocus) {
                   nodesAffectedByDrag = mapInsertController.getSelectedNodes();
@@ -321,6 +327,11 @@ public class GraphEditPageController {
                     nodesAffectedByDrag.add((MapController.CircleEx) jfxNodeBeingDragged);
                   } else if (clickedEdge) {
                     edgesAffectedByDrag.add((MapController.LineEx) jfxNodeBeingDragged);
+
+                    dragStartXRelativeEdge =
+                        e.getX() - ((MapController.LineEx) jfxNodeBeingDragged).getStartX();
+                    dragStartYRelativeEdge =
+                        e.getY() - ((MapController.LineEx) jfxNodeBeingDragged).getStartY();
                   }
                 }
 
@@ -486,12 +497,6 @@ public class GraphEditPageController {
 
               jfxNodeBeingDragged = null;
             });
-
-    // Resize the adorners so that they are easier to see
-    // Only has to happen once on page load
-    mapInsertController.setBaseCircleRadius(6);
-    mapInsertController.setBaseLineWidth(5);
-    mapInsertController.setSelectedWidthRatio(5.0 / 3);
   }
 
   private void handleClickOnNode(MapController.CircleEx node) {
