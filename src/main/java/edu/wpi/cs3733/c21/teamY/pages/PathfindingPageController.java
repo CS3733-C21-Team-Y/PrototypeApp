@@ -54,6 +54,7 @@ public class PathfindingPageController extends RightPage {
   @FXML private VBox textDirectionsBox;
   @FXML private VBox textDirectionViewer;
   @FXML private JFXButton exitDirectionBtn;
+  @FXML private VBox sideMenuVBox;
   // @FXML private Label zoomLabel;
 
   private ArrayList<Node> nodes = new ArrayList<Node>();
@@ -98,6 +99,7 @@ public class PathfindingPageController extends RightPage {
     loadMap();
     textDirectionsBox.setVisible(false);
     overlayGridPane.setPickOnBounds(false);
+    sideMenuVBox.setPickOnBounds(false);
     exitDirectionBtn.setOnAction(e -> textDirectionsBox.setVisible(false));
     //         attaches a handler to the button with a lambda expression
 
