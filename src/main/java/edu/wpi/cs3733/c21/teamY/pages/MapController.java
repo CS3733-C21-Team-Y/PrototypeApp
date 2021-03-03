@@ -10,6 +10,7 @@ import java.util.Arrays;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.image.Image;
@@ -85,6 +86,9 @@ public class MapController extends RightPage {
   Image f3 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor3IT2.png");
   Image f4 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor4IT2.png");
   Image f5 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor5IT2.png");
+
+  private Double mouseX;
+  private Double mouseY;
 
   // Getters
   protected Pane getAdornerPane() {
@@ -237,6 +241,12 @@ public class MapController extends RightPage {
 
           Rectangle viewWindow = new Rectangle(0, 0, 9999, 9999999);
           containerStackPane.setClip(viewWindow);
+
+          containerStackPane.setOnMouseMoved(
+              e -> {
+                mouseX = e.getX();
+                mouseY = e.getY();
+              });
         });
   }
 
@@ -639,7 +649,11 @@ public class MapController extends RightPage {
   }
 
   protected void zoom(ScrollEvent e) {
-    zoomOnButtons((e.getDeltaY() * 0.005));
+    double widthBefore = adornerPane.getWidth();
+    double heightBefore = adornerPane.getHeight();
+
+    double scale = Math.pow(Math.E, e.getDeltaY() * 0.005);
+    zoomStolen(scale, e.getX(), e.getY());
   }
 
   protected void zoomOnButtons(double scrollAmount) {
@@ -660,6 +674,39 @@ public class MapController extends RightPage {
 
     mapImageView.setScaleX(mapImageView.getScaleX() * scale);
     mapImageView.setScaleY(mapImageView.getScaleY() * scale);
+  }
+
+  public void zoomStolen(double factor, double x, double y) {
+    // determine scale
+    double oldScale = mapImageView.getScaleX();
+    double scale = oldScale * factor;
+    double f = (scale / oldScale) - 1;
+
+    // determine offset that we will have to move the node
+    Bounds bounds = mapImageView.localToScene(mapImageView.getBoundsInLocal());
+    double dx = (x - (bounds.getWidth() / 2 + bounds.getMinX()));
+    double dy = (y - (bounds.getHeight() / 2 + bounds.getMinY()));
+
+    /*
+    // timeline that scales and moves the node
+    timeline.getKeyFrames().clear();
+    timeline.getKeyFrames().addAll(
+            new KeyFrame(Duration.millis(200), new KeyValue(node.translateXProperty(), node.getTranslateX() - f * dx)),
+            new KeyFrame(Duration.millis(200), new KeyValue(node.translateYProperty(), node.getTranslateY() - f * dy)),
+            new KeyFrame(Duration.millis(200), new KeyValue(node.scaleXProperty(), scale)),
+            new KeyFrame(Duration.millis(200), new KeyValue(node.scaleYProperty(), scale))
+    );
+    timeline.play();*/
+    mapImageView.setTranslateX(mapImageView.getTranslateX() - f * dx);
+    adornerPane.setTranslateX(adornerPane.getTranslateX() - f * dx);
+
+    mapImageView.setTranslateY(mapImageView.getTranslateY() - f * dy);
+    adornerPane.setTranslateY(adornerPane.getTranslateY() - f * dy);
+
+    mapImageView.setScaleX(scale);
+    mapImageView.setScaleY(scale);
+    adornerPane.setScaleX(scale);
+    adornerPane.setScaleY(scale);
   }
 
   // Better Adorners

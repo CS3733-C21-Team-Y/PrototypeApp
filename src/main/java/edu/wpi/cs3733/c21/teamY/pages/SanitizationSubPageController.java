@@ -15,6 +15,8 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
   @FXML private JFXComboBox locationField;
   @FXML private JFXComboBox urgency;
   @FXML private JFXComboBox biohazardLevel;
+  // @FXML private JFXTextField chemHazardLevel;
+
   @FXML private JFXTextArea description;
 
   @FXML private StackPane stackPane;

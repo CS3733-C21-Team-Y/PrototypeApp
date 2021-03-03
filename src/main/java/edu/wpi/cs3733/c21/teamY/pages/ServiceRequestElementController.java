@@ -1,7 +1,9 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
+import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -16,7 +18,9 @@ public class ServiceRequestElementController extends CenterPage {
   @FXML private JFXButton statusBtn;
   @FXML private JFXButton incompleteBtn;
   @FXML private JFXButton inProgressBtn;
+  @FXML private JFXButton deleteBtn;
   @FXML private JFXButton completeBtn;
+  @FXML private Label employeeLabel;
 
   private Service service;
 
@@ -25,8 +29,17 @@ public class ServiceRequestElementController extends CenterPage {
     incompleteBtn.setOnAction(e -> statusBtnClicked(e));
     inProgressBtn.setOnAction(e -> statusBtnClicked(e));
     completeBtn.setOnAction(e -> statusBtnClicked(e));
+    deleteBtn.setOnAction(e -> deleteService());
     statusBtn.setOnAction(e -> toggleStatusGrid());
     statusGrid.setVisible(false);
+  }
+
+  private void deleteService() {
+    try {
+      DataOperations.removeService(service.getServiceID());
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
   }
 
   private void toggleStatusGrid() {
@@ -41,7 +54,13 @@ public class ServiceRequestElementController extends CenterPage {
     } else if (e.getSource() == completeBtn) {
       service.setStatus(1);
     }
-    // put code for updating service here
+
+    try {
+      DataOperations.updateServiceStatus(service, service.getStatus());
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+
     toggleStatusGrid();
     populateInformation(service);
   }
@@ -51,6 +70,7 @@ public class ServiceRequestElementController extends CenterPage {
     type.setText(service.getType());
     test.setText(service.getLocation());
     serviceID.setText("ID #: " + service.getServiceID());
+    employeeLabel.setText(service.getEmployee());
     if (service.getStatus() == -1) {
       status.setText("INCOMPLETE");
     } else if (service.getStatus() == 0) {

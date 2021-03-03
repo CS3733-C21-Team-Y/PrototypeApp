@@ -61,13 +61,12 @@ public class SecuritySubPageController extends GenericServiceFormPage {
         || urgency.toString().equals("")) {
       nonCompleteForm(stackPane);
     } else {
-
       Service service = new Service(this.IDCount, "Security");
       this.IDCount++;
-      service.setCategory(category.getAccessibleText());
-      service.setLocation(locationBox.getAccessibleText());
-      service.setUrgency(urgency.getAccessibleText());
-      service.setAdditionalInfo(time.getAccessibleText());
+      service.setCategory((String) category.getValue());
+      service.setLocation((String) locationBox.getValue());
+      service.setUrgency((String) urgency.getValue());
+      service.setAdditionalInfo(time.getValue().toString());
       service.setDate(datePickerObject.getValue().toString());
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());
