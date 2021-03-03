@@ -184,8 +184,8 @@ public class GraphEditPageController extends RightPage {
     panDownButton.setOnAction(e -> mapInsertController.panOnButtons("down"));
     panLeftButton.setOnAction(e -> mapInsertController.panOnButtons("left"));
     panRightButton.setOnAction(e -> mapInsertController.panOnButtons("right"));
-    zoomInButton.setOnAction(e -> mapInsertController.zoomOnButtons("in"));
-    zoomOutButton.setOnAction(e -> mapInsertController.zoomOnButtons("out"));
+    zoomInButton.setOnAction(e -> mapInsertController.zoomOnButtons(0.05));
+    zoomOutButton.setOnAction(e -> mapInsertController.zoomOnButtons(-0.05));
 
     moveNodeUpButton.setOnAction(
         e -> {
