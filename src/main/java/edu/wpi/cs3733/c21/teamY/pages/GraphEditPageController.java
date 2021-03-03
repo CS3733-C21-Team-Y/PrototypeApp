@@ -141,6 +141,7 @@ public class GraphEditPageController extends RightPage {
       editNodeTableController = (EditNodeTableController) fxmlLoader.getController();
       editNodeTableController.setParent(parent);
       hBox.getChildren().add(node);
+      node.prefWidth(9999);
       node.toFront();
     } catch (Exception e) {
       e.printStackTrace();

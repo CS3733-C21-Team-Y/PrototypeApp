@@ -339,6 +339,10 @@ public class EditNodeTableController extends RightPage {
 
     setList();
     setColumns();
+    //    Platform.runLater(
+    //        () -> {
+    //          treeTable.maxHeightProperty().bind(treeTable.getScene().heightProperty());
+    //        });
   }
 
   public void setColumns() {
