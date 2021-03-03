@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
+import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
@@ -36,6 +37,8 @@ public class MapController extends RightPage {
 
   @FXML private GridPane mapOverlayUIGridPane;
   @FXML private SplitMenuButton floorMenu;
+
+  @FXML private JFXButton reset;
 
   private double startx, starty, endx, endy;
 
@@ -140,16 +143,17 @@ public class MapController extends RightPage {
   @FXML
   private void initialize() {
 
-    // scale and fit parking map
+    reset.setOnAction(e -> resetMapView());
+    reset.toFront();
 
     adornerPane.toFront();
     floorMenu.toFront();
+    mapImageView.toBack();
     mapOverlayUIGridPane.toFront();
     containerStackPane.setMaxWidth(mapImageView.getFitWidth());
     containerStackPane.setMaxHeight(mapImageView.getFitHeight());
 
-    Image image = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerParking.png");
-    mapImageView.setImage(image);
+    mapImageView.setImage(parking);
     adornerPane.maxWidthProperty().setValue(mapImageView.getImage().widthProperty().getValue());
 
     adornerPane.maxHeightProperty().setValue(mapImageView.getImage().heightProperty().getValue());

@@ -1,18 +1,18 @@
 .button{
-    -fx-background-color: #d8d8d8;
+    -fx-background-color: #3b3d73;
     -fx-font-family: arial;
     -fx-font-weight: bold;
-    -fx-text-fill: #656565;
+    -fx-text-fill: #9B9EB9;
 
 }
 .button:hover{
-    -fx-background-color: #656565;
+    -fx-background-color: #3b3d73;
     -fx-font-family: arial;
     -fx-font-weight: bold;
-    -fx-text-fill: #d8d8d8;
+    -fx-text-fill: #9B9EB9;
 }
 .anchorpane{
-    -fx-background-color: #002564;
+    -fx-background-color: #3b3d73;
 
 }
 .largeVBox{

@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import java.io.IOException;
@@ -119,6 +120,11 @@ public class AdminPageController extends RightPage {
   public AdminPageController() {}
 
   public void initialize() {
+    loadNodesButton.setOnAction(
+        e -> {
+          loadMapFromDB();
+          resetComboBoxes();
+        });
 
     Platform.runLater(
         () -> {
@@ -128,6 +134,7 @@ public class AdminPageController extends RightPage {
 
           mapInsertController.containerStackPane.setTranslateY(
               0 - mapInsertController.getMapImageView().getImage().getHeight() / 2);
+
           mapInsertController.containerStackPane.setOnScroll(
               e ->
                   mapInsertController.shiftedZoom(
@@ -363,14 +370,23 @@ public class AdminPageController extends RightPage {
           // Resize the adorners so that they are easier to see
           // Only has to happen once on page load
 
-          //          mapInsertController.setBaseCircleRadius(6);
-          //          mapInsertController.setBaseLineWidth(5);
-          //          mapInsertController.setSelectedWidthRatio(5.0 / 3);
+          //                    mapInsertController.setBaseCircleRadius(6);
+          //                    mapInsertController.setBaseLineWidth(5);
+          //                    mapInsertController.setSelectedWidthRatio(5.0 / 3);
         });
+  }
 
-    //    resetView.setOnAction(e -> mapInsertController.resetMapView());
-    //    resetView.toFront();
+  private void loadMapFromDB() {
+    mapInsertController.removeAllAdornerElements();
 
+    nodeIDCounter = nodes.size() + 1;
+    try {
+      nodes = DataOperations.getListOfNodes();
+      edges = DataOperations.getListOfEdge();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
   }
 
   private void addMapPage() {
@@ -383,6 +399,19 @@ public class AdminPageController extends RightPage {
       splitPaneTop.getChildren().add(node);
     } catch (IOException e) {
       e.printStackTrace();
+    }
+  }
+
+  private void resetComboBoxes() {
+    startLocationBox.getItems().remove(0, startLocationBox.getItems().size());
+    endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
+
+    for (edu.wpi.cs3733.c21.teamY.entity.Node node : nodes) {
+      startLocationBox.getItems().add(node.nodeID);
+    }
+
+    for (edu.wpi.cs3733.c21.teamY.entity.Node node : nodes) {
+      endLocationBox.getItems().add(node.nodeID);
     }
   }
 
