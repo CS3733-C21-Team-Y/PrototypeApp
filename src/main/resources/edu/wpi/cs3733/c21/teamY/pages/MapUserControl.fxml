@@ -31,7 +31,7 @@
             </Pane>
          </children>
       </StackPane>
-      <GridPane fx:id="mapOverlayUIGridPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane fx:id="mapOverlayUIGridPane" alignment="BOTTOM_LEFT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -43,7 +43,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <SplitMenuButton fx:id="floorMenu" mnemonicParsing="false" text="Floor" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <SplitMenuButton fx:id="floorMenu" mnemonicParsing="false" popupSide="TOP" text="Floor" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <items>
                   <MenuItem fx:id="parkingFloorMenuItem" mnemonicParsing="false" text="Parking lot" />
                   <MenuItem fx:id="floorOneMenuItem" mnemonicParsing="false" text="Floor 1" />

@@ -179,8 +179,7 @@ public class MapController extends RightPage {
           scrollOnPress(e);
         });
     anchor.setOnKeyReleased(e -> scrollOnRelease(e));
-    containerStackPane.setOnScroll(
-        e -> zoomTest(e)); // //===============================================
+    containerStackPane.setOnScroll(e -> zoom(e));
 
     // Sets Map clip so nothing can appear outside map bounds
     Platform.runLater(
@@ -657,15 +656,12 @@ public class MapController extends RightPage {
     zoomStolen(scale, e.getX(), e.getY());
   }
 
-  protected void zoomTest(ScrollEvent e) {
+  protected void shiftedZoom(ScrollEvent e, double xTrans, double yTrans) {
     double widthBefore = adornerPane.getWidth();
     double heightBefore = adornerPane.getHeight();
 
     double scale = Math.pow(Math.E, e.getDeltaY() * 0.005);
-    zoomStolen(
-        scale,
-        e.getX() + adornerPane.getTranslateX(),
-        e.getY() + adornerPane.getTranslateY());
+    zoomStolen(scale, e.getX() + xTrans, e.getY() + yTrans);
   }
 
   protected void zoomOnButtons(double scrollAmount) {

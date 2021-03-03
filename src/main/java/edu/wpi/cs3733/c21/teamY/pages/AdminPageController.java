@@ -126,8 +126,12 @@ public class AdminPageController extends RightPage {
           addTablePage();
           //          mapInsertController.getMapImageView().setScaleX(0.25);
 
-          mapInsertController.anchor.setTranslateY(
+          mapInsertController.containerStackPane.setTranslateY(
               0 - mapInsertController.getMapImageView().getImage().getHeight() / 2);
+          mapInsertController.containerStackPane.setOnScroll(
+              e ->
+                  mapInsertController.shiftedZoom(
+                      e, 0, 0 - mapInsertController.getMapImageView().getImage().getHeight() / 2));
 
           //          mapInsertController.removeAllAdornerElements();
           //          nodes = mapInsertController.loadNodesFromDB();
@@ -328,8 +332,7 @@ public class AdminPageController extends RightPage {
                       ArrayList<MapController.LineEx> intersectedLines =
                           new ArrayList<MapController.LineEx>();
 
-                      for (javafx.scene.Node adorner :
-                          mapInsertController.getAdornerPane().getChildren()) {
+                      for (Node adorner : mapInsertController.getAdornerPane().getChildren()) {
                         if (adorner instanceof MapController.CircleEx) {
                           if (rectangleSelection.intersects(adorner.getBoundsInLocal())) {
                             intersectedCircles.add((MapController.CircleEx) adorner);
