@@ -148,6 +148,21 @@ public class MapController extends RightPage {
 
     adornerPane.toFront();
     floorMenu.toFront();
+    //    floorMenu.setOnAction(
+    //        event -> {
+    //    int i = 0;
+    //    for (MenuItem menuItem : floorMenu.getItems()) {
+    //      int index = i;
+    //      menuItem.setOnAction(
+    //          e -> {
+    //            removeAllAdornerElements();
+    //            changeMapImage(getMapOrder().get(index));
+    //            //            System.out.println(mapImageView.getImage());
+    //            updateMenuPreview(e, getFloorMenu());
+    //          });
+    //      i++;
+    //    }
+    //        });
     mapImageView.toBack();
     mapOverlayUIGridPane.toFront();
     containerStackPane.setMaxWidth(mapImageView.getFitWidth());

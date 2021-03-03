@@ -77,7 +77,7 @@ public class AdminPageController extends RightPage {
 
   //  @FXML private Button toHomeBtn;
   @FXML private JFXButton addNode;
-  @FXML private JFXButton loadNodesButton;
+  //  @FXML private JFXButton loadNodesButton; //bye bye fml
 
   @FXML private JFXButton deleteEdge;
   @FXML private JFXButton deleteNode;
@@ -120,17 +120,26 @@ public class AdminPageController extends RightPage {
   public AdminPageController() {}
 
   public void initialize() {
-    loadNodesButton.setOnAction(
-        e -> {
-          loadMapFromDB();
-          resetComboBoxes();
-        });
+    //    loadNodesButton.setOnAction(
+    //        e -> {
+    //          loadNodesFromDB();
+    //          resetComboBoxes();
+    //        });
 
     Platform.runLater(
         () -> {
           addMapPage();
           addTablePage();
+          loadNodesFromDB();
+          resetComboBoxes();
           //          mapInsertController.getMapImageView().setScaleX(0.25);
+
+          int i = 0;
+          for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
+            int index = i;
+            menuItem.setOnAction(e -> handleFloorChanged(e, index));
+            i++;
+          }
 
           mapInsertController.containerStackPane.setTranslateY(
               0 - mapInsertController.getMapImageView().getImage().getHeight() / 2);
@@ -139,12 +148,6 @@ public class AdminPageController extends RightPage {
               e ->
                   mapInsertController.shiftedZoom(
                       e, 0, 0 - mapInsertController.getMapImageView().getImage().getHeight() / 2));
-
-          //          mapInsertController.removeAllAdornerElements();
-          //          nodes = mapInsertController.loadNodesFromDB();
-          //          edges = mapInsertController.loadEdgesFromDB();
-          //          mapInsertController.addAdornerElements(nodes, edges,
-          // mapInsertController.floorNumber);
 
           //          Mouse Down Override
           mapInsertController
@@ -376,7 +379,7 @@ public class AdminPageController extends RightPage {
         });
   }
 
-  private void loadMapFromDB() {
+  private void loadNodesFromDB() {
     mapInsertController.removeAllAdornerElements();
 
     nodeIDCounter = nodes.size() + 1;
@@ -400,6 +403,16 @@ public class AdminPageController extends RightPage {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  private void handleFloorChanged(ActionEvent e, int menuItemIndex) {
+    // This should be optimised to only switch if the floor actually changed, but its very fast, so
+    // I cant be bothered
+    mapInsertController.removeAllAdornerElements();
+    mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
+    mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
+    //    drawPath(pathNodes);
+    mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   }
 
   private void resetComboBoxes() {

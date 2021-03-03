@@ -38,16 +38,6 @@
                                  <children>
                                     <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                                        <children>
-                                          <SplitMenuButton fx:id="selectNewAlgo" mnemonicParsing="false" styleClass="button" text="Select New Algorithm">
-                                             <items>
-                                                <MenuItem fx:id="depthFirst" mnemonicParsing="false" text="Depth First" />
-                                                <MenuItem fx:id="breadthFirst" mnemonicParsing="false" text="Breadth First" />
-                                                <MenuItem fx:id="aStar" mnemonicParsing="false" text="A-Star" />
-                                             </items>
-                                             <VBox.margin>
-                                                <Insets />
-                                             </VBox.margin>
-                                          </SplitMenuButton>
                                           <CheckBox fx:id="addNodecb" alignment="TOP_CENTER" mnemonicParsing="false" text="add Node" />
                                           <CheckBox fx:id="addEdgecb" mnemonicParsing="false" text="add Edge" />
                                           <JFXButton fx:id="deleteNode" text="Delete Node" />
@@ -115,11 +105,16 @@
                                     </VBox>
                                     <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                                        <children>
-                                          <JFXButton fx:id="loadNodesButton" text="Faulkner Map Load">
+                                          <SplitMenuButton fx:id="selectNewAlgo" mnemonicParsing="false" styleClass="button" text="Select New Algorithm">
+                                             <items>
+                                                <MenuItem fx:id="depthFirst" mnemonicParsing="false" text="Depth First" />
+                                                <MenuItem fx:id="breadthFirst" mnemonicParsing="false" text="Breadth First" />
+                                                <MenuItem fx:id="aStar" mnemonicParsing="false" text="A-Star" />
+                                             </items>
                                              <VBox.margin>
-                                                <Insets bottom="10.0" />
+                                                <Insets />
                                              </VBox.margin>
-                                          </JFXButton>
+                                          </SplitMenuButton>
                                           <JFXButton fx:id="addEdge" text="Add Edge" />
                                           <ComboBox fx:id="startLocationBox" prefWidth="150.0" promptText="Start location Box">
                                              <VBox.margin>

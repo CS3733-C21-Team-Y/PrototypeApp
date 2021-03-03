@@ -26,7 +26,7 @@
                   <Image url="/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor1_Updated.png" />
                </image>
             </ImageView>
-            <Pane fx:id="adornerPane" style="-fx-border-color: #ff0000; -fx-border-width: 3;" StackPane.alignment="TOP_LEFT">
+            <Pane fx:id="adornerPane" StackPane.alignment="TOP_LEFT">
                <StackPane.margin>
                   <Insets />
                </StackPane.margin>
@@ -45,7 +45,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
                   <JFXButton fx:id="reset" buttonType="RAISED" text="Reset View" />
                   <SplitMenuButton fx:id="floorMenu" mnemonicParsing="false" popupSide="TOP" text="Floor">
