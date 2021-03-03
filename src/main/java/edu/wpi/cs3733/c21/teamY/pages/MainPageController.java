@@ -1,8 +1,10 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import java.io.IOException;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +20,7 @@ public class MainPageController {
   @FXML private JFXButton origServiceRequestBtn;
   @FXML private JFXButton origAdminToolsBtn;
   @FXML private ColumnConstraints origCenterColumn;
+  @FXML private FontAwesomeIconView exitBtn;
 
   private JFXButton signInBtn;
   private JFXButton navigationBtn;
@@ -70,6 +73,7 @@ public class MainPageController {
     origServiceRequestBtn.setOnAction(e -> buttonClicked(e));
     origAdminToolsBtn.setOnAction(e -> buttonClicked(e));
     origSignInBtn.setOnAction(e -> buttonClicked(e));
+    exitBtn.setOnMouseClicked(e -> Platform.exit());
     instance.drawByPermissions();
   }
 
