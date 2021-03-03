@@ -11,6 +11,7 @@ import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.TableNodes;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -339,10 +340,10 @@ public class EditNodeTableController extends RightPage {
 
     setList();
     setColumns();
-    //    Platform.runLater(
-    //        () -> {
-    //          treeTable.maxHeightProperty().bind(treeTable.getScene().heightProperty());
-    //        });
+    Platform.runLater(
+        () -> {
+          treeTable.maxHeightProperty().bind(treeTable.getScene().heightProperty());
+        });
   }
 
   public void setColumns() {
