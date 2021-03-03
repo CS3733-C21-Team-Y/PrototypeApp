@@ -639,45 +639,27 @@ public class MapController extends RightPage {
   }
 
   protected void zoom(ScrollEvent e) {
-    double scale = e.getDeltaY() * 0.005;
-    mapImageView.setPreserveRatio(true);
-
-    if (mapImageView.getScaleY() > scaleMax && scale > 0) {
-      scale = 0;
-    } else if (mapImageView.getScaleY() < scaleMin && scale < 0) {
-      scale = 0;
-    } else {
-
-    }
-    Rectangle viewWindow =
-        new Rectangle(0, 0, containerStackPane.getWidth(), containerStackPane.getHeight());
-    //    containerStackPane.setClip(viewWindow);
-    adornerPane.setScaleY(adornerPane.getScaleY() + scale);
-    adornerPane.setScaleX(adornerPane.getScaleX() + scale);
-
-    mapImageView.setScaleY(mapImageView.getScaleY() + scale);
-    mapImageView.setScaleX(mapImageView.getScaleX() + scale);
+    zoomOnButtons((e.getDeltaY() * 0.005));
   }
 
-  protected void zoomOnButtons(String dir) {
-    double scale = 0.1;
-    if (dir.equals("in")) {
-      adornerPane.setScaleY(adornerPane.getScaleY() + scale);
-      adornerPane.setScaleX(adornerPane.getScaleX() + scale);
+  protected void zoomOnButtons(double scrollAmount) {
 
-      mapImageView.setScaleY(mapImageView.getScaleY() + scale);
-      mapImageView.setScaleX(mapImageView.getScaleX() + scale);
+    double scale = Math.pow(Math.E, scrollAmount);
 
-    } else if (dir.equals("out")) {
+    mapImageView.setPreserveRatio(true);
 
-      adornerPane.setScaleY(adornerPane.getScaleY() - scale);
-      adornerPane.setScaleX(adornerPane.getScaleX() - scale);
+    System.out.println(adornerPane.getScaleX() * scale);
+    System.out.println(adornerPane.getScaleY() * scale);
 
-      mapImageView.setScaleY(mapImageView.getScaleY() - scale);
-      mapImageView.setScaleX(mapImageView.getScaleX() - scale);
-
-    } else {
+    if (adornerPane.getScaleX() * scale > 20 || adornerPane.getScaleX() * scale < 0.05) {
+      return;
     }
+
+    adornerPane.setScaleX(adornerPane.getScaleX() * scale);
+    adornerPane.setScaleY(adornerPane.getScaleY() * scale);
+
+    mapImageView.setScaleX(mapImageView.getScaleX() * scale);
+    mapImageView.setScaleY(mapImageView.getScaleY() * scale);
   }
 
   // Better Adorners
