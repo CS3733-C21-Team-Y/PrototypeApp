@@ -808,7 +808,7 @@ public class GraphEditPageController extends RightPage {
       //    JDBCUtils.insert(9, n, "Node");
 
       try {
-        JDBCUtils.insert(9, n, "Node");
+        DataOperations.insert(9, n, "Node");
       } catch (Exception exception) {
         System.out.println("nodeEdgeDispController.createNodecb");
         return;
@@ -835,7 +835,7 @@ public class GraphEditPageController extends RightPage {
       // JDBCUtils.insert(10, n, "NODE");
       // JDBCUtils.insert(JDBCUtils.insertString(n));
 
-      JDBCUtils.insert(9, n, "Node");
+      DataOperations.insert(9, n, "Node");
 
     } catch (Exception exception) {
       System.out.println("Can't create a node with text in the field input");
@@ -845,7 +845,7 @@ public class GraphEditPageController extends RightPage {
   private void updateNodePositionsInDB() {
     for (MapController.CircleEx c : movedNodes) {
       // System.out.println("updating DB with moved nodes");
-      JDBCUtils.updateNodeCoordsOnly(
+      DataOperations.updateNodeCoordsOnly(
           c.getId(),
           Math.floor(mapInsertController.scaleUpXCoords(c.getCenterX())),
           Math.floor(mapInsertController.scaleUpYCoords(c.getCenterY())));
