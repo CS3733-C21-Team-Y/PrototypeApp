@@ -29,7 +29,7 @@ import javafx.stage.Stage;
 
 public class MapController extends RightPage {
 
-  @FXML private AnchorPane anchor;
+  @FXML protected AnchorPane anchor;
   @FXML private ImageView mapImageView;
   @FXML private Pane adornerPane;
   @FXML protected StackPane containerStackPane;
@@ -179,7 +179,8 @@ public class MapController extends RightPage {
           scrollOnPress(e);
         });
     anchor.setOnKeyReleased(e -> scrollOnRelease(e));
-    containerStackPane.setOnScroll(e -> zoom(e));
+    containerStackPane.setOnScroll(
+        e -> zoomTest(e)); // //===============================================
 
     // Sets Map clip so nothing can appear outside map bounds
     Platform.runLater(
@@ -654,6 +655,17 @@ public class MapController extends RightPage {
 
     double scale = Math.pow(Math.E, e.getDeltaY() * 0.005);
     zoomStolen(scale, e.getX(), e.getY());
+  }
+
+  protected void zoomTest(ScrollEvent e) {
+    double widthBefore = adornerPane.getWidth();
+    double heightBefore = adornerPane.getHeight();
+
+    double scale = Math.pow(Math.E, e.getDeltaY() * 0.005);
+    zoomStolen(
+        scale,
+        e.getX() + adornerPane.getTranslateX(),
+        e.getY() + adornerPane.getTranslateY());
   }
 
   protected void zoomOnButtons(double scrollAmount) {
