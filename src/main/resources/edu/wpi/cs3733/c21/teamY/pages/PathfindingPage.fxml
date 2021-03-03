@@ -168,7 +168,7 @@
                 </VBox>
             <JFXButton fx:id="resetView" buttonType="RAISED" style="-fx-background-color: #efeff9;" text="Reset View" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="50.0" right="5.0" />
+                  <Insets bottom="5.0" right="5.0" />
                </GridPane.margin>
                <font>
                   <Font size="14.0" />
@@ -176,7 +176,7 @@
             </JFXButton>
             <JFXButton fx:id="zoomInButton" buttonType="RAISED" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" style="-fx-background-color: #efeff9; -fx-background-radius: 25;" text="+" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="155.0" right="22.0" />
+                  <Insets bottom="110.0" right="22.0" />
                </GridPane.margin>
                <font>
                   <Font name="Calibri" size="27.0" />
@@ -184,7 +184,7 @@
             </JFXButton>
             <JFXButton fx:id="zoomOutButton" buttonType="RAISED" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" style="-fx-background-color: #efeff9; -fx-background-radius: 25;" text="-" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="95.0" right="22.0" />
+                  <Insets bottom="50.0" right="22.0" />
                </GridPane.margin>
                <font>
                   <Font name="Calibri" size="28.0" />
