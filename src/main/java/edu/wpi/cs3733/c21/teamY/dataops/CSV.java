@@ -76,10 +76,9 @@ public class CSV {
 
       e.printStackTrace();
     }
-  }
 
-  // load the bufferWriter for service
-  static {
+    // load the bufferWriter for service
+
     try {
       CSV.bwService = new BufferedWriter(new FileWriter(CSV.servicePath, true));
     } catch (FileNotFoundException e) {
