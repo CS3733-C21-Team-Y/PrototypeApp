@@ -133,7 +133,7 @@ public class JDBCUtils {
     // adding the last without the comma
     arguments.append("(?)");
 
-    // creates the prepared statement inserting with tableName and the arguments stringbuilder
+    // creates the prepared statement inserting with tableName and the arguments stringBuilder
     PreparedStatement psInsert =
         JDBCUtils.getConn()
             .prepareStatement(
