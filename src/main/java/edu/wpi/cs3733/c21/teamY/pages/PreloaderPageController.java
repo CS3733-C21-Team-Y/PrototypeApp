@@ -16,7 +16,7 @@ public class PreloaderPageController extends Preloader {
     this.stage = stage;
     progressBar = new JFXProgressBar();
     Parent loadingPage = FXMLLoader.load(getClass().getResource("LoadingPage.fxml"));
-    Scene scene = new Scene(loadingPage, 800, 700);
+    Scene scene = new Scene(loadingPage, 600, 400);
     progressBar.setStyle("-fx-accent: #26274d");
 
     stage.setScene(scene);
