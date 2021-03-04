@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <GridPane prefHeight="166.0" prefWidth="301.0" style="-fx-background-color: #9b9eb9;" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="0.0" prefWidth="58.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="259.0" minWidth="0.0" percentWidth="60.0" prefWidth="258.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="124.0" minWidth="0.0" prefWidth="57.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="0.0" percentHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label depthTest="ENABLE" minHeight="0.0" minWidth="0.0" prefHeight="92.0" prefWidth="181.0" text="Initializing.." GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <font>
+                  <Font name="Calibri Bold" size="36.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </Label>
+            <JFXProgressBar fx:id="progressBar" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+         </children>
+      </GridPane>
+   </center>
+   <top>
+      <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="600.0" style="-fx-background-color: #9b9eb9;" />
+   </top>
+   <left>
+      <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="100.0" style="-fx-background-color: #9b9eb9;" />
+   </left>
+   <right>
+      <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="100.0" style="-fx-background-color: #9b9eb9;" />
+   </right>
+   <bottom>
+      <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="600.0" style="-fx-background-color: #9b9eb9;" />
+   </bottom>
+</BorderPane>
