@@ -9,6 +9,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 
@@ -21,6 +23,7 @@ public class MainPageController {
   @FXML private JFXButton origAdminToolsBtn;
   @FXML private ColumnConstraints origCenterColumn;
   @FXML private FontAwesomeIconView exitBtn;
+  @FXML private ScrollPane scrollPane;
 
   private JFXButton signInBtn;
   private JFXButton navigationBtn;
@@ -32,6 +35,13 @@ public class MainPageController {
   //  @FXML private JFXButton SRMenuBtn;
   private static MainPageController instance;
   Settings settings;
+
+  // tooltip Initializations
+  Tooltip origSignInBtnTooltip = new Tooltip("Navigate to Login Page");
+  Tooltip origNavigationBtnTooltip = new Tooltip("Navigate to Navigation Page");
+  Tooltip origServiceRequestTooltip = new Tooltip("Navigate to Request Page");
+  Tooltip origAdminToolsTooltip = new Tooltip("Navigate to Admin Page");
+  Tooltip exitBtnTooltip = new Tooltip("Exit Application");
 
   public MainPageController() {}
 
@@ -75,6 +85,15 @@ public class MainPageController {
     origSignInBtn.setOnAction(e -> buttonClicked(e));
     exitBtn.setOnMouseClicked(e -> Platform.exit());
     instance.drawByPermissions();
+
+    Tooltip.install(origNavigationBtn, origNavigationBtnTooltip);
+    Tooltip.install(origAdminToolsBtn, origAdminToolsTooltip);
+    Tooltip.install(exitBtn, exitBtnTooltip);
+    Tooltip.install(origServiceRequestBtn, origServiceRequestTooltip);
+    Tooltip.install(origSignInBtn, origSignInBtnTooltip);
+
+    scrollPane = new ScrollPane();
+    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
   }
 
   public void updateProfileBtn() {

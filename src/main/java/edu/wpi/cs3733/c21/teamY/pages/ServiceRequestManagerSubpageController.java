@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamY.pages;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ScrollPane;
 
 public class ServiceRequestManagerSubpageController extends RightPage {
   @FXML private JFXButton laundryBtn;
@@ -17,6 +18,7 @@ public class ServiceRequestManagerSubpageController extends RightPage {
   @FXML private JFXButton computerBtn;
   @FXML private JFXButton outsideHosBtn;
   @FXML private JFXButton sanitizationBtn;
+  @FXML private ScrollPane scrollPane;
 
   @FXML
   private void initialize() {
@@ -32,6 +34,7 @@ public class ServiceRequestManagerSubpageController extends RightPage {
     computerBtn.setOnAction(e -> pageButtonClicked(e));
     outsideHosBtn.setOnAction(e -> pageButtonClicked(e));
     sanitizationBtn.setOnAction(e -> pageButtonClicked(e));
+    // scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
   }
 
   @Override

@@ -76,6 +76,13 @@ public class PathfindingPageController extends RightPage {
   private boolean noStairs = false;
   private boolean kiosk = false;
 
+  // TooltipInstantiations
+  Tooltip bathroomTooltip = new Tooltip("Add/Remove Bathroom Detour");
+  Tooltip cafeTooltip = new Tooltip("Add/Remove Cafe Detour");
+  Tooltip kioskTooltip = new Tooltip("Add/Remove Kiosk Detour");
+  Tooltip stairsTooltip = new Tooltip("Toggle stairs in your route on");
+  Tooltip noStairsTooltip = new Tooltip("Toggle stairs in your route off");
+
   /** Do not use it. It does nothing. */
   public PathfindingPageController() {}
 
@@ -114,6 +121,13 @@ public class PathfindingPageController extends RightPage {
 
     // Set the starting image early because otherwise it will flash default
     mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
+
+    // tooltips
+
+    Tooltip.install(bathroomBtn, bathroomTooltip);
+    Tooltip.install(kioskBtn, kioskTooltip);
+    Tooltip.install(cafeBtn, cafeTooltip);
+    Tooltip.install(noStairsBtn, noStairsTooltip);
 
     JFXDialog dialog = new JFXDialog();
     dialog.setContent(
@@ -579,5 +593,9 @@ public class PathfindingPageController extends RightPage {
   private void clearPath() {
     mapInsertController.clearSelection();
     pathNodes = new ArrayList<Node>();
+  }
+
+  public JFXButton getBathroomBtn() {
+    return bathroomBtn;
   }
 }

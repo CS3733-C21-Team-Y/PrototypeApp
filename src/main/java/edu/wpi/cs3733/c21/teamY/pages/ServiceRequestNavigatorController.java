@@ -11,14 +11,24 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 
 public class ServiceRequestNavigatorController extends CenterPage {
+
+  public ScrollPane scrollPane;
   @FXML private VBox serviceBox;
   @FXML private JFXButton button2;
   @FXML private JFXButton myRequestsBtn;
   @FXML private JFXButton allRequestsBtn;
   @FXML private JFXButton assignedBtn;
+
+  // tooltip instantiations
+  Tooltip button2Tooltip = new Tooltip("What is button 2?");
+  Tooltip myRequestsBtnTooltip = new Tooltip("Displays Requests I Created");
+  Tooltip allRequestBtnTooltip = new Tooltip("Displays All Current Requests");
+  Tooltip assignedBtnTooltip = new Tooltip("Displays Requests I Am Assigned");
 
   @FXML
   private void initialize() {
@@ -29,6 +39,12 @@ public class ServiceRequestNavigatorController extends CenterPage {
     allRequestsBtn.setOnAction(e -> loadServicesFromDB());
     drawByPermissions();
     Platform.runLater(() -> filterByRequester());
+
+    Tooltip.install(button2, button2Tooltip);
+    Tooltip.install(myRequestsBtn, myRequestsBtnTooltip);
+    Tooltip.install(allRequestsBtn, allRequestBtnTooltip);
+    Tooltip.install(assignedBtn, assignedBtnTooltip);
+    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
   }
 
   private void exportServices() {

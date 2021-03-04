@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 
 public class ServiceRequestElementController extends CenterPage {
@@ -24,6 +25,8 @@ public class ServiceRequestElementController extends CenterPage {
 
   private Service service;
 
+  Tooltip statusBtnTooltip = new Tooltip("Toggle Actions");
+
   @FXML
   private void initialize() {
     incompleteBtn.setOnAction(e -> statusBtnClicked(e));
@@ -32,6 +35,8 @@ public class ServiceRequestElementController extends CenterPage {
     deleteBtn.setOnAction(e -> deleteService());
     statusBtn.setOnAction(e -> toggleStatusGrid());
     statusGrid.setVisible(false);
+
+    Tooltip.install(statusBtn, statusBtnTooltip);
   }
 
   private void deleteService() {

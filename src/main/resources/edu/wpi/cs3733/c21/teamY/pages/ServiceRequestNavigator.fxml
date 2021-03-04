@@ -101,7 +101,7 @@
                         <Insets left="6.0" />
                      </GridPane.margin>
                   </FontAwesomeIconView>
-                  <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #3f417a;" stylesheets="@../UIStyles.css" GridPane.rowIndex="2">
+                  <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #3f417a;" stylesheets="@../UIStyles.css" GridPane.rowIndex="2">
                      <content>
                         <VBox fx:id="serviceBox" prefHeight="800.0" prefWidth="500.0" style="-fx-background-color: #3f417a;">
                            <padding>

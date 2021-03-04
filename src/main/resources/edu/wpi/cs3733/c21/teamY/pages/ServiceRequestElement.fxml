@@ -79,17 +79,6 @@
                   <DropShadow blurType="GAUSSIAN" color="#292929" height="30.0" radius="14.5" width="30.0" />
                </effect>
             </GridPane>
-            <JFXButton fx:id="statusBtn" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" style="-fx-background-radius: 20;" styleClass="SRElementAnchor" stylesheets="@../UIStyles.css" text=" " GridPane.columnIndex="1" GridPane.valignment="TOP">
-               <graphic>
-                  <MaterialDesignIconView fx:id="editBtn" fill="#6f7095" glyphName="DOTS_VERTICAL" size="30" />
-               </graphic>
-               <GridPane.margin>
-                  <Insets left="-3.0" top="10.0" />
-               </GridPane.margin>
-               <padding>
-                  <Insets left="-5.0" />
-               </padding>
-            </JFXButton>
          </children>
          <padding>
             <Insets top="10.0" />
@@ -121,13 +110,21 @@
                   <DropShadow color="#cccccc" spread="0.15" />
                </effect>
                <children>
-                  <JFXButton fx:id="incompleteBtn" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #cccccc; -fx-font-size: 14; -fx-background-radius: 12.5;" text="Incomplete" GridPane.halignment="CENTER" />
+                  <JFXButton fx:id="incompleteBtn" prefHeight="26.0" prefWidth="102.0" style="-fx-font-size: 14; -fx-background-radius: 13; -fx-background-color: #cccccc;" text="Incomplete" GridPane.halignment="CENTER" />
                   <JFXButton fx:id="completeBtn" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #cccccc; -fx-font-size: 14; -fx-background-radius: 12.5;" text="Complete" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                   <JFXButton fx:id="inProgressBtn" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #cccccc; -fx-font-size: 14; -fx-background-radius: 12.5;" text="In Progress" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <JFXButton fx:id="deleteBtn" layoutX="13.0" layoutY="42.0" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #cccccc; -fx-font-size: 14; -fx-background-radius: 12.5;" text="Delete" GridPane.rowIndex="3" />
+                  <JFXButton fx:id="deleteBtn" alignment="CENTER" layoutX="13.0" layoutY="42.0" prefHeight="26.0" prefWidth="69.0" style="-fx-background-color: #cccccc; -fx-font-size: 14; -fx-background-radius: 12.5;" text="Delete" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                </children>
             </GridPane>
          </children>
       </GridPane>
+      <JFXButton fx:id="statusBtn" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" style="-fx-background-radius: 20;" styleClass="SRElementAnchor" stylesheets="@../UIStyles.css" text=" " AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="20.0">
+         <graphic>
+            <MaterialDesignIconView fx:id="editBtn" fill="#6f7095" glyphName="DOTS_VERTICAL" size="30" />
+         </graphic>
+         <padding>
+            <Insets left="-5.0" />
+         </padding>
+      </JFXButton>
    </children>
 </AnchorPane>
