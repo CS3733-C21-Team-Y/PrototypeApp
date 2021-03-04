@@ -26,6 +26,8 @@ public class ActiveGraph {
 
   private static Graph activeGraph;
 
+  private static Graph activeGraphNoStairs;
+
   public static ArrayList<Node> getNodes() {
     return nodes;
   }
@@ -36,15 +38,27 @@ public class ActiveGraph {
 
   private static ArrayList<Node> nodes = new ArrayList<Node>();
   private static ArrayList<Edge> edges = new ArrayList<Edge>();
+  private static ArrayList<Node> nodesNS = new ArrayList<>();
+  private static ArrayList<Edge> edgesNS = new ArrayList<>();
 
   public static void initialize() throws SQLException {
-    initialize(FilterMapElements.None);
-  }
-  /** Initializes graph from csv. TO BE REPLACED LATER */
-  public static void initialize(FilterMapElements filters) throws SQLException {
+    // initializing normal graph
     nodes = DataOperations.getListOfNodes();
     edges = DataOperations.getListOfEdge();
+    activeGraph = new Graph(nodes, edges);
+    // initializing no stairs graph
+    nodesNS = DataOperations.getListOfNodeNoStairs();
+    edgesNS = DataOperations.getListOfEdgeNoStairs();
+    activeGraphNoStairs = new Graph(nodesNS, edgesNS);
 
+    // initialize(FilterMapElements.None);
+  }
+
+  /** Initializes graph from csv. TO BE REPLACED LATER */
+  public static void initialize(FilterMapElements filters) throws SQLException {
+
+    nodes = DataOperations.getListOfNodes();
+    edges = DataOperations.getListOfEdge();
     Graph g = new Graph(nodes, edges);
     activeGraph = g;
   }
@@ -54,5 +68,17 @@ public class ActiveGraph {
     NoStairs,
     Employee,
     Employee_NoStairs;
+  }
+
+  public static Graph getActiveGraphNoStairs() {
+    return activeGraphNoStairs;
+  }
+
+  public static ArrayList<Node> getNodesNS() {
+    return nodesNS;
+  }
+
+  public static ArrayList<Edge> getEdgesNS() {
+    return edgesNS;
   }
 }

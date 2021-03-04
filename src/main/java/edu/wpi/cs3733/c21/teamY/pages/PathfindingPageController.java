@@ -8,7 +8,6 @@ import edu.wpi.cs3733.c21.teamY.algorithms.AlgoContext;
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls;
 import edu.wpi.cs3733.c21.teamY.entity.*;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -445,22 +444,15 @@ public class PathfindingPageController extends RightPage {
   private void resetGraphNodesEdges(boolean stairs) {
 
     if (stairs) {
-      try {
-        ActiveGraph.initialize(ActiveGraph.FilterMapElements.None);
-      } catch (SQLException throwables) {
-        throwables.printStackTrace();
-      }
-    } else {
-      try {
-        ActiveGraph.initialize(ActiveGraph.FilterMapElements.NoStairs);
-      } catch (SQLException throwables) {
-        throwables.printStackTrace();
-      }
-    }
+      nodes = ActiveGraph.getNodes();
+      edges = ActiveGraph.getEdges();
+      graph = ActiveGraph.getActiveGraph();
 
-    nodes = ActiveGraph.getNodes();
-    edges = ActiveGraph.getEdges();
-    graph = ActiveGraph.getActiveGraph();
+    } else {
+      nodes = ActiveGraph.getNodesNS();
+      edges = ActiveGraph.getEdgesNS();
+      graph = ActiveGraph.getActiveGraphNoStairs();
+    }
   }
 
   /** resetComboBoxes Resets node comboboxes with values from nodes and edges */

@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY;
 
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
 import edu.wpi.cs3733.c21.teamY.pages.StageInformation;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -22,6 +23,11 @@ public class App extends Application {
 
     DataOperations.initDB();
     DataOperations.initCSV();
+    try {
+      ActiveGraph.initialize();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
 
     try {
       DataOperations.fillTablesFromCSV();
