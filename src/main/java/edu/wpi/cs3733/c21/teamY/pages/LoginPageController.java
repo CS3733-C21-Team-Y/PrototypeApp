@@ -29,6 +29,10 @@ public class LoginPageController extends RightPage {
     forgotPasswordBtn.setOnAction(e -> buttonClicked(e));
   }
 
+  // needed outside of scope for submit()
+  JFXDialog errorMsg = new JFXDialog();
+  private boolean errorMsgDisplayed = false;
+
   private void submit(KeyEvent e) {
     if (e.getCode() == KeyCode.ENTER) {
       String tryID = employeeIDTextField.getText();
@@ -41,10 +45,15 @@ public class LoginPageController extends RightPage {
           parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
           parent.drawByPermissions();
         } else {
-          JFXDialog errorMsg = new JFXDialog();
-          errorMsg.setContent(
-              new Label("Username or password not recognized" + "\n please try again"));
-          errorMsg.show(stackPane);
+          if (!errorMsgDisplayed) {
+            errorMsgDisplayed = true;
+            errorMsg.setContent(
+                new Label("Username or password not recognized" + "\n please try again"));
+            errorMsg.show(stackPane);
+          } else {
+            errorMsg.close();
+            errorMsgDisplayed = false;
+          }
         }
       } catch (SQLException throwables) {
         throwables.printStackTrace();

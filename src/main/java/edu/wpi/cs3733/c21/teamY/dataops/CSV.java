@@ -82,7 +82,6 @@ public class CSV {
   static {
     try {
       CSV.bwService = new BufferedWriter(new FileWriter(CSV.servicePath, true));
-      System.out.println("Service BufferedWriter initialized successful!");
     } catch (FileNotFoundException e) {
       System.out.println("Service BufferedWriter initialized failed!");
 
@@ -95,7 +94,6 @@ public class CSV {
   static {
     try {
       CSV.bwEmployee = new BufferedWriter(new FileWriter(CSV.employeePath, true));
-      System.out.println("Employee BufferedWriter initialized successful!");
     } catch (FileNotFoundException e) {
       System.out.println("Employee BufferedWriter initialized failed!");
 
@@ -427,7 +425,6 @@ public class CSV {
     try {
       Statement statement = conn.createStatement();
       ResultSet resultSet = statement.executeQuery(str);
-      System.out.println("exporting Edge from database to list of nodes");
       while (resultSet.next()) {
         edgeID = resultSet.getString(1);
         startNodeID = resultSet.getString(2);
@@ -509,7 +506,6 @@ public class CSV {
     try {
       Statement statement = conn.createStatement();
       ResultSet resultSet = statement.executeQuery(str);
-      System.out.println("exporting Nodes from database to list of nodes");
       while (resultSet.next()) {
         nodeID = resultSet.getString(1);
         nodeType = resultSet.getString(2);
