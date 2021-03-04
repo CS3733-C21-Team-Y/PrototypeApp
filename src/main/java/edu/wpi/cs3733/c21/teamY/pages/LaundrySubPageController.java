@@ -88,9 +88,7 @@ public class LaundrySubPageController extends GenericServiceFormPage {
 
       submittedPopUp(stackPane);
 
-      category.setValue(null);
-      description.setText("");
-      locationField.setValue(null);
+      clearButton();
     }
   }
 }

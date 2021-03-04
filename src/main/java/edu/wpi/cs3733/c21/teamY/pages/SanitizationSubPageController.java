@@ -103,11 +103,7 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
-
-      locationField.setValue(null);
-      description.setText("");
-      biohazardLevel.setValue(null);
-      urgency.setValue(null);
+      clearButton();
     }
   }
 }

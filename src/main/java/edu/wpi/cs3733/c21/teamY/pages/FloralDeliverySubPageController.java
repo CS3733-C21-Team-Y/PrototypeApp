@@ -68,13 +68,7 @@ public class FloralDeliverySubPageController extends GenericServiceFormPage {
       service.setAdditionalInfo(fromInput.getText() + " " + toInput.getText());
       service.setDate(dateInput.getText());
 
-      roomNumberInput.setText("");
-      categoryInput.setText("");
-      descriptionInput.setText("");
-      fromInput.setText("");
-      toInput.setText("");
-      dateInput.setText("");
-
+      clearButton();
       submittedPopUp(stackPane);
       try {
         DataOperations.saveService(service);

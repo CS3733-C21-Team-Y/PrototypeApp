@@ -110,12 +110,7 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
-
-      category.setValue(null);
-      urgency.setValue(null);
-      description.setText("");
-      date2.setText("");
-      locationField.setValue(null);
+      clearButton();
     }
   }
 }

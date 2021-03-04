@@ -75,11 +75,7 @@ public class MedicineSubPageController extends GenericServiceFormPage {
         e.printStackTrace();
       }
       submittedPopUp(stackPane);
-
-      patient.setText("");
-      date.setText("");
-      doctor.setText("");
-      medicine.setText("");
+      clearButton();
     }
   }
 }

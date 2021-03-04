@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.c21.teamY.dataops;
 
-import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
@@ -135,18 +134,8 @@ public class DataOperations {
     return CSV.getListOfEdge();
   }
 
-  public static ArrayList<Edge> getListOfEdgeNoStairs() throws SQLException {
-
-    return CSV.getListOfEdge(ActiveGraph.FilterMapElements.NoStairs);
-  }
-
   public static ArrayList<Node> getListOfNodes() throws SQLException {
     return CSV.getListOfNodes();
-  }
-
-  public static ArrayList<Node> getListOfNodeNoStairs() throws SQLException {
-
-    return CSV.getListOfNodes(ActiveGraph.FilterMapElements.NoStairs);
   }
 
   public static boolean findUser(String username, String password) throws SQLException {

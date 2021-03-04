@@ -82,11 +82,7 @@ public class InsideHospitalSidePageController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
-      description.setText("");
-      currentLocation.setText("");
-      patientName.setText("");
-      date.setText("");
-      desiredLocation.setText("");
+      clearButton();
     }
   }
 }

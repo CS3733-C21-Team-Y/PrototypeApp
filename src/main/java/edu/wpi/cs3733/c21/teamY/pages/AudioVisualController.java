@@ -84,12 +84,7 @@ public class AudioVisualController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
-      avTypeComboBox.getSelectionModel().clearSelection();
-      avTypeComboBox.setValue(null);
-      avLocationComboBox.getSelectionModel().clearSelection();
-      avLocationComboBox.setValue(null);
-      avDate.setValue(null);
-      avDesc.setText("");
+      clearButton();
     }
   }
 }

@@ -86,7 +86,7 @@
                            <children>
                               <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 0 10;">
                                  <children>
-                                    <JFXButton fx:id="languageBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Language (Alex)" textAlignment="CENTER" wrapText="true">
+                                    <JFXButton fx:id="languageBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Language" textAlignment="CENTER" wrapText="true">
                                        <graphic>
                                           <FontAwesomeIconView fill="#5a5c94" glyphName="COMMENTS_ALT" size="45" />
                                        </graphic>
@@ -98,7 +98,7 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF;" GridPane.columnIndex="1">
                                  <children>
-                                    <JFXButton fx:id="giftBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Gift Delivery (Cole)" textAlignment="CENTER" wrapText="true">
+                                    <JFXButton fx:id="giftBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Gift Delivery" textAlignment="CENTER" wrapText="true">
                                        <font>
                                           <Font name="Calibri" size="14.0" />
                                        </font>
@@ -110,7 +110,7 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF;" GridPane.columnIndex="2">
                                  <children>
-                                    <JFXButton fx:id="laundryBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Laundry (Brian)" textAlignment="CENTER" wrapText="true">
+                                    <JFXButton fx:id="laundryBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Laundry" textAlignment="CENTER" wrapText="true">
                                        <font>
                                           <Font name="Calibri" size="14.0" />
                                        </font>
@@ -122,7 +122,7 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="3">
                                  <children>
-                                    <JFXButton fx:id="floralBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Floral Delivery (Pat)" textAlignment="CENTER" wrapText="true">
+                                    <JFXButton fx:id="floralBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Floral Delivery" textAlignment="CENTER" wrapText="true">
                                        <font>
                                           <Font name="Calibri" size="14.0" />
                                        </font>
@@ -189,7 +189,7 @@
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 0 10;">
                                        <children>
-                                          <JFXButton fx:id="AVBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Audio Visual (Corinne)" textAlignment="CENTER" wrapText="true">
+                                          <JFXButton fx:id="AVBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Audio Visual" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="14.0" />
                                              </font>
@@ -201,7 +201,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
                                        <children>
-                                          <JFXButton fx:id="computerBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="IT Services (Lia)" textAlignment="CENTER" wrapText="true">
+                                          <JFXButton fx:id="computerBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="IT Services" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="14.0" />
                                              </font>
@@ -259,7 +259,7 @@
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 0 10;">
                                        <children>
-                                          <JFXButton fx:id="medicineBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Medicine (Ian)" textAlignment="CENTER" wrapText="true">
+                                          <JFXButton fx:id="medicineBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Medicine" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="14.0" />
                                              </font>
@@ -274,7 +274,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
                                        <children>
-                                          <JFXButton fx:id="sanitizationBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Sanitization (Manu)" textAlignment="CENTER" wrapText="true">
+                                          <JFXButton fx:id="sanitizationBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Sanitization" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="14.0" />
                                              </font>
@@ -343,7 +343,7 @@
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 0 10;">
                                        <children>
-                                          <JFXButton fx:id="securityBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Security (Greg)" textAlignment="CENTER" wrapText="true">
+                                          <JFXButton fx:id="securityBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Security" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="14.0" />
                                              </font>
@@ -355,7 +355,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
                                        <children>
-                                          <JFXButton fx:id="maintenanceBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Maintenance (Brian)" textAlignment="CENTER" wrapText="true">
+                                          <JFXButton fx:id="maintenanceBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Maintenance" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="14.0" />
                                              </font>
@@ -410,7 +410,7 @@
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 0 10;">
                                        <children>
-                                          <JFXButton fx:id="insideHosBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Inside Hospital (Sam)" textAlignment="CENTER" wrapText="true">
+                                          <JFXButton fx:id="insideHosBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Inside Hospital" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="14.0" />
                                              </font>
@@ -422,7 +422,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
                                        <children>
-                                          <JFXButton fx:id="outsideHosBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Outisde Hospital (Yonghua)" textAlignment="CENTER" wrapText="true">
+                                          <JFXButton fx:id="outsideHosBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Outisde Hospital" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="14.0" />
                                              </font>

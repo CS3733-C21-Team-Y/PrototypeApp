@@ -82,10 +82,7 @@ public class LanguageSubpageController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
-      langOptions.setValue(null);
-      locationField.setText("");
-      description.setText("");
-      urgency.setValue(null);
+      clearButton();
     }
   }
 }

@@ -80,13 +80,7 @@ public class SecuritySubPageController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
-
-      locationBox.setValue(null);
-      datePickerObject.setValue(null);
-      time.setValue(null);
-      description.setText("");
-      category.setValue(null);
-      urgency.setValue(null);
+      clearButton();
     }
   }
 
