@@ -410,11 +410,6 @@ public class CSV {
   }
 
   public static ArrayList<Edge> getListOfEdge() throws SQLException {
-    return getListOfEdge(ActiveGraph.FilterMapElements.None);
-  }
-
-  public static ArrayList<Edge> getListOfEdge(ActiveGraph.FilterMapElements filters)
-      throws SQLException {
     Connection conn = JDBCUtils.getConn();
     String str = "SELECT * FROM ADMIN.EDGE";
     ArrayList<Edge> edges = new ArrayList<>();
@@ -424,44 +419,6 @@ public class CSV {
     try {
       Statement statement = conn.createStatement();
       ResultSet resultSet = statement.executeQuery(str);
-      while (resultSet.next()) {
-        edgeID = resultSet.getString(1);
-        startNodeID = resultSet.getString(2);
-        endNodeID = resultSet.getString(3);
-
-        if (filters == ActiveGraph.FilterMapElements.NoStairs
-            || filters == ActiveGraph.FilterMapElements.Employee_NoStairs) {
-          if (startNodeID.contains("STAI") || endNodeID.contains("STAI")) {
-            continue;
-          }
-        }
-        Edge edge = new Edge(edgeID, startNodeID, endNodeID);
-        edges.add(edge);
-        JDBCUtils.insert(3, edge, "Edge");
-      }
-      resultSet.close();
-      JDBCUtils.close();
-      return edges;
-    } catch (SQLException | IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
-
-  @Deprecated
-  public static ArrayList<Edge> getListOfEdgeNoStairs() throws SQLException {
-    Connection conn = JDBCUtils.getConn();
-    String str = "SELECT * FROM ADMIN.EDGE";
-    ArrayList<Edge> edges = new ArrayList<>();
-    String edgeID;
-    String startNodeID;
-    String endNodeID;
-    try {
-      Statement statement = conn.createStatement();
-      ResultSet resultSet = statement.executeQuery(str);
-      System.out.println("exporting Edge from database to list of nodes (No Stairs)");
       while (resultSet.next()) {
         edgeID = resultSet.getString(1);
         startNodeID = resultSet.getString(2);
@@ -480,15 +437,10 @@ public class CSV {
       e.printStackTrace();
     }
     return null;
-  }
-
-  public static ArrayList<Node> getListOfNodes() throws SQLException {
-    return getListOfNodes(ActiveGraph.FilterMapElements.None);
   }
 
   /** @return a list of nodes filtered by ActiveGraph.FilterMapElements */
-  public static ArrayList<Node> getListOfNodes(ActiveGraph.FilterMapElements filters)
-      throws SQLException {
+  public static ArrayList<Node> getListOfNodes() throws SQLException {
     // Connection conn=JDBCUtils.getConn();
     Connection conn = JDBCUtils.getConn();
     String str = "SELECT * FROM ADMIN.NODE";
@@ -515,13 +467,6 @@ public class CSV {
         longName = resultSet.getString(7);
         shortName = resultSet.getString(8);
         teamAssigned = resultSet.getString(9).charAt(0);
-
-        if (filters == ActiveGraph.FilterMapElements.NoStairs
-            || filters == ActiveGraph.FilterMapElements.Employee_NoStairs) {
-          if (nodeID.contains("STAI")) {
-            continue;
-          }
-        }
 
         Node node =
             new Node(

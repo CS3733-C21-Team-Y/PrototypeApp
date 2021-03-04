@@ -193,7 +193,7 @@ public class PathfindingPageController extends RightPage {
     startLocationBox.requestFocus();
 
     // Init Graph
-    resetGraphNodesEdges(true);
+    resetGraphNodesEdges();
     resetComboBoxes();
 
     // Init Map
@@ -433,26 +433,11 @@ public class PathfindingPageController extends RightPage {
   }
 
   // PATHFINDING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  /**
-   * resetGraphNodesEdges sets graph, nodes, stairs, to updated values in ActiveGraph
-   *
-   * <p>WARNING: Uses old ActiveGraph/ActiveGraph implementation.
-   *
-   * @param stairs
-   */
-  private void resetGraphNodesEdges(boolean stairs) {
-
-    if (stairs) {
-      nodes = ActiveGraph.getNodes();
-      edges = ActiveGraph.getEdges();
-      graph = ActiveGraph.getActiveGraph();
-
-    } else {
-      nodes = ActiveGraph.getNodesNS();
-      edges = ActiveGraph.getEdgesNS();
-      graph = ActiveGraph.getActiveGraphNoStairs();
-    }
+  /** resetGraphNodesEdges sets graph, nodes, stairs, to updated values in ActiveGraph */
+  private void resetGraphNodesEdges() {
+    nodes = ActiveGraph.getNodes();
+    edges = ActiveGraph.getEdges();
+    graph = ActiveGraph.getActiveGraph();
   }
 
   /** resetComboBoxes Resets node comboboxes with values from nodes and edges */
