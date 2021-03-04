@@ -84,10 +84,7 @@ public class ITSubPageController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
-      categoryComboBox.setValue(null);
-      locationComboBox.setValue(null);
-      affectsComboBox.setValue(null);
-      description.setText("");
+      clearButton();
     }
   }
 }

@@ -69,9 +69,7 @@ public class HospitalOutsideServiceController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
-      locationTextField.setText("");
-      serviceDate.setValue(null);
-      descriptionTextArea.setText("");
+      clearButton();
     }
   }
 }

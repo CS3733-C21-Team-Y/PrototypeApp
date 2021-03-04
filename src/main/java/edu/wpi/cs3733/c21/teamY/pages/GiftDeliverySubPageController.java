@@ -81,9 +81,6 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
       e.printStackTrace();
     }
     submittedPopUp(stackPane);
-    giftType.setValue(null);
-    locationField.setValue(null);
-    description.setText("");
-    datePicker.setValue(null);
+    clearButton();
   }
 }
