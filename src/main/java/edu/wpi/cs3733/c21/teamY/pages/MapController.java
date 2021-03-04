@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
+import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
@@ -29,13 +30,15 @@ import javafx.stage.Stage;
 
 public class MapController extends RightPage {
 
-  @FXML private AnchorPane anchor;
+  @FXML protected AnchorPane anchor;
   @FXML private ImageView mapImageView;
   @FXML private Pane adornerPane;
   @FXML protected StackPane containerStackPane;
 
   @FXML private GridPane mapOverlayUIGridPane;
   @FXML private SplitMenuButton floorMenu;
+
+  @FXML private JFXButton reset;
 
   private double startx, starty, endx, endy;
 
@@ -140,16 +143,32 @@ public class MapController extends RightPage {
   @FXML
   private void initialize() {
 
-    // scale and fit parking map
+    reset.setOnAction(e -> resetMapView());
+    reset.toFront();
 
     adornerPane.toFront();
     floorMenu.toFront();
+    //    floorMenu.setOnAction(
+    //        event -> {
+    //    int i = 0;
+    //    for (MenuItem menuItem : floorMenu.getItems()) {
+    //      int index = i;
+    //      menuItem.setOnAction(
+    //          e -> {
+    //            removeAllAdornerElements();
+    //            changeMapImage(getMapOrder().get(index));
+    //            //            System.out.println(mapImageView.getImage());
+    //            updateMenuPreview(e, getFloorMenu());
+    //          });
+    //      i++;
+    //    }
+    //        });
+    mapImageView.toBack();
     mapOverlayUIGridPane.toFront();
     containerStackPane.setMaxWidth(mapImageView.getFitWidth());
     containerStackPane.setMaxHeight(mapImageView.getFitHeight());
 
-    Image image = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerParking.png");
-    mapImageView.setImage(image);
+    mapImageView.setImage(parking);
     adornerPane.maxWidthProperty().setValue(mapImageView.getImage().widthProperty().getValue());
 
     adornerPane.maxHeightProperty().setValue(mapImageView.getImage().heightProperty().getValue());
@@ -654,6 +673,14 @@ public class MapController extends RightPage {
 
     double scale = Math.pow(Math.E, e.getDeltaY() * 0.005);
     zoomStolen(scale, e.getX(), e.getY());
+  }
+
+  protected void shiftedZoom(ScrollEvent e, double xTrans, double yTrans) {
+    double widthBefore = adornerPane.getWidth();
+    double heightBefore = adornerPane.getHeight();
+
+    double scale = Math.pow(Math.E, e.getDeltaY() * 0.005);
+    zoomStolen(scale, e.getX() + xTrans, e.getY() + yTrans);
   }
 
   protected void zoomOnButtons(double scrollAmount) {

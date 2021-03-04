@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
@@ -8,6 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
@@ -31,7 +33,7 @@
             </Pane>
          </children>
       </StackPane>
-      <GridPane fx:id="mapOverlayUIGridPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane fx:id="mapOverlayUIGridPane" alignment="BOTTOM_LEFT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -43,16 +45,21 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <SplitMenuButton fx:id="floorMenu" mnemonicParsing="false" text="Floor" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
-               <items>
-                  <MenuItem fx:id="parkingFloorMenuItem" mnemonicParsing="false" text="Parking lot" />
-                  <MenuItem fx:id="floorOneMenuItem" mnemonicParsing="false" text="Floor 1" />
-                  <MenuItem fx:id="floorTwoMenuItem" mnemonicParsing="false" text="Floor 2" />
-                  <MenuItem fx:id="floorThreeMenuItem" mnemonicParsing="false" text="Floor 3" />
-                  <MenuItem fx:id="floorFourMenuItem" mnemonicParsing="false" text="Floor 4" />
-                  <MenuItem fx:id="floorFiveMenuItem" mnemonicParsing="false" text="Floor 5" />
-               </items>
-            </SplitMenuButton>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <children>
+                  <JFXButton fx:id="reset" buttonType="RAISED" text="Reset View" />
+                  <SplitMenuButton fx:id="floorMenu" mnemonicParsing="false" popupSide="TOP" text="Floor">
+                     <items>
+                        <MenuItem fx:id="parkingFloorMenuItem" mnemonicParsing="false" text="Parking lot" />
+                        <MenuItem fx:id="floorOneMenuItem" mnemonicParsing="false" text="Floor 1" />
+                        <MenuItem fx:id="floorTwoMenuItem" mnemonicParsing="false" text="Floor 2" />
+                        <MenuItem fx:id="floorThreeMenuItem" mnemonicParsing="false" text="Floor 3" />
+                        <MenuItem fx:id="floorFourMenuItem" mnemonicParsing="false" text="Floor 4" />
+                        <MenuItem fx:id="floorFiveMenuItem" mnemonicParsing="false" text="Floor 5" />
+                     </items>
+                  </SplitMenuButton>
+               </children>
+            </HBox>
          </children>
       </GridPane>
    </children>
