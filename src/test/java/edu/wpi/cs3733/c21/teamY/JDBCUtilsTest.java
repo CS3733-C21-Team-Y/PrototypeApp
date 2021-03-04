@@ -6,7 +6,7 @@ import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
 
-class JDBCUtilsTestEmployee {
+class JDBCUtilsTestEmployeeAndService {
   Employee employee1 = new Employee("John", "Deer", "employee1", 1, "ICU");
   Employee employee2 = new Employee("Jane", "Doe", "employee2", 3, "administration");
   Employee employee3 = new Employee("Jonathan", "Deer", "employee1", 2, "UpdatedICU");

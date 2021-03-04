@@ -4,17 +4,16 @@ import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
+import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
-import org.apache.derby.iapi.error.StandardException;
-import org.apache.derby.iapi.sql.ResultSet;
 
 public class JDBCUtils {
   private static Connection conn;
 
-  static {
+  public static void initDB() {
     // credentials
     String user = "admin";
     String password = "admin";
@@ -99,42 +98,15 @@ public class JDBCUtils {
   /**
    * Closes the given PreparedStatement, ResultSet, Statement, from a given connection
    *
-   * @param ps the prepared statement to close
-   * @param rs the result set to close
-   * @param stmt the statement to close
-   * @param conn the database connection to close
+   * @param closeables: object to close
    */
-  public static void close(PreparedStatement ps, ResultSet rs, Statement stmt, Connection conn) {
-    if (ps != null) {
-
-      try {
-        ps.close();
-      } catch (SQLException throwables) {
-        throwables.printStackTrace();
+  public static void close(Closeable... closeables) throws IOException {
+    try {
+      for (Closeable c : closeables) {
+        c.close();
       }
-    }
-    if (rs != null) {
-      try {
-        rs.close();
-      } catch (StandardException e) {
-        e.printStackTrace();
-      }
-    }
-
-    if (stmt != null) {
-      try {
-        stmt.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-    }
-
-    if (conn != null) {
-      try {
-        conn.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
@@ -163,8 +135,9 @@ public class JDBCUtils {
 
     // creates the prepared statement inserting with tableName and the arguments stringbuilder
     PreparedStatement psInsert =
-        JDBCUtils.conn.prepareStatement(
-            "insert into ADMIN." + tableName + " values(" + arguments.toString() + ")");
+        JDBCUtils.getConn()
+            .prepareStatement(
+                "insert into ADMIN." + tableName + " values(" + arguments.toString() + ")");
     Field[] fields = object.getClass().getDeclaredFields();
     int parameterCounter = 0;
 
@@ -218,7 +191,11 @@ public class JDBCUtils {
         }
       }
     }
-    close(statement, null, null, null);
+    try {
+      close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -258,87 +235,46 @@ public class JDBCUtils {
    * and Edge data respectively
    *
    * @throws IllegalAccessException if access is blocked when retrieving information
-   * @throws NoSuchFieldException if the field of an object cannot be found
    * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
   public static void fillTablesFromCSV() throws IllegalAccessException, IOException, SQLException {
-    ArrayList<Node> nodes = CSV.getNodesCSV();
-    ArrayList<Edge> edges = CSV.getEdgesCSV();
+    CSV.getNodesCSV();
+    CSV.getEdgesCSV();
     CSV.getEmployeesCSV();
     CSV.getServiceCSV();
-
-    // insertArrayListNode(nodes);
-    // insertArrayListEdge(edges);
-  }
-
-  /**
-   * Creates the prepared statement that will be executed by the update method for an update on the
-   * Node table
-   *
-   * @param node represents the node in which to update the table with
-   * @return a PreparedStatement to be used by the update method
-   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
-   */
-  public static PreparedStatement createPreparedStatementUpdate(Node node) throws SQLException {
-    Connection connection = getConn();
-    return connection.prepareStatement(
-        "update Admin.NODE set "
-            + "NODETYPE = '"
-            + node.nodeType
-            + "', XCOORD = '"
-            + node.xcoord
-            + "', YCOORD = '"
-            + node.ycoord
-            + "', FLOOR = '"
-            + node.floor
-            + "', BUILDING = '"
-            + node.building
-            + "', LONGNAME = '"
-            + node.longName
-            + "', SHORTNAME = '"
-            + node.shortName
-            + "', TEAMASSIGNED = '"
-            + node.teamAssigned
-            + "' where NODEID = '"
-            + node.nodeID
-            + "'");
-  }
-
-  /**
-   * Creates the prepared statement that will be executed by the update method for an update on the
-   * Edge table
-   *
-   * @param edge represents the edge to update
-   * @return a PreparedStatement to be used by the update method
-   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
-   */
-  public static PreparedStatement createPreparedStatementUpdate(Edge edge) throws SQLException {
-    Connection connection = getConn();
-    return connection.prepareStatement(
-        "update ADMIN.EDGE set "
-            // + "EDGEID = '"
-            // + edge.edgeID
-            + "STARTNODE = '"
-            + edge.startNodeID
-            + "', ENDNODE = '"
-            + edge.endNodeID
-            + "' where edgeID = '"
-            + edge.edgeID
-            + "'");
   }
 
   /**
    * Updates the specified Node with its matching nodeID in the Node table
    *
    * @param node represents the node to be updated within the DB table
-   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
-  public static void update(Node node) throws SQLException {
+  public static void update(Node node) {
     try {
-      PreparedStatement statement = createPreparedStatementUpdate(node);
-      statement.executeUpdate();
-      getConn().commit();
-      statement.closeOnCompletion();
+      Connection connection = getConn();
+      PreparedStatement stmt =
+          connection.prepareStatement(
+              "update Admin.NODE set "
+                  + "NODETYPE = (?), "
+                  + "XCOORD = (?), "
+                  + "YCOORD = (?), "
+                  + "FLOOR = (?), "
+                  + "BUILDING = (?), "
+                  + "LONGNAME = (?), "
+                  + "SHORTNAME = (?), "
+                  + "TEAMASSIGNED = (?) "
+                  + "where NODEID = (?)");
+      stmt.setString(1, node.nodeType);
+      stmt.setString(2, String.valueOf(node.xcoord));
+      stmt.setString(3, String.valueOf(node.ycoord));
+      stmt.setString(4, node.floor);
+      stmt.setString(5, node.building);
+      stmt.setString(6, node.longName);
+      stmt.setString(7, node.shortName);
+      stmt.setString(8, String.valueOf(node.teamAssigned));
+      stmt.setString(9, node.nodeID);
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -348,56 +284,26 @@ public class JDBCUtils {
    * Updates the specified Edge with its matching edgeID in the Edge table
    *
    * @param edge represents the edge to be updated in the DB table "Edge"
-   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
-  public static void update(Edge edge) throws SQLException {
-    PreparedStatement statement = createPreparedStatementUpdate(edge);
-    statement.executeUpdate();
-    getConn().commit();
-    statement.closeOnCompletion();
-  }
-
-  /**
-   * Functionality to create a resultSet of a select statement from a given table
-   *
-   * @param tableName represents the table in which to update into
-   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
-   */
-  public static void selectQuery(String tableName) throws SQLException {
-
-    String sql = "SELECT * FROM ADMIN." + tableName;
-    Statement stmt;
-    stmt = conn.createStatement();
-    stmt.executeQuery(sql);
-    stmt.close();
-  }
-
-  /**
-   * Creates the prepared statement that will be executed by the delete method for an delete on the
-   * Edge table
-   *
-   * @param nodeID the ID of the node to be deleted from the table
-   * @return a PreparedStatement to be used by the delete method
-   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
-   */
-  public static PreparedStatement createPreparedStatementDeleteNode(String nodeID)
-      throws SQLException {
-    Connection connection = getConn();
-    return connection.prepareStatement("DELETE FROM ADMIN.NODE WHERE NODEID = '" + nodeID + "'");
-  }
-
-  /**
-   * Creates the prepared statement that will be executed by the delete method for a delete on the
-   * Edge table
-   *
-   * @param edgeID the ID of the edge to be deleted from the table
-   * @return a PreparedStatement to be used in the delete method
-   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
-   */
-  public static PreparedStatement createPreparedStatementDeleteEdge(String edgeID)
-      throws SQLException {
-    Connection connection = getConn();
-    return connection.prepareStatement("DELETE FROM ADMIN.EDGE WHERE EDGEID = '" + edgeID + "'");
+  public static void update(Edge edge) {
+    try {
+      Connection connection = getConn();
+      PreparedStatement stmt =
+          connection.prepareStatement(
+              "update Admin.EDGE set "
+                  + "EDGEID = (?), "
+                  + "STARTNODE = (?), "
+                  + "ENDNODE = (?) "
+                  + "where EDGEID = (?)");
+      stmt.setString(1, edge.edgeID);
+      stmt.setString(2, String.valueOf(edge.startNodeID));
+      stmt.setString(3, String.valueOf(edge.endNodeID));
+      stmt.setString(4, edge.edgeID);
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -406,9 +312,12 @@ public class JDBCUtils {
    * @param nodeID@throws SQLException
    */
   public static void deleteNode(String nodeID) throws SQLException {
-    PreparedStatement statement = createPreparedStatementDeleteNode(nodeID);
-    statement.execute();
-    statement.closeOnCompletion();
+    Connection connection = getConn();
+    PreparedStatement stmt =
+        connection.prepareStatement("DELETE FROM ADMIN.NODE WHERE NODEID = (?)");
+    stmt.setString(1, nodeID);
+    stmt.executeUpdate();
+    stmt.closeOnCompletion();
   }
 
   /**
@@ -417,31 +326,29 @@ public class JDBCUtils {
    * @param edgeID@throws SQLException
    */
   public static void deleteEdge(String edgeID) throws SQLException {
-    PreparedStatement statement = createPreparedStatementDeleteEdge(edgeID);
-    statement.execute();
-    statement.closeOnCompletion();
-  }
-
-  public static PreparedStatement createPreparedStatementUpdateCoordsOnly(
-      String nodeID, double xcoord, double ycoord) throws SQLException {
     Connection connection = getConn();
-    return connection.prepareStatement(
-        "update Admin.NODE set "
-            + " XCOORD = '"
-            + xcoord
-            + "', YCOORD = '"
-            + ycoord
-            + "' where NODEID = '"
-            + nodeID
-            + "'");
+    PreparedStatement stmt =
+        connection.prepareStatement("DELETE FROM ADMIN.EDGE WHERE EDGEID = (?)");
+    stmt.setString(1, edgeID);
+    stmt.executeUpdate();
+    stmt.closeOnCompletion();
   }
 
   public static void updateNodeCoordsOnly(String nodeID, double xcoord, double ycoord) {
+
     try {
-      PreparedStatement statement = createPreparedStatementUpdateCoordsOnly(nodeID, xcoord, ycoord);
-      statement.executeUpdate();
-      getConn().commit();
-      statement.closeOnCompletion();
+      PreparedStatement stmt =
+          getConn()
+              .prepareStatement(
+                  "update Admin.NODE set "
+                      + "XCOORD = (?), "
+                      + "YCOORD = (?)"
+                      + "where NODEID = (?)");
+      stmt.setString(1, String.valueOf(xcoord));
+      stmt.setString(2, String.valueOf(ycoord));
+      stmt.setString(3, nodeID);
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -452,31 +359,37 @@ public class JDBCUtils {
    * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    * @throws IllegalAccessException if access is denied
    */
-  public static void saveService(Service service) throws SQLException, IllegalAccessException {
-    insert(11, service, "Service"); // save to database
-    // Used to save to CSV as well but marked deprecated - look into
-  }
-
-  public static PreparedStatement createPreparedStatementUpdateServiceInfoOnly(
-      int serviceID, String info) throws SQLException {
+  public static void insertService(Service service) throws SQLException, IllegalAccessException {
     Connection connection = getConn();
-    return connection.prepareStatement(
-        "update Admin.Service set "
-            + " ADDITIONALINFO = '"
-            + info
-            + "'"
-            + " where SERVICEid = "
-            + serviceID
-            + "");
+    PreparedStatement stmt =
+        connection.prepareStatement(
+            "INSERT INTO ADMIN.SERVICE VALUES ((?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?))");
+    stmt.setString(1, String.valueOf(service.getServiceID()));
+    stmt.setString(2, service.getType());
+    stmt.setString(3, service.getDescription());
+    stmt.setString(4, service.getLocation());
+    stmt.setString(5, service.getCategory());
+    stmt.setString(6, service.getUrgency());
+    stmt.setString(7, service.getDate());
+    stmt.setString(8, service.getAdditionalInfo());
+    stmt.setString(9, service.getRequester());
+    stmt.setString(10, String.valueOf(service.getStatus()));
+    stmt.setString(11, service.getEmployee());
+    stmt.executeUpdate();
+    stmt.closeOnCompletion();
   }
 
   public static void updateServiceAdditionalInfoOnly(int serviceID, String newInfo) {
     try {
-      PreparedStatement statement =
-          createPreparedStatementUpdateServiceInfoOnly(serviceID, newInfo);
-      statement.executeUpdate();
-      getConn().commit();
-      statement.closeOnCompletion();
+
+      PreparedStatement stmt =
+          getConn()
+              .prepareStatement(
+                  "update Admin.Service set "
+                      + " ADDITIONALINFO = (?) "
+                      + " where SERVICEid = (?)");
+      stmt.setString(1, newInfo);
+      stmt.setString(2, String.valueOf(serviceID));
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -490,7 +403,7 @@ public class JDBCUtils {
   public static ArrayList<Service> exportService(String serviceType, String Requester)
       throws SQLException {
     ArrayList<Service> services = new ArrayList<>();
-    String string = "";
+    String string;
     if (serviceType.equals("") && Requester.equals("")) {
       string = "select * from ADMIN.Service";
     } else if (!serviceType.equals("") && !Requester.equals("")) {
@@ -502,10 +415,8 @@ public class JDBCUtils {
               + Requester;
     } else if (!serviceType.equals("")) {
       string = "select * from ADMIN.Service where type =" + serviceType;
-      ;
     } else {
       string = "select * from ADMIN.Service where requester =" + Requester;
-      ;
     }
 
     Connection conn = getConn();
@@ -550,7 +461,11 @@ public class JDBCUtils {
       services.add(service);
     }
     resultSet.close();
-    close(null, null, statement, conn);
+    try {
+      close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     return services;
   }
 
@@ -558,14 +473,20 @@ public class JDBCUtils {
    * remove a service from database
    *
    * @param ID service ID of the service to be removed
-   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
-  public static void removeService(int ID) throws SQLException {
-    String string = "delete from ADMIN.Service where ADMIN.Service.serviceID=" + ID;
-    Connection conn = getConn();
-    Statement statement = conn.createStatement();
-    int numRows = statement.executeUpdate(string);
-    close(null, null, statement, conn);
+  public static void removeService(int ID) {
+    int numRows = 0;
+    try {
+      PreparedStatement stmt =
+          getConn()
+              .prepareStatement("delete from ADMIN.Service where ADMIN.Service.serviceID= (?)");
+      stmt.setString(1, String.valueOf(ID));
+      numRows = stmt.executeUpdate();
+      stmt.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
     if (numRows == 0) {
       System.out.println("no rows have been deleted");
     } else {
@@ -578,18 +499,22 @@ public class JDBCUtils {
    *
    * @param service a service to be updated
    * @param status the new status
-   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
-  public static void updateServiceStatus(Service service, int status) throws SQLException {
-    String string =
-        "update ADMIN.SERVICE set status= "
-            + status
-            + " where ADMIN.SERVICE.SERVICEID="
-            + service.getServiceID();
-    Connection conn = getConn();
-    Statement statement = conn.createStatement();
-    int rowsAffected = statement.executeUpdate(string);
-    close(null, null, statement, conn);
+  public static void updateServiceStatus(Service service, int status) {
+    int rowsAffected = 0;
+    try {
+      PreparedStatement stmt =
+          getConn()
+              .prepareStatement(
+                  "update ADMIN.SERVICE set status= (?) " + " where ADMIN.SERVICE.SERVICEID= (?)");
+      stmt.setString(1, String.valueOf(status));
+      stmt.setString(2, String.valueOf(service.getServiceID()));
+      rowsAffected = stmt.executeUpdate();
+      stmt.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
     if (rowsAffected == 0) {
       System.out.println("update failed");
     } else {
@@ -602,19 +527,22 @@ public class JDBCUtils {
    *
    * @param service a service to be updated
    * @param employee the new employee assigned
-   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
    */
-  public static void updateServiceAssignedEmployee(Service service, String employee)
-      throws SQLException {
-    String string =
-        "update ADMIN.SERVICE set employee='"
-            + employee
-            + "' where ADMIN.SERVICE.SERVICEID="
-            + service.getServiceID();
-    Connection conn = getConn();
-    Statement statement = conn.createStatement();
-    int rowsAffected = statement.executeUpdate(string);
-    close(null, null, statement, conn);
+  public static void updateServiceAssignedEmployee(Service service, String employee) {
+    int rowsAffected = 0;
+    try {
+      PreparedStatement stmt =
+          getConn()
+              .prepareStatement(
+                  "update ADMIN.SERVICE set employee = (?)"
+                      + "where ADMIN.SERVICE.SERVICEID = (?)");
+      stmt.setString(1, employee);
+      stmt.setString(2, String.valueOf(service.getServiceID()));
+      rowsAffected = stmt.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
     if (rowsAffected == 0) {
       System.out.println("update failed");
     } else {
@@ -650,67 +578,19 @@ public class JDBCUtils {
     }
   }
 
-  public static PreparedStatement createPreparedStatementInsert(Employee employee)
-      throws SQLException {
-    Connection connection = JDBCUtils.getConn();
-    PreparedStatement stmt =
-        connection.prepareStatement(
-            "insert into ADMIN.EMPLOYEE values ((?),(?),(?),(?),(?),(?),(?))");
-    stmt.setString(1, employee.getFirstName());
-    stmt.setString(2, employee.getLastName());
-    stmt.setString(3, employee.getEmployeeID());
-    stmt.setString(4, employee.getPassword());
-    stmt.setString(5, employee.getEmail());
-    stmt.setInt(6, employee.getAccessLevel());
-    stmt.setString(7, employee.getPrimaryWorkspace());
-    return stmt;
-  }
-
-  public static void insert(Employee employee) throws SQLException {
-    PreparedStatement stmt = createPreparedStatementInsert(employee);
-
+  public static void insert(Employee employee) {
     try {
-      stmt.execute();
-      stmt.closeOnCompletion();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-  }
-
-  public static PreparedStatement createPreparedStatementUpdate(Employee employee)
-      throws SQLException {
-    Connection connection = JDBCUtils.getConn();
-    return connection.prepareStatement(
-        "UPDATE ADMIN.EMPLOYEE set "
-            + "ADMIN.EMPLOYEE.FIRSTNAME = '"
-            + employee.getFirstName()
-            + "', "
-            + "ADMIN.EMPLOYEE.LASTNAME = '"
-            + employee.getLastName()
-            + "', "
-            + "ADMIN.EMPLOYEE.EMPLOYEEID = '"
-            + employee.getEmployeeID()
-            + "', "
-            + "ADMIN.EMPLOYEE.PASSWORD = '"
-            + employee.getPassword()
-            + "', "
-            + "ADMIN.EMPLOYEE.EMAIL = '"
-            + employee.getEmail()
-            + "', "
-            + "ADMIN.EMPLOYEE.ACCESSLEVEL = "
-            + employee.getAccessLevel()
-            + ", "
-            + "ADMIN.EMPLOYEE.PRIMARYWORKSPACE = '"
-            + employee.getPrimaryWorkspace()
-            + "' "
-            + "WHERE ADMIN.EMPLOYEE.EMPLOYEEID = '"
-            + employee.getEmployeeID()
-            + "'");
-  }
-
-  public static void update(Employee employee) throws SQLException {
-    PreparedStatement stmt = createPreparedStatementUpdate(employee);
-    try {
+      Connection connection = JDBCUtils.getConn();
+      PreparedStatement stmt =
+          connection.prepareStatement(
+              "insert into ADMIN.EMPLOYEE values ((?),(?),(?),(?),(?),(?),(?))");
+      stmt.setString(1, employee.getFirstName());
+      stmt.setString(2, employee.getLastName());
+      stmt.setString(3, employee.getEmployeeID());
+      stmt.setString(4, employee.getPassword());
+      stmt.setString(5, employee.getEmail());
+      stmt.setInt(6, employee.getAccessLevel());
+      stmt.setString(7, employee.getPrimaryWorkspace());
       stmt.executeUpdate();
       stmt.closeOnCompletion();
     } catch (SQLException e) {
@@ -718,23 +598,65 @@ public class JDBCUtils {
     }
   }
 
-  public static PreparedStatement createPreparedStatementDeleteEmployee(String employeeID)
-      throws SQLException {
-    Connection connection = getConn();
-    return connection.prepareStatement(
-        "DELETE FROM ADMIN.EMPLOYEE WHERE EMPLOYEEID = '" + employeeID + "'");
+  public static void update(Employee employee) {
+    try {
+      PreparedStatement stmt =
+          getConn()
+              .prepareStatement(
+                  "UPDATE ADMIN.EMPLOYEE set "
+                      + "ADMIN.EMPLOYEE.FIRSTNAME = '"
+                      + employee.getFirstName()
+                      + "', "
+                      + "ADMIN.EMPLOYEE.LASTNAME = '"
+                      + employee.getLastName()
+                      + "', "
+                      + "ADMIN.EMPLOYEE.EMPLOYEEID = '"
+                      + employee.getEmployeeID()
+                      + "', "
+                      + "ADMIN.EMPLOYEE.PASSWORD = '"
+                      + employee.getPassword()
+                      + "', "
+                      + "ADMIN.EMPLOYEE.EMAIL = '"
+                      + employee.getEmail()
+                      + "', "
+                      + "ADMIN.EMPLOYEE.ACCESSLEVEL = "
+                      + employee.getAccessLevel()
+                      + ", "
+                      + "ADMIN.EMPLOYEE.PRIMARYWORKSPACE = '"
+                      + employee.getPrimaryWorkspace()
+                      + "' "
+                      + "WHERE ADMIN.EMPLOYEE.EMPLOYEEID = '"
+                      + employee.getEmployeeID()
+                      + "'");
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
-  public static void deleteEmployee(Employee employee) throws SQLException {
-    PreparedStatement stmt = createPreparedStatementDeleteEmployee(employee.getEmployeeID());
-    stmt.executeUpdate();
-    stmt.closeOnCompletion();
+  public static void deleteEmployee(Employee employee) {
+    try {
+      PreparedStatement stmt =
+          getConn().prepareStatement("DELETE FROM ADMIN.EMPLOYEE WHERE EMPLOYEEID = (?)");
+      stmt.setString(1, employee.getEmployeeID());
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
-  public static void deleteEmployee(String employeeID) throws SQLException {
-    PreparedStatement stmt = createPreparedStatementDeleteEmployee(employeeID);
-    stmt.executeUpdate();
-    stmt.closeOnCompletion();
+  public static void deleteEmployee(String employeeID) {
+    try {
+      PreparedStatement stmt =
+          getConn().prepareStatement("DELETE FROM ADMIN.EMPLOYEE WHERE EMPLOYEEID = (?)");
+      stmt.setString(1, employeeID);
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   public static ArrayList<Employee> exportListOfEmployee() throws SQLException {
@@ -763,60 +685,65 @@ public class JDBCUtils {
       employees.add(employee);
     }
     resultSet.close();
-    close(null, null, statement, conn);
+
+    try {
+      close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
     return employees;
   }
 
   public static boolean findUser(String username, String password) throws SQLException {
-    Statement statement;
-    statement = JDBCUtils.getConn().createStatement();
-    String sql =
-        "Select ADMIN.EMPLOYEE.ACCESSLEVEL, "
-            + "ADMIN.EMPLOYEE.EMPLOYEEID, ADMIN.EMPLOYEE.PASSWORD "
-            + "FROM ADMIN.EMPLOYEE "
-            + "WHERE EMPLOYEEID = '"
-            + username
-            + "' "
-            + "AND PASSWORD = '"
-            + password
-            + "'";
+    PreparedStatement query =
+        getConn()
+            .prepareStatement(
+                "Select ADMIN.EMPLOYEE.ACCESSLEVEL, "
+                    + "ADMIN.EMPLOYEE.EMPLOYEEID, ADMIN.EMPLOYEE.PASSWORD "
+                    + "FROM ADMIN.EMPLOYEE "
+                    + "WHERE EMPLOYEEID = (?) "
+                    + "AND PASSWORD = (?)");
 
-    java.sql.ResultSet resultSet = statement.executeQuery(sql);
+    query.setString(1, username);
+    query.setString(2, password);
+
+    java.sql.ResultSet resultSet = query.executeQuery();
 
     if (!resultSet.next()) {
+      resultSet.close();
       return false;
     } else {
       Settings settings = Settings.getSettings();
       // resultSet.next();
       settings.loginSuccess(username, resultSet.getInt(1));
+      resultSet.close();
       return true;
     }
   }
 
-  public static String findUserByEmail(String email) throws SQLException {
-    Statement statement;
-    statement = JDBCUtils.getConn().createStatement();
-    String sql =
-        "Select ADMIN.EMPLOYEE.EMPLOYEEID "
-            + "FROM ADMIN.EMPLOYEE "
-            + "WHERE ADMIN.EMPLOYEE.EMAIL = '"
-            + email
-            + "'";
+  public static String findUserByEmail(String email) {
+    try {
+      PreparedStatement query =
+          getConn()
+              .prepareStatement(
+                  "Select ADMIN.EMPLOYEE.EMPLOYEEID "
+                      + "FROM ADMIN.EMPLOYEE "
+                      + "WHERE ADMIN.EMPLOYEE.EMAIL = (?)");
+      query.setString(1, email);
 
-    java.sql.ResultSet resultSet = statement.executeQuery(sql);
-
-    if (!resultSet.next()) {
-      return "false";
-    } else {
-      return resultSet.getString(1);
+      java.sql.ResultSet resultSet = query.executeQuery();
+      if (resultSet.next()) {
+        return resultSet.getString(1);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
+    return "false";
   }
 
   public static boolean updateUserPassword(String userID, String newPassWord) throws SQLException {
     String update = "update ADMIN.EMPLOYEE set PASSWORD= (?) WHERE EMPLOYEEID=(?)";
-    // String update = "update ADMIN.EMPLOYEE set PASSWORD= "+newPassWord +" where
-    // ADMIN.EMPLOYEE.EMPLOYEEID="+ userID;
-
     PreparedStatement preparedStatement = getConn().prepareStatement(update);
     preparedStatement.setString(1, newPassWord);
     preparedStatement.setString(2, userID);

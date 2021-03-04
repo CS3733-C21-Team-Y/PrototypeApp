@@ -12,13 +12,25 @@ import org.apache.derby.iapi.sql.ResultSet;
 
 public class DataOperations {
 
+  public static void initDB() {
+    JDBCUtils.initDB();
+  }
+
+  public static void initCSV() {
+    CSV.initCSV();
+  }
+
   public static Connection getConn() throws SQLException {
     return JDBCUtils.getConn();
   }
 
   public static void close(
       PreparedStatement ps, ResultSet rs, Statement stmt, Connection connection) {
-    JDBCUtils.close(ps, rs, stmt, connection);
+    try {
+      JDBCUtils.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public static void insert(int numArgs, Object object, String tableName)
@@ -81,7 +93,7 @@ public class DataOperations {
   }
 
   public static void saveService(Service service) throws SQLException, IllegalAccessException {
-    JDBCUtils.saveService(service);
+    JDBCUtils.insertService(service);
   }
 
   public static ArrayList<Service> exportService(String serviceType, String requester)

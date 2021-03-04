@@ -62,7 +62,7 @@ public class LaundryPageController extends GenericServiceFormPage {
     service.setDescription(description.getText());
     try {
       stage = (Stage) submitBtn.getScene().getWindow();
-      JDBCUtils.saveService(service);
+      JDBCUtils.insertService(service);
       stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("LaundryPage.fxml"))));
       stage.show();
     } catch (SQLException throwables) {

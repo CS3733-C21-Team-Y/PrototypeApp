@@ -30,72 +30,50 @@ public class CSV {
   public static BufferedWriter bwEmployee;
 
   // load the BufferedReader for node
-  static {
+  public static void initCSV() {
     try {
       System.out.println("Working Directory = " + System.getProperty("user.dir"));
       // parsing a CSV file into BufferedReader class constructor
 
       try {
         brNode = new BufferedReader(new FileReader(nodePath));
-        System.out.println("BufferedReader initialized successful!");
+
       } catch (FileNotFoundException e) {
+        System.out.println("Node BufferedReader initialized failed!");
         e.printStackTrace();
       }
     } catch (Exception e) {
       e.printStackTrace();
     }
-  }
 
-  // load the BufferedReader for edge
-  static {
+    // load the BufferedReader for edge
+
+    // parsing a CSV file into BufferedReader class constructor
+
     try {
-      System.out.println("Working Directory = " + System.getProperty("user.dir"));
-      // parsing a CSV file into BufferedReader class constructor
+      brEdge = new BufferedReader(new FileReader(edgePath));
 
-      try {
-        brEdge = new BufferedReader(new FileReader(edgePath));
-        System.out.println("BufferedReader initialized successful!");
-      } catch (FileNotFoundException e) {
-        e.printStackTrace();
-      }
-    } catch (Exception e) {
+    } catch (FileNotFoundException e) {
+      System.out.println("Edge BufferedReader initialized failed!");
       e.printStackTrace();
     }
-  }
 
-  // Load buffered reader for Service
-  static {
+    // Load buffered reader for Service
+
+    // parsing a CSV file into BufferedReader class constructor
     try {
-      System.out.println("Working Directory = " + System.getProperty("user.dir"));
-      // parsing a CSV file into BufferedReader class constructor
+      CSV.brService = new BufferedReader(new FileReader(CSV.servicePath));
+    } catch (FileNotFoundException e) {
+      System.out.println("Service BufferedReader initialized failed!");
 
-      try {
-        CSV.brService = new BufferedReader(new FileReader(CSV.servicePath));
-        System.out.println("Service BufferedReader initialized successful!");
-      } catch (FileNotFoundException e) {
-        System.out.println("Service BufferedReader initialized failed!");
-
-        e.printStackTrace();
-      }
-    } catch (Exception e) {
       e.printStackTrace();
     }
-  }
 
-  static {
     try {
-      System.out.println("Working Directory = " + System.getProperty("user.dir"));
-      // parsing a CSV file into BufferedReader class constructor
+      CSV.brEmployee = new BufferedReader(new FileReader(CSV.employeePath));
+    } catch (FileNotFoundException e) {
+      System.out.println("Employee BufferedReader initialized failed!");
 
-      try {
-        CSV.brEmployee = new BufferedReader(new FileReader(CSV.employeePath));
-        System.out.println("Employee BufferedReader initialized successful!");
-      } catch (FileNotFoundException e) {
-        System.out.println("Employee BufferedReader initialized failed!");
-
-        e.printStackTrace();
-      }
-    } catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -387,7 +365,7 @@ public class CSV {
         stringBuilder.setLength(0); // Clears stringBuilder for the new line
       }
       resultSet.close();
-      JDBCUtils.close(null, null, statement, conn);
+      JDBCUtils.close();
       bufferedWriter.flush();
       bufferedWriter.close();
     } catch (SQLException | IOException throwables) {
@@ -423,7 +401,7 @@ public class CSV {
         bufferedWriter.newLine();
       }
       resultSet.close();
-      JDBCUtils.close(null, null, statement, conn);
+      JDBCUtils.close();
 
       bufferedWriter.flush();
       bufferedWriter.close();
@@ -466,9 +444,11 @@ public class CSV {
         JDBCUtils.insert(3, edge, "Edge");
       }
       resultSet.close();
-      JDBCUtils.close(null, null, statement, conn);
+      JDBCUtils.close();
       return edges;
     } catch (SQLException | IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
       e.printStackTrace();
     }
     return null;
@@ -496,9 +476,11 @@ public class CSV {
         JDBCUtils.insert(3, edge, "Edge");
       }
       resultSet.close();
-      JDBCUtils.close(null, null, statement, conn);
+      JDBCUtils.close();
       return edges;
     } catch (SQLException | IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
       e.printStackTrace();
     }
     return null;
@@ -560,9 +542,12 @@ public class CSV {
         nodes.add(node);
       }
       resultSet.close();
-      JDBCUtils.close(null, null, statement, conn);
+      JDBCUtils.close();
+
       return nodes;
     } catch (SQLException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
       e.printStackTrace();
     }
     if (nodes.size() == 0) {
@@ -653,7 +638,7 @@ public class CSV {
       JDBCUtils.createPreparedStatementInsert(service, preparedStatement);
     }
     System.out.println("Loading successful");
-    JDBCUtils.close(preparedStatement, null, null, connection);
+    JDBCUtils.close();
     closeReader(brService);
   }
 
@@ -684,7 +669,7 @@ public class CSV {
       preparedStatement.executeUpdate();
     }
     System.out.println("Loading successful");
-    JDBCUtils.close(preparedStatement, null, null, connection);
+    JDBCUtils.close();
     closeReader(brEmployee);
   }
 }

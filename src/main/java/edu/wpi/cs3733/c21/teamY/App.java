@@ -19,6 +19,10 @@ public class App extends Application {
 
   @Override
   public void init() {
+
+    DataOperations.initDB();
+    DataOperations.initCSV();
+
     try {
       DataOperations.fillTablesFromCSV();
     } catch (IllegalAccessException e) {

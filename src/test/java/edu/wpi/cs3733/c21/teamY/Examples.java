@@ -42,6 +42,5 @@ public class Examples {
 
     // JDBCUtils.insert(8, service1, "Service");
 
-    JDBCUtils.selectQuery("Node");
   }
 }
