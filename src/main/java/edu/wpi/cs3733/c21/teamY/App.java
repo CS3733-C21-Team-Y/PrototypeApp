@@ -38,6 +38,7 @@ public class App extends Application {
     } catch (IOException e) {
       e.printStackTrace();
     }
+
     //    log.info("Starting Up");
     //    log.info("Attempting to load database from CSV file");
     //
