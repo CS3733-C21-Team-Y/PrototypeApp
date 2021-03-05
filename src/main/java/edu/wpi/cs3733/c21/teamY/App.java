@@ -20,9 +20,9 @@ public class App extends Application {
 
   @Override
   public void init() {
-
-    DataOperations.initDB();
     DataOperations.initCSV();
+    DataOperations.initDB();
+
     try {
       ActiveGraph.initialize();
     } catch (SQLException e) {
