@@ -6,7 +6,6 @@ import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -613,19 +612,11 @@ public class AdminPageController extends RightPage {
     }
 
     for (String nodeId : nodeIDs) {
-      try {
-        JDBCUtils.deleteNode(nodeId);
-      } catch (SQLException throwables) {
-        throwables.printStackTrace();
-      }
+      JDBCUtils.deleteNode(nodeId);
     }
 
     for (String edgeId : edgeIDs) {
-      try {
-        JDBCUtils.deleteNode(edgeId);
-      } catch (SQLException throwables) {
-        throwables.printStackTrace();
-      }
+      JDBCUtils.deleteNode(edgeId);
     }
 
     mapInsertController.removeSelected();

@@ -3,6 +3,8 @@
 <?import com.jfoenix.controls.JFXProgressBar?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -10,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.PreloaderPageController">
    <center>
       <GridPane prefHeight="166.0" prefWidth="301.0" style="-fx-background-color: #9b9eb9;" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -38,7 +40,7 @@
       </GridPane>
    </center>
    <top>
-      <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="600.0" style="-fx-background-color: #9b9eb9;" />
+      <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="600.0" style="-fx-background-color: #9b9eb9;" />
    </top>
    <left>
       <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="100.0" style="-fx-background-color: #9b9eb9;" />
@@ -47,6 +49,13 @@
       <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="100.0" style="-fx-background-color: #9b9eb9;" />
    </right>
    <bottom>
-      <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="600.0" style="-fx-background-color: #9b9eb9;" />
+      <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="600.0" style="-fx-background-color: #9b9eb9;">
+         <children>
+            <ImageView fitHeight="189.0" fitWidth="202.0" layoutX="149.0" layoutY="-94.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="/edu/wpi/cs3733/c21/teamY/images/tenor.gif" />
+               </image>
+            </ImageView>
+         </children></Pane>
    </bottom>
 </BorderPane>

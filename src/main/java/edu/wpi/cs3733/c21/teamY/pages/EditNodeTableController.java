@@ -138,7 +138,7 @@ public class EditNodeTableController extends RightPage {
     nodeIDCol.setOnEditCommit(
         (TreeTableColumn.CellEditEvent<TableNodes, String> t) -> {
           try {
-            DataOperations.deleteNode(
+            DataOperations.delete(
                 t.getTreeTableView()
                     .getTreeItem(t.getTreeTablePosition().getRow())
                     .getValue()

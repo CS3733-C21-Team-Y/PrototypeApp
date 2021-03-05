@@ -71,7 +71,7 @@ public class DataOperations {
     JDBCUtils.update(employee);
   }
 
-  public static void deleteNode(String nodeID) throws SQLException {
+  public static void delete(String nodeID) throws SQLException {
     JDBCUtils.deleteNode(nodeID);
   }
 
@@ -80,7 +80,7 @@ public class DataOperations {
   }
 
   public static void deleteEmployee(Employee employee) throws SQLException {
-    JDBCUtils.deleteEmployee(employee);
+    JDBCUtils.delete(employee);
   }
 
   public static void deleteEmployee(String employeeID) throws SQLException {
@@ -92,7 +92,7 @@ public class DataOperations {
   }
 
   public static void saveService(Service service) throws SQLException, IllegalAccessException {
-    JDBCUtils.insertService(service);
+    JDBCUtils.insert(service);
   }
 
   public static ArrayList<Service> exportService(String serviceType, String requester)
@@ -101,7 +101,7 @@ public class DataOperations {
   }
 
   public static void removeService(int ID) throws SQLException {
-    JDBCUtils.removeService(ID);
+    JDBCUtils.delete(ID);
   }
 
   public static void updateServiceStatus(Service service, int status) throws SQLException {

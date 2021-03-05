@@ -662,19 +662,11 @@ public class GraphEditPageController extends RightPage {
     }
 
     for (String nodeId : nodeIDs) {
-      try {
-        JDBCUtils.deleteNode(nodeId);
-      } catch (SQLException throwables) {
-        throwables.printStackTrace();
-      }
+      JDBCUtils.deleteNode(nodeId);
     }
 
     for (String edgeId : edgeIDs) {
-      try {
-        JDBCUtils.deleteNode(edgeId);
-      } catch (SQLException throwables) {
-        throwables.printStackTrace();
-      }
+      JDBCUtils.deleteNode(edgeId);
     }
 
     mapInsertController.removeSelected();

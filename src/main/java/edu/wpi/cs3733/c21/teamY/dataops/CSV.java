@@ -119,11 +119,7 @@ public class CSV {
 
       edges.add(edge);
       // fix this error handling!!!
-      try {
-        JDBCUtils.insert(3, edge, "Edge");
-      } catch (SQLException ignore) {
-
-      }
+      JDBCUtils.insert(3, edge, "Edge");
     }
     return edges;
   }
@@ -159,11 +155,7 @@ public class CSV {
               teamAssigned.charAt(0),
               nodeID);
       nodes.add(node);
-      try {
-        JDBCUtils.insert(9, node, "Node");
-      } catch (SQLException ignore) {
-        ignore.printStackTrace();
-      }
+      JDBCUtils.insert(9, node, "Node");
     }
     return nodes;
   }
@@ -191,11 +183,7 @@ public class CSV {
               Integer.parseInt(accessLevel),
               primaryWorkSpace);
 
-      try {
-        JDBCUtils.insert(7, employee, "Employee");
-      } catch (SQLException ignore) {
-
-      }
+      JDBCUtils.insert(7, employee, "Employee");
     }
   }
 
@@ -230,11 +218,7 @@ public class CSV {
               requester,
               Integer.parseInt(status));
 
-      try {
-        JDBCUtils.insert(11, service, "Service");
-      } catch (SQLException ignore) {
-
-      }
+      JDBCUtils.insert(11, service, "Service");
     }
   }
 
@@ -431,7 +415,7 @@ public class CSV {
       resultSet.close();
       JDBCUtils.close();
       return edges;
-    } catch (SQLException | IllegalAccessException e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();

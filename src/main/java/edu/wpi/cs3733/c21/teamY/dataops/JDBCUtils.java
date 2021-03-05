@@ -13,6 +13,10 @@ import java.util.ArrayList;
 public class JDBCUtils {
   private static Connection conn;
 
+  /**
+   * Initializes the database by creating the tables and filling them from the CSV's if the DB
+   * tables don't already exist
+   */
   public static void initDB() {
     // credentials
     String user = "admin";
@@ -169,18 +173,15 @@ public class JDBCUtils {
    * @param numArgs numArguments number of arguments for the given entity in the table
    * @param object object either an object of type Node or Edge to be inserted into the table
    * @param tableName tableName the name of the table to insert into ("Node" or "Edge")
-   * @throws SQLException if there is a duplicate key and updates instead
-   * @throws IllegalAccessException if access is blocked when retrieving information
    */
-  public static void insert(int numArgs, Object object, String tableName)
-      throws SQLException, IllegalAccessException {
-    PreparedStatement statement = createPreparedStatementInsert(numArgs, object, tableName);
+  public static void insert(int numArgs, Object object, String tableName) {
+    PreparedStatement statement;
     try {
+      statement = createPreparedStatementInsert(numArgs, object, tableName);
       statement.execute();
       statement.closeOnCompletion();
 
     } catch (SQLException e) {
-
       // updates given object value in table if the PK already exists w/in it
       if (e.getErrorCode() == 30000) {
         // e.printStackTrace();
@@ -190,6 +191,8 @@ public class JDBCUtils {
           JDBCUtils.update((Edge) object);
         }
       }
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
     }
     try {
       close();
@@ -202,11 +205,8 @@ public class JDBCUtils {
    * Takes in an ArrayList<Node> and inputs them (in total) into the "Node" table
    *
    * @param nodes represents the nodes to be inserted
-   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
-   * @throws IllegalAccessException if access is blocked when retrieving information
    */
-  public static void insertArrayListNode(ArrayList<Node> nodes)
-      throws SQLException, IllegalAccessException {
+  public static void insertArrayListNode(ArrayList<Node> nodes) {
 
     for (Node node : nodes) {
       JDBCUtils.insert(9, node, "Node");
@@ -219,11 +219,8 @@ public class JDBCUtils {
    * Takes in an ArrayList<Edge> and one by one inserts them into the Edge Table
    *
    * @param edges represents the edges that will be inserted into the "Edge" table
-   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
-   * @throws IllegalAccessException if access is blocked when retrieving information
    */
-  public static void insertArrayListEdge(ArrayList<Edge> edges)
-      throws SQLException, IllegalAccessException {
+  public static void insertArrayListEdge(ArrayList<Edge> edges) {
 
     for (Edge edge : edges) {
       JDBCUtils.insert(3, edge, "Edge");
@@ -309,15 +306,19 @@ public class JDBCUtils {
   /**
    * Deletes the inputted Node's matching entry in the Node table
    *
-   * @param nodeID@throws SQLException
+   * @param nodeID is the ID of the node to be deleted from the Node table
    */
-  public static void deleteNode(String nodeID) throws SQLException {
-    Connection connection = getConn();
-    PreparedStatement stmt =
-        connection.prepareStatement("DELETE FROM ADMIN.NODE WHERE NODEID = (?)");
-    stmt.setString(1, nodeID);
-    stmt.executeUpdate();
-    stmt.closeOnCompletion();
+  public static void deleteNode(String nodeID) {
+    try {
+      Connection connection = getConn();
+      PreparedStatement stmt =
+          connection.prepareStatement("DELETE FROM ADMIN.NODE WHERE NODEID = (?)");
+      stmt.setString(1, nodeID);
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -334,6 +335,13 @@ public class JDBCUtils {
     stmt.closeOnCompletion();
   }
 
+  /**
+   * Updates only a node's coordinates that has the given nodeID
+   *
+   * @param nodeID the ID of the node to update
+   * @param xcoord new xcoord
+   * @param ycoord new ycoord
+   */
   public static void updateNodeCoordsOnly(String nodeID, double xcoord, double ycoord) {
 
     try {
@@ -355,30 +363,40 @@ public class JDBCUtils {
   }
 
   /**
+   * inserts the given service into the Service table in the Database
+   *
    * @param service a service to be saved to DB
-   * @throws SQLException if there is a duplicate key in the table or other syntax SQL exceptions
-   * @throws IllegalAccessException if access is denied
    */
-  public static void insertService(Service service) throws SQLException, IllegalAccessException {
-    Connection connection = getConn();
-    PreparedStatement stmt =
-        connection.prepareStatement(
-            "INSERT INTO ADMIN.SERVICE VALUES ((?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?))");
-    stmt.setString(1, String.valueOf(service.getServiceID()));
-    stmt.setString(2, service.getType());
-    stmt.setString(3, service.getDescription());
-    stmt.setString(4, service.getLocation());
-    stmt.setString(5, service.getCategory());
-    stmt.setString(6, service.getUrgency());
-    stmt.setString(7, service.getDate());
-    stmt.setString(8, service.getAdditionalInfo());
-    stmt.setString(9, service.getRequester());
-    stmt.setString(10, String.valueOf(service.getStatus()));
-    stmt.setString(11, service.getEmployee());
-    stmt.executeUpdate();
-    stmt.closeOnCompletion();
+  public static void insert(Service service) {
+    try {
+      Connection connection = getConn();
+      PreparedStatement stmt =
+          connection.prepareStatement(
+              "INSERT INTO ADMIN.SERVICE VALUES ((?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?))");
+      stmt.setString(1, String.valueOf(service.getServiceID()));
+      stmt.setString(2, service.getType());
+      stmt.setString(3, service.getDescription());
+      stmt.setString(4, service.getLocation());
+      stmt.setString(5, service.getCategory());
+      stmt.setString(6, service.getUrgency());
+      stmt.setString(7, service.getDate());
+      stmt.setString(8, service.getAdditionalInfo());
+      stmt.setString(9, service.getRequester());
+      stmt.setString(10, String.valueOf(service.getStatus()));
+      stmt.setString(11, service.getEmployee());
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
+  /**
+   * updates only the AdditionalInfo of the node with the given ID
+   *
+   * @param serviceID is the ID of the service to update
+   * @param newInfo the new value of the AdditionalInfo of the service to be updated
+   */
   public static void updateServiceAdditionalInfoOnly(int serviceID, String newInfo) {
     try {
 
@@ -474,7 +492,7 @@ public class JDBCUtils {
    *
    * @param ID service ID of the service to be removed
    */
-  public static void removeService(int ID) {
+  public static void delete(int ID) {
     int numRows = 0;
     try {
       PreparedStatement stmt =
@@ -578,6 +596,11 @@ public class JDBCUtils {
     }
   }
 
+  /**
+   * inserts the given employee into the employee table
+   *
+   * @param employee to be inserted
+   */
   public static void insert(Employee employee) {
     try {
       Connection connection = JDBCUtils.getConn();
@@ -598,6 +621,11 @@ public class JDBCUtils {
     }
   }
 
+  /**
+   * updates the table with the information from the given employee
+   *
+   * @param employee the new information to update the employee with the same ID with
+   */
   public static void update(Employee employee) {
     try {
       PreparedStatement stmt =
@@ -635,7 +663,12 @@ public class JDBCUtils {
     }
   }
 
-  public static void deleteEmployee(Employee employee) {
+  /**
+   * Removes the given employee from the Employee table
+   *
+   * @param employee to be deleted from table
+   */
+  public static void delete(Employee employee) {
     try {
       PreparedStatement stmt =
           getConn().prepareStatement("DELETE FROM ADMIN.EMPLOYEE WHERE EMPLOYEEID = (?)");
@@ -646,7 +679,11 @@ public class JDBCUtils {
       e.printStackTrace();
     }
   }
-
+  /**
+   * Removes the given employee from the Employee table
+   *
+   * @param employeeID ID of employee to be deleted from table
+   */
   public static void deleteEmployee(String employeeID) {
     try {
       PreparedStatement stmt =
@@ -659,6 +696,12 @@ public class JDBCUtils {
     }
   }
 
+  /**
+   * Exports the employees contained in the Employee table as an Arraylist<Employee></Employee>
+   *
+   * @return ArrayList<Employee> containing the employees from the Employee table </Employee>
+   * @throws SQLException upon SQL error communicating with the DB
+   */
   public static ArrayList<Employee> exportListOfEmployee() throws SQLException {
     ArrayList<Employee> employees = new ArrayList<>();
     String s = "select * from ADMIN.EMPLOYEE";
@@ -695,6 +738,14 @@ public class JDBCUtils {
     return employees;
   }
 
+  /**
+   * Determines if there is a user in the table with a given username and password
+   *
+   * @param username the username of the desired user
+   * @param password the password of the desired user
+   * @return boolean indicating whether the user was found or not
+   * @throws SQLException upon SQL error communicating with the DB
+   */
   public static boolean findUser(String username, String password) throws SQLException {
     PreparedStatement query =
         getConn()
@@ -722,6 +773,12 @@ public class JDBCUtils {
     }
   }
 
+  /**
+   * determines if there is a User in the Employee table with a given email
+   *
+   * @param email to be searched for
+   * @return the employeeID of the found user or "false" if none were found
+   */
   public static String findUserByEmail(String email) {
     try {
       PreparedStatement query =
@@ -742,6 +799,14 @@ public class JDBCUtils {
     return "false";
   }
 
+  /**
+   * updated the password of the User with the specified userID
+   *
+   * @param userID of the user who's password is to be changed
+   * @param newPassWord to change password to
+   * @return boolean for whether reset was successful
+   * @throws SQLException upon sql error communicating with the database
+   */
   public static boolean updateUserPassword(String userID, String newPassWord) throws SQLException {
     String update = "update ADMIN.EMPLOYEE set PASSWORD= (?) WHERE EMPLOYEEID=(?)";
     PreparedStatement preparedStatement = getConn().prepareStatement(update);

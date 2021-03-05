@@ -10,15 +10,15 @@ import javafx.stage.Stage;
 
 public class PreloaderPageController extends Preloader {
   Stage stage;
-  @FXML JFXProgressBar progressBar;
+  @FXML private JFXProgressBar progressBar;
 
+  @FXML
   public void start(Stage stage) throws Exception {
     this.stage = stage;
     progressBar = new JFXProgressBar();
     Parent loadingPage = FXMLLoader.load(getClass().getResource("LoadingPage.fxml"));
-    Scene scene = new Scene(loadingPage, 600, 400);
+    Scene scene = new Scene(loadingPage, 500, 500);
     progressBar.setStyle("-fx-accent: #26274d");
-
     stage.setScene(scene);
     stage.show();
   }
