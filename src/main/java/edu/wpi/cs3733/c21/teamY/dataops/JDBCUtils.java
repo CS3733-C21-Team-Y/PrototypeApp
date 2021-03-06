@@ -71,13 +71,20 @@ public class JDBCUtils {
               + "urgency varchar(10), date varchar(20), additionalInfo varchar(255), requester varchar(30) not null, status int,"
               + " employee varchar(30) DEFAULT 'admin',"
               + "constraint FK_Requester_ID FOREIGN KEY (requester) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE,"
+              + "constraint FK_Employee FOREIGN KEY (employee) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE,"
               + " check( status=-1 OR status =0 OR status=1))";
 
       String sqlEmployee =
           "create table Employee(firstName varchar(30) not null, lastName varchar(30) not null, employeeID varchar(30) PRIMARY KEY not null, "
               + "password varchar(40), email varchar(50), accessLevel int not null, primaryWorkspace varchar(30))";
+
+      String sqlParkingLot =
+          "create table ParkingLot(nodeID varchar(40) PRIMARY KEY, userName varchar(30), enterParkingLot date, leaveParkingLot date, "
+              + "constraint FK_UserName FOREIGN KEY(userName) REFERENCES ADMIN.EMPLOYEE(EMPLOYEEID) ON DELETE CASCADE,"
+              + "constraint FK_NodeID FOREIGN KEY(nodeID) REFERENCES ADMIN.Node(NODEID) ON DELETE CASCADE";
       stmt.executeUpdate(sqlEmployee);
       stmt.executeUpdate(sqlService);
+      stmt.executeUpdate(sqlParkingLot);
 
       JDBCUtils.fillTablesFromCSV();
     } catch (SQLException ignored) {
@@ -800,6 +807,25 @@ public class JDBCUtils {
   }
 
   /**
+   * @param employee an employee object
+   * @return true if created successful
+   * @throws SQLException sql exception
+   */
+  public static boolean createUserAccount(Employee employee) throws SQLException {
+    String createAccount = "insert into ADMIN.EMPLOYEE values(?,?,?,?,?,?,?)";
+    PreparedStatement preparedStatement = getConn().prepareStatement(createAccount);
+    preparedStatement.setString(1, employee.getFirstName());
+    preparedStatement.setString(2, employee.getLastName());
+    preparedStatement.setString(3, employee.getEmployeeID());
+    preparedStatement.setString(4, employee.getPassword());
+    preparedStatement.setString(5, employee.getEmail());
+    preparedStatement.setInt(6, employee.getAccessLevel());
+    preparedStatement.setString(7, employee.getPrimaryWorkspace());
+    int check = preparedStatement.executeUpdate();
+    return check != 0;
+  }
+
+  /**
    * updated the password of the User with the specified userID
    *
    * @param userID of the user who's password is to be changed
@@ -813,6 +839,37 @@ public class JDBCUtils {
     preparedStatement.setString(1, newPassWord);
     preparedStatement.setString(2, userID);
     int check = preparedStatement.executeUpdate();
+    preparedStatement.close();
+    return check != 0;
+  }
+
+  public static boolean removeAccount(String employeeID) throws SQLException {
+    String remove="delete from ADMIN.EMPLOYEE where EMPLOYID= (?)";
+    PreparedStatement preparedStatement = getConn().prepareStatement(remove);
+    preparedStatement.setString(1,employeeID);
+    int check =preparedStatement.executeUpdate();
+    preparedStatement.close();
+    return check!=0;
+
+  }
+
+
+
+  /**
+   * @param employeeID employee to be assigned's ID
+   * @param serviceID corresponding service ID
+   * @return true if update successful
+   * @throws SQLException something went wrong with DB
+   */
+  public static boolean assignEmployeeToRequest(String employeeID, int serviceID)
+      throws SQLException {
+    String assign = "update ADMIN.SERVICE set EMPLOYEE=(?) where SERVICEID=(?)";
+    PreparedStatement preparedStatement = getConn().prepareStatement(assign);
+    preparedStatement.setString(1, employeeID);
+    preparedStatement.setInt(2, serviceID);
+    int check = preparedStatement.executeUpdate();
+    preparedStatement.close();
+
     return check != 0;
   }
 }

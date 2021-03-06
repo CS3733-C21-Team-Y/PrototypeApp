@@ -157,4 +157,17 @@ public class DataOperations {
   public static boolean updateUserPassword(String newPassword, String userID) throws SQLException {
     return JDBCUtils.updateUserPassword(userID, newPassword);
   }
+
+  public static boolean assignEmpoyeeToService(String employeeID, int serviceID)
+      throws SQLException {
+    return JDBCUtils.assignEmployeeToRequest(employeeID, serviceID);
+  }
+
+  public static boolean createAccount(Employee employee) throws SQLException {
+    return JDBCUtils.createUserAccount(employee);
+  }
+
+  public static boolean removeAccount(String employID) throws SQLException {
+    return JDBCUtils.removeAccount(employID);
+  }
 }

@@ -26,6 +26,19 @@ public class Employee {
     this.accessLevel = accessLevel;
     this.primaryWorkspace = primaryWorkspace;
   }
+  // constructor for visitors when they create their account first time
+  // access level start with 0
+  // no primary workspace
+  public Employee(
+      String firstName, String lastName, String employeeID, String password, String email) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.employeeID = employeeID;
+    this.password = password;
+    this.email = email;
+    this.accessLevel = 0;
+    this.primaryWorkspace = "";
+  }
 
   public Employee(
       String firstName,
