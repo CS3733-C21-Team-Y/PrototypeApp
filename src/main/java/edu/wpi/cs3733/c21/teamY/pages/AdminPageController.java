@@ -131,6 +131,31 @@ public class AdminPageController extends RightPage {
           addTablePage();
           loadNodesFromDB();
           resetComboBoxes();
+          // Shift!!!!!!
+          mapInsertController.getContainerStackPane().requestFocus();
+          anchor.setOnKeyPressed(
+              e -> {
+                mapInsertController.scrollOnPress(e);
+
+                // Should be improved
+                if (e.isShiftDown()) {
+                  shiftPressed = true;
+                } else {
+                  shiftPressed = false;
+                }
+              });
+
+          anchor.setOnKeyReleased(
+              e -> {
+                mapInsertController.scrollOnRelease(e);
+
+                if (e.isShiftDown()) {
+                  shiftPressed = true;
+                } else {
+                  shiftPressed = false;
+                }
+              });
+
           //          mapInsertController.getMapImageView().setScaleX(0.25);
 
           int i = 0;
