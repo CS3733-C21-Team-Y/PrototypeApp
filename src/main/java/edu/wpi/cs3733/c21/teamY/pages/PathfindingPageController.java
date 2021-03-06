@@ -75,6 +75,7 @@ public class PathfindingPageController extends RightPage {
   private boolean restaurant = false;
   private boolean noStairs = false;
   private boolean kiosk = false;
+  private int nearestNodeRadius = 200;
 
   // TooltipInstantiations
   Tooltip bathroomTooltip = new Tooltip("Add/Remove Bathroom Detour");
@@ -205,6 +206,7 @@ public class PathfindingPageController extends RightPage {
 
     // Select startNodeBox
     startLocationBox.requestFocus();
+    //mapInsertController.setDisplayUnselectedAdorners(false);
 
     // Init Graph
     resetGraphNodesEdges();
@@ -296,7 +298,7 @@ public class PathfindingPageController extends RightPage {
     Circle circle = new Circle();
     circle.setCenterX(xCoord);
     circle.setCenterY(yCoord);
-    circle.setRadius(50); // Change to adjust selection range
+    circle.setRadius(nearestNodeRadius); // Change to adjust selection range
     circle.setFill(Color.TRANSPARENT);
 
     // get nodes within circle
