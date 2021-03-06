@@ -35,7 +35,7 @@ public class PathfindingPageController extends RightPage {
   @FXML private StackPane stackPane;
   @FXML private ComboBox startLocationBox;
   @FXML private ComboBox endLocationBox;
-
+//delete this comment
   @FXML private JFXButton bathroomBtn;
   @FXML private JFXButton cafeBtn;
   @FXML private JFXButton kioskBtn;
