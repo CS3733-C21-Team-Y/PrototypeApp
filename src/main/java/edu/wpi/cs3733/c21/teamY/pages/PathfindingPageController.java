@@ -206,7 +206,7 @@ public class PathfindingPageController extends RightPage {
 
     // Select startNodeBox
     startLocationBox.requestFocus();
-    //mapInsertController.setDisplayUnselectedAdorners(false);
+    // mapInsertController.setDisplayUnselectedAdorners(false);
 
     // Init Graph
     resetGraphNodesEdges();
@@ -386,7 +386,7 @@ public class PathfindingPageController extends RightPage {
     }
     // Deselect start or end node
     else {
-      if (startLocationBox.isFocused()) {
+      if (startLocationBox.isFocused() && startLocationBox.getValue() != null) {
         mapInsertController.deSelectCircle(node);
         startLocationBox.setValue(null);
         startNode = null;
@@ -395,7 +395,7 @@ public class PathfindingPageController extends RightPage {
           mapInsertController.selectCircle(endNode);
         }
 
-      } else if (endLocationBox.isFocused()) {
+      } else if (endLocationBox.isFocused() && endLocationBox.getValue() != null) {
         mapInsertController.deSelectCircle(node);
         endLocationBox.setValue(null);
         endNode = null;
@@ -520,8 +520,9 @@ public class PathfindingPageController extends RightPage {
 
       pathNodes = nodes;
       drawPath(pathNodes);
+
+      generateTextDirections(pathNodes);
     }
-    generateTextDirections(pathNodes);
   }
 
   /**
