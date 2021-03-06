@@ -366,7 +366,8 @@ public class PathfindingPageController extends RightPage {
         if (startLocationBox.getValue() != null && startNode != null) {
           mapInsertController.deSelectCircle(startNode);
         }
-        startLocationBox.setValue(node.getId());
+        startLocationBox.setValue(
+            graph.nodeFromID(node.getId()).longName); // startLocationBox.setValue(node.getId())
         startNode = node;
 
         mapInsertController.selectCircle(node);
@@ -380,7 +381,8 @@ public class PathfindingPageController extends RightPage {
           }
         }
         mapInsertController.selectCircle(node);
-        endLocationBox.setValue(node.getId());
+        endLocationBox.setValue(
+            graph.nodeFromID(node.getId()).longName); // endLocationBox.setValue(node.getId());
       }
 
     }
@@ -462,11 +464,15 @@ public class PathfindingPageController extends RightPage {
     endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
 
     for (Node node : nodes) {
-      startLocationBox.getItems().add(node.nodeID);
-    }
-
-    for (Node node : nodes) {
-      endLocationBox.getItems().add(node.nodeID);
+      String name = node.longName;
+      String type = node.nodeType;
+      if (!type.equals("WALK")
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
+        startLocationBox.getItems().add(name);
+        endLocationBox.getItems().add(name);
+      }
     }
   }
 
@@ -487,13 +493,11 @@ public class PathfindingPageController extends RightPage {
 
       ArrayList<String> endLocations = new ArrayList<>();
       String endID =
-          (String)
-              endLocationBox
-                  .getValue(); // graph.longNodes.get((String) endLocationBox.getValue()).nodeID;
+          graph.longNodes.get((String) endLocationBox.getValue())
+              .nodeID; // (String) endLocationBox.getValue();
       String startID =
-          (String)
-              startLocationBox
-                  .getValue(); // graph.longNodes.get((String) startLocationBox.getValue()).nodeID;
+          graph.longNodes.get((String) startLocationBox.getValue())
+              .nodeID; // (String) startLocationBox.getValue();
       endLocations.add(endID);
 
       mapInsertController.clearSelection();
