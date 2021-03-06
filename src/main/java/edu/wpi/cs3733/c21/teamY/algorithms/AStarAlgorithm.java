@@ -232,7 +232,6 @@ public class AStarAlgorithm {
       }
     }
 
-    // TODO check for duplicate "continue straights" and delete the intermediary ones
     for (int j = 0; j < pathDirections.size() - 1; j++) {
       if (pathDirections.get(j).contains("Continue Straight")
           && pathDirections.get(j + 1).contains("Continue Straight")) {
