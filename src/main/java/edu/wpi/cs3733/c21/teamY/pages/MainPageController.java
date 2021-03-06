@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import java.io.IOException;
 import javafx.application.Platform;
@@ -23,7 +22,7 @@ public class MainPageController {
   @FXML private JFXButton origServiceRequestBtn;
   @FXML private JFXButton origAdminToolsBtn;
 
-  @FXML private FontAwesomeIconView exitBtn;
+  @FXML private JFXButton exitBtn;
   //  @FXML private ScrollPane scrollPane;
 
   private JFXButton signInBtn;
@@ -84,9 +83,9 @@ public class MainPageController {
     origAdminToolsBtn.setOnAction(e -> buttonClicked(e));
     origSignInBtn.setOnAction(e -> buttonClicked(e));
     // exitBtn.setOnMouseClicked(e -> Platform.exit());
-    exitBtn.setOnMouseClicked(e -> swapPlatforms());
+    exitBtn.setOnAction(e -> swapPlatforms());
     instance.drawByPermissions();
-    instance.drawByPlatform();
+    // instance.drawByPlatform();
 
     Tooltip.install(origNavigationBtn, origNavigationBtnTooltip);
     Tooltip.install(origAdminToolsBtn, origAdminToolsTooltip);
@@ -150,7 +149,7 @@ public class MainPageController {
   }
 
   public void setCenterColumnWidth(double width) {
-    if (this.isDesktop) {
+    if (isDesktop) {
       centerPane.setMinWidth(width);
       centerPane.setPrefWidth(width);
       centerPane.setMaxWidth(width);
@@ -176,7 +175,7 @@ public class MainPageController {
     FXMLLoader fxmlLoader = new FXMLLoader();
     try {
       Node node = fxmlLoader.load(getClass().getResource(fxml).openStream());
-      RightPage controller = (RightPage) fxmlLoader.getController();
+      SubPage controller = (SubPage) fxmlLoader.getController();
       controller.setParent(this);
       controller.loadNavigationBar();
       rightPane.getChildren().add(node);
@@ -194,7 +193,7 @@ public class MainPageController {
     FXMLLoader fxmlLoader = new FXMLLoader();
     try {
       Node node = fxmlLoader.load(getClass().getResource(fxml).openStream());
-      CenterPage controller = fxmlLoader.getController();
+      SubPage controller = fxmlLoader.getController();
       controller.setParent(this);
       centerPane.getChildren().add(node);
     } catch (IOException e) {

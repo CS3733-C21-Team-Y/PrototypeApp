@@ -67,9 +67,9 @@
                               <Font name="Lato Regular" size="8.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton alignment="CENTER" contentDisplay="TOP" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" text="Exit" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
+                        <JFXButton fx:id="exitBtn" alignment="CENTER" contentDisplay="TOP" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" text="Exit" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
                            <graphic>
-                              <FontAwesomeIconView fx:id="exitBtn" accessibleText="Hello" fill="#575aa3" glyphName="SIGN_OUT" size="30" wrappingWidth="26.35714340209961" />
+                              <FontAwesomeIconView accessibleText="Hello" fill="#575aa3" glyphName="SIGN_OUT" size="30" wrappingWidth="26.35714340209961" />
                            </graphic>
                            <font>
                               <Font name="Lato Regular" size="8.0" />

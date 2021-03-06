@@ -5,7 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 
-public class ServiceRequestManagerSubpageController extends RightPage {
+public class ServiceRequestManagerSubpageController extends SubPage {
   @FXML private JFXButton laundryBtn;
   @FXML private JFXButton maintenanceBtn;
   @FXML private JFXButton AVBtn;

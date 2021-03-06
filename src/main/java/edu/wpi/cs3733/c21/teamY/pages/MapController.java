@@ -28,7 +28,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class MapController extends RightPage {
+public class MapController extends SubPage {
 
   @FXML protected AnchorPane anchor;
   @FXML private ImageView mapImageView;

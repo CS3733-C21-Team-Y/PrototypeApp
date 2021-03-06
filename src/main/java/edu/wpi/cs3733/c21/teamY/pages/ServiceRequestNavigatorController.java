@@ -15,7 +15,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 
-public class ServiceRequestNavigatorController extends CenterPage {
+public class ServiceRequestNavigatorController extends SubPage {
 
   public ScrollPane scrollPane;
   @FXML private VBox serviceBox;
