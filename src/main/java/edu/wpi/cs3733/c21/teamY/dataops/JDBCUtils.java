@@ -815,4 +815,36 @@ public class JDBCUtils {
     int check = preparedStatement.executeUpdate();
     return check != 0;
   }
+
+  public static int checkServiceStatus(String userID) {
+    String query = "select STATUS FROM ADMIN.SERVICE where REQUESTER = (?) AND TYPE = 'Covid Form'";
+    try {
+      PreparedStatement stmt = getConn().prepareStatement(query);
+      stmt.setString(1, userID);
+
+      ResultSet resultSet = stmt.executeQuery();
+      if (resultSet.next()) {
+        return resultSet.getInt(1);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return -1;
+  }
+
+  public static boolean checkForCompletedCovidSurvey(String userID) {
+    String query = "select * FROM ADMIN.SERVICE where TYPE = (?) AND REQUESTER = (?) ";
+    try {
+      PreparedStatement stmt = getConn().prepareStatement(query);
+      stmt.setString(1, "Covid Form");
+      stmt.setString(2, userID);
+      ResultSet resultSet = stmt.executeQuery();
+      if (resultSet.next()) {
+        return true;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return false;
+  }
 }

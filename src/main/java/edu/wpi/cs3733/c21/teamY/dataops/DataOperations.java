@@ -157,4 +157,12 @@ public class DataOperations {
   public static boolean updateUserPassword(String newPassword, String userID) throws SQLException {
     return JDBCUtils.updateUserPassword(userID, newPassword);
   }
+
+  public static int checkServiceStatus(String userID) {
+    return JDBCUtils.checkServiceStatus(userID);
+  }
+
+  public static boolean checkForCompletedCovidSurvey(String userID) {
+    return JDBCUtils.checkForCompletedCovidSurvey(userID);
+  }
 }

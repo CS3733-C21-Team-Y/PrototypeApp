@@ -44,7 +44,7 @@ public class LandingPageController extends RightPage implements Initializable {
   }
 
   private void buttonClicked(ActionEvent e) {
-    if (e.getSource() == button) parent.loadRightSubPage("CovidScreening.fxml");
+    if (e.getSource() == button) parent.loadRightSubPage("LoginPage.fxml");
   }
 
   @Override

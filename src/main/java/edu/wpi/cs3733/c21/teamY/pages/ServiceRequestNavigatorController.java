@@ -25,7 +25,7 @@ public class ServiceRequestNavigatorController extends CenterPage {
   @FXML private JFXButton assignedBtn;
 
   // tooltip instantiations
-  Tooltip button2Tooltip = new Tooltip("What is button 2?");
+  Tooltip button2Tooltip = new Tooltip("Export Services");
   Tooltip myRequestsBtnTooltip = new Tooltip("Displays Requests I Created");
   Tooltip allRequestBtnTooltip = new Tooltip("Displays All Current Requests");
   Tooltip assignedBtnTooltip = new Tooltip("Displays Requests I Am Assigned");

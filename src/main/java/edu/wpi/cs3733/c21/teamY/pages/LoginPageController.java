@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,27 +38,7 @@ public class LoginPageController extends RightPage {
     if (e.getCode() == KeyCode.ENTER) {
       String tryID = employeeIDTextField.getText();
       String tryPwd = passwordTextField.getText();
-
-      try {
-        if (DataOperations.findUser(tryID, tryPwd)) {
-          parent.updateProfileBtn();
-          parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
-          parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
-          parent.drawByPermissions();
-        } else {
-          if (!errorMsgDisplayed) {
-            errorMsgDisplayed = true;
-            errorMsg.setContent(
-                new Label("Username or password not recognized" + "\n please try again"));
-            errorMsg.show(stackPane);
-          } else {
-            errorMsg.close();
-            errorMsgDisplayed = false;
-          }
-        }
-      } catch (SQLException throwables) {
-        throwables.printStackTrace();
-      }
+      login(tryID, tryPwd);
     }
   }
 
@@ -69,22 +50,44 @@ public class LoginPageController extends RightPage {
     if (e.getSource() == loginBtn) {
       String tryID = employeeIDTextField.getText();
       String tryPwd = passwordTextField.getText();
+      login(tryID, tryPwd);
+    }
+  }
 
-      try {
-        if (DataOperations.findUser(tryID, tryPwd)) {
-          parent.updateProfileBtn();
+  private void login(String tryID, String tryPwd) {
+    try {
+      if (DataOperations.findUser(tryID, tryPwd)) {
+        parent.updateProfileBtn();
+
+        if (Settings.getSettings().getCurrentPermissions() == 2) {
           parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
           parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
           parent.drawByPermissions();
+          return;
+        }
+
+        if (DataOperations.checkForCompletedCovidSurvey(
+            Settings.getSettings().getCurrentUsername())) {
+          parent.loadRightSubPage("SurveyWaitingRoom.fxml");
         } else {
-          JFXDialog errorMsg = new JFXDialog();
+          parent.loadRightSubPage("CovidScreening.fxml");
+          // parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+          // parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+
+        }
+      } else {
+        if (!errorMsgDisplayed) {
+          errorMsgDisplayed = true;
           errorMsg.setContent(
               new Label("Username or password not recognized" + "\n please try again"));
           errorMsg.show(stackPane);
+        } else {
+          errorMsg.close();
+          errorMsgDisplayed = false;
         }
-      } catch (SQLException throwables) {
-        throwables.printStackTrace();
       }
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
     }
   }
 }
