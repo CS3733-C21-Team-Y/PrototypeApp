@@ -45,7 +45,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+            <HBox fx:id="overlayHBox" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
                   <JFXButton fx:id="reset" buttonType="RAISED" text="Reset View" />
                   <SplitMenuButton fx:id="floorMenu" mnemonicParsing="false" popupSide="TOP" text="Floor">

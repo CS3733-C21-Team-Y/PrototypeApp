@@ -36,6 +36,7 @@ public class MapController extends RightPage {
   @FXML protected StackPane containerStackPane;
 
   @FXML private GridPane mapOverlayUIGridPane;
+  @FXML private HBox overlayHBox;
   @FXML private SplitMenuButton floorMenu;
 
   @FXML private JFXButton reset;
@@ -177,6 +178,7 @@ public class MapController extends RightPage {
     adornerPane.setScaleY(mapImageView.getScaleY());
 
     mapOverlayUIGridPane.setPickOnBounds(false);
+    overlayHBox.setPickOnBounds(false);
 
     // Default AdornerPane click and drag
     adornerPane.setOnMousePressed(
