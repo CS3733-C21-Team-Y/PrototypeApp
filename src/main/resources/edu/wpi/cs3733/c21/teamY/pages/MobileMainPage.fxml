@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.MainPageController">
@@ -20,41 +21,45 @@
           <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <GridPane GridPane.rowIndex="2">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <JFXButton fx:id="origSignInBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text=" " textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="1">
-                     <graphic>
-                        <MaterialDesignIconView fill="#8d8ea4" glyphName="ACCOUNT_CIRCLE" size="30" />
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="origNavigationBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text=" " textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="2">
-                     <graphic>
-                        <FontAwesomeIconView fill="#8d8ea4" glyphName="LOCATION_ARROW" size="30" text="" />
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="origServiceRequestBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="3">
-                     <graphic>
-                        <FontAwesomeIconView fill="#8d8ea4" glyphName="CHECK_SQUARE_ALT" size="30" />
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text=" " textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
-                     <graphic>
-                        <FontAwesomeIconView fx:id="exitBtn" fill="#8d8ea4" glyphName="SIGN_OUT" size="30" text="" />
-                     </graphic>
-                  </JFXButton>
-               </children>
-            </GridPane>
             <AnchorPane fx:id="origRightPane" prefHeight="200.0" prefWidth="200.0" />
             <AnchorPane fx:id="origCenterPane" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+               <children>
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <JFXButton fx:id="origSignInBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text=" " textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="1">
+                           <graphic>
+                              <MaterialDesignIconView fill="#8d8ea4" glyphName="ACCOUNT_CIRCLE" size="30" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="origNavigationBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text=" " textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="2">
+                           <graphic>
+                              <FontAwesomeIconView fill="#8d8ea4" glyphName="LOCATION_ARROW" size="30" text="" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="origServiceRequestBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" style="-fx-border-width: 0; -fx-text-fill: rgba(0,0,0,0); -fx-font-size: 14;" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="3">
+                           <graphic>
+                              <FontAwesomeIconView fill="#8d8ea4" glyphName="CHECK_SQUARE_ALT" size="30" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text=" " textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
+                           <graphic>
+                              <FontAwesomeIconView fx:id="exitBtn" fill="#8d8ea4" glyphName="SIGN_OUT" size="30" text="" />
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </GridPane>
+               </children>
+            </HBox>
          </children>
       </GridPane>
    </children>
