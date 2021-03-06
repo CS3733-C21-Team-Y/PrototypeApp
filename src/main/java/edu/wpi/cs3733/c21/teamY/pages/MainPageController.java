@@ -9,10 +9,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.stage.Stage;
 
 public class MainPageController {
   @FXML private AnchorPane origRightPane;
@@ -21,9 +22,9 @@ public class MainPageController {
   @FXML private JFXButton origNavigationBtn;
   @FXML private JFXButton origServiceRequestBtn;
   @FXML private JFXButton origAdminToolsBtn;
-  @FXML private ColumnConstraints origCenterColumn;
+
   @FXML private FontAwesomeIconView exitBtn;
-  @FXML private ScrollPane scrollPane;
+  //  @FXML private ScrollPane scrollPane;
 
   private JFXButton signInBtn;
   private JFXButton navigationBtn;
@@ -32,6 +33,7 @@ public class MainPageController {
   private AnchorPane rightPane;
   private AnchorPane centerPane;
   private ColumnConstraints centerColumn;
+  public boolean isDesktop;
   //  @FXML private JFXButton SRMenuBtn;
   private static MainPageController instance;
   Settings settings;
@@ -48,7 +50,6 @@ public class MainPageController {
   public MainPageController(
       AnchorPane centerPane,
       AnchorPane rightPane,
-      ColumnConstraints centerColumn,
       JFXButton signInBtn,
       JFXButton navigationBtn,
       JFXButton serviceRequestBtn,
@@ -56,11 +57,11 @@ public class MainPageController {
     this.settings = Settings.getSettings();
     this.centerPane = centerPane;
     this.rightPane = rightPane;
-    this.centerColumn = centerColumn;
     this.signInBtn = signInBtn;
     this.navigationBtn = navigationBtn;
     this.serviceRequestBtn = serviceRequestBtn;
     this.adminToolsBtn = adminToolsBtn;
+    this.isDesktop = true;
 
     loadRightSubPage("LandingPage.fxml");
 
@@ -73,7 +74,6 @@ public class MainPageController {
         new MainPageController(
             origCenterPane,
             origRightPane,
-            origCenterColumn,
             origSignInBtn,
             origNavigationBtn,
             origServiceRequestBtn,
@@ -83,8 +83,10 @@ public class MainPageController {
     origServiceRequestBtn.setOnAction(e -> buttonClicked(e));
     origAdminToolsBtn.setOnAction(e -> buttonClicked(e));
     origSignInBtn.setOnAction(e -> buttonClicked(e));
-    exitBtn.setOnMouseClicked(e -> Platform.exit());
+    // exitBtn.setOnMouseClicked(e -> Platform.exit());
+    exitBtn.setOnMouseClicked(e -> swapPlatforms());
     instance.drawByPermissions();
+    instance.drawByPlatform();
 
     Tooltip.install(origNavigationBtn, origNavigationBtnTooltip);
     Tooltip.install(origAdminToolsBtn, origAdminToolsTooltip);
@@ -92,8 +94,44 @@ public class MainPageController {
     Tooltip.install(origServiceRequestBtn, origServiceRequestTooltip);
     Tooltip.install(origSignInBtn, origSignInBtnTooltip);
 
-    scrollPane = new ScrollPane();
-    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    //    scrollPane = new ScrollPane();
+    //    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    Platform.runLater(
+        () -> {
+          resize();
+        });
+  }
+
+  public void resize() {
+    Stage stage = (Stage) origRightPane.getScene().getWindow();
+    if (instance.isDesktop) {
+      stage.setMaximized(true);
+    } else {
+      stage.setMaximized(false);
+      stage.setWidth(350);
+      stage.setHeight(600);
+    }
+  }
+
+  public void swapPlatforms() {
+    Stage stage = (Stage) origRightPane.getScene().getWindow();
+    FXMLLoader fxmlLoader = new FXMLLoader();
+    try {
+      Scene scene;
+      if (instance.isDesktop) {
+        scene = new Scene(fxmlLoader.load(getClass().getResource("MobileMainPage.fxml")));
+        MainPageController controller = (MainPageController) fxmlLoader.getController();
+        controller.instance.isDesktop = false;
+      } else {
+        scene = new Scene(fxmlLoader.load(getClass().getResource("MainPage.fxml")));
+        MainPageController controller = (MainPageController) fxmlLoader.getController();
+        controller.instance.isDesktop = true;
+      }
+      stage.setScene(scene);
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public void updateProfileBtn() {
@@ -112,13 +150,24 @@ public class MainPageController {
   }
 
   public void setCenterColumnWidth(double width) {
-    centerColumn.setMinWidth(width);
-    centerColumn.setPrefWidth(width);
-    centerColumn.setMaxWidth(width);
-    if (width == 0) {
-      centerPane.setVisible(false);
+    if (this.isDesktop) {
+      centerPane.setMinWidth(width);
+      centerPane.setPrefWidth(width);
+      centerPane.setMaxWidth(width);
+      if (width == 0) {
+        centerPane.setVisible(false);
+      } else {
+        centerPane.setVisible(true);
+      }
     } else {
-      centerPane.setVisible(true);
+      centerPane.setMinHeight(width);
+      centerPane.setPrefHeight(width);
+      centerPane.setMaxHeight(width);
+      if (width == 0) {
+        centerPane.setVisible(false);
+      } else {
+        centerPane.setVisible(true);
+      }
     }
   }
 
@@ -150,6 +199,14 @@ public class MainPageController {
       centerPane.getChildren().add(node);
     } catch (IOException e) {
       e.printStackTrace();
+    }
+  }
+
+  public void drawByPlatform() {
+    if (instance.isDesktop) {
+      adminToolsBtn.setVisible(true);
+    } else {
+      adminToolsBtn.setVisible(false);
     }
   }
 
