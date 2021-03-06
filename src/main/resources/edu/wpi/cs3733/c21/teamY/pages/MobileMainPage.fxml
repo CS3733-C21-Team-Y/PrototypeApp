@@ -3,14 +3,12 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.MainPageController">
    <children>
@@ -24,7 +22,14 @@
           <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <AnchorPane fx:id="origRightPane" prefHeight="200.0" prefWidth="200.0" />
+            <AnchorPane fx:id="origRightPane" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <JFXButton fx:id="origAdminToolsBtn" alignment="CENTER" contentDisplay="TOP" layoutX="138.0" layoutY="208.0" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text="Test" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
+                     <graphic>
+                        <FontAwesomeIconView fx:id="exitBtn1" accessibleText="Hello" fill="#575aa3" glyphName="SIGN_OUT" size="30" />
+                     </graphic>
+                  </JFXButton>
+               </children></AnchorPane>
             <AnchorPane fx:id="origCenterPane" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
                <children>
@@ -39,89 +44,36 @@
                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <JFXButton fx:id="origSignInBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text=" " textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="3">
+                        <JFXButton fx:id="origSignInBtn" contentDisplay="TOP" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" text="Profile" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="3">
                            <graphic>
-                              <GridPane>
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" percentHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" percentHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <MaterialDesignIconView fill="#575aa3" glyphName="ACCOUNT_CIRCLE" size="30" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                       <font>
-                                          <Font name="Lato Regular" size="8.0"  />
-                                       </font>
-                                       <GridPane.margin>
-                                          <Insets />
-                                       </GridPane.margin>
-                                    </Text>
-                                 </children>
-                              </GridPane>
+                              <MaterialDesignIconView fill="#575aa3" glyphName="ACCOUNT_CIRCLE" size="30" />
                            </graphic>
+                           <font>
+                              <Font size="8.0" />
+                           </font>
                         </JFXButton>
-                        <JFXButton fx:id="origNavigationBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text=" " textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="2" />
-                        <GridPane GridPane.columnIndex="2">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" percentHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" percentHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <FontAwesomeIconView fill="#575aa3" glyphName="LOCATION_ARROW" size="30" text="" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Navigation" textAlignment="CENTER" wrappingWidth="39.90000534057617" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font name="Lato Regular" size="8.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </GridPane>
-                        <JFXButton fx:id="origServiceRequestBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" style="-fx-border-width: 0; -fx-text-fill: rgba(0,0,0,0); -fx-font-size: 14;" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="1">
+                        <JFXButton fx:id="origNavigationBtn" contentDisplay="TOP" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" text="Navigation" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="2">
                            <graphic>
-                              <GridPane>
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" percentHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" percentHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <FontAwesomeIconView fill="#575aa3" glyphName="CHECK_SQUARE_ALT" size="30" text="" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Service Requests" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                       <font>
-                                          <Font name="Lato Regular" size="8.0" />
-                                       </font>
-                                    </Text>
-                                 </children>
-                              </GridPane>
+                              <FontAwesomeIconView fill="#575aa3" glyphName="LOCATION_ARROW" size="30" text="" />
                            </graphic>
+                           <font>
+                              <Font name="Lato Regular" size="8.0" />
+                           </font></JFXButton>
+                        <JFXButton fx:id="origServiceRequestBtn" contentDisplay="TOP" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" text="Service Requests" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="1">
+                           <graphic>
+                              <FontAwesomeIconView fill="#575aa3" glyphName="CHECK_SQUARE_ALT" size="30" text="" />
+                           </graphic>
+                           <font>
+                              <Font name="Lato Regular" size="8.0" />
+                           </font>
                         </JFXButton>
-                        <JFXButton alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text=" " textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
+                        <JFXButton alignment="CENTER" contentDisplay="TOP" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" text="Exit" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
                            <graphic>
-                              <GridPane alignment="CENTER">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" percentHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" percentHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <FontAwesomeIconView fx:id="exitBtn" fill="#575aa3" glyphName="SIGN_OUT" size="30" text="" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Exit" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                       <font>
-                                          <Font name="Lato Regular" size="8.0" />
-                                       </font>
-                                    </Text>
-                                 </children>
-                              </GridPane>
+                              <FontAwesomeIconView fx:id="exitBtn" accessibleText="Hello" fill="#575aa3" glyphName="SIGN_OUT" size="30" wrappingWidth="26.35714340209961" />
                            </graphic>
+                           <font>
+                              <Font name="Lato Regular" size="8.0" />
+                           </font>
                         </JFXButton>
                      </children>
                   </GridPane>
