@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -122,6 +123,7 @@
                                              </VBox.margin>
                                           </ComboBox>
                                           <ComboBox fx:id="endLocationBox" prefWidth="150.0" promptText="End location Box" />
+                                          <Button fx:id="secret" mnemonicParsing="false" text="Secret" />
                                        </children>
                                     </VBox>
                                  </children>
