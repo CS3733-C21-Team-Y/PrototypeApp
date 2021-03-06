@@ -319,6 +319,18 @@ public class JDBCUtils {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+
+    try {
+      PreparedStatement stmt =
+          getConn()
+              .prepareStatement("DELETE FROM ADMIN.EDGE WHERE STARTNODE = (?) OR ENDNODE = (?)");
+      stmt.setString(1, nodeID);
+      stmt.setString(2, nodeID);
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
