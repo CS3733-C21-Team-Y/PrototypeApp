@@ -26,31 +26,29 @@
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <FontAwesomeIconView fx:id="exitBtn" fill="#8d8ea4" glyphName="SIGN_OUT" size="45" text="" />
-                  <JFXButton fx:id="origSignInBtn" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text=" " textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="1">
+                  <JFXButton fx:id="origSignInBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text=" " textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="1">
                      <graphic>
-                        <MaterialDesignIconView fill="#8d8ea4" glyphName="ACCOUNT_CIRCLE" size="40" />
+                        <MaterialDesignIconView fill="#8d8ea4" glyphName="ACCOUNT_CIRCLE" size="30" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="origNavigationBtn" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text=" " textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="2">
+                  <JFXButton fx:id="origNavigationBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text=" " textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="2">
                      <graphic>
-                        <FontAwesomeIconView fill="#8d8ea4" glyphName="LOCATION_ARROW" size="40" text="" />
+                        <FontAwesomeIconView fill="#8d8ea4" glyphName="LOCATION_ARROW" size="30" text="" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="origServiceRequestBtn" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="3">
+                  <JFXButton fx:id="origServiceRequestBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="3">
                      <graphic>
-                        <FontAwesomeIconView fill="#8d8ea4" glyphName="CHECK_SQUARE_ALT" size="45" />
+                        <FontAwesomeIconView fill="#8d8ea4" glyphName="CHECK_SQUARE_ALT" size="30" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="origAdminToolsBtn" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" GridPane.columnIndex="4">
+                  <JFXButton contentDisplay="GRAPHIC_ONLY" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text=" " textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
                      <graphic>
-                        <FontAwesomeIconView fill="#8d8ea4" glyphName="CHECK_SQUARE_ALT" size="45" />
+                        <FontAwesomeIconView fx:id="exitBtn" fill="#8d8ea4" glyphName="SIGN_OUT" size="30" text="" />
                      </graphic>
                   </JFXButton>
                </children>
