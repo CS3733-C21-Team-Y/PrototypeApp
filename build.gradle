@@ -32,6 +32,9 @@ dependencies {
             //Used for emailing
             'com.sun.mail:javax.mail:1.5',
             'org.apache.commons:commons-email:1.5',
+
+            //Maps
+            'com.dlsc:GMapsFX:8.0.0',
     )
     compile group: 'de.jensd', name: 'fontawesomefx', version: '8.9'
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
@@ -41,6 +44,7 @@ dependencies {
     compile group: 'com.jfoenix', name: 'jfoenix', version: '8.0.10'
     compile group: 'com.sun.mail', name: 'javax.mail', version: '1.5'
     compile group: 'org.apache.commons', name: 'commons-email', version: '1.5'
+    compile group: 'com.dlsc', name: 'GMapsFX', version: '8.0.0'
 
     testCompile(
             'de.jensd:fontawesomefx:8.9',
@@ -50,6 +54,7 @@ dependencies {
             'org.slf4j:slf4j-log4j12:1.7.30',
             'org.apache.commons:commons-email:1.5',
             'com.sun.mail:javax.mail:1.5',
+            'com.dlsc:GMapsFX:8.0.0',
     )
 
 }

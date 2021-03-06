@@ -103,7 +103,8 @@ public class MainPageController {
   private void buttonClicked(ActionEvent e) {
 
     System.out.println("clicked");
-    if (e.getSource() == origNavigationBtn) instance.loadRightSubPage("PathfindingPage.fxml");
+    if (e.getSource() == origNavigationBtn)
+      instance.loadRightSubPage("Scene.fxml"); // "PathfindingPage.fxml");
     else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
     else if (e.getSource() == origServiceRequestBtn) {
       instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
