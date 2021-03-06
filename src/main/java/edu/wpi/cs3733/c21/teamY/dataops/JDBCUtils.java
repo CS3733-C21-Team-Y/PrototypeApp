@@ -1,9 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.dataops;
 
-import edu.wpi.cs3733.c21.teamY.entity.Edge;
-import edu.wpi.cs3733.c21.teamY.entity.Employee;
-import edu.wpi.cs3733.c21.teamY.entity.Node;
-import edu.wpi.cs3733.c21.teamY.entity.Service;
+import edu.wpi.cs3733.c21.teamY.entity.*;
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -844,16 +841,13 @@ public class JDBCUtils {
   }
 
   public static boolean removeAccount(String employeeID) throws SQLException {
-    String remove="delete from ADMIN.EMPLOYEE where EMPLOYID= (?)";
+    String remove = "delete from ADMIN.EMPLOYEE where EMPLOYID= (?)";
     PreparedStatement preparedStatement = getConn().prepareStatement(remove);
-    preparedStatement.setString(1,employeeID);
-    int check =preparedStatement.executeUpdate();
+    preparedStatement.setString(1, employeeID);
+    int check = preparedStatement.executeUpdate();
     preparedStatement.close();
-    return check!=0;
-
+    return check != 0;
   }
-
-
 
   /**
    * @param employeeID employee to be assigned's ID
@@ -871,5 +865,25 @@ public class JDBCUtils {
     preparedStatement.close();
 
     return check != 0;
+  }
+
+  public static String findCarLocation(String ID) throws SQLException {
+    String select =
+        "select ADMIN.PARKINGLOT.NODEID from ADMIN.PARKINGLOT where ADMIN.PARKINGLOT.USERNAME=? ";
+    PreparedStatement preparedStatement = getConn().prepareStatement(select);
+    preparedStatement.setString(1, ID);
+    ResultSet resultSet = preparedStatement.executeQuery();
+    String rt = "";
+    while (resultSet.next()) {
+      rt = resultSet.getString(1);
+    }
+    return rt;
+  }
+
+  public static boolean saveParkingSpot(ParkingLot parkingLot) {
+    // String insert="insert into ADMIN.PARKINGLOT VALUES(?,?,?,?)"
+    //PreparedStatement preparedStatement = getConn().prepareStatement(insert);
+
+    return true;
   }
 }
