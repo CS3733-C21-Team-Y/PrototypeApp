@@ -78,8 +78,7 @@ public class AdminPageController extends RightPage {
   @FXML private JFXButton addNode;
   //  @FXML private JFXButton loadNodesButton; //bye bye fml
 
-  @FXML private JFXButton deleteEdge;
-  @FXML private JFXButton deleteNode;
+  @FXML private JFXButton deleteButton;
   @FXML private JFXButton export;
 
   @FXML private JFXButton addEdge;
@@ -154,6 +153,11 @@ public class AdminPageController extends RightPage {
                 } else {
                   shiftPressed = false;
                 }
+              });
+
+          deleteButton.setOnAction(
+              e -> {
+                removeSelected(e);
               });
 
           //          mapInsertController.getMapImageView().setScaleX(0.25);
