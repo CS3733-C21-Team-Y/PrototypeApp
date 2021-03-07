@@ -85,7 +85,7 @@ public class PathfindingPageController extends SubPage {
   Tooltip cafeTooltip = new Tooltip("Add/Remove Cafe Detour");
   Tooltip kioskTooltip = new Tooltip("Add/Remove Kiosk Detour");
   Tooltip parkingTooltip = new Tooltip("Return to parking lot");
-  Tooltip noStairsTooltip = new Tooltip("Toggle stairs in your route off");
+  Tooltip noStairsTooltip = new Tooltip("Toggle handicap accessible route on/off");
 
   /** Do not use it. It does nothing. */
   public PathfindingPageController() {}
@@ -118,7 +118,10 @@ public class PathfindingPageController extends SubPage {
     //         attaches a handler to the button with a lambda expression
 
     // Reset view button
-    resetView.setOnAction(e -> mapInsertController.resetMapView());
+    resetView.setOnAction(
+        e -> {
+          mapInsertController.resetMapView();
+        });
     resetView.toFront();
     zoomInButton.toFront();
     zoomOutButton.toFront();
@@ -183,11 +186,15 @@ public class PathfindingPageController extends SubPage {
     noStairsBtn.setOnAction(e -> detourBtnPressed(e));
 
     // Floor selection menu population
-    int i = 0;
-    for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
-      int index = i;
-      menuItem.setOnAction(e -> handleFloorChanged(e, index));
-      i++;
+    int i = -1;
+    for (javafx.scene.Node menuItem : mapInsertController.getFloorList().getChildren()) {
+      if (i != -1) {
+        int index = i;
+        ((JFXButton) menuItem).setOnAction(e -> handleFloorChanged(e, index));
+        i++;
+      } else {
+        i++;
+      }
     }
 
     //    upButton.setOnAction(e -> mapInsertController.panOnButtons("up"));
@@ -216,30 +223,27 @@ public class PathfindingPageController extends SubPage {
     // Init Graph
     resetGraphNodesEdges();
     resetComboBoxes();
-
+    System.out.println("Made it one!");
     // this handles auto route calculation after covid survey determination
-    try {
-      startLocationBox.setValue(
-          DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()));
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+
     String userId = Settings.getSettings().getCurrentUsername();
+    System.out.println("Made it!");
     if (DataOperations.checkForCompletedCovidSurvey(userId)) {
+      System.out.println("Check complete!");
       int status = DataOperations.checkSurveyStatus(userId);
       if (status == 1) {
-        endLocationBox.setValue("YEXIT00101");
+        endLocationBox.setValue("Atrium Main Entrance");
       } else if (status == 0) {
-        endLocationBox.setValue("YEXIT00201");
+        endLocationBox.setValue("Emergency Entrance");
       }
     }
 
     // Init Map
     Platform.runLater(
         () -> {
-          mapInsertController.getFloorMenu().setText("Parking");
+          mapInsertController.removeAllAdornerElements();
+          // mapInsertController.getFloorMenu().setText("Parking");
           mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
-
           mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
           startLocationBox.requestFocus();
@@ -262,6 +266,14 @@ public class PathfindingPageController extends SubPage {
                     }
                   });
           row1.maxHeightProperty().bind(anchor.getScene().heightProperty());
+          try {
+            startLocationBox.setValue(
+                graph.nodeFromID(
+                        DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()))
+                    .longName);
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
           calculatePath();
         });
   }
@@ -289,7 +301,9 @@ public class PathfindingPageController extends SubPage {
     else if (e.getSource() == parkingBtn) {
       try {
         endLocationBox.setValue(
-            DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()));
+            graph.nodeFromID(
+                    DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()))
+                .longName);
       } catch (Exception exception) {
         System.out.println("Find Car Location Failed in pathfinding page");
       }
@@ -397,7 +411,8 @@ public class PathfindingPageController extends SubPage {
         if (startLocationBox.getValue() != null && startNode != null) {
           mapInsertController.deSelectCircle(startNode);
         }
-        startLocationBox.setValue(node.getId());
+        startLocationBox.setValue(
+            graph.nodeFromID(node.getId()).longName); // startLocationBox.setValue(node.getId())
         startNode = node;
 
         mapInsertController.selectCircle(node);
@@ -411,7 +426,8 @@ public class PathfindingPageController extends SubPage {
           }
         }
         mapInsertController.selectCircle(node);
-        endLocationBox.setValue(node.getId());
+        endLocationBox.setValue(
+            graph.nodeFromID(node.getId()).longName); // endLocationBox.setValue(node.getId());
       }
 
     }
@@ -451,7 +467,7 @@ public class PathfindingPageController extends SubPage {
     mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
     mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
     drawPath(pathNodes);
-    mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
+    // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   }
 
   // button event handler
@@ -482,6 +498,11 @@ public class PathfindingPageController extends SubPage {
   // PATHFINDING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   /** resetGraphNodesEdges sets graph, nodes, stairs, to updated values in ActiveGraph */
   private void resetGraphNodesEdges() {
+    try {
+      ActiveGraph.initialize();
+    } catch (Exception exception) {
+      // IT NO WORK
+    }
     nodes = ActiveGraph.getNodes();
     edges = ActiveGraph.getEdges();
     graph = ActiveGraph.getActiveGraph();
@@ -493,11 +514,16 @@ public class PathfindingPageController extends SubPage {
     endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
 
     for (Node node : nodes) {
-      startLocationBox.getItems().add(node.nodeID);
-    }
-
-    for (Node node : nodes) {
-      endLocationBox.getItems().add(node.nodeID);
+      String name = node.longName;
+      String type = node.nodeType;
+      // Filtering out the unwanted midway points
+      if (!type.equals("WALK")
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
+        startLocationBox.getItems().add(name);
+        endLocationBox.getItems().add(name);
+      }
     }
   }
 
@@ -515,15 +541,22 @@ public class PathfindingPageController extends SubPage {
   public void calculatePath() {
     clearPath();
     if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
-      if (graph.nodeFromID((String) startLocationBox.getValue()).nodeType.equals("PARK")) {
+      ArrayList<String> endLocations = new ArrayList<>();
+      String endID =
+          graph.longNodes.get((String) endLocationBox.getValue())
+              .nodeID; // (String) endLocationBox.getValue();
+      String startID =
+          graph.longNodes.get((String) startLocationBox.getValue())
+              .nodeID; // (String) startLocationBox.getValue();
+      endLocations.add(endID);
+
+      if (graph.longNodes.get((String) startLocationBox.getValue()).nodeType.equals("PARK")) {
         try {
           if (DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername())
               .equals("")) {
-            DataOperations.saveParkingSpot(
-                (String) startLocationBox.getValue(), Settings.getSettings().getCurrentUsername());
+            DataOperations.saveParkingSpot(startID, Settings.getSettings().getCurrentUsername());
           } else {
-            DataOperations.updateParkingSpot(
-                (String) startLocationBox.getValue(), Settings.getSettings().getCurrentUsername());
+            DataOperations.updateParkingSpot(startID, Settings.getSettings().getCurrentUsername());
           }
 
         } catch (Exception exception) {
@@ -531,40 +564,29 @@ public class PathfindingPageController extends SubPage {
         }
       }
 
-      ArrayList<String> endLocations = new ArrayList<>();
-      String endID =
-          (String)
-              endLocationBox
-                  .getValue(); // graph.longNodes.get((String) endLocationBox.getValue()).nodeID;
-      String startID =
-          (String)
-              startLocationBox
-                  .getValue(); // graph.longNodes.get((String) startLocationBox.getValue()).nodeID;
-      endLocations.add(endID);
-
       mapInsertController.clearSelection();
 
-      ArrayList<Node> nodes = runAlgo(graph, startID, endLocations, noType);
+      ArrayList<Node> algoNodes = runAlgo(graph, startID, endLocations, noType);
 
       boolean detour = false;
       if (bathroom) {
-        endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "REST");
+        endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "REST");
         detour = true;
       }
       if (restaurant) {
-        endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "FOOD");
+        endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "FOOD");
         detour = true;
       }
       if (kiosk) {
-        endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "KIOS");
+        endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "KIOS");
         detour = true;
       }
       // If we've taken a detour, regenerate path
       if (detour) {
-        nodes = runAlgo(graph, startID, endLocations, noType);
+        algoNodes = runAlgo(graph, startID, endLocations, noType);
       }
 
-      pathNodes = nodes;
+      pathNodes = algoNodes;
       drawPath(pathNodes);
 
       generateTextDirections(pathNodes);
@@ -581,12 +603,11 @@ public class PathfindingPageController extends SubPage {
       for (int i = 0; i < nodes.size() - 1; i++) {
         MapController.CircleEx n =
             (MapController.CircleEx)
-                mapInsertController.getAdornerPane().getScene().lookup("#" + nodes.get(i).nodeID);
+                mapInsertController.getAdornerPane().lookup("#" + nodes.get(i).nodeID);
         MapController.CircleEx m =
             (MapController.CircleEx)
                 mapInsertController
                     .getAdornerPane()
-                    .getScene()
                     .lookup("#" + nodes.get(i + 1).nodeID);
 
         if (n != null) {
@@ -601,7 +622,6 @@ public class PathfindingPageController extends SubPage {
               (MapController.LineEx)
                   mapInsertController
                       .getAdornerPane()
-                      .getScene()
                       .lookup("#" + nodes.get(i).nodeID + "_" + nodes.get(i + 1).nodeID);
 
           if (l == null) {
@@ -609,11 +629,19 @@ public class PathfindingPageController extends SubPage {
                 (MapController.LineEx)
                     mapInsertController
                         .getAdornerPane()
-                        .getScene()
                         .lookup("#" + nodes.get(i + 1).nodeID + "_" + nodes.get(i).nodeID);
           }
 
           if (l != null) {
+            if (l.direcVisualsEnabled) {
+              l.biDirectional = true;
+              l.updateVisuals();
+            } else {
+              l.direcVisualsEnabled = true;
+              l.setDirection(n);
+            }
+
+            // Selecting updates visuals automatically
             mapInsertController.selectLine(l);
           } else {
             System.out.println("Could not identify line");

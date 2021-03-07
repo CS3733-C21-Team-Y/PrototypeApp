@@ -56,7 +56,7 @@ public class CovidScreeningController extends SubPage {
 
     for (Node node : ActiveGraph.getNodes()) {
       if (node.getNodeType().equals("PARK")) {
-        parkingBox.getItems().add(node.nodeID);
+        parkingBox.getItems().add(node.longName);
       }
     }
   }
@@ -97,7 +97,8 @@ public class CovidScreeningController extends SubPage {
 
       try {
         DataOperations.saveParkingSpot(
-            parkingBox.getValue(), Settings.getSettings().getCurrentUsername());
+            ActiveGraph.getActiveGraph().longNodes.get(parkingBox.getValue()).nodeID,
+            Settings.getSettings().getCurrentUsername());
       } catch (SQLException e) {
         e.printStackTrace();
       }

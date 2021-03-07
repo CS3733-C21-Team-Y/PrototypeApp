@@ -6,9 +6,11 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
@@ -22,6 +24,7 @@ public class LanguageSubpageController extends GenericServiceFormPage {
   @FXML private JFXComboBox urgency;
   @FXML private JFXTextField locationField;
   @FXML private JFXTextArea description;
+  @FXML private JFXComboBox employeeComboBox;
 
   @FXML private StackPane stackPane;
 
@@ -47,6 +50,20 @@ public class LanguageSubpageController extends GenericServiceFormPage {
     urgency.getItems().add("High");
     urgency.getItems().add("Medium");
     urgency.getItems().add("Low");
+
+    if (settings.getCurrentPermissions() == 3) {
+      employeeComboBox.setVisible(true);
+      try {
+        ArrayList<Employee> employeeList = DataOperations.getStaffList();
+        for (Employee employee : employeeList) {
+          employeeComboBox.getItems().add(employee.getEmployeeID());
+        }
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    } else {
+      employeeComboBox.setVisible(false);
+    }
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -58,6 +75,7 @@ public class LanguageSubpageController extends GenericServiceFormPage {
     locationField.setText("");
     description.setText("");
     urgency.setValue(null);
+    employeeComboBox.getSelectionModel().clearSelection();
   }
 
   @FXML
@@ -73,6 +91,11 @@ public class LanguageSubpageController extends GenericServiceFormPage {
       service.setLocation(locationField.getText());
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());
+      if (settings.getCurrentPermissions() == 3) {
+        service.setEmployee((String) employeeComboBox.getValue());
+      } else {
+        service.setEmployee("admin");
+      }
 
       try {
         DataOperations.saveService(service);

@@ -23,7 +23,7 @@
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="90.0" minHeight="30.0" prefHeight="84.0" vgrow="NEVER" />
-                  <RowConstraints maxHeight="200.0" minHeight="18.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="125.0" minHeight="18.0" prefHeight="50.0" vgrow="ALWAYS" />
                 <RowConstraints maxHeight="99999.0" minHeight="10.0" prefHeight="290.0" />
               </rowConstraints>
                <children>

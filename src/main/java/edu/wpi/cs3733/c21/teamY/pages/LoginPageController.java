@@ -29,6 +29,11 @@ public class LoginPageController extends SubPage {
     employeeIDTextField.setOnKeyPressed(e -> submit(e));
     passwordTextField.setOnKeyPressed(e -> submit(e));
     forgotPasswordBtn.setOnAction(e -> buttonClicked(e));
+    newAccount.setOnAction(e -> newAccountClicked(e));
+  }
+
+  private void newAccountClicked(ActionEvent e) {
+    if (e.getSource() == newAccount) parent.loadRightSubPage("SignUpPage.fxml");
   }
 
   // needed outside of scope for submit()
@@ -60,11 +65,11 @@ public class LoginPageController extends SubPage {
       if (DataOperations.findUser(tryID, tryPwd)) {
         parent.updateProfileBtn();
 
-        if (Settings.getSettings().getCurrentPermissions() == 2) {
+        if (Settings.getSettings().getCurrentPermissions() == 3) {
           parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
           if (parent.isDesktop) {
             parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
-            parent.setCenterColumnWidth(350);
+            // parent.setCenterColumnWidth(350);
           } else {
             parent.setCenterColumnWidth(0);
           }
