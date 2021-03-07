@@ -29,16 +29,6 @@ public class App extends Application {
       e.printStackTrace();
     }
 
-    try {
-      DataOperations.fillTablesFromCSV();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
     //    log.info("Starting Up");
     //    log.info("Attempting to load database from CSV file");
     //

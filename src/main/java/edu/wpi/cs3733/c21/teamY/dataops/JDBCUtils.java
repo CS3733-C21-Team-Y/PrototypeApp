@@ -76,7 +76,7 @@ public class JDBCUtils {
               + "password varchar(40), email varchar(50), accessLevel int not null, primaryWorkspace varchar(30))";
 
       String sqlParkingLot =
-          "create table ParkingLot(nodeID varchar(40) PRIMARY KEY, userName varchar(30), enterParkingLot date, leaveParkingLot date, "
+          "create table ParkingLot(nodeID varchar(20) DEFAULT 'to be changed', userName varchar(30) PRIMARY KEY, "
               + "constraint FK_UserName FOREIGN KEY(userName) REFERENCES ADMIN.EMPLOYEE(EMPLOYEEID) ON DELETE CASCADE,"
               + "constraint FK_NodeID FOREIGN KEY(nodeID) REFERENCES ADMIN.Node(NODEID) ON DELETE CASCADE)";
       stmt.executeUpdate(sqlEmployee);
@@ -880,10 +880,23 @@ public class JDBCUtils {
     return rt;
   }
 
-  public static boolean saveParkingSpot(ParkingLot parkingLot) {
-    // String insert="insert into ADMIN.PARKINGLOT VALUES(?,?,?,?)"
-    // PreparedStatement preparedStatement = getConn().prepareStatement(insert);
+  public static boolean saveParkingSpot(String nodeID, String userID) throws SQLException {
+    String insert = "insert into ADMIN.PARKINGLOT VALUES(?,?)";
+    PreparedStatement preparedStatement = getConn().prepareStatement(insert);
+    preparedStatement.setString(1, nodeID);
+    preparedStatement.setString(2, userID);
+    int check = preparedStatement.executeUpdate();
 
-    return true;
+    return check != 0;
+  }
+
+  public static boolean updateParkingSpot(String nodeID, String userID) throws SQLException {
+    String update =
+        "update ADMIN.PARKINGLOT set ADMIN.PARKINGLOT.NODEID=? where ADMIN.PARKINGLOT.USERNAME=?";
+    PreparedStatement ps = getConn().prepareStatement(update);
+    ps.setString(1, nodeID);
+    ps.setString(2, userID);
+    int check = ps.executeUpdate();
+    return check != 0;
   }
 }

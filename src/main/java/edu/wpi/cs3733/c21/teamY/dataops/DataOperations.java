@@ -1,9 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.dataops;
 
-import edu.wpi.cs3733.c21.teamY.entity.Edge;
-import edu.wpi.cs3733.c21.teamY.entity.Employee;
-import edu.wpi.cs3733.c21.teamY.entity.Node;
-import edu.wpi.cs3733.c21.teamY.entity.Service;
+import edu.wpi.cs3733.c21.teamY.entity.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -169,5 +166,17 @@ public class DataOperations {
 
   public static boolean removeAccount(String employID) throws SQLException {
     return JDBCUtils.removeAccount(employID);
+  }
+
+  public static String findCarLocation(String ID) throws SQLException {
+    return JDBCUtils.findCarLocation(ID);
+  }
+
+  public static boolean saveParkingSpot(String nodeID, String userID) throws SQLException {
+    return JDBCUtils.saveParkingSpot(nodeID, userID);
+  }
+
+  public static boolean updateParkingSpot(String nodeID, String userID) throws SQLException {
+    return JDBCUtils.updateParkingSpot(nodeID, userID);
   }
 }
