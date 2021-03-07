@@ -2,13 +2,19 @@ package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
-import java.awt.*;
+import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
+import edu.wpi.cs3733.c21.teamY.entity.Service;
+import java.sql.SQLException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
-public class CovidScreeningController extends RightPage {
+public class CovidScreeningController extends SubPage {
 
   @FXML private JFXCheckBox posY;
   @FXML private JFXCheckBox posN;
@@ -20,10 +26,13 @@ public class CovidScreeningController extends RightPage {
   @FXML private Label errorLabel;
   @FXML private StackPane errorStackPane;
   @FXML private JFXDialog errorDialog;
+  @FXML private JFXComboBox<String> parkingBox;
 
   //  private Settings settings;
 
-  public CovidScreeningController() {}
+  public CovidScreeningController() {
+    super();
+  }
 
   @FXML
   private void initialize() {
@@ -36,6 +45,20 @@ public class CovidScreeningController extends RightPage {
     closeN.setOnAction(e -> closeY.setSelected(false));
     closeY.setOnAction(e -> closeN.setSelected(false));
     submitBtn.setOnAction(e -> submitBtnClicked());
+
+    fillComboBox();
+  }
+
+  @FXML
+  private void fillComboBox() {
+
+    parkingBox.getItems().remove(0, parkingBox.getItems().size());
+
+    for (Node node : ActiveGraph.getNodes()) {
+      if (node.getNodeType().equals("PARK")) {
+        parkingBox.getItems().add(node.nodeID);
+      }
+    }
   }
 
   @FXML
@@ -59,14 +82,37 @@ public class CovidScreeningController extends RightPage {
       errorLabel.setWrapText(true);
       errorLabel.setText("Please Select an option for each question");
       errorDialog.show(errorStackPane);
-    } else if (!isPositive && !hasSymp && !wasClose) {
-      parent.loadRightSubPage("LoginPage.fxml");
-    } else {
-      errorLabel.setWrapText(true);
-      errorLabel.setText(
-          "This is where we will direct the User to navigate to the Covid Entrance of the Hospital - Unsure of implementation currently (Click to Remove)");
+    }
+    //    else if (!isPositive && !hasSymp && !wasClose) {
+    //      parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+    //      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+    //      // parent.loadRightSubPage("LoginPage.fxml");
+    //    }
+    else {
+      Service service = new Service(this.IDCount, "Covid Form");
+      this.IDCount++;
+      service.setDescription(createDescription(isPositive, hasSymp, wasClose));
+      service.setRequester(Settings.getSettings().getCurrentUsername());
+      service.setLocation(parkingBox.getValue());
 
-      errorDialog.show(errorStackPane);
+      try {
+        DataOperations.saveParkingSpot(
+            parkingBox.getValue(), Settings.getSettings().getCurrentUsername());
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+
+      try {
+        DataOperations.saveService(service);
+      } catch (SQLException | IllegalAccessException e) {
+        e.printStackTrace();
+      }
+      // parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+      // parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+      //      errorLabel.setWrapText(true);
+      //      errorLabel.setText("Please wait for a member of our staff to review your responses.");
+
+      // errorDialog.show(errorStackPane);
       // errorLabel.setStyle(" -fx-background-color: #efeff9");
       // errorLabel.setStyle(" -fx-background-radius: 10");
       // errorLabel.setStyle(" -fx-font-weight: bold");
@@ -74,8 +120,32 @@ public class CovidScreeningController extends RightPage {
       // errorLabel.setStyle(" -fx-text-fill: #5a5c94");
       // errorDiolog.setContent(errorLabel);
 
+      parent.loadRightSubPage("SurveyWaitingRoom.fxml");
     }
     //
+  }
+
+  public String createDescription(boolean isPos, boolean hasSymp, boolean wasClose) {
+    StringBuilder description = new StringBuilder();
+    description.append("Pos: ");
+    if (isPos) {
+      description.append("Yes, ");
+    } else {
+      description.append("No, ");
+    }
+    description.append("Symptoms: ");
+    if (hasSymp) {
+      description.append("Yes, ");
+    } else {
+      description.append("No, ");
+    }
+    description.append("Contact: ");
+    if (wasClose) {
+      description.append("Yes.");
+    } else {
+      description.append("No.");
+    }
+    return description.toString();
   }
 
   @FXML

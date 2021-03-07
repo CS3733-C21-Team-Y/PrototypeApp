@@ -32,7 +32,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class GraphEditPageController extends RightPage {
+public class GraphEditPageController extends SubPage {
 
   @FXML private Pane anchor;
   @FXML private HBox header;

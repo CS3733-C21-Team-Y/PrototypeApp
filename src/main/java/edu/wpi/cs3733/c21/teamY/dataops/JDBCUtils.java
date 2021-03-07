@@ -1,9 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.dataops;
 
-import edu.wpi.cs3733.c21.teamY.entity.Edge;
-import edu.wpi.cs3733.c21.teamY.entity.Employee;
-import edu.wpi.cs3733.c21.teamY.entity.Node;
-import edu.wpi.cs3733.c21.teamY.entity.Service;
+import edu.wpi.cs3733.c21.teamY.entity.*;
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -71,13 +68,20 @@ public class JDBCUtils {
               + "urgency varchar(10), date varchar(20), additionalInfo varchar(255), requester varchar(30) not null, status int,"
               + " employee varchar(30) DEFAULT 'admin',"
               + "constraint FK_Requester_ID FOREIGN KEY (requester) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE,"
+              + "constraint FK_Employee FOREIGN KEY (employee) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE,"
               + " check( status=-1 OR status =0 OR status=1))";
 
       String sqlEmployee =
           "create table Employee(firstName varchar(30) not null, lastName varchar(30) not null, employeeID varchar(30) PRIMARY KEY not null, "
               + "password varchar(40), email varchar(50), accessLevel int not null, primaryWorkspace varchar(30))";
+
+      String sqlParkingLot =
+          "create table ParkingLot(nodeID varchar(20) DEFAULT 'to be changed', userName varchar(30) PRIMARY KEY, "
+              + "constraint FK_UserName FOREIGN KEY(userName) REFERENCES ADMIN.EMPLOYEE(EMPLOYEEID) ON DELETE CASCADE,"
+              + "constraint FK_NodeID FOREIGN KEY(nodeID) REFERENCES ADMIN.Node(NODEID) ON DELETE CASCADE)";
       stmt.executeUpdate(sqlEmployee);
       stmt.executeUpdate(sqlService);
+      stmt.executeUpdate(sqlParkingLot);
 
       JDBCUtils.fillTablesFromCSV();
     } catch (SQLException ignored) {
@@ -314,6 +318,18 @@ public class JDBCUtils {
       PreparedStatement stmt =
           connection.prepareStatement("DELETE FROM ADMIN.NODE WHERE NODEID = (?)");
       stmt.setString(1, nodeID);
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+    try {
+      PreparedStatement stmt =
+          getConn()
+              .prepareStatement("DELETE FROM ADMIN.EDGE WHERE STARTNODE = (?) OR ENDNODE = (?)");
+      stmt.setString(1, nodeID);
+      stmt.setString(2, nodeID);
       stmt.executeUpdate();
       stmt.closeOnCompletion();
     } catch (SQLException e) {
@@ -800,6 +816,25 @@ public class JDBCUtils {
   }
 
   /**
+   * @param employee an employee object
+   * @return true if created successful
+   * @throws SQLException sql exception
+   */
+  public static boolean createUserAccount(Employee employee) throws SQLException {
+    String createAccount = "insert into ADMIN.EMPLOYEE values(?,?,?,?,?,?,?)";
+    PreparedStatement preparedStatement = getConn().prepareStatement(createAccount);
+    preparedStatement.setString(1, employee.getFirstName());
+    preparedStatement.setString(2, employee.getLastName());
+    preparedStatement.setString(3, employee.getEmployeeID());
+    preparedStatement.setString(4, employee.getPassword());
+    preparedStatement.setString(5, employee.getEmail());
+    preparedStatement.setInt(6, employee.getAccessLevel());
+    preparedStatement.setString(7, employee.getPrimaryWorkspace());
+    int check = preparedStatement.executeUpdate();
+    return check != 0;
+  }
+
+  /**
    * updated the password of the User with the specified userID
    *
    * @param userID of the user who's password is to be changed
@@ -813,6 +848,99 @@ public class JDBCUtils {
     preparedStatement.setString(1, newPassWord);
     preparedStatement.setString(2, userID);
     int check = preparedStatement.executeUpdate();
+    preparedStatement.close();
+    return check != 0;
+  }
+
+  public static int checkPatientStatus(String userID) {
+    String query = "select STATUS FROM ADMIN.SERVICE where REQUESTER = (?) AND TYPE = 'Covid Form'";
+    try {
+      PreparedStatement stmt = getConn().prepareStatement(query);
+      stmt.setString(1, userID);
+
+      ResultSet resultSet = stmt.executeQuery();
+      if (resultSet.next()) {
+        return resultSet.getInt(1);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return 2;
+  }
+
+  public static boolean checkForCompletedCovidSurvey(String userID) {
+    String query = "select * FROM ADMIN.SERVICE where TYPE = (?) AND REQUESTER = (?) ";
+    try {
+      PreparedStatement stmt = getConn().prepareStatement(query);
+      stmt.setString(1, "Covid Form");
+      stmt.setString(2, userID);
+      ResultSet resultSet = stmt.executeQuery();
+      if (resultSet.next()) {
+        return true;
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return false;
+  }
+
+  public static boolean removeAccount(String employeeID) throws SQLException {
+    String remove = "delete from ADMIN.EMPLOYEE where EMPLOYEEID= (?)";
+    PreparedStatement preparedStatement = getConn().prepareStatement(remove);
+    preparedStatement.setString(1, employeeID);
+    int check = preparedStatement.executeUpdate();
+    preparedStatement.close();
+    return check != 0;
+  }
+
+  /**
+   * @param employeeID employee to be assigned's ID
+   * @param serviceID corresponding service ID
+   * @return true if update successful
+   * @throws SQLException something went wrong with DB
+   */
+  public static boolean assignEmployeeToRequest(String employeeID, int serviceID)
+      throws SQLException {
+    String assign = "update ADMIN.SERVICE set EMPLOYEE=(?) where SERVICEID=(?)";
+    PreparedStatement preparedStatement = getConn().prepareStatement(assign);
+    preparedStatement.setString(1, employeeID);
+    preparedStatement.setInt(2, serviceID);
+    int check = preparedStatement.executeUpdate();
+    preparedStatement.close();
+
+    return check != 0;
+  }
+
+  public static String findCarLocation(String ID) throws SQLException {
+    String select =
+        "select ADMIN.PARKINGLOT.NODEID from ADMIN.PARKINGLOT where ADMIN.PARKINGLOT.USERNAME=? ";
+    PreparedStatement preparedStatement = getConn().prepareStatement(select);
+    preparedStatement.setString(1, ID);
+    ResultSet resultSet = preparedStatement.executeQuery();
+    String rt = "";
+    while (resultSet.next()) {
+      rt = resultSet.getString(1);
+    }
+    return rt;
+  }
+
+  public static boolean saveParkingSpot(String nodeID, String userID) throws SQLException {
+    String insert = "insert into ADMIN.PARKINGLOT VALUES(?,?)";
+    PreparedStatement preparedStatement = getConn().prepareStatement(insert);
+    preparedStatement.setString(1, nodeID);
+    preparedStatement.setString(2, userID);
+    int check = preparedStatement.executeUpdate();
+
+    return check != 0;
+  }
+
+  public static boolean updateParkingSpot(String nodeID, String userID) throws SQLException {
+    String update =
+        "update ADMIN.PARKINGLOT set ADMIN.PARKINGLOT.NODEID=? where ADMIN.PARKINGLOT.USERNAME=?";
+    PreparedStatement ps = getConn().prepareStatement(update);
+    ps.setString(1, nodeID);
+    ps.setString(2, userID);
+    int check = ps.executeUpdate();
     return check != 0;
   }
 }
