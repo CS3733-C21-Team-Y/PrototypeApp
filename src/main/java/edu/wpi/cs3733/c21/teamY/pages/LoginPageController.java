@@ -42,7 +42,12 @@ public class LoginPageController extends SubPage {
         if (DataOperations.findUser(tryID, tryPwd)) {
           parent.updateProfileBtn();
           parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
-          parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+          if (parent.isDesktop) {
+            parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+            parent.setCenterColumnWidth(350);
+          } else {
+            parent.setCenterColumnWidth(0);
+          }
           parent.drawByPermissions();
         } else {
           if (!errorMsgDisplayed) {

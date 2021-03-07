@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -23,6 +24,7 @@ public class ServiceRequestNavigatorController extends SubPage {
   @FXML private JFXButton myRequestsBtn;
   @FXML private JFXButton allRequestsBtn;
   @FXML private JFXButton assignedBtn;
+  @FXML private JFXButton backBtn;
 
   // tooltip instantiations
   Tooltip button2Tooltip = new Tooltip("What is button 2?");
@@ -37,6 +39,7 @@ public class ServiceRequestNavigatorController extends SubPage {
     myRequestsBtn.setOnAction(e -> filterByRequester());
     assignedBtn.setOnAction(e -> filterByEmployee());
     allRequestsBtn.setOnAction(e -> loadServicesFromDB());
+    backBtn.setOnAction(e -> buttonClicked(e));
     drawByPermissions();
     Platform.runLater(() -> filterByRequester());
 
@@ -45,6 +48,18 @@ public class ServiceRequestNavigatorController extends SubPage {
     Tooltip.install(allRequestsBtn, allRequestBtnTooltip);
     Tooltip.install(assignedBtn, assignedBtnTooltip);
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+  }
+
+  @Override
+  public void drawByPlatform() {
+    if (parent.isDesktop) {
+      backBtn.setVisible(false);
+    }
+  }
+
+  @FXML
+  private void buttonClicked(ActionEvent e) {
+    if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
   }
 
   private void exportServices() {

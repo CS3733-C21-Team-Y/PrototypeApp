@@ -143,8 +143,13 @@ public class MainPageController {
     if (e.getSource() == origNavigationBtn) instance.loadRightSubPage("PathfindingPage.fxml");
     else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
     else if (e.getSource() == origServiceRequestBtn) {
-      instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
-      instance.loadCenterSubPage("ServiceRequestNavigator.fxml");
+      if (instance.isDesktop) {
+        instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
+        instance.loadCenterSubPage("ServiceRequestNavigator.fxml");
+      } else {
+        instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
+        setCenterColumnWidth(0);
+      }
     } else if (e.getSource() == origAdminToolsBtn) instance.loadRightSubPage("AdminPage.fxml");
   }
 
@@ -177,6 +182,7 @@ public class MainPageController {
       Node node = fxmlLoader.load(getClass().getResource(fxml).openStream());
       SubPage controller = (SubPage) fxmlLoader.getController();
       controller.setParent(this);
+      controller.drawByPlatform();
       controller.loadNavigationBar();
       rightPane.getChildren().add(node);
     } catch (IOException e) {
@@ -195,6 +201,7 @@ public class MainPageController {
       Node node = fxmlLoader.load(getClass().getResource(fxml).openStream());
       SubPage controller = fxmlLoader.getController();
       controller.setParent(this);
+      controller.drawByPlatform();
       centerPane.getChildren().add(node);
     } catch (IOException e) {
       e.printStackTrace();

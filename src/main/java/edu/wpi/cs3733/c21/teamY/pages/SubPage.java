@@ -14,4 +14,6 @@ public abstract class SubPage {
   public void loadNavigationBar() {
     parent.setCenterColumnWidth(0);
   };
+
+  public void drawByPlatform() {};
 }
