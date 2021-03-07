@@ -776,6 +776,13 @@ public class JDBCUtils {
               firstName, lastName, employeeID, password, email, accessLevel, primaryWorkspace);
       employees.add(employee);
     }
+    r.close();
+
+    try {
+      close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     return employees;
   }
 
