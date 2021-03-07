@@ -91,8 +91,8 @@ public class MapController extends RightPage {
               MAP_PAGE.FLOOR4,
               MAP_PAGE.FLOOR5));
 
-  private double scaleMin = 0.001;
-  private double scaleMax = 500;
+  private double scaleMin = 0.1;
+  private double scaleMax = 20;
   private String direction = "in/out";
 
   // these need to be imageViews
@@ -797,10 +797,10 @@ public class MapController extends RightPage {
 
     mapImageView.setPreserveRatio(true);
 
-    System.out.println(adornerPane.getScaleX() * scale);
-    System.out.println(adornerPane.getScaleY() * scale);
+    // System.out.println(adornerPane.getScaleX() * scale);
+    // System.out.println(adornerPane.getScaleY() * scale);
 
-    if (adornerPane.getScaleX() * scale > 20 || adornerPane.getScaleX() * scale < 0.05) {
+    if (adornerPane.getScaleX() * scale > scaleMax || adornerPane.getScaleX() * scale < scaleMin) {
       return;
     }
 
@@ -809,6 +809,7 @@ public class MapController extends RightPage {
 
     mapImageView.setScaleX(mapImageView.getScaleX() * scale);
     mapImageView.setScaleY(mapImageView.getScaleY() * scale);
+    updateAdornerVisualsOnZoom();
   }
 
   public void zoomStolen(double factor, double x, double y) {
@@ -816,6 +817,10 @@ public class MapController extends RightPage {
     double oldScale = mapImageView.getScaleX();
     double scale = oldScale * factor;
     double f = (scale / oldScale) - 1;
+
+    if (scale < scaleMin || scale > scaleMax) {
+      return;
+    }
 
     // determine offset that we will have to move the node
     Bounds bounds = mapImageView.localToScene(mapImageView.getBoundsInLocal());

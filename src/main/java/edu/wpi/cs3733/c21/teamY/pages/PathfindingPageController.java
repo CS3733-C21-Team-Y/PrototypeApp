@@ -194,8 +194,8 @@ public class PathfindingPageController extends RightPage {
     //    downButton.setOnAction(e -> mapInsertController.panOnButtons("down"));
     //    leftButton.setOnAction(e -> mapInsertController.panOnButtons("left"));
     //    rightButton.setOnAction(e -> mapInsertController.panOnButtons("right"));
-    zoomInButton.setOnAction(e -> mapInsertController.zoomOnButtons(0.05));
-    zoomOutButton.setOnAction(e -> mapInsertController.zoomOnButtons(-0.05));
+    zoomInButton.setOnAction(e -> mapInsertController.zoomOnButtons(0.1));
+    zoomOutButton.setOnAction(e -> mapInsertController.zoomOnButtons(-0.1));
 
     // zoomSlider.setDisable(true);
 
