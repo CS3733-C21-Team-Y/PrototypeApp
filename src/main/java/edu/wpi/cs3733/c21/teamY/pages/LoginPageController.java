@@ -13,7 +13,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 
-public class LoginPageController extends RightPage {
+public class LoginPageController extends SubPage {
   @FXML JFXTextField employeeIDTextField;
   @FXML JFXPasswordField passwordTextField;
   @FXML JFXButton loginBtn;
@@ -42,7 +42,12 @@ public class LoginPageController extends RightPage {
         if (DataOperations.findUser(tryID, tryPwd)) {
           parent.updateProfileBtn();
           parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
-          parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+          if (parent.isDesktop) {
+            parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+            parent.setCenterColumnWidth(350);
+          } else {
+            parent.setCenterColumnWidth(0);
+          }
           parent.drawByPermissions();
         } else {
           if (!errorMsgDisplayed) {

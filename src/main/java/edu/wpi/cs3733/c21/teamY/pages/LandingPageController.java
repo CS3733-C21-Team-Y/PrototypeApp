@@ -13,7 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-public class LandingPageController extends RightPage implements Initializable {
+public class LandingPageController extends SubPage implements Initializable {
 
   @FXML ImageView imageView;
   @FXML JFXButton button;

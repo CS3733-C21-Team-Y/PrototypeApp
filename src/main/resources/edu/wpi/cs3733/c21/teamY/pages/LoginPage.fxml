@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -40,9 +41,9 @@
                   </HBox>
                   <GridPane GridPane.rowIndex="1">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="10.0" prefWidth="250.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="300.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -73,9 +74,9 @@
                               </JFXPasswordField>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" maxWidth="300.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #5a5c94;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #5a5c94;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                            <children>
-                              <JFXButton fx:id="loginBtn" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" ripplerFill="#efeff9" style="-fx-background-color: transparent;" text="Login" textAlignment="CENTER" textFill="#fff9f9">
+                              <JFXButton fx:id="loginBtn" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="200.0" ripplerFill="#efeff9" style="-fx-background-color: transparent;" text="Login" textAlignment="CENTER" textFill="#fff9f9">
                                  <font>
                                     <Font name="Calibri" size="16.0" />
                                  </font>
@@ -84,6 +85,9 @@
                            <effect>
                               <DropShadow blurType="GAUSSIAN" color="#0000004d" />
                            </effect>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
                         </HBox>
                         <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
@@ -94,9 +98,9 @@
                               </JFXButton>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" maxWidth="300.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: efeff9;" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                        <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: efeff9;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6">
                            <children>
-                              <JFXButton fx:id="guestBtn" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="250.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Sign in as guest" textAlignment="CENTER" textFill="#5a5c94">
+                              <JFXButton fx:id="guestBtn" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="200.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Sign in as guest" textAlignment="CENTER" textFill="#5a5c94">
                                  <font>
                                     <Font name="Calibri" size="16.0" />
                                  </font>
@@ -105,6 +109,9 @@
                            <effect>
                               <DropShadow blurType="GAUSSIAN" color="#0000004d" />
                            </effect>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
                         </HBox>
                      </children>
                   </GridPane>

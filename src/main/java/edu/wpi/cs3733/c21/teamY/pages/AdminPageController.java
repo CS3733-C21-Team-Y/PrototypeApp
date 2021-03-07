@@ -19,7 +19,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-public class AdminPageController extends RightPage {
+public class AdminPageController extends SubPage {
 
   @FXML private SplitPane splitPane;
   @FXML private AnchorPane splitPaneTop;

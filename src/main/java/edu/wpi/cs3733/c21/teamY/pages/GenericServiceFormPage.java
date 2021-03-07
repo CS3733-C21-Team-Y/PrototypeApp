@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class GenericServiceFormPage extends RightPage {
+public class GenericServiceFormPage extends SubPage {
 
   public int IDCount;
 
