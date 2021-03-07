@@ -71,11 +71,24 @@ public class ServiceRequestElementController extends CenterPage {
   }
 
   public void populateInformation(Service service) {
+
     this.service = service;
     type.setText(service.getType());
     test.setText(service.getLocation());
     serviceID.setText("ID #: " + service.getServiceID());
     employeeLabel.setText(service.getEmployee());
+    if (service.getType().equals("Covid Form")) {
+      completeBtn.setText("Low Risk Entry");
+      inProgressBtn.setText("High Risk Entry");
+      if (service.getStatus() == -1) {
+        status.setText("INCOMPLETE");
+      } else if (service.getStatus() == 0) {
+        status.setText("HIGH-RISK");
+      } else if (service.getStatus() == 1) {
+        status.setText("LOW-RISK");
+      }
+      return;
+    }
     if (service.getStatus() == -1) {
       status.setText("INCOMPLETE");
     } else if (service.getStatus() == 0) {
