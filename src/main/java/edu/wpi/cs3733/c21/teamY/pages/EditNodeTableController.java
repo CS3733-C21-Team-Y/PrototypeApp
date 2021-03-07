@@ -1,11 +1,13 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.cells.editors.TextFieldEditorBuilder;
 import com.jfoenix.controls.cells.editors.base.GenericEditableTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.TableNodes;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
@@ -21,6 +24,9 @@ import javafx.scene.control.TreeTableColumn;
 public class EditNodeTableController extends SubPage {
 
   @FXML public JFXTreeTableView<TableNodes> treeTable;
+  @FXML public JFXButton expandBtn;
+  @FXML public FontAwesomeIconView expandIcon;
+
   public JFXTreeTableColumn<TableNodes, String> nodeIDCol;
   public JFXTreeTableColumn<TableNodes, String> nodeTypeCol;
   public JFXTreeTableColumn<TableNodes, String> xcoordCol;
@@ -31,6 +37,8 @@ public class EditNodeTableController extends SubPage {
   public JFXTreeTableColumn<TableNodes, String> longNameCol;
   public JFXTreeTableColumn<TableNodes, String> shortNameCol;
 
+  private boolean expanded = false;
+
   private ArrayList<Node> nodes = new ArrayList<Node>();
 
   public EditNodeTableController() {}
@@ -38,6 +46,7 @@ public class EditNodeTableController extends SubPage {
   public void initialize() {
     //    treeTable.setPrefHeight(300);
     treeTable.setFixedCellSize(30);
+    expandBtn.setOnAction(e -> expandTable(e));
 
     // tree table stuff
 
@@ -344,6 +353,22 @@ public class EditNodeTableController extends SubPage {
         () -> {
           treeTable.maxHeightProperty().bind(treeTable.getScene().heightProperty());
         });
+  }
+
+  @Override
+  public void loadNavigationBar() {
+    parent.setCenterColumnWidth(1000);
+  }
+
+  private void expandTable(ActionEvent e) {
+    if (!expanded) {
+      parent.animateCenterColumnWidth(600);
+      expandIcon.setGlyphName("ANGLE_DOUBLE_RIGHT");
+    } else {
+      parent.animateCenterColumnWidth(1000);
+      expandIcon.setGlyphName("ANGLE_DOUBLE_LEFT");
+    }
+    expanded = !expanded;
   }
 
   public void setColumns() {
