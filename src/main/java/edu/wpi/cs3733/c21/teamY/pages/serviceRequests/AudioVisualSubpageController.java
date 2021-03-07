@@ -42,13 +42,18 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
     avLocationComboBox.getItems().add("RM 124");
     avLocationComboBox.getItems().add("Lecture Hall 1");
 
-    try {
-      ArrayList<Employee> employeeList = DataOperations.getStaffList();
-      for (Employee employee : employeeList) {
-        avEmployeeComboBox.getItems().add(employee.getEmployeeID());
+    if (settings.getCurrentPermissions() == 3) {
+      avEmployeeComboBox.setVisible(true);
+      try {
+        ArrayList<Employee> employeeList = DataOperations.getStaffList();
+        for (Employee employee : employeeList) {
+          avEmployeeComboBox.getItems().add(employee.getEmployeeID());
+        }
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
       }
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
+    } else {
+      avEmployeeComboBox.setVisible(false);
     }
 
     // initialize buttons
