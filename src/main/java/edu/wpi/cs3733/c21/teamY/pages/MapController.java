@@ -498,8 +498,8 @@ public class MapController extends SubPage {
     CircleEx n = null;
     CircleEx m = null;
     try {
-      n = (CircleEx) adornerPane.getScene().lookup("#" + edge.getStartNodeID());
-      m = (CircleEx) adornerPane.getScene().lookup("#" + edge.getEndNodeID());
+      n = (CircleEx) adornerPane.lookup("#" + edge.getStartNodeID());
+      m = (CircleEx) adornerPane.lookup("#" + edge.getEndNodeID());
 
       // System.out.println(e.edgeID);
       startx = n.getCenterX();
@@ -509,6 +509,11 @@ public class MapController extends SubPage {
     } catch (Exception exception) { // needs work - problem with nodes connecting floors
       endx = startx; // biases the start node and forgets the end
       endy = starty;
+    }
+
+    if (n == null && m == null) {
+      System.out.println("OK ITS NULL");
+      return null;
     }
 
     LineEx lineEx = new LineEx(startx, starty, endx, endy);
@@ -524,11 +529,13 @@ public class MapController extends SubPage {
       lineEx.setVisible(false);
     }
 
-    if (n != null && !n.connectingEdges.contains(lineEx)) {
-      n.connectingEdges.add(lineEx);
-    }
-    if (m != null && !m.connectingEdges.contains(lineEx)) {
-      m.connectingEdges.add(lineEx);
+    if (n != null && m != null) {
+      if (n != null && !n.connectingEdges.contains(lineEx)) {
+        n.connectingEdges.add(lineEx);
+      }
+      if (m != null && !m.connectingEdges.contains(lineEx)) {
+        m.connectingEdges.add(lineEx);
+      }
     }
 
     updateMapScreen();
@@ -541,11 +548,11 @@ public class MapController extends SubPage {
       System.out.println("Had no nodes or edges!");
     }
 
-    if (nodes.size() == 0 || edges.size() == 1) {
+    if (nodes.size() == 0 || edges.size() == 0) {
       System.out.println("No nodes or edges");
     }
     for (Node n : nodes) {
-      if (n.floor.equals(floorNumber)) {
+      if (n.floor.equals(floor)) {
 
         double x = n.getXcoord();
         double y = n.getYcoord();
@@ -558,9 +565,11 @@ public class MapController extends SubPage {
 
     for (Edge e : edges) {
       // System.out.println(pane.getScene());
+      CircleEx n = null;
+      CircleEx m = null;
       try {
-        CircleEx n = (CircleEx) getAdornerPane().getScene().lookup("#" + e.getStartNodeID());
-        CircleEx m = (CircleEx) getAdornerPane().getScene().lookup("#" + e.getEndNodeID());
+        n = (CircleEx) adornerPane.lookup("#" + e.getStartNodeID());
+        m = (CircleEx) adornerPane.lookup("#" + e.getEndNodeID());
 
         startx = n.getCenterX();
         starty = n.getCenterY();
@@ -571,7 +580,11 @@ public class MapController extends SubPage {
         endy = starty;
       }
 
-      addEdgeLine(e);
+      if (n != m) {
+        if (!(n == null || m == null)) {
+          addEdgeLine(e);
+        }
+      }
     }
   }
 
