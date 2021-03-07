@@ -6,14 +6,16 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
-public class GiftDeliverySubPageController extends GenericServiceFormPage {
+public class GiftDeliverySubpageController extends GenericServiceFormPage {
 
   @FXML private JFXButton clearBtn;
   @FXML private JFXButton backBtn;
@@ -22,12 +24,13 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
   @FXML private JFXComboBox giftType;
   @FXML private JFXTextField description;
   @FXML private JFXDatePicker datePicker;
+  @FXML private JFXComboBox employeeComboBox;
 
   private Settings settings;
 
   @FXML private StackPane stackPane;
 
-  public GiftDeliverySubPageController() {}
+  public GiftDeliverySubpageController() {}
 
   // this runs once the FXML loads in to attach functions to components
   @FXML
@@ -45,6 +48,20 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
     giftType.getItems().add("Teddy Bear");
     giftType.getItems().add("Snack Basket");
     giftType.getItems().add("Blanket");
+
+    if (settings.getCurrentPermissions() == 3) {
+      employeeComboBox.setVisible(true);
+      try {
+        ArrayList<Employee> employeeList = DataOperations.getStaffList();
+        for (Employee employee : employeeList) {
+          employeeComboBox.getItems().add(employee.getEmployeeID());
+        }
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    } else {
+      employeeComboBox.setVisible(false);
+    }
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -56,6 +73,7 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
     locationField.setValue(null);
     description.setText("");
     datePicker.setValue(null);
+    employeeComboBox.getSelectionModel().clearSelection();
   }
 
   @FXML
@@ -73,6 +91,11 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
     service.setDescription(description.getText());
     service.setDate(datePicker.getValue().toString());
     service.setRequester(settings.getCurrentUsername());
+    if (settings.getCurrentPermissions() == 3) {
+      service.setEmployee((String) employeeComboBox.getValue());
+    } else {
+      service.setEmployee("admin");
+    }
 
     try {
       DataOperations.saveService(service);

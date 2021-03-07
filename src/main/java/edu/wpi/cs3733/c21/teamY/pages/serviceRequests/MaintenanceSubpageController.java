@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
@@ -15,7 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 
-public class MaintenanceSubPageController extends GenericServiceFormPage {
+public class MaintenanceSubpageController extends GenericServiceFormPage {
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
   @FXML private JFXButton clearBtn;
@@ -27,6 +28,7 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
   @FXML private JFXTextField date2;
   @FXML private JFXComboBox locationField;
   @FXML private StackPane stackPane;
+  @FXML private JFXComboBox employeeComboBox;
 
   private Settings settings;
 
@@ -34,7 +36,7 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
   private ArrayList<String> urgencies;
 
   // unused constructor
-  public MaintenanceSubPageController() {}
+  public MaintenanceSubpageController() {}
 
   // this runs once the FXML loads in to attach functions to components
   @FXML
@@ -65,6 +67,19 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
     for (String c : categories) category.getItems().add(c);
     for (String c : urgencies) urgency.getItems().add(c);
     for (String c : locations) locationField.getItems().add(c);
+    if (settings.getCurrentPermissions() == 3) {
+      employeeComboBox.setVisible(true);
+      try {
+        ArrayList<Employee> employeeList = DataOperations.getStaffList();
+        for (Employee employee : employeeList) {
+          employeeComboBox.getItems().add(employee.getEmployeeID());
+        }
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    } else {
+      employeeComboBox.setVisible(false);
+    }
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -77,6 +92,7 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
     description.setText("");
     date2.setText("");
     locationField.setValue(null);
+    employeeComboBox.getSelectionModel().clearSelection();
   }
 
   @FXML
@@ -101,6 +117,11 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
       service.setUrgency((String) urgency.getValue());
       service.setDate(date2.getText());
       service.setRequester(settings.getCurrentUsername());
+      if (settings.getCurrentPermissions() == 3) {
+        service.setEmployee((String) employeeComboBox.getValue());
+      } else {
+        service.setEmployee("admin");
+      }
 
       try {
         DataOperations.saveService(service);

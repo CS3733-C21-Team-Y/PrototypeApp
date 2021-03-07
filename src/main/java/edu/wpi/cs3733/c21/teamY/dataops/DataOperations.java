@@ -147,6 +147,10 @@ public class DataOperations {
     return JDBCUtils.exportListOfEmployee();
   }
 
+  public static ArrayList<Employee> getStaffList() throws SQLException {
+    return JDBCUtils.getStaffList();
+  }
+
   public static void loadEmployeeCSV() throws IOException, SQLException {
     CSV.loadCSVtoDBEmployee();
   }
