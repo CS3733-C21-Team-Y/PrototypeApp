@@ -18,9 +18,11 @@ public class SurveyWaitingRoomController extends RightPage {
   }
 
   private void checkStatus() {
-    if (DataOperations.checkServiceStatus(Settings.getSettings().getCurrentUsername()) == 1) {
-      parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
-      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+    int status = DataOperations.checkSurveyStatus(Settings.getSettings().getCurrentUsername());
+    if (status == 1 || status == 0) {
+      //      parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+      //      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+      parent.loadRightSubPage("PathfindingPage.fxml");
       parent.drawByPermissions();
     }
   }

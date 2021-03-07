@@ -2,9 +2,12 @@ package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.awt.*;
 import java.sql.SQLException;
@@ -24,6 +27,7 @@ public class CovidScreeningController extends RightPage {
   @FXML private Label errorLabel;
   @FXML private StackPane errorStackPane;
   @FXML private JFXDialog errorDialog;
+  @FXML private JFXComboBox<String> parkingBox;
 
   //  private Settings settings;
 
@@ -42,6 +46,20 @@ public class CovidScreeningController extends RightPage {
     closeN.setOnAction(e -> closeY.setSelected(false));
     closeY.setOnAction(e -> closeN.setSelected(false));
     submitBtn.setOnAction(e -> submitBtnClicked());
+
+    fillComboBox();
+  }
+
+  @FXML
+  private void fillComboBox() {
+
+    parkingBox.getItems().remove(0, parkingBox.getItems().size());
+
+    for (Node node : ActiveGraph.getNodes()) {
+      if (node.getNodeType().equals("PARK")) {
+        parkingBox.getItems().add(node.nodeID);
+      }
+    }
   }
 
   @FXML
@@ -76,7 +94,15 @@ public class CovidScreeningController extends RightPage {
       this.IDCount++;
       service.setDescription(createDescription(isPositive, hasSymp, wasClose));
       service.setRequester(Settings.getSettings().getCurrentUsername());
-      service.setLocation("Pending Entry");
+      service.setLocation(parkingBox.getValue());
+
+      try {
+        DataOperations.saveParkingSpot(
+            parkingBox.getValue(), Settings.getSettings().getCurrentUsername());
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+
       try {
         DataOperations.saveService(service);
       } catch (SQLException | IllegalAccessException e) {

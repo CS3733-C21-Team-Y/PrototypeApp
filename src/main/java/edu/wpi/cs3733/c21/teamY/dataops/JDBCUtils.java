@@ -840,7 +840,7 @@ public class JDBCUtils {
     return check != 0;
   }
 
-  public static int checkServiceStatus(String userID) {
+  public static int checkPatientStatus(String userID) {
     String query = "select STATUS FROM ADMIN.SERVICE where REQUESTER = (?) AND TYPE = 'Covid Form'";
     try {
       PreparedStatement stmt = getConn().prepareStatement(query);
@@ -853,7 +853,7 @@ public class JDBCUtils {
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    return -1;
+    return 2;
   }
 
   public static boolean checkForCompletedCovidSurvey(String userID) {
@@ -873,7 +873,7 @@ public class JDBCUtils {
   }
 
   public static boolean removeAccount(String employeeID) throws SQLException {
-    String remove = "delete from ADMIN.EMPLOYEE where EMPLOYID= (?)";
+    String remove = "delete from ADMIN.EMPLOYEE where EMPLOYEEID= (?)";
     PreparedStatement preparedStatement = getConn().prepareStatement(remove);
     preparedStatement.setString(1, employeeID);
     int check = preparedStatement.executeUpdate();

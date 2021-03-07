@@ -155,8 +155,8 @@ public class DataOperations {
     return JDBCUtils.updateUserPassword(userID, newPassword);
   }
 
-  public static int checkServiceStatus(String userID) {
-    return JDBCUtils.checkServiceStatus(userID);
+  public static int checkSurveyStatus(String userID) {
+    return JDBCUtils.checkPatientStatus(userID);
   }
 
   public static boolean checkForCompletedCovidSurvey(String userID) {

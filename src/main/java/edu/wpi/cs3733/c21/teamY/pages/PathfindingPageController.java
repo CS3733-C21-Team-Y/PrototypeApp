@@ -10,6 +10,7 @@ import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -24,7 +25,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javax.swing.*;
 
 public class PathfindingPageController extends RightPage {
 
@@ -217,6 +217,23 @@ public class PathfindingPageController extends RightPage {
     resetGraphNodesEdges();
     resetComboBoxes();
 
+    // this handles auto route calculation after covid survey determination
+    try {
+      startLocationBox.setValue(
+          DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()));
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    String userId = Settings.getSettings().getCurrentUsername();
+    if (DataOperations.checkForCompletedCovidSurvey(userId)) {
+      int status = DataOperations.checkSurveyStatus(userId);
+      if (status == 1) {
+        endLocationBox.setValue("YEXIT00101");
+      } else if (status == 0) {
+        endLocationBox.setValue("YEXIT00201");
+      }
+    }
+
     // Init Map
     Platform.runLater(
         () -> {
@@ -245,6 +262,7 @@ public class PathfindingPageController extends RightPage {
                     }
                   });
           row1.maxHeightProperty().bind(anchor.getScene().heightProperty());
+          calculatePath();
         });
   }
 
