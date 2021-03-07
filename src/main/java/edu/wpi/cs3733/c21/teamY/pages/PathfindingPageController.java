@@ -628,6 +628,15 @@ public class PathfindingPageController extends SubPage {
           }
 
           if (l != null) {
+            if (l.direcVisualsEnabled) {
+              l.biDirectional = true;
+              l.updateVisuals();
+            } else {
+              l.direcVisualsEnabled = true;
+              l.setDirection(n);
+            }
+
+            // Selecting updates visuals automatically
             mapInsertController.selectLine(l);
           } else {
             System.out.println("Could not identify line");
