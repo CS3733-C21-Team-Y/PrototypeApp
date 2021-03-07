@@ -78,7 +78,7 @@ public class JDBCUtils {
       String sqlParkingLot =
           "create table ParkingLot(nodeID varchar(40) PRIMARY KEY, userName varchar(30), enterParkingLot date, leaveParkingLot date, "
               + "constraint FK_UserName FOREIGN KEY(userName) REFERENCES ADMIN.EMPLOYEE(EMPLOYEEID) ON DELETE CASCADE,"
-              + "constraint FK_NodeID FOREIGN KEY(nodeID) REFERENCES ADMIN.Node(NODEID) ON DELETE CASCADE";
+              + "constraint FK_NodeID FOREIGN KEY(nodeID) REFERENCES ADMIN.Node(NODEID) ON DELETE CASCADE)";
       stmt.executeUpdate(sqlEmployee);
       stmt.executeUpdate(sqlService);
       stmt.executeUpdate(sqlParkingLot);
@@ -882,7 +882,7 @@ public class JDBCUtils {
 
   public static boolean saveParkingSpot(ParkingLot parkingLot) {
     // String insert="insert into ADMIN.PARKINGLOT VALUES(?,?,?,?)"
-    //PreparedStatement preparedStatement = getConn().prepareStatement(insert);
+    // PreparedStatement preparedStatement = getConn().prepareStatement(insert);
 
     return true;
   }

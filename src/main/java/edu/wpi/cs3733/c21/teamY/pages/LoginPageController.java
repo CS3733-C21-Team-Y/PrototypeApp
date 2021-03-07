@@ -20,6 +20,7 @@ public class LoginPageController extends RightPage {
   @FXML JFXButton guestBtn;
   @FXML StackPane stackPane;
   @FXML JFXButton forgotPasswordBtn;
+  @FXML JFXButton newAccount;
 
   @FXML
   private void initialize() {
