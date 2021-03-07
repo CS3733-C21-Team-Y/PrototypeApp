@@ -6,7 +6,7 @@ import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class SurveyWaitingRoomController extends RightPage {
+public class SurveyWaitingRoomController extends SubPage {
 
   @FXML private Label waitLabel;
 

@@ -14,7 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 
-public class LoginPageController extends RightPage {
+public class LoginPageController extends SubPage {
   @FXML JFXTextField employeeIDTextField;
   @FXML JFXPasswordField passwordTextField;
   @FXML JFXButton loginBtn;

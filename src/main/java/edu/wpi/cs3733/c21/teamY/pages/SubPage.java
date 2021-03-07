@@ -5,11 +5,11 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public abstract class RightPage {
+abstract class SubPage {
 
   public int IDCount;
 
-  public RightPage() {
+  public SubPage() {
     try {
       ArrayList<Service> services = JDBCUtils.exportService("", "");
       IDCount = services.size();

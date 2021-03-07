@@ -9,13 +9,12 @@ import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
-import java.awt.*;
 import java.sql.SQLException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
-public class CovidScreeningController extends RightPage {
+public class CovidScreeningController extends SubPage {
 
   @FXML private JFXCheckBox posY;
   @FXML private JFXCheckBox posN;

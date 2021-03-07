@@ -56,8 +56,10 @@ public class GoogleMapsController extends SubPage
   public void initialize(URL url, ResourceBundle rb) {
     mapView.addMapInitializedListener(this);
     mapView.setKey("AIzaSyCig6oYQaLjCSUUSL2T-eRIRLYfv_NeSMo");
-    //    to.bindBidirectional(toTextField.textProperty()); //Uncomment to enable Google Maps Directions 3/4
-    //    from.bindBidirectional(fromTextField.textProperty()); //Uncomment to enable Google Maps Directions 4/4
+    //    to.bindBidirectional(toTextField.textProperty()); //Uncomment to enable Google Maps
+    // Directions 3/4
+    //    from.bindBidirectional(fromTextField.textProperty()); //Uncomment to enable Google Maps
+    // Directions 4/4
   }
 
   @Override
