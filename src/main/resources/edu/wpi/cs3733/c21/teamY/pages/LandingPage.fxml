@@ -24,7 +24,7 @@
             <children>
                 <HBox alignment="TOP_CENTER" style="-fx-background-color: 26274D;" GridPane.rowIndex="1">
                     <children>
-                        <ImageView fx:id="imageView" fitHeight="900.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                        <ImageView fx:id="imageView" fitHeight="445.0" fitWidth="649.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="/edu/wpi/cs3733/c21/teamY/images/doctorPic5.jpeg" />
                             </image>
@@ -46,9 +46,6 @@
                             <image>
                                 <Image url="/edu/wpi/cs3733/c21/teamY/images/BWLogo.png" />
                             </image>
-                     <HBox.margin>
-                        <Insets top="5.0" />
-                     </HBox.margin>
                         </ImageView>
                     </children>
                 </HBox>
@@ -56,7 +53,7 @@
                <children>
                       <JFXButton fx:id="button" buttonType="RAISED" minHeight="60.0" minWidth="120.0" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #9b9eb9; -fx-background-radius: 8; -fx-font-family: calibri; -fx-font-size: 16; -fx-font-weight: bold;" text="Login">
                      <HBox.margin>
-                        <Insets bottom="100.0" top="40.0" />
+                        <Insets bottom="60.0" top="40.0" />
                      </HBox.margin></JFXButton>
                </children>
                <GridPane.margin>
