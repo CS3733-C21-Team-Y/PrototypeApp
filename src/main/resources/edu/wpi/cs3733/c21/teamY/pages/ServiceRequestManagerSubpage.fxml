@@ -44,9 +44,9 @@
             </JFXButton>
             <GridPane GridPane.rowIndex="1">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="12.5" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" percentWidth="75.0" prefWidth="0.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="12.5" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="12.5" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" percentWidth="90.0" prefWidth="0.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="12.5" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -56,7 +56,7 @@
                <children>
                   <GridPane GridPane.columnIndex="1">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -78,67 +78,71 @@
                               <Insets left="10.0" />
                            </padding>
                         </HBox>
-                        <GridPane GridPane.rowIndex="1">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
+                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 10;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                            <children>
-                              <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 0 10;">
+                              <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="213.0" prefWidth="752.0" HBox.hgrow="ALWAYS">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
                                  <children>
-                                    <JFXButton fx:id="languageBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Language" textAlignment="CENTER" wrapText="true">
-                                       <graphic>
-                                          <FontAwesomeIconView fill="#5a5c94" glyphName="COMMENTS_ALT" size="45" />
-                                       </graphic>
-                                       <font>
-                                          <Font name="Calibri" size="14.0" />
-                                       </font>
-                                    </JFXButton>
+                                    <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: transparent; -fx-background-radius: 0 0 0 10;">
+                                       <children>
+                                          <JFXButton fx:id="languageBtn" contentDisplay="TOP" minHeight="10.0" minWidth="10.0" prefHeight="224.0" prefWidth="237.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Language" textAlignment="CENTER" wrapText="true">
+                                             <graphic>
+                                                <FontAwesomeIconView fx:id="languageIcon" fill="#5a5c94" glyphName="COMMENTS_ALT" size="45" wrappingWidth="49.0" />
+                                             </graphic>
+                                             <font>
+                                                <Font name="Calibri" size="14.0" />
+                                             </font>
+                                          </JFXButton>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1">
+                                       <children>
+                                          <JFXButton fx:id="giftBtn" contentDisplay="TOP" minHeight="10.0" minWidth="10.0" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Gift Delivery" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font name="Calibri" size="14.0" />
+                                             </font>
+                                             <graphic>
+                                                <OctIconView fx:id="giftIcon" fill="#5a5c94" glyphName="GIFT" size="45" />
+                                             </graphic>
+                                          </JFXButton>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: transparent;" GridPane.columnIndex="2">
+                                       <children>
+                                          <JFXButton fx:id="laundryBtn" contentDisplay="TOP" minHeight="10.0" minWidth="10.0" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" text="Laundry" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font name="Calibri" size="14.0" />
+                                             </font>
+                                             <graphic>
+                                                <MaterialDesignIconView fx:id="laundryIcon" fill="#5a5c94" glyphName="TSHIRT_CREW" size="45" />
+                                             </graphic>
+                                          </JFXButton>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" prefHeight="217.0" prefWidth="221.0" style="-fx-background-color: transparent;" GridPane.columnIndex="3">
+                                       <children>
+                                          <JFXButton fx:id="floralBtn" contentDisplay="TOP" prefHeight="213.0" prefWidth="375.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Floral Delivery" textAlignment="CENTER" wrapText="true">
+                                             <font>
+                                                <Font name="Calibri" size="14.0" />
+                                             </font>
+                                             <graphic>
+                                                <MaterialDesignIconView fx:id="floralIcon" fill="#5a5c94" glyphName="FLOWER" size="45" />
+                                             </graphic>
+                                          </JFXButton>
+                                       </children>
+                                    </HBox>
                                  </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF;" GridPane.columnIndex="1">
-                                 <children>
-                                    <JFXButton fx:id="giftBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Gift Delivery" textAlignment="CENTER" wrapText="true">
-                                       <font>
-                                          <Font name="Calibri" size="14.0" />
-                                       </font>
-                                       <graphic>
-                                          <OctIconView fill="#5a5c94" glyphName="GIFT" size="45" />
-                                       </graphic>
-                                    </JFXButton>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF;" GridPane.columnIndex="2">
-                                 <children>
-                                    <JFXButton fx:id="laundryBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Laundry" textAlignment="CENTER" wrapText="true">
-                                       <font>
-                                          <Font name="Calibri" size="14.0" />
-                                       </font>
-                                       <graphic>
-                                          <MaterialDesignIconView fill="#5a5c94" glyphName="TSHIRT_CREW" size="45" />
-                                       </graphic>
-                                    </JFXButton>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="3">
-                                 <children>
-                                    <JFXButton fx:id="floralBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Floral Delivery" textAlignment="CENTER" wrapText="true">
-                                       <font>
-                                          <Font name="Calibri" size="14.0" />
-                                       </font>
-                                       <graphic>
-                                          <MaterialDesignIconView fill="#5a5c94" glyphName="FLOWER" size="45" />
-                                       </graphic>
-                                    </JFXButton>
-                                 </children>
-                              </HBox>
+                              </GridPane>
                            </children>
-                        </GridPane>
+                        </HBox>
                      </children>
                      <GridPane.margin>
                         <Insets bottom="10.0" top="10.0" />
@@ -147,7 +151,7 @@
                         <DropShadow blurType="GAUSSIAN" color="#0000004d" />
                      </effect>
                   </GridPane>
-                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -156,7 +160,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <GridPane>
+                        <GridPane prefHeight="283.0" prefWidth="323.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                            </columnConstraints>
@@ -183,44 +187,40 @@
                                     <Insets right="10.0" />
                                  </GridPane.margin>
                               </HBox>
-                              <GridPane GridPane.rowIndex="1">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
+                              <HBox prefHeight="212.0" prefWidth="339.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 10;" GridPane.rowIndex="1">
                                  <children>
-                                    <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 0 10;">
+                                    <GridPane prefHeight="212.0" prefWidth="365.0" HBox.hgrow="ALWAYS">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
                                        <children>
+                                          <JFXButton fx:id="computerBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="IT Services" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
+                                             <font>
+                                                <Font name="Calibri" size="14.0" />
+                                             </font>
+                                             <graphic>
+                                                <MaterialDesignIconView fx:id="computerIcon" fill="#5a5c94" glyphName="LAPTOP_WINDOWS" layoutY="1.0" size="45" text="" />
+                                             </graphic>
+                                          </JFXButton>
                                           <JFXButton fx:id="AVBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Audio Visual" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="14.0" />
                                              </font>
                                              <graphic>
-                                                <MaterialDesignIconView fill="#5a5c94" glyphName="HEADSET" size="45" text="" />
+                                                <MaterialDesignIconView fx:id="AVIcon" fill="#5a5c94" glyphName="HEADSET" size="45" text="" />
                                              </graphic>
                                           </JFXButton>
                                        </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
-                                       <children>
-                                          <JFXButton fx:id="computerBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="IT Services" textAlignment="CENTER" wrapText="true">
-                                             <font>
-                                                <Font name="Calibri" size="14.0" />
-                                             </font>
-                                             <graphic>
-                                                <MaterialDesignIconView fill="#5a5c94" glyphName="LAPTOP_WINDOWS" size="45" text="" />
-                                             </graphic>
-                                          </JFXButton>
-                                       </children>
-                                       <GridPane.margin>
-                                          <Insets right="10.0" />
-                                       </GridPane.margin>
-                                    </HBox>
+                                    </GridPane>
                                  </children>
-                              </GridPane>
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </HBox>
                            </children>
                            <effect>
                               <DropShadow blurType="GAUSSIAN" color="#0000004d" />
@@ -237,7 +237,7 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: efeff9; -fx-background-radius: 10 10 0 0;">
                                  <children>
-                                    <Label text="Medical Resources" textFill="#5a5c94">
+                                    <Label prefHeight="71.0" prefWidth="416.0" text="Medical Resources" textFill="#5a5c94" wrapText="true">
                                        <font>
                                           <Font name="Calibri Bold" size="22.0" />
                                        </font>
@@ -253,44 +253,40 @@
                                     <Insets left="5.0" />
                                  </padding>
                               </HBox>
-                              <GridPane GridPane.rowIndex="1">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
+                              <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 10;" GridPane.rowIndex="1">
                                  <children>
-                                    <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 0 10;">
+                                    <GridPane prefHeight="212.0" prefWidth="378.0" HBox.hgrow="ALWAYS">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
                                        <children>
                                           <JFXButton fx:id="medicineBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Medicine" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="14.0" />
                                              </font>
                                              <graphic>
-                                                <MaterialDesignIconView fill="#5a5c94" glyphName="PILL" size="45" />
+                                                <MaterialDesignIconView fx:id="medicineIcon" fill="#5a5c94" glyphName="PILL" size="45" />
                                              </graphic>
                                           </JFXButton>
-                                       </children>
-                                       <GridPane.margin>
-                                          <Insets left="10.0" />
-                                       </GridPane.margin>
-                                    </HBox>
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
-                                       <children>
-                                          <JFXButton fx:id="sanitizationBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Sanitization" textAlignment="CENTER" wrapText="true">
+                                          <JFXButton fx:id="sanitizationBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Sanitization" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
                                              <font>
                                                 <Font name="Calibri" size="14.0" />
                                              </font>
                                              <graphic>
-                                                <MaterialDesignIconView fill="#5a5c94" glyphName="AUTO_FIX" size="45" />
+                                                <MaterialDesignIconView fx:id="sanitationIcon" fill="#5a5c94" glyphName="AUTO_FIX" size="45" />
                                              </graphic>
                                           </JFXButton>
                                        </children>
-                                    </HBox>
+                                    </GridPane>
                                  </children>
-                              </GridPane>
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin>
+                              </HBox>
                            </children>
                            <effect>
                               <DropShadow blurType="GAUSSIAN" color="#0000004d" />
@@ -337,41 +333,37 @@
                                     <Insets />
                                  </GridPane.margin>
                               </HBox>
-                              <GridPane GridPane.rowIndex="1">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
+                              <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-radius: 0 0 10 10; -fx-background-color: FFFFFF;" GridPane.rowIndex="1">
                                  <children>
-                                    <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 0 10;">
+                                    <GridPane prefHeight="212.0" prefWidth="365.0" HBox.hgrow="ALWAYS">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
                                        <children>
+                                          <JFXButton fx:id="maintenanceBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Maintenance" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
+                                             <font>
+                                                <Font name="Calibri" size="14.0" />
+                                             </font>
+                                             <graphic>
+                                                <OctIconView fx:id="maintenanceIcon" fill="#5a5c94" glyphName="TOOLS" size="45" />
+                                             </graphic>
+                                          </JFXButton>
                                           <JFXButton fx:id="securityBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Security" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="14.0" />
                                              </font>
                                              <graphic>
-                                                <MaterialDesignIconView fill="#5a5c94" glyphName="SHIELD_OUTLINE" size="45" text="" />
+                                                <MaterialDesignIconView fx:id="securityIcon" fill="#5a5c94" glyphName="SHIELD_OUTLINE" size="45" text="" />
                                              </graphic>
                                           </JFXButton>
                                        </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
-                                       <children>
-                                          <JFXButton fx:id="maintenanceBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Maintenance" textAlignment="CENTER" wrapText="true">
-                                             <font>
-                                                <Font name="Calibri" size="14.0" />
-                                             </font>
-                                             <graphic>
-                                                <OctIconView fill="#5a5c94" glyphName="TOOLS" size="45" />
-                                             </graphic>
-                                          </JFXButton>
-                                       </children>
-                                    </HBox>
+                                    </GridPane>
                                  </children>
-                              </GridPane>
+                              </HBox>
                            </children>
                            <GridPane.margin>
                               <Insets right="10.0" />
@@ -391,7 +383,7 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: efeff9; -fx-background-radius: 10 10 0 0;">
                                  <children>
-                                    <Label text="Transportation" textFill="#5a5c94">
+                                    <Label prefHeight="71.0" prefWidth="391.0" text="Transportation" textFill="#5a5c94" wrapText="true">
                                        <font>
                                           <Font name="Calibri Bold" size="22.0" />
                                        </font>
@@ -404,41 +396,37 @@
                                     <Insets left="10.0" />
                                  </padding>
                               </HBox>
-                              <GridPane GridPane.rowIndex="1">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
+                              <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 10;" GridPane.rowIndex="1">
                                  <children>
-                                    <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 0 10;">
+                                    <GridPane prefHeight="212.0" prefWidth="366.0" HBox.hgrow="ALWAYS">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
                                        <children>
                                           <JFXButton fx:id="insideHosBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Inside Hospital" textAlignment="CENTER" wrapText="true">
                                              <font>
                                                 <Font name="Calibri" size="14.0" />
                                              </font>
                                              <graphic>
-                                                <MaterialDesignIconView fill="#5a5c94" glyphName="DOWNLOAD" size="45" />
+                                                <MaterialDesignIconView fx:id="insideIcon" fill="#5a5c94" glyphName="DOWNLOAD" size="45" />
                                              </graphic>
                                           </JFXButton>
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER" prefHeight="107.0" prefWidth="71.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 0 0 10 0;" GridPane.columnIndex="1">
-                                       <children>
-                                          <JFXButton fx:id="outsideHosBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Outisde Hospital" textAlignment="CENTER" wrapText="true">
+                                          <JFXButton fx:id="outsideHosBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Outisde Hospital" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1">
                                              <font>
                                                 <Font name="Calibri" size="14.0" />
                                              </font>
                                              <graphic>
-                                                <MaterialDesignIconView fill="#5a5c94" glyphName="UPLOAD" size="45" />
+                                                <MaterialDesignIconView fx:id="outsideIcon" fill="#5a5c94" glyphName="UPLOAD" size="45" />
                                              </graphic>
                                           </JFXButton>
                                        </children>
-                                    </HBox>
+                                    </GridPane>
                                  </children>
-                              </GridPane>
+                              </HBox>
                            </children>
                            <GridPane.margin>
                               <Insets left="10.0" />
