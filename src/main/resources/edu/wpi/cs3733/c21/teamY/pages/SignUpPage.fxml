@@ -13,10 +13,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="701.0" prefWidth="662.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.SignUpPageController">
+<AnchorPane prefHeight="701.0" prefWidth="662.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.SignUpPageController">
    <children>
-      <StackPane layoutX="191.0" layoutY="230.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <StackPane fx:id="stackPane" layoutX="191.0" layoutY="230.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <GridPane>
               <columnConstraints>
@@ -62,7 +61,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
-                              <JFXTextField fx:id="firstnameTextfield" focusColor="#5a5c94" labelFloat="true" promptText="firstname" unFocusColor="#5a5c94">
+                              <JFXTextField fx:id="firstnameTextField" focusColor="#5a5c94" labelFloat="true" promptText="firstname" unFocusColor="#5a5c94">
                                  <font>
                                     <Font size="19.0" />
                                  </font>
@@ -71,7 +70,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
-                              <JFXTextField fx:id="lastnameTextfield" focusColor="#5a5c94" labelFloat="true" promptText="lastname" unFocusColor="#5a5c94">
+                              <JFXTextField fx:id="lastnameTextField" focusColor="#5a5c94" labelFloat="true" promptText="lastname" unFocusColor="#5a5c94">
                                  <font>
                                     <Font size="19.0" />
                                  </font>
@@ -131,12 +130,12 @@
                               </HBox>
                            </children>
                         </GridPane>
-                        <JFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="69.0" prefWidth="106.0" text="exit">
+                        <JFXButton fx:id="exitBtn" contentDisplay="GRAPHIC_ONLY" prefHeight="69.0" prefWidth="106.0" text="exit">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <graphic>
-                              <FontAwesomeIconView fx:id="exitBtn" fill="#8d8ea4" glyphName="ARROW_LEFT" size="45" />
+                              <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="45" />
                            </graphic>
                         </JFXButton>
                      </children>
