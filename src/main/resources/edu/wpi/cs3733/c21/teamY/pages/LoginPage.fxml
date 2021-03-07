@@ -49,11 +49,12 @@
                         <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" vgrow="NEVER" />
                         <RowConstraints maxHeight="100.0" minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="ALWAYS" />
                       <RowConstraints maxHeight="100.0" minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="ALWAYS" />
-                        <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                        <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" valignment="CENTER" vgrow="NEVER" />
                       <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                         <RowConstraints minHeight="0.0" percentHeight="5.0" prefHeight="30.0" valignment="CENTER" vgrow="NEVER" />
                         <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
                         <RowConstraints maxHeight="3.0" minHeight="0.0" percentHeight="5.0" prefHeight="10.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                       <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="33.0" vgrow="ALWAYS" />
                         <RowConstraints maxHeight="3.0" minHeight="5.0" prefHeight="17.0" vgrow="SOMETIMES" />
                     </rowConstraints>
@@ -88,11 +89,11 @@
                               <DropShadow blurType="GAUSSIAN" color="#0000004d" />
                            </effect>
                         </HBox>
-                        <HBox alignment="TOP_RIGHT" maxHeight="50.0" maxWidth="250.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                        <HBox alignment="TOP_RIGHT" maxHeight="50.0" maxWidth="250.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8">
                            <children>
                               <JFXButton fx:id="forgotPasswordBtn" alignment="CENTER" minWidth="82.0" prefHeight="27.0" prefWidth="360.0" style="-fx-background-color: transparent;" text="Forgot Password?" textAlignment="CENTER" textFill="#000000b7">
                                  <font>
-                                    <Font name="Arial" size="13.0" />
+                                    <Font name="Calibri" size="13.0" />
                                  </font>
                               </JFXButton>
                            </children>
@@ -109,17 +110,14 @@
                               <DropShadow blurType="GAUSSIAN" color="#0000004d" />
                            </effect>
                         </HBox>
-                        <HBox alignment="CENTER" maxHeight="50.0" maxWidth="250.0" prefHeight="35.0" prefWidth="250.0" style="-fx-background-color: efeff9;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8">
+                        <HBox alignment="CENTER" maxHeight="50.0" maxWidth="250.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="CENTER">
                            <children>
-                              <JFXButton fx:id="newAccount" alignment="CENTER" maxHeight="50.0" maxWidth="250.0" minHeight="30.0" minWidth="150.0" prefHeight="55.0" prefWidth="250.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Create A New Account" textAlignment="CENTER" textFill="#5a5c94">
+                              <JFXButton fx:id="newAccount" alignment="CENTER" contentDisplay="CENTER" minWidth="82.0" prefHeight="27.0" prefWidth="303.0" style="-fx-background-color: transparent;" text="Create New Account" textAlignment="CENTER" textFill="#000000b7">
                                  <font>
-                                    <Font name="Calibri" size="16.0" />
+                                    <Font name="Calibri" size="13.0" />
                                  </font>
                               </JFXButton>
                            </children>
-                           <effect>
-                              <DropShadow blurType="GAUSSIAN" color="#0000004d" />
-                           </effect>
                         </HBox>
                      </children>
                   </GridPane>
