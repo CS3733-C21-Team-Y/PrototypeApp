@@ -49,7 +49,7 @@ public class ServiceRequestManagerSubpageController extends SubPage {
 
   @Override
   public void loadNavigationBar() {
-    if (parent.isDesktop) parent.setCenterColumnWidth(350);
+    if (parent.isDesktop) parent.animateCenterColumnWidth(350);
     else parent.setCenterColumnWidth(0);
   }
 

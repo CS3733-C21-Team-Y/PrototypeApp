@@ -64,7 +64,7 @@ public class LoginPageController extends SubPage {
           parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
           if (parent.isDesktop) {
             parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
-            parent.setCenterColumnWidth(350);
+            // parent.setCenterColumnWidth(350);
           } else {
             parent.setCenterColumnWidth(0);
           }

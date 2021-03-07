@@ -3,6 +3,11 @@ package edu.wpi.cs3733.c21.teamY.pages;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import java.io.IOException;
+import java.util.ArrayList;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +18,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MainPageController {
   @FXML private AnchorPane origRightPane;
@@ -146,12 +152,13 @@ public class MainPageController {
   private void buttonClicked(ActionEvent e) {
 
     System.out.println("clicked");
+    instance.setCenterColumnWidth(0);
     if (e.getSource() == origNavigationBtn) instance.loadRightSubPage("PathfindingPage.fxml");
     else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
     else if (e.getSource() == origServiceRequestBtn) {
       if (instance.isDesktop) {
-        instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
         instance.loadCenterSubPage("ServiceRequestNavigator.fxml");
+        instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
       } else {
         instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
         setCenterColumnWidth(0);
@@ -167,11 +174,8 @@ public class MainPageController {
       centerPane.setMinWidth(width);
       centerPane.setPrefWidth(width);
       centerPane.setMaxWidth(width);
-      if (width == 0) {
-        centerPane.setVisible(false);
-      } else {
-        centerPane.setVisible(true);
-      }
+
+      updateCenterPaneVisibility(width);
     } else {
       centerPane.setMinHeight(width);
       centerPane.setPrefHeight(width);
@@ -181,6 +185,44 @@ public class MainPageController {
       } else {
         centerPane.setVisible(true);
       }
+    }
+  }
+
+  public void animateCenterColumnWidth(double width) {
+    if (isDesktop) {
+
+      Timeline timeline = new Timeline();
+
+      ArrayList<KeyValue> values = new ArrayList<KeyValue>();
+
+      KeyValue kv2 = new KeyValue(centerPane.minWidthProperty(), width, Interpolator.EASE_IN);
+
+      // KeyFrame kf = new KeyFrame(Duration.seconds(1), kv2);
+      KeyFrame kf = new KeyFrame(Duration.seconds(0.5), kv2);
+      // KeyFrame kf = new KeyFrame(Duration.seconds(1), kv2);
+      timeline.getKeyFrames().add(kf);
+      timeline.setOnFinished(event -> updateCenterPaneVisibility(width));
+      // centerPane.setMinWidth(width);
+      timeline.play();
+    } else {
+      centerPane.setMinHeight(width);
+      centerPane.setPrefHeight(width);
+      centerPane.setMaxHeight(width);
+      if (width == 0) {
+        centerPane.setVisible(false);
+      } else {
+        centerPane.setVisible(true);
+      }
+    }
+    setCenterColumnWidth(width);
+  }
+
+  public void updateCenterPaneVisibility(double width) {
+    // centerPane.setPrefWidth(width);
+    if (width == 0) {
+      centerPane.setVisible(false);
+    } else {
+      centerPane.setVisible(true);
     }
   }
 

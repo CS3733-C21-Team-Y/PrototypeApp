@@ -362,10 +362,10 @@ public class EditNodeTableController extends SubPage {
 
   private void expandTable(ActionEvent e) {
     if (!expanded) {
-      parent.setCenterColumnWidth(600);
+      parent.animateCenterColumnWidth(600);
       expandIcon.setGlyphName("ANGLE_DOUBLE_RIGHT");
     } else {
-      parent.setCenterColumnWidth(1000);
+      parent.animateCenterColumnWidth(1000);
       expandIcon.setGlyphName("ANGLE_DOUBLE_LEFT");
     }
     expanded = !expanded;
