@@ -1,41 +1,54 @@
-package edu.wpi.cs3733.c21.teamY.pages;
+package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
+import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
-public class InsideHospitalSidePageController extends GenericServiceFormPage {
-
+public class LaundrySubPageController extends GenericServiceFormPage {
+  // connects the scenebuilder button to a code button
+  // add buttons to other scenes here
   @FXML private JFXButton clearBtn;
   @FXML private JFXButton backBtn;
   @FXML private JFXButton submitBtn;
-  @FXML private JFXTextField patientName;
+  @FXML private JFXComboBox category;
   @FXML private JFXTextArea description;
-  @FXML private JFXTextField date;
-  @FXML private JFXTextField currentLocation;
-  @FXML private JFXTextField desiredLocation;
-
+  @FXML private JFXComboBox locationField;
   @FXML private StackPane stackPane;
-
-  public InsideHospitalSidePageController() {}
 
   private Settings settings;
 
+  private ArrayList<String> categories;
+
+  // unused constructor
+  public LaundrySubPageController() {}
+
+  // this runs once the FXML loads in to attach functions to components
   @FXML
   private void initialize() {
 
     settings = Settings.getSettings();
 
+    categories = new ArrayList<String>();
+    categories.add("Bedding");
+    categories.add("Dry Cleaning");
+    categories.add("Clothing");
+    // attaches a handler to the button with a lambda expression
+
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
     clearBtn.setOnAction(e -> clearButton());
+
+    for (String c : categories) category.getItems().add(c);
+    locationField.getItems().add("cafeteria");
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -43,34 +56,27 @@ public class InsideHospitalSidePageController extends GenericServiceFormPage {
   }
 
   private void clearButton() {
+    category.setValue(null);
     description.setText("");
-    currentLocation.setText("");
-    patientName.setText("");
-    date.setText("");
-    desiredLocation.setText("");
+    locationField.setValue(null);
   }
 
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    if (description.getText().equals("")
-        || currentLocation.getText().equals("")
-        || patientName.getText().equals("")
-        || date.getText().equals("")) {
+    if (category.getValue().equals(null)
+        || description.getText().equals("")
+        || locationField.getValue().equals(null)) {
       nonCompleteForm(stackPane);
     } else {
 
-      Service service = new Service(this.IDCount, "Inside Transport");
+      Service service = new Service(this.IDCount, "Laundry");
       this.IDCount++;
-      // service.setCategory((String) patientName.getText());
-      // service.setLocation((String) patientName.getValue());
+      service.setCategory((String) category.getValue());
+      service.setLocation((String) locationField.getValue());
       service.setDescription(description.getText());
-      service.setRequester(settings.getCurrentUsername());
-      service.setLocation(currentLocation.getText());
-      service.setCategory(patientName.getText());
-      service.setDate(date.getText());
-      service.setAdditionalInfo(desiredLocation.getText());
+      System.out.println(settings.getCurrentUsername());
       service.setRequester(settings.getCurrentUsername());
 
       try {
@@ -82,6 +88,7 @@ public class InsideHospitalSidePageController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
+
       clearButton();
     }
   }

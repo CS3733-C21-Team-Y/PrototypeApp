@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamY.pages;
+package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
+import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
