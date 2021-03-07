@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -15,7 +16,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 
-public class ServiceRequestNavigatorController extends CenterPage {
+public class ServiceRequestNavigatorController extends SubPage {
 
   public ScrollPane scrollPane;
   @FXML private VBox serviceBox;
@@ -23,9 +24,10 @@ public class ServiceRequestNavigatorController extends CenterPage {
   @FXML private JFXButton myRequestsBtn;
   @FXML private JFXButton allRequestsBtn;
   @FXML private JFXButton assignedBtn;
+  @FXML private JFXButton backBtn;
 
   // tooltip instantiations
-  Tooltip button2Tooltip = new Tooltip("What is button 2?");
+  Tooltip button2Tooltip = new Tooltip("Export Services");
   Tooltip myRequestsBtnTooltip = new Tooltip("Displays Requests I Created");
   Tooltip allRequestBtnTooltip = new Tooltip("Displays All Current Requests");
   Tooltip assignedBtnTooltip = new Tooltip("Displays Requests I Am Assigned");
@@ -37,6 +39,7 @@ public class ServiceRequestNavigatorController extends CenterPage {
     myRequestsBtn.setOnAction(e -> filterByRequester());
     assignedBtn.setOnAction(e -> filterByEmployee());
     allRequestsBtn.setOnAction(e -> loadServicesFromDB());
+    backBtn.setOnAction(e -> buttonClicked(e));
     drawByPermissions();
     Platform.runLater(() -> filterByRequester());
 
@@ -45,6 +48,18 @@ public class ServiceRequestNavigatorController extends CenterPage {
     Tooltip.install(allRequestsBtn, allRequestBtnTooltip);
     Tooltip.install(assignedBtn, assignedBtnTooltip);
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+  }
+
+  @Override
+  public void drawByPlatform() {
+    if (parent.isDesktop) {
+      backBtn.setVisible(false);
+    }
+  }
+
+  @FXML
+  private void buttonClicked(ActionEvent e) {
+    if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
   }
 
   private void exportServices() {
@@ -57,10 +72,10 @@ public class ServiceRequestNavigatorController extends CenterPage {
 
   private void drawByPermissions() {
     int permissions = Settings.getSettings().getCurrentPermissions();
-    if (permissions < 2) {
+    if (permissions < 3) {
       allRequestsBtn.setVisible(false);
     }
-    if (permissions < 1) {
+    if (permissions < 2) {
       assignedBtn.setVisible(false);
     }
   }

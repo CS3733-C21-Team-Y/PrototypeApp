@@ -32,7 +32,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class GraphEditPageController extends RightPage {
+public class GraphEditPageController extends SubPage {
 
   @FXML private Pane anchor;
   @FXML private HBox header;
@@ -225,7 +225,7 @@ public class GraphEditPageController extends RightPage {
     toolTip.toFront();
 
     initImage();
-    mapInsertController.getFloorMenu().setText("Parking Lot");
+    // mapInsertController.getFloorMenu().setText("Parking Lot");
 
     loadNodesButton.setOnAction(
         e -> {
@@ -233,17 +233,17 @@ public class GraphEditPageController extends RightPage {
           resetComboBoxes();
         });
 
-    int i = 0;
-    for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
-      int index = i;
-      menuItem.setOnAction(
-          e -> {
-            mapInsertController.removeAllAdornerElements();
-            mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(index));
-            mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
-          });
-      i++;
-    }
+    //    int i = 0;
+    //    for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
+    //      int index = i;
+    //      menuItem.setOnAction(
+    //          e -> {
+    //            mapInsertController.removeAllAdornerElements();
+    //            mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(index));
+    //            mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
+    //          });
+    //      i++;
+    //    }
 
     // attaches a handler to the button with a lambda expression
     //    toHomeBtn.setOnAction(e -> buttonClicked(e));

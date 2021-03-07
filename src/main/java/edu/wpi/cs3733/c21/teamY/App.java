@@ -60,7 +60,7 @@ public class App extends Application {
   public void start(Stage primaryStage) throws IOException {
 
     stage = primaryStage;
-
+    stage.setMaximized(true);
     stage.setOnCloseRequest(
         e -> System.out.println("put stuff here to run when the x button is pressed"));
 

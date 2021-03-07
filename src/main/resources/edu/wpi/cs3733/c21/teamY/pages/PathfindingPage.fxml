@@ -61,22 +61,22 @@
                                                 </JFXButton>
                                                 <JFXButton fx:id="cafeBtn" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                                     <graphic>
-                                                        <MaterialDesignIconView fill="#8d8eae" glyphName="HAMBURGER" size="25" />
+                                                        <MaterialDesignIconView fill="#8d8eae" glyphName="FOOD" size="25" />
                                                     </graphic>
                                                 </JFXButton>
                                                 <JFXButton fx:id="kioskBtn" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                                     <graphic>
-                                                        <MaterialDesignIconView fill="#8d8eae" glyphName="HAMBURGER" size="25" />
+                                                        <MaterialDesignIconView fill="#8d8eae" glyphName="DESKTOP_MAC" size="25" />
                                                     </graphic>
                                                 </JFXButton>
-                                                <JFXButton fx:id="noStairsButton2" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                <JFXButton fx:id="parkingBtn" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                                     <graphic>
-                                                        <MaterialDesignIconView fill="#8d8eae" glyphName="STAIRS" size="25" />
+                                                        <MaterialDesignIconView fill="#8d8eae" glyphName="PARKING" size="25" />
                                                     </graphic>
                                                 </JFXButton>
                                                 <JFXButton fx:id="noStairsBtn" contentDisplay="GRAPHIC_ONLY" text="Button" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                                     <graphic>
-                                                        <MaterialDesignIconView fill="#8d8eae" glyphName="ELEVATOR" size="25" />
+                                                        <MaterialDesignIconView fill="#8d8eae" glyphName="WHEELCHAIR_ACCESSIBILITY" size="25" />
                                                     </graphic>
                                                 </JFXButton>
                                             </children>

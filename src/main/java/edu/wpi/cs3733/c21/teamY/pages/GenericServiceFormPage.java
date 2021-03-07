@@ -2,10 +2,6 @@ package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
-import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
-import edu.wpi.cs3733.c21.teamY.entity.Service;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,9 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class GenericServiceFormPage extends RightPage {
-
-  public int IDCount;
+public class GenericServiceFormPage extends SubPage {
 
   @Override
   public void loadNavigationBar() {
@@ -26,12 +20,6 @@ public class GenericServiceFormPage extends RightPage {
 
   public GenericServiceFormPage() {
     super();
-    try {
-      ArrayList<Service> services = JDBCUtils.exportService("", "");
-      IDCount = services.size();
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    }
   }
 
   public void submittedPopUp(StackPane stackPane) {

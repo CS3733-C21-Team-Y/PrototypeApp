@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.c21.teamY;
 
-import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
@@ -46,6 +45,7 @@ public class DatabaseOpsExamples {
     DataOperations.updateNodeCoordsOnly("node1", 900.0, 1000.0);
   }
 
+  /*
   @Test
   public void TestGenerateCSV() throws SQLException {
 
@@ -54,10 +54,13 @@ public class DatabaseOpsExamples {
   }
 
   // Functional!!
+
   @Test
   public void TestDelete() throws SQLException {
     JDBCUtils.deleteNode(node1.nodeID);
     JDBCUtils.deleteEdge(edge1.getEdgeID());
     // JDBCUtils.deleteEdge(new Edge("fakeNode", "node1", "node2"));
   }
+
+   */
 }

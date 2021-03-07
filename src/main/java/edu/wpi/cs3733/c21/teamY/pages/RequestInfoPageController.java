@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class RequestInfoPageController<label> extends RightPage {
+public class RequestInfoPageController<label> extends SubPage {
   @FXML private Label title;
   @FXML private VBox infoBox;
   @FXML private VBox leftBox;

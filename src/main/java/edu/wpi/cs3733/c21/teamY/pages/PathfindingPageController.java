@@ -6,8 +6,11 @@ import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.algorithms.AStarI;
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgoContext;
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls;
+import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -22,9 +25,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javax.swing.*;
 
-public class PathfindingPageController extends RightPage {
+public class PathfindingPageController extends SubPage {
 
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
@@ -39,6 +41,7 @@ public class PathfindingPageController extends RightPage {
   @FXML private JFXButton bathroomBtn;
   @FXML private JFXButton cafeBtn;
   @FXML private JFXButton kioskBtn;
+  @FXML private JFXButton parkingBtn;
   @FXML private JFXButton noStairsBtn;
   @FXML private GridPane overlayGridPane;
 
@@ -81,8 +84,8 @@ public class PathfindingPageController extends RightPage {
   Tooltip bathroomTooltip = new Tooltip("Add/Remove Bathroom Detour");
   Tooltip cafeTooltip = new Tooltip("Add/Remove Cafe Detour");
   Tooltip kioskTooltip = new Tooltip("Add/Remove Kiosk Detour");
-  Tooltip stairsTooltip = new Tooltip("Toggle stairs in your route on");
-  Tooltip noStairsTooltip = new Tooltip("Toggle stairs in your route off");
+  Tooltip parkingTooltip = new Tooltip("Return to parking lot");
+  Tooltip noStairsTooltip = new Tooltip("Toggle handicap accessible route on/off");
 
   /** Do not use it. It does nothing. */
   public PathfindingPageController() {}
@@ -128,6 +131,7 @@ public class PathfindingPageController extends RightPage {
     Tooltip.install(bathroomBtn, bathroomTooltip);
     Tooltip.install(kioskBtn, kioskTooltip);
     Tooltip.install(cafeBtn, cafeTooltip);
+    Tooltip.install(parkingBtn, parkingTooltip);
     Tooltip.install(noStairsBtn, noStairsTooltip);
 
     JFXDialog dialog = new JFXDialog();
@@ -175,14 +179,19 @@ public class PathfindingPageController extends RightPage {
     bathroomBtn.setOnAction(e -> detourBtnPressed(e));
     cafeBtn.setOnAction(e -> detourBtnPressed(e));
     kioskBtn.setOnAction(e -> detourBtnPressed(e));
+    parkingBtn.setOnAction(e -> detourBtnPressed(e));
     noStairsBtn.setOnAction(e -> detourBtnPressed(e));
 
     // Floor selection menu population
-    int i = 0;
-    for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
-      int index = i;
-      menuItem.setOnAction(e -> handleFloorChanged(e, index));
-      i++;
+    int i = -1;
+    for (javafx.scene.Node menuItem : mapInsertController.getFloorList().getChildren()) {
+      if (i != -1) {
+        int index = i;
+        ((JFXButton) menuItem).setOnAction(e -> handleFloorChanged(e, index));
+        i++;
+      } else {
+        i++;
+      }
     }
 
     //    upButton.setOnAction(e -> mapInsertController.panOnButtons("up"));
@@ -211,11 +220,25 @@ public class PathfindingPageController extends RightPage {
     // Init Graph
     resetGraphNodesEdges();
     resetComboBoxes();
+    System.out.println("Made it one!");
+    // this handles auto route calculation after covid survey determination
+
+    String userId = Settings.getSettings().getCurrentUsername();
+    System.out.println("Made it!");
+    if (DataOperations.checkForCompletedCovidSurvey(userId)) {
+      System.out.println("Check complete!");
+      int status = DataOperations.checkSurveyStatus(userId);
+      if (status == 1) {
+        endLocationBox.setValue("Atrium Main Entrance");
+      } else if (status == 0) {
+        endLocationBox.setValue("Emergency Entrance");
+      }
+    }
 
     // Init Map
     Platform.runLater(
         () -> {
-          mapInsertController.getFloorMenu().setText("Parking");
+          // mapInsertController.getFloorMenu().setText("Parking");
           mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
 
           mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
@@ -240,6 +263,15 @@ public class PathfindingPageController extends RightPage {
                     }
                   });
           row1.maxHeightProperty().bind(anchor.getScene().heightProperty());
+          try {
+            startLocationBox.setValue(
+                graph.nodeFromID(
+                        DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()))
+                    .longName);
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+          calculatePath();
         });
   }
 
@@ -263,7 +295,17 @@ public class PathfindingPageController extends RightPage {
     if (e.getSource() == bathroomBtn) bathroom = !bathroom;
     else if (e.getSource() == cafeBtn) restaurant = !restaurant;
     else if (e.getSource() == kioskBtn) kiosk = !kiosk;
-    else if (e.getSource() == noStairsBtn) {
+    else if (e.getSource() == parkingBtn) {
+      try {
+        endLocationBox.setValue(
+            graph.nodeFromID(
+                    DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()))
+                .longName);
+      } catch (Exception exception) {
+        System.out.println("Find Car Location Failed in pathfinding page");
+      }
+
+    } else if (e.getSource() == noStairsBtn) {
       noStairs = !noStairs;
       String start = (String) startLocationBox.getValue();
       String end = (String) endLocationBox.getValue();
@@ -366,7 +408,8 @@ public class PathfindingPageController extends RightPage {
         if (startLocationBox.getValue() != null && startNode != null) {
           mapInsertController.deSelectCircle(startNode);
         }
-        startLocationBox.setValue(node.getId());
+        startLocationBox.setValue(
+            graph.nodeFromID(node.getId()).longName); // startLocationBox.setValue(node.getId())
         startNode = node;
 
         mapInsertController.selectCircle(node);
@@ -380,7 +423,8 @@ public class PathfindingPageController extends RightPage {
           }
         }
         mapInsertController.selectCircle(node);
-        endLocationBox.setValue(node.getId());
+        endLocationBox.setValue(
+            graph.nodeFromID(node.getId()).longName); // endLocationBox.setValue(node.getId());
       }
 
     }
@@ -420,7 +464,7 @@ public class PathfindingPageController extends RightPage {
     mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
     mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
     drawPath(pathNodes);
-    mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
+    // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   }
 
   // button event handler
@@ -462,11 +506,16 @@ public class PathfindingPageController extends RightPage {
     endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
 
     for (Node node : nodes) {
-      startLocationBox.getItems().add(node.nodeID);
-    }
-
-    for (Node node : nodes) {
-      endLocationBox.getItems().add(node.nodeID);
+      String name = node.longName;
+      String type = node.nodeType;
+      // Filtering out the unwanted midway points
+      if (!type.equals("WALK")
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
+        startLocationBox.getItems().add(name);
+        endLocationBox.getItems().add(name);
+      }
     }
   }
 
@@ -484,17 +533,28 @@ public class PathfindingPageController extends RightPage {
   public void calculatePath() {
     clearPath();
     if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
-
       ArrayList<String> endLocations = new ArrayList<>();
       String endID =
-          (String)
-              endLocationBox
-                  .getValue(); // graph.longNodes.get((String) endLocationBox.getValue()).nodeID;
+          graph.longNodes.get((String) endLocationBox.getValue())
+              .nodeID; // (String) endLocationBox.getValue();
       String startID =
-          (String)
-              startLocationBox
-                  .getValue(); // graph.longNodes.get((String) startLocationBox.getValue()).nodeID;
+          graph.longNodes.get((String) startLocationBox.getValue())
+              .nodeID; // (String) startLocationBox.getValue();
       endLocations.add(endID);
+
+      if (graph.longNodes.get((String) startLocationBox.getValue()).nodeType.equals("PARK")) {
+        try {
+          if (DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername())
+              .equals("")) {
+            DataOperations.saveParkingSpot(startID, Settings.getSettings().getCurrentUsername());
+          } else {
+            DataOperations.updateParkingSpot(startID, Settings.getSettings().getCurrentUsername());
+          }
+
+        } catch (Exception exception) {
+          System.out.println("Save Parking Spot failed");
+        }
+      }
 
       mapInsertController.clearSelection();
 
