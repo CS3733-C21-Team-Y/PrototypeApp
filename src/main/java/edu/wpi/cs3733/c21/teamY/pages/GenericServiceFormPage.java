@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
-import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,6 +32,26 @@ public class GenericServiceFormPage extends SubPage {
     message.setStyle(" -fx-text-fill: #5a5c94");
     submitted.setContent(message);
     submitted.show(stackPane);
+  }
+
+  public void incomplete(JFXTextArea input) {
+    input.setStyle("-fx-border-color: red; -fx-border-radius: 10");
+  }
+
+  public void incomplete(JFXTextField input) {
+    input.setStyle("-fx-border-color: red; -fx-border-radius: 10");
+  }
+
+  public void incomplete(JFXComboBox input) {
+    input.setStyle("-fx-border-color: red; -fx-border-radius: 10");
+  }
+
+  public void incomplete(JFXDatePicker input) {
+    input.setStyle("-fx-border-color: red; -fx-border-radius: 10");
+  }
+
+  public void incomplete(JFXTimePicker input) {
+    input.setStyle("-fx-border-color: red; -fx-border-radius: 10");
   }
 
   public void nonCompleteForm(StackPane stackPane) {

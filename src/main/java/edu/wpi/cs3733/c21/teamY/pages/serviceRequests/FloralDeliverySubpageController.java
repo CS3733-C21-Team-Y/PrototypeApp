@@ -76,6 +76,15 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
         || categoryInput.getText().equals("")
         || descriptionInput.getText().equals("")
         || dateInput.getText().equals("")) {
+      if (categoryInput.getText().equals("")) {
+        incomplete(categoryInput);
+      }
+      if (descriptionInput.getText().equals("")) {
+        incomplete(descriptionInput);
+      }
+      if (dateInput.getText().equals("")) {
+        incomplete(dateInput);
+      }
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Floral Delivery");
