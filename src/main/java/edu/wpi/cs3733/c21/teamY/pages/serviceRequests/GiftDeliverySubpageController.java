@@ -15,7 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
-public class GiftDeliverySubPageController extends GenericServiceFormPage {
+public class GiftDeliverySubpageController extends GenericServiceFormPage {
 
   @FXML private JFXButton clearBtn;
   @FXML private JFXButton backBtn;
@@ -30,7 +30,7 @@ public class GiftDeliverySubPageController extends GenericServiceFormPage {
 
   @FXML private StackPane stackPane;
 
-  public GiftDeliverySubPageController() {}
+  public GiftDeliverySubpageController() {}
 
   // this runs once the FXML loads in to attach functions to components
   @FXML
