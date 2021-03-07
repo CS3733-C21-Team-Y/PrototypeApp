@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
@@ -11,11 +12,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
-public class SanitizationSubPageController extends GenericServiceFormPage {
+public class SanitizationSubpageController extends GenericServiceFormPage {
 
   @FXML private JFXComboBox locationField;
   @FXML private JFXComboBox urgency;
   @FXML private JFXComboBox biohazardLevel;
+  @FXML private JFXComboBox employeeComboBox;
   // @FXML private JFXTextField chemHazardLevel;
 
   @FXML private JFXTextArea description;
@@ -32,7 +34,7 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
 
   private Settings settings;
 
-  public SanitizationSubPageController() {}
+  public SanitizationSubpageController() {}
 
   @FXML
   private void initialize() {
@@ -62,6 +64,20 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
     for (String c : urgencies) urgency.getItems().add(c);
     for (String c : locationFields) locationField.getItems().add(c);
     for (String c : biohazardLevels) biohazardLevel.getItems().add(c);
+
+    if (settings.getCurrentPermissions() == 3) {
+      employeeComboBox.setVisible(true);
+      try {
+        ArrayList<Employee> employeeList = DataOperations.getStaffList();
+        for (Employee employee : employeeList) {
+          employeeComboBox.getItems().add(employee.getEmployeeID());
+        }
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    } else {
+      employeeComboBox.setVisible(false);
+    }
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -73,6 +89,7 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
     description.setText("");
     biohazardLevel.setValue(null);
     urgency.setValue(null);
+    employeeComboBox.getSelectionModel().clearSelection();
   }
 
   @FXML
@@ -94,6 +111,11 @@ public class SanitizationSubPageController extends GenericServiceFormPage {
       service.setDescription(description.getText());
       service.setUrgency((String) urgency.getValue());
       service.setRequester(settings.getCurrentUsername());
+      if (settings.getCurrentPermissions() == 3) {
+        service.setEmployee((String) employeeComboBox.getValue());
+      } else {
+        service.setEmployee("admin");
+      }
 
       try {
         DataOperations.saveService(service);
