@@ -1,31 +1,33 @@
-package edu.wpi.cs3733.c21.teamY.pages;
+package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
+import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
-public class ITSubPageController extends GenericServiceFormPage {
+public class LanguageSubpageController extends GenericServiceFormPage {
 
-  @FXML private JFXButton clearBtn;
+  @FXML private JFXButton testBtn;
   @FXML private JFXButton backBtn;
-  @FXML private JFXButton submitBtn;
-  @FXML private JFXComboBox categoryComboBox;
-  @FXML private JFXComboBox locationComboBox;
-  @FXML private JFXComboBox affectsComboBox;
+  @FXML private JFXButton testBtn2;
+  @FXML private JFXComboBox langOptions;
+  @FXML private JFXComboBox urgency;
+  @FXML private JFXTextField locationField;
   @FXML private JFXTextArea description;
 
   @FXML private StackPane stackPane;
 
   private Settings settings;
 
-  public ITSubPageController() {}
+  public LanguageSubpageController() {}
 
   @FXML
   private void initialize() {
@@ -33,17 +35,18 @@ public class ITSubPageController extends GenericServiceFormPage {
     settings = Settings.getSettings();
 
     backBtn.setOnAction(e -> buttonClicked(e));
-    submitBtn.setOnAction(e -> submitBtnClicked());
-    clearBtn.setOnAction(e -> clearButton());
+    testBtn2.setOnAction(e -> submitBtnClicked());
+    testBtn.setOnAction(e -> clearButton());
 
-    categoryComboBox.getItems().add("Hardware");
-    categoryComboBox.getItems().add("Software");
-    categoryComboBox.getItems().add("Login");
-    locationComboBox.getItems().add("Nurse Station 1");
-    locationComboBox.getItems().add("Nurse Station 2");
-    locationComboBox.getItems().add("Admin Office");
-    affectsComboBox.getItems().add("Floor Efficiency");
-    affectsComboBox.getItems().add("Daily Tasks");
+    langOptions.getItems().add("Spanish");
+    langOptions.getItems().add("French");
+    langOptions.getItems().add("Chinese");
+    langOptions.getItems().add("Portuguese");
+    langOptions.getItems().add("Vietnamese");
+    urgency.getItems().add("Emergency");
+    urgency.getItems().add("High");
+    urgency.getItems().add("Medium");
+    urgency.getItems().add("Low");
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -51,27 +54,23 @@ public class ITSubPageController extends GenericServiceFormPage {
   }
 
   private void clearButton() {
-    categoryComboBox.setValue(null);
-    locationComboBox.setValue(null);
-    affectsComboBox.setValue(null);
+    langOptions.setValue(null);
+    locationField.setText("");
     description.setText("");
+    urgency.setValue(null);
   }
 
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    if (categoryComboBox.getValue() == null
-        || locationComboBox.getValue() == null
-        || affectsComboBox.getValue() == null) {
+    if (langOptions.getValue() == null || description.getText().equals("")) {
       nonCompleteForm(stackPane);
     } else {
-
-      Service service = new Service(this.IDCount, "IT Request");
+      Service service = new Service(this.IDCount, "Language");
       this.IDCount++;
-      service.setCategory((String) categoryComboBox.getValue());
-      service.setLocation((String) locationComboBox.getValue());
-      service.setAdditionalInfo((String) affectsComboBox.getValue());
+      service.setCategory((String) langOptions.getValue());
+      service.setLocation(locationField.getText());
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());
 
