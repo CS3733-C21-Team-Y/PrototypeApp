@@ -191,7 +191,7 @@ public class ServiceRequestManagerSubpageController extends SubPage {
     else if (e.getSource() == insideHosBtn)
       parent.loadRightSubPage("serviceRequests/InsideHospitalSubpage.fxml");
     else if (e.getSource() == computerBtn)
-      parent.loadRightSubPage("serviceRequests/ITSubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/ITSubpage.fxml");
     else if (e.getSource() == outsideHosBtn)
       parent.loadRightSubPage("serviceRequests/OutsideHospitalSubPage.fxml");
     else if (e.getSource() == sanitizationBtn)

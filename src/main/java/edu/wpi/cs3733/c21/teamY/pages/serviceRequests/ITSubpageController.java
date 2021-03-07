@@ -5,14 +5,17 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
-public class ITSubPageController extends GenericServiceFormPage {
+public class ITSubpageController extends GenericServiceFormPage {
 
   @FXML private JFXButton clearBtn;
   @FXML private JFXButton backBtn;
@@ -21,12 +24,13 @@ public class ITSubPageController extends GenericServiceFormPage {
   @FXML private JFXComboBox locationComboBox;
   @FXML private JFXComboBox affectsComboBox;
   @FXML private JFXTextArea description;
+  @FXML private JFXComboBox employeeComboBox;
 
   @FXML private StackPane stackPane;
 
   private Settings settings;
 
-  public ITSubPageController() {}
+  public ITSubpageController() {}
 
   @FXML
   private void initialize() {
@@ -45,6 +49,20 @@ public class ITSubPageController extends GenericServiceFormPage {
     locationComboBox.getItems().add("Admin Office");
     affectsComboBox.getItems().add("Floor Efficiency");
     affectsComboBox.getItems().add("Daily Tasks");
+
+    if (settings.getCurrentPermissions() == 3) {
+      employeeComboBox.setVisible(true);
+      try {
+        ArrayList<Employee> employeeList = DataOperations.getStaffList();
+        for (Employee employee : employeeList) {
+          employeeComboBox.getItems().add(employee.getEmployeeID());
+        }
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    } else {
+      employeeComboBox.setVisible(false);
+    }
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -56,6 +74,7 @@ public class ITSubPageController extends GenericServiceFormPage {
     locationComboBox.setValue(null);
     affectsComboBox.setValue(null);
     description.setText("");
+    employeeComboBox.getSelectionModel().clearSelection();
   }
 
   @FXML
@@ -64,7 +83,8 @@ public class ITSubPageController extends GenericServiceFormPage {
 
     if (categoryComboBox.getValue() == null
         || locationComboBox.getValue() == null
-        || affectsComboBox.getValue() == null) {
+        || affectsComboBox.getValue() == null
+        || employeeComboBox == null) {
       nonCompleteForm(stackPane);
     } else {
 
@@ -75,6 +95,7 @@ public class ITSubPageController extends GenericServiceFormPage {
       service.setAdditionalInfo((String) affectsComboBox.getValue());
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());
+      service.setEmployee((String) employeeComboBox.getValue());
 
       try {
         DataOperations.saveService(service);
