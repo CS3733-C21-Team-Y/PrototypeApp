@@ -122,7 +122,10 @@
                                              </VBox.margin>
                                           </ComboBox>
                                           <ComboBox fx:id="endLocationBox" prefWidth="150.0" promptText="End location Box" />
-                                          <Button fx:id="secret" mnemonicParsing="false" text="Secret" />
+                                          <Button fx:id="secret" mnemonicParsing="false" text="Secret">
+                                             <VBox.margin>
+                                                <Insets top="100.0" />
+                                             </VBox.margin></Button>
                                        </children>
                                     </VBox>
                                  </children>
