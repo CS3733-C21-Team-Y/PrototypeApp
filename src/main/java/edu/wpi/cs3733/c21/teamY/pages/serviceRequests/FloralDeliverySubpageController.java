@@ -75,8 +75,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
     if (roomNumberInput.getText().equals("")
         || categoryInput.getText().equals("")
         || descriptionInput.getText().equals("")
-        || dateInput.getText().equals("")
-        || employeeComboBox == null) {
+        || dateInput.getText().equals("")) {
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Floral Delivery");

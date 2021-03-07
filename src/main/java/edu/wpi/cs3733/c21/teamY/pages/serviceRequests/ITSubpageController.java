@@ -10,7 +10,6 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
@@ -83,8 +82,7 @@ public class ITSubpageController extends GenericServiceFormPage {
 
     if (categoryComboBox.getValue() == null
         || locationComboBox.getValue() == null
-        || affectsComboBox.getValue() == null
-        || employeeComboBox == null) {
+        || affectsComboBox.getValue() == null) {
       nonCompleteForm(stackPane);
     } else {
 

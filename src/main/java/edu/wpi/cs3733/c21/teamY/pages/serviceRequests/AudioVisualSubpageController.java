@@ -83,10 +83,7 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
     // put code for submitting a service request here
 
     System.out.println("hi" + avDesc.getText());
-    if (avLocationComboBox == null
-        || avTypeComboBox == null
-        || avEmployeeComboBox == null
-        || avDesc.getText().equals("")) {
+    if (avLocationComboBox == null || avTypeComboBox == null || avDesc.getText().equals("")) {
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Audio Visual");

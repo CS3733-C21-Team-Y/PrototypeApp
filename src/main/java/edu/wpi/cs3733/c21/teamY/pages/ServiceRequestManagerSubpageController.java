@@ -181,7 +181,7 @@ public class ServiceRequestManagerSubpageController extends SubPage {
     else if (e.getSource() == floralBtn)
       parent.loadRightSubPage("serviceRequests/FloralDeliverySubpage.fxml");
     else if (e.getSource() == languageBtn)
-      parent.loadRightSubPage("serviceRequests/LanguageSubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/LanguageSubpage.fxml");
     else if (e.getSource() == giftBtn)
       parent.loadRightSubPage("serviceRequests/GiftDeliverySubpage.fxml");
     else if (e.getSource() == medicineBtn)

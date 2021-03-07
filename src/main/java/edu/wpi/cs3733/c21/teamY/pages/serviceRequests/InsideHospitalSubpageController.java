@@ -77,8 +77,7 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
     if (description.getText().equals("")
         || currentLocation.getText().equals("")
         || patientName.getText().equals("")
-        || date.getText().equals("")
-        || employeeComboBox == null) {
+        || date.getText().equals("")) {
       nonCompleteForm(stackPane);
     } else {
 

@@ -68,8 +68,7 @@ public class OutsideHospitalSubpageController extends GenericServiceFormPage {
 
     if (locationTextField.getText().equals("")
         || descriptionTextArea.getText().equals("")
-        || serviceDate.getValue() == null
-        || employeeComboBox == null) {
+        || serviceDate.getValue() == null) {
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Outside Hospital");
