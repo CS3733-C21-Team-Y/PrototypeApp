@@ -23,7 +23,6 @@ public class SurveyWaitingRoomController extends RightPage {
       //      parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
       //      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
       parent.loadRightSubPage("PathfindingPage.fxml");
-      parent.drawByPermissions();
     }
   }
 }

@@ -90,5 +90,6 @@ public class LoginPageController extends RightPage {
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
+    parent.drawByPermissions();
   }
 }
