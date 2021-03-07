@@ -31,4 +31,6 @@ public abstract class RightPage {
   public void loadNavigationBar() {
     parent.setCenterColumnWidth(0);
   };
+
+  public void drawByPlatform() {};
 }

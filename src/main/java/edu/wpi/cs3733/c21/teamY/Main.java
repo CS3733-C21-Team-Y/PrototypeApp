@@ -7,6 +7,7 @@ import java.sql.SQLException;
 public class Main {
 
   public static void main(String[] args) throws SQLException {
+    //    KnockKnockServer.runServer(new String[] {"4444"});
     LauncherImpl.launchApplication(App.class, PreloaderPageController.class, args);
     // App.launch(App.class, args);
   }

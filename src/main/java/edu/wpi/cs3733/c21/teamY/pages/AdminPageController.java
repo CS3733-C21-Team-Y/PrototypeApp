@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
+import edu.wpi.cs3733.c21.teamY.SuperSecretSurprise.KnockKnockServer;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
@@ -19,7 +20,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-public class AdminPageController extends RightPage {
+public class AdminPageController extends SubPage {
 
   @FXML private SplitPane splitPane;
   @FXML private AnchorPane splitPaneTop;
@@ -113,6 +114,8 @@ public class AdminPageController extends RightPage {
   @FXML private ComboBox startLocationBox;
   @FXML private ComboBox endLocationBox;
 
+  @FXML private Button secret;
+
   JFXDialog dialog = new JFXDialog();
 
   public AdminPageController() {}
@@ -124,12 +127,19 @@ public class AdminPageController extends RightPage {
     //          resetComboBoxes();
     //        });
 
+    secret.setOnAction(
+        e -> {
+          KnockKnockServer kn = new KnockKnockServer();
+          kn.runServer(new String[] {"4444"}, nodes.get(0), nodes.get(3));
+        });
+
     Platform.runLater(
         () -> {
           addMapPage();
           addTablePage();
           loadNodesFromDB();
           resetComboBoxes();
+
           // Shift!!!!!!
           mapInsertController.getContainerStackPane().requestFocus();
           anchor.setOnKeyPressed(

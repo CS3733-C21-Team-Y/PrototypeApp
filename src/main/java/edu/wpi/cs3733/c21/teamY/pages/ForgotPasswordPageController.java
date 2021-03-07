@@ -12,7 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 
-public class ForgotPasswordPageController extends RightPage {
+public class ForgotPasswordPageController extends SubPage {
   @FXML JFXButton submitBtn;
   @FXML JFXButton cancelBtn;
   @FXML JFXTextField emailField;

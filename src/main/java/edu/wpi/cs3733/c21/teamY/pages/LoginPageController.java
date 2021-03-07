@@ -62,7 +62,12 @@ public class LoginPageController extends RightPage {
 
         if (Settings.getSettings().getCurrentPermissions() == 2) {
           parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
-          parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+          if (parent.isDesktop) {
+            parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+            parent.setCenterColumnWidth(350);
+          } else {
+            parent.setCenterColumnWidth(0);
+          }
           parent.drawByPermissions();
           return;
         }
