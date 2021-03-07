@@ -156,8 +156,10 @@ public class MainPageController {
         instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
         setCenterColumnWidth(0);
       }
-    } else if (e.getSource() == origAdminToolsBtn) instance.loadRightSubPage("AdminPage.fxml");
-    else if (e.getSource() == origGoogleNavBtn) instance.loadRightSubPage("GoogleMaps.fxml");
+    } else if (e.getSource() == origAdminToolsBtn) {
+      instance.loadCenterSubPage("AdminPage.fxml");
+      instance.loadRightSubPage("EditNodeTable.fxml");
+    } else if (e.getSource() == origGoogleNavBtn) instance.loadRightSubPage("GoogleMaps.fxml");
   }
 
   public void setCenterColumnWidth(double width) {
