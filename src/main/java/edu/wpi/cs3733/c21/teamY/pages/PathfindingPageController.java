@@ -6,6 +6,8 @@ import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.algorithms.AStarI;
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgoContext;
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls;
+import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ public class PathfindingPageController extends RightPage {
   @FXML private JFXButton bathroomBtn;
   @FXML private JFXButton cafeBtn;
   @FXML private JFXButton kioskBtn;
+  @FXML private JFXButton parkingBtn;
   @FXML private JFXButton noStairsBtn;
   @FXML private GridPane overlayGridPane;
 
@@ -81,7 +84,7 @@ public class PathfindingPageController extends RightPage {
   Tooltip bathroomTooltip = new Tooltip("Add/Remove Bathroom Detour");
   Tooltip cafeTooltip = new Tooltip("Add/Remove Cafe Detour");
   Tooltip kioskTooltip = new Tooltip("Add/Remove Kiosk Detour");
-  Tooltip stairsTooltip = new Tooltip("Toggle stairs in your route on");
+  Tooltip parkingTooltip = new Tooltip("Return to parking lot");
   Tooltip noStairsTooltip = new Tooltip("Toggle stairs in your route off");
 
   /** Do not use it. It does nothing. */
@@ -128,6 +131,7 @@ public class PathfindingPageController extends RightPage {
     Tooltip.install(bathroomBtn, bathroomTooltip);
     Tooltip.install(kioskBtn, kioskTooltip);
     Tooltip.install(cafeBtn, cafeTooltip);
+    Tooltip.install(parkingBtn, parkingTooltip);
     Tooltip.install(noStairsBtn, noStairsTooltip);
 
     JFXDialog dialog = new JFXDialog();
@@ -175,6 +179,7 @@ public class PathfindingPageController extends RightPage {
     bathroomBtn.setOnAction(e -> detourBtnPressed(e));
     cafeBtn.setOnAction(e -> detourBtnPressed(e));
     kioskBtn.setOnAction(e -> detourBtnPressed(e));
+    parkingBtn.setOnAction(e -> detourBtnPressed(e));
     noStairsBtn.setOnAction(e -> detourBtnPressed(e));
 
     // Floor selection menu population
@@ -263,7 +268,15 @@ public class PathfindingPageController extends RightPage {
     if (e.getSource() == bathroomBtn) bathroom = !bathroom;
     else if (e.getSource() == cafeBtn) restaurant = !restaurant;
     else if (e.getSource() == kioskBtn) kiosk = !kiosk;
-    else if (e.getSource() == noStairsBtn) {
+    else if (e.getSource() == parkingBtn) {
+      try {
+        endLocationBox.setValue(
+            DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()));
+      } catch (Exception exception) {
+        System.out.println("Find Car Location Failed in pathfinding page");
+      }
+
+    } else if (e.getSource() == noStairsBtn) {
       noStairs = !noStairs;
       String start = (String) startLocationBox.getValue();
       String end = (String) endLocationBox.getValue();
@@ -484,6 +497,14 @@ public class PathfindingPageController extends RightPage {
   public void calculatePath() {
     clearPath();
     if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
+      if (graph.nodeFromID((String) startLocationBox.getValue()).nodeType.equals("PARK")) {
+        try {
+          DataOperations.saveParkingSpot(
+              (String) startLocationBox.getValue(), Settings.getSettings().getCurrentUsername());
+        } catch (Exception exception) {
+          System.out.println("Save Parking Spot failed");
+        }
+      }
 
       ArrayList<String> endLocations = new ArrayList<>();
       String endID =
