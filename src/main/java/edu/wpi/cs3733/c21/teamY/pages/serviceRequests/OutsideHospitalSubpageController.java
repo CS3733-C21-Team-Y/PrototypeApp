@@ -77,7 +77,11 @@ public class OutsideHospitalSubpageController extends GenericServiceFormPage {
       service.setDate(serviceDate.getValue().toString());
       service.setDescription(descriptionTextArea.getText());
       service.setRequester(settings.getCurrentUsername());
-      service.setEmployee((String) employeeComboBox.getValue());
+      if(settings.getCurrentPermissions() == 3) {
+        service.setEmployee((String) employeeComboBox.getValue());
+      } else {
+        service.setEmployee("admin");
+      }
 
       try {
         DataOperations.saveService(service);

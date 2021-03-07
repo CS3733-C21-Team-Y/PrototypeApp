@@ -86,7 +86,11 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       service.setRequester(settings.getCurrentUsername());
       service.setAdditionalInfo(fromInput.getText() + " " + toInput.getText());
       service.setDate(dateInput.getText());
-      service.setEmployee((String) employeeComboBox.getValue());
+      if(settings.getCurrentPermissions() == 3) {
+        service.setEmployee((String) employeeComboBox.getValue());
+      } else {
+        service.setEmployee("admin");
+      }
 
       clearButton();
       submittedPopUp(stackPane);

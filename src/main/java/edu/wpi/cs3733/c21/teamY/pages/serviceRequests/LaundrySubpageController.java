@@ -95,7 +95,11 @@ public class LaundrySubpageController extends GenericServiceFormPage {
       service.setDescription(description.getText());
       System.out.println(settings.getCurrentUsername());
       service.setRequester(settings.getCurrentUsername());
-      service.setEmployee((String) employeeComboBox.getValue());
+      if(settings.getCurrentPermissions() == 3) {
+        service.setEmployee((String) employeeComboBox.getValue());
+      } else {
+        service.setEmployee("admin");
+      }
 
       try {
         DataOperations.saveService(service);

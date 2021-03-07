@@ -93,7 +93,11 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
       service.setDate(avDate.getValue().toString());
       service.setDescription(avDesc.getText());
       service.setRequester(settings.getCurrentUsername());
-      service.setEmployee((String) avEmployeeComboBox.getValue());
+      if(settings.getCurrentPermissions() == 3) {
+        service.setEmployee((String) avEmployeeComboBox.getValue());
+      } else {
+        service.setEmployee("admin");
+      }
 
       try {
         DataOperations.saveService(service);
