@@ -103,6 +103,21 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
         || urgency.getValue() == null
         || date2.getText().equals("")
         || locationField.getValue() == null) {
+      if (category.getValue() == null) {
+        incomplete(category);
+      }
+      if (urgency.getValue() == null) {
+        incomplete(urgency);
+      }
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
+      if (date2.getText().equals("")) {
+        incomplete(date2);
+      }
+      if (locationField.getValue() == null) {
+        incomplete(locationField);
+      }
       nonCompleteForm(stackPane);
     } else {
 

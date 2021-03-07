@@ -58,6 +58,18 @@ public class MedicineSubpageController extends GenericServiceFormPage {
         || date.getText().equals("")
         || doctor.getText().equals("")
         || medicine.getText().equals("")) {
+      if (patient.getText().equals("")) {
+        incomplete(patient);
+      }
+      if (date.getText().equals("")) {
+        incomplete(date);
+      }
+      if (doctor.getText().equals("")) {
+        incomplete(doctor);
+      }
+      if (medicine.getText().equals("")) {
+        incomplete(medicine);
+      }
       nonCompleteForm(stackPane);
     } else {
 

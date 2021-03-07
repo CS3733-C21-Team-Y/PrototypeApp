@@ -83,6 +83,15 @@ public class ITSubpageController extends GenericServiceFormPage {
     if (categoryComboBox.getValue() == null
         || locationComboBox.getValue() == null
         || affectsComboBox.getValue() == null) {
+      if (categoryComboBox.getValue() == null) {
+        incomplete(categoryComboBox);
+      }
+      if (locationComboBox.getValue() == null) {
+        incomplete(locationComboBox);
+      }
+      if (affectsComboBox.getValue() == null) {
+        incomplete(affectsComboBox);
+      }
       nonCompleteForm(stackPane);
     } else {
 

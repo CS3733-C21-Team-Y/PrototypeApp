@@ -85,8 +85,18 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
     System.out.println("hi" + avDesc.getText());
     if (avLocationComboBox == null || avTypeComboBox == null || avDesc.getText().equals("")) {
       nonCompleteForm(stackPane);
+      if (avLocationComboBox == null) {
+        incomplete(avLocationComboBox);
+      }
+      if (avTypeComboBox == null) {
+        incomplete(avTypeComboBox);
+      }
+      if (avDesc.getText().equals("")) {
+        incomplete(avDesc);
+      }
     } else {
       Service service = new Service(this.IDCount, "Audio Visual");
+
       this.IDCount++;
       service.setCategory((String) avTypeComboBox.getValue());
       service.setLocation((String) avLocationComboBox.getValue());

@@ -78,6 +78,18 @@ public class SecuritySubpageController extends GenericServiceFormPage {
         || description.getText().equals("")
         || category.toString().equals("")
         || urgency.toString().equals("")) {
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
+      if (locationBox.toString().equals("")) {
+        incomplete(locationBox);
+      }
+      if (category.toString().equals("")) {
+        incomplete(category);
+      }
+      if (urgency.toString().equals("")) {
+        incomplete(urgency);
+      }
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Security");

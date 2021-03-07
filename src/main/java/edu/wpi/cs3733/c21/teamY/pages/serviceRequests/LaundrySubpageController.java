@@ -85,6 +85,15 @@ public class LaundrySubpageController extends GenericServiceFormPage {
     if (category.getValue() == null
         || description.getText().equals("")
         || locationField.getValue() == null) {
+      if (category.getValue() == null) {
+        incomplete(category);
+      }
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
+      if (locationField.getValue() == null) {
+        incomplete(locationField);
+      }
       nonCompleteForm(stackPane);
     } else {
 

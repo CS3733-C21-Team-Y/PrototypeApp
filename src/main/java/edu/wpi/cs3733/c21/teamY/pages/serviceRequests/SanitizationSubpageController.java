@@ -99,6 +99,18 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
         || urgency.toString().equals("")
         || biohazardLevel.toString().equals("")
         || description.getText().equals("")) {
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
+      if (urgency.toString().equals("")) {
+        incomplete(urgency);
+      }
+      if (locationField.toString().equals("")) {
+        incomplete(locationField);
+      }
+      if (biohazardLevel.toString().equals("")) {
+        incomplete(biohazardLevel);
+      }
       nonCompleteForm(stackPane);
     } else {
 

@@ -84,6 +84,15 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
         || locationField.getValue() == null
         || description.getText().equals("")
         || datePicker.getValue() == null) {
+      if (locationField.getValue() == null) {
+        incomplete(locationField);
+      }
+      if (datePicker.getValue() == null) {
+        incomplete(datePicker);
+      }
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Gift Delivery");

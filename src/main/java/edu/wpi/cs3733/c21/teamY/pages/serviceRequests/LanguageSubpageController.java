@@ -83,6 +83,12 @@ public class LanguageSubpageController extends GenericServiceFormPage {
     // put code for submitting a service request here
 
     if (langOptions.getValue() == null || description.getText().equals("")) {
+      if (langOptions.getValue() == null) {
+        incomplete(langOptions);
+      }
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Language");
