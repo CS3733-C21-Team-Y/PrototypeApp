@@ -2,10 +2,12 @@ package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
+import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.io.File;
 import java.io.FileInputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javafx.application.Platform;
@@ -29,7 +31,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class MapController extends RightPage {
-
+  // region FXML Components
   @FXML protected AnchorPane anchor;
   @FXML private ImageView mapImageView;
   @FXML private Pane adornerPane;
@@ -40,7 +42,9 @@ public class MapController extends RightPage {
   @FXML private SplitMenuButton floorMenu;
 
   @FXML private JFXButton reset;
+  // endregion
 
+  // region Fields
   private double startx, starty, endx, endy;
 
   private boolean dragging = false;
@@ -105,113 +109,7 @@ public class MapController extends RightPage {
 
   private Double mouseX;
   private Double mouseY;
-
-  // Getters
-  protected Pane getAdornerPane() {
-    return adornerPane;
-  }
-
-  protected SplitMenuButton getFloorMenu() {
-    return floorMenu;
-  }
-
-  protected ArrayList<MAP_PAGE> getMapOrder() {
-    return mapOrder;
-  }
-
-  protected ArrayList<CircleEx> getSelectedNodes() {
-    return selectedNodes;
-  }
-
-  protected ArrayList<LineEx> getSelectedEdges() {
-    return selectedEdges;
-  }
-
-  public StackPane getContainerStackPane() {
-    return containerStackPane;
-  }
-
-  public ImageView getMapImageView() {
-    return mapImageView;
-  }
-
-  public GridPane getMapOverlayUIGridPane() {
-    return mapOverlayUIGridPane;
-  }
-
-  public boolean isDragging() {
-    return dragging;
-  }
-
-  public boolean wasLastClickDrag() {
-    return lastClickDrag;
-  }
-
-  public boolean isDisplayUnselectedAdorners() {
-    return displayUnselectedAdorners;
-  }
-
-  public double getBaseCircleRadius() {
-    return baseCircleRadius;
-  }
-
-  public void setBaseCircleRadius(double baseCircleRadius) {
-    this.baseCircleRadius = baseCircleRadius;
-    updateAdornerVisualsOnZoom();
-  }
-
-  public double getBaseLineWidth() {
-    return baseLineWidth;
-  }
-
-  public void setBaseLineWidth(double baseLineWidth) {
-    this.baseLineWidth = baseLineWidth;
-    updateAdornerVisualsOnZoom();
-  }
-
-  public double getSelectedWidthRatio() {
-    return selectedWidthRatio;
-  }
-
-  public void setSelectedWidthRatio(double selectedWidthRatio) {
-    this.selectedWidthRatio = selectedWidthRatio;
-    updateAdornerVisualsOnZoom();
-  }
-
-  public void setFitHeight(double h) {
-    mapImageView.setFitHeight(h);
-  }
-
-  public void setDisplayUnselectedAdorners(boolean displayUnselectedAdorners) {
-    if (displayUnselectedAdorners != this.displayUnselectedAdorners) {
-      this.displayUnselectedAdorners = displayUnselectedAdorners;
-
-      if (!displayUnselectedAdorners) {
-        for (javafx.scene.Node child : adornerPane.getChildren()) {
-
-          if (child instanceof CircleEx) {
-            CircleEx c = (CircleEx) child;
-            if (c.isVisible() && c.hasFocus) {
-              c.setVisible(false);
-            }
-          }
-
-          if (child instanceof LineEx) {
-            LineEx l = (LineEx) child;
-            if (l.isVisible() && l.hasFocus) {
-              l.setVisible(false);
-            }
-          }
-        }
-      } else {
-        for (javafx.scene.Node child : adornerPane.getChildren()) {
-          if (!child.isVisible()) {
-            child.setVisible(true);
-          }
-        }
-      }
-    }
-  }
+  // endregion
 
   public MapController() {}
 
@@ -347,7 +245,115 @@ public class MapController extends RightPage {
         });
   }
 
-  // Default Drag Handlers
+  // region Getters and Setters
+  protected Pane getAdornerPane() {
+    return adornerPane;
+  }
+
+  protected SplitMenuButton getFloorMenu() {
+    return floorMenu;
+  }
+
+  protected ArrayList<MAP_PAGE> getMapOrder() {
+    return mapOrder;
+  }
+
+  protected ArrayList<CircleEx> getSelectedNodes() {
+    return selectedNodes;
+  }
+
+  protected ArrayList<LineEx> getSelectedEdges() {
+    return selectedEdges;
+  }
+
+  public StackPane getContainerStackPane() {
+    return containerStackPane;
+  }
+
+  public ImageView getMapImageView() {
+    return mapImageView;
+  }
+
+  public GridPane getMapOverlayUIGridPane() {
+    return mapOverlayUIGridPane;
+  }
+
+  public boolean isDragging() {
+    return dragging;
+  }
+
+  public boolean wasLastClickDrag() {
+    return lastClickDrag;
+  }
+
+  public boolean isDisplayUnselectedAdorners() {
+    return displayUnselectedAdorners;
+  }
+
+  public double getBaseCircleRadius() {
+    return baseCircleRadius;
+  }
+
+  public void setBaseCircleRadius(double baseCircleRadius) {
+    this.baseCircleRadius = baseCircleRadius;
+    updateAdornerVisualsOnZoom();
+  }
+
+  public double getBaseLineWidth() {
+    return baseLineWidth;
+  }
+
+  public void setBaseLineWidth(double baseLineWidth) {
+    this.baseLineWidth = baseLineWidth;
+    updateAdornerVisualsOnZoom();
+  }
+
+  public double getSelectedWidthRatio() {
+    return selectedWidthRatio;
+  }
+
+  public void setSelectedWidthRatio(double selectedWidthRatio) {
+    this.selectedWidthRatio = selectedWidthRatio;
+    updateAdornerVisualsOnZoom();
+  }
+
+  public void setFitHeight(double h) {
+    mapImageView.setFitHeight(h);
+  }
+
+  public void setDisplayUnselectedAdorners(boolean displayUnselectedAdorners) {
+    if (displayUnselectedAdorners != this.displayUnselectedAdorners) {
+      this.displayUnselectedAdorners = displayUnselectedAdorners;
+
+      if (!displayUnselectedAdorners) {
+        for (javafx.scene.Node child : adornerPane.getChildren()) {
+
+          if (child instanceof CircleEx) {
+            CircleEx c = (CircleEx) child;
+            if (c.isVisible() && c.hasFocus) {
+              c.setVisible(false);
+            }
+          }
+
+          if (child instanceof LineEx) {
+            LineEx l = (LineEx) child;
+            if (l.isVisible() && l.hasFocus) {
+              l.setVisible(false);
+            }
+          }
+        }
+      } else {
+        for (javafx.scene.Node child : adornerPane.getChildren()) {
+          if (!child.isVisible()) {
+            child.setVisible(true);
+          }
+        }
+      }
+    }
+  }
+  // endregion
+
+  // region Default Drag Handlers
   protected void defaultOnMousePressed(MouseEvent e) {
     dragStartX = e.getX();
     dragStartY = e.getY();
@@ -372,8 +378,9 @@ public class MapController extends RightPage {
     lastClickDrag = dragging;
     dragging = false;
   }
+  // endregion
 
-  // Image stuff
+  // region Change Floor or Image
   protected void changeMapImage(MapController.MAP_PAGE floor) {
     switch (floor) {
       case FLOOR1:
@@ -448,13 +455,15 @@ public class MapController extends RightPage {
     }
     return im;
   }
+  // endregion
 
-  // Menu Updates
+  // region Menu Updates
   protected void updateMenuPreview(ActionEvent e, SplitMenuButton s) {
     s.setText(((MenuItem) e.getSource()).getText());
   }
+  // endregion
 
-  // Adorner Elements
+  // region Manage Adorner Elements
   protected CircleEx addNodeCircle(Node node) {
     CircleEx circleEx =
         new CircleEx(
@@ -518,9 +527,7 @@ public class MapController extends RightPage {
   protected void addAdornerElements(ArrayList<Node> nodes, ArrayList<Edge> edges, String floor) {
 
     if (nodes == null || edges == null) {
-      nodes = loadNodesFromCSV();
-      edges = loadEdgesFromCSV();
-      System.out.println("Had to load FromCSV");
+      System.out.println("Had no nodes or edges!");
     }
 
     if (nodes.size() == 0 || edges.size() == 1) {
@@ -582,8 +589,9 @@ public class MapController extends RightPage {
     selectedNodes = new ArrayList<CircleEx>();
     selectedEdges = new ArrayList<LineEx>();
   }
+  // endregion
 
-  // Load From CSV
+  // region Load Nodes Edges
   protected ArrayList<Node> loadNodesFromCSV() {
     try {
       return CSV.getListOfNodes();
@@ -604,7 +612,26 @@ public class MapController extends RightPage {
     }
   }
 
-  // Scale functions OBSOLETE because the coords are 1:1
+  protected ArrayList<Node> loadNodesFromDB() {
+    try {
+      return DataOperations.getListOfNodes();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+      return null;
+    }
+  }
+
+  protected ArrayList<Edge> loadEdgesFromDB() {
+    try {
+      return DataOperations.getListOfEdge();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+      return null;
+    }
+  }
+  // endregion
+
+  // region Scaling
   protected double scaleXCoords(double x) {
     double scale = 1; // 1485.0 / 350.0;
     return x / scale;
@@ -624,8 +651,9 @@ public class MapController extends RightPage {
     double scale = 1; // 1485.0 / 350.0;
     return y * scale;
   }
+  // endregion
 
-  // Selection functions
+  // region Selection
   protected void clearSelection() {
     // Cannot just deselect because for loop
     clearCircleSelection();
@@ -709,8 +737,9 @@ public class MapController extends RightPage {
       selectLine(line);
     }
   }
+  // endregion
 
-  // Zoom and Pan
+  // region ScrollHandlers and Pan
   protected void scrollOnPress(KeyEvent e) {
     if (e.getCode() == KeyCode.CONTROL) {
       direction = "up/down";
@@ -758,21 +787,9 @@ public class MapController extends RightPage {
     } else {
     }
   }
+  // endregion
 
-  protected void resetMapView() {
-    mapImageView.setScaleX(1);
-    mapImageView.setScaleY(1);
-    adornerPane.setScaleX(1);
-    adornerPane.setScaleY(1);
-
-    mapImageView.translateXProperty().setValue(0);
-    mapImageView.translateYProperty().setValue(0);
-    adornerPane.translateXProperty().setValue(0);
-    adornerPane.translateYProperty().setValue(0);
-
-    updateAdornerVisualsOnZoom();
-  }
-
+  // region Zoom
   protected void zoom(ScrollEvent e) {
     double widthBefore = adornerPane.getWidth();
     double heightBefore = adornerPane.getHeight();
@@ -849,7 +866,49 @@ public class MapController extends RightPage {
     adornerPane.setScaleY(scale);
   }
 
-  // Better Adorners
+  protected void updateAdornerVisualsOnZoom() {
+    scaledCircleRadius = baseCircleRadius / adornerPane.getScaleX();
+    scaledLineWidth = baseLineWidth / adornerPane.getScaleX();
+    scaledLineWidthSelected = baseLineWidth / adornerPane.getScaleX() * selectedWidthRatio;
+
+    for (javafx.scene.Node adorner : adornerPane.getChildren()) {
+      if (adorner instanceof CircleEx) {
+        CircleEx circ = (CircleEx) adorner;
+        if (circ.hasFocus) {
+          circ.setStrokeWidth(scaledLineWidth);
+        }
+        circ.setRadius(scaledCircleRadius);
+      } else {
+        if (adorner instanceof LineEx) {
+          LineEx line = (LineEx) adorner;
+          if (line.hasFocus) {
+            line.setStrokeWidth(scaledLineWidthSelected);
+          } else {
+            line.setStrokeWidth(scaledLineWidth);
+          }
+        }
+      }
+    }
+  }
+  // endregion
+
+  // region resetView
+  protected void resetMapView() {
+    mapImageView.setScaleX(1);
+    mapImageView.setScaleY(1);
+    adornerPane.setScaleX(1);
+    adornerPane.setScaleY(1);
+
+    mapImageView.translateXProperty().setValue(0);
+    mapImageView.translateYProperty().setValue(0);
+    adornerPane.translateXProperty().setValue(0);
+    adornerPane.translateYProperty().setValue(0);
+
+    updateAdornerVisualsOnZoom();
+  }
+  // endregion
+
+  // region CircleEx and LineEx
   public class CircleEx extends Circle {
     public boolean hasFocus = false;
     public ArrayList<LineEx> connectingEdges = new ArrayList<LineEx>();
@@ -887,31 +946,6 @@ public class MapController extends RightPage {
     }
   }
 
-  protected void updateAdornerVisualsOnZoom() {
-    scaledCircleRadius = baseCircleRadius / adornerPane.getScaleX();
-    scaledLineWidth = baseLineWidth / adornerPane.getScaleX();
-    scaledLineWidthSelected = baseLineWidth / adornerPane.getScaleX() * selectedWidthRatio;
-
-    for (javafx.scene.Node adorner : adornerPane.getChildren()) {
-      if (adorner instanceof CircleEx) {
-        CircleEx circ = (CircleEx) adorner;
-        if (circ.hasFocus) {
-          circ.setStrokeWidth(scaledLineWidth);
-        }
-        circ.setRadius(scaledCircleRadius);
-      } else {
-        if (adorner instanceof LineEx) {
-          LineEx line = (LineEx) adorner;
-          if (line.hasFocus) {
-            line.setStrokeWidth(scaledLineWidthSelected);
-          } else {
-            line.setStrokeWidth(scaledLineWidth);
-          }
-        }
-      }
-    }
-  }
-
   public class LineEx extends Line {
     public boolean hasFocus = false;
 
@@ -924,4 +958,5 @@ public class MapController extends RightPage {
       super(startX, startY, endX, endY);
     }
   }
+  // endregion
 }
