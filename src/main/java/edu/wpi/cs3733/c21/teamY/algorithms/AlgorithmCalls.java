@@ -48,4 +48,8 @@ public class AlgorithmCalls {
   public static ArrayList<String> textDirections(ArrayList<Node> path) {
     return AStarAlgorithm.textDirections(path);
   }
+
+  public static ArrayList<Node> dijkstraPath(Graph g, String startID, ArrayList<String> goalIDs){
+    return DijkstrasAlgorithm.dijkstraPath(g,startID,goalIDs);
+  }
 }

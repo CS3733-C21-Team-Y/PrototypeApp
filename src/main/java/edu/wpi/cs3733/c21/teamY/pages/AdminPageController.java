@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamY.pages;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.SuperSecretSurprise.KnockKnockServer;
+import edu.wpi.cs3733.c21.teamY.algorithms.*;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
@@ -19,6 +20,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class AdminPageController extends SubPage {
 
@@ -96,6 +98,8 @@ public class AdminPageController extends SubPage {
   @FXML private MenuItem depthFirst;
   @FXML private MenuItem breadthFirst;
   @FXML private MenuItem aStar;
+  @FXML private MenuItem dijkstra;
+
   //  @FXML private MenuItem setFloorThreePage;
   //  @FXML private MenuItem setFloorFourPage;
   //  @FXML private MenuItem setFloorFivePage;
@@ -140,6 +144,34 @@ public class AdminPageController extends SubPage {
           loadNodesFromDB();
           resetComboBoxes();
 
+          Stage stage = (Stage) toolTip.getScene().getWindow();
+          StageInformation info = (StageInformation) stage.getUserData();
+          if (info.getAlgorithmSelection().getContext() == null) {
+            info.setAlgorithmSelection(new AlgoContext());
+            info.getAlgorithmSelection().setContext(new AStarI());
+            stage.setUserData(info);
+          }
+          depthFirst.setOnAction(
+                  e -> {
+                    info.getAlgorithmSelection().setContext(new DFSI());
+                    stage.setUserData(info);
+                  });
+          breadthFirst.setOnAction(
+                  e -> {
+                    info.getAlgorithmSelection().setContext(new BFSI());
+                    stage.setUserData(info);
+                  });
+          aStar.setOnAction(
+                  e -> {
+                    info.getAlgorithmSelection().setContext(new AStarI());
+                    stage.setUserData(info);
+                  });
+          dijkstra.setOnAction(
+                  e -> {
+                    info.getAlgorithmSelection().setContext(new DijkstraI());
+                    stage.setUserData(info);
+                  });
+
           // Shift!!!!!!
           mapInsertController.getContainerStackPane().requestFocus();
           anchor.setOnKeyPressed(
@@ -169,6 +201,8 @@ public class AdminPageController extends SubPage {
               e -> {
                 removeSelected(e);
               });
+
+          selectNewAlgo.setText("Select Algorithm");
 
           //          mapInsertController.getMapImageView().setScaleX(0.25);
 

@@ -71,6 +71,7 @@ public class GraphEditPageController extends SubPage {
   @FXML private MenuItem depthFirst;
   @FXML private MenuItem breadthFirst;
   @FXML private MenuItem aStar;
+
   //  @FXML private MenuItem setFloorThreePage;
   //  @FXML private MenuItem setFloorFourPage;
   //  @FXML private MenuItem setFloorFivePage;

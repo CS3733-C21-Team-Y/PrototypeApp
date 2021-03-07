@@ -110,6 +110,7 @@
                                                 <MenuItem fx:id="depthFirst" mnemonicParsing="false" text="Depth First" />
                                                 <MenuItem fx:id="breadthFirst" mnemonicParsing="false" text="Breadth First" />
                                                 <MenuItem fx:id="aStar" mnemonicParsing="false" text="A-Star" />
+                                                <MenuItem fx:id="dijkstra" mnemonicParsing="false" text="Dijkstra" />
                                              </items>
                                              <VBox.margin>
                                                 <Insets />
