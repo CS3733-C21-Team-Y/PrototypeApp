@@ -29,6 +29,11 @@ public class LoginPageController extends SubPage {
     employeeIDTextField.setOnKeyPressed(e -> submit(e));
     passwordTextField.setOnKeyPressed(e -> submit(e));
     forgotPasswordBtn.setOnAction(e -> buttonClicked(e));
+    newAccount.setOnAction(e -> newAccountClicked(e));
+  }
+
+  private void newAccountClicked(ActionEvent e) {
+    if (e.getSource() == newAccount) parent.loadRightSubPage("SignUpPage.fxml");
   }
 
   // needed outside of scope for submit()
