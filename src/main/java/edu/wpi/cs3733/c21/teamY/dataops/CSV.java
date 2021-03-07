@@ -134,11 +134,11 @@ public class CSV {
       String[] stringEdge = line.split(splitBy); // use comma as separator
 
       String nodeID = stringEdge[0];
-      String nodeType = stringEdge[1];
-      String xcoord = stringEdge[2];
-      String ycoord = stringEdge[3];
-      String floor = stringEdge[4];
-      String building = stringEdge[5];
+      String nodeType = stringEdge[5];
+      String xcoord = stringEdge[1];
+      String ycoord = stringEdge[2];
+      String floor = stringEdge[3];
+      String building = stringEdge[4];
       String longName = stringEdge[6];
       String shortName = stringEdge[7];
       String teamAssigned = stringEdge[8];

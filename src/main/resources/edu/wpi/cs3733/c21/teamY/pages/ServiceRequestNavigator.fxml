@@ -76,10 +76,9 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <JFXTextField />
                   <JFXTextField focusColor="#8d8ea4" minHeight="30.0" promptText="Search Requests" style="-fx-background-color: transparent;">
                      <GridPane.margin>
-                        <Insets />
+                        <Insets right="40.0" />
                      </GridPane.margin>
                      <font>
                         <Font name="Calibri" size="14.0" />
@@ -93,12 +92,12 @@
                   </JFXTextField>
                   <FontAwesomeIconView fill="#8d8ea4" glyphName="SEARCH" size="16" GridPane.halignment="RIGHT">
                      <GridPane.margin>
-                        <Insets right="6.0" />
+                        <Insets right="46.0" />
                      </GridPane.margin>
                   </FontAwesomeIconView>
                   <FontAwesomeIconView fill="#8d8ea4" glyphName="BARS" size="16" GridPane.halignment="LEFT">
                      <GridPane.margin>
-                        <Insets left="6.0" />
+                        <Insets left="6.0" top="4.0" />
                      </GridPane.margin>
                   </FontAwesomeIconView>
                   <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #3f417a;" stylesheets="@../UIStyles.css" GridPane.rowIndex="2">
@@ -117,6 +116,14 @@
                   <JFXButton fx:id="button2" style="-fx-background-color: #8d8ea4;" text="Export" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets right="5.0" />
+                     </GridPane.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="backBtn" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" " GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                     <graphic>
+                        <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="25" />
+                     </graphic>
+                     <GridPane.margin>
+                        <Insets right="-10.0" />
                      </GridPane.margin>
                   </JFXButton>
                </children>

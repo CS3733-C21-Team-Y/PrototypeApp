@@ -40,8 +40,7 @@
                                        <children>
                                           <CheckBox fx:id="addNodecb" alignment="TOP_CENTER" mnemonicParsing="false" text="add Node" />
                                           <CheckBox fx:id="addEdgecb" mnemonicParsing="false" text="add Edge" />
-                                          <JFXButton fx:id="deleteNode" text="Delete Node" />
-                                          <JFXButton fx:id="deleteEdge" text="Delete Edge" />
+                                          <JFXButton fx:id="deleteButton" text="Delete Selected" />
                                        </children>
                                     </VBox>
                                     <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="2">

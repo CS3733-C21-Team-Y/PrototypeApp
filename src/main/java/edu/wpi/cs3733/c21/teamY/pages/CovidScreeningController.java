@@ -3,12 +3,11 @@ package edu.wpi.cs3733.c21.teamY.pages;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXDialog;
-import java.awt.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
-public class CovidScreeningController extends RightPage {
+public class CovidScreeningController extends SubPage {
 
   @FXML private JFXCheckBox posY;
   @FXML private JFXCheckBox posN;

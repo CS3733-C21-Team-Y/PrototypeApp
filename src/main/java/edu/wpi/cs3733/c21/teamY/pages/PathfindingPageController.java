@@ -22,9 +22,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javax.swing.*;
 
-public class PathfindingPageController extends RightPage {
+public class PathfindingPageController extends SubPage {
 
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
@@ -189,8 +188,8 @@ public class PathfindingPageController extends RightPage {
     //    downButton.setOnAction(e -> mapInsertController.panOnButtons("down"));
     //    leftButton.setOnAction(e -> mapInsertController.panOnButtons("left"));
     //    rightButton.setOnAction(e -> mapInsertController.panOnButtons("right"));
-    zoomInButton.setOnAction(e -> mapInsertController.zoomOnButtons(0.05));
-    zoomOutButton.setOnAction(e -> mapInsertController.zoomOnButtons(-0.05));
+    zoomInButton.setOnAction(e -> mapInsertController.zoomOnButtons(0.1));
+    zoomOutButton.setOnAction(e -> mapInsertController.zoomOnButtons(-0.1));
 
     // zoomSlider.setDisable(true);
 

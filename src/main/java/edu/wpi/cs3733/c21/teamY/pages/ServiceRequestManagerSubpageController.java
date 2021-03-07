@@ -5,7 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 
-public class ServiceRequestManagerSubpageController extends RightPage {
+public class ServiceRequestManagerSubpageController extends SubPage {
   @FXML private JFXButton laundryBtn;
   @FXML private JFXButton maintenanceBtn;
   @FXML private JFXButton AVBtn;
@@ -19,6 +19,7 @@ public class ServiceRequestManagerSubpageController extends RightPage {
   @FXML private JFXButton outsideHosBtn;
   @FXML private JFXButton sanitizationBtn;
   @FXML private ScrollPane scrollPane;
+  @FXML private JFXButton backBtn;
 
   @FXML
   private void initialize() {
@@ -34,12 +35,22 @@ public class ServiceRequestManagerSubpageController extends RightPage {
     computerBtn.setOnAction(e -> pageButtonClicked(e));
     outsideHosBtn.setOnAction(e -> pageButtonClicked(e));
     sanitizationBtn.setOnAction(e -> pageButtonClicked(e));
+    backBtn.setOnAction(e -> pageButtonClicked(e));
     // scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
   }
 
   @Override
+  public void drawByPlatform() {
+    System.out.println(parent.isDesktop);
+    if (parent.isDesktop) {
+      backBtn.setVisible(false);
+    }
+  }
+
+  @Override
   public void loadNavigationBar() {
-    parent.setCenterColumnWidth(350);
+    if (parent.isDesktop) parent.setCenterColumnWidth(350);
+    else parent.setCenterColumnWidth(0);
   }
 
   @FXML
@@ -57,5 +68,6 @@ public class ServiceRequestManagerSubpageController extends RightPage {
     else if (e.getSource() == computerBtn) parent.loadRightSubPage("ITSubPage.fxml");
     else if (e.getSource() == outsideHosBtn) parent.loadRightSubPage("OutsideHospitalSubPage.fxml");
     else if (e.getSource() == sanitizationBtn) parent.loadRightSubPage("SanitizationSubPage.fxml");
+    else if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestNavigator.fxml");
   }
 }

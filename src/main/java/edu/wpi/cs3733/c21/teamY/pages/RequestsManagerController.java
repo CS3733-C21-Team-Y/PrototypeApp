@@ -26,6 +26,7 @@ public class RequestsManagerController extends GenericPage {
   @FXML private RowConstraints firstRow;
   @FXML private GridPane serviceGrid;
   @FXML private Button addServiceBtn;
+
   private int rowCount;
   private HashMap services;
 

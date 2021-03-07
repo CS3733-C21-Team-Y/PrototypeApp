@@ -29,16 +29,6 @@ public class App extends Application {
       e.printStackTrace();
     }
 
-    try {
-      DataOperations.fillTablesFromCSV();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
     //    log.info("Starting Up");
     //    log.info("Attempting to load database from CSV file");
     //
@@ -70,7 +60,7 @@ public class App extends Application {
   public void start(Stage primaryStage) throws IOException {
 
     stage = primaryStage;
-
+    stage.setMaximized(true);
     stage.setOnCloseRequest(
         e -> System.out.println("put stuff here to run when the x button is pressed"));
 
