@@ -51,4 +51,15 @@ class JDBCUtilsTestEmployeeAndService {
   public void TestUpdatePassword() throws SQLException {
     System.out.println(JDBCUtils.updateUserPassword("mike", "jack"));
   }
+
+  @Test
+  public void TestAssignEmployeeToService() throws SQLException {
+    System.out.println(JDBCUtils.assignEmployeeToRequest("mike", 1));
+  }
+
+  @Test
+  public void TestCreateAccount() throws SQLException {
+    Employee employee = new Employee("Willy", "Du", "friend", "friend", "willy@kmyz.com");
+    System.out.println(JDBCUtils.createUserAccount(employee));
+  }
 }

@@ -165,4 +165,17 @@ public class DataOperations {
   public static boolean checkForCompletedCovidSurvey(String userID) {
     return JDBCUtils.checkForCompletedCovidSurvey(userID);
   }
+
+  public static boolean assignEmpoyeeToService(String employeeID, int serviceID)
+      throws SQLException {
+    return JDBCUtils.assignEmployeeToRequest(employeeID, serviceID);
+  }
+
+  public static boolean createAccount(Employee employee) throws SQLException {
+    return JDBCUtils.createUserAccount(employee);
+  }
+
+  public static boolean removeAccount(String employID) throws SQLException {
+    return JDBCUtils.removeAccount(employID);
+  }
 }
