@@ -46,6 +46,9 @@
                             <image>
                                 <Image url="/edu/wpi/cs3733/c21/teamY/images/BWLogo.png" />
                             </image>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
                         </ImageView>
                     </children>
                 </HBox>
