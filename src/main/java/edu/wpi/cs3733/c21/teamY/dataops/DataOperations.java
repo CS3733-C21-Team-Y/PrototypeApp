@@ -175,4 +175,8 @@ public class DataOperations {
   public static boolean saveParkingSpot(String nodeID, String userID) throws SQLException {
     return JDBCUtils.saveParkingSpot(nodeID, userID);
   }
+
+  public static boolean updateParkingSpot(String nodeID, String userID) throws SQLException {
+    return JDBCUtils.updateParkingSpot(nodeID, userID);
+  }
 }

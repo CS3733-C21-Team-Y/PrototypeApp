@@ -499,8 +499,15 @@ public class PathfindingPageController extends RightPage {
     if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
       if (graph.nodeFromID((String) startLocationBox.getValue()).nodeType.equals("PARK")) {
         try {
-          DataOperations.saveParkingSpot(
-              (String) startLocationBox.getValue(), Settings.getSettings().getCurrentUsername());
+          if (DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername())
+              .equals("")) {
+            DataOperations.saveParkingSpot(
+                (String) startLocationBox.getValue(), Settings.getSettings().getCurrentUsername());
+          } else {
+            DataOperations.updateParkingSpot(
+                (String) startLocationBox.getValue(), Settings.getSettings().getCurrentUsername());
+          }
+
         } catch (Exception exception) {
           System.out.println("Save Parking Spot failed");
         }
