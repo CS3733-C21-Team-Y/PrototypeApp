@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXNodesList;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
@@ -38,10 +39,11 @@ public class MapController extends SubPage {
   @FXML protected StackPane containerStackPane;
 
   @FXML private GridPane mapOverlayUIGridPane;
-  @FXML private HBox overlayHBox;
-  @FXML private SplitMenuButton floorMenu;
+  // @FXML private HBox overlayHBox;
 
   @FXML private JFXButton reset;
+  @FXML private JFXNodesList floorList;
+  @FXML private JFXButton currentFloorBtn;
   // endregion
 
   // region Fields
@@ -120,7 +122,9 @@ public class MapController extends SubPage {
     reset.toFront();
 
     adornerPane.toFront();
-    floorMenu.toFront();
+
+    floorList.setRotate(90);
+
     //    floorMenu.setOnAction(
     //        event -> {
     //    int i = 0;
@@ -150,7 +154,7 @@ public class MapController extends SubPage {
     adornerPane.setScaleY(mapImageView.getScaleY());
 
     mapOverlayUIGridPane.setPickOnBounds(false);
-    overlayHBox.setPickOnBounds(false);
+    // overlayHBox.setPickOnBounds(false);
 
     // Default AdornerPane click and drag
     adornerPane.setOnMousePressed(
@@ -250,8 +254,8 @@ public class MapController extends SubPage {
     return adornerPane;
   }
 
-  protected SplitMenuButton getFloorMenu() {
-    return floorMenu;
+  protected JFXNodesList getFloorList() {
+    return floorList;
   }
 
   protected ArrayList<MAP_PAGE> getMapOrder() {
@@ -386,29 +390,36 @@ public class MapController extends SubPage {
       case FLOOR1:
         mapImageView.setImage(f1);
         floorNumber = "1";
+        currentFloorBtn.setText("1");
         break;
       case FLOOR2:
         mapImageView.setImage(f2);
         floorNumber = "2";
+        currentFloorBtn.setText("2");
         break;
       case FLOOR3:
         mapImageView.setImage(f3);
         floorNumber = "3";
+        currentFloorBtn.setText("3");
         break;
       case FLOOR4:
         mapImageView.setImage(f4);
         floorNumber = "4";
+        currentFloorBtn.setText("4");
         break;
       case FLOOR5:
         mapImageView.setImage(f5);
         floorNumber = "5";
+        currentFloorBtn.setText("5");
         break;
       case PARKING:
       default:
         mapImageView.setImage(parking);
         floorNumber = "0";
+        currentFloorBtn.setText("P");
         break;
     }
+    floorList.animateList(false);
   }
 
   protected void setNewMapImage(Image image, MapController.MAP_PAGE floor) {

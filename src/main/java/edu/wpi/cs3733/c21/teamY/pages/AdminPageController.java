@@ -25,9 +25,6 @@ public class AdminPageController extends SubPage {
   @FXML private SplitPane splitPane;
   @FXML private AnchorPane splitPaneTop;
   @FXML private AnchorPane splitPaneBottom;
-  @FXML private SplitPane subSplitPane;
-  @FXML private AnchorPane subSplitPaneRight;
-  @FXML private AnchorPane subSplitPaneLeft;
 
   @FXML private MapController mapInsertController;
   @FXML private EditNodeTableController editNodeTableController;
@@ -75,8 +72,6 @@ public class AdminPageController extends SubPage {
   @FXML private VBox mapBox;
   @FXML private HBox hBox;
 
-  //  @FXML private Button toHomeBtn;
-  @FXML private JFXButton addNode;
   //  @FXML private JFXButton loadNodesButton; //bye bye fml
 
   @FXML private JFXButton deleteButton;
@@ -100,17 +95,6 @@ public class AdminPageController extends SubPage {
   //  @FXML private MenuItem setFloorFourPage;
   //  @FXML private MenuItem setFloorFivePage;
 
-  @FXML private JFXButton panUpButton;
-  @FXML private JFXButton panDownButton;
-  @FXML private JFXButton panRightButton;
-  @FXML private JFXButton panLeftButton;
-  @FXML private JFXButton zoomInButton;
-  @FXML private JFXButton zoomOutButton;
-
-  @FXML private JFXButton moveNodeUpButton;
-  @FXML private JFXButton moveNodeDownButton;
-  @FXML private JFXButton moveNodeLeftButton;
-  @FXML private JFXButton moveNodeRightButton;
   @FXML private ComboBox startLocationBox;
   @FXML private ComboBox endLocationBox;
 
@@ -136,7 +120,6 @@ public class AdminPageController extends SubPage {
     Platform.runLater(
         () -> {
           addMapPage();
-          addTablePage();
           loadNodesFromDB();
           resetComboBoxes();
 
@@ -172,11 +155,15 @@ public class AdminPageController extends SubPage {
 
           //          mapInsertController.getMapImageView().setScaleX(0.25);
 
-          int i = 0;
-          for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
-            int index = i;
-            menuItem.setOnAction(e -> handleFloorChanged(e, index));
-            i++;
+          int i = -1;
+          for (Node menuItem : mapInsertController.getFloorList().getChildren()) {
+            if (i != -1) {
+              int index = i;
+              ((JFXButton) menuItem).setOnAction(e -> handleFloorChanged(e, index));
+              i++;
+            } else {
+              i++;
+            }
           }
 
           mapInsertController.containerStackPane.setTranslateY(
@@ -450,7 +437,7 @@ public class AdminPageController extends SubPage {
     mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
     mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
     //    drawPath(pathNodes);
-    mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
+    // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   }
 
   private void resetComboBoxes() {
@@ -463,19 +450,6 @@ public class AdminPageController extends SubPage {
 
     for (edu.wpi.cs3733.c21.teamY.entity.Node node : nodes) {
       endLocationBox.getItems().add(node.nodeID);
-    }
-  }
-
-  private void addTablePage() {
-    FXMLLoader fxmlLoader = new FXMLLoader();
-    try {
-      Node node = fxmlLoader.load(getClass().getResource("EditNodeTable.fxml").openStream());
-      editNodeTableController = (EditNodeTableController) fxmlLoader.getController();
-      editNodeTableController.setParent(parent);
-      // call method before page load
-      subSplitPaneRight.getChildren().add(node);
-    } catch (IOException e) {
-      e.printStackTrace();
     }
   }
 

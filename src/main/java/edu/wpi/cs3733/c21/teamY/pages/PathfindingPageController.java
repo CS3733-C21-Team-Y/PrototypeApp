@@ -183,11 +183,15 @@ public class PathfindingPageController extends SubPage {
     noStairsBtn.setOnAction(e -> detourBtnPressed(e));
 
     // Floor selection menu population
-    int i = 0;
-    for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
-      int index = i;
-      menuItem.setOnAction(e -> handleFloorChanged(e, index));
-      i++;
+    int i = -1;
+    for (javafx.scene.Node menuItem : mapInsertController.getFloorList().getChildren()) {
+      if (i != -1) {
+        int index = i;
+        ((JFXButton) menuItem).setOnAction(e -> handleFloorChanged(e, index));
+        i++;
+      } else {
+        i++;
+      }
     }
 
     //    upButton.setOnAction(e -> mapInsertController.panOnButtons("up"));
@@ -237,7 +241,7 @@ public class PathfindingPageController extends SubPage {
     // Init Map
     Platform.runLater(
         () -> {
-          mapInsertController.getFloorMenu().setText("Parking");
+          // mapInsertController.getFloorMenu().setText("Parking");
           mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
 
           mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
@@ -451,7 +455,7 @@ public class PathfindingPageController extends SubPage {
     mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
     mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
     drawPath(pathNodes);
-    mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
+    // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   }
 
   // button event handler
