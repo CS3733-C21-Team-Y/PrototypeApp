@@ -21,6 +21,7 @@ public class MainPageController {
   @FXML private JFXButton origNavigationBtn;
   @FXML private JFXButton origServiceRequestBtn;
   @FXML private JFXButton origAdminToolsBtn;
+  @FXML private JFXButton origGoogleNavBtn;
   @FXML private ColumnConstraints origCenterColumn;
   @FXML private FontAwesomeIconView exitBtn;
   @FXML private ScrollPane scrollPane;
@@ -29,6 +30,7 @@ public class MainPageController {
   private JFXButton navigationBtn;
   private JFXButton serviceRequestBtn;
   private JFXButton adminToolsBtn;
+  private JFXButton googleNavBtn;
   private AnchorPane rightPane;
   private AnchorPane centerPane;
   private ColumnConstraints centerColumn;
@@ -52,7 +54,8 @@ public class MainPageController {
       JFXButton signInBtn,
       JFXButton navigationBtn,
       JFXButton serviceRequestBtn,
-      JFXButton adminToolsBtn) {
+      JFXButton adminToolsBtn,
+      JFXButton googleNavBtn) {
     this.settings = Settings.getSettings();
     this.centerPane = centerPane;
     this.rightPane = rightPane;
@@ -61,6 +64,7 @@ public class MainPageController {
     this.navigationBtn = navigationBtn;
     this.serviceRequestBtn = serviceRequestBtn;
     this.adminToolsBtn = adminToolsBtn;
+    this.googleNavBtn = googleNavBtn;
 
     loadRightSubPage("LandingPage.fxml");
 
@@ -77,12 +81,14 @@ public class MainPageController {
             origSignInBtn,
             origNavigationBtn,
             origServiceRequestBtn,
-            origAdminToolsBtn);
+            origAdminToolsBtn,
+            origGoogleNavBtn);
     instance.setCenterColumnWidth(0);
     origNavigationBtn.setOnAction(e -> buttonClicked(e));
     origServiceRequestBtn.setOnAction(e -> buttonClicked(e));
     origAdminToolsBtn.setOnAction(e -> buttonClicked(e));
     origSignInBtn.setOnAction(e -> buttonClicked(e));
+    origGoogleNavBtn.setOnAction(e -> buttonClicked(e));
     exitBtn.setOnMouseClicked(e -> Platform.exit());
     instance.drawByPermissions();
 
@@ -103,13 +109,13 @@ public class MainPageController {
   private void buttonClicked(ActionEvent e) {
 
     System.out.println("clicked");
-    if (e.getSource() == origNavigationBtn)
-      instance.loadRightSubPage("Scene.fxml"); // "PathfindingPage.fxml");
+    if (e.getSource() == origNavigationBtn) instance.loadRightSubPage("PathfindingPage.fxml");
     else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
     else if (e.getSource() == origServiceRequestBtn) {
       instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
       instance.loadCenterSubPage("ServiceRequestNavigator.fxml");
     } else if (e.getSource() == origAdminToolsBtn) instance.loadRightSubPage("AdminPage.fxml");
+    else if (e.getSource() == origGoogleNavBtn) instance.loadRightSubPage("GoogleMaps.fxml");
   }
 
   public void setCenterColumnWidth(double width) {

@@ -19,10 +19,9 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 
-public class DirectionsFXMLController extends RightPage
+public class GoogleMapsController extends RightPage
     implements Initializable, MapComponentInitializedListener, DirectionsServiceCallback {
 
   protected DirectionsService directionsService;
@@ -34,9 +33,8 @@ public class DirectionsFXMLController extends RightPage
 
   @FXML protected GoogleMapView mapView;
 
-  @FXML protected TextField fromTextField;
-
-  @FXML protected TextField toTextField;
+  //  @FXML protected TextField fromTextField; //Uncomment to enable Google Maps Directions 1/4
+  //  @FXML protected TextField toTextField; //Uncomment to enable Google Maps Directions 2/4
 
   @FXML
   private void toTextFieldAction(ActionEvent event) {
@@ -58,8 +56,8 @@ public class DirectionsFXMLController extends RightPage
   public void initialize(URL url, ResourceBundle rb) {
     mapView.addMapInitializedListener(this);
     mapView.setKey("AIzaSyCig6oYQaLjCSUUSL2T-eRIRLYfv_NeSMo");
-    to.bindBidirectional(toTextField.textProperty());
-    from.bindBidirectional(fromTextField.textProperty());
+    //    to.bindBidirectional(toTextField.textProperty()); //Uncomment to enable Google Maps Directions 3/4
+    //    from.bindBidirectional(fromTextField.textProperty()); //Uncomment to enable Google Maps Directions 4/4
   }
 
   @Override
@@ -72,12 +70,19 @@ public class DirectionsFXMLController extends RightPage
         .overviewMapControl(false)
         .mapType(MapTypeIdEnum.ROADMAP);
     GoogleMap map = mapView.createMap(options);
-    addRectToMap(map);
+    map.setHeading(50.0);
+    //    addRectToMap(map);
     directionsService = new DirectionsService();
     directionsPane = mapView.getDirec();
   }
 
-  /** Helper Functions */
+  /** ################# Helper Functions ################# */
+
+  /**
+   * Example: Adds a blue rectangle to the Google Map View
+   *
+   * @param map
+   */
   public void addRectToMap(GoogleMap map) {
     LatLong NE = new LatLong(42.30132, -71.12820);
     LatLong SW = new LatLong(42.30120, -71.12800);
@@ -88,17 +93,20 @@ public class DirectionsFXMLController extends RightPage
     Rectangle rect = new Rectangle(options);
     rect.setBounds(bounds);
     map.addMapShape(rect);
+  }
 
-    //    MarkerOptions markerOptions = new MarkerOptions();
-    //    markerOptions.position(NE);
-    //    String url =
-    //        MarkerImageFactory.createMarkerImage(
-    //            "/edu/wpi/cs3733/c21/teamY/images/FaulknerCampusIT2.png", "png");
-    //    System.out.println("File Url: " + url);
-    //    markerOptions.icon(url);
-    //    markerOptions.visible(Boolean.TRUE);
-    //    markerOptions.title("test");
-    //    Marker marker = new Marker(markerOptions);
-    //    map.addMarker(marker);
+  /**
+   * Example: Adds a red balloon marker to the Google Map View
+   *
+   * @param map
+   */
+  public void addMarkerToMap(GoogleMap map) {
+    LatLong NE = new LatLong(42.30132, -71.12820);
+    MarkerOptions markerOptions = new MarkerOptions();
+    markerOptions.position(NE);
+    markerOptions.visible(Boolean.TRUE);
+    markerOptions.title("test");
+    Marker marker = new Marker(markerOptions);
+    map.addMarker(marker);
   }
 }
