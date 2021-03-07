@@ -21,7 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 
-public class GoogleMapsController extends RightPage
+public class GoogleMapsController extends SubPage
     implements Initializable, MapComponentInitializedListener, DirectionsServiceCallback {
 
   protected DirectionsService directionsService;
