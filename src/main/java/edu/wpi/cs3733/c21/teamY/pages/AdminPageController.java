@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -188,8 +189,7 @@ public class AdminPageController extends RightPage {
 
                     boolean clickedNode =
                         e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx;
-                    boolean clickedEdge =
-                        e.getPickResult().getIntersectedNode() instanceof MapController.LineEx;
+                    boolean clickedEdge = e.getPickResult().getIntersectedNode() instanceof Line;
                     if ((clickedNode || clickedEdge)) {
                       // Tentatively initiate them for drag
                       boolean headHasFocus = false;
@@ -199,7 +199,8 @@ public class AdminPageController extends RightPage {
                         headHasFocus = ((MapController.CircleEx) jfxNodeBeingDragged).hasFocus;
                       } else if (clickedEdge) {
                         jfxNodeBeingDragged =
-                            (MapController.LineEx) e.getPickResult().getIntersectedNode();
+                            (MapController.LineEx)
+                                e.getPickResult().getIntersectedNode().getParent();
                         headHasFocus = ((MapController.LineEx) jfxNodeBeingDragged).hasFocus;
                       } else {
                         // Cannot pass
@@ -332,10 +333,10 @@ public class AdminPageController extends RightPage {
                         }
                       }
                       // Edge
-                      else if (e.getPickResult().getIntersectedNode()
-                          instanceof MapController.LineEx) {
+                      else if (e.getPickResult().getIntersectedNode() instanceof Line) {
                         handleClickOnEdge(
-                            (MapController.LineEx) e.getPickResult().getIntersectedNode());
+                            (MapController.LineEx)
+                                e.getPickResult().getIntersectedNode().getParent());
                       }
                       // Blank Map
                       else {
