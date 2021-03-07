@@ -65,7 +65,7 @@ public class LoginPageController extends SubPage {
       if (DataOperations.findUser(tryID, tryPwd)) {
         parent.updateProfileBtn();
 
-        if (Settings.getSettings().getCurrentPermissions() == 2) {
+        if (Settings.getSettings().getCurrentPermissions() == 3) {
           parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
           if (parent.isDesktop) {
             parent.loadCenterSubPage("ServiceRequestNavigator.fxml");

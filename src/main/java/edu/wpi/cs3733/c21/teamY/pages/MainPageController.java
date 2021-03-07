@@ -273,17 +273,17 @@ public class MainPageController {
     boolean adminAccess = false;
     switch (perm) {
       case 0: // guest
+      case 1: // patient
         serviceAccess = false;
         adminAccess = false;
         break;
-      case 1: // employee
+      case 2: // staff
         serviceAccess = true;
         adminAccess = false;
         break;
-      case 2: // admin
+      case 3: // admin
         serviceAccess = true;
         adminAccess = true;
-        break;
     }
     serviceRequestBtn.setVisible(serviceAccess);
     adminToolsBtn.setVisible(adminAccess);

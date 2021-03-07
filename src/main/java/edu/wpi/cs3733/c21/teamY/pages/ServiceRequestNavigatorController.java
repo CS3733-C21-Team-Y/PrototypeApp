@@ -72,10 +72,10 @@ public class ServiceRequestNavigatorController extends SubPage {
 
   private void drawByPermissions() {
     int permissions = Settings.getSettings().getCurrentPermissions();
-    if (permissions < 2) {
+    if (permissions < 3) {
       allRequestsBtn.setVisible(false);
     }
-    if (permissions < 1) {
+    if (permissions < 2) {
       assignedBtn.setVisible(false);
     }
   }
