@@ -49,7 +49,6 @@ public class KnockKnockServer {
         out.println(outputLine);
         if (outputLine.equals("Bye.")) break;
       }
-      //      System.out.println("it was null");
 
     } catch (IOException e) {
       System.out.println(

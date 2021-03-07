@@ -43,7 +43,7 @@ public class YYProtocol {
         break;
       case (SENDNODES):
         if (theInput.equalsIgnoreCase("yes")) {
-          System.out.println("getting list");
+          System.out.println("_getting list_");
           theOutput = nodesToSendable(); // send list of nodes in format below
           state = VERIFY;
         } else {
@@ -51,8 +51,8 @@ public class YYProtocol {
         }
         break;
       case (VERIFY):
-        if (theInput.equalsIgnoreCase("Received nodes:" + lengthOfList)) {
-          theOutput = "Verified, bye";
+        if (theInput.equalsIgnoreCase(lengthOfList + "")) {
+          theOutput = "Bye.";
           state = WAITING;
         } else {
           theOutput = "Incorrect, try again";
@@ -97,7 +97,7 @@ public class YYProtocol {
     sendable.append("]");
     // deletes leading '='
     sendable.deleteCharAt(1);
-//    System.out.println("the out is:" + sendable.toString());
+
     return sendable.toString();
   }
 }
