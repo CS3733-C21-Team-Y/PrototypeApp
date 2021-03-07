@@ -82,9 +82,9 @@ public class LaundrySubpageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    if (category.getValue().equals(null)
+    if (category.getValue() == null
         || description.getText().equals("")
-        || locationField.getValue().equals(null)) {
+        || locationField.getValue() == null) {
       nonCompleteForm(stackPane);
     } else {
 

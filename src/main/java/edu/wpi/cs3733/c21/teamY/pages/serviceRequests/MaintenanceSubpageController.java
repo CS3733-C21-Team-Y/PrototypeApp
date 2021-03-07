@@ -98,11 +98,11 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
 
-    if (category.getValue().equals(null)
+    if (category.getValue() == null
         || description.getText().equals("")
-        || urgency.getValue().equals(null)
+        || urgency.getValue() == null
         || date2.getText().equals("")
-        || locationField.getValue().equals(null)) {
+        || locationField.getValue() == null) {
       nonCompleteForm(stackPane);
     } else {
 

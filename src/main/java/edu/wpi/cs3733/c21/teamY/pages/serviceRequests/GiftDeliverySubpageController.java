@@ -80,31 +80,34 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    if (!giftType.hasProperties()) {
+    if (giftType.getValue() == null
+        || locationField.getValue() == null
+        || description.getText().equals("")
+        || datePicker.getValue() == null) {
       nonCompleteForm(stackPane);
-    }
-
-    Service service = new Service(this.IDCount, "Gift Delivery");
-    this.IDCount++;
-    service.setCategory((String) giftType.getValue());
-    service.setLocation((String) locationField.getValue());
-    service.setDescription(description.getText());
-    service.setDate(datePicker.getValue().toString());
-    service.setRequester(settings.getCurrentUsername());
-    if (settings.getCurrentPermissions() == 3) {
-      service.setEmployee((String) employeeComboBox.getValue());
     } else {
-      service.setEmployee("admin");
-    }
+      Service service = new Service(this.IDCount, "Gift Delivery");
+      this.IDCount++;
+      service.setCategory((String) giftType.getValue());
+      service.setLocation((String) locationField.getValue());
+      service.setDescription(description.getText());
+      service.setDate(datePicker.getValue().toString());
+      service.setRequester(settings.getCurrentUsername());
+      if (settings.getCurrentPermissions() == 3) {
+        service.setEmployee((String) employeeComboBox.getValue());
+      } else {
+        service.setEmployee("admin");
+      }
 
-    try {
-      DataOperations.saveService(service);
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
+      try {
+        DataOperations.saveService(service);
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      }
+      submittedPopUp(stackPane);
+      clearButton();
     }
-    submittedPopUp(stackPane);
-    clearButton();
   }
 }

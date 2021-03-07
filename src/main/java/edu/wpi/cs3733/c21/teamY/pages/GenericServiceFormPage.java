@@ -5,10 +5,12 @@ import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class GenericServiceFormPage extends SubPage {
@@ -23,15 +25,7 @@ public class GenericServiceFormPage extends SubPage {
   }
 
   public void submittedPopUp(StackPane stackPane) {
-    JFXDialog submitted = new JFXDialog();
-    Label message = new Label();
-    message.setText("Request Submitted!");
-    message.setStyle(" -fx-background-color: #efeff9");
-    message.setStyle(" -fx-background-radius: 10");
-    message.setStyle(" -fx-font-size: 15");
-    message.setStyle(" -fx-text-fill: #5a5c94");
-    submitted.setContent(message);
-    submitted.show(stackPane);
+    createPopUp(stackPane, "#5a5c94", "#ffffff", "Request Submitted!");
   }
 
   public void incomplete(JFXTextArea input) {
@@ -55,13 +49,42 @@ public class GenericServiceFormPage extends SubPage {
   }
 
   public void nonCompleteForm(StackPane stackPane) {
+    createPopUp(stackPane, "#ff6666", "#fff9f9", "Not all fields filled out");
+  }
+
+  /**
+   * Creates a generic popup that is dismissed by clicking on the screen
+   *
+   * @param stackPane
+   * @param backgroundColor
+   * @param textColor
+   * @param textContent
+   */
+  private void createPopUp(
+      StackPane stackPane, String backgroundColor, String textColor, String textContent) {
     JFXDialog submitted = new JFXDialog();
+
     Label message = new Label();
-    message.setStyle(" -fx-background-color: #efeff9");
-    message.setStyle(" -fx-background-radius: 10");
-    message.setStyle(" -fx-font-size: 50");
-    message.setStyle(" -fx-text-fill: #5a5c94");
-    message.setText("Not all forms filled out");
+    message.setStyle(
+        " -fx-background-color: "
+            + backgroundColor
+            + "; -fx-background-radius: 6; -fx-font-size: 25; -fx-text-fill: "
+            + textColor);
+    message.setText(textContent);
+    message.maxHeight(70);
+    message.maxWidth(300);
+    message.prefHeight(70);
+    message.prefWidth(250);
+    Insets myInset = new Insets(10);
+    message.setPadding(myInset);
+    BorderStroke myStroke =
+        new BorderStroke(
+            Paint.valueOf(backgroundColor),
+            new BorderStrokeStyle(null, null, null, 6, 1, null),
+            new CornerRadii(6),
+            new BorderWidths(3));
+    Border myB = new Border(myStroke);
+    message.setBorder(myB);
 
     submitted.setContent(message);
     submitted.show(stackPane);
