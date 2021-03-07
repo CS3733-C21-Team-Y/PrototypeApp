@@ -745,12 +745,6 @@ public class JDBCUtils {
     }
     resultSet.close();
 
-    try {
-      close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
     return employees;
   }
 
