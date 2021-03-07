@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
@@ -17,6 +21,7 @@ public class LandingPageController extends SubPage implements Initializable {
 
   @FXML ImageView imageView;
   @FXML JFXButton button;
+  Scene scene;
 
   int counter = 0;
 
@@ -51,5 +56,36 @@ public class LandingPageController extends SubPage implements Initializable {
   public void initialize(URL location, ResourceBundle resources) {
     button.setOnAction(event -> buttonClicked(event));
     slideshow();
+
+    Platform.runLater(
+        () -> {
+          scene = imageView.getScene();
+          //          imageView.setFitWidth(.9 * scene.getWidth());
+          //          imageView.setFitHeight(.6 * scene.getWidth());
+          scene
+              .widthProperty()
+              .addListener(
+                  new ChangeListener<Number>() {
+                    @Override
+                    public void changed(
+                        ObservableValue<? extends Number> observable,
+                        Number oldValue,
+                        Number newValue) {
+                      imageView.setFitHeight(.6 * (double) newValue);
+                    }
+                  });
+          scene
+              .heightProperty()
+              .addListener(
+                  new ChangeListener<Number>() {
+                    @Override
+                    public void changed(
+                        ObservableValue<? extends Number> observable,
+                        Number oldValue,
+                        Number newValue) {
+                      imageView.setFitWidth(.9 * (double) newValue);
+                    }
+                  });
+        });
   }
 }
