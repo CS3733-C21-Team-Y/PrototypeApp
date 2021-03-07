@@ -187,7 +187,7 @@ public class ServiceRequestManagerSubpageController extends SubPage {
     else if (e.getSource() == medicineBtn)
       parent.loadRightSubPage("serviceRequests/MedicineSubpage.fxml");
     else if (e.getSource() == securityBtn)
-      parent.loadRightSubPage("serviceRequests/SecuritySubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/SecuritySubpage.fxml");
     else if (e.getSource() == insideHosBtn)
       parent.loadRightSubPage("serviceRequests/InsideHospitalSubpage.fxml");
     else if (e.getSource() == computerBtn)
@@ -195,7 +195,7 @@ public class ServiceRequestManagerSubpageController extends SubPage {
     else if (e.getSource() == outsideHosBtn)
       parent.loadRightSubPage("serviceRequests/OutsideHospitalSubpage.fxml");
     else if (e.getSource() == sanitizationBtn)
-      parent.loadRightSubPage("serviceRequests/SanitizationSubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/SanitizationSubpage.fxml");
     else if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestNavigator.fxml");
   }
 }
