@@ -53,7 +53,7 @@
             </GridPane>
             <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                <content>
-                  <AnchorPane prefHeight="3000.0" prefWidth="653.0">
+                  <AnchorPane prefHeight="1800.0" prefWidth="653.0">
                      <children>
                         <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
@@ -106,62 +106,62 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
                                  <children>
-                                    <Label text="Pat Lee, lead engineer" />
+                                    <Label text="Pat Lee: Lead Engineer" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
                                  <children>
-                                    <Label text="Brian Boxell, assistant lead engineer" />
+                                    <Label text="Brian Boxell: Assistant Lead Engineer" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="7">
                                  <children>
-                                    <Label text="Samantha Braun, project manager" />
+                                    <Label text="Samantha Braun: Project Manager" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="9">
                                  <children>
-                                    <Label text="Corinne Hartman, documentation Analyst" />
+                                    <Label text="Corinne Hartman: Documentation Analyst" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="11">
                                  <children>
-                                    <Label text="Ian Beazley, algorithm engineer" />
+                                    <Label text="Ian Beazley: Algorithm Engineer" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="13">
                                  <children>
-                                    <Label text="Greg Klimov, UI/UX engineer" />
+                                    <Label text="Greg Klimov: UI/UX Engineer" />
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="15">
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.rowIndex="15">
                                  <children>
-                                    <Label text="Andrew ShInn, hospital's representative " />
+                                    <Label text="Andrew ShInn: Brigham and Women’s Hospital Representative " wrapText="true" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <children>
-                                    <Label text="Lia Davis, scrum master" />
+                                    <Label text="Lia Davis: Scrum Master" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                  <children>
-                                    <Label text="Cole Varney, assistant lead engineer" />
+                                    <Label text="Cole Varney: Assistant Lead Engineer" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
                                  <children>
-                                    <Label text="Yonghua Wang, database engineer" />
+                                    <Label text="Yonghua Wang: Database Engineer" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                                  <children>
-                                    <Label text="Manjusha Chava, product ownerr" />
+                                    <Label text="Manjusha Chava: Product Ownerr" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
                                  <children>
-                                    <Label text="Alex Corey, UI/UX engineer" />
+                                    <Label text="Alex Corey: UI/UX Engineer" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="13">
