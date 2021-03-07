@@ -173,9 +173,9 @@ public class ServiceRequestManagerSubpageController extends SubPage {
   @FXML
   private void pageButtonClicked(ActionEvent e) {
 
-    if (e.getSource() == laundryBtn) parent.loadRightSubPage("serviceRequests/LaundrySubPage.fxml");
+    if (e.getSource() == laundryBtn) parent.loadRightSubPage("serviceRequests/LaundrySubpage.fxml");
     else if (e.getSource() == maintenanceBtn)
-      parent.loadRightSubPage("serviceRequests/MaintenanceSubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/MaintenanceSubpage.fxml");
     else if (e.getSource() == AVBtn)
       parent.loadRightSubPage("serviceRequests/AudioVisualSubPage.fxml");
     else if (e.getSource() == floralBtn)
@@ -185,7 +185,7 @@ public class ServiceRequestManagerSubpageController extends SubPage {
     else if (e.getSource() == giftBtn)
       parent.loadRightSubPage("serviceRequests/GiftDeliverySubpage.fxml");
     else if (e.getSource() == medicineBtn)
-      parent.loadRightSubPage("serviceRequests/MedicineSubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/MedicineSubpage.fxml");
     else if (e.getSource() == securityBtn)
       parent.loadRightSubPage("serviceRequests/SecuritySubPage.fxml");
     else if (e.getSource() == insideHosBtn)
@@ -193,7 +193,7 @@ public class ServiceRequestManagerSubpageController extends SubPage {
     else if (e.getSource() == computerBtn)
       parent.loadRightSubPage("serviceRequests/ITSubpage.fxml");
     else if (e.getSource() == outsideHosBtn)
-      parent.loadRightSubPage("serviceRequests/OutsideHospitalSubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/OutsideHospitalSubpage.fxml");
     else if (e.getSource() == sanitizationBtn)
       parent.loadRightSubPage("serviceRequests/SanitizationSubPage.fxml");
     else if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestNavigator.fxml");
