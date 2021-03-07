@@ -85,7 +85,7 @@ public class PathfindingPageController extends SubPage {
   Tooltip cafeTooltip = new Tooltip("Add/Remove Cafe Detour");
   Tooltip kioskTooltip = new Tooltip("Add/Remove Kiosk Detour");
   Tooltip parkingTooltip = new Tooltip("Return to parking lot");
-  Tooltip noStairsTooltip = new Tooltip("Toggle stairs in your route off");
+  Tooltip noStairsTooltip = new Tooltip("Toggle handicap accessible route on/off");
 
   /** Do not use it. It does nothing. */
   public PathfindingPageController() {}
@@ -220,21 +220,18 @@ public class PathfindingPageController extends SubPage {
     // Init Graph
     resetGraphNodesEdges();
     resetComboBoxes();
-
+    System.out.println("Made it one!");
     // this handles auto route calculation after covid survey determination
-    try {
-      startLocationBox.setValue(
-          DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()));
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+
     String userId = Settings.getSettings().getCurrentUsername();
+    System.out.println("Made it!");
     if (DataOperations.checkForCompletedCovidSurvey(userId)) {
+      System.out.println("Check complete!");
       int status = DataOperations.checkSurveyStatus(userId);
       if (status == 1) {
-        endLocationBox.setValue("YEXIT00101");
+        endLocationBox.setValue("Atrium Main Entrance");
       } else if (status == 0) {
-        endLocationBox.setValue("YEXIT00201");
+        endLocationBox.setValue("Emergency Entrance");
       }
     }
 
@@ -266,6 +263,14 @@ public class PathfindingPageController extends SubPage {
                     }
                   });
           row1.maxHeightProperty().bind(anchor.getScene().heightProperty());
+          try {
+            startLocationBox.setValue(
+                graph.nodeFromID(
+                        DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()))
+                    .longName);
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
           calculatePath();
         });
   }
@@ -293,7 +298,9 @@ public class PathfindingPageController extends SubPage {
     else if (e.getSource() == parkingBtn) {
       try {
         endLocationBox.setValue(
-            DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()));
+            graph.nodeFromID(
+                    DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()))
+                .longName);
       } catch (Exception exception) {
         System.out.println("Find Car Location Failed in pathfinding page");
       }
@@ -401,7 +408,8 @@ public class PathfindingPageController extends SubPage {
         if (startLocationBox.getValue() != null && startNode != null) {
           mapInsertController.deSelectCircle(startNode);
         }
-        startLocationBox.setValue(node.getId());
+        startLocationBox.setValue(
+            graph.nodeFromID(node.getId()).longName); // startLocationBox.setValue(node.getId())
         startNode = node;
 
         mapInsertController.selectCircle(node);
@@ -415,7 +423,8 @@ public class PathfindingPageController extends SubPage {
           }
         }
         mapInsertController.selectCircle(node);
-        endLocationBox.setValue(node.getId());
+        endLocationBox.setValue(
+            graph.nodeFromID(node.getId()).longName); // endLocationBox.setValue(node.getId());
       }
 
     }
@@ -497,11 +506,16 @@ public class PathfindingPageController extends SubPage {
     endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
 
     for (Node node : nodes) {
-      startLocationBox.getItems().add(node.nodeID);
-    }
-
-    for (Node node : nodes) {
-      endLocationBox.getItems().add(node.nodeID);
+      String name = node.longName;
+      String type = node.nodeType;
+      // Filtering out the unwanted midway points
+      if (!type.equals("WALK")
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
+        startLocationBox.getItems().add(name);
+        endLocationBox.getItems().add(name);
+      }
     }
   }
 
@@ -519,32 +533,28 @@ public class PathfindingPageController extends SubPage {
   public void calculatePath() {
     clearPath();
     if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
-      if (graph.nodeFromID((String) startLocationBox.getValue()).nodeType.equals("PARK")) {
+      ArrayList<String> endLocations = new ArrayList<>();
+      String endID =
+          graph.longNodes.get((String) endLocationBox.getValue())
+              .nodeID; // (String) endLocationBox.getValue();
+      String startID =
+          graph.longNodes.get((String) startLocationBox.getValue())
+              .nodeID; // (String) startLocationBox.getValue();
+      endLocations.add(endID);
+
+      if (graph.longNodes.get((String) startLocationBox.getValue()).nodeType.equals("PARK")) {
         try {
           if (DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername())
               .equals("")) {
-            DataOperations.saveParkingSpot(
-                (String) startLocationBox.getValue(), Settings.getSettings().getCurrentUsername());
+            DataOperations.saveParkingSpot(startID, Settings.getSettings().getCurrentUsername());
           } else {
-            DataOperations.updateParkingSpot(
-                (String) startLocationBox.getValue(), Settings.getSettings().getCurrentUsername());
+            DataOperations.updateParkingSpot(startID, Settings.getSettings().getCurrentUsername());
           }
 
         } catch (Exception exception) {
           System.out.println("Save Parking Spot failed");
         }
       }
-
-      ArrayList<String> endLocations = new ArrayList<>();
-      String endID =
-          (String)
-              endLocationBox
-                  .getValue(); // graph.longNodes.get((String) endLocationBox.getValue()).nodeID;
-      String startID =
-          (String)
-              startLocationBox
-                  .getValue(); // graph.longNodes.get((String) startLocationBox.getValue()).nodeID;
-      endLocations.add(endID);
 
       mapInsertController.clearSelection();
 

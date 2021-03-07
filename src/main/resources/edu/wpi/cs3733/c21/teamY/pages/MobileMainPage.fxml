@@ -94,7 +94,7 @@
                               <Font name="Lato Regular" size="8.0" />
                            </font>
                            <graphic>
-                              <MaterialDesignIconView fill="#575aa3" size="30" />
+                              <MaterialDesignIconView fill="#575aa3" glyphName="GOOGLE" size="30" />
                            </graphic>
                            <GridPane.margin>
                               <Insets top="2.0" />

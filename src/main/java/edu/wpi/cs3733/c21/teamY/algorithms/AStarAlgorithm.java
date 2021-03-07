@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.algorithms;
 
+import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Graph;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.util.ArrayList;
@@ -22,6 +24,10 @@ public class AStarAlgorithm {
    * @return modified to return the path.
    */
   public static ArrayList<Node> aStar(Graph g, String startID, String goalID, String accessType) {
+
+    if (DataOperations.checkSurveyStatus(Settings.getSettings().getCurrentUsername()) == 0) {
+      goalID = "YEXIT00201";
+    }
 
     // instantiating adjacency matrix
     double[][] graph = g.adjMatrix;
@@ -232,7 +238,6 @@ public class AStarAlgorithm {
       }
     }
 
-    // TODO check for duplicate "continue straights" and delete the intermediary ones
     for (int j = 0; j < pathDirections.size() - 1; j++) {
       if (pathDirections.get(j).contains("Continue Straight")
           && pathDirections.get(j + 1).contains("Continue Straight")) {
