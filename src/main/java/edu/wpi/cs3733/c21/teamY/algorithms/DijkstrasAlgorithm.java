@@ -77,20 +77,20 @@ public class DijkstrasAlgorithm {
         double edgeDist = nodeDistance(g.nodeFromID(min), g.nodeFromID(mapElement.getKey()));
         ArrayList<Node> neighbors = g.nodeFromID(mapElement.getKey()).getNeighbors();
         if (!inShortest.get(mapElement.getKey())
-                && neighbors.contains(g.nodeFromID(min))
-                && dist.get(min) != Integer.MAX_VALUE
-                && dist.get(min) + edgeDist < dist.get(mapElement.getKey())) {
+            && neighbors.contains(g.nodeFromID(min))
+            && dist.get(min) != Integer.MAX_VALUE
+            && dist.get(min) + edgeDist < dist.get(mapElement.getKey())) {
           dist.put(mapElement.getKey(), dist.get(min) + edgeDist);
         }
       }
       // Checks whether we've found all our goal nodes and exits early if so
       if (localGoals.get(0).equals(min)) {
         g.nodeFromID(min).getNeighbors(); // Allows you to get all the neighbors of a node
-        //iterate through neighbors and find "path of least resistance
-        //Once found add to beginning of path list -> this gives you the node g.nodeFromID(node)
-        //repeat on that new (closer) node
-        //continue until start node is found
-        return null; //TODO: Should return the list
+        // iterate through neighbors and find "path of least resistance
+        // Once found add to beginning of path list -> this gives you the node g.nodeFromID(node)
+        // repeat on that new (closer) node
+        // continue until start node is found
+        return null; // TODO: Should return the list
       }
     }
     return null;

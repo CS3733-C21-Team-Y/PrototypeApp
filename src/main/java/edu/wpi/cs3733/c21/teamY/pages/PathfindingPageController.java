@@ -466,7 +466,7 @@ public class PathfindingPageController extends RightPage {
     for (Node node : nodes) {
       String name = node.longName;
       String type = node.nodeType;
-      //Filtering out the unwanted midway points
+      // Filtering out the unwanted midway points
       if (!type.equals("WALK")
           && !type.equals("ELEV")
           && !type.equals("HALL")
