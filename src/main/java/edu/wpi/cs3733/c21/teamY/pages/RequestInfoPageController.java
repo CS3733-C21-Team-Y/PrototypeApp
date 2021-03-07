@@ -1,11 +1,14 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,7 +26,7 @@ public class RequestInfoPageController<label> extends SubPage {
   @FXML private VBox centerBox;
   @FXML private VBox rightBox;
   @FXML private JFXButton submitBtn;
-  @FXML private JFXTextField employeeText;
+  @FXML private JFXComboBox employeeComboBox;
 
   private Service service;
 
@@ -39,11 +42,20 @@ public class RequestInfoPageController<label> extends SubPage {
     saveBtn = new JFXButton();
     saveBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitEmployee());
+
+    try {
+      ArrayList<Employee> employeeList = DataOperations.getStaffList();
+      for (Employee employee : employeeList) {
+        employeeComboBox.getItems().add(employee.getEmployeeID());
+      }
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
   }
 
   private void submitEmployee() {
-    System.out.println(employeeText.getText());
-    service.setEmployee(employeeText.getText());
+    System.out.println((String) employeeComboBox.getValue());
+    service.setEmployee((String) employeeComboBox.getValue());
     parent.loadRightSubPage("RequestInfoPage.fxml");
 
     try {
@@ -65,8 +77,10 @@ public class RequestInfoPageController<label> extends SubPage {
     if (service.getUrgency().length() > 0) createInfoBox("Urgency: ", service.getUrgency());
     if (service.getDate().length() > 0) createInfoBox("Date: ", service.getDate());
     if (service.getRequester().length() > 0) createInfoBox("Requester: ", service.getRequester());
-    if (service.getEmployee().length() > 0)
+    if (service.getEmployee().length() > 0) {
       createInfoBox("Employee Assigned: ", service.getEmployee());
+      employeeComboBox.setValue(service.getEmployee());
+    }
     if (service.getAdditionalInfo().length() > 0)
       createInfoBox("Additional Info: ", service.getAdditionalInfo());
 

@@ -111,7 +111,7 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
       service.setDescription(description.getText());
       service.setUrgency((String) urgency.getValue());
       service.setRequester(settings.getCurrentUsername());
-      if(settings.getCurrentPermissions() == 3) {
+      if (settings.getCurrentPermissions() == 3) {
         service.setEmployee((String) employeeComboBox.getValue());
       } else {
         service.setEmployee("admin");

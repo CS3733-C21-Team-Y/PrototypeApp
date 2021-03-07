@@ -91,7 +91,7 @@ public class LanguageSubpageController extends GenericServiceFormPage {
       service.setLocation(locationField.getText());
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());
-      if(settings.getCurrentPermissions() == 3) {
+      if (settings.getCurrentPermissions() == 3) {
         service.setEmployee((String) employeeComboBox.getValue());
       } else {
         service.setEmployee("admin");

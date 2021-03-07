@@ -117,7 +117,7 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
       service.setUrgency((String) urgency.getValue());
       service.setDate(date2.getText());
       service.setRequester(settings.getCurrentUsername());
-      if(settings.getCurrentPermissions() == 3) {
+      if (settings.getCurrentPermissions() == 3) {
         service.setEmployee((String) employeeComboBox.getValue());
       } else {
         service.setEmployee("admin");

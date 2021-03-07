@@ -93,7 +93,7 @@ public class ITSubpageController extends GenericServiceFormPage {
       service.setAdditionalInfo((String) affectsComboBox.getValue());
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());
-      if(settings.getCurrentPermissions() == 3) {
+      if (settings.getCurrentPermissions() == 3) {
         service.setEmployee((String) employeeComboBox.getValue());
       } else {
         service.setEmployee("admin");

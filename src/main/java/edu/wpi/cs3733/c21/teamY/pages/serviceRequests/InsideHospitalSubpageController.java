@@ -92,7 +92,7 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
       service.setDate(date.getText());
       service.setAdditionalInfo(desiredLocation.getText());
       service.setRequester(settings.getCurrentUsername());
-      if(settings.getCurrentPermissions() == 3) {
+      if (settings.getCurrentPermissions() == 3) {
         service.setEmployee((String) employeeComboBox.getValue());
       } else {
         service.setEmployee("admin");

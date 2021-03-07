@@ -91,7 +91,7 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
     service.setDescription(description.getText());
     service.setDate(datePicker.getValue().toString());
     service.setRequester(settings.getCurrentUsername());
-    if(settings.getCurrentPermissions() == 3) {
+    if (settings.getCurrentPermissions() == 3) {
       service.setEmployee((String) employeeComboBox.getValue());
     } else {
       service.setEmployee("admin");
