@@ -107,6 +107,9 @@ public class AdminPageController extends SubPage {
 
   JFXDialog dialog = new JFXDialog();
 
+  MapController.CircleEx rightClickedNode;
+  MapController.LineEx rightClickedEdge;
+
   public AdminPageController() {}
 
   public void initialize() {
@@ -176,7 +179,7 @@ public class AdminPageController extends SubPage {
 
           deleteButton.setOnAction(
               e -> {
-                removeSelected(e);
+                removeSelected();
               });
 
           selectNewAlgo.setText("Select Algorithm");
@@ -251,9 +254,35 @@ public class AdminPageController extends SubPage {
           //                    mapInsertController.setBaseLineWidth(5);
           //                    mapInsertController.setSelectedWidthRatio(5.0 / 3);
 
+          // TODO right click on map to add node, put this in map controller
           nodeContextMenu = new ContextMenu();
-          MenuItem item = new MenuItem("NOTHING");
-          nodeContextMenu.getItems().add(item);
+          MenuItem moveNode = new MenuItem("Move Node");
+          MenuItem addEdge = new MenuItem("Add Edge");
+          MenuItem hideNode = new MenuItem("Hide Node");
+          MenuItem deleteObject = new MenuItem("Delete Node");
+
+          nodeContextMenu.getItems().addAll(moveNode, addEdge, hideNode, deleteObject);
+
+          moveNode.setOnAction(
+              event -> {
+                if (rightClickedNode != null) {
+                  mapInsertController.selectCircle(rightClickedNode);
+                  rightClickedNode = null;
+                }
+              });
+          addEdge.setOnAction(
+              event -> {
+                mapInsertController.panOnButtons("up");
+              });
+          hideNode.setOnAction(
+              event -> {
+                System.out.println("do nothing");
+              });
+          deleteObject.setOnAction(
+              event -> {
+                mapInsertController.selectCircle(rightClickedNode);
+                removeSelected();
+              });
         });
   }
 
@@ -457,9 +486,14 @@ public class AdminPageController extends SubPage {
   private ContextMenu multiContextMenu;
 
   private void handleRightClick(MouseEvent e) {
-    System.out.println("Bring up context menu i guess");
+    if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
+      System.out.println("Bring up context menu i guess");
 
-    nodeContextMenu.show(mapInsertController.getAdornerPane(), e.getX(), e.getY());
+      rightClickedNode = (MapController.CircleEx) e.getPickResult().getIntersectedNode();
+
+      nodeContextMenu.show(
+          mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+    }
   }
 
   private void hideContextMenus() {
@@ -683,7 +717,7 @@ public class AdminPageController extends SubPage {
   //          }
   //        }
 
-  private void removeSelected(ActionEvent e) {
+  private void removeSelected() {
     ArrayList<String> nodeIDs = new ArrayList<String>();
     for (MapController.CircleEx node : mapInsertController.getSelectedNodes()) {
       nodeIDs.add(node.getId());
