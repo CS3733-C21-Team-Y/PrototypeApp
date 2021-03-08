@@ -7,9 +7,11 @@ import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 
 public class SignUpPageController extends SubPage {
   @FXML private Button clearBtn;
@@ -44,30 +46,38 @@ public class SignUpPageController extends SubPage {
   }
 
   private void signupBtnClicked() {
-    JFXDialog signup = new JFXDialog();
-    Label errorMessage = new Label();
-    errorMessage.setStyle(" -fx-background-color: #efeff9");
-    errorMessage.setStyle(" -fx-background-radius: 10");
-    errorMessage.setStyle(" -fx-font-size: 50");
-    errorMessage.setStyle(" -fx-text-fill: #5a5c94");
+    clearIncomplete(usernameTextField);
+    clearIncomplete(passwordTextField);
+    clearIncomplete(firstnameTextField);
+    clearIncomplete(lastnameTextField);
+    clearIncomplete(emailTextField);
     if (usernameTextField.getText().equals("")
         || passwordTextField.getText().equals("")
         || firstnameTextField.getText().equals("")
         || lastnameTextField.getText().equals("")
         || emailTextField.getText().equals("")) {
+      if (usernameTextField.getText().equals("")) {
+        incomplete(usernameTextField);
+      }
+      if (passwordTextField.getText().equals("")) {
+        incomplete(passwordTextField);
+      }
+      if (firstnameTextField.getText().equals("")) {
+        incomplete(firstnameTextField);
+      }
+      if (lastnameTextField.getText().equals("")) {
+        incomplete(lastnameTextField);
+      }
+      if (emailTextField.getText().equals("")) {
+        incomplete(emailTextField);
+      }
 
-      errorMessage.setText("Not all forms filled out");
-
-      signup.setContent(errorMessage);
-      signup.show(stackPane);
+      nonCompleteForm(stackPane);
     } else if (!emailTextField
         .getText()
         .toUpperCase()
         .matches("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$")) {
-      errorMessage.setText(
-          "The email address you submitted is not recognized by this system. Please try again\n(Click to dismiss)");
-      signup.setContent(errorMessage);
-      signup.show(stackPane);
+      wrongEmailFormat(stackPane);
     } else {
       Employee employee =
           new Employee(
@@ -82,9 +92,57 @@ public class SignUpPageController extends SubPage {
         System.out.println("create account failed");
         throwables.printStackTrace();
       }
-      errorMessage.setText("account created successfully!");
-      signup.setContent(errorMessage);
-      signup.show(stackPane);
+      submittedPopUp(stackPane);
     }
+  }
+
+  public void clearIncomplete(JFXTextField input) {
+    input.setStyle("-fx-border-color: transparent; -fx-border-radius: 10");
+  }
+
+  public void incomplete(JFXTextField input) {
+    input.setStyle("-fx-border-color: red; -fx-border-radius: 0");
+  }
+
+  public void submittedPopUp(StackPane stackPane) {
+    createPopUp(stackPane, "#5a5c94", "#ffffff", "Request Submitted!");
+  }
+
+  public void nonCompleteForm(StackPane stackPane) {
+    createPopUp(stackPane, "#ff6666", "#fff9f9", "Not all fields filled out");
+  }
+
+  public void wrongEmailFormat(StackPane stackPane) {
+    createPopUp(stackPane, "#ff6666", "#fff9f9", "invalid email address");
+  }
+
+  private void createPopUp(
+      StackPane stackPane, String backgroundColor, String textColor, String textContent) {
+    JFXDialog submitted = new JFXDialog();
+
+    Label message = new Label();
+    message.setStyle(
+        " -fx-background-color: "
+            + backgroundColor
+            + "; -fx-background-radius: 6; -fx-font-size: 25; -fx-text-fill: "
+            + textColor);
+    message.setText(textContent);
+    message.maxHeight(70);
+    message.maxWidth(300);
+    message.prefHeight(70);
+    message.prefWidth(250);
+    Insets myInset = new Insets(10);
+    message.setPadding(myInset);
+    BorderStroke myStroke =
+        new BorderStroke(
+            Paint.valueOf(backgroundColor),
+            new BorderStrokeStyle(null, null, null, 6, 1, null),
+            new CornerRadii(6),
+            new BorderWidths(3));
+    Border myB = new Border(myStroke);
+    message.setBorder(myB);
+
+    submitted.setContent(message);
+    submitted.show(stackPane);
   }
 }

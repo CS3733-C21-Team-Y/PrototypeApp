@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -52,6 +55,17 @@
                         </ImageView>
                      </children>
                   </HBox>
+                  <JFXButton fx:id="backBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#205dc6" GridPane.columnIndex="1">
+                     <graphic>
+                        <FontAwesomeIconView fill="#4563ae" fontSmoothingType="LCD" glyphName="HOME" size="30" textAlignment="CENTER" />
+                     </graphic>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </GridPane>
             <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.rowIndex="2">
