@@ -186,6 +186,7 @@ public class AdminPageController extends SubPage {
                       rightClicked = true;
                     } else {
                       handleMouseDown(e);
+                      hideContextMenus();
                     }
                   });
 
@@ -222,6 +223,10 @@ public class AdminPageController extends SubPage {
           //                    mapInsertController.setBaseCircleRadius(6);
           //                    mapInsertController.setBaseLineWidth(5);
           //                    mapInsertController.setSelectedWidthRatio(5.0 / 3);
+
+          nodeContextMenu = new ContextMenu();
+          MenuItem item = new MenuItem("NOTHING");
+          nodeContextMenu.getItems().add(item);
         });
   }
 
@@ -420,8 +425,26 @@ public class AdminPageController extends SubPage {
     jfxNodeBeingDragged = null;
   }
 
+  private ContextMenu nodeContextMenu;
+  private ContextMenu edgeContextMenu;
+  private ContextMenu multiContextMenu;
+
   private void handleRightClick(MouseEvent e) {
     System.out.println("Bring up context menu i guess");
+
+    nodeContextMenu.show(mapInsertController.getAdornerPane(), e.getX(), e.getY());
+  }
+
+  private void hideContextMenus() {
+    if (nodeContextMenu != null) {
+      nodeContextMenu.hide();
+    }
+    if (edgeContextMenu != null) {
+      edgeContextMenu.hide();
+    }
+    if (multiContextMenu != null) {
+      multiContextMenu.hide();
+    }
   }
 
   private void loadNodesFromDB() {
