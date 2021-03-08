@@ -54,10 +54,32 @@ public class MedicineSubpageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
+
+    clearIncomplete(patient);
+    clearIncomplete(date);
+    clearIncomplete(doctor);
+    clearIncomplete(medicine);
+    clearIncomplete(employeeComboBox);
+
     if (patient.getText().equals("")
         || date.getText().equals("")
         || doctor.getText().equals("")
         || medicine.getText().equals("")) {
+      if (patient.getText().equals("") || employeeComboBox.getValue() == null) {
+        incomplete(patient);
+      }
+      if (date.getText().equals("")) {
+        incomplete(date);
+      }
+      if (doctor.getText().equals("")) {
+        incomplete(doctor);
+      }
+      if (medicine.getText().equals("")) {
+        incomplete(medicine);
+      }
+      if (employeeComboBox.getValue() == null) {
+        incomplete(employeeComboBox);
+      }
       nonCompleteForm(stackPane);
     } else {
 

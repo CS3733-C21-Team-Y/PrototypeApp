@@ -80,10 +80,27 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
+    clearIncomplete(locationField);
+    clearIncomplete(description);
+    clearIncomplete(datePicker);
+    clearIncomplete(employeeComboBox);
+
     if (giftType.getValue() == null
         || locationField.getValue() == null
         || description.getText().equals("")
         || datePicker.getValue() == null) {
+      if (locationField.getValue() == null || employeeComboBox.getValue() == null) {
+        incomplete(locationField);
+      }
+      if (datePicker.getValue() == null) {
+        incomplete(datePicker);
+      }
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
+      if (employeeComboBox.getValue() == null) {
+        incomplete(employeeComboBox);
+      }
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Gift Delivery");
