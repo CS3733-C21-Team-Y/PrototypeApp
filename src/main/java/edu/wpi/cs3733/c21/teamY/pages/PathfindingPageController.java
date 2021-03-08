@@ -507,7 +507,7 @@ public class PathfindingPageController extends SubPage {
 
   @Override
   public void loadNavigationBar() {
-    if (!parent.isDesktop) parent.setCenterColumnWidth(350);
+    if (!parent.isDesktop) parent.setCenterColumnWidth(400);
   };
 
   private void generateTextDirections(ArrayList<Node> pathNodes) {

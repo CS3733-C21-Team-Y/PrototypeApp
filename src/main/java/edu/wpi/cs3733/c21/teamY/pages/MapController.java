@@ -527,7 +527,7 @@ public class MapController extends SubPage {
             scaleXCoords(node.getXcoord()),
             scaleXCoords(node.getYcoord()),
             baseCircleRadius / adornerPane.getScaleX());
-    System.out.println(node.getNodeID());
+    // System.out.println(node.getNodeID());
     circleEx.setId(node.getNodeID());
     circleEx.setFill(Paint.valueOf("RED"));
     // circleEx.setNode(node);
