@@ -74,12 +74,20 @@ public class SecuritySubpageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
 
+    clearIncomplete(employeeComboBox);
+    clearIncomplete(description);
+    clearIncomplete(locationBox);
+    clearIncomplete(category);
+    clearIncomplete(urgency);
+    clearIncomplete(time);
+    clearIncomplete(datePickerObject);
+
     if (locationBox.toString().equals("")
         || description.getText().equals("")
         || category.toString().equals("")
         || urgency.toString().equals("")
         || time.toString().equals("")
-        || datePickerObject.getValue() == null) {
+        || datePickerObject.getValue() == null|| employeeComboBox.getValue()==null) {
       if (description.getText().equals("")) {
         incomplete(description);
       }
@@ -98,6 +106,7 @@ public class SecuritySubpageController extends GenericServiceFormPage {
       if (datePickerObject.getValue() == null) {
         incomplete(datePickerObject);
       }
+      if(employeeComboBox.getValue() == null){incomplete(employeeComboBox);}
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Security");

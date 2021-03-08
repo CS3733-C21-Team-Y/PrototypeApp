@@ -86,11 +86,12 @@ public class LanguageSubpageController extends GenericServiceFormPage {
     clearIncomplete(locationField);
     clearIncomplete(description);
     clearIncomplete(urgency);
+    clearIncomplete(employeeComboBox);
 
     if (langOptions.getValue() == null
         || description.getText().equals("")
         || urgency.getValue() == null
-        || locationField.getText().equals("")) {
+        || locationField.getText().equals("")|| employeeComboBox.getValue()==null) {
       if (langOptions.getValue() == null) {
         incomplete(langOptions);
       }
@@ -103,6 +104,7 @@ public class LanguageSubpageController extends GenericServiceFormPage {
       if (locationField.getText().equals("")) {
         incomplete(locationField);
       }
+      if(employeeComboBox.getValue() == null){incomplete(employeeComboBox);}
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Language");

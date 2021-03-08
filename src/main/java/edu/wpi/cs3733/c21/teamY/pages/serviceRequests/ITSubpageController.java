@@ -84,11 +84,12 @@ public class ITSubpageController extends GenericServiceFormPage {
     clearIncomplete(locationComboBox);
     clearIncomplete(affectsComboBox);
     clearIncomplete(description);
+    clearIncomplete(employeeComboBox);
 
     if (categoryComboBox.getValue() == null
         || locationComboBox.getValue() == null
         || affectsComboBox.getValue() == null
-        || description.getText().equals("")) {
+        || description.getText().equals("")|| employeeComboBox.getValue()==null) {
       if (categoryComboBox.getValue() == null) {
         incomplete(categoryComboBox);
       }
@@ -101,6 +102,7 @@ public class ITSubpageController extends GenericServiceFormPage {
       if (description.getText().equals("")) {
         incomplete(description);
       }
+      if(employeeComboBox.getValue() == null){incomplete(employeeComboBox);}
       nonCompleteForm(stackPane);
     } else {
 

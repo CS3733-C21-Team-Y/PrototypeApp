@@ -86,11 +86,13 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
     clearIncomplete(avTypeComboBox);
     clearIncomplete(avDate);
     clearIncomplete(avDesc);
+    clearIncomplete(avEmployeeComboBox);
 
     if (avLocationComboBox.getValue() == null
         || avTypeComboBox.getValue() == null
         || avDesc.getText().equals("")
-        || avDate.getValue() == null) {
+        || avDate.getValue() == null
+        || avEmployeeComboBox.getValue()==null) {
       if (avLocationComboBox.getValue() == null) {
         incomplete(avLocationComboBox);
       }
@@ -104,6 +106,7 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
         incomplete(avDate);
         incomplete(avDate);
       }
+      if(avEmployeeComboBox.getValue()==null){incomplete(avEmployeeComboBox);}
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Audio Visual");

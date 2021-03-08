@@ -99,12 +99,13 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
     clearIncomplete(urgency);
     clearIncomplete(biohazardLevel);
     clearIncomplete(description);
+    clearIncomplete(employeeComboBox);
 
     if (locationField.toString().equals("")
         || urgency.toString().equals("")
         || biohazardLevel.toString().equals("")
         || description.getText().equals("")) {
-      if (description.getText().equals("")) {
+      if (description.getText().equals("")|| employeeComboBox.getValue()==null) {
         incomplete(description);
       }
       if (urgency.toString().equals("")) {
@@ -116,6 +117,7 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
       if (biohazardLevel.toString().equals("")) {
         incomplete(biohazardLevel);
       }
+      if(employeeComboBox.getValue() == null){incomplete(employeeComboBox);}
       nonCompleteForm(stackPane);
     } else {
 

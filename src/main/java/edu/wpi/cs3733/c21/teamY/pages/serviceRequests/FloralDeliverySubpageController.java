@@ -78,13 +78,15 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
     clearIncomplete(dateInput);
     clearIncomplete(fromInput);
     clearIncomplete(toInput);
+    clearIncomplete(employeeComboBox);
 
     if (roomNumberInput.getText().equals("")
         || categoryInput.getText().equals("")
         || descriptionInput.getText().equals("")
         || dateInput.getText().equals("")
         || fromInput.getText().equals("")
-        || toInput.getText().equals("")) {
+        || toInput.getText().equals("")
+        || employeeComboBox.getValue()==null) {
       if (categoryInput.getText().equals("")) {
         incomplete(categoryInput);
       }
@@ -103,6 +105,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       if (fromInput.getText().equals("")) {
         incomplete(fromInput);
       }
+      if(employeeComboBox.getValue() == null){incomplete(employeeComboBox);}
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Floral Delivery");
