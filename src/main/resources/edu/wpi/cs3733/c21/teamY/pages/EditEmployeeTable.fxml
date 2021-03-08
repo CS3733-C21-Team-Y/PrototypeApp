@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.EditEmployeeTableController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.EditEmployeeTableController">
    <children>
       <GridPane prefHeight="400.0" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -19,7 +19,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <JFXTreeTableView fx:id="treeTable" prefHeight="9999.0" prefWidth="9999.0" GridPane.columnIndex="1" GridPane.valignment="TOP" />
+            <JFXTreeTableView fx:id="treeTable" editable="true" prefHeight="9999.0" prefWidth="9999.0" GridPane.columnIndex="1" GridPane.valignment="TOP" />
             <JFXButton fx:id="expandBtn" contentDisplay="GRAPHIC_ONLY" prefHeight="9999.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <graphic>
                   <FontAwesomeIconView fx:id="expandIcon" glyphName="ANGLE_DOUBLE_LEFT" size="30" />

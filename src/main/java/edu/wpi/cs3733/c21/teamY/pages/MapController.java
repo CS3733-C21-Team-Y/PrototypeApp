@@ -363,6 +363,10 @@ public class MapController extends SubPage {
       }
     }
   }
+
+  public double getScaledLineWidthSelected() {
+    return scaledLineWidthSelected;
+  }
   // endregion
 
   // region Default Drag Handlers

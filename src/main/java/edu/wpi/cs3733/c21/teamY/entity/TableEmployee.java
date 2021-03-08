@@ -20,7 +20,7 @@ public class TableEmployee extends RecursiveTreeObject<TableEmployee> {
     this.password = new SimpleStringProperty(employee.getPassword());
     this.email = new SimpleStringProperty(employee.getEmail());
     this.accessLevel = new SimpleStringProperty(employee.getAccessLevel() + "");
-    this.password = new SimpleStringProperty(employee.getPrimaryWorkspace());
+    this.primaryWorkspace = new SimpleStringProperty(employee.getPrimaryWorkspace());
   }
 
   public StringProperty getFirstName() {
