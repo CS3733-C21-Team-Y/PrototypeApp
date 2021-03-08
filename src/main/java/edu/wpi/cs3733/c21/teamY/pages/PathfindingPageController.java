@@ -22,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class PathfindingPageController extends SubPage {
@@ -488,6 +489,8 @@ public class PathfindingPageController extends SubPage {
     for (String direction : directionList) {
 
       Label newLabel = new Label(direction);
+      newLabel.setFont(new Font("Calibri", 16));
+      newLabel.setWrapText(true);
       textDirectionViewer.getChildren().add(newLabel);
     }
   }

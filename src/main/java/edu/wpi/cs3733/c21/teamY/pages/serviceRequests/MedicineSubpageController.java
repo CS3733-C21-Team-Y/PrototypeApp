@@ -65,7 +65,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
         || date.getText().equals("")
         || doctor.getText().equals("")
         || medicine.getText().equals("")) {
-      if (patient.getText().equals("")|| employeeComboBox.getValue()==null) {
+      if (patient.getText().equals("") || employeeComboBox.getValue() == null) {
         incomplete(patient);
       }
       if (date.getText().equals("")) {
@@ -77,7 +77,9 @@ public class MedicineSubpageController extends GenericServiceFormPage {
       if (medicine.getText().equals("")) {
         incomplete(medicine);
       }
-      if(employeeComboBox.getValue() == null){incomplete(employeeComboBox);}
+      if (employeeComboBox.getValue() == null) {
+        incomplete(employeeComboBox);
+      }
       nonCompleteForm(stackPane);
     } else {
 
