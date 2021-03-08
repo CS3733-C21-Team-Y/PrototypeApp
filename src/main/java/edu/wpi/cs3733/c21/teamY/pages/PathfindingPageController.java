@@ -105,13 +105,17 @@ public class PathfindingPageController extends SubPage {
   private void initialize() {
     //    loadMap();
     textDirectionViewer.setVisible(false);
-    textDirectionsBox.setVisible(false);
-    exitDirectionBtn.setVisible(false);
+    //    textDirectionsBox.setVisible(false);
+    //    exitDirectionBtn.setVisible(false);
     overlayGridPane.setPickOnBounds(false);
     overlayGridPane.toFront();
 
     //    sideMenuVBox.setPickOnBounds(false);
-    exitDirectionBtn.setOnAction(e -> textDirectionsBox.setVisible(false));
+    exitDirectionBtn.setOnAction(
+        e -> {
+          if (!parent.isDesktop) parent.setCenterColumnWidth(400);
+          textDirectionsBox.setVisible(false);
+        });
     //         attaches a handler to the button with a lambda expression
 
     // Reset view button
@@ -520,13 +524,17 @@ public class PathfindingPageController extends SubPage {
 
   private void generateTextDirections(ArrayList<Node> pathNodes) {
     textDirectionViewer.getChildren().clear();
-    if (parent.isDesktop) textDirectionsBox.setVisible(true);
+    if (!parent.isDesktop) parent.setCenterColumnWidth(0);
+    textDirectionsBox.setVisible(true);
+    textDirectionViewer.setVisible(true);
 
     ArrayList<String> directionList = AlgorithmCalls.textDirections(pathNodes);
+    System.out.println(directionList.size());
     for (String direction : directionList) {
 
       Label newLabel = new Label(direction);
       textDirectionViewer.getChildren().add(newLabel);
+      newLabel.toFront();
     }
   }
 
