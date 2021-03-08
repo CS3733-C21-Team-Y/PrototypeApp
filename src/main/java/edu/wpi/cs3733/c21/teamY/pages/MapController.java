@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXNodesList;
 import edu.wpi.cs3733.c21.teamY.dataops.CSV;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
@@ -23,7 +24,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Paint;
+import javafx.scene.paint.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -38,10 +39,11 @@ public class MapController extends SubPage {
   @FXML protected StackPane containerStackPane;
 
   @FXML private GridPane mapOverlayUIGridPane;
-  @FXML private HBox overlayHBox;
-  @FXML private SplitMenuButton floorMenu;
+  // @FXML private HBox overlayHBox;
 
   @FXML private JFXButton reset;
+  @FXML private JFXNodesList floorList;
+  @FXML private JFXButton currentFloorBtn;
   // endregion
 
   // region Fields
@@ -120,7 +122,9 @@ public class MapController extends SubPage {
     reset.toFront();
 
     adornerPane.toFront();
-    floorMenu.toFront();
+
+    floorList.setRotate(90);
+
     //    floorMenu.setOnAction(
     //        event -> {
     //    int i = 0;
@@ -150,7 +154,7 @@ public class MapController extends SubPage {
     adornerPane.setScaleY(mapImageView.getScaleY());
 
     mapOverlayUIGridPane.setPickOnBounds(false);
-    overlayHBox.setPickOnBounds(false);
+    // overlayHBox.setPickOnBounds(false);
 
     // Default AdornerPane click and drag
     adornerPane.setOnMousePressed(
@@ -250,8 +254,8 @@ public class MapController extends SubPage {
     return adornerPane;
   }
 
-  protected SplitMenuButton getFloorMenu() {
-    return floorMenu;
+  protected JFXNodesList getFloorList() {
+    return floorList;
   }
 
   protected ArrayList<MAP_PAGE> getMapOrder() {
@@ -386,29 +390,36 @@ public class MapController extends SubPage {
       case FLOOR1:
         mapImageView.setImage(f1);
         floorNumber = "1";
+        currentFloorBtn.setText("1");
         break;
       case FLOOR2:
         mapImageView.setImage(f2);
         floorNumber = "2";
+        currentFloorBtn.setText("2");
         break;
       case FLOOR3:
         mapImageView.setImage(f3);
         floorNumber = "3";
+        currentFloorBtn.setText("3");
         break;
       case FLOOR4:
         mapImageView.setImage(f4);
         floorNumber = "4";
+        currentFloorBtn.setText("4");
         break;
       case FLOOR5:
         mapImageView.setImage(f5);
         floorNumber = "5";
+        currentFloorBtn.setText("5");
         break;
       case PARKING:
       default:
         mapImageView.setImage(parking);
         floorNumber = "0";
+        currentFloorBtn.setText("P");
         break;
     }
+    floorList.animateList(false);
   }
 
   protected void setNewMapImage(Image image, MapController.MAP_PAGE floor) {
@@ -487,8 +498,8 @@ public class MapController extends SubPage {
     CircleEx n = null;
     CircleEx m = null;
     try {
-      n = (CircleEx) adornerPane.getScene().lookup("#" + edge.getStartNodeID());
-      m = (CircleEx) adornerPane.getScene().lookup("#" + edge.getEndNodeID());
+      n = (CircleEx) adornerPane.lookup("#" + edge.getStartNodeID());
+      m = (CircleEx) adornerPane.lookup("#" + edge.getEndNodeID());
 
       // System.out.println(e.edgeID);
       startx = n.getCenterX();
@@ -498,6 +509,11 @@ public class MapController extends SubPage {
     } catch (Exception exception) { // needs work - problem with nodes connecting floors
       endx = startx; // biases the start node and forgets the end
       endy = starty;
+    }
+
+    if (n == null && m == null) {
+      System.out.println("OK ITS NULL");
+      return null;
     }
 
     LineEx lineEx = new LineEx(startx, starty, endx, endy);
@@ -513,11 +529,13 @@ public class MapController extends SubPage {
       lineEx.setVisible(false);
     }
 
-    if (n != null && !n.connectingEdges.contains(lineEx)) {
-      n.connectingEdges.add(lineEx);
-    }
-    if (m != null && !m.connectingEdges.contains(lineEx)) {
-      m.connectingEdges.add(lineEx);
+    if (n != null && m != null) {
+      if (n != null && !n.connectingEdges.contains(lineEx)) {
+        n.connectingEdges.add(lineEx);
+      }
+      if (m != null && !m.connectingEdges.contains(lineEx)) {
+        m.connectingEdges.add(lineEx);
+      }
     }
 
     updateMapScreen();
@@ -530,11 +548,11 @@ public class MapController extends SubPage {
       System.out.println("Had no nodes or edges!");
     }
 
-    if (nodes.size() == 0 || edges.size() == 1) {
+    if (nodes.size() == 0 || edges.size() == 0) {
       System.out.println("No nodes or edges");
     }
     for (Node n : nodes) {
-      if (n.floor.equals(floorNumber)) {
+      if (n.floor.equals(floor)) {
 
         double x = n.getXcoord();
         double y = n.getYcoord();
@@ -547,9 +565,11 @@ public class MapController extends SubPage {
 
     for (Edge e : edges) {
       // System.out.println(pane.getScene());
+      CircleEx n = null;
+      CircleEx m = null;
       try {
-        CircleEx n = (CircleEx) getAdornerPane().getScene().lookup("#" + e.getStartNodeID());
-        CircleEx m = (CircleEx) getAdornerPane().getScene().lookup("#" + e.getEndNodeID());
+        n = (CircleEx) adornerPane.lookup("#" + e.getStartNodeID());
+        m = (CircleEx) adornerPane.lookup("#" + e.getEndNodeID());
 
         startx = n.getCenterX();
         starty = n.getCenterY();
@@ -560,7 +580,11 @@ public class MapController extends SubPage {
         endy = starty;
       }
 
-      addEdgeLine(e);
+      if (n != m) {
+        if (!(n == null || m == null)) {
+          addEdgeLine(e);
+        }
+      }
     }
   }
 
@@ -662,8 +686,9 @@ public class MapController extends SubPage {
 
   protected void clearCircleSelection() {
     for (CircleEx c : selectedNodes) {
-      c.setStrokeWidth(0);
+      // Cannot call deselect because it removs from selectedNodes
       c.hasFocus = false;
+      c.updateVisuals();
       if (!displayUnselectedAdorners) {
         c.setVisible(false);
       }
@@ -673,9 +698,9 @@ public class MapController extends SubPage {
 
   protected void clearLineSelection() {
     for (LineEx l : selectedEdges) {
-      l.setStrokeWidth(scaledLineWidth);
-      l.setStroke(Paint.valueOf("BLACK"));
+      // Cannot call deselect because it removs from selectedEdges
       l.hasFocus = false;
+      l.clearDirectionality();
       if (!displayUnselectedAdorners) {
         l.setVisible(false);
       }
@@ -685,19 +710,20 @@ public class MapController extends SubPage {
 
   protected void selectCircle(CircleEx c) {
     if (!c.hasFocus) {
-      c.setStrokeWidth(scaledLineWidth);
-      c.setStroke(Paint.valueOf("BLUE"));
-      selectedNodes.add(c);
       c.hasFocus = true;
+      c.updateVisuals();
+      c.updateAdjacentEdges();
+      selectedNodes.add(c);
       c.setVisible(true);
     }
   }
 
   protected void deSelectCircle(CircleEx c) {
     if (c.hasFocus) {
-      c.setStrokeWidth(0);
-      selectedNodes.remove(c);
       c.hasFocus = false;
+      c.updateVisuals();
+      c.updateAdjacentEdges();
+      selectedNodes.remove(c);
       if (!displayUnselectedAdorners) {
         c.setVisible(false);
       }
@@ -706,20 +732,18 @@ public class MapController extends SubPage {
 
   protected void selectLine(LineEx l) {
     if (!l.hasFocus) {
-      l.setStrokeWidth(scaledLineWidthSelected);
-      l.setStroke(Paint.valueOf("BLUE"));
-      selectedEdges.add(l);
       l.hasFocus = true;
+      l.updateVisuals();
+      selectedEdges.add(l);
       l.setVisible(true);
     }
   }
 
   protected void deSelectLine(LineEx l) {
     if (l.hasFocus) {
-      l.setStrokeWidth(scaledLineWidth);
-      l.setStroke(Paint.valueOf("BLACK"));
-      selectedEdges.remove(l);
       l.hasFocus = false;
+      l.clearDirectionality();
+      selectedEdges.remove(l);
       if (!displayUnselectedAdorners) {
         l.setVisible(false);
       }
@@ -927,6 +951,15 @@ public class MapController extends SubPage {
       }
     }
 
+    public void updateVisuals() {
+      if (hasFocus) {
+        this.setStrokeWidth(scaledLineWidth);
+        this.setStroke(Paint.valueOf("BLUE"));
+      } else {
+        this.setStrokeWidth(0);
+      }
+    }
+
     public CircleEx(double radius) {
       super(radius);
     }
@@ -946,17 +979,193 @@ public class MapController extends SubPage {
     }
   }
 
-  public class LineEx extends Line {
-    public boolean hasFocus = false;
+  public class LineEx extends javafx.scene.Group {
 
     public CircleEx startNode;
     public CircleEx endNode;
 
-    public LineEx() {}
+    private Line mainLine = null;
+    private Line halfLine1 = null;
+    private Line halfLine2 = null;
+
+    public boolean hasFocus = false;
+    public boolean biDirectional = false;
+    public boolean direcVisualsEnabled = false;
 
     public LineEx(double startX, double startY, double endX, double endY) {
-      super(startX, startY, endX, endY);
+      mainLine = new Line(startX, startY, endX, endY);
+      this.getChildren().add(mainLine);
     }
+
+    // region JavaFX Line Methods
+    public double getStartX() {
+      return mainLine.getStartX();
+    }
+
+    public double getStartY() {
+      return mainLine.getStartY();
+    }
+
+    public double getEndX() {
+      return mainLine.getEndX();
+    }
+
+    public double getEndY() {
+      return mainLine.getEndY();
+    }
+
+    public void setStartX(double startX) {
+      mainLine.setStartX(startX);
+      updateHalfLinePositions();
+    }
+
+    public void setStartY(double startY) {
+      mainLine.setStartY(startY);
+      updateHalfLinePositions();
+    }
+
+    public void setEndX(double endX) {
+      mainLine.setEndX(endX);
+      updateHalfLinePositions();
+    }
+
+    public void setEndY(double endY) {
+      mainLine.setEndY(endY);
+      updateHalfLinePositions();
+    }
+
+    public void setStroke(Paint stroke) {
+      mainLine.setStroke(stroke);
+      updateHalfLinePositions();
+    }
+
+    public void setStrokeWidth(double strokeWidth) {
+      mainLine.setStrokeWidth(strokeWidth);
+      updateHalfLinePositions();
+    }
+    // endregion
+
+    // region Directionality
+    private LinearGradient getGradient() {
+      return new LinearGradient(
+          this.getStartX(),
+          this.getStartY(),
+          this.getEndX(),
+          this.getEndY(),
+          false,
+          CycleMethod.REFLECT,
+          new Stop(0, Color.RED),
+          new Stop(1, Color.GREEN));
+    }
+
+    public boolean setDirection(CircleEx newStartNode) {
+      if (endNode == newStartNode) {
+        flipDirection();
+
+        return true;
+      }
+      return false;
+    }
+
+    public void flipDirection() {
+      CircleEx newStartNode = endNode;
+      endNode = startNode;
+      startNode = newStartNode;
+
+      double startX = this.getStartX();
+      double startY = this.getStartY();
+
+      this.setStartX(this.getEndX());
+      this.setStartY(this.getEndY());
+
+      this.setEndX(startX);
+      this.setEndY(startY);
+    }
+
+    private void updateHalfLinePositions() {
+
+      double startX = mainLine.getStartX();
+      double startY = mainLine.getStartY();
+
+      double endX = mainLine.getEndX();
+      double endY = mainLine.getEndY();
+
+      double width = mainLine.getStrokeWidth() / 2;
+
+      double length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+      double directionX = (endX - startX) / length;
+      double directionY = (endY - startY) / length;
+
+      if (halfLine1 != null) {
+        halfLine1.setStrokeWidth(width);
+        halfLine1.setStroke(Color.RED); // getGradient());
+
+        halfLine1.setStartX(startX + directionY * width);
+        halfLine1.setStartY(startY + directionX * width);
+
+        halfLine1.setEndX(endX + directionY * width);
+        halfLine1.setEndY(endY + directionX * width);
+        if (!this.getChildren().contains(halfLine1)) {
+          this.getChildren().add(halfLine1);
+        }
+        halfLine1.toFront();
+      }
+
+      if (halfLine2 != null) {
+        halfLine2.setStrokeWidth(width);
+        halfLine2.setStroke(Color.BLUE); // getGradient());
+
+        halfLine2.setStartX(startX - directionY * width);
+        halfLine2.setStartY(startY - directionX * width);
+
+        halfLine2.setEndX(endX - directionY * width);
+        halfLine2.setEndY(endY - directionX * width);
+        if (!this.getChildren().contains(halfLine2)) {
+          this.getChildren().add(halfLine2);
+        }
+        halfLine2.toFront();
+      }
+    }
+
+    public void updateVisuals() {
+      if (direcVisualsEnabled && biDirectional) {
+        if (halfLine1 == null && halfLine2 == null) {
+          halfLine1 = new Line();
+          halfLine2 = new Line();
+          updateHalfLinePositions();
+        } else {
+          updateHalfLinePositions();
+        }
+        mainLine.setVisible(false);
+      } else {
+
+        mainLine.setVisible(true);
+        // remove biDirectional components if any
+        if (this.getChildren().size() > 1) {
+          getChildren().remove(halfLine1);
+          getChildren().remove(halfLine2);
+          halfLine1 = null;
+          halfLine2 = null;
+        }
+
+        if (direcVisualsEnabled) {
+          this.setStroke(getGradient());
+        } else if (this.hasFocus) {
+          this.setStrokeWidth(scaledLineWidthSelected);
+          this.setStroke(Paint.valueOf("BLUE"));
+        } else {
+          this.setStrokeWidth(scaledLineWidth);
+          this.setStroke(Paint.valueOf("BLACK"));
+        }
+      }
+    }
+
+    public void clearDirectionality() {
+      this.direcVisualsEnabled = false;
+      this.biDirectional = false;
+      updateVisuals();
+    }
+    // endregion
   }
   // endregion
 }

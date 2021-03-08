@@ -1,15 +1,16 @@
-package edu.wpi.cs3733.c21.teamY.pages;
+package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
+import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
-public class MedicineSubPageController extends GenericServiceFormPage {
+public class MedicineSubpageController extends GenericServiceFormPage {
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
   @FXML private JFXButton clearBtn;
@@ -20,11 +21,12 @@ public class MedicineSubPageController extends GenericServiceFormPage {
   @FXML private JFXTextField date;
   @FXML private JFXTextField doctor;
   @FXML private StackPane stackPane;
+  @FXML private JFXComboBox employeeComboBox;
 
   private Settings settings;
 
   // unused constructor
-  public MedicineSubPageController() {}
+  public MedicineSubpageController() {}
 
   // this runs once the FXML loads in to attach functions to components
   @FXML
@@ -52,10 +54,30 @@ public class MedicineSubPageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
+
+    clearIncomplete(patient);
+    clearIncomplete(date);
+    clearIncomplete(doctor);
+    clearIncomplete(medicine);
+    clearIncomplete(employeeComboBox);
+
     if (patient.getText().equals("")
         || date.getText().equals("")
         || doctor.getText().equals("")
         || medicine.getText().equals("")) {
+      if (patient.getText().equals("")|| employeeComboBox.getValue()==null) {
+        incomplete(patient);
+      }
+      if (date.getText().equals("")) {
+        incomplete(date);
+      }
+      if (doctor.getText().equals("")) {
+        incomplete(doctor);
+      }
+      if (medicine.getText().equals("")) {
+        incomplete(medicine);
+      }
+      if(employeeComboBox.getValue() == null){incomplete(employeeComboBox);}
       nonCompleteForm(stackPane);
     } else {
 
@@ -66,6 +88,11 @@ public class MedicineSubPageController extends GenericServiceFormPage {
       service.setDate(date.getText());
       service.setAdditionalInfo(doctor.getText());
       service.setRequester(settings.getCurrentUsername());
+      if (settings.getCurrentPermissions() == 3) {
+        service.setEmployee((String) employeeComboBox.getValue());
+      } else {
+        service.setEmployee("admin");
+      }
 
       try {
         DataOperations.saveService(service);

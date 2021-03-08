@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.SplitPane?>
@@ -15,127 +14,90 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="760.0" stylesheets="/edu/wpi/cs3733/c21/teamY/UIStyles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.AdminPageController">
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="760.0" style="-fx-background-color: ffffff;" stylesheets="/edu/wpi/cs3733/c21/teamY/UIStyles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.AdminPageController">
    <children>
-      <SplitPane fx:id="splitPane" dividerPositions="0.5" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane fx:id="splitPane" dividerPositions="0.8, 0.5" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane fx:id="splitPaneTop" minHeight="0.0" minWidth="0.0" />
-          <AnchorPane fx:id="splitPaneBottom" minHeight="0.0" minWidth="0.0">
+            <AnchorPane maxHeight="51.0" maxWidth="870.0" prefHeight="51.0">
                <children>
-                  <SplitPane fx:id="subSplitPane" dividerPositions="0.6" layoutX="-20.0" layoutY="-42.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <items>
-                      <AnchorPane fx:id="subSplitPaneLeft" minHeight="0.0" minWidth="0.0">
+                  <GridPane prefHeight="51.0" style="-fx-background-color: #5a5c94;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <ComboBox prefWidth="150.0" promptText="Start location Box" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                        <ComboBox fx:id="endLocationBox1" prefWidth="150.0" promptText="End location Box" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                        <SplitMenuButton fx:id="selectNewAlgo1" mnemonicParsing="false" styleClass="button" text="Select New Algorithm" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                           <items>
+                              <MenuItem fx:id="depthFirst1" mnemonicParsing="false" text="Depth First" />
+                              <MenuItem fx:id="breadthFirst1" mnemonicParsing="false" text="Breadth First" />
+                              <MenuItem fx:id="aStar1" mnemonicParsing="false" text="A-Star" />
+                           </items>
+                        </SplitMenuButton>
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane fx:id="splitPaneTop" minHeight="0.0" minWidth="0.0" />
+          <AnchorPane fx:id="splitPaneBottom" minHeight="0.0" minWidth="0.0" prefHeight="100.0">
+               <children>
+                  <GridPane minHeight="194.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints />
+                     </rowConstraints>
+                     <children>
+                        <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                            <children>
-                              <GridPane minHeight="194.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints />
-                                 </rowConstraints>
-                                 <children>
-                                    <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
-                                       <children>
-                                          <CheckBox fx:id="addNodecb" alignment="TOP_CENTER" mnemonicParsing="false" text="add Node" />
-                                          <CheckBox fx:id="addEdgecb" mnemonicParsing="false" text="add Edge" />
-                                          <JFXButton fx:id="deleteButton" text="Delete Selected" />
-                                       </children>
-                                    </VBox>
-                                    <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" GridPane.columnIndex="2">
-                                       <children>
-                                          <JFXButton fx:id="export" alignment="CENTER" text="Export">
-                                             <VBox.margin>
-                                                <Insets bottom="10.0" />
-                                             </VBox.margin>
-                                          </JFXButton>
-                                          <GridPane alignment="TOP_CENTER" prefHeight="104.0" prefWidth="146.0">
-                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                             </columnConstraints>
-                                             <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                             </rowConstraints>
-                                             <children>
-                                                <JFXButton fx:id="panUpButton" text="Up" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-                                                <JFXButton fx:id="panLeftButton" text="Left" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                                                <JFXButton fx:id="panDownButton" text="Down" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                                                <JFXButton fx:id="panRightButton" text="Right" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                                                <JFXButton fx:id="zoomInButton" text="+" GridPane.halignment="RIGHT" />
-                                                <JFXButton fx:id="zoomOutButton" text="-" GridPane.columnIndex="2" />
-                                                <Label text="Control Map" GridPane.columnIndex="1" GridPane.valignment="TOP">
-                                                   <GridPane.margin>
-                                                      <Insets left="-10.0" right="-10.0" />
-                                                   </GridPane.margin>
-                                                </Label>
-                                             </children>
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </GridPane>
-                                          <GridPane alignment="TOP_CENTER" prefHeight="104.0" prefWidth="146.0">
-                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                             </columnConstraints>
-                                             <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                             </rowConstraints>
-                                             <children>
-                                                <JFXButton fx:id="moveNodeUpButton" text="Up" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                                <JFXButton fx:id="moveNodeLeftButton" text="Left" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                                                <JFXButton fx:id="moveNodeDownButton" text="Down" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                                                <JFXButton fx:id="moveNodeRightButton" text="Right" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                                                <Label text="Move Selected Node" GridPane.columnIndex="1" GridPane.valignment="TOP">
-                                                   <GridPane.margin>
-                                                      <Insets left="-25.0" right="-50.0" />
-                                                   </GridPane.margin>
-                                                </Label>
-                                             </children>
-                                          </GridPane>
-                                          <JFXButton fx:id="addNode" text="addNode" visible="false" />
-                                       </children>
-                                    </VBox>
-                                    <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-                                       <children>
-                                          <SplitMenuButton fx:id="selectNewAlgo" mnemonicParsing="false" styleClass="button" text="Select New Algorithm">
-                                             <items>
-                                                <MenuItem fx:id="depthFirst" mnemonicParsing="false" text="Depth First" />
-                                                <MenuItem fx:id="breadthFirst" mnemonicParsing="false" text="Breadth First" />
-                                                <MenuItem fx:id="aStar" mnemonicParsing="false" text="A-Star" />
-                                                <MenuItem fx:id="dijkstra" mnemonicParsing="false" text="Dijkstra" />
-                                             </items>
-                                             <VBox.margin>
-                                                <Insets />
-                                             </VBox.margin>
-                                          </SplitMenuButton>
-                                          <JFXButton fx:id="addEdge" text="Add Edge" />
-                                          <ComboBox fx:id="startLocationBox" prefWidth="150.0" promptText="Start location Box">
-                                             <VBox.margin>
-                                                <Insets bottom="10.0" />
-                                             </VBox.margin>
-                                          </ComboBox>
-                                          <ComboBox fx:id="endLocationBox" prefWidth="150.0" promptText="End location Box" />
-                                          <Button fx:id="secret" mnemonicParsing="false" text="Secret">
-                                             <VBox.margin>
-                                                <Insets top="100.0" />
-                                             </VBox.margin></Button>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </GridPane>
+                              <CheckBox fx:id="addNodecb" alignment="TOP_CENTER" mnemonicParsing="false" text="add Node" />
+                              <CheckBox fx:id="addEdgecb" mnemonicParsing="false" text="add Edge" />
+                              <JFXButton fx:id="deleteButton" text="Delete Selected" />
+                              <JFXButton fx:id="export" alignment="CENTER" text="Export">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </JFXButton>
                            </children>
-                        </AnchorPane>
-                      <AnchorPane fx:id="subSplitPaneRight" minHeight="0.0" minWidth="0.0" />
-                    </items>
-                  </SplitPane>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                           <children>
+                              <SplitMenuButton fx:id="selectNewAlgo" mnemonicParsing="false" styleClass="button" text="Select New Algorithm">
+                                 <items>
+                                    <MenuItem fx:id="depthFirst" mnemonicParsing="false" text="Depth First" />
+                                    <MenuItem fx:id="breadthFirst" mnemonicParsing="false" text="Breadth First" />
+                                    <MenuItem fx:id="aStar" mnemonicParsing="false" text="A-Star" />
+                                 </items>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </SplitMenuButton>
+                              <JFXButton fx:id="addEdge" text="Add Edge" />
+                              <ComboBox fx:id="startLocationBox" prefWidth="150.0" promptText="Start location Box">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </ComboBox>
+                              <ComboBox fx:id="endLocationBox" prefWidth="150.0" promptText="End location Box" />
+                              <Button fx:id="secret" mnemonicParsing="false" text="Secret">
+                                 <VBox.margin>
+                                    <Insets top="100.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                  </GridPane>
                </children></AnchorPane>
         </items>
       </SplitPane>

@@ -37,6 +37,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+@Deprecated
 public class KnockKnockClient {
 
   public static void runClient(String[] args) {

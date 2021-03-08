@@ -1,18 +1,20 @@
-package edu.wpi.cs3733.c21.teamY.pages;
+package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
+import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
-public class LaundrySubPageController extends GenericServiceFormPage {
+public class LaundrySubpageController extends GenericServiceFormPage {
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
   @FXML private JFXButton clearBtn;
@@ -22,13 +24,14 @@ public class LaundrySubPageController extends GenericServiceFormPage {
   @FXML private JFXTextArea description;
   @FXML private JFXComboBox locationField;
   @FXML private StackPane stackPane;
+  @FXML private JFXComboBox employeeComboBox;
 
   private Settings settings;
 
   private ArrayList<String> categories;
 
   // unused constructor
-  public LaundrySubPageController() {}
+  public LaundrySubpageController() {}
 
   // this runs once the FXML loads in to attach functions to components
   @FXML
@@ -48,6 +51,20 @@ public class LaundrySubPageController extends GenericServiceFormPage {
 
     for (String c : categories) category.getItems().add(c);
     locationField.getItems().add("cafeteria");
+
+    if (settings.getCurrentPermissions() == 3) {
+      employeeComboBox.setVisible(true);
+      try {
+        ArrayList<Employee> employeeList = DataOperations.getStaffList();
+        for (Employee employee : employeeList) {
+          employeeComboBox.getItems().add(employee.getEmployeeID());
+        }
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    } else {
+      employeeComboBox.setVisible(false);
+    }
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -58,17 +75,35 @@ public class LaundrySubPageController extends GenericServiceFormPage {
     category.setValue(null);
     description.setText("");
     locationField.setValue(null);
+    employeeComboBox.getSelectionModel().clearSelection();
   }
 
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    if (category.getValue().equals(null)
+    clearIncomplete(category);
+    clearIncomplete(description);
+    clearIncomplete(locationField);
+    clearIncomplete(employeeComboBox);
+
+    if (category.getValue() == null
         || description.getText().equals("")
-        || locationField.getValue().equals(null)) {
+        || locationField.getValue() == null|| employeeComboBox.getValue()==null) {
+      if (category.getValue() == null) {
+        incomplete(category);
+      }
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
+      if (locationField.getValue() == null) {
+        incomplete(locationField);
+      }
+      if(employeeComboBox.getValue() == null){incomplete(employeeComboBox);}
       nonCompleteForm(stackPane);
-    } else {
+    }
+
+    else {
 
       Service service = new Service(this.IDCount, "Laundry");
       this.IDCount++;
@@ -77,6 +112,11 @@ public class LaundrySubPageController extends GenericServiceFormPage {
       service.setDescription(description.getText());
       System.out.println(settings.getCurrentUsername());
       service.setRequester(settings.getCurrentUsername());
+      if (settings.getCurrentPermissions() == 3) {
+        service.setEmployee((String) employeeComboBox.getValue());
+      } else {
+        service.setEmployee("admin");
+      }
 
       try {
         DataOperations.saveService(service);

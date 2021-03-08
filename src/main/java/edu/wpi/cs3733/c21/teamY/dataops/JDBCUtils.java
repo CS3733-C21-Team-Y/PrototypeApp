@@ -745,12 +745,38 @@ public class JDBCUtils {
     }
     resultSet.close();
 
+    return employees;
+  }
+
+  public static ArrayList<Employee> getStaffList() throws SQLException {
+    ArrayList<Employee> employees = new ArrayList<>();
+    PreparedStatement stmt =
+        getConn()
+            .prepareStatement(
+                "select * from ADMIN.EMPLOYEE WHERE ACCESSLEVEL = 2 OR ACCESSLEVEL = 3");
+    java.sql.ResultSet r = stmt.executeQuery();
+    String firstName, lastName, employeeID, password, email, primaryWorkspace;
+    int accessLevel;
+    while (r.next()) {
+      firstName = r.getString(1);
+      lastName = r.getString(2);
+      employeeID = r.getString(3);
+      password = r.getString(4);
+      email = r.getString(5);
+      accessLevel = r.getInt(6);
+      primaryWorkspace = r.getString(7);
+      Employee employee =
+          new Employee(
+              firstName, lastName, employeeID, password, email, accessLevel, primaryWorkspace);
+      employees.add(employee);
+    }
+    r.close();
+
     try {
       close();
     } catch (IOException e) {
       e.printStackTrace();
     }
-
     return employees;
   }
 

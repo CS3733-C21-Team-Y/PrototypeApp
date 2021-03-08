@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.c21.teamY.pages;
+package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -6,7 +6,9 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
+import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
@@ -14,7 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 
-public class MaintenanceSubPageController extends GenericServiceFormPage {
+public class MaintenanceSubpageController extends GenericServiceFormPage {
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
   @FXML private JFXButton clearBtn;
@@ -26,6 +28,7 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
   @FXML private JFXTextField date2;
   @FXML private JFXComboBox locationField;
   @FXML private StackPane stackPane;
+  @FXML private JFXComboBox employeeComboBox;
 
   private Settings settings;
 
@@ -33,7 +36,7 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
   private ArrayList<String> urgencies;
 
   // unused constructor
-  public MaintenanceSubPageController() {}
+  public MaintenanceSubpageController() {}
 
   // this runs once the FXML loads in to attach functions to components
   @FXML
@@ -64,6 +67,19 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
     for (String c : categories) category.getItems().add(c);
     for (String c : urgencies) urgency.getItems().add(c);
     for (String c : locations) locationField.getItems().add(c);
+    if (settings.getCurrentPermissions() == 3) {
+      employeeComboBox.setVisible(true);
+      try {
+        ArrayList<Employee> employeeList = DataOperations.getStaffList();
+        for (Employee employee : employeeList) {
+          employeeComboBox.getItems().add(employee.getEmployeeID());
+        }
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    } else {
+      employeeComboBox.setVisible(false);
+    }
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -76,16 +92,40 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
     description.setText("");
     date2.setText("");
     locationField.setValue(null);
+    employeeComboBox.getSelectionModel().clearSelection();
   }
 
   @FXML
   private void submitBtnClicked() {
 
-    if (category.getValue().equals(null)
+    clearIncomplete(category);
+    clearIncomplete(description);
+    clearIncomplete(urgency);
+    clearIncomplete(date2);
+    clearIncomplete(locationField);
+    clearIncomplete(employeeComboBox);
+
+    if (category.getValue() == null
         || description.getText().equals("")
-        || urgency.getValue().equals(null)
+        || urgency.getValue() == null
         || date2.getText().equals("")
-        || locationField.getValue().equals(null)) {
+        || locationField.getValue() == null|| employeeComboBox.getValue()==null) {
+      if (category.getValue() == null) {
+        incomplete(category);
+      }
+      if (urgency.getValue() == null) {
+        incomplete(urgency);
+      }
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
+      if (date2.getText().equals("")) {
+        incomplete(date2);
+      }
+      if (locationField.getValue() == null) {
+        incomplete(locationField);
+        if(employeeComboBox.getValue() == null){incomplete(employeeComboBox);}
+      }
       nonCompleteForm(stackPane);
     } else {
 
@@ -97,9 +137,14 @@ public class MaintenanceSubPageController extends GenericServiceFormPage {
       service.setCategory((String) category.getValue());
       service.setLocation((String) locationField.getValue());
       service.setDescription(description.getText());
-      service.setUrgency((String) urgency.getValue());
+      service.setAdditionalInfo("Urgency: " + (String) urgency.getValue());
       service.setDate(date2.getText());
       service.setRequester(settings.getCurrentUsername());
+      if (settings.getCurrentPermissions() == 3) {
+        service.setEmployee((String) employeeComboBox.getValue());
+      } else {
+        service.setEmployee("admin");
+      }
 
       try {
         DataOperations.saveService(service);

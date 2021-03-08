@@ -224,7 +224,7 @@ public class GraphEditPageController extends SubPage {
     toolTip.toFront();
 
     initImage();
-    mapInsertController.getFloorMenu().setText("Parking Lot");
+    // mapInsertController.getFloorMenu().setText("Parking Lot");
 
     loadNodesButton.setOnAction(
         e -> {
@@ -232,17 +232,17 @@ public class GraphEditPageController extends SubPage {
           resetComboBoxes();
         });
 
-    int i = 0;
-    for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
-      int index = i;
-      menuItem.setOnAction(
-          e -> {
-            mapInsertController.removeAllAdornerElements();
-            mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(index));
-            mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
-          });
-      i++;
-    }
+    //    int i = 0;
+    //    for (MenuItem menuItem : mapInsertController.getFloorMenu().getItems()) {
+    //      int index = i;
+    //      menuItem.setOnAction(
+    //          e -> {
+    //            mapInsertController.removeAllAdornerElements();
+    //            mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(index));
+    //            mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
+    //          });
+    //      i++;
+    //    }
 
     // attaches a handler to the button with a lambda expression
     //    toHomeBtn.setOnAction(e -> buttonClicked(e));
