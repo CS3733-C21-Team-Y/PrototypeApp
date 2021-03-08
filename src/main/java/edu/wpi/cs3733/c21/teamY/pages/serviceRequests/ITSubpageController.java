@@ -80,9 +80,32 @@ public class ITSubpageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
+    clearIncomplete(categoryComboBox);
+    clearIncomplete(locationComboBox);
+    clearIncomplete(affectsComboBox);
+    clearIncomplete(description);
+    clearIncomplete(employeeComboBox);
+
     if (categoryComboBox.getValue() == null
         || locationComboBox.getValue() == null
-        || affectsComboBox.getValue() == null) {
+        || affectsComboBox.getValue() == null
+        || description.getText().equals("")
+        || employeeComboBox.getValue() == null) {
+      if (categoryComboBox.getValue() == null) {
+        incomplete(categoryComboBox);
+      }
+      if (locationComboBox.getValue() == null) {
+        incomplete(locationComboBox);
+      }
+      if (affectsComboBox.getValue() == null) {
+        incomplete(affectsComboBox);
+      }
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
+      if (employeeComboBox.getValue() == null) {
+        incomplete(employeeComboBox);
+      }
       nonCompleteForm(stackPane);
     } else {
 
@@ -90,7 +113,7 @@ public class ITSubpageController extends GenericServiceFormPage {
       this.IDCount++;
       service.setCategory((String) categoryComboBox.getValue());
       service.setLocation((String) locationComboBox.getValue());
-      service.setAdditionalInfo((String) affectsComboBox.getValue());
+      service.setAdditionalInfo("Affects: " + (String) affectsComboBox.getValue());
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());
       if (settings.getCurrentPermissions() == 3) {
