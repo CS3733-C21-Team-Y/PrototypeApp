@@ -110,11 +110,11 @@ public class MapController extends SubPage {
 
   // these need to be imageViews
   Image parking = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerCampusIT2.png");
-  Image f1 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor1IT2.png");
-  Image f2 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor2IT2.png");
-  Image f3 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor3IT2.png");
-  Image f4 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor4IT2.png");
-  Image f5 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor5IT2.png");
+  Image f1 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor1.png");
+  Image f2 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor2.png");
+  Image f3 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor3.png");
+  Image f4 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor4.png");
+  Image f5 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor5.png");
 
   private Double mouseX;
   private Double mouseY;
