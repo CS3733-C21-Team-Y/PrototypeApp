@@ -248,7 +248,7 @@ public class PathfindingPageController extends SubPage {
           mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
           mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
-          mapInsertController.setDisplayUnselectedAdorners(false);
+          mapInsertController.setDisplayUnselectedAdorners(true);
 
           //          SubPage subPage = parent.rightPageController;
           startLocationBox.requestFocus();
@@ -465,17 +465,31 @@ public class PathfindingPageController extends SubPage {
    * @param e
    * @param menuItemIndex
    */
+  //  private void handleFloorChanged(ActionEvent e, int menuItemIndex) {
+  //    // This should be optimised to only switch if the floor actually changed, but its very fast,
+  // so
+  //    // I cant be bothered
+  //    System.out.println("<3 Geg");
+  //    mapInsertController.removeAllAdornerElements();
+  //    mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
+  //    // System.out.println(nodes.toString());
+  //    mapInsertController.addAdornerElements(nodes, edges, "2");
+  //    // mapInsertController.getAdornerPane().toFront();
+  //    System.out.println("new line");
+  //    // drawPath(pathNodes);
+  //    //    if (lastSelectedComboBox != null) {
+  //    //      lastSelectedComboBox.requestFocus();
+  //    //    }
+  //    // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
+  //  }
+
   private void handleFloorChanged(ActionEvent e, int menuItemIndex) {
     // This should be optimised to only switch if the floor actually changed, but its very fast, so
     // I cant be bothered
-
     mapInsertController.removeAllAdornerElements();
     mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
     mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
-    drawPath(pathNodes);
-    if (lastSelectedComboBox != null) {
-      lastSelectedComboBox.requestFocus();
-    }
+    //    drawPath(pathNodes);
     // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   }
 

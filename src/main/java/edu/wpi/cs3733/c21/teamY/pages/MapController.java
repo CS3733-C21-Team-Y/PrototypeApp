@@ -523,10 +523,20 @@ public class MapController extends SubPage {
             scaleXCoords(node.getXcoord()),
             scaleXCoords(node.getYcoord()),
             baseCircleRadius / adornerPane.getScaleX());
+    System.out.println(node.getNodeID());
     circleEx.setId(node.getNodeID());
     circleEx.setFill(Paint.valueOf("RED"));
     // circleEx.setNode(node);
+    //    System.out.println("About to Add!");
+    //    Button button = new Button("B");
+    //    button.setTranslateX(scaleXCoords(node.getXcoord()));
+    //    button.setTranslateY(scaleXCoords(node.getYcoord()));
+    //    adornerPane.getChildren().add(button);
     adornerPane.getChildren().add(circleEx);
+    circleEx.setOpacity(1);
+    adornerPane.setOpacity(1);
+    circleEx.toFront();
+    // System.out.println("Added!");
 
     if (!displayUnselectedAdorners) {
       circleEx.setVisible(false);
@@ -585,7 +595,8 @@ public class MapController extends SubPage {
   }
 
   protected void addAdornerElements(ArrayList<Node> nodes, ArrayList<Edge> edges, String floor) {
-
+    //    Button button = new Button("BUTTTONNNNNNN");
+    //    adornerPane.getChildren().add(button);
     if (nodes == null || edges == null) {
       System.out.println("Had no nodes or edges!");
     }
@@ -602,6 +613,7 @@ public class MapController extends SubPage {
 
       } else {
         // do nothing
+        // System.out.println(n.floor);
       }
     }
 
