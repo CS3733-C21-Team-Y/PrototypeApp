@@ -109,7 +109,8 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
         || description.getText().equals("")
         || urgency.getValue() == null
         || date2.getText().equals("")
-        || locationField.getValue() == null|| employeeComboBox.getValue()==null) {
+        || locationField.getValue() == null
+        || employeeComboBox.getValue() == null) {
       if (category.getValue() == null) {
         incomplete(category);
       }
@@ -124,7 +125,9 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
       }
       if (locationField.getValue() == null) {
         incomplete(locationField);
-        if(employeeComboBox.getValue() == null){incomplete(employeeComboBox);}
+        if (employeeComboBox.getValue() == null) {
+          incomplete(employeeComboBox);
+        }
       }
       nonCompleteForm(stackPane);
     } else {
