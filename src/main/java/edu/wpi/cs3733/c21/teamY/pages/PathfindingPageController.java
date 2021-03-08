@@ -219,8 +219,12 @@ public class PathfindingPageController extends SubPage {
     // Init Map
     Platform.runLater(
         () -> {
-          mapInsertController =
-              ((NavigationMapController) parent.rightPageController).getMapInsertController();
+          if (parent.isDesktop)
+            mapInsertController =
+                ((NavigationMapController) parent.rightPageController).getMapInsertController();
+          else
+            mapInsertController =
+                ((NavigationMapController) parent.centerPageController).getMapInsertController();
 
           int i = -1;
           for (javafx.scene.Node menuItem : mapInsertController.getFloorList().getChildren()) {
@@ -500,6 +504,11 @@ public class PathfindingPageController extends SubPage {
     } catch (Exception exp) {
     }
   }
+
+  @Override
+  public void loadNavigationBar() {
+    if (!parent.isDesktop) parent.setCenterColumnWidth(350);
+  };
 
   private void generateTextDirections(ArrayList<Node> pathNodes) {
     textDirectionViewer.getChildren().clear();

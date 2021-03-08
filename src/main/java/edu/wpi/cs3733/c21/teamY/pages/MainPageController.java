@@ -162,10 +162,10 @@ public class MainPageController {
         instance.loadRightSubPage("NavigationMap.fxml");
         instance.loadCenterSubPage("PathfindingPage.fxml");
       } else {
-        instance.loadRightSubPage("NavigationMap.fxml");
-        instance.loadCenterSubPage("MobilePathfindingPage.fxml");
+        instance.loadCenterSubPage("NavigationMap.fxml");
+        instance.loadRightSubPage("MobilePathfindingPage.fxml");
 
-        instance.setCenterColumnWidth(200);
+        // instance.setCenterColumnWidth(200);
       }
     } else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
     else if (e.getSource() == origServiceRequestBtn) {
