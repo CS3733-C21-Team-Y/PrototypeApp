@@ -50,7 +50,7 @@ public class PathfindingPageController extends SubPage {
   @FXML private VBox textDirectionsBox;
   @FXML private VBox textDirectionViewer;
   @FXML private JFXButton exitDirectionBtn;
-  @FXML private VBox sideMenuVBox;
+  //  @FXML private VBox sideMenuVBox;
   @FXML private RowConstraints row1;
   // @FXML private Label zoomLabel;
 
@@ -104,11 +104,13 @@ public class PathfindingPageController extends SubPage {
   @FXML
   private void initialize() {
     //    loadMap();
+    textDirectionViewer.setVisible(false);
     textDirectionsBox.setVisible(false);
+    exitDirectionBtn.setVisible(false);
     overlayGridPane.setPickOnBounds(false);
     overlayGridPane.toFront();
 
-    sideMenuVBox.setPickOnBounds(false);
+    //    sideMenuVBox.setPickOnBounds(false);
     exitDirectionBtn.setOnAction(e -> textDirectionsBox.setVisible(false));
     //         attaches a handler to the button with a lambda expression
 
@@ -512,7 +514,7 @@ public class PathfindingPageController extends SubPage {
 
   private void generateTextDirections(ArrayList<Node> pathNodes) {
     textDirectionViewer.getChildren().clear();
-    textDirectionsBox.setVisible(true);
+    if (parent.isDesktop) textDirectionsBox.setVisible(true);
 
     ArrayList<String> directionList = AlgorithmCalls.textDirections(pathNodes);
     for (String direction : directionList) {
