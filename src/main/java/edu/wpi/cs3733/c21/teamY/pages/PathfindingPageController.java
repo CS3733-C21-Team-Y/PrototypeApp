@@ -185,16 +185,6 @@ public class PathfindingPageController extends SubPage {
     noStairsBtn.setOnAction(e -> detourBtnPressed(e));
 
     // Floor selection menu population
-    //    int i = -1;
-    //    for (javafx.scene.Node menuItem : mapInsertController.getFloorList().getChildren()) {
-    //      if (i != -1) {
-    //        int index = i;
-    //        ((JFXButton) menuItem).setOnAction(e -> handleFloorChanged(e, index));
-    //        i++;
-    //      } else {
-    //        i++;
-    //      }
-    //    }
 
     //    upButton.setOnAction(e -> mapInsertController.panOnButtons("up"));
     //    downButton.setOnAction(e -> mapInsertController.panOnButtons("down"));
@@ -233,6 +223,17 @@ public class PathfindingPageController extends SubPage {
         () -> {
           mapInsertController =
               ((NavigationMapController) parent.rightPageController).getMapInsertController();
+
+          int i = -1;
+          for (javafx.scene.Node menuItem : mapInsertController.getFloorList().getChildren()) {
+            if (i != -1) {
+              int index = i;
+              ((JFXButton) menuItem).setOnAction(e -> handleFloorChanged(e, index));
+              i++;
+            } else {
+              i++;
+            }
+          }
 
           // Set handler for Mouse Click Anywhere on Map
           mapInsertController

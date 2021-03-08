@@ -135,6 +135,7 @@ public class MainPageController {
         scene = new Scene(fxmlLoader.load(getClass().getResource("MobileMainPage.fxml")));
         MainPageController controller = (MainPageController) fxmlLoader.getController();
         controller.instance.isDesktop = false;
+        controller.instance.setCenterColumnWidth(0);
       } else {
         scene = new Scene(fxmlLoader.load(getClass().getResource("MainPage.fxml")));
         MainPageController controller = (MainPageController) fxmlLoader.getController();
@@ -156,9 +157,15 @@ public class MainPageController {
     System.out.println("clicked");
     instance.setCenterColumnWidth(0);
     if (e.getSource() == origNavigationBtn) {
-      instance.loadRightSubPage("NavigationMap.fxml");
-      instance.loadCenterSubPage("PathfindingPage.fxml");
+      if (instance.isDesktop) {
+        instance.loadRightSubPage("NavigationMap.fxml");
+        instance.loadCenterSubPage("PathfindingPage.fxml");
+      } else {
+        instance.loadRightSubPage("NavigationMap.fxml");
+        instance.loadCenterSubPage("MobilePathfindingPage.fxml");
 
+        instance.setCenterColumnWidth(200);
+      }
     } else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
     else if (e.getSource() == origServiceRequestBtn) {
       if (instance.isDesktop) {
@@ -166,7 +173,7 @@ public class MainPageController {
         instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
       } else {
         instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
-        setCenterColumnWidth(0);
+        instance.setCenterColumnWidth(0);
       }
     } else if (e.getSource() == origAdminToolsBtn) {
       instance.loadCenterSubPage("AdminPage.fxml");
@@ -219,7 +226,7 @@ public class MainPageController {
         centerPane.setVisible(true);
       }
     }
-    setCenterColumnWidth(width);
+    if (width != 0) setCenterColumnWidth(width);
   }
 
   public void updateCenterPaneVisibility(double width) {
