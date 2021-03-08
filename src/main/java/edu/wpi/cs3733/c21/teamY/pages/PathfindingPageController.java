@@ -127,7 +127,7 @@ public class PathfindingPageController extends SubPage {
     System.out.println("Hellooooo");
     //    mapInsertController =
     //        ((NavigationMapController) parent.rightPageController).getMapInsertController();
-        SubPage subPage = parent.rightPageController;
+    SubPage subPage = parent.rightPageController;
     //    mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
 
     // tooltips
