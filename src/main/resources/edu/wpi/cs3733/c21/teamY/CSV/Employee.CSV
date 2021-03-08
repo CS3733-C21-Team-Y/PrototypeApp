@@ -1,9 +1,8 @@
 firstName,lastName,username,password,email,permissionLevel,department,salt
-cole,cole,cole,h13sTwEyKPZkAfW3dGqoK4qfXzUEdnrClSSVOG91MO4=,cole@cole.com,0,,W8gV
-Wilson,Wong,admin,aBaUbunUW6QUKtnqGpVQIWDGHsc+hBKvJBoy0Fb74EU=,temp@temp.com,3,,T4PHn
-Mike,Jake,employee,BfagyHiVABki8OQGbp7e5JIp+OPL1deNRN458eMkE5A=,mikejake@wpi.edu,2,,9cBMALu2
-your,name,staff,Jij6gSzjC+Vfhm7A+KqAOAXZSI2eyrNaSAExcGzTVnk=,staff@hospital.com,2,,H1m0v
-Pat,Lee,lee,a+1wj06GBvA5gMsEEeT+1glxDMCOAPSG2UXDkGb4eWw=,prlee@wpi.edu,3,,tRj
-first,patient,p1,+kYk9wwh0Lj/x17ALvkirXBVb4E8dqhEpG6qDNNl+E0=,NA@NA.org,1,,uc
-second,patient,p2,TwNgl3WrbpAxX/jwo98igef6RjY/kmsQzcimBTrl+ko=,NA@NA.com,1,,HO
-idc,woo,hashTest,cSkUWiiBrqM6GDJ2x6o+++P+FtzFS9GWxkqJWr7VEN4=,ree@wpi.edu,0,,655Kq
+Wilson,Wong,admin,CC9SL8ow/zpyFKrjUWhuHsKOzatmJgyBZ5MRPxsVItU=,temp@temp.com,3,
+Pat,Lee,lee,ADXhPvT07OI7RMB7HVNuqXb+BopB+03+mplAJk0Bslo=,prlee@wpi.edu,3,
+Mike,Jake,employee,muETBGTaSlXJA+VK1w/CUIvSyZtb013uNa0KNdI+Mmw=,jake@test.com,2,
+Your,Name,staff,QV84IldsCduxiXIH4gU6u13W7LFAWbLMd/1IuSIqZ88=,yn@test.com,2,
+First,Patient,p1,y/VsfGghBYkwFT1MouO8Kcvxbir7h+11TFmNuVKpD6Y=,test@test.com,1,
+Second,Patient,p2,tLvqfAyC7FHNY050jlGC2AIGdK6wQ3okUSwWNVmtyG0=,test@woo.com,1,
+

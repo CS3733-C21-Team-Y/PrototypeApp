@@ -79,7 +79,7 @@ public class LoginPageController extends SubPage {
         unrecognizedUserOrPasswordPopUp(stackPane);
       }
 
-      if (DataOperations.setUserSettings(tryID) || passwordMatch) {
+      if (passwordMatch) {
         DataOperations.setUserSettings(tryID);
         submittedPopUp(stackPane);
 
