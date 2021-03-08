@@ -494,6 +494,7 @@ public class PathfindingPageController extends SubPage {
   private void generateTextDirections(ArrayList<Node> pathNodes) {
     textDirectionViewer.getChildren().clear();
     textDirectionsBox.setVisible(true);
+
     ArrayList<String> directionList = AlgorithmCalls.textDirections(pathNodes);
     for (String direction : directionList) {
 
