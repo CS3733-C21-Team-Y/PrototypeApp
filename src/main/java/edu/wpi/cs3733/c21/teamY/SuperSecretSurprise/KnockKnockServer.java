@@ -9,7 +9,39 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class KnockKnockServer {
+public class KnockKnockServer implements Runnable {
+  private Thread thread;
+  private String threadName;
+  private Node start;
+  private Node end;
+
+  public KnockKnockServer(String threadName, Node start, Node end) {
+    this.threadName = threadName;
+    this.start = start;
+    this.end = end;
+    System.out.println("Creating Thread: " + this.threadName);
+  }
+
+  @Override
+  public void run() {
+    System.out.println("Running Thread: " + this.threadName);
+
+    try {
+      runServer(new String[] {"4444"}, this.start, this.start);
+    } catch (Exception e) {
+      System.out.println("Thread Interrupted: " + this.threadName);
+    }
+
+    System.out.println("Exiting Thread: " + this.threadName);
+  }
+
+  public void start() {
+    System.out.println("Starting Thread: " + this.threadName);
+    if (thread == null) {
+      thread = new Thread(this, this.threadName);
+      thread.start();
+    }
+  }
 
   public void runServer(String[] args, Node start, Node end) {
     ActiveGraph ag = new ActiveGraph();
