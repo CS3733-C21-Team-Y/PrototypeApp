@@ -233,7 +233,7 @@ public class AdminPageController extends SubPage {
                       rightClicked = true;
                     } else {
                       handleMouseDown(e);
-                      hideContextMenus();
+                      resetContextMenus();
                     }
                   });
 
@@ -271,7 +271,7 @@ public class AdminPageController extends SubPage {
           //                    mapInsertController.setBaseLineWidth(5);
           //                    mapInsertController.setSelectedWidthRatio(5.0 / 3);
 
-          defineContextMenus();
+          assignContextMenuActions();
         });
   }
 
@@ -479,17 +479,14 @@ public class AdminPageController extends SubPage {
     jfxNodeBeingDragged = null;
   }
 
-  private ContextMenu nodeContextMenu;
-  private ContextMenu edgeContextMenu;
-  private ContextMenu multiContextMenu;
-  private ContextMenu mapContextMenu;
+  private ContextMenu contextMenu;
 
   private double contextMenuX;
   private double contextMenuY;
 
   private void handleRightClick(MouseEvent e) {
     // Right Clicked Node
-    hideContextMenus();
+    resetContextMenus();
 
     Point2D point = mapInsertController.getAdornerPane().sceneToLocal(e.getSceneX(), e.getSceneY());
     contextMenuX = point.getX();
@@ -510,8 +507,10 @@ public class AdminPageController extends SubPage {
                       == (MapController.CircleEx) e.getPickResult().getIntersectedNode()))) {
         rightClickedNode = (MapController.CircleEx) e.getPickResult().getIntersectedNode();
         rightClickedEdge = null;
-        nodeContextMenu.show(
-            mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+
+        // NODE MENU
+        contextMenu.getItems().addAll(addEdgeMenuItem, deleteMenuItem);
+        contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
       }
       // Right Clicked Edge
       else if (e.getPickResult().getIntersectedNode() instanceof Line
@@ -525,8 +524,10 @@ public class AdminPageController extends SubPage {
         rightClickedNode = null;
         rightClickedEdge =
             (MapController.LineEx) e.getPickResult().getIntersectedNode().getParent();
-        edgeContextMenu.show(
-            mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+
+        // EDGE MENU
+        contextMenu.getItems().addAll(deleteMenuItem);
+        contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
       }
       // Right Clicked MultiSelect
       else if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
@@ -541,45 +542,32 @@ public class AdminPageController extends SubPage {
         alignVertical.setDisable(manyNodes);
         alignHorizontal.setDisable(manyNodes);
 
-        multiContextMenu.show(
-            mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+        // MULTIPLE MENU
+        contextMenu.getItems().addAll(alignHorizontal, alignVertical, deleteMenuItem);
+        contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
       } else {
         mapInsertController.clearSelection();
         rightClickedNode = null; // just in case really
         rightClickedEdge = null;
 
-        mapContextMenu.show(
-            mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+        // MAP MENU
+        contextMenu.getItems().addAll(addNodeMenuItem);
+        contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
       }
     }
   }
   // These are referenced in handler
   MenuItem alignVertical = new MenuItem("Align Nodes Vertically");
   MenuItem alignHorizontal = new MenuItem("Align Nodes Horizontally");
+  MenuItem addEdgeMenuItem = new MenuItem("Edge to...");
+  MenuItem deleteMenuItem = new MenuItem("Delete");
+  MenuItem addNodeMenuItem = new MenuItem("Add Node");
 
-  private void defineContextMenus() {
+  private void assignContextMenuActions() {
 
-    nodeContextMenu = new ContextMenu();
-    edgeContextMenu = new ContextMenu();
-    multiContextMenu = new ContextMenu();
-    mapContextMenu = new ContextMenu();
+    contextMenu = new ContextMenu();
 
-    // NodeMenu
-    MenuItem addEdge = new MenuItem("Edge to...");
-    MenuItem deleteNode = new MenuItem("DeleteN");
-    // EdgeMenu
-    MenuItem deleteEdge = new MenuItem("DeleteE");
-    // MultiMenu
-    MenuItem deleteSelected = new MenuItem("DeleteS");
-    // MapMenu
-    MenuItem addNodeMap = new MenuItem("Add Node");
-
-    nodeContextMenu.getItems().addAll(addEdge, deleteNode);
-    edgeContextMenu.getItems().addAll(deleteEdge);
-    multiContextMenu.getItems().addAll(alignHorizontal, alignVertical, deleteSelected);
-    mapContextMenu.getItems().addAll(addNodeMap);
-
-    addEdge.setOnAction(
+    addEdgeMenuItem.setOnAction(
         event -> {
           // Only happens when right clicking on unselected node or the only node selected.
           if (rightClickedNode != null && !creatingEdge) {
@@ -593,22 +581,12 @@ public class AdminPageController extends SubPage {
       System.out.println("hide node");
     });*/
 
-    deleteNode.setOnAction(
+    deleteMenuItem.setOnAction(
         event -> {
           contextMenuActions_Delete();
         });
 
-    deleteEdge.setOnAction(
-        event -> {
-          contextMenuActions_Delete();
-        });
-
-    deleteSelected.setOnAction(
-        event -> {
-          contextMenuActions_Delete();
-        });
-
-    addNodeMap.setOnAction(
+    addNodeMenuItem.setOnAction(
         event -> {
           createNodeAt(contextMenuX, contextMenuY);
         });
@@ -689,18 +667,10 @@ public class AdminPageController extends SubPage {
     }
   }
 
-  private void hideContextMenus() {
-    if (nodeContextMenu != null) {
-      nodeContextMenu.hide();
-    }
-    if (edgeContextMenu != null) {
-      edgeContextMenu.hide();
-    }
-    if (multiContextMenu != null) {
-      multiContextMenu.hide();
-    }
-    if (mapContextMenu != null) {
-      mapContextMenu.hide();
+  private void resetContextMenus() {
+    if (contextMenu != null) {
+      contextMenu.getItems().remove(0, contextMenu.getItems().size());
+      contextMenu.hide();
     }
   }
 
