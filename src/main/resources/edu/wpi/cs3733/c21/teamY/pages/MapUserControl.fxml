@@ -25,6 +25,7 @@
                   <Image url="/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor1_Updated.png" />
                </image>
             </ImageView>
+            <ImageView fx:id="backingImageView" fitHeight="350.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-color: #0000ff; -fx-border-width: 5;" />
             <Pane fx:id="adornerPane" StackPane.alignment="TOP_LEFT">
                <StackPane.margin>
                   <Insets />
