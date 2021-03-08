@@ -14,6 +14,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -94,7 +95,7 @@ public class AdminPageController extends SubPage {
   @FXML private MenuItem depthFirst;
   @FXML private MenuItem breadthFirst;
   @FXML private MenuItem aStar;
-  @FXML private MenuItem dijkstra;
+  // @FXML private MenuItem dijkstra;
 
   //  @FXML private MenuItem setFloorThreePage;
   //  @FXML private MenuItem setFloorFourPage;
@@ -109,6 +110,8 @@ public class AdminPageController extends SubPage {
 
   MapController.CircleEx rightClickedNode;
   MapController.LineEx rightClickedEdge;
+
+  boolean creatingEdge = false;
 
   public AdminPageController() {}
 
@@ -148,43 +151,47 @@ public class AdminPageController extends SubPage {
                 System.out.println("Set A*");
                 Settings.getSettings().getAlgorithmSelection().setContext(new AStarI());
               });
-          dijkstra.setOnAction(
-              e -> {
-                System.out.println("Set Dijkstra");
-                Settings.getSettings().getAlgorithmSelection().setContext(new DijkstraI());
-              });
+          /*dijkstra.setOnAction(
+          e -> {
+            System.out.println("Set Dijkstra");
+            Settings.getSettings().getAlgorithmSelection().setContext(new DijkstraI());
+          });*/
 
           // Shift!!!!!!
           mapInsertController.getContainerStackPane().requestFocus();
-          anchor.setOnKeyPressed(
-              e -> {
-                mapInsertController.scrollOnPress(e);
+          anchor
+              .getScene()
+              .setOnKeyPressed(
+                  e -> {
+                    mapInsertController.scrollOnPress(e);
 
-                // Should be improved
-                if (e.isShiftDown()) {
-                  shiftPressed = true;
-                } else {
-                  shiftPressed = false;
-                }
-              });
+                    // Should be improved
+                    if (e.isShiftDown()) {
+                      shiftPressed = true;
+                    } else {
+                      shiftPressed = false;
+                    }
+                  });
 
-          anchor.setOnKeyReleased(
-              e -> {
-                mapInsertController.scrollOnRelease(e);
+          anchor
+              .getScene()
+              .setOnKeyReleased(
+                  e -> {
+                    mapInsertController.scrollOnRelease(e);
 
-                if (e.isShiftDown()) {
-                  shiftPressed = true;
-                } else {
-                  shiftPressed = false;
-                }
-              });
+                    if (e.isShiftDown()) {
+                      shiftPressed = true;
+                    } else {
+                      shiftPressed = false;
+                    }
+                  });
 
           deleteButton.setOnAction(
               e -> {
                 removeSelected();
               });
 
-          selectNewAlgo.setText("Select Algorithm");
+          // selectNewAlgo.setText("Select Algorithm");
 
           //          mapInsertController.getMapImageView().setScaleX(0.25);
 
@@ -207,6 +214,20 @@ public class AdminPageController extends SubPage {
                   mapInsertController.shiftedZoom(
                       e, 0, 0 - mapInsertController.getMapImageView().getImage().getHeight() / 2));
 
+          // mouse move
+
+          mapInsertController
+              .getAdornerPane()
+              .setOnMouseMoved(
+                  e -> {
+                    if (creatingEdge) {
+                      edgeCreationLine.setEndX(e.getX());
+                      edgeCreationLine.setEndY(e.getY());
+                      edgeCreationLine.setStrokeWidth(
+                          mapInsertController.getScaledLineWidthSelected());
+                    }
+                  });
+
           //          Mouse Down Override
 
           mapInsertController
@@ -218,7 +239,7 @@ public class AdminPageController extends SubPage {
                       rightClicked = true;
                     } else {
                       handleMouseDown(e);
-                      hideContextMenus();
+                      resetContextMenus();
                     }
                   });
 
@@ -256,35 +277,7 @@ public class AdminPageController extends SubPage {
           //                    mapInsertController.setBaseLineWidth(5);
           //                    mapInsertController.setSelectedWidthRatio(5.0 / 3);
 
-          // TODO right click on map to add node, put this in map controller
-          nodeContextMenu = new ContextMenu();
-          MenuItem moveNode = new MenuItem("Move Node");
-          MenuItem addEdge = new MenuItem("Add Edge");
-          MenuItem hideNode = new MenuItem("Hide Node");
-          MenuItem deleteObject = new MenuItem("Delete Node");
-
-          nodeContextMenu.getItems().addAll(moveNode, addEdge, hideNode, deleteObject);
-
-          moveNode.setOnAction(
-              event -> {
-                if (rightClickedNode != null) {
-                  mapInsertController.selectCircle(rightClickedNode);
-                  rightClickedNode = null;
-                }
-              });
-          addEdge.setOnAction(
-              event -> {
-                mapInsertController.panOnButtons("up");
-              });
-          hideNode.setOnAction(
-              event -> {
-                System.out.println("do nothing");
-              });
-          deleteObject.setOnAction(
-              event -> {
-                mapInsertController.selectCircle(rightClickedNode);
-                removeSelected();
-              });
+          assignContextMenuActions();
         });
   }
 
@@ -411,21 +404,26 @@ public class AdminPageController extends SubPage {
   private void handleMouseReleased(MouseEvent e) {
     // If not letting go of a drag
     mapInsertController.defaultOnMouseReleased(e);
-
     if (!mapInsertController.wasLastClickDrag()
         && !isDraggingAdorner
         && rectangleSelection == null) {
 
       // Node
       if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
-        if (addEdgecb.isSelected() && mapInsertController.getSelectedNodes().size() == 1) {
-          createEdge((MapController.CircleEx) e.getPickResult().getIntersectedNode());
+        if (creatingEdge) {
+          System.out.println("got here");
+          endEdgeCreation((MapController.CircleEx) e.getPickResult().getIntersectedNode());
+          // end the thing
+        } else if (addEdgecb.isSelected() && mapInsertController.getSelectedNodes().size() == 1) {
+          checkBoxCreateEdge((MapController.CircleEx) e.getPickResult().getIntersectedNode());
         } else {
           handleClickOnNode((MapController.CircleEx) e.getPickResult().getIntersectedNode());
         }
       }
       // Edge
-      else if (e.getPickResult().getIntersectedNode() instanceof Line) {
+      else if (!creatingEdge
+          && e.getPickResult().getIntersectedNode() instanceof Line
+          && e.getPickResult().getIntersectedNode().getParent() instanceof MapController.LineEx) {
         handleClickOnEdge(
             (MapController.LineEx) e.getPickResult().getIntersectedNode().getParent());
       }
@@ -445,6 +443,10 @@ public class AdminPageController extends SubPage {
                 && !(e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
                     || e.getPickResult().getIntersectedNode() instanceof MapController.LineEx))
               mapInsertController.clearSelection();
+          }
+
+          if (creatingEdge) {
+            endEdgeCreation(null);
           }
         }
       }
@@ -487,30 +489,218 @@ public class AdminPageController extends SubPage {
     jfxNodeBeingDragged = null;
   }
 
-  private ContextMenu nodeContextMenu;
-  private ContextMenu edgeContextMenu;
-  private ContextMenu multiContextMenu;
+  private ContextMenu contextMenu;
+
+  private double contextMenuX;
+  private double contextMenuY;
 
   private void handleRightClick(MouseEvent e) {
-    if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
-      System.out.println("Bring up context menu i guess");
+    // Right Clicked Node
+    resetContextMenus();
 
-      rightClickedNode = (MapController.CircleEx) e.getPickResult().getIntersectedNode();
+    Point2D point = mapInsertController.getAdornerPane().sceneToLocal(e.getSceneX(), e.getSceneY());
+    contextMenuX = point.getX();
+    contextMenuY = point.getY();
 
-      nodeContextMenu.show(
-          mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+    System.out.println(" " + contextMenuX + " " + contextMenuY);
+
+    if (!isDraggingAdorner && !creatingEdge) {
+
+      ArrayList<MapController.CircleEx> selNodes = mapInsertController.getSelectedNodes();
+      ArrayList<MapController.LineEx> selEdges = mapInsertController.getSelectedEdges();
+
+      if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
+          && selEdges.size() == 0
+          && (selNodes.size() == 0
+              || (selNodes.size() == 1
+                  && selNodes.get(0)
+                      == (MapController.CircleEx) e.getPickResult().getIntersectedNode()))) {
+        rightClickedNode = (MapController.CircleEx) e.getPickResult().getIntersectedNode();
+        rightClickedEdge = null;
+
+        // NODE MENU
+        contextMenu.getItems().addAll(addEdgeMenuItem, deleteMenuItem);
+        contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+      }
+      // Right Clicked Edge
+      else if (e.getPickResult().getIntersectedNode() instanceof Line
+          && e.getPickResult().getIntersectedNode().getParent() instanceof MapController.LineEx
+          && selNodes.size() == 0
+          && (selEdges.size() == 0
+              || (selEdges.size() == 1
+                  && selEdges.get(0)
+                      == (MapController.LineEx)
+                          e.getPickResult().getIntersectedNode().getParent()))) {
+        rightClickedNode = null;
+        rightClickedEdge =
+            (MapController.LineEx) e.getPickResult().getIntersectedNode().getParent();
+
+        // EDGE MENU
+        contextMenu.getItems().addAll(makeNodeHorizontal, makeNodeVertical, deleteMenuItem);
+        contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+      }
+      // Right Clicked MultiSelect
+      else if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
+          || (e.getPickResult().getIntersectedNode() instanceof Line
+              && e.getPickResult().getIntersectedNode().getParent()
+                  instanceof MapController.LineEx)) {
+        rightClickedNode = null; // just in case really
+        rightClickedEdge = null;
+
+        boolean manyNodes = mapInsertController.getSelectedNodes().size() < 2;
+        // disables them if <2, enables otherwise.
+        alignVertical.setDisable(manyNodes);
+        alignHorizontal.setDisable(manyNodes);
+
+        // MULTIPLE MENU
+        contextMenu.getItems().addAll(alignHorizontal, alignVertical, deleteMenuItem);
+        contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+      } else {
+        mapInsertController.clearSelection();
+        rightClickedNode = null; // just in case really
+        rightClickedEdge = null;
+
+        // MAP MENU
+        contextMenu.getItems().addAll(addNodeMenuItem);
+        contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+      }
+    }
+  }
+  // These are referenced in handler
+  MenuItem alignVertical = new MenuItem("Align Nodes Vertically");
+  MenuItem alignHorizontal = new MenuItem("Align Nodes Horizontally");
+  MenuItem addEdgeMenuItem = new MenuItem("Edge to...");
+  MenuItem addNodeMenuItem = new MenuItem("Add Node");
+  MenuItem makeNodeVertical = new MenuItem("Make Vertical");
+  MenuItem makeNodeHorizontal = new MenuItem("Make Horizontal");
+  MenuItem deleteMenuItem = new MenuItem("Delete");
+
+  private void assignContextMenuActions() {
+
+    contextMenu = new ContextMenu();
+
+    addEdgeMenuItem.setOnAction(
+        event -> {
+          // Only happens when right clicking on unselected node or the only node selected.
+          if (rightClickedNode != null && !creatingEdge) {
+            mapInsertController.selectCircle(rightClickedNode);
+            startEdgeCreation(rightClickedNode);
+          }
+        });
+
+    /*hideNode.setOnAction(
+    event -> {
+      System.out.println("hide node");
+    });*/
+
+    deleteMenuItem.setOnAction(
+        event -> {
+          contextMenuActions_Delete();
+        });
+
+    addNodeMenuItem.setOnAction(
+        event -> {
+          createNodeAt(contextMenuX, contextMenuY);
+        });
+
+    alignHorizontal.setOnAction(
+        event -> {
+          contextMenuActions_Align(false);
+        });
+
+    alignVertical.setOnAction(
+        event -> {
+          contextMenuActions_Align(true);
+        });
+
+    makeNodeVertical.setOnAction(
+        event -> {
+          contextMenuActions_MakeEdgeVertical();
+        });
+    makeNodeHorizontal.setOnAction(
+        event -> {
+          contextMenuActions_MakeEdgeHorizontal();
+        });
+  }
+
+  private void contextMenuActions_Delete() {
+
+    if (rightClickedNode != null) {
+      mapInsertController.selectCircle(rightClickedNode);
+      rightClickedNode = null;
+    } else if (rightClickedEdge != null) {
+      mapInsertController.selectLine(rightClickedEdge);
+      rightClickedEdge = null;
+    }
+    removeSelected();
+  }
+
+  // Should combine these
+  private void contextMenuActions_Align(boolean vertical) {
+    double centerX = 0;
+    double centerY = 0;
+    if (rightClickedNode != null) {
+      centerX = rightClickedNode.getCenterX();
+      centerY = rightClickedNode.getCenterY();
+    } else if (rightClickedEdge != null) {
+      centerX = contextMenuX;
+      centerY = contextMenuX;
+    } else {
+      MapController.CircleEx centerNode =
+          mapInsertController
+              .getSelectedNodes()
+              .get(mapInsertController.getSelectedNodes().size() - 1);
+      centerX = centerNode.getCenterX();
+      centerY = centerNode.getCenterY();
+    }
+
+    for (MapController.CircleEx c : mapInsertController.getSelectedNodes()) {
+      if (vertical) {
+        c.setCenterY(centerY);
+      } else {
+        c.setCenterX(centerX);
+      }
+
+      movedNodes = new ArrayList<MapController.CircleEx>();
+      if (!movedNodes.contains(c)) {
+        movedNodes.add(c);
+      }
+
+      c.updateAdjacentEdges();
+
+      updateNodePositionsInDB();
+      movedNodes = new ArrayList<MapController.CircleEx>();
     }
   }
 
-  private void hideContextMenus() {
-    if (nodeContextMenu != null) {
-      nodeContextMenu.hide();
+  private void contextMenuActions_MakeEdgeVertical() {
+    if (rightClickedEdge != null) {
+      if (rightClickedEdge.startNode != null) {
+        mapInsertController.selectCircle(rightClickedEdge.startNode);
+      }
+      if (rightClickedEdge.endNode != null) {
+        mapInsertController.selectCircle(rightClickedEdge.endNode);
+      }
+      contextMenuActions_Align(false);
     }
-    if (edgeContextMenu != null) {
-      edgeContextMenu.hide();
+  }
+
+  private void contextMenuActions_MakeEdgeHorizontal() {
+    if (rightClickedEdge != null) {
+      if (rightClickedEdge.startNode != null) {
+        mapInsertController.selectCircle(rightClickedEdge.startNode);
+      }
+      if (rightClickedEdge.endNode != null) {
+        mapInsertController.selectCircle(rightClickedEdge.endNode);
+      }
+      contextMenuActions_Align(true);
     }
-    if (multiContextMenu != null) {
-      multiContextMenu.hide();
+  }
+
+  private void resetContextMenus() {
+    if (contextMenu != null) {
+      contextMenu.getItems().remove(0, contextMenu.getItems().size());
+      contextMenu.hide();
     }
   }
 
@@ -627,32 +817,35 @@ public class AdminPageController extends SubPage {
   private void createNodecb(MouseEvent e) {
     // when the add node checkbox is selected, the new nodes can be created
     // wherever the mouse clicks withing the scene
-    String nodeID = String.valueOf(nodeIDCounter);
-    nodeIDCounter++;
     if (addNodecb.isSelected()) {
-      edu.wpi.cs3733.c21.teamY.entity.Node n =
-          new edu.wpi.cs3733.c21.teamY.entity.Node(
-              Math.floor(mapInsertController.scaleUpXCoords(e.getX())),
-              Math.floor(mapInsertController.scaleUpYCoords(e.getY())),
-              mapInsertController.floorNumber,
-              nodeID);
-      // JDBCUtils.insert(10, n, "NODE");
-      // JDBCUtils.insert(JDBCUtils.insertString(n));
-      //    JDBCUtils.insert(9, n, "Node");
-
-      try {
-        JDBCUtils.insert(9, n, "Node");
-      } catch (Exception exception) {
-        System.out.println("nodeEdgeDispController.createNodecb");
-        return;
-      }
-      mapInsertController.clearSelection();
-      MapController.CircleEx c = mapInsertController.addNodeCircle(n);
-      mapInsertController.selectCircle(c);
+      createNodeAt(
+          Math.floor(mapInsertController.scaleUpXCoords(e.getX())),
+          Math.floor(mapInsertController.scaleUpYCoords(e.getY())));
     }
   }
 
-  private void createEdge(MapController.CircleEx endNode) {
+  private void createNodeAt(double x, double y) {
+    String nodeID = String.valueOf(nodeIDCounter);
+    nodeIDCounter++;
+
+    edu.wpi.cs3733.c21.teamY.entity.Node n =
+        new edu.wpi.cs3733.c21.teamY.entity.Node(x, y, mapInsertController.floorNumber, nodeID);
+    // JDBCUtils.insert(10, n, "NODE");
+    // JDBCUtils.insert(JDBCUtils.insertString(n));
+    //    JDBCUtils.insert(9, n, "Node");
+
+    try {
+      JDBCUtils.insert(9, n, "Node");
+    } catch (Exception exception) {
+      System.out.println("nodeEdgeDispController.createNodecb");
+      return;
+    }
+    mapInsertController.clearSelection();
+    MapController.CircleEx c = mapInsertController.addNodeCircle(n);
+    mapInsertController.selectCircle(c);
+  }
+
+  private void checkBoxCreateEdge(MapController.CircleEx endNode) {
     // creates an edge between two selected points when the checkbox is selected
     ArrayList<MapController.CircleEx> selectedNodes = mapInsertController.getSelectedNodes();
     if (addEdgecb.isSelected() && selectedNodes.size() == 1 && endNode != selectedNodes.get(0)) {
@@ -694,6 +887,73 @@ public class AdminPageController extends SubPage {
       mapInsertController.clearSelection();
       mapInsertController.selectLine(mapInsertController.addEdgeLine(ed));
     }
+  }
+
+  Line edgeCreationLine = null;
+
+  private void startEdgeCreation(MapController.CircleEx startNode) {
+    creatingEdge = true;
+    edgeCreationLine =
+        new Line(
+            startNode.getCenterX(),
+            startNode.getCenterY(),
+            startNode.getCenterX(),
+            startNode.getCenterY());
+
+    edgeCreationLine.setStroke(Paint.valueOf("BLUE"));
+    edgeCreationLine.setStrokeWidth(mapInsertController.getScaledLineWidthSelected());
+    mapInsertController.getAdornerPane().getChildren().add(edgeCreationLine);
+    edgeCreationLine.toBack();
+  }
+
+  private void endEdgeCreation(MapController.CircleEx endNode) {
+    if (endNode != null) {
+      contextMenuCreateEdge(endNode);
+    }
+    mapInsertController.getAdornerPane().getChildren().remove(edgeCreationLine);
+    edgeCreationLine = null;
+    creatingEdge = false;
+  }
+
+  // ONLY TO BE USED BY CONTEXT MENU FOR NOW (FIRST NODE IS SELECTED, SECOND NODE IS CLICKED)
+  private void contextMenuCreateEdge(MapController.CircleEx endNode) {
+    MapController.CircleEx lastSelectedNode = mapInsertController.getSelectedNodes().get(0);
+
+    try {
+      startNodeID = lastSelectedNode.getId();
+      startx = lastSelectedNode.getCenterX();
+      starty = lastSelectedNode.getCenterY();
+    } catch (Exception exception) {
+      System.out.println("Could not identify start point");
+      return;
+    }
+
+    try {
+      endNodeID = endNode.getId();
+      endx = endNode.getCenterX();
+      endy = endNode.getCenterY();
+    } catch (Exception exception) {
+      System.out.println("Could not identify end point");
+      return;
+    }
+
+    // creating the line and adding as a child to the pane
+    String edgeID = startNodeID + "_" + endNodeID;
+    Edge ed = new Edge(edgeID, startNodeID, endNodeID);
+
+    // JDBCUtils.insert(3, ed, "EDGE");
+    // JDBCUtils.insert(JDBCUtils.insertString(ed));
+
+    try {
+      //          DatabaseQueryAdministrator.insertEdge(ed);
+      JDBCUtils.insert(3, ed, "Edge");
+    } catch (Exception exception) {
+      System.out.println("nodeEdgeDispController.createEdgecb");
+      return;
+    }
+    //        CSV.saveEdge(ed);
+    mapInsertController.clearSelection();
+    mapInsertController.selectLine(mapInsertController.addEdgeLine(ed));
   }
 
   //        @FXML
