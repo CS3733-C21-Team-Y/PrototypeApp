@@ -1,77 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="760.0" style="-fx-background-color: ffffff;" stylesheets="/edu/wpi/cs3733/c21/teamY/UIStyles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.NavigationMapController">
    <children>
-      <SplitPane fx:id="splitPane" dividerPositions="0.8" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane fx:id="splitPane" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane fx:id="splitPaneTop" minHeight="0.0" minWidth="0.0" />
-          <AnchorPane fx:id="splitPaneBottom" minHeight="0.0" minWidth="0.0" prefHeight="200.0">
-               <children>
-                  <GridPane minHeight="194.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints />
-                     </rowConstraints>
-                     <children>
-                        <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
-                           <children>
-                              <CheckBox fx:id="addNodecb" alignment="TOP_CENTER" mnemonicParsing="false" text="add Node" />
-                              <CheckBox fx:id="addEdgecb" mnemonicParsing="false" text="add Edge" />
-                              <JFXButton fx:id="deleteButton" text="Delete Selected" />
-                              <JFXButton fx:id="export" alignment="CENTER" text="Export">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </JFXButton>
-                           </children>
-                        </VBox>
-                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-                           <children>
-                              <SplitMenuButton fx:id="selectNewAlgo" mnemonicParsing="false" styleClass="button" text="Select New Algorithm">
-                                 <items>
-                                    <MenuItem fx:id="depthFirst" mnemonicParsing="false" text="Depth First" />
-                                    <MenuItem fx:id="breadthFirst" mnemonicParsing="false" text="Breadth First" />
-                                    <MenuItem fx:id="aStar" mnemonicParsing="false" text="A-Star" />
-                                 </items>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </SplitMenuButton>
-                              <JFXButton fx:id="addEdge" text="Add Edge" />
-                              <ComboBox fx:id="startLocationBox" prefWidth="150.0" promptText="Start location Box">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </ComboBox>
-                              <ComboBox fx:id="endLocationBox" prefWidth="150.0" promptText="End location Box" />
-                              <Button fx:id="secret" mnemonicParsing="false" text="Secret">
-                                 <VBox.margin>
-                                    <Insets top="100.0" />
-                                 </VBox.margin>
-                              </Button>
-                           </children>
-                        </VBox>
-                     </children>
-                  </GridPane>
-               </children></AnchorPane>
         </items>
       </SplitPane>
    </children>

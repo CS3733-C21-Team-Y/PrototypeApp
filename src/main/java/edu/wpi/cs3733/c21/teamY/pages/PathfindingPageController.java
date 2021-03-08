@@ -124,11 +124,6 @@ public class PathfindingPageController extends SubPage {
     //    zoomOutButton.toFront();
 
     // Set the starting image early because otherwise it will flash default
-    System.out.println("Hellooooo");
-    //    mapInsertController =
-    //        ((NavigationMapController) parent.rightPageController).getMapInsertController();
-        SubPage subPage = parent.rightPageController;
-    //    mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
 
     // tooltips
 
@@ -212,17 +207,8 @@ public class PathfindingPageController extends SubPage {
 
     // zoomLabel.setText("Zoom");
 
-    // Set handler for Mouse Click Anywhere on Map
-    //    mapInsertController
-    //        .getAdornerPane()
-    //        .setOnMouseReleased(
-    //            e -> {
-    //              handleClickOnMap(e);
-    //            });
-
     // Select startNodeBox
     startLocationBox.requestFocus();
-    // mapInsertController.setDisplayUnselectedAdorners(false);
 
     // Init Graph
     resetGraphNodesEdges();
@@ -245,12 +231,25 @@ public class PathfindingPageController extends SubPage {
     // Init Map
     Platform.runLater(
         () -> {
-          //          mapInsertController.removeAllAdornerElements();
-          //          // mapInsertController.getFloorMenu().setText("Parking");
-          //          mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
-          //          mapInsertController.addAdornerElements(nodes, edges,
-          // mapInsertController.floorNumber);
+          mapInsertController =
+              ((NavigationMapController) parent.rightPageController).getMapInsertController();
 
+          // Set handler for Mouse Click Anywhere on Map
+          mapInsertController
+              .getAdornerPane()
+              .setOnMouseReleased(
+                  e -> {
+                    handleClickOnMap(e);
+                  });
+          mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
+          mapInsertController.removeAllAdornerElements();
+          // mapInsertController.getFloorMenu().setText("Parking");
+          mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
+          mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
+
+          mapInsertController.setDisplayUnselectedAdorners(false);
+
+          //          SubPage subPage = parent.rightPageController;
           startLocationBox.requestFocus();
 
           // overlayGridPane.maxWidthProperty().bind(getWidth());
@@ -506,6 +505,7 @@ public class PathfindingPageController extends SubPage {
   }
 
   // PATHFINDING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
   /** resetGraphNodesEdges sets graph, nodes, stairs, to updated values in ActiveGraph */
   private void resetGraphNodesEdges() {
     try {
