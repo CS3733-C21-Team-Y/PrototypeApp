@@ -52,7 +52,7 @@ public class LandingPageController extends SubPage implements Initializable {
 
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == loginBtn) parent.loadRightSubPage("LoginPage.fxml");
-    if (e.getSource() == guestBtn) parent.loadRightSubPage("LoginPage.fxml");
+    if (e.getSource() == guestBtn) parent.loadRightSubPage("CovidScreening.fxml");
   }
 
   @Override
