@@ -14,7 +14,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -185,7 +184,7 @@ public class AdminPageController extends SubPage {
                 removeSelected();
               });
 
-          selectNewAlgo.setText("Select Algorithm");
+          // selectNewAlgo.setText("Select Algorithm");
 
           //          mapInsertController.getMapImageView().setScaleX(0.25);
 
@@ -413,7 +412,7 @@ public class AdminPageController extends SubPage {
       // Edge
       else if (!creatingEdge
           && e.getPickResult().getIntersectedNode() instanceof Line
-          && e.getPickResult().getIntersectedNode().getParent() instanceof Group) {
+          && e.getPickResult().getIntersectedNode().getParent() instanceof MapController.LineEx) {
         handleClickOnEdge(
             (MapController.LineEx) e.getPickResult().getIntersectedNode().getParent());
       }
@@ -484,60 +483,101 @@ public class AdminPageController extends SubPage {
   private ContextMenu multiContextMenu;
 
   private void handleRightClick(MouseEvent e) {
-    if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
-      System.out.println("Bring up context menu i guess");
+    // Right Clicked Node
+    if (!isDraggingAdorner && !creatingEdge) {
 
-      rightClickedNode = (MapController.CircleEx) e.getPickResult().getIntersectedNode();
+      ArrayList<MapController.CircleEx> selNodes = mapInsertController.getSelectedNodes();
+      ArrayList<MapController.LineEx> selEdges = mapInsertController.getSelectedEdges();
 
-      nodeContextMenu.show(
-          mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+      if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
+          && (selNodes.size() == 0
+              || (selNodes.size() == 1 && selNodes.get(0) == rightClickedNode))) {
+        rightClickedNode = (MapController.CircleEx) e.getPickResult().getIntersectedNode();
+        rightClickedEdge = null;
+        nodeContextMenu.show(
+            mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+      }
+      // Right Clicked Edge
+      else if (e.getPickResult().getIntersectedNode() instanceof Line
+          && e.getPickResult().getIntersectedNode().getParent() instanceof MapController.LineEx
+          && (selEdges.size() == 0
+              || (selEdges.size() == 1 && selEdges.get(0) == rightClickedEdge))) {
+        rightClickedNode = null;
+        rightClickedEdge =
+            (MapController.LineEx) e.getPickResult().getIntersectedNode().getParent();
+        edgeContextMenu.show(
+            mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+      }
+      // Right Clicked MultiSelect
+      else if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
+          || (e.getPickResult().getIntersectedNode() instanceof Line
+              && e.getPickResult().getIntersectedNode().getParent()
+                  instanceof MapController.LineEx)) {
+        rightClickedNode = null; // just in case really
+        rightClickedEdge = null;
+
+        multiContextMenu.show(
+            mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+      }
     }
   }
 
   private void defineContextMenus() {
 
     nodeContextMenu = new ContextMenu();
-    MenuItem selectNode = new MenuItem("Select");
-    MenuItem addEdge = new MenuItem("Add Edge");
-    MenuItem hideNode = new MenuItem("Hide Node");
-    MenuItem deleteObject = new MenuItem("Delete Node");
+    edgeContextMenu = new ContextMenu();
+    multiContextMenu = new ContextMenu();
 
-    nodeContextMenu.getItems().addAll(selectNode, addEdge, hideNode, deleteObject);
+    // MenuItem hideNode = new MenuItem("Hide Node");
+    MenuItem addEdge = new MenuItem("Edge to...");
+    MenuItem deleteNode = new MenuItem("Delete");
+    MenuItem deleteEdge = new MenuItem("Delete");
+    MenuItem deleteSelected = new MenuItem("Delete");
 
-    selectNode.setOnAction(
-        event -> {
-          if (rightClickedNode != null) {
-            mapInsertController.selectCircle(rightClickedNode);
-            rightClickedNode = null;
-          } else if (rightClickedEdge != null) {
-            mapInsertController.selectLine(rightClickedEdge);
-            rightClickedEdge = null;
-          }
-        });
+    nodeContextMenu.getItems().addAll(addEdge, deleteNode);
+    edgeContextMenu.getItems().addAll(deleteEdge);
+    multiContextMenu.getItems().addAll(deleteSelected);
 
     addEdge.setOnAction(
         event -> {
           // Only happens when right clicking on unselected node or the only node selected.
-          ArrayList<MapController.CircleEx> selNodes = mapInsertController.getSelectedNodes();
-          if (rightClickedNode != null
-              && !creatingEdge
-              && (selNodes.size() == 0
-                  || (selNodes.size() == 1 && selNodes.get(0) == rightClickedNode))) {
+          if (rightClickedNode != null && !creatingEdge) {
             mapInsertController.selectCircle(rightClickedNode);
             startEdgeCreation(rightClickedNode);
           }
         });
 
-    hideNode.setOnAction(
+    /*hideNode.setOnAction(
+    event -> {
+      System.out.println("hide node");
+    });*/
+
+    deleteNode.setOnAction(
         event -> {
-          System.out.println("hide node");
+          contextMenuActions_Delete();
         });
 
-    deleteObject.setOnAction(
+    deleteEdge.setOnAction(
         event -> {
-          mapInsertController.selectCircle(rightClickedNode);
-          removeSelected();
+          contextMenuActions_Delete();
         });
+
+    deleteSelected.setOnAction(
+        event -> {
+          contextMenuActions_Delete();
+        });
+  }
+
+  private void contextMenuActions_Delete() {
+
+    if (rightClickedNode != null) {
+      mapInsertController.selectCircle(rightClickedNode);
+      rightClickedNode = null;
+    } else if (rightClickedEdge != null) {
+      mapInsertController.selectLine(rightClickedEdge);
+      rightClickedEdge = null;
+    }
+    removeSelected();
   }
 
   private void hideContextMenus() {
