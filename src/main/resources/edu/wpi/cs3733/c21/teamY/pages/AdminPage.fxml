@@ -39,6 +39,7 @@
                               <MenuItem fx:id="depthFirst1" mnemonicParsing="false" text="Depth First" />
                               <MenuItem fx:id="breadthFirst1" mnemonicParsing="false" text="Breadth First" />
                               <MenuItem fx:id="aStar1" mnemonicParsing="false" text="A-Star" />
+                              <MenuItem fx:id="dijkstra" mnemonicParsing="false" text="Dijkstra" />
                            </items>
                         </SplitMenuButton>
                      </children>
