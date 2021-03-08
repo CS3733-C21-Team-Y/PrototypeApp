@@ -7,39 +7,51 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.ServiceRequestInfoElementController">
+<AnchorPane prefHeight="50.0" prefWidth="803.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.ServiceRequestInfoElementController">
    <children>
-      <GridPane alignment="CENTER_LEFT" layoutX="100.0" layoutY="140.0" maxHeight="40.0" style="-fx-background-color: efeff9; -fx-background-radius: 30;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="10.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" percentWidth="35.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="489.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <effect>
-            <DropShadow color="#c1c1c1" />
-         </effect>
+      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="title" text="Example" textFill="#5a5c94">
-               <GridPane.margin>
-                  <Insets left="30.0" />
-               </GridPane.margin>
-               <font>
-                  <Font name="Calibri Bold" size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="data" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="800.0" text="Information" textFill="#5a5c94" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
-               <GridPane.margin>
-                  <Insets right="30.0" />
-               </GridPane.margin>
-               <font>
-                  <Font name="Calibri" size="18.0" />
-               </font>
-            </Label>
+            <GridPane alignment="CENTER_LEFT" maxHeight="224.0" prefHeight="224.0" prefWidth="753.0" style="-fx-background-color: efeff9; -fx-background-radius: 30;">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="35.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="489.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <effect>
+                  <DropShadow color="#c1c1c1" />
+               </effect>
+               <children>
+                  <Label fx:id="title" text="Example" textFill="#5a5c94">
+                     <GridPane.margin>
+                        <Insets left="30.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Calibri Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="data" alignment="CENTER_RIGHT" prefHeight="374.0" prefWidth="484.0" text="long oloiodof osd fhodhf dofh sofih osidhfo soidfh oishdoifhsiodf sidhfoisdhf sodifh osdifhosdifh sdoifh " textAlignment="RIGHT" textFill="#5a5c94" wrapText="true">
+                           <font>
+                              <Font name="Calibri" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </GridPane>
          </children>
-      </GridPane>
+      </VBox>
    </children>
 </AnchorPane>
