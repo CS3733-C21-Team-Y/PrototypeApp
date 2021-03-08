@@ -489,7 +489,10 @@ public class PathfindingPageController extends SubPage {
     mapInsertController.removeAllAdornerElements();
     mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
     mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
-    //    drawPath(pathNodes);
+    drawPath(pathNodes);
+    if (lastSelectedComboBox != null) {
+      lastSelectedComboBox.requestFocus();
+    }
     // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   }
 
