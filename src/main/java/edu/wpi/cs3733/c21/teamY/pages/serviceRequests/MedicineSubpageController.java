@@ -65,7 +65,9 @@ public class MedicineSubpageController extends GenericServiceFormPage {
         || date.getText().equals("")
         || doctor.getText().equals("")
         || medicine.getText().equals("")) {
-      if (patient.getText().equals("") || employeeComboBox.getValue() == null) {
+      if (patient.getText().equals("")
+          || (Settings.getSettings().getCurrentPermissions() == 3
+              && employeeComboBox.getValue() == null)) {
         incomplete(patient);
       }
       if (date.getText().equals("")) {
@@ -104,6 +106,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
         e.printStackTrace();
       }
       submittedPopUp(stackPane);
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
       clearButton();
     }
   }

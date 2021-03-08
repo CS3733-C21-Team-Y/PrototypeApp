@@ -3,22 +3,18 @@ package edu.wpi.cs3733.c21.teamY.pages;
 import com.dlsc.gmapsfx.GoogleMapView;
 import com.dlsc.gmapsfx.MapComponentInitializedListener;
 import com.dlsc.gmapsfx.javascript.object.*;
-import com.dlsc.gmapsfx.service.directions.DirectionStatus;
-import com.dlsc.gmapsfx.service.directions.DirectionsRenderer;
-import com.dlsc.gmapsfx.service.directions.DirectionsRequest;
-import com.dlsc.gmapsfx.service.directions.DirectionsResult;
-import com.dlsc.gmapsfx.service.directions.DirectionsService;
-import com.dlsc.gmapsfx.service.directions.DirectionsServiceCallback;
-import com.dlsc.gmapsfx.service.directions.TravelModes;
+import com.dlsc.gmapsfx.service.directions.*;
 import com.dlsc.gmapsfx.shapes.Rectangle;
 import com.dlsc.gmapsfx.shapes.RectangleOptions;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 
 public class GoogleMapsController extends SubPage
@@ -28,18 +24,18 @@ public class GoogleMapsController extends SubPage
   protected DirectionsPane directionsPane;
 
   protected StringProperty from = new SimpleStringProperty();
-  protected StringProperty to = new SimpleStringProperty();
   protected DirectionsRenderer directionsRenderer = null;
 
   @FXML protected GoogleMapView mapView;
-
-  //  @FXML protected TextField fromTextField; //Uncomment to enable Google Maps Directions 1/4
-  //  @FXML protected TextField toTextField; //Uncomment to enable Google Maps Directions 2/4
+  @FXML protected TextField fromTextField;
 
   @FXML
-  private void toTextFieldAction(ActionEvent event) {
+  private void textFieldAction(ActionEvent event) {
+    if (directionsRenderer != null) {
+      directionsRenderer.clearDirections();
+    }
     DirectionsRequest request =
-        new DirectionsRequest(from.get(), to.get(), TravelModes.DRIVING, true);
+        new DirectionsRequest(from.get(), "42.301099, -71.127548", TravelModes.DRIVING, false);
     directionsRenderer = new DirectionsRenderer(true, mapView.getMap(), directionsPane);
     directionsService.getRoute(request, this, directionsRenderer);
   }
@@ -47,19 +43,38 @@ public class GoogleMapsController extends SubPage
   @FXML
   private void clearDirections(ActionEvent event) {
     directionsRenderer.clearDirections();
+    fromTextField.setText("");
   }
 
   @Override
-  public void directionsReceived(DirectionsResult results, DirectionStatus status) {}
+  public void directionsReceived(DirectionsResult results, DirectionStatus status) {
+    System.out.println("Directions Received");
+    DirectionsRoute route = results.getRoutes().get(0);
+    List<DirectionsLeg> legs = route.getLegs();
+    List<DirectionsSteps> allSteps = null;
+    System.out.println("Done Initalizing");
+    for (DirectionsLeg leg : legs) {
+      for (DirectionsSteps step : leg.getSteps()) {
+        allSteps.add(step);
+      }
+    }
+    System.out.println("Done Parsing Legs");
+    List<String> instructions = null;
+    for (DirectionsSteps step : allSteps) {
+      instructions.add(step.getInstructions());
+    }
+    System.out.println("Done Parsing instructions");
+    for (String instruction : instructions) {
+      System.out.println(instruction);
+    }
+    System.out.println("Done parsing directions");
+  }
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     mapView.addMapInitializedListener(this);
     mapView.setKey("AIzaSyCig6oYQaLjCSUUSL2T-eRIRLYfv_NeSMo");
-    //    to.bindBidirectional(toTextField.textProperty()); //Uncomment to enable Google Maps
-    // Directions 3/4
-    //    from.bindBidirectional(fromTextField.textProperty()); //Uncomment to enable Google Maps
-    // Directions 4/4
+    from.bindBidirectional(fromTextField.textProperty());
   }
 
   @Override
@@ -71,9 +86,13 @@ public class GoogleMapsController extends SubPage
         .zoom(18)
         .overviewMapControl(false)
         .mapType(MapTypeIdEnum.ROADMAP);
-    GoogleMap map = mapView.createMap(options);
-    map.setHeading(50.0);
-    //    addRectToMap(map);
+    if (parent.isDesktop) {
+      GoogleMap map = mapView.createMap(options, true);
+    } else {
+      GoogleMap map = mapView.createMap(options, false);
+      fromTextField.setPrefWidth(150.0);
+    }
+
     directionsService = new DirectionsService();
     directionsPane = mapView.getDirec();
   }

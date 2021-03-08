@@ -26,7 +26,7 @@ public class MainPageController {
   @FXML private JFXButton origSignInBtn;
   @FXML private JFXButton origNavigationBtn;
   @FXML private JFXButton origServiceRequestBtn;
-  @FXML private JFXButton origAdminToolsBtn;
+  @FXML public JFXButton origAdminToolsBtn;
   @FXML private JFXButton origGoogleNavBtn;
   @FXML private JFXButton exitBtn;
   //  @FXML private ScrollPane scrollPane;
@@ -34,7 +34,7 @@ public class MainPageController {
   private JFXButton signInBtn;
   private JFXButton navigationBtn;
   private JFXButton serviceRequestBtn;
-  private JFXButton adminToolsBtn;
+  public JFXButton adminToolsBtn;
   private JFXButton googleNavBtn;
   private AnchorPane rightPane;
   private AnchorPane centerPane;
@@ -42,6 +42,8 @@ public class MainPageController {
   public boolean isDesktop;
   //  @FXML private JFXButton SRMenuBtn;
   private static MainPageController instance;
+  public SubPage rightPageController;
+  public SubPage centerPageController;
   Settings settings;
 
   // tooltip Initializations
@@ -133,6 +135,8 @@ public class MainPageController {
         scene = new Scene(fxmlLoader.load(getClass().getResource("MobileMainPage.fxml")));
         MainPageController controller = (MainPageController) fxmlLoader.getController();
         controller.instance.isDesktop = false;
+        controller.instance.setCenterColumnWidth(0);
+        controller.instance.adminToolsBtn.setVisible(false);
       } else {
         scene = new Scene(fxmlLoader.load(getClass().getResource("MainPage.fxml")));
         MainPageController controller = (MainPageController) fxmlLoader.getController();
@@ -153,15 +157,24 @@ public class MainPageController {
 
     System.out.println("clicked");
     instance.setCenterColumnWidth(0);
-    if (e.getSource() == origNavigationBtn) instance.loadRightSubPage("PathfindingPage.fxml");
-    else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
+    if (e.getSource() == origNavigationBtn) {
+      if (instance.isDesktop) {
+        instance.loadRightSubPage("NavigationMap.fxml");
+        instance.loadCenterSubPage("PathfindingPage.fxml");
+      } else {
+        instance.loadRightSubPage("NavigationMap.fxml");
+        instance.loadCenterSubPage("MobilePathfindingPage.fxml");
+
+        instance.setCenterColumnWidth(200);
+      }
+    } else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
     else if (e.getSource() == origServiceRequestBtn) {
       if (instance.isDesktop) {
         instance.loadCenterSubPage("ServiceRequestNavigator.fxml");
         instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
       } else {
         instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
-        setCenterColumnWidth(0);
+        instance.setCenterColumnWidth(0);
       }
     } else if (e.getSource() == origAdminToolsBtn) {
       instance.loadCenterSubPage("AdminPage.fxml");
@@ -214,7 +227,7 @@ public class MainPageController {
         centerPane.setVisible(true);
       }
     }
-    setCenterColumnWidth(width);
+    if (width != 0) setCenterColumnWidth(width);
   }
 
   public void updateCenterPaneVisibility(double width) {
@@ -231,10 +244,10 @@ public class MainPageController {
     FXMLLoader fxmlLoader = new FXMLLoader();
     try {
       Node node = fxmlLoader.load(getClass().getResource(fxml).openStream());
-      SubPage controller = (SubPage) fxmlLoader.getController();
-      controller.setParent(this);
-      controller.drawByPlatform();
-      controller.loadNavigationBar();
+      rightPageController = (SubPage) fxmlLoader.getController();
+      rightPageController.setParent(this);
+      rightPageController.drawByPlatform();
+      rightPageController.loadNavigationBar();
       rightPane.getChildren().add(node);
     } catch (IOException e) {
       e.printStackTrace();
@@ -250,9 +263,9 @@ public class MainPageController {
     FXMLLoader fxmlLoader = new FXMLLoader();
     try {
       Node node = fxmlLoader.load(getClass().getResource(fxml).openStream());
-      SubPage controller = fxmlLoader.getController();
-      controller.setParent(this);
-      controller.drawByPlatform();
+      centerPageController = fxmlLoader.getController();
+      centerPageController.setParent(this);
+      centerPageController.drawByPlatform();
       centerPane.getChildren().add(node);
     } catch (IOException e) {
       e.printStackTrace();

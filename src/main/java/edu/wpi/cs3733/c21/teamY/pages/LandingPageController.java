@@ -20,7 +20,9 @@ import javafx.util.Duration;
 public class LandingPageController extends SubPage implements Initializable {
 
   @FXML ImageView imageView;
-  @FXML JFXButton button;
+  @FXML JFXButton loginBtn;
+  @FXML JFXButton guestBtn;
+
   Scene scene;
 
   int counter = 0;
@@ -49,19 +51,22 @@ public class LandingPageController extends SubPage implements Initializable {
   }
 
   private void buttonClicked(ActionEvent e) {
-    if (e.getSource() == button) parent.loadRightSubPage("LoginPage.fxml");
+    if (e.getSource() == loginBtn) parent.loadRightSubPage("LoginPage.fxml");
+    if (e.getSource() == guestBtn) parent.loadRightSubPage("LoginPage.fxml");
+
   }
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    button.setOnAction(event -> buttonClicked(event));
+    loginBtn.setOnAction(event -> buttonClicked(event));
+    guestBtn.setOnAction(event -> buttonClicked(event));
     slideshow();
 
     Platform.runLater(
         () -> {
           scene = imageView.getScene();
-          //          imageView.setFitWidth(.9 * scene.getWidth());
-          //          imageView.setFitHeight(.6 * scene.getWidth());
+          imageView.setFitWidth(.45 * scene.getWidth());
+          imageView.setFitHeight(.3 * scene.getWidth());
           scene
               .widthProperty()
               .addListener(

@@ -90,7 +90,8 @@ public class LaundrySubpageController extends GenericServiceFormPage {
     if (category.getValue() == null
         || description.getText().equals("")
         || locationField.getValue() == null
-        || employeeComboBox.getValue() == null) {
+        || (Settings.getSettings().getCurrentPermissions() == 3
+            && employeeComboBox.getValue() == null)) {
       if (category.getValue() == null) {
         incomplete(category);
       }
@@ -128,6 +129,7 @@ public class LaundrySubpageController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
 
       clearButton();
     }

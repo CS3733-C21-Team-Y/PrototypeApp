@@ -105,16 +105,18 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
         || urgency.toString().equals("")
         || biohazardLevel.toString().equals("")
         || description.getText().equals("")) {
-      if (description.getText().equals("") || employeeComboBox.getValue() == null) {
+      if (description.getText().equals("")
+          || (Settings.getSettings().getCurrentPermissions() == 3
+              && employeeComboBox.getValue() == null)) {
         incomplete(description);
       }
-      if (urgency.toString().equals("")) {
+      if (urgency.getValue() == null) {
         incomplete(urgency);
       }
-      if (locationField.toString().equals("")) {
+      if (locationField.getValue() == null) {
         incomplete(locationField);
       }
-      if (biohazardLevel.toString().equals("")) {
+      if (biohazardLevel.getValue() == null) {
         incomplete(biohazardLevel);
       }
       if (employeeComboBox.getValue() == null) {
@@ -147,6 +149,7 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
       clearButton();
     }
   }

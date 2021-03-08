@@ -86,7 +86,8 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
         || dateInput.getText().equals("")
         || fromInput.getText().equals("")
         || toInput.getText().equals("")
-        || employeeComboBox.getValue() == null) {
+        || (Settings.getSettings().getCurrentPermissions() == 3
+            && employeeComboBox.getValue() == null)) {
       if (categoryInput.getText().equals("")) {
         incomplete(categoryInput);
       }
@@ -125,6 +126,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       }
 
       clearButton();
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
       submittedPopUp(stackPane);
       try {
         DataOperations.saveService(service);

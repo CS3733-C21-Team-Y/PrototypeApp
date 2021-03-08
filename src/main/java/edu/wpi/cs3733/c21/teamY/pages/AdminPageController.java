@@ -124,9 +124,11 @@ public class AdminPageController extends SubPage {
 
     secret.setOnAction(
         e -> {
-          KnockKnockServer kn = new KnockKnockServer();
-          kn.runServer(new String[] {"4444"}, nodes.get(0), nodes.get(3));
+          KnockKnockServer kn = new KnockKnockServer("ESP_Connection", nodes.get(0), nodes.get(3));
+          kn.start();
         });
+
+    export.setOnAction(e -> exportToCSV());
 
     Platform.runLater(
         () -> {
@@ -277,6 +279,10 @@ public class AdminPageController extends SubPage {
 
           assignContextMenuActions();
         });
+  }
+
+  private void exportToCSV() {
+    // what goes here
   }
 
   private boolean rightClicked;

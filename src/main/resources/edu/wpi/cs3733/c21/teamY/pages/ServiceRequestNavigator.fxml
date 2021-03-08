@@ -48,7 +48,7 @@
                         <ToggleGroup fx:id="group" />
                      </toggleGroup>
                   </ToggleButton>
-                  <ToggleButton fx:id="myRequestsBtn" minWidth="100.0" mnemonicParsing="false" rotate="-90.0" selected="true" style="-fx-base: #5e5da3; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="My Requests" textFill="#efeff9" toggleGroup="$group" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                  <ToggleButton fx:id="myRequestsBtn" minWidth="100.0" mnemonicParsing="false" rotate="-90.0" style="-fx-base: #5e5da3; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="My Requests" textFill="#efeff9" toggleGroup="$group" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font>

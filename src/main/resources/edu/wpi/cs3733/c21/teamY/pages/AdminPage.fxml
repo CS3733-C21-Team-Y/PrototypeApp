@@ -34,7 +34,7 @@
                      <children>
                         <ComboBox prefWidth="150.0" promptText="Start location Box" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                         <ComboBox fx:id="endLocationBox1" prefWidth="150.0" promptText="End location Box" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                        <SplitMenuButton fx:id="selectNewAlgo1" mnemonicParsing="false" styleClass="button" text="Select New Algorithm" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                        <SplitMenuButton fx:id="selectNewAlgo" mnemonicParsing="false" styleClass="button" text="Select New Algorithm" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                            <items>
                               <MenuItem fx:id="depthFirst" mnemonicParsing="false" text="Depth First" />
                               <MenuItem fx:id="breadthFirst" mnemonicParsing="false" text="Breadth First" />

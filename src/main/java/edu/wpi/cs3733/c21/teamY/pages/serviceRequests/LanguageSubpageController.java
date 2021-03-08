@@ -92,7 +92,8 @@ public class LanguageSubpageController extends GenericServiceFormPage {
         || description.getText().equals("")
         || urgency.getValue() == null
         || locationField.getText().equals("")
-        || employeeComboBox.getValue() == null) {
+        || (Settings.getSettings().getCurrentPermissions() == 3
+            && employeeComboBox.getValue() == null)) {
       if (langOptions.getValue() == null) {
         incomplete(langOptions);
       }
@@ -122,6 +123,9 @@ public class LanguageSubpageController extends GenericServiceFormPage {
       } else {
         service.setEmployee("admin");
       }
+      submittedPopUp(stackPane);
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+      clearButton();
 
       try {
         DataOperations.saveService(service);
@@ -130,9 +134,6 @@ public class LanguageSubpageController extends GenericServiceFormPage {
       } catch (IllegalAccessException e) {
         e.printStackTrace();
       }
-
-      submittedPopUp(stackPane);
-      clearButton();
     }
   }
 }
