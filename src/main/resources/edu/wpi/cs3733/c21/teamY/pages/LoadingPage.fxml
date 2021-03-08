@@ -53,7 +53,7 @@
          <children>
             <ImageView fitHeight="189.0" fitWidth="202.0" layoutX="149.0" layoutY="-94.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="/edu/wpi/cs3733/c21/teamY/images/tenor.gif" />
+                  <Image url="@../images/ezgif-7-53b22eb459a9.gif" />
                </image>
             </ImageView>
          </children></Pane>

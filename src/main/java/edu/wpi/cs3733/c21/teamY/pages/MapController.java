@@ -11,10 +11,15 @@ import java.io.FileInputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.image.Image;
@@ -30,6 +35,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MapController extends SubPage {
 
@@ -44,6 +50,7 @@ public class MapController extends SubPage {
   @FXML private JFXButton reset;
   @FXML private JFXNodesList floorList;
   @FXML private JFXButton currentFloorBtn;
+  private boolean floorListOpen = false;
   // endregion
 
   // region Fields
@@ -103,11 +110,11 @@ public class MapController extends SubPage {
 
   // these need to be imageViews
   Image parking = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerCampusIT2.png");
-  Image f1 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor1IT2.png");
-  Image f2 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor2IT2.png");
-  Image f3 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor3IT2.png");
-  Image f4 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor4IT2.png");
-  Image f5 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor5IT2.png");
+  Image f1 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor1.png");
+  Image f2 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor2.png");
+  Image f3 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor3.png");
+  Image f4 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor4.png");
+  Image f5 = new Image("/edu/wpi/cs3733/c21/teamY/images/FaulknerFloor5.png");
 
   private Double mouseX;
   private Double mouseY;
@@ -124,6 +131,7 @@ public class MapController extends SubPage {
     adornerPane.toFront();
 
     floorList.setRotate(90);
+    currentFloorBtn.setOnAction(e -> floorMenuAction());
 
     //    floorMenu.setOnAction(
     //        event -> {
@@ -385,6 +393,39 @@ public class MapController extends SubPage {
   // endregion
 
   // region Change Floor or Image
+  private void floorMenuAction() {
+    Timeline timeline = new Timeline();
+    // Timeline timeline2 = new Timeline();
+
+    ArrayList<KeyValue> values = new ArrayList<KeyValue>();
+
+    KeyValue kv1;
+    KeyValue kv2;
+
+    Background background;
+
+    if (floorListOpen) {
+      background = new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY));
+      //      kv1 = new KeyValue(anchor.backgroundProperty(), background, Interpolator.EASE_IN);
+      kv2 = new KeyValue(containerStackPane.opacityProperty(), 1, Interpolator.EASE_IN);
+
+    } else {
+      background = new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY));
+      //      kv1 = new KeyValue(anchor.backgroundProperty(), background, Interpolator.EASE_IN);
+      kv2 = new KeyValue(containerStackPane.opacityProperty(), 0.3, Interpolator.EASE_IN);
+      anchor.setBackground(background);
+    }
+
+    ArrayList<KeyValue> keyValues = new ArrayList<KeyValue>();
+    //  keyValues.add(kv1);
+    keyValues.add(kv2);
+    KeyFrame kf2 = new KeyFrame(Duration.seconds(0.25), "", null, keyValues);
+    timeline.getKeyFrames().add(kf2);
+    timeline.setOnFinished(event -> anchor.setBackground(background));
+    timeline.play();
+    floorListOpen = !floorListOpen;
+  }
+
   protected void changeMapImage(MapController.MAP_PAGE floor) {
     switch (floor) {
       case FLOOR1:
@@ -420,6 +461,7 @@ public class MapController extends SubPage {
         break;
     }
     floorList.animateList(false);
+    floorMenuAction();
   }
 
   protected void setNewMapImage(Image image, MapController.MAP_PAGE floor) {
@@ -481,10 +523,20 @@ public class MapController extends SubPage {
             scaleXCoords(node.getXcoord()),
             scaleXCoords(node.getYcoord()),
             baseCircleRadius / adornerPane.getScaleX());
+    System.out.println(node.getNodeID());
     circleEx.setId(node.getNodeID());
     circleEx.setFill(Paint.valueOf("RED"));
     // circleEx.setNode(node);
+    //    System.out.println("About to Add!");
+    //    Button button = new Button("B");
+    //    button.setTranslateX(scaleXCoords(node.getXcoord()));
+    //    button.setTranslateY(scaleXCoords(node.getYcoord()));
+    //    adornerPane.getChildren().add(button);
     adornerPane.getChildren().add(circleEx);
+    circleEx.setOpacity(1);
+    adornerPane.setOpacity(1);
+    circleEx.toFront();
+    // System.out.println("Added!");
 
     if (!displayUnselectedAdorners) {
       circleEx.setVisible(false);
@@ -543,7 +595,8 @@ public class MapController extends SubPage {
   }
 
   protected void addAdornerElements(ArrayList<Node> nodes, ArrayList<Edge> edges, String floor) {
-
+    //    Button button = new Button("BUTTTONNNNNNN");
+    //    adornerPane.getChildren().add(button);
     if (nodes == null || edges == null) {
       System.out.println("Had no nodes or edges!");
     }
@@ -560,6 +613,7 @@ public class MapController extends SubPage {
 
       } else {
         // do nothing
+        // System.out.println(n.floor);
       }
     }
 
