@@ -87,7 +87,8 @@ public class SecuritySubpageController extends GenericServiceFormPage {
         || category.toString().equals("")
         || urgency.toString().equals("")
         || time.toString().equals("")
-        || datePickerObject.getValue() == null|| employeeComboBox.getValue()==null) {
+        || datePickerObject.getValue() == null
+        || employeeComboBox.getValue() == null) {
       if (description.getText().equals("")) {
         incomplete(description);
       }
@@ -106,7 +107,9 @@ public class SecuritySubpageController extends GenericServiceFormPage {
       if (datePickerObject.getValue() == null) {
         incomplete(datePickerObject);
       }
-      if(employeeComboBox.getValue() == null){incomplete(employeeComboBox);}
+      if (employeeComboBox.getValue() == null) {
+        incomplete(employeeComboBox);
+      }
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Security");

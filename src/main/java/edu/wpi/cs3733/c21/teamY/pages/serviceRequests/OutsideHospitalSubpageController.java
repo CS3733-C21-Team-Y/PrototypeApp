@@ -73,7 +73,8 @@ public class OutsideHospitalSubpageController extends GenericServiceFormPage {
 
     if (locationTextField.getText().equals("")
         || descriptionTextArea.getText().equals("")
-        || serviceDate.getValue() == null|| employeeComboBox.getValue()==null) {
+        || serviceDate.getValue() == null
+        || employeeComboBox.getValue() == null) {
       if (locationTextField.getText().equals("")) {
         incomplete(locationTextField);
       }
@@ -83,7 +84,9 @@ public class OutsideHospitalSubpageController extends GenericServiceFormPage {
       if (serviceDate.getValue() == null) {
         incomplete(serviceDate);
       }
-      if(employeeComboBox.getValue() == null){incomplete(employeeComboBox);}
+      if (employeeComboBox.getValue() == null) {
+        incomplete(employeeComboBox);
+      }
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Outside Hospital");
