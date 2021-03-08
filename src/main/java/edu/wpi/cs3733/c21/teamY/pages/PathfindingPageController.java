@@ -9,7 +9,6 @@ import edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.*;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Platform;
@@ -17,7 +16,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -33,8 +31,7 @@ public class PathfindingPageController extends SubPage {
   @FXML private AnchorPane anchor;
 
   private MapController mapInsertController;
-  @FXML private JFXButton resetView;
-  @FXML private StackPane stackPane;
+  //  @FXML private JFXButton resetView;
   @FXML private ComboBox startLocationBox;
   @FXML private ComboBox endLocationBox;
 
@@ -50,8 +47,8 @@ public class PathfindingPageController extends SubPage {
   //  @FXML private Button downButton;
   //  @FXML private Button leftButton;
   //  @FXML private Button rightButton;
-  @FXML private JFXButton zoomInButton;
-  @FXML private JFXButton zoomOutButton;
+  //  @FXML private JFXButton zoomInButton;
+  //  @FXML private JFXButton zoomOutButton;
   @FXML private VBox textDirectionsBox;
   @FXML private VBox textDirectionViewer;
   @FXML private JFXButton exitDirectionBtn;
@@ -90,25 +87,25 @@ public class PathfindingPageController extends SubPage {
   /** Do not use it. It does nothing. */
   public PathfindingPageController() {}
 
-  private void loadMap() {
-    FXMLLoader fxmlLoader = new FXMLLoader();
-    try {
-      javafx.scene.Node node =
-          fxmlLoader.load(getClass().getResource("MapUserControl.fxml").openStream());
-      mapInsertController = (MapController) fxmlLoader.getController();
-      mapInsertController.setParent(parent);
-      stackPane.getChildren().add(node);
-      node.toBack();
-      // node.setOpacity(0);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
+  //  private void loadMap() {
+  //    FXMLLoader fxmlLoader = new FXMLLoader();
+  //    try {
+  //      javafx.scene.Node node =
+  //          fxmlLoader.load(getClass().getResource("MapUserControl.fxml").openStream());
+  //      mapInsertController = (MapController) fxmlLoader.getController();
+  //      mapInsertController.setParent(parent);
+  //      anchor.getChildren().add(node);
+  //      node.toBack();
+  //      // node.setOpacity(0);
+  //    } catch (IOException e) {
+  //      e.printStackTrace();
+  //    }
+  //  }
 
   /** FXML initialise runs after loading FXML and sets important stuff */
   @FXML
   private void initialize() {
-    loadMap();
+    //    loadMap();
     textDirectionsBox.setVisible(false);
     overlayGridPane.setPickOnBounds(false);
     overlayGridPane.toFront();
@@ -118,16 +115,20 @@ public class PathfindingPageController extends SubPage {
     //         attaches a handler to the button with a lambda expression
 
     // Reset view button
-    resetView.setOnAction(
-        e -> {
-          mapInsertController.resetMapView();
-        });
-    resetView.toFront();
-    zoomInButton.toFront();
-    zoomOutButton.toFront();
+    //    resetView.setOnAction(
+    //        e -> {
+    //          mapInsertController.resetMapView();
+    //        });
+    //    resetView.toFront();
+    //    zoomInButton.toFront();
+    //    zoomOutButton.toFront();
 
     // Set the starting image early because otherwise it will flash default
-    mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
+    System.out.println("Hellooooo");
+    //    mapInsertController =
+    //        ((NavigationMapController) parent.rightPageController).getMapInsertController();
+        SubPage subPage = parent.rightPageController;
+    //    mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
 
     // tooltips
 
@@ -189,35 +190,35 @@ public class PathfindingPageController extends SubPage {
     noStairsBtn.setOnAction(e -> detourBtnPressed(e));
 
     // Floor selection menu population
-    int i = -1;
-    for (javafx.scene.Node menuItem : mapInsertController.getFloorList().getChildren()) {
-      if (i != -1) {
-        int index = i;
-        ((JFXButton) menuItem).setOnAction(e -> handleFloorChanged(e, index));
-        i++;
-      } else {
-        i++;
-      }
-    }
+    //    int i = -1;
+    //    for (javafx.scene.Node menuItem : mapInsertController.getFloorList().getChildren()) {
+    //      if (i != -1) {
+    //        int index = i;
+    //        ((JFXButton) menuItem).setOnAction(e -> handleFloorChanged(e, index));
+    //        i++;
+    //      } else {
+    //        i++;
+    //      }
+    //    }
 
     //    upButton.setOnAction(e -> mapInsertController.panOnButtons("up"));
     //    downButton.setOnAction(e -> mapInsertController.panOnButtons("down"));
     //    leftButton.setOnAction(e -> mapInsertController.panOnButtons("left"));
     //    rightButton.setOnAction(e -> mapInsertController.panOnButtons("right"));
-    zoomInButton.setOnAction(e -> mapInsertController.zoomOnButtons(0.1));
-    zoomOutButton.setOnAction(e -> mapInsertController.zoomOnButtons(-0.1));
+    //    zoomInButton.setOnAction(e -> mapInsertController.zoomOnButtons(0.1));
+    //    zoomOutButton.setOnAction(e -> mapInsertController.zoomOnButtons(-0.1));
 
     // zoomSlider.setDisable(true);
 
     // zoomLabel.setText("Zoom");
 
     // Set handler for Mouse Click Anywhere on Map
-    mapInsertController
-        .getAdornerPane()
-        .setOnMouseReleased(
-            e -> {
-              handleClickOnMap(e);
-            });
+    //    mapInsertController
+    //        .getAdornerPane()
+    //        .setOnMouseReleased(
+    //            e -> {
+    //              handleClickOnMap(e);
+    //            });
 
     // Select startNodeBox
     startLocationBox.requestFocus();
@@ -244,10 +245,11 @@ public class PathfindingPageController extends SubPage {
     // Init Map
     Platform.runLater(
         () -> {
-          mapInsertController.removeAllAdornerElements();
-          // mapInsertController.getFloorMenu().setText("Parking");
-          mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
-          mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
+          //          mapInsertController.removeAllAdornerElements();
+          //          // mapInsertController.getFloorMenu().setText("Parking");
+          //          mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
+          //          mapInsertController.addAdornerElements(nodes, edges,
+          // mapInsertController.floorNumber);
 
           startLocationBox.requestFocus();
 
@@ -287,7 +289,7 @@ public class PathfindingPageController extends SubPage {
   }*/
   private ArrayList<Node> runAlgo(
       Graph g, String startID, ArrayList<String> goalIDs, String accessType) {
-    Stage stage = (Stage) resetView.getScene().getWindow();
+    Stage stage = (Stage) startLocationBox.getScene().getWindow();
     StageInformation info = (StageInformation) stage.getUserData();
     if (info.getAlgorithmSelection().getContext() == null) {
       info.setAlgorithmSelection(new AlgoContext());

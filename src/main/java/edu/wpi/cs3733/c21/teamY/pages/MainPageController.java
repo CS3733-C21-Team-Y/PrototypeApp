@@ -42,6 +42,8 @@ public class MainPageController {
   public boolean isDesktop;
   //  @FXML private JFXButton SRMenuBtn;
   private static MainPageController instance;
+  public SubPage rightPageController;
+  public SubPage centerPageController;
   Settings settings;
 
   // tooltip Initializations
@@ -153,8 +155,11 @@ public class MainPageController {
 
     System.out.println("clicked");
     instance.setCenterColumnWidth(0);
-    if (e.getSource() == origNavigationBtn) instance.loadRightSubPage("PathfindingPage.fxml");
-    else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
+    if (e.getSource() == origNavigationBtn) {
+      instance.loadRightSubPage("NavigationMap.fxml");
+      instance.loadCenterSubPage("PathfindingPage.fxml");
+
+    } else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
     else if (e.getSource() == origServiceRequestBtn) {
       if (instance.isDesktop) {
         instance.loadCenterSubPage("ServiceRequestNavigator.fxml");
@@ -231,10 +236,10 @@ public class MainPageController {
     FXMLLoader fxmlLoader = new FXMLLoader();
     try {
       Node node = fxmlLoader.load(getClass().getResource(fxml).openStream());
-      SubPage controller = (SubPage) fxmlLoader.getController();
-      controller.setParent(this);
-      controller.drawByPlatform();
-      controller.loadNavigationBar();
+      rightPageController = (SubPage) fxmlLoader.getController();
+      rightPageController.setParent(this);
+      rightPageController.drawByPlatform();
+      rightPageController.loadNavigationBar();
       rightPane.getChildren().add(node);
     } catch (IOException e) {
       e.printStackTrace();
@@ -250,9 +255,9 @@ public class MainPageController {
     FXMLLoader fxmlLoader = new FXMLLoader();
     try {
       Node node = fxmlLoader.load(getClass().getResource(fxml).openStream());
-      SubPage controller = fxmlLoader.getController();
-      controller.setParent(this);
-      controller.drawByPlatform();
+      centerPageController = fxmlLoader.getController();
+      centerPageController.setParent(this);
+      centerPageController.drawByPlatform();
       centerPane.getChildren().add(node);
     } catch (IOException e) {
       e.printStackTrace();

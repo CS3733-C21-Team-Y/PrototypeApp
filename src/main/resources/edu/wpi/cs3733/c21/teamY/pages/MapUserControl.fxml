@@ -44,7 +44,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <JFXButton fx:id="reset" buttonType="RAISED" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: efeff9; -fx-background-radius: 25;" text="Reset View" textAlignment="CENTER" wrapText="true" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+            <JFXButton fx:id="reset" buttonType="RAISED" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: efeff9; -fx-background-radius: 25;" text="Reset View" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="70.0" right="10.0" />
                </GridPane.margin>
@@ -52,7 +52,7 @@
                   <Font name="Calibri Bold" size="12.0" />
                </font>
             </JFXButton>
-            <JFXNodesList fx:id="floorList" prefHeight="0.0" prefWidth="0.0" spacing="10.0" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+            <JFXNodesList fx:id="floorList" prefHeight="0.0" prefWidth="0.0" spacing="10.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <children>
                   <JFXButton fx:id="currentFloorBtn" buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: efeff9; -fx-background-radius: 25;" text="P">
                      <font>
