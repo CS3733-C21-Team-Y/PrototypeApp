@@ -3,15 +3,17 @@ package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.awt.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
-public class FloralDeliverySubPageController extends GenericServiceFormPage {
+public class FloralDeliverySubpageController extends GenericServiceFormPage {
 
   @FXML private JFXButton clearBtn;
   @FXML private JFXButton backBtn;
@@ -22,11 +24,12 @@ public class FloralDeliverySubPageController extends GenericServiceFormPage {
   @FXML private JFXTextField toInput;
   @FXML private JFXTextArea descriptionInput;
   @FXML private JFXTextField dateInput;
+  @FXML private JFXComboBox employeeComboBox;
   Settings settings;
 
   @FXML private StackPane stackPane;
 
-  public FloralDeliverySubPageController() {}
+  public FloralDeliverySubpageController() {}
 
   // this runs once the FXML loads in to attach functions to components
   @FXML
@@ -35,6 +38,20 @@ public class FloralDeliverySubPageController extends GenericServiceFormPage {
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
     clearBtn.setOnAction(e -> clearButton());
+
+    if (settings.getCurrentPermissions() == 3) {
+      employeeComboBox.setVisible(true);
+      try {
+        ArrayList<Employee> employeeList = DataOperations.getStaffList();
+        for (Employee employee : employeeList) {
+          employeeComboBox.getItems().add(employee.getEmployeeID());
+        }
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    } else {
+      employeeComboBox.setVisible(false);
+    }
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -48,16 +65,44 @@ public class FloralDeliverySubPageController extends GenericServiceFormPage {
     fromInput.setText("");
     toInput.setText("");
     dateInput.setText("");
+    employeeComboBox.getSelectionModel().clearSelection();
   }
 
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
+    clearIncomplete(roomNumberInput);
+    clearIncomplete(categoryInput);
+    clearIncomplete(descriptionInput);
+    clearIncomplete(dateInput);
+    clearIncomplete(fromInput);
+    clearIncomplete(toInput);
+
     if (roomNumberInput.getText().equals("")
         || categoryInput.getText().equals("")
         || descriptionInput.getText().equals("")
-        || dateInput.getText().equals("")) {
+        || dateInput.getText().equals("")
+        || fromInput.getText().equals("")
+        || toInput.getText().equals("")) {
+      if (categoryInput.getText().equals("")) {
+        incomplete(categoryInput);
+      }
+      if (descriptionInput.getText().equals("")) {
+        incomplete(descriptionInput);
+      }
+      if (dateInput.getText().equals("")) {
+        incomplete(dateInput);
+      }
+      if (roomNumberInput.getText().equals("")) {
+        incomplete(roomNumberInput);
+      }
+      if (toInput.getText().equals("")) {
+        incomplete(toInput);
+      }
+      if (fromInput.getText().equals("")) {
+        incomplete(fromInput);
+      }
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Floral Delivery");
@@ -66,8 +111,13 @@ public class FloralDeliverySubPageController extends GenericServiceFormPage {
       service.setCategory(categoryInput.getText());
       service.setDescription(descriptionInput.getText());
       service.setRequester(settings.getCurrentUsername());
-      service.setAdditionalInfo(fromInput.getText() + " " + toInput.getText());
+      service.setAdditionalInfo("From: " + fromInput.getText() + " To: " + toInput.getText());
       service.setDate(dateInput.getText());
+      if (settings.getCurrentPermissions() == 3) {
+        service.setEmployee((String) employeeComboBox.getValue());
+      } else {
+        service.setEmployee("admin");
+      }
 
       clearButton();
       submittedPopUp(stackPane);

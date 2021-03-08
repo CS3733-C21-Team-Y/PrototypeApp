@@ -3,14 +3,16 @@ package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
-public class SecuritySubPageController extends GenericServiceFormPage {
+public class SecuritySubpageController extends GenericServiceFormPage {
 
   @FXML private JFXButton clearBtn;
   @FXML private JFXButton backBtn;
@@ -21,12 +23,13 @@ public class SecuritySubPageController extends GenericServiceFormPage {
   @FXML private JFXTimePicker time;
   @FXML private JFXDatePicker datePickerObject;
   @FXML private JFXTextArea description;
+  @FXML private JFXComboBox employeeComboBox;
 
   @FXML private StackPane stackPane;
 
   Settings settings;
 
-  public SecuritySubPageController() {}
+  public SecuritySubpageController() {}
 
   @FXML
   private void initialize() {
@@ -42,6 +45,20 @@ public class SecuritySubPageController extends GenericServiceFormPage {
     urgency.getItems().add("Low");
     urgency.getItems().add("Medium");
     urgency.getItems().add("High");
+
+    if (settings.getCurrentPermissions() == 3) {
+      employeeComboBox.setVisible(true);
+      try {
+        ArrayList<Employee> employeeList = DataOperations.getStaffList();
+        for (Employee employee : employeeList) {
+          employeeComboBox.getItems().add(employee.getEmployeeID());
+        }
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    } else {
+      employeeComboBox.setVisible(false);
+    }
   }
 
   private void clearButton() {
@@ -51,6 +68,7 @@ public class SecuritySubPageController extends GenericServiceFormPage {
     description.setText("");
     category.setValue(null);
     urgency.setValue(null);
+    employeeComboBox.getSelectionModel().clearSelection();
   }
 
   @FXML
@@ -59,7 +77,27 @@ public class SecuritySubPageController extends GenericServiceFormPage {
     if (locationBox.toString().equals("")
         || description.getText().equals("")
         || category.toString().equals("")
-        || urgency.toString().equals("")) {
+        || urgency.toString().equals("")
+        || time.toString().equals("")
+        || datePickerObject.getValue() == null) {
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
+      if (locationBox.toString().equals("")) {
+        incomplete(locationBox);
+      }
+      if (category.toString().equals("")) {
+        incomplete(category);
+      }
+      if (urgency.toString().equals("")) {
+        incomplete(urgency);
+      }
+      if (time.toString().equals("")) {
+        incomplete(time);
+      }
+      if (datePickerObject.getValue() == null) {
+        incomplete(datePickerObject);
+      }
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Security");
@@ -67,10 +105,15 @@ public class SecuritySubPageController extends GenericServiceFormPage {
       service.setCategory((String) category.getValue());
       service.setLocation((String) locationBox.getValue());
       service.setUrgency((String) urgency.getValue());
-      service.setAdditionalInfo(time.getValue().toString());
+      service.setAdditionalInfo("Time: " + time.getValue().toString());
       service.setDate(datePickerObject.getValue().toString());
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());
+      if (settings.getCurrentPermissions() == 3) {
+        service.setEmployee((String) employeeComboBox.getValue());
+      } else {
+        service.setEmployee("admin");
+      }
 
       try {
         DataOperations.saveService(service);

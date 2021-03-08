@@ -173,29 +173,29 @@ public class ServiceRequestManagerSubpageController extends SubPage {
   @FXML
   private void pageButtonClicked(ActionEvent e) {
 
-    if (e.getSource() == laundryBtn) parent.loadRightSubPage("serviceRequests/LaundrySubPage.fxml");
+    if (e.getSource() == laundryBtn) parent.loadRightSubPage("serviceRequests/LaundrySubpage.fxml");
     else if (e.getSource() == maintenanceBtn)
-      parent.loadRightSubPage("serviceRequests/MaintenanceSubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/MaintenanceSubpage.fxml");
     else if (e.getSource() == AVBtn)
       parent.loadRightSubPage("serviceRequests/AudioVisualSubPage.fxml");
     else if (e.getSource() == floralBtn)
-      parent.loadRightSubPage("serviceRequests/FloralDeliverySubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/FloralDeliverySubpage.fxml");
     else if (e.getSource() == languageBtn)
-      parent.loadRightSubPage("serviceRequests/LanguageSubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/LanguageSubpage.fxml");
     else if (e.getSource() == giftBtn)
-      parent.loadRightSubPage("serviceRequests/GiftDeliverySubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/GiftDeliverySubpage.fxml");
     else if (e.getSource() == medicineBtn)
-      parent.loadRightSubPage("serviceRequests/MedicineSubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/MedicineSubpage.fxml");
     else if (e.getSource() == securityBtn)
-      parent.loadRightSubPage("serviceRequests/SecuritySubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/SecuritySubpage.fxml");
     else if (e.getSource() == insideHosBtn)
-      parent.loadRightSubPage("serviceRequests/InsideHospitalSubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/InsideHospitalSubpage.fxml");
     else if (e.getSource() == computerBtn)
-      parent.loadRightSubPage("serviceRequests/ITSubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/ITSubpage.fxml");
     else if (e.getSource() == outsideHosBtn)
-      parent.loadRightSubPage("serviceRequests/OutsideHospitalSubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/OutsideHospitalSubpage.fxml");
     else if (e.getSource() == sanitizationBtn)
-      parent.loadRightSubPage("serviceRequests/SanitizationSubPage.fxml");
+      parent.loadRightSubPage("serviceRequests/SanitizationSubpage.fxml");
     else if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestNavigator.fxml");
   }
 }

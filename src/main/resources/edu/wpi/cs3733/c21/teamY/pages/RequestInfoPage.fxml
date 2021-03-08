@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -118,11 +118,6 @@
                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <JFXTextField fx:id="employeeText" focusColor="#3b3d73" labelFloat="true" promptText="Assign Employee">
-                           <GridPane.margin>
-                              <Insets right="10.0" />
-                           </GridPane.margin>
-                        </JFXTextField>
                         <JFXButton fx:id="submitBtn" buttonType="RAISED" prefWidth="9999.0" style="-fx-background-color: #efeff9;;" text="Submit" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets top="1.0" />
@@ -131,6 +126,11 @@
                               <Font name="Calibri" size="15.0" />
                            </font>
                         </JFXButton>
+                        <JFXComboBox fx:id="employeeComboBox" labelFloat="true" minHeight="50.0" prefWidth="9.999999999E9" promptText="Employee" style="-fx-border-color: dcdcde; -fx-border-width: 0.5; -fx-border-radius: 6;" unFocusColor="#5a5c94">
+                           <padding>
+                              <Insets left="15.0" right="15.0" />
+                           </padding>
+                        </JFXComboBox>
                      </children>
                   </GridPane>
                </children>

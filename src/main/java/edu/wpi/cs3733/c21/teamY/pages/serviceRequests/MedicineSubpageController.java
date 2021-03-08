@@ -1,35 +1,32 @@
 package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
-public class LaundrySubPageController extends GenericServiceFormPage {
+public class MedicineSubpageController extends GenericServiceFormPage {
   // connects the scenebuilder button to a code button
   // add buttons to other scenes here
   @FXML private JFXButton clearBtn;
   @FXML private JFXButton backBtn;
   @FXML private JFXButton submitBtn;
-  @FXML private JFXComboBox category;
-  @FXML private JFXTextArea description;
-  @FXML private JFXComboBox locationField;
+  @FXML private JFXTextField medicine;
+  @FXML private JFXTextField patient;
+  @FXML private JFXTextField date;
+  @FXML private JFXTextField doctor;
   @FXML private StackPane stackPane;
+  @FXML private JFXComboBox employeeComboBox;
 
   private Settings settings;
 
-  private ArrayList<String> categories;
-
   // unused constructor
-  public LaundrySubPageController() {}
+  public MedicineSubpageController() {}
 
   // this runs once the FXML loads in to attach functions to components
   @FXML
@@ -37,18 +34,10 @@ public class LaundrySubPageController extends GenericServiceFormPage {
 
     settings = Settings.getSettings();
 
-    categories = new ArrayList<String>();
-    categories.add("Bedding");
-    categories.add("Dry Cleaning");
-    categories.add("Clothing");
     // attaches a handler to the button with a lambda expression
-
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
     clearBtn.setOnAction(e -> clearButton());
-
-    for (String c : categories) category.getItems().add(c);
-    locationField.getItems().add("cafeteria");
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -56,28 +45,52 @@ public class LaundrySubPageController extends GenericServiceFormPage {
   }
 
   private void clearButton() {
-    category.setValue(null);
-    description.setText("");
-    locationField.setValue(null);
+    patient.setText("");
+    date.setText("");
+    doctor.setText("");
+    medicine.setText("");
   }
 
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    if (category.getValue().equals(null)
-        || description.getText().equals("")
-        || locationField.getValue().equals(null)) {
+    clearIncomplete(patient);
+    clearIncomplete(date);
+    clearIncomplete(doctor);
+    clearIncomplete(medicine);
+
+    if (patient.getText().equals("")
+        || date.getText().equals("")
+        || doctor.getText().equals("")
+        || medicine.getText().equals("")) {
+      if (patient.getText().equals("")) {
+        incomplete(patient);
+      }
+      if (date.getText().equals("")) {
+        incomplete(date);
+      }
+      if (doctor.getText().equals("")) {
+        incomplete(doctor);
+      }
+      if (medicine.getText().equals("")) {
+        incomplete(medicine);
+      }
       nonCompleteForm(stackPane);
     } else {
 
-      Service service = new Service(this.IDCount, "Laundry");
+      Service service = new Service(this.IDCount, "Medicine");
       this.IDCount++;
-      service.setCategory((String) category.getValue());
-      service.setLocation((String) locationField.getValue());
-      service.setDescription(description.getText());
-      System.out.println(settings.getCurrentUsername());
+      service.setCategory(medicine.getText());
+      service.setDescription(patient.getText());
+      service.setDate(date.getText());
+      service.setAdditionalInfo(doctor.getText());
       service.setRequester(settings.getCurrentUsername());
+      if (settings.getCurrentPermissions() == 3) {
+        service.setEmployee((String) employeeComboBox.getValue());
+      } else {
+        service.setEmployee("admin");
+      }
 
       try {
         DataOperations.saveService(service);
@@ -86,9 +99,7 @@ public class LaundrySubPageController extends GenericServiceFormPage {
       } catch (IllegalAccessException e) {
         e.printStackTrace();
       }
-
       submittedPopUp(stackPane);
-
       clearButton();
     }
   }

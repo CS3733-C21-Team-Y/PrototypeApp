@@ -2,7 +2,7 @@ package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
@@ -15,41 +15,39 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
-public class LanguageSubpageController extends GenericServiceFormPage {
+public class GiftDeliverySubpageController extends GenericServiceFormPage {
 
-  @FXML private JFXButton testBtn;
+  @FXML private JFXButton clearBtn;
   @FXML private JFXButton backBtn;
-  @FXML private JFXButton testBtn2;
-  @FXML private JFXComboBox langOptions;
-  @FXML private JFXComboBox urgency;
-  @FXML private JFXTextField locationField;
-  @FXML private JFXTextArea description;
+  @FXML private JFXButton submitBtn;
+  @FXML private JFXComboBox locationField;
+  @FXML private JFXComboBox giftType;
+  @FXML private JFXTextField description;
+  @FXML private JFXDatePicker datePicker;
   @FXML private JFXComboBox employeeComboBox;
-
-  @FXML private StackPane stackPane;
 
   private Settings settings;
 
-  public LanguageSubpageController() {}
+  @FXML private StackPane stackPane;
 
+  public GiftDeliverySubpageController() {}
+
+  // this runs once the FXML loads in to attach functions to components
   @FXML
   private void initialize() {
 
     settings = Settings.getSettings();
 
     backBtn.setOnAction(e -> buttonClicked(e));
-    testBtn2.setOnAction(e -> submitBtnClicked());
-    testBtn.setOnAction(e -> clearButton());
+    submitBtn.setOnAction(e -> submitBtnClicked());
+    clearBtn.setOnAction(e -> clearButton());
 
-    langOptions.getItems().add("Spanish");
-    langOptions.getItems().add("French");
-    langOptions.getItems().add("Chinese");
-    langOptions.getItems().add("Portuguese");
-    langOptions.getItems().add("Vietnamese");
-    urgency.getItems().add("Emergency");
-    urgency.getItems().add("High");
-    urgency.getItems().add("Medium");
-    urgency.getItems().add("Low");
+    locationField.getItems().add("Room 142");
+    locationField.getItems().add("Room 736");
+    locationField.getItems().add("Room 246");
+    giftType.getItems().add("Teddy Bear");
+    giftType.getItems().add("Snack Basket");
+    giftType.getItems().add("Blanket");
 
     if (settings.getCurrentPermissions() == 3) {
       employeeComboBox.setVisible(true);
@@ -71,10 +69,10 @@ public class LanguageSubpageController extends GenericServiceFormPage {
   }
 
   private void clearButton() {
-    langOptions.setValue(null);
-    locationField.setText("");
+    giftType.setValue(null);
+    locationField.setValue(null);
     description.setText("");
-    urgency.setValue(null);
+    datePicker.setValue(null);
     employeeComboBox.getSelectionModel().clearSelection();
   }
 
@@ -82,36 +80,32 @@ public class LanguageSubpageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    clearIncomplete(langOptions);
     clearIncomplete(locationField);
     clearIncomplete(description);
-    clearIncomplete(urgency);
+    clearIncomplete(datePicker);
 
-    if (langOptions.getValue() == null
+    if (giftType.getValue() == null
+        || locationField.getValue() == null
         || description.getText().equals("")
-        || urgency.getValue() == null
-        || locationField.getText().equals("")) {
-      if (langOptions.getValue() == null) {
-        incomplete(langOptions);
+        || datePicker.getValue() == null) {
+      if (locationField.getValue() == null) {
+        incomplete(locationField);
+      }
+      if (datePicker.getValue() == null) {
+        incomplete(datePicker);
       }
       if (description.getText().equals("")) {
         incomplete(description);
       }
-      if (urgency.getValue() == null) {
-        incomplete(urgency);
-      }
-      if (locationField.getText().equals("")) {
-        incomplete(locationField);
-      }
       nonCompleteForm(stackPane);
     } else {
-      Service service = new Service(this.IDCount, "Language");
+      Service service = new Service(this.IDCount, "Gift Delivery");
       this.IDCount++;
-      service.setCategory((String) langOptions.getValue());
-      service.setLocation(locationField.getText());
+      service.setCategory((String) giftType.getValue());
+      service.setLocation((String) locationField.getValue());
       service.setDescription(description.getText());
+      service.setDate(datePicker.getValue().toString());
       service.setRequester(settings.getCurrentUsername());
-      service.setAdditionalInfo("Urgency: " + (String) urgency.getValue());
       if (settings.getCurrentPermissions() == 3) {
         service.setEmployee((String) employeeComboBox.getValue());
       } else {
@@ -125,7 +119,6 @@ public class LanguageSubpageController extends GenericServiceFormPage {
       } catch (IllegalAccessException e) {
         e.printStackTrace();
       }
-
       submittedPopUp(stackPane);
       clearButton();
     }

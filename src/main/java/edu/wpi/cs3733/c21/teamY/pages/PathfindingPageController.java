@@ -63,7 +63,7 @@ public class PathfindingPageController extends SubPage {
   private ArrayList<Edge> edges = new ArrayList<Edge>();
 
   private ArrayList<Node> pathNodes = new ArrayList<Node>(); // Used to store path between floors
-
+  private ComboBox lastSelectedComboBox = null;
   // Used to save start/end node on a floor
   MapController.CircleEx startNode;
   MapController.CircleEx endNode;
@@ -118,7 +118,10 @@ public class PathfindingPageController extends SubPage {
     //         attaches a handler to the button with a lambda expression
 
     // Reset view button
-    resetView.setOnAction(e -> mapInsertController.resetMapView());
+    resetView.setOnAction(
+        e -> {
+          mapInsertController.resetMapView();
+        });
     resetView.toFront();
     zoomInButton.toFront();
     zoomOutButton.toFront();
@@ -175,6 +178,9 @@ public class PathfindingPageController extends SubPage {
                 calculatePath();
               }
             });
+
+    startLocationBox.setOnAction(e -> lastSelectedComboBox = startLocationBox);
+    endLocationBox.setOnAction(e -> lastSelectedComboBox = endLocationBox);
 
     bathroomBtn.setOnAction(e -> detourBtnPressed(e));
     cafeBtn.setOnAction(e -> detourBtnPressed(e));
@@ -238,9 +244,9 @@ public class PathfindingPageController extends SubPage {
     // Init Map
     Platform.runLater(
         () -> {
+          mapInsertController.removeAllAdornerElements();
           // mapInsertController.getFloorMenu().setText("Parking");
           mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
-
           mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
           startLocationBox.requestFocus();
@@ -460,10 +466,14 @@ public class PathfindingPageController extends SubPage {
   private void handleFloorChanged(ActionEvent e, int menuItemIndex) {
     // This should be optimised to only switch if the floor actually changed, but its very fast, so
     // I cant be bothered
+
     mapInsertController.removeAllAdornerElements();
     mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
     mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
     drawPath(pathNodes);
+    if (lastSelectedComboBox != null) {
+      lastSelectedComboBox.requestFocus();
+    }
     // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   }
 
@@ -484,6 +494,7 @@ public class PathfindingPageController extends SubPage {
   private void generateTextDirections(ArrayList<Node> pathNodes) {
     textDirectionViewer.getChildren().clear();
     textDirectionsBox.setVisible(true);
+
     ArrayList<String> directionList = AlgorithmCalls.textDirections(pathNodes);
     for (String direction : directionList) {
 
@@ -495,6 +506,11 @@ public class PathfindingPageController extends SubPage {
   // PATHFINDING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   /** resetGraphNodesEdges sets graph, nodes, stairs, to updated values in ActiveGraph */
   private void resetGraphNodesEdges() {
+    try {
+      ActiveGraph.initialize();
+    } catch (Exception exception) {
+      // IT NO WORK
+    }
     nodes = ActiveGraph.getNodes();
     edges = ActiveGraph.getEdges();
     graph = ActiveGraph.getActiveGraph();
@@ -558,27 +574,27 @@ public class PathfindingPageController extends SubPage {
 
       mapInsertController.clearSelection();
 
-      ArrayList<Node> nodes = runAlgo(graph, startID, endLocations, noType);
+      ArrayList<Node> algoNodes = runAlgo(graph, startID, endLocations, noType);
 
       boolean detour = false;
       if (bathroom) {
-        endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "REST");
+        endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "REST");
         detour = true;
       }
       if (restaurant) {
-        endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "FOOD");
+        endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "FOOD");
         detour = true;
       }
       if (kiosk) {
-        endLocations = AlgorithmCalls.dijkstraDetour(graph, nodes, endLocations, "KIOS");
+        endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "KIOS");
         detour = true;
       }
       // If we've taken a detour, regenerate path
       if (detour) {
-        nodes = runAlgo(graph, startID, endLocations, noType);
+        algoNodes = runAlgo(graph, startID, endLocations, noType);
       }
 
-      pathNodes = nodes;
+      pathNodes = algoNodes;
       drawPath(pathNodes);
 
       generateTextDirections(pathNodes);
@@ -595,13 +611,10 @@ public class PathfindingPageController extends SubPage {
       for (int i = 0; i < nodes.size() - 1; i++) {
         MapController.CircleEx n =
             (MapController.CircleEx)
-                mapInsertController.getAdornerPane().getScene().lookup("#" + nodes.get(i).nodeID);
+                mapInsertController.getAdornerPane().lookup("#" + nodes.get(i).nodeID);
         MapController.CircleEx m =
             (MapController.CircleEx)
-                mapInsertController
-                    .getAdornerPane()
-                    .getScene()
-                    .lookup("#" + nodes.get(i + 1).nodeID);
+                mapInsertController.getAdornerPane().lookup("#" + nodes.get(i + 1).nodeID);
 
         if (n != null) {
           mapInsertController.selectCircle(n);
@@ -615,7 +628,6 @@ public class PathfindingPageController extends SubPage {
               (MapController.LineEx)
                   mapInsertController
                       .getAdornerPane()
-                      .getScene()
                       .lookup("#" + nodes.get(i).nodeID + "_" + nodes.get(i + 1).nodeID);
 
           if (l == null) {
@@ -623,7 +635,6 @@ public class PathfindingPageController extends SubPage {
                 (MapController.LineEx)
                     mapInsertController
                         .getAdornerPane()
-                        .getScene()
                         .lookup("#" + nodes.get(i + 1).nodeID + "_" + nodes.get(i).nodeID);
           }
 
