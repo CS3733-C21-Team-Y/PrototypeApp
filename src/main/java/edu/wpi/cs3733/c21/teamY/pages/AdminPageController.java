@@ -536,6 +536,11 @@ public class AdminPageController extends SubPage {
         rightClickedNode = null; // just in case really
         rightClickedEdge = null;
 
+        boolean manyNodes = mapInsertController.getSelectedNodes().size() < 2;
+        // disables them if <2, enables otherwise.
+        alignVertical.setDisable(manyNodes);
+        alignHorizontal.setDisable(manyNodes);
+
         multiContextMenu.show(
             mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
       } else {
@@ -548,6 +553,9 @@ public class AdminPageController extends SubPage {
       }
     }
   }
+  // These are referenced in handler
+  MenuItem alignVertical = new MenuItem("Align Nodes Vertically");
+  MenuItem alignHorizontal = new MenuItem("Align Nodes Horizontally");
 
   private void defineContextMenus() {
 
@@ -568,7 +576,7 @@ public class AdminPageController extends SubPage {
 
     nodeContextMenu.getItems().addAll(addEdge, deleteNode);
     edgeContextMenu.getItems().addAll(deleteEdge);
-    multiContextMenu.getItems().addAll(deleteSelected);
+    multiContextMenu.getItems().addAll(alignHorizontal, alignVertical, deleteSelected);
     mapContextMenu.getItems().addAll(addNodeMap);
 
     addEdge.setOnAction(
@@ -604,6 +612,16 @@ public class AdminPageController extends SubPage {
         event -> {
           createNodeAt(contextMenuX, contextMenuY);
         });
+
+    alignHorizontal.setOnAction(
+        event -> {
+          contextMenuActions_AlignHorizontal();
+        });
+
+    alignVertical.setOnAction(
+        event -> {
+          contextMenuActions_AlignVertical();
+        });
   }
 
   private void contextMenuActions_Delete() {
@@ -616,6 +634,59 @@ public class AdminPageController extends SubPage {
       rightClickedEdge = null;
     }
     removeSelected();
+  }
+
+  // Should combine these
+  private void contextMenuActions_AlignVertical() {
+    MapController.CircleEx centerNode = null;
+    if (rightClickedNode != null) {
+      centerNode = rightClickedNode;
+    } else {
+      centerNode =
+          mapInsertController
+              .getSelectedNodes()
+              .get(mapInsertController.getSelectedNodes().size() - 1);
+    }
+
+    for (MapController.CircleEx c : mapInsertController.getSelectedNodes()) {
+      c.setCenterY(centerNode.getCenterY());
+
+      movedNodes = new ArrayList<MapController.CircleEx>();
+      if (!movedNodes.contains(c)) {
+        movedNodes.add(c);
+      }
+
+      c.updateAdjacentEdges();
+
+      updateNodePositionsInDB();
+      movedNodes = new ArrayList<MapController.CircleEx>();
+    }
+  }
+
+  private void contextMenuActions_AlignHorizontal() {
+    MapController.CircleEx centerNode = null;
+    if (rightClickedNode != null) {
+      centerNode = rightClickedNode;
+    } else {
+      centerNode =
+          mapInsertController
+              .getSelectedNodes()
+              .get(mapInsertController.getSelectedNodes().size() - 1);
+    }
+
+    for (MapController.CircleEx c : mapInsertController.getSelectedNodes()) {
+      c.setCenterX(centerNode.getCenterX());
+
+      movedNodes = new ArrayList<MapController.CircleEx>();
+      if (!movedNodes.contains(c)) {
+        movedNodes.add(c);
+      }
+
+      c.updateAdjacentEdges();
+
+      updateNodePositionsInDB();
+      movedNodes = new ArrayList<MapController.CircleEx>();
+    }
   }
 
   private void hideContextMenus() {
