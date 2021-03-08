@@ -157,28 +157,32 @@ public class AdminPageController extends SubPage {
 
           // Shift!!!!!!
           mapInsertController.getContainerStackPane().requestFocus();
-          anchor.setOnKeyPressed(
-              e -> {
-                mapInsertController.scrollOnPress(e);
+          anchor
+              .getScene()
+              .setOnKeyPressed(
+                  e -> {
+                    mapInsertController.scrollOnPress(e);
 
-                // Should be improved
-                if (e.isShiftDown()) {
-                  shiftPressed = true;
-                } else {
-                  shiftPressed = false;
-                }
-              });
+                    // Should be improved
+                    if (e.isShiftDown()) {
+                      shiftPressed = true;
+                    } else {
+                      shiftPressed = false;
+                    }
+                  });
 
-          anchor.setOnKeyReleased(
-              e -> {
-                mapInsertController.scrollOnRelease(e);
+          anchor
+              .getScene()
+              .setOnKeyReleased(
+                  e -> {
+                    mapInsertController.scrollOnRelease(e);
 
-                if (e.isShiftDown()) {
-                  shiftPressed = true;
-                } else {
-                  shiftPressed = false;
-                }
-              });
+                    if (e.isShiftDown()) {
+                      shiftPressed = true;
+                    } else {
+                      shiftPressed = false;
+                    }
+                  });
 
           deleteButton.setOnAction(
               e -> {
