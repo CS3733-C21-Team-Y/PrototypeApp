@@ -2,10 +2,7 @@ package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
-import edu.wpi.cs3733.c21.teamY.algorithms.AStarI;
-import edu.wpi.cs3733.c21.teamY.algorithms.AlgoContext;
-import edu.wpi.cs3733.c21.teamY.algorithms.BFSI;
-import edu.wpi.cs3733.c21.teamY.algorithms.DFSI;
+import edu.wpi.cs3733.c21.teamY.algorithms.*;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
@@ -71,6 +68,7 @@ public class GraphEditPageController extends SubPage {
   @FXML private MenuItem depthFirst;
   @FXML private MenuItem breadthFirst;
   @FXML private MenuItem aStar;
+  @FXML private MenuItem dijkstra;
 
   //  @FXML private MenuItem setFloorThreePage;
   //  @FXML private MenuItem setFloorFourPage;
@@ -532,6 +530,7 @@ public class GraphEditPageController extends SubPage {
           }
           depthFirst.setOnAction(
               e -> {
+                System.out.println("Why is it running here!!!");
                 info.getAlgorithmSelection().setContext(new DFSI());
                 stage.setUserData(info);
               });
@@ -543,6 +542,11 @@ public class GraphEditPageController extends SubPage {
           aStar.setOnAction(
               e -> {
                 info.getAlgorithmSelection().setContext(new AStarI());
+                stage.setUserData(info);
+              });
+          dijkstra.setOnAction(
+              e -> {
+                info.getAlgorithmSelection().setContext(new DijkstraI());
                 stage.setUserData(info);
               });
         });

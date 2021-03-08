@@ -323,9 +323,7 @@ public class AStarAlgorithm {
         j--;
       }
     }
-
     pathDirections.add("You have reached your destination.");
-    System.out.println(pathDirections);
     return pathDirections;
   }
 

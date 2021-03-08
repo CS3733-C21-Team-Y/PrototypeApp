@@ -104,15 +104,12 @@ public class DijkstrasAlgorithm {
         return nodePath;
       }
 
-
-
-
-        // Allows you to get all the neighbors of a node
-        // iterate through neighbors and find "path of least resistance
-        // Once found add to beginning of path list -> this gives you the node g.nodeFromID(node)
-        // repeat on that new (closer) node
-        // continue until start node is found
-        // TODO: Should return the list
+      // Allows you to get all the neighbors of a node
+      // iterate through neighbors and find "path of least resistance
+      // Once found add to beginning of path list -> this gives you the node g.nodeFromID(node)
+      // repeat on that new (closer) node
+      // continue until start node is found
+      // TODO: Should return the list
 
     }
     return null;

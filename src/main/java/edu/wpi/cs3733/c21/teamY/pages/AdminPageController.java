@@ -152,25 +152,29 @@ public class AdminPageController extends SubPage {
             stage.setUserData(info);
           }
           depthFirst.setOnAction(
-                  e -> {
-                    info.getAlgorithmSelection().setContext(new DFSI());
-                    stage.setUserData(info);
-                  });
+              e -> {
+                System.out.println("Set DFS");
+                info.getAlgorithmSelection().setContext(new DFSI());
+                stage.setUserData(info);
+              });
           breadthFirst.setOnAction(
-                  e -> {
-                    info.getAlgorithmSelection().setContext(new BFSI());
-                    stage.setUserData(info);
-                  });
+              e -> {
+                System.out.println("Set BFS");
+                info.getAlgorithmSelection().setContext(new BFSI());
+                stage.setUserData(info);
+              });
           aStar.setOnAction(
-                  e -> {
-                    info.getAlgorithmSelection().setContext(new AStarI());
-                    stage.setUserData(info);
-                  });
+              e -> {
+                System.out.println("Set A*");
+                info.getAlgorithmSelection().setContext(new AStarI());
+                stage.setUserData(info);
+              });
           dijkstra.setOnAction(
-                  e -> {
-                    info.getAlgorithmSelection().setContext(new DijkstraI());
-                    stage.setUserData(info);
-                  });
+              e -> {
+                System.out.println("Set Dijkstra");
+                info.getAlgorithmSelection().setContext(new DijkstraI());
+                stage.setUserData(info);
+              });
 
           // Shift!!!!!!
           mapInsertController.getContainerStackPane().requestFocus();

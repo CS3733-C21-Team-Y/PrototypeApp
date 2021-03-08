@@ -216,11 +216,9 @@ public class PathfindingPageController extends SubPage {
     // Init Graph
     resetGraphNodesEdges();
     resetComboBoxes();
-    System.out.println("Made it one!");
     // this handles auto route calculation after covid survey determination
 
     String userId = Settings.getSettings().getCurrentUsername();
-    System.out.println("Made it!");
     if (DataOperations.checkForCompletedCovidSurvey(userId)) {
       System.out.println("Check complete!");
       int status = DataOperations.checkSurveyStatus(userId);
