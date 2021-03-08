@@ -63,7 +63,7 @@ public class PathfindingPageController extends SubPage {
   private ArrayList<Edge> edges = new ArrayList<Edge>();
 
   private ArrayList<Node> pathNodes = new ArrayList<Node>(); // Used to store path between floors
-
+  private ComboBox lastSelectedComboBox = null;
   // Used to save start/end node on a floor
   MapController.CircleEx startNode;
   MapController.CircleEx endNode;
@@ -178,6 +178,9 @@ public class PathfindingPageController extends SubPage {
                 calculatePath();
               }
             });
+
+    startLocationBox.setOnAction(e -> lastSelectedComboBox = startLocationBox);
+    endLocationBox.setOnAction(e -> lastSelectedComboBox = endLocationBox);
 
     bathroomBtn.setOnAction(e -> detourBtnPressed(e));
     cafeBtn.setOnAction(e -> detourBtnPressed(e));
@@ -463,10 +466,14 @@ public class PathfindingPageController extends SubPage {
   private void handleFloorChanged(ActionEvent e, int menuItemIndex) {
     // This should be optimised to only switch if the floor actually changed, but its very fast, so
     // I cant be bothered
+
     mapInsertController.removeAllAdornerElements();
     mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
     mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
     drawPath(pathNodes);
+    if (lastSelectedComboBox != null) {
+      lastSelectedComboBox.requestFocus();
+    }
     // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   }
 
@@ -606,9 +613,7 @@ public class PathfindingPageController extends SubPage {
                 mapInsertController.getAdornerPane().lookup("#" + nodes.get(i).nodeID);
         MapController.CircleEx m =
             (MapController.CircleEx)
-                mapInsertController
-                    .getAdornerPane()
-                    .lookup("#" + nodes.get(i + 1).nodeID);
+                mapInsertController.getAdornerPane().lookup("#" + nodes.get(i + 1).nodeID);
 
         if (n != null) {
           mapInsertController.selectCircle(n);
