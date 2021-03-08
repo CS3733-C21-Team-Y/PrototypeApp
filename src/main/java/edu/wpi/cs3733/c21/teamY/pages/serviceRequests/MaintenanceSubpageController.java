@@ -98,11 +98,38 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
 
+    clearIncomplete(category);
+    clearIncomplete(description);
+    clearIncomplete(urgency);
+    clearIncomplete(date2);
+    clearIncomplete(locationField);
+    clearIncomplete(employeeComboBox);
+
     if (category.getValue() == null
         || description.getText().equals("")
         || urgency.getValue() == null
         || date2.getText().equals("")
-        || locationField.getValue() == null) {
+        || locationField.getValue() == null
+        || (Settings.getSettings().getCurrentPermissions() == 3
+            && employeeComboBox.getValue() == null)) {
+      if (category.getValue() == null) {
+        incomplete(category);
+      }
+      if (urgency.getValue() == null) {
+        incomplete(urgency);
+      }
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
+      if (date2.getText().equals("")) {
+        incomplete(date2);
+      }
+      if (locationField.getValue() == null) {
+        incomplete(locationField);
+        if (employeeComboBox.getValue() == null) {
+          incomplete(employeeComboBox);
+        }
+      }
       nonCompleteForm(stackPane);
     } else {
 
@@ -114,7 +141,7 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
       service.setCategory((String) category.getValue());
       service.setLocation((String) locationField.getValue());
       service.setDescription(description.getText());
-      service.setUrgency((String) urgency.getValue());
+      service.setAdditionalInfo("Urgency: " + (String) urgency.getValue());
       service.setDate(date2.getText());
       service.setRequester(settings.getCurrentUsername());
       if (settings.getCurrentPermissions() == 3) {

@@ -28,24 +28,44 @@ public class GenericServiceFormPage extends SubPage {
     createPopUp(stackPane, "#5a5c94", "#ffffff", "Request Submitted!");
   }
 
+  public void clearIncomplete(JFXTextArea input) {
+    input.setStyle("-fx-border-color: transparent; -fx-border-radius: 10");
+  }
+
+  public void clearIncomplete(JFXTextField input) {
+    input.setStyle("-fx-border-color: transparent; -fx-border-radius: 10");
+  }
+
+  public void clearIncomplete(JFXComboBox input) {
+    input.setStyle("-fx-border-color: transparent; -fx-border-radius: 10");
+  }
+
+  public void clearIncomplete(JFXDatePicker input) {
+    input.setStyle("-fx-border-color: transparent; -fx-border-radius: 10");
+  }
+
+  public void clearIncomplete(JFXTimePicker input) {
+    input.setStyle("-fx-border-color: transparent; -fx-border-radius: 10");
+  }
+
   public void incomplete(JFXTextArea input) {
-    input.setStyle("-fx-border-color: red; -fx-border-radius: 10");
+    input.setStyle("-fx-border-color: red; -fx-border-radius: 0");
   }
 
   public void incomplete(JFXTextField input) {
-    input.setStyle("-fx-border-color: red; -fx-border-radius: 10");
+    input.setStyle("-fx-border-color: red; -fx-border-radius: 0");
   }
 
   public void incomplete(JFXComboBox input) {
-    input.setStyle("-fx-border-color: red; -fx-border-radius: 10");
+    input.setStyle("-fx-border-color: red; -fx-border-radius: 0; -fx-text-fill: white");
   }
 
   public void incomplete(JFXDatePicker input) {
-    input.setStyle("-fx-border-color: red; -fx-border-radius: 10");
+    input.setStyle("-fx-border-color: red; -fx-border-radius: 0");
   }
 
   public void incomplete(JFXTimePicker input) {
-    input.setStyle("-fx-border-color: red; -fx-border-radius: 10");
+    input.setStyle("-fx-border-color: red; -fx-border-radius: 0");
   }
 
   public void nonCompleteForm(StackPane stackPane) {

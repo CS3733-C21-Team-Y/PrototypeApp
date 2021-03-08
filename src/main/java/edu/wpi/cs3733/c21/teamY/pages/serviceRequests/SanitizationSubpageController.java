@@ -95,10 +95,33 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
 
+    clearIncomplete(locationField);
+    clearIncomplete(urgency);
+    clearIncomplete(biohazardLevel);
+    clearIncomplete(description);
+    clearIncomplete(employeeComboBox);
+
     if (locationField.toString().equals("")
         || urgency.toString().equals("")
         || biohazardLevel.toString().equals("")
         || description.getText().equals("")) {
+      if (description.getText().equals("")
+          || (Settings.getSettings().getCurrentPermissions() == 3
+              && employeeComboBox.getValue() == null)) {
+        incomplete(description);
+      }
+      if (urgency.getValue() == null) {
+        incomplete(urgency);
+      }
+      if (locationField.getValue() == null) {
+        incomplete(locationField);
+      }
+      if (biohazardLevel.getValue() == null) {
+        incomplete(biohazardLevel);
+      }
+      if (employeeComboBox.getValue() == null) {
+        incomplete(employeeComboBox);
+      }
       nonCompleteForm(stackPane);
     } else {
 
@@ -109,7 +132,7 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
       service.setLocation((String) locationField.getValue());
       service.setCategory((String) biohazardLevel.getValue());
       service.setDescription(description.getText());
-      service.setUrgency((String) urgency.getValue());
+      service.setAdditionalInfo("Urgency: " + (String) urgency.getValue());
       service.setRequester(settings.getCurrentUsername());
       if (settings.getCurrentPermissions() == 3) {
         service.setEmployee((String) employeeComboBox.getValue());

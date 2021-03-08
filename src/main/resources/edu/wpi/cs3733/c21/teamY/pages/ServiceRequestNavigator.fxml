@@ -6,6 +6,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -27,6 +29,7 @@
          <children>
             <GridPane>
                <columnConstraints>
+                  <ColumnConstraints />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                </columnConstraints>
                <rowConstraints>
@@ -37,34 +40,31 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <JFXButton fx:id="myRequestsBtn" minWidth="90.0" rotate="-90.0" style="-fx-background-color: #3b3d73;" text="My Requests" textFill="#8d8ea4" textOverrun="CLIP" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets bottom="10.0" left="-30.0" top="10.0" />
-                     </GridPane.margin>
+                  <ToggleButton fx:id="assignedBtn" minWidth="100.0" mnemonicParsing="false" rotate="-90.0" style="-fx-base: #5e5da3; -fx-focus-color: #efeff9; -fx-faint-focus-color: #effef9;" text="Assigned" textFill="#efeff9" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font>
-                  </JFXButton>
-                  <JFXButton fx:id="assignedBtn" minWidth="90.0" rotate="-90.0" style="-fx-background-color: #3b3d73;" text="Assigned" textFill="#8d8ea4" textOverrun="CLIP" GridPane.rowIndex="2">
-                     <GridPane.margin>
-                        <Insets bottom="10.0" left="-30.0" top="10.0" />
-                     </GridPane.margin>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="group" />
+                     </toggleGroup>
+                  </ToggleButton>
+                  <ToggleButton fx:id="myRequestsBtn" minWidth="100.0" mnemonicParsing="false" rotate="-90.0" style="-fx-base: #5e5da3; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="My Requests" textFill="#efeff9" toggleGroup="$group" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font>
-                  </JFXButton>
-                  <JFXButton fx:id="allRequestsBtn" minWidth="90.0" rotate="-90.0" style="-fx-background-color: #3b3d73;" text="All Requests" textFill="#8d8ea4" textOverrun="CLIP" GridPane.rowIndex="3">
-                     <GridPane.margin>
-                        <Insets bottom="10.0" left="-30.0" top="10.0" />
-                     </GridPane.margin>
+                  </ToggleButton>
+                  <ToggleButton fx:id="allRequestsBtn" minWidth="100.0" mnemonicParsing="false" rotate="-90.0" style="-fx-base: #5e5da3; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="All Requests" textFill="#eeffee" toggleGroup="$group" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font>
-                  </JFXButton>
+                  </ToggleButton>
                </children>
                <GridPane.margin>
-                  <Insets />
+                  <Insets right="5.0" />
                </GridPane.margin>
+               <padding>
+                  <Insets right="2.0" />
+               </padding>
             </GridPane>
             <GridPane GridPane.columnIndex="1">
                <columnConstraints>
@@ -102,10 +102,11 @@
                   </FontAwesomeIconView>
                   <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #3f417a;" stylesheets="@../UIStyles.css" GridPane.rowIndex="2">
                      <content>
-                        <VBox fx:id="serviceBox" prefHeight="800.0" prefWidth="500.0" style="-fx-background-color: #3f417a;">
+                        <VBox fx:id="serviceBox" maxHeight="9999.0" prefHeight="1440.0" prefWidth="510.0" style="-fx-background-color: #3f417a;">
                            <padding>
                               <Insets left="-5.0" />
-                           </padding></VBox>
+                           </padding>
+                        </VBox>
                      </content>
                   </ScrollPane>
                   <Label text="Service Requests" textFill="WHITE" GridPane.rowIndex="1">

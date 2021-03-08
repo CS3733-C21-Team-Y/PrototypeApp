@@ -177,11 +177,31 @@ public class AStarAlgorithm {
     return ZERO;
   }
 
+  public static String nodeToRealDist(Node node1, Node node2) {
+    double distance =
+        Math.sqrt(
+            Math.pow((node2.xcoord - node1.xcoord), 2)
+                + Math.pow((node2.ycoord - node1.ycoord), 2));
+    double ratio = 0.5;
+    String strDouble = String.format("%.1f", distance * ratio);
+    if (strDouble.equals("NaN")) {
+      return "0.0";
+    }
+    return strDouble;
+  }
+
   public static ArrayList<String> textDirections(ArrayList<Node> path) {
 
     ArrayList<String> pathDirections = new ArrayList<>();
 
-    pathDirections.add("Start from " + path.get(0).longName + " to " + path.get(1).longName);
+    pathDirections.add(
+        "Start from "
+            + path.get(0).longName
+            + " to "
+            + path.get(1).longName
+            + " for "
+            + nodeToRealDist(path.get(0), path.get(1))
+            + " ft.");
 
     for (int i = 0; i < path.size() - 2; i++) {
       double angle = directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2));
@@ -193,7 +213,10 @@ public class AStarAlgorithm {
                 + " and use "
                 + path.get(i + 2).longName
                 + " to go to floor "
-                + path.get(i + 2).floor);
+                + path.get(i + 2).floor
+                + " in "
+                + nodeToRealDist(path.get(i + 1), path.get(i + 2))
+                + " ft.");
       } else if (angle < -25) {
         // The Lefts
         if (angle < -120) {
@@ -201,15 +224,30 @@ public class AStarAlgorithm {
               "Walk towards "
                   + path.get(i + 1).longName
                   + " and turn around facing "
-                  + path.get(i + 2).longName);
+                  + path.get(i + 2).longName
+                  + " in "
+                  + nodeToRealDist(path.get(i + 1), path.get(i + 2))
+                  + " ft.");
 
         } else if (angle < -60) {
           pathDirections.add(
-              "Turn left from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
+              "Turn left from "
+                  + path.get(i + 1).longName
+                  + " to "
+                  + path.get(i + 2).longName
+                  + " in "
+                  + nodeToRealDist(path.get(i + 1), path.get(i + 2))
+                  + " ft.");
 
         } else {
           pathDirections.add(
-              "Bear left from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
+              "Bear left from "
+                  + path.get(i + 1).longName
+                  + " to "
+                  + path.get(i + 2).longName
+                  + " for "
+                  + nodeToRealDist(path.get(i + 1), path.get(i + 2))
+                  + " ft.");
         }
 
       } else if (angle > 25) {
@@ -219,22 +257,40 @@ public class AStarAlgorithm {
               "Walk towards "
                   + path.get(i + 1).longName
                   + " and turn around facing "
-                  + path.get(i + 2).longName);
+                  + path.get(i + 2).longName
+                  + " for "
+                  + nodeToRealDist(path.get(i + 1), path.get(i + 2))
+                  + " ft.");
 
         } else if (angle > 60) {
           pathDirections.add(
-              "Turn right from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
+              "Turn right from "
+                  + path.get(i + 1).longName
+                  + " to "
+                  + path.get(i + 2).longName
+                  + " in "
+                  + nodeToRealDist(path.get(i + 1), path.get(i + 2))
+                  + " ft.");
 
         } else {
           pathDirections.add(
-              "Bear right from " + path.get(i + 1).longName + " to " + path.get(i + 2).longName);
+              "Bear right from "
+                  + path.get(i + 1).longName
+                  + " to "
+                  + path.get(i + 2).longName
+                  + " for "
+                  + nodeToRealDist(path.get(i + 1), path.get(i + 2))
+                  + " ft.");
         }
       } else {
         pathDirections.add(
             "Continue Straight from "
                 + path.get(i + 1).longName
                 + " to "
-                + path.get(i + 2).longName);
+                + path.get(i + 2).longName
+                + " for "
+                + nodeToRealDist(path.get(i + 1), path.get(i + 2))
+                + " ft.");
       }
     }
 
@@ -267,7 +323,6 @@ public class AStarAlgorithm {
         j--;
       }
     }
-
     pathDirections.add("You have reached your destination.");
     return pathDirections;
   }

@@ -66,9 +66,28 @@ public class OutsideHospitalSubpageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
 
+    clearIncomplete(locationTextField);
+    clearIncomplete(descriptionTextArea);
+    clearIncomplete(serviceDate);
+    clearIncomplete(employeeComboBox);
+
     if (locationTextField.getText().equals("")
         || descriptionTextArea.getText().equals("")
-        || serviceDate.getValue() == null) {
+        || serviceDate.getValue() == null
+        || (Settings.getSettings().getCurrentPermissions() == 3
+            && employeeComboBox.getValue() == null)) {
+      if (locationTextField.getText().equals("")) {
+        incomplete(locationTextField);
+      }
+      if (descriptionTextArea.getText().equals("")) {
+        incomplete(descriptionTextArea);
+      }
+      if (serviceDate.getValue() == null) {
+        incomplete(serviceDate);
+      }
+      if (employeeComboBox.getValue() == null) {
+        incomplete(employeeComboBox);
+      }
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Outside Hospital");

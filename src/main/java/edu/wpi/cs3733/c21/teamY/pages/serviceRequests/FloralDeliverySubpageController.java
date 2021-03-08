@@ -72,10 +72,22 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
+    clearIncomplete(roomNumberInput);
+    clearIncomplete(categoryInput);
+    clearIncomplete(descriptionInput);
+    clearIncomplete(dateInput);
+    clearIncomplete(fromInput);
+    clearIncomplete(toInput);
+    clearIncomplete(employeeComboBox);
+
     if (roomNumberInput.getText().equals("")
         || categoryInput.getText().equals("")
         || descriptionInput.getText().equals("")
-        || dateInput.getText().equals("")) {
+        || dateInput.getText().equals("")
+        || fromInput.getText().equals("")
+        || toInput.getText().equals("")
+        || (Settings.getSettings().getCurrentPermissions() == 3
+            && employeeComboBox.getValue() == null)) {
       if (categoryInput.getText().equals("")) {
         incomplete(categoryInput);
       }
@@ -85,6 +97,18 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       if (dateInput.getText().equals("")) {
         incomplete(dateInput);
       }
+      if (roomNumberInput.getText().equals("")) {
+        incomplete(roomNumberInput);
+      }
+      if (toInput.getText().equals("")) {
+        incomplete(toInput);
+      }
+      if (fromInput.getText().equals("")) {
+        incomplete(fromInput);
+      }
+      if (employeeComboBox.getValue() == null) {
+        incomplete(employeeComboBox);
+      }
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Floral Delivery");
@@ -93,7 +117,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       service.setCategory(categoryInput.getText());
       service.setDescription(descriptionInput.getText());
       service.setRequester(settings.getCurrentUsername());
-      service.setAdditionalInfo(fromInput.getText() + " " + toInput.getText());
+      service.setAdditionalInfo("From: " + fromInput.getText() + " To: " + toInput.getText());
       service.setDate(dateInput.getText());
       if (settings.getCurrentPermissions() == 3) {
         service.setEmployee((String) employeeComboBox.getValue());

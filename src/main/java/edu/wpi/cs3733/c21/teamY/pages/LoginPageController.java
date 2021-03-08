@@ -9,10 +9,12 @@ import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 
 public class LoginPageController extends SubPage {
   @FXML JFXTextField employeeIDTextField;
@@ -63,6 +65,8 @@ public class LoginPageController extends SubPage {
   private void login(String tryID, String tryPwd) {
     try {
       if (DataOperations.findUser(tryID, tryPwd)) {
+        submittedPopUp(stackPane);
+
         parent.updateProfileBtn();
 
         if (Settings.getSettings().getCurrentPermissions() == 3) {
@@ -89,11 +93,12 @@ public class LoginPageController extends SubPage {
       } else {
         if (!errorMsgDisplayed) {
           errorMsgDisplayed = true;
-          errorMsg.setContent(
-              new Label("Username or password not recognized" + "\n please try again"));
-          errorMsg.show(stackPane);
+          //          errorMsg.setContent(
+          //              new Label("Username or password not recognized" + "\n please try again"));
+          //          errorMsg.show(stackPane);
+          unrecognizedUserOrPasswordPopUp(stackPane);
         } else {
-          errorMsg.close();
+          // errorMsg.close();
           errorMsgDisplayed = false;
         }
       }
@@ -101,5 +106,47 @@ public class LoginPageController extends SubPage {
       throwables.printStackTrace();
     }
     parent.drawByPermissions();
+  }
+
+  public void submittedPopUp(StackPane stackPane) {
+    createPopUp(stackPane, "#5a5c94", "#ffffff", "log in successfully!");
+  }
+
+  public void unrecognizedUserOrPasswordPopUp(StackPane stackPane) {
+    createPopUp(
+        stackPane,
+        "#ff6666",
+        "#fff9f9",
+        "Username or password not recognized" + "\n please try again");
+  }
+
+  private void createPopUp(
+      StackPane stackPane, String backgroundColor, String textColor, String textContent) {
+    JFXDialog submitted = new JFXDialog();
+
+    Label message = new Label();
+    message.setStyle(
+        " -fx-background-color: "
+            + backgroundColor
+            + "; -fx-background-radius: 6; -fx-font-size: 25; -fx-text-fill: "
+            + textColor);
+    message.setText(textContent);
+    message.maxHeight(70);
+    message.maxWidth(300);
+    message.prefHeight(70);
+    message.prefWidth(250);
+    Insets myInset = new Insets(10);
+    message.setPadding(myInset);
+    BorderStroke myStroke =
+        new BorderStroke(
+            Paint.valueOf(backgroundColor),
+            new BorderStrokeStyle(null, null, null, 6, 1, null),
+            new CornerRadii(6),
+            new BorderWidths(3));
+    Border myB = new Border(myStroke);
+    message.setBorder(myB);
+
+    submitted.setContent(message);
+    submitted.show(stackPane);
   }
 }
