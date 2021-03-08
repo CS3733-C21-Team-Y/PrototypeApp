@@ -491,7 +491,9 @@ public class AdminPageController extends SubPage {
 
       if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
           && (selNodes.size() == 0
-              || (selNodes.size() == 1 && selNodes.get(0) == rightClickedNode))) {
+              || (selNodes.size() == 1
+                  && selNodes.get(0)
+                      == (MapController.CircleEx) e.getPickResult().getIntersectedNode()))) {
         rightClickedNode = (MapController.CircleEx) e.getPickResult().getIntersectedNode();
         rightClickedEdge = null;
         nodeContextMenu.show(
@@ -530,9 +532,9 @@ public class AdminPageController extends SubPage {
 
     // MenuItem hideNode = new MenuItem("Hide Node");
     MenuItem addEdge = new MenuItem("Edge to...");
-    MenuItem deleteNode = new MenuItem("Delete");
-    MenuItem deleteEdge = new MenuItem("Delete");
-    MenuItem deleteSelected = new MenuItem("Delete");
+    MenuItem deleteNode = new MenuItem("DeleteN");
+    MenuItem deleteEdge = new MenuItem("DeleteE");
+    MenuItem deleteSelected = new MenuItem("DeleteS");
 
     nodeContextMenu.getItems().addAll(addEdge, deleteNode);
     edgeContextMenu.getItems().addAll(deleteEdge);
