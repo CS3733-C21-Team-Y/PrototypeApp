@@ -82,9 +82,28 @@ public class LaundrySubpageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
+    clearIncomplete(category);
+    clearIncomplete(description);
+    clearIncomplete(locationField);
+    clearIncomplete(employeeComboBox);
+
     if (category.getValue() == null
         || description.getText().equals("")
-        || locationField.getValue() == null) {
+        || locationField.getValue() == null
+        || (Settings.getSettings().getCurrentPermissions() == 3
+            && employeeComboBox.getValue() == null)) {
+      if (category.getValue() == null) {
+        incomplete(category);
+      }
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
+      if (locationField.getValue() == null) {
+        incomplete(locationField);
+      }
+      if (employeeComboBox.getValue() == null) {
+        incomplete(employeeComboBox);
+      }
       nonCompleteForm(stackPane);
     } else {
 
@@ -110,6 +129,7 @@ public class LaundrySubpageController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
 
       clearButton();
     }

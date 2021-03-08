@@ -389,6 +389,4 @@ public class EditNodeTableController extends SubPage {
 
     }
   }
-
-  public void updateDB() {}
 }

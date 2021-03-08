@@ -3,8 +3,10 @@ package edu.wpi.cs3733.c21.teamY.pages;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.SuperSecretSurprise.KnockKnockServer;
+import edu.wpi.cs3733.c21.teamY.algorithms.*;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -92,6 +94,8 @@ public class AdminPageController extends SubPage {
   @FXML private MenuItem depthFirst;
   @FXML private MenuItem breadthFirst;
   @FXML private MenuItem aStar;
+  @FXML private MenuItem dijkstra;
+
   //  @FXML private MenuItem setFloorThreePage;
   //  @FXML private MenuItem setFloorFourPage;
   //  @FXML private MenuItem setFloorFivePage;
@@ -102,6 +106,9 @@ public class AdminPageController extends SubPage {
   @FXML private Button secret;
 
   JFXDialog dialog = new JFXDialog();
+
+  MapController.CircleEx rightClickedNode;
+  MapController.LineEx rightClickedEdge;
 
   public AdminPageController() {}
 
@@ -123,6 +130,27 @@ public class AdminPageController extends SubPage {
           addMapPage();
           loadNodesFromDB();
           resetComboBoxes();
+
+          depthFirst.setOnAction(
+              e -> {
+                System.out.println("Set DFS");
+                Settings.getSettings().getAlgorithmSelection().setContext(new DFSI());
+              });
+          breadthFirst.setOnAction(
+              e -> {
+                System.out.println("Set BFS");
+                Settings.getSettings().getAlgorithmSelection().setContext(new BFSI());
+              });
+          aStar.setOnAction(
+              e -> {
+                System.out.println("Set A*");
+                Settings.getSettings().getAlgorithmSelection().setContext(new AStarI());
+              });
+          dijkstra.setOnAction(
+              e -> {
+                System.out.println("Set Dijkstra");
+                Settings.getSettings().getAlgorithmSelection().setContext(new DijkstraI());
+              });
 
           // Shift!!!!!!
           mapInsertController.getContainerStackPane().requestFocus();
@@ -151,8 +179,10 @@ public class AdminPageController extends SubPage {
 
           deleteButton.setOnAction(
               e -> {
-                removeSelected(e);
+                removeSelected();
               });
+
+          selectNewAlgo.setText("Select Algorithm");
 
           //          mapInsertController.getMapImageView().setScaleX(0.25);
 
@@ -186,6 +216,7 @@ public class AdminPageController extends SubPage {
                       rightClicked = true;
                     } else {
                       handleMouseDown(e);
+                      hideContextMenus();
                     }
                   });
 
@@ -222,6 +253,36 @@ public class AdminPageController extends SubPage {
           //                    mapInsertController.setBaseCircleRadius(6);
           //                    mapInsertController.setBaseLineWidth(5);
           //                    mapInsertController.setSelectedWidthRatio(5.0 / 3);
+
+          // TODO right click on map to add node, put this in map controller
+          nodeContextMenu = new ContextMenu();
+          MenuItem moveNode = new MenuItem("Move Node");
+          MenuItem addEdge = new MenuItem("Add Edge");
+          MenuItem hideNode = new MenuItem("Hide Node");
+          MenuItem deleteObject = new MenuItem("Delete Node");
+
+          nodeContextMenu.getItems().addAll(moveNode, addEdge, hideNode, deleteObject);
+
+          moveNode.setOnAction(
+              event -> {
+                if (rightClickedNode != null) {
+                  mapInsertController.selectCircle(rightClickedNode);
+                  rightClickedNode = null;
+                }
+              });
+          addEdge.setOnAction(
+              event -> {
+                mapInsertController.panOnButtons("up");
+              });
+          hideNode.setOnAction(
+              event -> {
+                System.out.println("do nothing");
+              });
+          deleteObject.setOnAction(
+              event -> {
+                mapInsertController.selectCircle(rightClickedNode);
+                removeSelected();
+              });
         });
   }
 
@@ -420,8 +481,31 @@ public class AdminPageController extends SubPage {
     jfxNodeBeingDragged = null;
   }
 
+  private ContextMenu nodeContextMenu;
+  private ContextMenu edgeContextMenu;
+  private ContextMenu multiContextMenu;
+
   private void handleRightClick(MouseEvent e) {
-    System.out.println("Bring up context menu i guess");
+    if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
+      System.out.println("Bring up context menu i guess");
+
+      rightClickedNode = (MapController.CircleEx) e.getPickResult().getIntersectedNode();
+
+      nodeContextMenu.show(
+          mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+    }
+  }
+
+  private void hideContextMenus() {
+    if (nodeContextMenu != null) {
+      nodeContextMenu.hide();
+    }
+    if (edgeContextMenu != null) {
+      edgeContextMenu.hide();
+    }
+    if (multiContextMenu != null) {
+      multiContextMenu.hide();
+    }
   }
 
   private void loadNodesFromDB() {
@@ -633,7 +717,7 @@ public class AdminPageController extends SubPage {
   //          }
   //        }
 
-  private void removeSelected(ActionEvent e) {
+  private void removeSelected() {
     ArrayList<String> nodeIDs = new ArrayList<String>();
     for (MapController.CircleEx node : mapInsertController.getSelectedNodes()) {
       nodeIDs.add(node.getId());

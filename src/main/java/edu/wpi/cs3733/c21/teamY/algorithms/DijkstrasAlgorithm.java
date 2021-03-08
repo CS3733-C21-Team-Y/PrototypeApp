@@ -85,13 +85,32 @@ public class DijkstrasAlgorithm {
       }
       // Checks whether we've found all our goal nodes and exits early if so
       if (localGoals.get(0).equals(min)) {
-        g.nodeFromID(min).getNeighbors(); // Allows you to get all the neighbors of a node
-        // iterate through neighbors and find "path of least resistance
-        // Once found add to beginning of path list -> this gives you the node g.nodeFromID(node)
-        // repeat on that new (closer) node
-        // continue until start node is found
-        return null; // TODO: Should return the list
+        ArrayList<Node> nodeNeighbors = g.nodeFromID(min).getNeighbors();
+        ArrayList<Node> nodePath = new ArrayList<>();
+        nodePath.add(g.nodeFromID(min));
+        while (!nodePath.get(0).nodeID.equals(startID)) {
+          Node closeNode = null;
+          double nodeDist = Double.MAX_VALUE;
+          for (Node k : nodeNeighbors) {
+            if (dist.get(k.nodeID) < nodeDist) {
+              closeNode = k;
+              nodeDist = dist.get(k.nodeID);
+            }
+          }
+          nodePath.add(0, closeNode);
+          nodeNeighbors = g.nodeFromID(closeNode.nodeID).getNeighbors();
+        }
+
+        return nodePath;
       }
+
+      // Allows you to get all the neighbors of a node
+      // iterate through neighbors and find "path of least resistance
+      // Once found add to beginning of path list -> this gives you the node g.nodeFromID(node)
+      // repeat on that new (closer) node
+      // continue until start node is found
+      // TODO: Should return the list
+
     }
     return null;
   }
