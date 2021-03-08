@@ -233,6 +233,12 @@ public class PathfindingPageController extends SubPage {
             if (i != -1) {
               int index = i;
               ((JFXButton) menuItem).setOnAction(e -> handleFloorChanged(e, index));
+              if (!parent.isDesktop) {
+                ((JFXButton) menuItem).setMaxWidth(30);
+                ((JFXButton) menuItem).setMaxHeight(30);
+                ((JFXButton) menuItem).setMinWidth(30);
+                ((JFXButton) menuItem).setMinHeight(30);
+              }
               i++;
             } else {
               i++;
