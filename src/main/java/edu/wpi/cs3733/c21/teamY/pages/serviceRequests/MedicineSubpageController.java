@@ -54,10 +54,34 @@ public class MedicineSubpageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
+
+    clearIncomplete(patient);
+    clearIncomplete(date);
+    clearIncomplete(doctor);
+    clearIncomplete(medicine);
+    clearIncomplete(employeeComboBox);
+
     if (patient.getText().equals("")
         || date.getText().equals("")
         || doctor.getText().equals("")
         || medicine.getText().equals("")) {
+      if (patient.getText().equals("")
+          || (Settings.getSettings().getCurrentPermissions() == 3
+              && employeeComboBox.getValue() == null)) {
+        incomplete(patient);
+      }
+      if (date.getText().equals("")) {
+        incomplete(date);
+      }
+      if (doctor.getText().equals("")) {
+        incomplete(doctor);
+      }
+      if (medicine.getText().equals("")) {
+        incomplete(medicine);
+      }
+      if (employeeComboBox.getValue() == null) {
+        incomplete(employeeComboBox);
+      }
       nonCompleteForm(stackPane);
     } else {
 
@@ -82,6 +106,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
         e.printStackTrace();
       }
       submittedPopUp(stackPane);
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
       clearButton();
     }
   }

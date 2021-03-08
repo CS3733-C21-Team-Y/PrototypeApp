@@ -13,6 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 
@@ -21,9 +23,9 @@ public class ServiceRequestNavigatorController extends SubPage {
   public ScrollPane scrollPane;
   @FXML private VBox serviceBox;
   @FXML private JFXButton button2;
-  @FXML private JFXButton myRequestsBtn;
-  @FXML private JFXButton allRequestsBtn;
-  @FXML private JFXButton assignedBtn;
+  @FXML private ToggleButton myRequestsBtn;
+  @FXML private ToggleButton allRequestsBtn;
+  @FXML private ToggleButton assignedBtn;
   @FXML private JFXButton backBtn;
 
   // tooltip instantiations
@@ -48,6 +50,12 @@ public class ServiceRequestNavigatorController extends SubPage {
     Tooltip.install(allRequestsBtn, allRequestBtnTooltip);
     Tooltip.install(assignedBtn, assignedBtnTooltip);
     scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+    ToggleGroup group = new ToggleGroup();
+    myRequestsBtn.setToggleGroup(group);
+    assignedBtn.setToggleGroup(group);
+    allRequestsBtn.setToggleGroup(group);
+    // button3.setToggleGroup(group);
   }
 
   @Override

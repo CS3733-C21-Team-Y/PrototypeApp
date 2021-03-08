@@ -18,20 +18,14 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="60.0" vgrow="NEVER" />
+          <RowConstraints minHeight="10.0" prefHeight="9999.0" vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="60.0" prefHeight="60.0" vgrow="NEVER" />
         </rowConstraints>
          <children>
-            <AnchorPane fx:id="origRightPane" prefHeight="484.0" prefWidth="335.0">
-               <children>
-                  <JFXButton fx:id="origAdminToolsBtn" alignment="CENTER" contentDisplay="TOP" layoutX="138.0" layoutY="208.0" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text="Test" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" visible="false">
-                     <graphic>
-                        <FontAwesomeIconView fx:id="exitBtn1" accessibleText="Hello" fill="#575aa3" glyphName="SIGN_OUT" size="30" />
-                     </graphic>
-                  </JFXButton>
-               </children>
-            </AnchorPane>
-            <HBox maxHeight="-Infinity" prefHeight="75.0" prefWidth="335.0" style="-fx-background-color: efeff9;" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+            <AnchorPane fx:id="origRightPane" />
+            <AnchorPane fx:id="origCenterPane" GridPane.rowIndex="1" />
+            <HBox maxHeight="-Infinity" prefHeight="75.0" prefWidth="335.0" style="-fx-background-color: efeff9;" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
                <children>
                   <GridPane>
                      <columnConstraints>
@@ -104,8 +98,12 @@
                   </GridPane>
                </children>
             </HBox>
+            <JFXButton fx:id="origAdminToolsBtn" alignment="CENTER" contentDisplay="TOP" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text="Test" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" visible="false">
+               <graphic>
+                  <FontAwesomeIconView accessibleText="Hello" fill="#575aa3" glyphName="SIGN_OUT" size="30" />
+               </graphic>
+            </JFXButton>
          </children>
       </GridPane>
-      <AnchorPane fx:id="origCenterPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #3f417a;" />
    </children>
 </AnchorPane>

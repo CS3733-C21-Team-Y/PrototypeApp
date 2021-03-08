@@ -74,10 +74,43 @@ public class SecuritySubpageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
 
+    clearIncomplete(employeeComboBox);
+    clearIncomplete(description);
+    clearIncomplete(locationBox);
+    clearIncomplete(category);
+    clearIncomplete(urgency);
+    clearIncomplete(time);
+    clearIncomplete(datePickerObject);
+
     if (locationBox.toString().equals("")
         || description.getText().equals("")
         || category.toString().equals("")
-        || urgency.toString().equals("")) {
+        || urgency.toString().equals("")
+        || time.toString().equals("")
+        || datePickerObject.getValue() == null
+        || (Settings.getSettings().getCurrentPermissions() == 3
+            && employeeComboBox.getValue() == null)) {
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
+      if (locationBox.getValue() == null) {
+        incomplete(locationBox);
+      }
+      if (category.getValue() == null) {
+        incomplete(category);
+      }
+      if (urgency.getValue() == null) {
+        incomplete(urgency);
+      }
+      if (time.getValue() == null) {
+        incomplete(time);
+      }
+      if (datePickerObject.getValue() == null) {
+        incomplete(datePickerObject);
+      }
+      if (employeeComboBox.getValue() == null) {
+        incomplete(employeeComboBox);
+      }
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Security");
@@ -85,7 +118,7 @@ public class SecuritySubpageController extends GenericServiceFormPage {
       service.setCategory((String) category.getValue());
       service.setLocation((String) locationBox.getValue());
       service.setUrgency((String) urgency.getValue());
-      service.setAdditionalInfo(time.getValue().toString());
+      service.setAdditionalInfo("Time: " + time.getValue().toString());
       service.setDate(datePickerObject.getValue().toString());
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());
@@ -104,6 +137,7 @@ public class SecuritySubpageController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
       clearButton();
     }
   }
