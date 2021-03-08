@@ -50,7 +50,7 @@ public class Node {
     this.ycoord = ycoord;
     this.floor = floor;
     this.building = "Faulkner";
-    this.longName = "UserLongName";
+    this.longName = "UserLongName " + nodeID;
     this.shortName = "usrShrtNme";
     this.teamAssigned = 'y';
     this.nodeID = nodeID;
