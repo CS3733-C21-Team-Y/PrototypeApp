@@ -159,6 +159,7 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
       clearButton();
     }
   }

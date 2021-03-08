@@ -129,6 +129,7 @@ public class LaundrySubpageController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
 
       clearButton();
     }

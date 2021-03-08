@@ -135,6 +135,7 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
       clearButton();
     }
   }

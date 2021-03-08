@@ -88,10 +88,10 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
     if (giftType.getValue() == null
         || locationField.getValue() == null
         || description.getText().equals("")
-        || datePicker.getValue() == null) {
-      if (locationField.getValue() == null
-          || (Settings.getSettings().getCurrentPermissions() == 3
-              && employeeComboBox.getValue() == null)) {
+        || datePicker.getValue() == null
+        || (Settings.getSettings().getCurrentPermissions() == 3
+            && employeeComboBox.getValue() == null)) {
+      if (locationField.getValue() == null) {
         incomplete(locationField);
       }
       if (datePicker.getValue() == null) {
@@ -129,6 +129,7 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
         e.printStackTrace();
       }
       submittedPopUp(stackPane);
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
       clearButton();
     }
   }

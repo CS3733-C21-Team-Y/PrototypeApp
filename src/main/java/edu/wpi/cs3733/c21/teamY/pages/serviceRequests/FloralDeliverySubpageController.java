@@ -126,6 +126,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       }
 
       clearButton();
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
       submittedPopUp(stackPane);
       try {
         DataOperations.saveService(service);

@@ -149,6 +149,7 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
       }
 
       submittedPopUp(stackPane);
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
       clearButton();
     }
   }

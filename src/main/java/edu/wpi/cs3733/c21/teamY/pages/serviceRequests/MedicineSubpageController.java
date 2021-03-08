@@ -106,6 +106,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
         e.printStackTrace();
       }
       submittedPopUp(stackPane);
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
       clearButton();
     }
   }

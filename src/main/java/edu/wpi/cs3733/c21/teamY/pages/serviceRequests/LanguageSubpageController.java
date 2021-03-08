@@ -123,6 +123,9 @@ public class LanguageSubpageController extends GenericServiceFormPage {
       } else {
         service.setEmployee("admin");
       }
+      submittedPopUp(stackPane);
+      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+      clearButton();
 
       try {
         DataOperations.saveService(service);
@@ -131,9 +134,6 @@ public class LanguageSubpageController extends GenericServiceFormPage {
       } catch (IllegalAccessException e) {
         e.printStackTrace();
       }
-
-      submittedPopUp(stackPane);
-      clearButton();
     }
   }
 }
