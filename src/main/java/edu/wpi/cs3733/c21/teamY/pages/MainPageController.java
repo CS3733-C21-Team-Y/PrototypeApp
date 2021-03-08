@@ -26,7 +26,7 @@ public class MainPageController {
   @FXML private JFXButton origSignInBtn;
   @FXML private JFXButton origNavigationBtn;
   @FXML private JFXButton origServiceRequestBtn;
-  @FXML private JFXButton origAdminToolsBtn;
+  @FXML public JFXButton origAdminToolsBtn;
   @FXML private JFXButton origGoogleNavBtn;
   @FXML private JFXButton exitBtn;
   //  @FXML private ScrollPane scrollPane;
@@ -34,7 +34,7 @@ public class MainPageController {
   private JFXButton signInBtn;
   private JFXButton navigationBtn;
   private JFXButton serviceRequestBtn;
-  private JFXButton adminToolsBtn;
+  public JFXButton adminToolsBtn;
   private JFXButton googleNavBtn;
   private AnchorPane rightPane;
   private AnchorPane centerPane;
@@ -136,6 +136,7 @@ public class MainPageController {
         MainPageController controller = (MainPageController) fxmlLoader.getController();
         controller.instance.isDesktop = false;
         controller.instance.setCenterColumnWidth(0);
+        controller.instance.adminToolsBtn.setVisible(false);
       } else {
         scene = new Scene(fxmlLoader.load(getClass().getResource("MainPage.fxml")));
         MainPageController controller = (MainPageController) fxmlLoader.getController();
