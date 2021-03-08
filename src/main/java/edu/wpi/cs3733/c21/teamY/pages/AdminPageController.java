@@ -526,7 +526,7 @@ public class AdminPageController extends SubPage {
             (MapController.LineEx) e.getPickResult().getIntersectedNode().getParent();
 
         // EDGE MENU
-        contextMenu.getItems().addAll(deleteMenuItem);
+        contextMenu.getItems().addAll(makeNodeHorizontal, makeNodeVertical, deleteMenuItem);
         contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
       }
       // Right Clicked MultiSelect
@@ -560,8 +560,10 @@ public class AdminPageController extends SubPage {
   MenuItem alignVertical = new MenuItem("Align Nodes Vertically");
   MenuItem alignHorizontal = new MenuItem("Align Nodes Horizontally");
   MenuItem addEdgeMenuItem = new MenuItem("Edge to...");
-  MenuItem deleteMenuItem = new MenuItem("Delete");
   MenuItem addNodeMenuItem = new MenuItem("Add Node");
+  MenuItem makeNodeVertical = new MenuItem("Make Vertical");
+  MenuItem makeNodeHorizontal = new MenuItem("Make Horizontal");
+  MenuItem deleteMenuItem = new MenuItem("Delete");
 
   private void assignContextMenuActions() {
 
@@ -593,12 +595,21 @@ public class AdminPageController extends SubPage {
 
     alignHorizontal.setOnAction(
         event -> {
-          contextMenuActions_AlignHorizontal();
+          contextMenuActions_Align(false);
         });
 
     alignVertical.setOnAction(
         event -> {
-          contextMenuActions_AlignVertical();
+          contextMenuActions_Align(true);
+        });
+
+    makeNodeVertical.setOnAction(
+        event -> {
+          contextMenuActions_MakeEdgeVertical();
+        });
+    makeNodeHorizontal.setOnAction(
+        event -> {
+          contextMenuActions_MakeEdgeHorizontal();
         });
   }
 
@@ -615,19 +626,30 @@ public class AdminPageController extends SubPage {
   }
 
   // Should combine these
-  private void contextMenuActions_AlignVertical() {
-    MapController.CircleEx centerNode = null;
+  private void contextMenuActions_Align(boolean vertical) {
+    double centerX = 0;
+    double centerY = 0;
     if (rightClickedNode != null) {
-      centerNode = rightClickedNode;
+      centerX = rightClickedNode.getCenterX();
+      centerY = rightClickedNode.getCenterY();
+    } else if (rightClickedEdge != null) {
+      centerX = contextMenuX;
+      centerY = contextMenuX;
     } else {
-      centerNode =
+      MapController.CircleEx centerNode =
           mapInsertController
               .getSelectedNodes()
               .get(mapInsertController.getSelectedNodes().size() - 1);
+      centerX = centerNode.getCenterX();
+      centerY = centerNode.getCenterY();
     }
 
     for (MapController.CircleEx c : mapInsertController.getSelectedNodes()) {
-      c.setCenterY(centerNode.getCenterY());
+      if (vertical) {
+        c.setCenterY(centerY);
+      } else {
+        c.setCenterX(centerX);
+      }
 
       movedNodes = new ArrayList<MapController.CircleEx>();
       if (!movedNodes.contains(c)) {
@@ -641,29 +663,27 @@ public class AdminPageController extends SubPage {
     }
   }
 
-  private void contextMenuActions_AlignHorizontal() {
-    MapController.CircleEx centerNode = null;
-    if (rightClickedNode != null) {
-      centerNode = rightClickedNode;
-    } else {
-      centerNode =
-          mapInsertController
-              .getSelectedNodes()
-              .get(mapInsertController.getSelectedNodes().size() - 1);
-    }
-
-    for (MapController.CircleEx c : mapInsertController.getSelectedNodes()) {
-      c.setCenterX(centerNode.getCenterX());
-
-      movedNodes = new ArrayList<MapController.CircleEx>();
-      if (!movedNodes.contains(c)) {
-        movedNodes.add(c);
+  private void contextMenuActions_MakeEdgeVertical() {
+    if (rightClickedEdge != null) {
+      if (rightClickedEdge.startNode != null) {
+        mapInsertController.selectCircle(rightClickedEdge.startNode);
       }
+      if (rightClickedEdge.endNode != null) {
+        mapInsertController.selectCircle(rightClickedEdge.endNode);
+      }
+      contextMenuActions_Align(false);
+    }
+  }
 
-      c.updateAdjacentEdges();
-
-      updateNodePositionsInDB();
-      movedNodes = new ArrayList<MapController.CircleEx>();
+  private void contextMenuActions_MakeEdgeHorizontal() {
+    if (rightClickedEdge != null) {
+      if (rightClickedEdge.startNode != null) {
+        mapInsertController.selectCircle(rightClickedEdge.startNode);
+      }
+      if (rightClickedEdge.endNode != null) {
+        mapInsertController.selectCircle(rightClickedEdge.endNode);
+      }
+      contextMenuActions_Align(true);
     }
   }
 
