@@ -487,6 +487,7 @@ public class PathfindingPageController extends SubPage {
   private void generateTextDirections(ArrayList<Node> pathNodes) {
     textDirectionViewer.getChildren().clear();
     textDirectionsBox.setVisible(true);
+
     ArrayList<String> directionList = AlgorithmCalls.textDirections(pathNodes);
     for (String direction : directionList) {
 
@@ -606,9 +607,7 @@ public class PathfindingPageController extends SubPage {
                 mapInsertController.getAdornerPane().lookup("#" + nodes.get(i).nodeID);
         MapController.CircleEx m =
             (MapController.CircleEx)
-                mapInsertController
-                    .getAdornerPane()
-                    .lookup("#" + nodes.get(i + 1).nodeID);
+                mapInsertController.getAdornerPane().lookup("#" + nodes.get(i + 1).nodeID);
 
         if (n != null) {
           mapInsertController.selectCircle(n);
