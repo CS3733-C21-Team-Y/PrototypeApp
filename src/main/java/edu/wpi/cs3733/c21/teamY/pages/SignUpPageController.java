@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamY.pages;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.PasswordUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
@@ -79,13 +80,15 @@ public class SignUpPageController extends SubPage {
         .matches("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$")) {
       wrongEmailFormat(stackPane);
     } else {
+      String salt = PasswordUtils.getSalt(passwordTextField.getText().length());
       Employee employee =
           new Employee(
               firstnameTextField.getText(),
               lastnameTextField.getText(),
               usernameTextField.getText(),
-              passwordTextField.getText(),
-              emailTextField.getText());
+              PasswordUtils.generateSecurePassword(passwordTextField.getText(), salt),
+              emailTextField.getText(),
+              salt);
       try {
         DataOperations.createAccount(employee);
       } catch (SQLException throwables) {

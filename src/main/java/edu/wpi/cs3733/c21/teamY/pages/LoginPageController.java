@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.PasswordUtils;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
@@ -64,7 +65,22 @@ public class LoginPageController extends SubPage {
 
   private void login(String tryID, String tryPwd) {
     try {
-      if (DataOperations.findUser(tryID, tryPwd)) {
+
+      String securePassword = DataOperations.findUserSecurePassword(tryID);
+      String passwordSalt = DataOperations.findUserSalt(tryID);
+      boolean passwordMatch =
+          PasswordUtils.verifyUserPassword(tryPwd, securePassword, passwordSalt);
+
+      if (securePassword.equals("none")) {
+        errorMsgDisplayed = true;
+        //          errorMsg.setContent(
+        //              new Label("Username or password not recognized" + "\n please try again"));
+        //          errorMsg.show(stackPane);
+        unrecognizedUserOrPasswordPopUp(stackPane);
+      }
+
+      if (DataOperations.setUserSettings(tryID) || passwordMatch) {
+        DataOperations.setUserSettings(tryID);
         submittedPopUp(stackPane);
 
         parent.updateProfileBtn();
