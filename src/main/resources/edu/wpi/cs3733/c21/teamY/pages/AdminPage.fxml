@@ -69,6 +69,8 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </JFXButton>
+                              <JFXButton fx:id="employeeTableBtn" text="Employee Table" />
+                              <JFXButton fx:id="nodeTableBtn" text="Node Table" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.halignment="CENTER" GridPane.valignment="TOP">

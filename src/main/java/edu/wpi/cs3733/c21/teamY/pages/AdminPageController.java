@@ -38,6 +38,10 @@ public class AdminPageController extends SubPage {
   //  private Button toHomeBtn;
   @FXML private TextField newX;
   @FXML private TextField newY;
+
+  @FXML private JFXButton employeeTableBtn;
+  @FXML private JFXButton nodeTableBtn;
+
   //  private Button resetView;
 
   private boolean startEdgeFlag = true;
@@ -129,6 +133,9 @@ public class AdminPageController extends SubPage {
         });
 
     export.setOnAction(e -> exportToCSV());
+
+    employeeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditEmployeeTable.fxml"));
+    nodeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditNodeTable.fxml"));
 
     Platform.runLater(
         () -> {
