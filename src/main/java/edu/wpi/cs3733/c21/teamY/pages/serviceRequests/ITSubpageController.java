@@ -90,7 +90,8 @@ public class ITSubpageController extends GenericServiceFormPage {
         || locationComboBox.getValue() == null
         || affectsComboBox.getValue() == null
         || description.getText().equals("")
-        || employeeComboBox.getValue() == null) {
+        || (Settings.getSettings().getCurrentPermissions() == 3
+            && employeeComboBox.getValue() == null)) {
       if (categoryComboBox.getValue() == null) {
         incomplete(categoryComboBox);
       }

@@ -74,7 +74,8 @@ public class OutsideHospitalSubpageController extends GenericServiceFormPage {
     if (locationTextField.getText().equals("")
         || descriptionTextArea.getText().equals("")
         || serviceDate.getValue() == null
-        || employeeComboBox.getValue() == null) {
+        || (Settings.getSettings().getCurrentPermissions() == 3
+            && employeeComboBox.getValue() == null)) {
       if (locationTextField.getText().equals("")) {
         incomplete(locationTextField);
       }

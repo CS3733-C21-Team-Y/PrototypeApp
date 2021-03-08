@@ -86,7 +86,8 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
         || desiredLocation.getText().equals("")
         || patientName.getText().equals("")
         || date.getText().equals("")
-        || employeeComboBox.getValue() == null) {
+        || (Settings.getSettings().getCurrentPermissions() == 3
+            && employeeComboBox.getValue() == null)) {
       if (currentLocation.getText().equals("")) {
         incomplete(currentLocation);
       }
@@ -101,6 +102,9 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
       }
       if (employeeComboBox.getValue() == null) {
         incomplete(employeeComboBox);
+      }
+      if (description.getText().equals("")) {
+        incomplete(description);
       }
       nonCompleteForm(stackPane);
     } else {

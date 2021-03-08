@@ -88,20 +88,21 @@ public class SecuritySubpageController extends GenericServiceFormPage {
         || urgency.toString().equals("")
         || time.toString().equals("")
         || datePickerObject.getValue() == null
-        || employeeComboBox.getValue() == null) {
+        || (Settings.getSettings().getCurrentPermissions() == 3
+            && employeeComboBox.getValue() == null)) {
       if (description.getText().equals("")) {
         incomplete(description);
       }
-      if (locationBox.toString().equals("")) {
+      if (locationBox.getValue() == null) {
         incomplete(locationBox);
       }
-      if (category.toString().equals("")) {
+      if (category.getValue() == null) {
         incomplete(category);
       }
-      if (urgency.toString().equals("")) {
+      if (urgency.getValue() == null) {
         incomplete(urgency);
       }
-      if (time.toString().equals("")) {
+      if (time.getValue() == null) {
         incomplete(time);
       }
       if (datePickerObject.getValue() == null) {

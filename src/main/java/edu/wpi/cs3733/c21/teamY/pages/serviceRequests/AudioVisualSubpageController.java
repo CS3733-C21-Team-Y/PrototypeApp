@@ -92,7 +92,8 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
         || avTypeComboBox.getValue() == null
         || avDesc.getText().equals("")
         || avDate.getValue() == null
-        || avEmployeeComboBox.getValue() == null) {
+        || (Settings.getSettings().getCurrentPermissions() == 3
+            && avEmployeeComboBox.getValue() == null)) {
       if (avLocationComboBox.getValue() == null) {
         incomplete(avLocationComboBox);
       }
