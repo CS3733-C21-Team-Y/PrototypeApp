@@ -484,6 +484,7 @@ public class AdminPageController extends SubPage {
 
   private void handleRightClick(MouseEvent e) {
     // Right Clicked Node
+    hideContextMenus();
     if (!isDraggingAdorner && !creatingEdge) {
 
       ArrayList<MapController.CircleEx> selNodes = mapInsertController.getSelectedNodes();
