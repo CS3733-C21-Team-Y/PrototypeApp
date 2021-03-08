@@ -213,10 +213,10 @@ public class AStarAlgorithmTesting {
     TestGraph.initialize();
 
     ArrayList<String> answerList = new ArrayList<>();
-    answerList.add("Start from Node1 to Node5");
-    answerList.add("Bear right from Node5 to Node7");
-    answerList.add("Turn left from Node7 to Node6");
-    answerList.add("Continue Straight from Node6 to Node10");
+    answerList.add("Start from Node1 to Node5 for 5.8 ft.");
+    answerList.add("Bear right from Node5 to Node7 for 4.3 ft.");
+    answerList.add("Turn left from Node7 to Node6 in 4.8 ft.");
+    answerList.add("Continue Straight from Node6 to Node10 for 11.2 ft.");
     answerList.add("You have reached your destination.");
 
     ArrayList<Node> nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", "10", "");
@@ -227,16 +227,16 @@ public class AStarAlgorithmTesting {
     dest.add("7");
 
     answerList.remove("You have reached your destination.");
-    answerList.add("Walk towards Node10 and turn around facing Node6");
-    answerList.add("Continue Straight from Node6 to Node7");
+    answerList.add("Walk towards Node10 and turn around facing Node6 for 11.2 ft.");
+    answerList.add("Continue Straight from Node6 to Node7 for 4.8 ft.");
     answerList.add("You have reached your destination.");
 
     nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", dest, "");
     assertEquals(answerList, AStarAlgorithm.textDirections(nodes));
 
     answerList.clear();
-    answerList.add("Start from Node1 to Node2");
-    answerList.add("Continue Straight from Node2 to Node9");
+    answerList.add("Start from Node1 to Node2 for 6.9 ft.");
+    answerList.add("Continue Straight from Node2 to Node9 for 5.9 ft.");
     answerList.add("You have reached your destination.");
     nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", "9", "");
     assertEquals(answerList, AStarAlgorithm.textDirections(nodes));

@@ -3,8 +3,10 @@ package edu.wpi.cs3733.c21.teamY.pages;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.SuperSecretSurprise.KnockKnockServer;
+import edu.wpi.cs3733.c21.teamY.algorithms.*;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -92,6 +94,8 @@ public class AdminPageController extends SubPage {
   @FXML private MenuItem depthFirst;
   @FXML private MenuItem breadthFirst;
   @FXML private MenuItem aStar;
+  @FXML private MenuItem dijkstra;
+
   //  @FXML private MenuItem setFloorThreePage;
   //  @FXML private MenuItem setFloorFourPage;
   //  @FXML private MenuItem setFloorFivePage;
@@ -124,6 +128,27 @@ public class AdminPageController extends SubPage {
           loadNodesFromDB();
           resetComboBoxes();
 
+          depthFirst.setOnAction(
+              e -> {
+                System.out.println("Set DFS");
+                Settings.getSettings().getAlgorithmSelection().setContext(new DFSI());
+              });
+          breadthFirst.setOnAction(
+              e -> {
+                System.out.println("Set BFS");
+                Settings.getSettings().getAlgorithmSelection().setContext(new BFSI());
+              });
+          aStar.setOnAction(
+              e -> {
+                System.out.println("Set A*");
+                Settings.getSettings().getAlgorithmSelection().setContext(new AStarI());
+              });
+          dijkstra.setOnAction(
+              e -> {
+                System.out.println("Set Dijkstra");
+                Settings.getSettings().getAlgorithmSelection().setContext(new DijkstraI());
+              });
+
           // Shift!!!!!!
           mapInsertController.getContainerStackPane().requestFocus();
           anchor.setOnKeyPressed(
@@ -153,6 +178,8 @@ public class AdminPageController extends SubPage {
               e -> {
                 removeSelected(e);
               });
+
+          selectNewAlgo.setText("Select Algorithm");
 
           //          mapInsertController.getMapImageView().setScaleX(0.25);
 

@@ -3,8 +3,6 @@ package edu.wpi.cs3733.c21.teamY.pages;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
-import edu.wpi.cs3733.c21.teamY.algorithms.AStarI;
-import edu.wpi.cs3733.c21.teamY.algorithms.AlgoContext;
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
@@ -227,11 +225,9 @@ public class PathfindingPageController extends SubPage {
     // Init Graph
     resetGraphNodesEdges();
     resetComboBoxes();
-    System.out.println("Made it one!");
     // this handles auto route calculation after covid survey determination
 
     String userId = Settings.getSettings().getCurrentUsername();
-    System.out.println("Made it!");
     if (DataOperations.checkForCompletedCovidSurvey(userId)) {
       System.out.println("Check complete!");
       int status = DataOperations.checkSurveyStatus(userId);
@@ -288,14 +284,7 @@ public class PathfindingPageController extends SubPage {
   }*/
   private ArrayList<Node> runAlgo(
       Graph g, String startID, ArrayList<String> goalIDs, String accessType) {
-    Stage stage = (Stage) resetView.getScene().getWindow();
-    StageInformation info = (StageInformation) stage.getUserData();
-    if (info.getAlgorithmSelection().getContext() == null) {
-      info.setAlgorithmSelection(new AlgoContext());
-      info.getAlgorithmSelection().setContext(new AStarI());
-      stage.setUserData(info);
-    }
-    return info.getAlgorithmSelection().run(g, startID, goalIDs, accessType);
+    return Settings.getSettings().getAlgorithmSelection().run(g, startID, goalIDs, accessType);
   }
 
   private void detourBtnPressed(ActionEvent e) {
