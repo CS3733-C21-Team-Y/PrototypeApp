@@ -98,6 +98,12 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
 
+    clearIncomplete(category);
+    clearIncomplete(description);
+    clearIncomplete(urgency);
+    clearIncomplete(date2);
+    clearIncomplete(locationField);
+
     if (category.getValue() == null
         || description.getText().equals("")
         || urgency.getValue() == null
@@ -129,7 +135,7 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
       service.setCategory((String) category.getValue());
       service.setLocation((String) locationField.getValue());
       service.setDescription(description.getText());
-      service.setUrgency((String) urgency.getValue());
+      service.setAdditionalInfo("Urgency: " + (String) urgency.getValue());
       service.setDate(date2.getText());
       service.setRequester(settings.getCurrentUsername());
       if (settings.getCurrentPermissions() == 3) {

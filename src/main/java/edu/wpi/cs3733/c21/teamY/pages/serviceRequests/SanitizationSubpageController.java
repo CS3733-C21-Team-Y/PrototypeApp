@@ -95,6 +95,11 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
 
+    clearIncomplete(locationField);
+    clearIncomplete(urgency);
+    clearIncomplete(biohazardLevel);
+    clearIncomplete(description);
+
     if (locationField.toString().equals("")
         || urgency.toString().equals("")
         || biohazardLevel.toString().equals("")
@@ -121,7 +126,7 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
       service.setLocation((String) locationField.getValue());
       service.setCategory((String) biohazardLevel.getValue());
       service.setDescription(description.getText());
-      service.setUrgency((String) urgency.getValue());
+      service.setAdditionalInfo("Urgency: " + (String) urgency.getValue());
       service.setRequester(settings.getCurrentUsername());
       if (settings.getCurrentPermissions() == 3) {
         service.setEmployee((String) employeeComboBox.getValue());

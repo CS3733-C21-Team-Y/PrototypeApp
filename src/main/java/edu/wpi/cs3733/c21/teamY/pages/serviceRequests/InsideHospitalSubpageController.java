@@ -74,8 +74,15 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
+    clearIncomplete(desiredLocation);
+    clearIncomplete(description);
+    clearIncomplete(currentLocation);
+    clearIncomplete(patientName);
+    clearIncomplete(date);
+
     if (description.getText().equals("")
         || currentLocation.getText().equals("")
+        || desiredLocation.getText().equals("")
         || patientName.getText().equals("")
         || date.getText().equals("")) {
       if (currentLocation.getText().equals("")) {
@@ -87,6 +94,9 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
       if (date.getText().equals("")) {
         incomplete(date);
       }
+      if (desiredLocation.getText().equals("")) {
+        incomplete(desiredLocation);
+      }
       nonCompleteForm(stackPane);
     } else {
 
@@ -96,7 +106,8 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
       // service.setLocation((String) patientName.getValue());
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());
-      service.setLocation(currentLocation.getText());
+      service.setLocation(
+          "From: " + currentLocation.getText() + "To: " + desiredLocation.getText());
       service.setCategory(patientName.getText());
       service.setDate(date.getText());
       service.setAdditionalInfo(desiredLocation.getText());

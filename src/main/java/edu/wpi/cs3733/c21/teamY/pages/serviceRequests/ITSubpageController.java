@@ -80,9 +80,15 @@ public class ITSubpageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
+    clearIncomplete(categoryComboBox);
+    clearIncomplete(locationComboBox);
+    clearIncomplete(affectsComboBox);
+    clearIncomplete(description);
+
     if (categoryComboBox.getValue() == null
         || locationComboBox.getValue() == null
-        || affectsComboBox.getValue() == null) {
+        || affectsComboBox.getValue() == null
+        || description.getText().equals("")) {
       if (categoryComboBox.getValue() == null) {
         incomplete(categoryComboBox);
       }
@@ -92,6 +98,9 @@ public class ITSubpageController extends GenericServiceFormPage {
       if (affectsComboBox.getValue() == null) {
         incomplete(affectsComboBox);
       }
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
       nonCompleteForm(stackPane);
     } else {
 
@@ -99,7 +108,7 @@ public class ITSubpageController extends GenericServiceFormPage {
       this.IDCount++;
       service.setCategory((String) categoryComboBox.getValue());
       service.setLocation((String) locationComboBox.getValue());
-      service.setAdditionalInfo((String) affectsComboBox.getValue());
+      service.setAdditionalInfo("Affects: " + (String) affectsComboBox.getValue());
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());
       if (settings.getCurrentPermissions() == 3) {

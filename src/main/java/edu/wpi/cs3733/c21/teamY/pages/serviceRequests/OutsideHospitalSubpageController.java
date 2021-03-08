@@ -66,6 +66,10 @@ public class OutsideHospitalSubpageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
 
+    clearIncomplete(locationTextField);
+    clearIncomplete(descriptionTextArea);
+    clearIncomplete(serviceDate);
+
     if (locationTextField.getText().equals("")
         || descriptionTextArea.getText().equals("")
         || serviceDate.getValue() == null) {

@@ -77,7 +77,9 @@ public class SecuritySubpageController extends GenericServiceFormPage {
     if (locationBox.toString().equals("")
         || description.getText().equals("")
         || category.toString().equals("")
-        || urgency.toString().equals("")) {
+        || urgency.toString().equals("")
+        || time.toString().equals("")
+        || datePickerObject.getValue() == null) {
       if (description.getText().equals("")) {
         incomplete(description);
       }
@@ -90,6 +92,12 @@ public class SecuritySubpageController extends GenericServiceFormPage {
       if (urgency.toString().equals("")) {
         incomplete(urgency);
       }
+      if (time.toString().equals("")) {
+        incomplete(time);
+      }
+      if (datePickerObject.getValue() == null) {
+        incomplete(datePickerObject);
+      }
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(this.IDCount, "Security");
@@ -97,7 +105,7 @@ public class SecuritySubpageController extends GenericServiceFormPage {
       service.setCategory((String) category.getValue());
       service.setLocation((String) locationBox.getValue());
       service.setUrgency((String) urgency.getValue());
-      service.setAdditionalInfo(time.getValue().toString());
+      service.setAdditionalInfo("Time: " + time.getValue().toString());
       service.setDate(datePickerObject.getValue().toString());
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());

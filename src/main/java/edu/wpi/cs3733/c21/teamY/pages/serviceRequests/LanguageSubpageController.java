@@ -82,12 +82,26 @@ public class LanguageSubpageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    if (langOptions.getValue() == null || description.getText().equals("")) {
+    clearIncomplete(langOptions);
+    clearIncomplete(locationField);
+    clearIncomplete(description);
+    clearIncomplete(urgency);
+
+    if (langOptions.getValue() == null
+        || description.getText().equals("")
+        || urgency.getValue() == null
+        || locationField.getText().equals("")) {
       if (langOptions.getValue() == null) {
         incomplete(langOptions);
       }
       if (description.getText().equals("")) {
         incomplete(description);
+      }
+      if (urgency.getValue() == null) {
+        incomplete(urgency);
+      }
+      if (locationField.getText().equals("")) {
+        incomplete(locationField);
       }
       nonCompleteForm(stackPane);
     } else {
@@ -97,6 +111,7 @@ public class LanguageSubpageController extends GenericServiceFormPage {
       service.setLocation(locationField.getText());
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());
+      service.setAdditionalInfo("Urgency: " + (String) urgency.getValue());
       if (settings.getCurrentPermissions() == 3) {
         service.setEmployee((String) employeeComboBox.getValue());
       } else {

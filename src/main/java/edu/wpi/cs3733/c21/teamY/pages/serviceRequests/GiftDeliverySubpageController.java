@@ -80,6 +80,10 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
+    clearIncomplete(locationField);
+    clearIncomplete(description);
+    clearIncomplete(datePicker);
+
     if (giftType.getValue() == null
         || locationField.getValue() == null
         || description.getText().equals("")
