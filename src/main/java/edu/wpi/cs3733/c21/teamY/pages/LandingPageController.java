@@ -60,8 +60,8 @@ public class LandingPageController extends SubPage implements Initializable {
     Platform.runLater(
         () -> {
           scene = imageView.getScene();
-          //          imageView.setFitWidth(.9 * scene.getWidth());
-          //          imageView.setFitHeight(.6 * scene.getWidth());
+          imageView.setFitWidth(.45 * scene.getWidth());
+          imageView.setFitHeight(.3 * scene.getWidth());
           scene
               .widthProperty()
               .addListener(
