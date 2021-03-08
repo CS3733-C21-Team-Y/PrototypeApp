@@ -606,9 +606,7 @@ public class PathfindingPageController extends SubPage {
                 mapInsertController.getAdornerPane().lookup("#" + nodes.get(i).nodeID);
         MapController.CircleEx m =
             (MapController.CircleEx)
-                mapInsertController
-                    .getAdornerPane()
-                    .lookup("#" + nodes.get(i + 1).nodeID);
+                mapInsertController.getAdornerPane().lookup("#" + nodes.get(i + 1).nodeID);
 
         if (n != null) {
           mapInsertController.selectCircle(n);

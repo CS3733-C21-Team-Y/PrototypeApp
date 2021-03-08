@@ -53,6 +53,16 @@ public class Employee {
     this.primaryWorkspace = primaryWorkspace;
   }
 
+  public Employee(TableEmployee tb) {
+    this.firstName = tb.getFirstName().getValue();
+    this.lastName = tb.getLastName().getValue();
+    this.employeeID = tb.getEmployeeID().getValue();
+    this.password = tb.getPassword().getValue();
+    this.email = tb.getEmail().getValue();
+    this.accessLevel = Integer.parseInt(tb.getAccessLevel().getValue());
+    this.primaryWorkspace = tb.getPrimaryWorkspace().getValue();
+  }
+
   public String getPassword() {
     return password;
   }
