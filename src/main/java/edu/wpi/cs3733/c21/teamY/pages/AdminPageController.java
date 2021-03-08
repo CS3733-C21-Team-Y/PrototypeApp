@@ -6,6 +6,7 @@ import edu.wpi.cs3733.c21.teamY.SuperSecretSurprise.KnockKnockServer;
 import edu.wpi.cs3733.c21.teamY.algorithms.*;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class AdminPageController extends SubPage {
 
@@ -128,36 +128,25 @@ public class AdminPageController extends SubPage {
           loadNodesFromDB();
           resetComboBoxes();
 
-          Stage stage = (Stage) toolTip.getScene().getWindow();
-          StageInformation info = (StageInformation) stage.getUserData();
-          if (info.getAlgorithmSelection().getContext() == null) {
-            info.setAlgorithmSelection(new AlgoContext());
-            info.getAlgorithmSelection().setContext(new AStarI());
-            stage.setUserData(info);
-          }
           depthFirst.setOnAction(
               e -> {
                 System.out.println("Set DFS");
-                info.getAlgorithmSelection().setContext(new DFSI());
-                stage.setUserData(info);
+                Settings.getSettings().getAlgorithmSelection().setContext(new DFSI());
               });
           breadthFirst.setOnAction(
               e -> {
                 System.out.println("Set BFS");
-                info.getAlgorithmSelection().setContext(new BFSI());
-                stage.setUserData(info);
+                Settings.getSettings().getAlgorithmSelection().setContext(new BFSI());
               });
           aStar.setOnAction(
               e -> {
                 System.out.println("Set A*");
-                info.getAlgorithmSelection().setContext(new AStarI());
-                stage.setUserData(info);
+                Settings.getSettings().getAlgorithmSelection().setContext(new AStarI());
               });
           dijkstra.setOnAction(
               e -> {
                 System.out.println("Set Dijkstra");
-                info.getAlgorithmSelection().setContext(new DijkstraI());
-                stage.setUserData(info);
+                Settings.getSettings().getAlgorithmSelection().setContext(new DijkstraI());
               });
 
           // Shift!!!!!!
