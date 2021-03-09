@@ -58,6 +58,7 @@ public class PathfindingPageController extends SubPage {
   @FXML private JFXButton exitDirectionBtn;
   //  @FXML private VBox sideMenuVBox;
   @FXML private RowConstraints row1;
+  @FXML private JFXButton swapLocationsBox;
   // @FXML private Label zoomLabel;
 
   private ArrayList<Node> nodes = new ArrayList<Node>();
@@ -185,6 +186,14 @@ public class PathfindingPageController extends SubPage {
                 calculatePath();
               }
             });
+
+    swapLocationsBox.setOnAction(
+        e -> {
+          String startLoc = (String) startLocationBox.getValue();
+          startLocationBox.setValue(endLocationBox.getValue());
+          endLocationBox.setValue(startLoc);
+          calculatePath();
+        });
 
     startLocationBox.setOnAction(e -> lastSelectedComboBox = startLocationBox);
     endLocationBox.setOnAction(e -> lastSelectedComboBox = endLocationBox);
