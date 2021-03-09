@@ -9,6 +9,7 @@ import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -282,7 +283,14 @@ public class AdminPageController extends SubPage {
   }
 
   private void exportToCSV() {
-    // what goes here
+    try {
+      DataOperations.DBtoCSV("NODE");
+      DataOperations.DBtoCSV("EDGE");
+      DataOperations.DBtoCSV("EMPLOYEE");
+      DataOperations.DBtoCSV("SERVICE");
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
   }
 
   private boolean rightClicked;
@@ -566,6 +574,7 @@ public class AdminPageController extends SubPage {
       }
     }
   }
+
   // These are referenced in handler
   MenuItem alignVertical = new MenuItem("Align Nodes Vertically");
   MenuItem alignHorizontal = new MenuItem("Align Nodes Horizontally");
