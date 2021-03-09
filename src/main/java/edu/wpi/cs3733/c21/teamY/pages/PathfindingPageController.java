@@ -65,6 +65,7 @@ public class PathfindingPageController extends SubPage {
 
   private ArrayList<Node> pathNodes = new ArrayList<Node>(); // Used to store path between floors
   private ComboBox lastSelectedComboBox = null;
+  ArrayList<String> endLocations = new ArrayList<>();
   // Used to save start/end node on a floor
   MapController.CircleEx startNode;
   MapController.CircleEx endNode;
@@ -79,7 +80,7 @@ public class PathfindingPageController extends SubPage {
   private boolean restaurant = false;
   private boolean noStairs = false;
   private boolean kiosk = false;
-  private int nearestNodeRadius = 200;
+  private int nearestNodeRadius = 500;
 
   private boolean textExpanded = false;
 
@@ -285,7 +286,7 @@ public class PathfindingPageController extends SubPage {
           mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
           mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
-          mapInsertController.setDisplayUnselectedAdorners(true);
+          mapInsertController.setDisplayUnselectedAdorners(false);
 
           //          SubPage subPage = parent.rightPageController;
           startLocationBox.requestFocus();
@@ -644,7 +645,6 @@ public class PathfindingPageController extends SubPage {
   public void calculatePath() {
     clearPath();
     if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
-      ArrayList<String> endLocations = new ArrayList<>();
       String endID =
           graph.longNodes.get((String) endLocationBox.getValue())
               .nodeID; // (String) endLocationBox.getValue();
@@ -702,6 +702,7 @@ public class PathfindingPageController extends SubPage {
    * @param nodes is the path passed in
    */
   private void drawPath(ArrayList<Node> nodes) {
+    mapInsertController.clearSelection();
     if (nodes != null) {
       for (int i = 0; i < nodes.size() - 1; i++) {
         MapController.CircleEx n =
@@ -710,8 +711,10 @@ public class PathfindingPageController extends SubPage {
         MapController.CircleEx m =
             (MapController.CircleEx)
                 mapInsertController.getAdornerPane().lookup("#" + nodes.get(i + 1).nodeID);
-
-        if (n != null) {
+        if (n != null
+            && (i == 0
+                || endLocations.contains(
+                    n.getId()))) { // selects first circle in path and any destinations
           mapInsertController.selectCircle(n);
         }
         if (m != null && i == nodes.size() - 2) { // Selects last node in path
@@ -756,6 +759,7 @@ public class PathfindingPageController extends SubPage {
   private void clearPath() {
     mapInsertController.clearSelection();
     pathNodes = new ArrayList<Node>();
+    endLocations = new ArrayList<String>();
   }
 
   public JFXButton getBathroomBtn() {
