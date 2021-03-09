@@ -1220,12 +1220,16 @@ public class MapController extends SubPage {
         } else if (this.hasFocus) {
           this.setStrokeWidth(scaledLineWidthSelected);
           this.setStroke(Paint.valueOf("BLUE"));
-          timeline.stop();
+          if (timeline != null) {
+            timeline.stop();
+          }
           mainLine.getStrokeDashArray().clear();
         } else {
           this.setStrokeWidth(scaledLineWidth);
           this.setStroke(Paint.valueOf("BLACK"));
-          timeline.stop();
+          if (timeline != null) {
+            timeline.stop();
+          }
           mainLine.getStrokeDashArray().clear();
         }
       }
