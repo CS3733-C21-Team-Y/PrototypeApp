@@ -55,6 +55,7 @@ public class Employee {
     this.email = tb.getEmail().getValue();
     this.accessLevel = Integer.parseInt(tb.getAccessLevel().getValue());
     this.primaryWorkspace = tb.getPrimaryWorkspace().getValue();
+    this.salt = tb.getSalt().getValue();
   }
 
   public String getPassword() {

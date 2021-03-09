@@ -13,8 +13,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -92,6 +94,7 @@ public class AdminPageController extends SubPage {
   @FXML private MenuItem aStar;
   // @FXML private MenuItem dijkstra;
 
+  @FXML private StackPane popupStack;
   //  @FXML private MenuItem setFloorThreePage;
   //  @FXML private MenuItem setFloorFourPage;
   //  @FXML private MenuItem setFloorFivePage;
@@ -112,11 +115,6 @@ public class AdminPageController extends SubPage {
   public AdminPageController() {}
 
   public void initialize() {
-    //    loadNodesButton.setOnAction(
-    //        e -> {
-    //          loadNodesFromDB();
-    //          resetComboBoxes();
-    //        });
 
     secret.setOnAction(
         e -> {
@@ -131,27 +129,6 @@ public class AdminPageController extends SubPage {
           addMapPage();
           loadNodesFromDB();
           resetComboBoxes();
-
-          depthFirst.setOnAction(
-              e -> {
-                System.out.println("Set DFS");
-                Settings.getSettings().getAlgorithmSelection().setContext(new DFSI());
-              });
-          breadthFirst.setOnAction(
-              e -> {
-                System.out.println("Set BFS");
-                Settings.getSettings().getAlgorithmSelection().setContext(new BFSI());
-              });
-          aStar.setOnAction(
-              e -> {
-                System.out.println("Set A*");
-                Settings.getSettings().getAlgorithmSelection().setContext(new AStarI());
-              });
-          /*dijkstra.setOnAction(
-          e -> {
-            System.out.println("Set Dijkstra");
-            Settings.getSettings().getAlgorithmSelection().setContext(new DijkstraI());
-          });*/
 
           // Shift!!!!!!
           mapInsertController.getContainerStackPane().requestFocus();
@@ -280,6 +257,8 @@ public class AdminPageController extends SubPage {
                       handleMouseReleased(e);
                     }
                   });
+
+          selectNewAlgo.setOnAction(e -> selectAlgo(e));
 
           addEdge.setOnAction(
               event -> {
@@ -759,9 +738,60 @@ public class AdminPageController extends SubPage {
     // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   }
 
+  private void selectAlgo(Event e) {
+    if (((ComboBox) e.getSource()).getValue().equals("Set DFS")) {
+      Settings.getSettings().getAlgorithmSelection().setContext(new DFSI());
+      algoPopUp(popupStack, "DFS");
+    } else if (((ComboBox) e.getSource()).getValue().equals("Set BFS")) {
+      Settings.getSettings().getAlgorithmSelection().setContext(new BFSI());
+      algoPopUp(popupStack, "BFS");
+    } else if (((ComboBox) e.getSource()).getValue().equals("Set A*")) {
+      Settings.getSettings().getAlgorithmSelection().setContext(new AStarI());
+      algoPopUp(popupStack, "A*");
+    } else if (((ComboBox) e.getSource()).getValue().equals("Set Dijkstra")) {
+      Settings.getSettings().getAlgorithmSelection().setContext(new DijkstraI());
+      algoPopUp(popupStack, "Dijkstra");
+    }
+  }
+
+  public void algoPopUp(StackPane _stackPane, String selectedAlgo) {
+    createPopUp(_stackPane, "#5a5c94", "#ffffff", selectedAlgo + " was successfully selected.");
+  }
+
+  private void createPopUp(
+      StackPane _stackPane, String backgroundColor, String textColor, String textContent) {
+    JFXDialog submitted = new JFXDialog();
+
+    Label message = new Label();
+    message.setStyle(
+        " -fx-background-color: "
+            + backgroundColor
+            + "; -fx-background-radius: 6; -fx-font-size: 25; -fx-text-fill: "
+            + textColor);
+    message.setText(textContent);
+    message.maxHeight(70);
+    message.maxWidth(300);
+    message.prefHeight(70);
+    message.prefWidth(250);
+    Insets myInset = new Insets(10);
+    message.setPadding(myInset);
+    BorderStroke myStroke =
+        new BorderStroke(
+            Paint.valueOf(backgroundColor),
+            new BorderStrokeStyle(null, null, null, 6, 1, null),
+            new CornerRadii(6),
+            new BorderWidths(3));
+    Border myB = new Border(myStroke);
+    message.setBorder(myB);
+
+    submitted.setContent(message);
+    submitted.show(_stackPane);
+  }
+
   private void resetComboBoxes() {
     startLocationBox.getItems().remove(0, startLocationBox.getItems().size());
     endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
+    selectNewAlgo.getItems().remove(0, selectNewAlgo.getItems().size());
 
     for (edu.wpi.cs3733.c21.teamY.entity.Node node : nodes) {
       startLocationBox.getItems().add(node.nodeID);
@@ -770,6 +800,12 @@ public class AdminPageController extends SubPage {
     for (edu.wpi.cs3733.c21.teamY.entity.Node node : nodes) {
       endLocationBox.getItems().add(node.nodeID);
     }
+
+    selectNewAlgo.setPromptText("Select New Algorithm");
+    selectNewAlgo.getItems().add("Set DFS");
+    selectNewAlgo.getItems().add("Set BFS");
+    selectNewAlgo.getItems().add("Set A*");
+    selectNewAlgo.getItems().add("Set Dijkstra");
   }
 
   // stuff from other
