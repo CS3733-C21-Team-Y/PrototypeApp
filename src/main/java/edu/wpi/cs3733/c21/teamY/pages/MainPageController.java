@@ -99,6 +99,8 @@ public class MainPageController {
     origGoogleNavBtn.setOnAction(e -> buttonClicked(e));
     exitBtn.setOnMouseClicked(e -> Platform.exit());
     instance.drawByPermissions();
+    origCenterPane.setPickOnBounds(false);
+    origRightPane.setPickOnBounds(false);
     // instance.drawByPlatform();
 
     Tooltip.install(origNavigationBtn, origNavigationBtnTooltip);
@@ -257,7 +259,7 @@ public class MainPageController {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    rightPane.toFront();
+    if (!isDesktop) rightPane.toFront();
   }
 
   public void printWords() {
@@ -273,8 +275,14 @@ public class MainPageController {
       centerPageController.setParent(this);
       centerPageController.drawByPlatform();
       centerPane.getChildren().add(node);
+      node.setPickOnBounds(false);
+      node.toFront();
     } catch (IOException e) {
       e.printStackTrace();
+    }
+    if (isDesktop) {
+      centerPane.toFront();
+      centerPane.setPickOnBounds(false);
     }
   }
 
@@ -305,7 +313,7 @@ public class MainPageController {
         adminAccess = true;
     }
     serviceRequestBtn.setVisible(serviceAccess);
-    adminToolsBtn.setVisible(adminAccess);
+    if (instance.isDesktop) adminToolsBtn.setVisible(adminAccess);
   }
   //  public void loadSubPages() {
   //    Stage stage = (Stage) rightPane.getScene().getWindow();

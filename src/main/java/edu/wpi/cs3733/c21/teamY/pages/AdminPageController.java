@@ -9,7 +9,6 @@ import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -35,8 +34,6 @@ public class AdminPageController extends SubPage {
   @FXML private MapController mapInsertController;
   @FXML private EditNodeTableController editNodeTableController;
 
-  @FXML private CheckBox addNodecb;
-  @FXML private CheckBox addEdgecb;
   //  private Button toHomeBtn;
   @FXML private TextField newX;
   @FXML private TextField newY;
@@ -301,17 +298,6 @@ public class AdminPageController extends SubPage {
         });
   }
 
-  private void exportToCSV() {
-    try {
-      DataOperations.DBtoCSV("NODE");
-      DataOperations.DBtoCSV("EDGE");
-      DataOperations.DBtoCSV("EMPLOYEE");
-      DataOperations.DBtoCSV("SERVICE");
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    }
-  }
-
   private boolean rightClicked;
 
   private void handleMouseDown(MouseEvent e) {
@@ -441,9 +427,11 @@ public class AdminPageController extends SubPage {
           System.out.println("got here");
           endEdgeCreation((MapController.CircleEx) e.getPickResult().getIntersectedNode());
           // end the thing
-        } else if (addEdgecb.isSelected() && mapInsertController.getSelectedNodes().size() == 1) {
-          checkBoxCreateEdge((MapController.CircleEx) e.getPickResult().getIntersectedNode());
-        } else {
+        }
+        // else if (addEdgecb.isSelected() && mapInsertController.getSelectedNodes().size() == 1) {
+        //  checkBoxCreateEdge((MapController.CircleEx) e.getPickResult().getIntersectedNode());
+        // }
+        else {
           handleClickOnNode((MapController.CircleEx) e.getPickResult().getIntersectedNode());
         }
       }
@@ -461,16 +449,15 @@ public class AdminPageController extends SubPage {
 
         if (!mapInsertController.wasLastClickDrag()) {
           //                     If wasnt a drag, but clicked on blank map
-          if (addNodecb.isSelected()) {
+          // if (addNodecb.isSelected()) {
+          //  mapInsertController.clearSelection();
+          //  createNodecb(e);
+          // }
+          if (!shiftPressed
+              && startEdgeFlag
+              && !(e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
+                  || e.getPickResult().getIntersectedNode() instanceof MapController.LineEx))
             mapInsertController.clearSelection();
-            createNodecb(e);
-          } else {
-            if (!shiftPressed
-                && startEdgeFlag
-                && !(e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
-                    || e.getPickResult().getIntersectedNode() instanceof MapController.LineEx))
-              mapInsertController.clearSelection();
-          }
 
           if (creatingEdge) {
             endEdgeCreation(null);
@@ -845,7 +832,7 @@ public class AdminPageController extends SubPage {
     }
   }
 
-  private void createNodecb(MouseEvent e) {
+  /*private void createNodecb(MouseEvent e) {
     // when the add node checkbox is selected, the new nodes can be created
     // wherever the mouse clicks withing the scene
     if (addNodecb.isSelected()) {
@@ -853,7 +840,7 @@ public class AdminPageController extends SubPage {
           Math.floor(mapInsertController.scaleUpXCoords(e.getX())),
           Math.floor(mapInsertController.scaleUpYCoords(e.getY())));
     }
-  }
+  }*/
 
   private void createNodeAt(double x, double y) {
     String nodeID = String.valueOf(nodeIDCounter);
@@ -876,6 +863,7 @@ public class AdminPageController extends SubPage {
     mapInsertController.selectCircle(c);
   }
 
+  /*
   private void checkBoxCreateEdge(MapController.CircleEx endNode) {
     // creates an edge between two selected points when the checkbox is selected
     ArrayList<MapController.CircleEx> selectedNodes = mapInsertController.getSelectedNodes();
@@ -918,7 +906,7 @@ public class AdminPageController extends SubPage {
       mapInsertController.clearSelection();
       mapInsertController.selectLine(mapInsertController.addEdgeLine(ed));
     }
-  }
+  }*/
 
   Line edgeCreationLine = null;
 

@@ -367,7 +367,14 @@ public class EditNodeTableController extends SubPage {
   }
 
   private void exportToCSV() {
-    // what goes here
+    try {
+      DataOperations.DBtoCSV("NODE");
+      DataOperations.DBtoCSV("EDGE");
+      DataOperations.DBtoCSV("EMPLOYEE");
+      DataOperations.DBtoCSV("SERVICE");
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
   }
 
   private void expandTable(ActionEvent e) {

@@ -28,10 +28,11 @@ public class NavigationMapController extends SubPage {
   public NavigationMapController() {}
 
   public void initialize() {
-    addMapPage();
+
     expandBtn.setOnAction(e -> expandPathfinder(e));
     Platform.runLater(
         () -> {
+          addMapPage();
           if (!parent.isDesktop) {
             splitPaneTop.setPadding(new Insets(0, 15, 0, 0));
           }
@@ -55,13 +56,15 @@ public class NavigationMapController extends SubPage {
 
   @Override
   public void loadNavigationBar() {
-    if (parent.isDesktop) parent.animateCenterColumnWidth(400);
+    if (parent.isDesktop) parent.setCenterColumnWidth(0.0001);
     else parent.setCenterColumnWidth(200);
   }
 
   @Override
   public void drawByPlatform() {
     if (!parent.isDesktop) {
+      expandBtn.setVisible(false);
+    } else {
       expandBtn.setVisible(false);
     }
   }

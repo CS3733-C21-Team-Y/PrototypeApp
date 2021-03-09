@@ -252,6 +252,7 @@ public class MapController extends SubPage {
               });
 
           updateAdornerVisualsOnZoom();
+          resetMapView();
         });
   }
 
@@ -978,19 +979,48 @@ public class MapController extends SubPage {
   // endregion
 
   // region resetView
-  protected void resetMapView() {
-    mapImageView.setScaleX(1);
-    mapImageView.setScaleY(1);
-    adornerPane.setScaleX(1);
-    adornerPane.setScaleY(1);
+  //  protected void resetMapView() {
+  //    mapImageView.setScaleX(0.8);
+  //    mapImageView.setScaleY(0.8);
+  //    adornerPane.setScaleX(0.8);
+  //    adornerPane.setScaleY(0.8);
+  //
+  //    mapImageView.translateXProperty().setValue(-500);
+  //    mapImageView.translateYProperty().setValue(-500);
+  //    adornerPane.translateXProperty().setValue(-500);
+  //    adornerPane.translateYProperty().setValue(-500);
+  //
+  //    updateAdornerVisualsOnZoom();
+  //  }
 
-    mapImageView.translateXProperty().setValue(0);
-    mapImageView.translateYProperty().setValue(0);
-    adornerPane.translateXProperty().setValue(0);
-    adornerPane.translateYProperty().setValue(0);
+  protected void resetMapView() {
+    System.out.println(parent.isDesktop);
+    if (parent.isDesktop) {
+      System.out.println("scaling");
+      mapImageView.setScaleX(0.8);
+      mapImageView.setScaleY(0.8);
+      adornerPane.setScaleX(0.8);
+      adornerPane.setScaleY(0.8);
+
+      mapImageView.translateXProperty().setValue(-500);
+      mapImageView.translateYProperty().setValue(-500);
+      adornerPane.translateXProperty().setValue(-500);
+      adornerPane.translateYProperty().setValue(-500);
+    } else {
+      mapImageView.setScaleX(0.28);
+      mapImageView.setScaleY(0.28);
+      adornerPane.setScaleX(0.28);
+      adornerPane.setScaleY(0.28);
+
+      mapImageView.translateXProperty().setValue(-1010);
+      mapImageView.translateYProperty().setValue(-540);
+      adornerPane.translateXProperty().setValue(-1010);
+      adornerPane.translateYProperty().setValue(-540);
+    }
 
     updateAdornerVisualsOnZoom();
   }
+
   // endregion
 
   // region CircleEx and LineEx
@@ -1220,12 +1250,16 @@ public class MapController extends SubPage {
         } else if (this.hasFocus) {
           this.setStrokeWidth(scaledLineWidthSelected);
           this.setStroke(Paint.valueOf("BLUE"));
-          timeline.stop();
+          if (timeline != null) {
+            timeline.stop();
+          }
           mainLine.getStrokeDashArray().clear();
         } else {
           this.setStrokeWidth(scaledLineWidth);
           this.setStroke(Paint.valueOf("BLACK"));
-          timeline.stop();
+          if (timeline != null) {
+            timeline.stop();
+          }
           mainLine.getStrokeDashArray().clear();
         }
       }
