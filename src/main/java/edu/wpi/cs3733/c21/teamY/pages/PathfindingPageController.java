@@ -45,7 +45,6 @@ public class PathfindingPageController extends SubPage {
   @FXML private GridPane overlayGridPane;
   @FXML private JFXButton multDestinationBtn;
 
-
   //  @FXML private Slider zoomSlider;
   //  @FXML private Button upButton;
   //  @FXML private Button downButton;
@@ -259,7 +258,7 @@ public class PathfindingPageController extends SubPage {
             resetBtn.setMinHeight(36);
             // ((JFXButton) menuItem).setStyle("-fx-font: 20");
             resetBtn.setStyle(
-                "-fx-font-size: 10; -fx-background-color: #efeff9; -fx-background-radius: 18; -fx-font-size: 8");
+                "-fx-font-size: 10; -fx-background-color: #5a5c94; -fx-text-fill:#efeff9; -fx-background-radius: 18; -fx-font-size: 8");
           }
 
           int i = -1;
@@ -279,7 +278,7 @@ public class PathfindingPageController extends SubPage {
               // ((JFXButton) menuItem).setStyle("-fx-font: 20");
               ((JFXButton) menuItem)
                   .setStyle(
-                      "-fx-font-size: 17; -fx-background-color: #efeff9; -fx-background-radius: 18");
+                      "-fx-font-size: 17; -fx-background-color: #5a5c94; -fx-text-fill: #efeff9; -fx-background-radius: 18");
               // HBox.setMargin(menuItem, new Insets(0, 50, 0, 0));
             }
           }

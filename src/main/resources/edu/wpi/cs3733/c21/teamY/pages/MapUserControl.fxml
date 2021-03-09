@@ -40,7 +40,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <JFXButton fx:id="reset" buttonType="RAISED" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: efeff9; -fx-background-radius: 25;" text="Reset View" textAlignment="CENTER" wrapText="true" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+            <JFXButton fx:id="reset" buttonType="RAISED" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 25;" text="Reset View" textAlignment="CENTER" textFill="#efeff9" wrapText="true" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="70.0" right="10.0" />
                </GridPane.margin>
@@ -50,37 +50,37 @@
             </JFXButton>
             <JFXNodesList fx:id="floorList" prefHeight="0.0" prefWidth="0.0" spacing="10.0" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <children>
-                  <JFXButton fx:id="currentFloorBtn" buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: efeff9; -fx-background-radius: 25;" text="P">
+                  <JFXButton fx:id="currentFloorBtn" buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 25;" text="P" textFill="#efeff9">
                      <font>
                         <Font name="Calibri Bold" size="25.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: efeff9; -fx-background-radius: 25;" text="P">
+                  <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 25;" text="P" textFill="#efeff9">
                      <font>
                         <Font name="Calibri Bold" size="25.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: efeff9; -fx-background-radius: 25;" text="1">
+                  <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 25;" text="1" textFill="#efeff9">
                      <font>
                         <Font name="Calibri Bold" size="25.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: efeff9; -fx-background-radius: 25;" text="2">
+                  <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 25;" text="2" textFill="#efeff9">
                      <font>
                         <Font name="Calibri Bold" size="25.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: efeff9; -fx-background-radius: 25;" text="3">
+                  <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 25;" text="3" textFill="#efeff9">
                      <font>
                         <Font name="Calibri Bold" size="25.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: efeff9; -fx-background-radius: 25;" text="4">
+                  <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 25;" text="4" textFill="#efeff9">
                      <font>
                         <Font name="Calibri Bold" size="25.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: efeff9; -fx-background-radius: 25;" text="5">
+                  <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 25;" text="5" textFill="#efeff9">
                      <font>
                         <Font name="Calibri Bold" size="25.0" />
                      </font>
