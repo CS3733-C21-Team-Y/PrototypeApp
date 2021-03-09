@@ -1,8 +1,10 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.PasswordUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
@@ -18,7 +20,7 @@ public class SignUpPageController extends SubPage {
   @FXML private Button signupBtn;
   @FXML private Button exitBtn;
   @FXML private JFXTextField usernameTextField;
-  @FXML private JFXTextField passwordTextField;
+  @FXML private JFXPasswordField passwordTextField;
   @FXML private JFXTextField firstnameTextField;
   @FXML private JFXTextField lastnameTextField;
   @FXML private JFXTextField emailTextField;
@@ -79,13 +81,15 @@ public class SignUpPageController extends SubPage {
         .matches("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$")) {
       wrongEmailFormat(stackPane);
     } else {
+      String salt = PasswordUtils.getSalt(passwordTextField.getText().length());
       Employee employee =
           new Employee(
               firstnameTextField.getText(),
               lastnameTextField.getText(),
               usernameTextField.getText(),
-              passwordTextField.getText(),
-              emailTextField.getText());
+              PasswordUtils.generateSecurePassword(passwordTextField.getText(), salt),
+              emailTextField.getText(),
+              salt);
       try {
         DataOperations.createAccount(employee);
       } catch (SQLException throwables) {
@@ -100,7 +104,15 @@ public class SignUpPageController extends SubPage {
     input.setStyle("-fx-border-color: transparent; -fx-border-radius: 10");
   }
 
+  public void clearIncomplete(JFXPasswordField input) {
+    input.setStyle("-fx-border-color: transparent; -fx-border-radius: 10");
+  }
+
   public void incomplete(JFXTextField input) {
+    input.setStyle("-fx-border-color: red; -fx-border-radius: 0");
+  }
+
+  public void incomplete(JFXPasswordField input) {
     input.setStyle("-fx-border-color: red; -fx-border-radius: 0");
   }
 

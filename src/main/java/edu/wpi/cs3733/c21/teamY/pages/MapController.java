@@ -30,9 +30,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -74,7 +72,7 @@ public class MapController extends SubPage {
 
   // Used for adorner scaling
   private double baseCircleRadius = 6; // 3;
-  private double baseLineWidth = 4; // 2;
+  private double baseLineWidth = 6; // 2;
   private double selectedWidthRatio = 1.5; // 2;
 
   // Need to update these values properly
@@ -254,6 +252,7 @@ public class MapController extends SubPage {
               });
 
           updateAdornerVisualsOnZoom();
+          resetMapView();
         });
   }
 
@@ -347,14 +346,14 @@ public class MapController extends SubPage {
 
           if (child instanceof CircleEx) {
             CircleEx c = (CircleEx) child;
-            if (c.isVisible() && c.hasFocus) {
+            if (c.isVisible() && !c.hasFocus) {
               c.setVisible(false);
             }
           }
 
           if (child instanceof LineEx) {
             LineEx l = (LineEx) child;
-            if (l.isVisible() && l.hasFocus) {
+            if (l.isVisible() && !l.hasFocus) {
               l.setVisible(false);
             }
           }
@@ -531,7 +530,7 @@ public class MapController extends SubPage {
         new CircleEx(
             scaleXCoords(node.getXcoord()),
             scaleXCoords(node.getYcoord()),
-            baseCircleRadius / adornerPane.getScaleX());
+            baseCircleRadius); // adornerPane.getScaleX());
     // System.out.println(node.getNodeID());
     circleEx.setId(node.getNodeID());
     circleEx.setFill(Paint.valueOf("RED"));
@@ -954,9 +953,9 @@ public class MapController extends SubPage {
   }
 
   protected void updateAdornerVisualsOnZoom() {
-    scaledCircleRadius = baseCircleRadius / adornerPane.getScaleX();
-    scaledLineWidth = baseLineWidth / adornerPane.getScaleX();
-    scaledLineWidthSelected = baseLineWidth / adornerPane.getScaleX() * selectedWidthRatio;
+    scaledCircleRadius = baseCircleRadius; // adornerPane.getScaleX();
+    scaledLineWidth = baseLineWidth; // adornerPane.getScaleX();
+    scaledLineWidthSelected = baseLineWidth; // adornerPane.getScaleX() * selectedWidthRatio;
 
     for (javafx.scene.Node adorner : adornerPane.getChildren()) {
       if (adorner instanceof CircleEx) {
@@ -980,19 +979,48 @@ public class MapController extends SubPage {
   // endregion
 
   // region resetView
-  protected void resetMapView() {
-    mapImageView.setScaleX(1);
-    mapImageView.setScaleY(1);
-    adornerPane.setScaleX(1);
-    adornerPane.setScaleY(1);
+  //  protected void resetMapView() {
+  //    mapImageView.setScaleX(0.8);
+  //    mapImageView.setScaleY(0.8);
+  //    adornerPane.setScaleX(0.8);
+  //    adornerPane.setScaleY(0.8);
+  //
+  //    mapImageView.translateXProperty().setValue(-500);
+  //    mapImageView.translateYProperty().setValue(-500);
+  //    adornerPane.translateXProperty().setValue(-500);
+  //    adornerPane.translateYProperty().setValue(-500);
+  //
+  //    updateAdornerVisualsOnZoom();
+  //  }
 
-    mapImageView.translateXProperty().setValue(0);
-    mapImageView.translateYProperty().setValue(0);
-    adornerPane.translateXProperty().setValue(0);
-    adornerPane.translateYProperty().setValue(0);
+  protected void resetMapView() {
+    System.out.println(parent.isDesktop);
+    if (parent.isDesktop) {
+      System.out.println("scaling");
+      mapImageView.setScaleX(0.8);
+      mapImageView.setScaleY(0.8);
+      adornerPane.setScaleX(0.8);
+      adornerPane.setScaleY(0.8);
+
+      mapImageView.translateXProperty().setValue(-500);
+      mapImageView.translateYProperty().setValue(-500);
+      adornerPane.translateXProperty().setValue(-500);
+      adornerPane.translateYProperty().setValue(-500);
+    } else {
+      mapImageView.setScaleX(0.28);
+      mapImageView.setScaleY(0.28);
+      adornerPane.setScaleX(0.28);
+      adornerPane.setScaleY(0.28);
+
+      mapImageView.translateXProperty().setValue(-1010);
+      mapImageView.translateYProperty().setValue(-540);
+      adornerPane.translateXProperty().setValue(-1010);
+      adornerPane.translateYProperty().setValue(-540);
+    }
 
     updateAdornerVisualsOnZoom();
   }
+
   // endregion
 
   // region CircleEx and LineEx
@@ -1054,6 +1082,8 @@ public class MapController extends SubPage {
     public boolean hasFocus = false;
     public boolean biDirectional = false;
     public boolean direcVisualsEnabled = false;
+
+    private Timeline timeline = null;
 
     public LineEx(double startX, double startY, double endX, double endY) {
       mainLine = new Line(startX, startY, endX, endY);
@@ -1153,7 +1183,7 @@ public class MapController extends SubPage {
       double endX = mainLine.getEndX();
       double endY = mainLine.getEndY();
 
-      double width = mainLine.getStrokeWidth() / 2;
+      double width = mainLine.getStrokeWidth();
 
       double length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
       double directionX = (endX - startX) / length;
@@ -1161,7 +1191,8 @@ public class MapController extends SubPage {
 
       if (halfLine1 != null) {
         halfLine1.setStrokeWidth(width);
-        halfLine1.setStroke(Color.RED); // getGradient());
+        //        halfLine1.setStroke(Color.RED); // getGradient());
+        setLineAnimation(halfLine1);
 
         halfLine1.setStartX(startX + directionY * width);
         halfLine1.setStartY(startY + directionX * width);
@@ -1176,13 +1207,14 @@ public class MapController extends SubPage {
 
       if (halfLine2 != null) {
         halfLine2.setStrokeWidth(width);
-        halfLine2.setStroke(Color.BLUE); // getGradient());
+        //        halfLine2.setStroke(Color.BLUE); // getGradient());
+        setLineAnimation(halfLine2);
 
-        halfLine2.setStartX(startX - directionY * width);
-        halfLine2.setStartY(startY - directionX * width);
+        halfLine2.setEndX(startX - directionY * width);
+        halfLine2.setEndY(startY - directionX * width);
 
-        halfLine2.setEndX(endX - directionY * width);
-        halfLine2.setEndY(endY - directionX * width);
+        halfLine2.setStartX(endX - directionY * width);
+        halfLine2.setStartY(endY - directionX * width);
         if (!this.getChildren().contains(halfLine2)) {
           this.getChildren().add(halfLine2);
         }
@@ -1210,17 +1242,52 @@ public class MapController extends SubPage {
           halfLine1 = null;
           halfLine2 = null;
         }
+        mainLine.setStrokeLineJoin(StrokeLineJoin.ROUND);
 
         if (direcVisualsEnabled) {
-          this.setStroke(getGradient());
+          //          this.setStroke(getGradient());
+          setLineAnimation(mainLine);
         } else if (this.hasFocus) {
           this.setStrokeWidth(scaledLineWidthSelected);
           this.setStroke(Paint.valueOf("BLUE"));
+          if (timeline != null) {
+            timeline.stop();
+          }
+          mainLine.getStrokeDashArray().clear();
         } else {
           this.setStrokeWidth(scaledLineWidth);
           this.setStroke(Paint.valueOf("BLACK"));
+          if (timeline != null) {
+            timeline.stop();
+          }
+          mainLine.getStrokeDashArray().clear();
         }
       }
+    }
+
+    /**
+     * Sets the animation of the provided line to a rounded green rectangle that moves towards to
+     * end node
+     *
+     * @param line
+     */
+    private void setLineAnimation(Line line) {
+      line.getStrokeDashArray().setAll(20d, 20d, 20d, 20d);
+      line.setStrokeLineCap(StrokeLineCap.ROUND);
+      //      mainLine.setStrokeWidth(10);
+      line.setStroke(Paint.valueOf("GREEN"));
+      final double maxOffset = line.getStrokeDashArray().stream().reduce(0d, (a, b) -> a + b);
+
+      timeline =
+          new Timeline(
+              new KeyFrame(
+                  Duration.ZERO,
+                  new KeyValue(line.strokeDashOffsetProperty(), maxOffset, Interpolator.LINEAR)),
+              new KeyFrame(
+                  Duration.seconds(2),
+                  new KeyValue(line.strokeDashOffsetProperty(), 0, Interpolator.LINEAR)));
+      timeline.setCycleCount(Timeline.INDEFINITE);
+      timeline.play();
     }
 
     public void clearDirectionality() {

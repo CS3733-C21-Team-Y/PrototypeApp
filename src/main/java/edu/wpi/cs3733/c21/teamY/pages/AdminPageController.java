@@ -9,7 +9,6 @@ import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -35,8 +34,6 @@ public class AdminPageController extends SubPage {
   @FXML private MapController mapInsertController;
   @FXML private EditNodeTableController editNodeTableController;
 
-  @FXML private CheckBox addNodecb;
-  @FXML private CheckBox addEdgecb;
   //  private Button toHomeBtn;
   @FXML private TextField newX;
   @FXML private TextField newY;
@@ -181,23 +178,21 @@ public class AdminPageController extends SubPage {
 
                     if (e.getCode() == KeyCode.DELETE) {
                       removeSelected();
-                      System.out.println("Delete key pressed.");
                     }
-                    if (e.getCode() == KeyCode.UP) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, 0.1);
-                      System.out.println("UP key pressed.");
+                    if (e.getCode() == KeyCode.ESCAPE) {
+                      mapInsertController.clearSelection();
                     }
-                    if (e.getCode() == KeyCode.DOWN) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, -0.1);
-                      System.out.println("DOWN key pressed.");
+                    if (e.getCode() == KeyCode.W) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, -5);
                     }
-                    if (e.getCode() == KeyCode.LEFT) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), -0.1, 0.0);
-                      System.out.println("LEFT key pressed.");
+                    if (e.getCode() == KeyCode.S) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, 5);
                     }
-                    if (e.getCode() == KeyCode.RIGHT) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.1, 0.0);
-                      System.out.println("RIGHT key pressed.");
+                    if (e.getCode() == KeyCode.A) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), -5, 0.0);
+                    }
+                    if (e.getCode() == KeyCode.D) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 5, 0.0);
                     }
 
                     if (e.isShiftDown()) {
@@ -295,17 +290,6 @@ public class AdminPageController extends SubPage {
 
           assignContextMenuActions();
         });
-  }
-
-  private void exportToCSV() {
-    try {
-      DataOperations.DBtoCSV("NODE");
-      DataOperations.DBtoCSV("EDGE");
-      DataOperations.DBtoCSV("EMPLOYEE");
-      DataOperations.DBtoCSV("SERVICE");
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    }
   }
 
   private boolean rightClicked;
@@ -437,9 +421,11 @@ public class AdminPageController extends SubPage {
           System.out.println("got here");
           endEdgeCreation((MapController.CircleEx) e.getPickResult().getIntersectedNode());
           // end the thing
-        } else if (addEdgecb.isSelected() && mapInsertController.getSelectedNodes().size() == 1) {
-          checkBoxCreateEdge((MapController.CircleEx) e.getPickResult().getIntersectedNode());
-        } else {
+        }
+        // else if (addEdgecb.isSelected() && mapInsertController.getSelectedNodes().size() == 1) {
+        //  checkBoxCreateEdge((MapController.CircleEx) e.getPickResult().getIntersectedNode());
+        // }
+        else {
           handleClickOnNode((MapController.CircleEx) e.getPickResult().getIntersectedNode());
         }
       }
@@ -457,16 +443,15 @@ public class AdminPageController extends SubPage {
 
         if (!mapInsertController.wasLastClickDrag()) {
           //                     If wasnt a drag, but clicked on blank map
-          if (addNodecb.isSelected()) {
+          // if (addNodecb.isSelected()) {
+          //  mapInsertController.clearSelection();
+          //  createNodecb(e);
+          // }
+          if (!shiftPressed
+              && startEdgeFlag
+              && !(e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
+                  || e.getPickResult().getIntersectedNode() instanceof MapController.LineEx))
             mapInsertController.clearSelection();
-            createNodecb(e);
-          } else {
-            if (!shiftPressed
-                && startEdgeFlag
-                && !(e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
-                    || e.getPickResult().getIntersectedNode() instanceof MapController.LineEx))
-              mapInsertController.clearSelection();
-          }
 
           if (creatingEdge) {
             endEdgeCreation(null);
@@ -533,13 +518,14 @@ public class AdminPageController extends SubPage {
       ArrayList<MapController.LineEx> selEdges = mapInsertController.getSelectedEdges();
 
       if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
-          && selEdges.size() == 0
-          && (selNodes.size() == 0
-              || (selNodes.size() == 1
-                  && selNodes.get(0)
-                      == (MapController.CircleEx) e.getPickResult().getIntersectedNode()))) {
+          && (!((MapController.CircleEx) e.getPickResult().getIntersectedNode()).hasFocus
+              || (selEdges.size() == 0
+                  && ((selNodes.size() == 1
+                      && selNodes.get(0) == e.getPickResult().getIntersectedNode()))))) {
+        mapInsertController.clearSelection();
         rightClickedNode = (MapController.CircleEx) e.getPickResult().getIntersectedNode();
         rightClickedEdge = null;
+        mapInsertController.selectCircle(rightClickedNode);
 
         // NODE MENU
         contextMenu.getItems().addAll(addEdgeMenuItem, deleteMenuItem);
@@ -548,16 +534,18 @@ public class AdminPageController extends SubPage {
       // Right Clicked Edge
       else if (e.getPickResult().getIntersectedNode() instanceof Line
           && e.getPickResult().getIntersectedNode().getParent() instanceof MapController.LineEx
-          && selNodes.size() == 0
-          && (selEdges.size() == 0
-              || (selEdges.size() == 1
-                  && selEdges.get(0)
-                      == (MapController.LineEx)
-                          e.getPickResult().getIntersectedNode().getParent()))) {
+          && (!((MapController.LineEx) e.getPickResult().getIntersectedNode().getParent()).hasFocus
+              || (selNodes.size() == 0
+                  && (selEdges.size() == 0
+                      || (selEdges.size() == 1
+                          && selEdges.get(0)
+                              == e.getPickResult().getIntersectedNode().getParent()))))) {
+        mapInsertController.clearSelection();
         rightClickedNode = null;
         rightClickedEdge =
             (MapController.LineEx) e.getPickResult().getIntersectedNode().getParent();
 
+        mapInsertController.selectLine(rightClickedEdge);
         // EDGE MENU
         contextMenu.getItems().addAll(makeNodeHorizontal, makeNodeVertical, deleteMenuItem);
         contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
@@ -823,8 +811,8 @@ public class AdminPageController extends SubPage {
     try {
       edu.wpi.cs3733.c21.teamY.entity.Node n =
           new edu.wpi.cs3733.c21.teamY.entity.Node(
-              mapInsertController.scaleUpXCoords(Double.parseDouble(newX.getText())),
-              mapInsertController.scaleUpYCoords(Double.parseDouble(newY.getText())),
+              Math.floor(mapInsertController.scaleUpXCoords(Double.parseDouble(newX.getText()))),
+              Math.floor(mapInsertController.scaleUpYCoords(Double.parseDouble(newY.getText()))),
               mapInsertController.floorNumber,
               nodeID);
 
@@ -838,7 +826,7 @@ public class AdminPageController extends SubPage {
     }
   }
 
-  private void createNodecb(MouseEvent e) {
+  /*private void createNodecb(MouseEvent e) {
     // when the add node checkbox is selected, the new nodes can be created
     // wherever the mouse clicks withing the scene
     if (addNodecb.isSelected()) {
@@ -846,7 +834,7 @@ public class AdminPageController extends SubPage {
           Math.floor(mapInsertController.scaleUpXCoords(e.getX())),
           Math.floor(mapInsertController.scaleUpYCoords(e.getY())));
     }
-  }
+  }*/
 
   private void createNodeAt(double x, double y) {
     String nodeID = String.valueOf(nodeIDCounter);
@@ -869,6 +857,7 @@ public class AdminPageController extends SubPage {
     mapInsertController.selectCircle(c);
   }
 
+  /*
   private void checkBoxCreateEdge(MapController.CircleEx endNode) {
     // creates an edge between two selected points when the checkbox is selected
     ArrayList<MapController.CircleEx> selectedNodes = mapInsertController.getSelectedNodes();
@@ -911,7 +900,7 @@ public class AdminPageController extends SubPage {
       mapInsertController.clearSelection();
       mapInsertController.selectLine(mapInsertController.addEdgeLine(ed));
     }
-  }
+  }*/
 
   Line edgeCreationLine = null;
 

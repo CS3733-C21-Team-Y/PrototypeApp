@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -29,9 +30,13 @@ public class MainPageController {
   @FXML public JFXButton origAdminToolsBtn;
   @FXML private JFXButton origGoogleNavBtn;
   @FXML private JFXButton exitBtn;
+  @FXML ColumnConstraints requestsColumn;
+  @FXML private JFXButton origSignOutBtn;
+  @FXML private HBox navBar;
   //  @FXML private ScrollPane scrollPane;
 
   private JFXButton signInBtn;
+  private JFXButton signOutBtn;
   private JFXButton navigationBtn;
   private JFXButton serviceRequestBtn;
   public JFXButton adminToolsBtn;
@@ -40,8 +45,11 @@ public class MainPageController {
   private AnchorPane centerPane;
   private ColumnConstraints centerColumn;
   public boolean isDesktop;
+  private HBox newNavBar;
   //  @FXML private JFXButton SRMenuBtn;
   private static MainPageController instance;
+
+  private ColumnConstraints instanceRequestsColumn;
   public SubPage rightPageController;
   public SubPage centerPageController;
   Settings settings;
@@ -59,19 +67,25 @@ public class MainPageController {
       AnchorPane centerPane,
       AnchorPane rightPane,
       JFXButton signInBtn,
+      JFXButton signOutBtn,
       JFXButton navigationBtn,
       JFXButton serviceRequestBtn,
       JFXButton adminToolsBtn,
-      JFXButton googleNavBtn) {
+      JFXButton googleNavBtn,
+      ColumnConstraints instanceRequestsColumn,
+      HBox newNavBar) {
     this.settings = Settings.getSettings();
     this.centerPane = centerPane;
     this.rightPane = rightPane;
     this.signInBtn = signInBtn;
+    this.signOutBtn = signOutBtn;
     this.navigationBtn = navigationBtn;
     this.serviceRequestBtn = serviceRequestBtn;
     this.adminToolsBtn = adminToolsBtn;
     this.isDesktop = true;
     this.googleNavBtn = googleNavBtn;
+    this.instanceRequestsColumn = instanceRequestsColumn;
+    this.newNavBar = newNavBar;
 
     loadRightSubPage("LandingPage.fxml");
 
@@ -85,20 +99,27 @@ public class MainPageController {
             origCenterPane,
             origRightPane,
             origSignInBtn,
+            origSignOutBtn,
             origNavigationBtn,
             origServiceRequestBtn,
             origAdminToolsBtn,
-            origGoogleNavBtn);
+            origGoogleNavBtn,
+            requestsColumn,
+            navBar);
     instance.setCenterColumnWidth(0);
     origNavigationBtn.setOnAction(e -> buttonClicked(e));
     origServiceRequestBtn.setOnAction(e -> buttonClicked(e));
     origAdminToolsBtn.setOnAction(e -> buttonClicked(e));
     origSignInBtn.setOnAction(e -> buttonClicked(e));
+    origSignOutBtn.setOnAction(e -> buttonClicked(e));
     // exitBtn.setOnMouseClicked(e -> Platform.exit());
     exitBtn.setOnAction(e -> swapPlatforms());
     origGoogleNavBtn.setOnAction(e -> buttonClicked(e));
     exitBtn.setOnMouseClicked(e -> Platform.exit());
     instance.drawByPermissions();
+    origCenterPane.setPickOnBounds(false);
+    origRightPane.setPickOnBounds(false);
+    navBar.toFront();
     // instance.drawByPlatform();
 
     Tooltip.install(origNavigationBtn, origNavigationBtnTooltip);
@@ -168,7 +189,11 @@ public class MainPageController {
         // instance.setCenterColumnWidth(200);
       }
     } else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
-    else if (e.getSource() == origServiceRequestBtn) {
+    else if (e.getSource() == origSignOutBtn) {
+      // PAT PAT PAT LOOK HERE PLEASE PAT PAT
+      // Insert Code to sign out
+      instance.loadRightSubPage("LoginPage.fxml");
+    } else if (e.getSource() == origServiceRequestBtn) {
       if (instance.isDesktop) {
         instance.loadCenterSubPage("ServiceRequestNavigator.fxml");
         instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
@@ -257,7 +282,10 @@ public class MainPageController {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    rightPane.toFront();
+    if (!isDesktop) {
+      rightPane.toFront();
+      newNavBar.toFront();
+    }
   }
 
   public void printWords() {
@@ -273,8 +301,16 @@ public class MainPageController {
       centerPageController.setParent(this);
       centerPageController.drawByPlatform();
       centerPane.getChildren().add(node);
+      node.setPickOnBounds(false);
+      node.toFront();
     } catch (IOException e) {
       e.printStackTrace();
+    }
+    if (isDesktop) {
+      centerPane.toFront();
+      centerPane.setPickOnBounds(false);
+    } else {
+      newNavBar.toFront();
     }
   }
 
@@ -304,8 +340,12 @@ public class MainPageController {
         serviceAccess = true;
         adminAccess = true;
     }
+    if (serviceAccess && !instance.isDesktop) {
+      instanceRequestsColumn.setPercentWidth(25);
+    }
     serviceRequestBtn.setVisible(serviceAccess);
-    adminToolsBtn.setVisible(adminAccess);
+    if (instance.isDesktop) adminToolsBtn.setVisible(adminAccess);
+    if (perm >= 0) signOutBtn.setVisible(true);
   }
   //  public void loadSubPages() {
   //    Stage stage = (Stage) rightPane.getScene().getWindow();

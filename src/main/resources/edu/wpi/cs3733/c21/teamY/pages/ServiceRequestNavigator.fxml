@@ -48,9 +48,9 @@
                   <Insets right="46.0" />
                </GridPane.margin>
             </FontAwesomeIconView>
-            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" style="-fx-background-color: #3f417a;" stylesheets="@../UIStyles.css" GridPane.rowIndex="3">
+            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="99999.0" style="-fx-background-color: #3f417a;" stylesheets="@../UIStyles.css" GridPane.rowIndex="3">
                <content>
-                  <VBox fx:id="serviceBox" maxHeight="9999.0" prefHeight="421.0" prefWidth="755.0" style="-fx-background-color: #3f417a;">
+                  <VBox fx:id="serviceBox" maxHeight="999999.0" prefHeight="1500.0" prefWidth="755.0" style="-fx-background-color: #3f417a;">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -74,7 +74,7 @@
             </JFXButton>
             <JFXButton fx:id="backBtn" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" " GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
                <graphic>
-                  <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="25" />
+                  <FontAwesomeIconView fill="#8d8ea4" glyphName="ANGLE_LEFT" size="35" />
                </graphic>
                <GridPane.margin>
                   <Insets right="-10.0" />
@@ -109,7 +109,7 @@
                         <Insets bottom="5.0" />
                      </GridPane.margin>
                   </ToggleButton>
-                  <ToggleButton fx:id="assignedBtn" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: #5e5d94; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="Assigned To Me" textFill="#efeff9" toggleGroup="$group" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                  <ToggleButton fx:id="assignedBtn" minWidth="100.0" mnemonicParsing="false" style="-fx-base: #5e5d94; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="Assigned To Me" textFill="#efeff9" toggleGroup="$group" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                      <font>
                         <Font name="Calibri" size="13.0" />
                      </font>

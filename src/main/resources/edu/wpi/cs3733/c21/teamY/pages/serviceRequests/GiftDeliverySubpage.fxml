@@ -3,7 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
-<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -52,11 +52,18 @@
                               <RowConstraints minHeight="40.0" percentHeight="30.0" prefHeight="60.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                           <children>
-                              <JFXComboBox fx:id="locationField" minHeight="40.0" prefHeight="40.0" prefWidth="999999.0" promptText="Location" GridPane.columnIndex="1" />
-                              <JFXComboBox fx:id="giftType" minHeight="40.0" prefHeight="40.0" prefWidth="9999999.0" promptText="Type Of Gift" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <JFXDatePicker fx:id="datePicker" defaultColor="#3b3d73" minHeight="40.0" prefHeight="40.0" prefWidth="999999.0" promptText="Preferred Date" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <JFXTextField fx:id="description" prefHeight="84.0" prefWidth="999999.0" promptText="Description Of Gift" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <GridPane GridPane.columnIndex="1" GridPane.rowIndex="5">
+                              <JFXComboBox fx:id="locationField" focusColor="#5a5c94" labelFloat="true" minHeight="40.0" prefHeight="40.0" prefWidth="999999.0" promptText="Location" GridPane.columnIndex="1" />
+                              <JFXComboBox fx:id="giftType" focusColor="#5a5c94" labelFloat="true" minHeight="40.0" prefHeight="40.0" prefWidth="9999999.0" promptText="Type Of Gift" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <JFXDatePicker fx:id="datePicker" defaultColor="#3b3d73" editable="false" minHeight="40.0" prefHeight="40.0" prefWidth="999999.0" promptText="Preferred Date" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <padding>
+                              <Insets bottom="10.0" top="10.0" />
+                           </padding></JFXDatePicker>
+                        <JFXTextArea fx:id="description" focusColor="#5a5c94" labelFloat="true" promptText="Description" style="-fx-border-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <padding>
+                              <Insets bottom="10.0" top="10.0" />
+                           </padding>
+                        </JFXTextArea>
+                              <GridPane alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                   <columnConstraints>
                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -65,14 +72,14 @@
                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                   </rowConstraints>
                                   <children>
-                                      <JFXButton fx:id="clearBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: c2c3ed; -fx-font-family: calibre; -fx-font-weight: bold; -fx-font-size: 16;" text="Clear" textFill="#5a5c94" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                      <JFXButton fx:id="clearBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: c2c3ed; -fx-font-family: calibri; -fx-font-weight: bold; -fx-font-size: 16;" text="Clear" textFill="#5a5c94" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                           <GridPane.margin>
-                                              <Insets top="30.0" />
+                                              <Insets />
                                           </GridPane.margin>
                                       </JFXButton>
-                                      <JFXButton fx:id="submitBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: efeff9; -fx-background-radius: 8; -fx-font-family: calibre; -fx-font-weight: bold; -fx-font-size: 16;" text="Submit" textFill="#5a5c94" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                      <JFXButton fx:id="submitBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: efeff9; -fx-background-radius: 8; -fx-font-family: Calibri; -fx-font-weight: bold; -fx-font-size: 16;" text="Submit" textFill="#5a5c94" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                           <GridPane.margin>
-                                              <Insets top="30.0" />
+                                              <Insets />
                                           </GridPane.margin>
                                       </JFXButton>
                                   </children>
@@ -82,9 +89,9 @@
                               <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />
                            </graphic>
                         </JFXButton>
-                        <JFXComboBox fx:id="employeeComboBox" labelFloat="true" minHeight="50.0" prefWidth="9.999999999E9" promptText="Employee" style="-fx-border-color: dcdcde; -fx-border-width: 0.5; -fx-border-radius: 6;" unFocusColor="#5a5c94" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <JFXComboBox fx:id="employeeComboBox" labelFloat="true" minHeight="50.0" prefWidth="9.999999999E9" promptText="Employee" unFocusColor="#5a5c94" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <padding>
-                              <Insets left="15.0" right="15.0" />
+                              <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </JFXComboBox>
                           </children>
