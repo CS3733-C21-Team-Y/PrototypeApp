@@ -282,7 +282,8 @@ public class AdminPageController extends SubPage {
           " -fx-background-color: #efeff9 "
               + "; -fx-background-radius: 6; -fx-font-size: 25; -fx-text-fill: #5a5c94");
       message.setText(
-          "ESC: Unhighlights selected nodes\n"
+              "Right click: Node menu \n"
+              + "ESC: Unhighlights selected nodes\n"
               + "SHIFT: Hold and drag mouse to highlight area\n"
               + "DEL: Deletes selected nodes\n"
               + "W/A/S/D: Move node up, left, down, or right");
