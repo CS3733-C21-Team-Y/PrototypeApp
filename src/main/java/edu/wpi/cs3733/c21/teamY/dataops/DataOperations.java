@@ -155,8 +155,12 @@ public class DataOperations {
     CSV.loadCSVtoDBEmployee();
   }
 
-  public static boolean updateUserPassword(String newPassword, String userID) throws SQLException {
-    return JDBCUtils.updateUserPassword(userID, newPassword);
+  public static boolean updateUserPassword(String newPassword, String email) throws SQLException {
+    return JDBCUtils.updateUserPassword(newPassword, email);
+  }
+
+  public static boolean updateUserSalt(String email, String salt) throws SQLException {
+    return JDBCUtils.updateUserSalt(email, salt);
   }
 
   public static int checkSurveyStatus(String userID) {

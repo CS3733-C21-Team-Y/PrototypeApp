@@ -881,7 +881,7 @@ public class JDBCUtils {
       PreparedStatement query =
           getConn()
               .prepareStatement(
-                  "Select ADMIN.EMPLOYEE.EMPLOYEEID "
+                  "Select ADMIN.EMPLOYEE.EMAIL "
                       + "FROM ADMIN.EMPLOYEE "
                       + "WHERE ADMIN.EMPLOYEE.EMAIL = (?)");
       query.setString(1, email);
@@ -920,15 +920,15 @@ public class JDBCUtils {
    * updated the password of the User with the specified userID
    *
    * @param userID of the user who's password is to be changed
-   * @param newPassWord to change password to
+   * @param newPassword to change password to
    * @return boolean for whether reset was successful
    * @throws SQLException upon sql error communicating with the database
    */
-  public static boolean updateUserPassword(String userID, String newPassWord) throws SQLException {
-    String update = "update ADMIN.EMPLOYEE set PASSWORD= (?) WHERE EMPLOYEEID=(?)";
+  public static boolean updateUserPassword(String newPassword, String email) throws SQLException {
+    String update = "update ADMIN.EMPLOYEE set PASSWORD= (?) WHERE EMAIL=(?)";
     PreparedStatement preparedStatement = getConn().prepareStatement(update);
-    preparedStatement.setString(1, newPassWord);
-    preparedStatement.setString(2, userID);
+    preparedStatement.setString(1, newPassword);
+    preparedStatement.setString(2, email);
     int check = preparedStatement.executeUpdate();
     preparedStatement.close();
     return check != 0;
@@ -1023,6 +1023,16 @@ public class JDBCUtils {
     ps.setString(1, nodeID);
     ps.setString(2, userID);
     int check = ps.executeUpdate();
+    return check != 0;
+  }
+
+  public static boolean updateUserSalt(String email, String salt) throws SQLException {
+    String update = "update ADMIN.EMPLOYEE set SALT= (?) WHERE EMAIL=(?)";
+    PreparedStatement preparedStatement = getConn().prepareStatement(update);
+    preparedStatement.setString(1, salt);
+    preparedStatement.setString(2, email);
+    int check = preparedStatement.executeUpdate();
+    preparedStatement.close();
     return check != 0;
   }
 }

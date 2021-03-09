@@ -57,11 +57,12 @@ public class ForgotPasswordPageController extends SubPage {
           // Update DB with new password
           Boolean result = false;
           try {
-            result =
-                DataOperations.updateUserPassword(
-                    PasswordUtils.generateSecurePassword(
-                        newPassword, PasswordUtils.getSalt(newPassword.length())),
-                    emailExists);
+            String salt = PasswordUtils.getSalt(newPassword.length());
+            String securePass = PasswordUtils.generateSecurePassword(newPassword, salt);
+            System.out.println(securePass);
+            System.out.println(salt);
+            result = DataOperations.updateUserPassword(securePass, emailExists);
+            DataOperations.updateUserSalt(emailExists, salt);
           } catch (SQLException throwables) {
             throwables.printStackTrace();
           }
