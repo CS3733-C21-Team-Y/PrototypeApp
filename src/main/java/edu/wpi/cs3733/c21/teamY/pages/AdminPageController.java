@@ -88,6 +88,7 @@ public class AdminPageController extends SubPage {
 
   @FXML private Button toolTip;
   @FXML private Button resetView;
+  @FXML private JFXButton helpBtn;
 
   @FXML private MenuItem depthFirst;
   @FXML private MenuItem breadthFirst;
@@ -249,6 +250,7 @@ public class AdminPageController extends SubPage {
                   });
 
           selectNewAlgo.setOnAction(e -> selectAlgo(e));
+          helpBtn.setOnAction(e -> helpPopUp(e));
 
           addEdge.setOnAction(
               event -> {
@@ -264,6 +266,35 @@ public class AdminPageController extends SubPage {
 
           assignContextMenuActions();
         });
+  }
+
+  private void helpPopUp(ActionEvent e) {
+    if (e.getSource() == helpBtn) {
+      JFXDialog submitted = new JFXDialog();
+
+      Label message = new Label();
+      message.setStyle(
+          " -fx-background-color: #efeff9 "
+              + "; -fx-background-radius: 6; -fx-font-size: 25; -fx-text-fill: #5a5c94");
+      message.setText("THIS IS A HELP MENU");
+      message.maxHeight(70);
+      message.maxWidth(300);
+      message.prefHeight(70);
+      message.prefWidth(250);
+      Insets myInset = new Insets(10);
+      message.setPadding(myInset);
+      BorderStroke myStroke =
+          new BorderStroke(
+              Paint.valueOf("#efeff9"),
+              new BorderStrokeStyle(null, null, null, 6, 1, null),
+              new CornerRadii(6),
+              new BorderWidths(3));
+      Border myB = new Border(myStroke);
+      message.setBorder(myB);
+
+      submitted.setContent(message);
+      submitted.show(stackPane);
+    }
   }
 
   private boolean rightClicked;
