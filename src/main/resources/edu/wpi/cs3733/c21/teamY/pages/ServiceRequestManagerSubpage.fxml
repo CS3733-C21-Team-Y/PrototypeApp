@@ -65,7 +65,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: efeff9; -fx-background-radius: 10 10 0 0;">
                            <children>
-                              <Label text="Human Resources" textFill="#5a5c94">
+                              <Label fx:id="HRLabel" text="Human Resources" textFill="#5a5c94">
                                  <font>
                                     <Font name="Calibri Bold" size="22.0" />
                                  </font>
@@ -171,7 +171,7 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: efeff9; -fx-background-radius: 10 10 0 0;">
                                  <children>
-                                    <Label text="IT Help" textFill="#5a5c94">
+                                    <Label fx:id="ITLabel" text="IT Help" textFill="#5a5c94">
                                        <font>
                                           <Font name="Calibri Bold" size="22.0" />
                                        </font>
@@ -237,7 +237,7 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: efeff9; -fx-background-radius: 10 10 0 0;">
                                  <children>
-                                    <Label prefHeight="71.0" prefWidth="416.0" text="Medical Resources" textFill="#5a5c94" wrapText="true">
+                                    <Label fx:id="MedLabel" prefHeight="71.0" prefWidth="416.0" text="Medical Resources" textFill="#5a5c94" wrapText="true">
                                        <font>
                                           <Font name="Calibri Bold" size="22.0" />
                                        </font>
@@ -317,7 +317,7 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: efeff9; -fx-background-radius: 10 10 0 0;">
                                  <children>
-                                    <Label text="Facilities" textFill="#5a5c94">
+                                    <Label fx:id="FacLabel" text="Facilities" textFill="#5a5c94">
                                        <font>
                                           <Font name="Calibri Bold" size="22.0" />
                                        </font>
@@ -383,7 +383,7 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: efeff9; -fx-background-radius: 10 10 0 0;">
                                  <children>
-                                    <Label prefHeight="71.0" prefWidth="391.0" text="Transportation" textFill="#5a5c94" wrapText="true">
+                                    <Label fx:id="TransLabel" prefHeight="71.0" prefWidth="391.0" text="Transportation" textFill="#5a5c94" wrapText="true">
                                        <font>
                                           <Font name="Calibri Bold" size="22.0" />
                                        </font>

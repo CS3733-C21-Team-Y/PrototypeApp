@@ -61,8 +61,11 @@
                               <MaterialDesignIconView fill="#8d8eae" glyphName="SWAP_VERTICAL" size="30" strokeLineCap="ROUND" strokeLineJoin="ROUND" text="" />
                            </graphic>
                            <GridPane.margin>
-                              <Insets bottom="-20.0" left="-10.0" />
+                              <Insets />
                            </GridPane.margin>
+                           <padding>
+                              <Insets right="2.0" />
+                           </padding>
                         </JFXButton>
                         <GridPane>
                            <columnConstraints>
@@ -91,43 +94,46 @@
                               <Insets left="10.0" top="75.0" />
                            </GridPane.margin>
                         </GridPane>
-                        <JFXNodesList GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                        <JFXNodesList GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                            <GridPane.margin>
-                              <Insets bottom="-10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="-15.0" left="10.0" right="10.0" top="10.0" />
                            </GridPane.margin>
                            <children>
                               <FontAwesomeIconView fill="#8d8eae" glyphName="MAP_SIGNS" rotate="-180.0" size="25" />
-                              <JFXButton fx:id="bathroomBtn" contentDisplay="GRAPHIC_ONLY">
+                              <JFXButton fx:id="bathroomBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="HUMAN_MALE_FEMALE" size="25" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="cafeBtn" contentDisplay="GRAPHIC_ONLY">
+                              <JFXButton fx:id="cafeBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="FOOD" size="25" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="kioskBtn" contentDisplay="GRAPHIC_ONLY">
+                              <JFXButton fx:id="kioskBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="DESKTOP_MAC" size="25" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="parkingBtn" contentDisplay="GRAPHIC_ONLY">
+                              <JFXButton fx:id="parkingBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="PARKING" size="25" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="noStairsBtn" contentDisplay="GRAPHIC_ONLY" text="Button">
+                              <JFXButton fx:id="noStairsBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;" text="Button">
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="WHEELCHAIR_ACCESSIBILITY" size="25" />
                                  </graphic>
                               </JFXButton>
                            </children>
                         </JFXNodesList>
-                        <JFXButton fx:id="aboutBtn" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="3">
+                        <JFXButton fx:id="multDestinationBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#efeff9" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <graphic>
-                              <FontAwesomeIconView fill="#8d8eae" glyphName="INFO_CIRCLE" size="20" />
+                              <MaterialDesignIconView fill="#8d8eae" glyphName="PLUS" size="30" />
                            </graphic>
+                           <padding>
+                              <Insets right="2.0" />
+                           </padding>
                         </JFXButton>
                      </children>
                      <VBox.margin>

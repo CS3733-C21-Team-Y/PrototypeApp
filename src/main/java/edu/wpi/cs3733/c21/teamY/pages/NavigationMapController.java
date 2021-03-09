@@ -75,6 +75,7 @@ public class NavigationMapController extends SubPage {
       Node node = fxmlLoader.load(getClass().getResource("MapUserControl.fxml").openStream());
       mapInsertController = (MapController) fxmlLoader.getController();
       mapInsertController.setParent(parent);
+      mapInsertController.setAdminPage(false);
       // call method before page load
       splitPaneTop.getChildren().add(node);
     } catch (IOException e) {

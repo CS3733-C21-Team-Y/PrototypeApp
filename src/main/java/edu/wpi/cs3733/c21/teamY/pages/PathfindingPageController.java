@@ -21,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 public class PathfindingPageController extends SubPage {
 
@@ -42,8 +43,7 @@ public class PathfindingPageController extends SubPage {
   @FXML private JFXButton parkingBtn;
   @FXML private JFXButton noStairsBtn;
   @FXML private GridPane overlayGridPane;
-  @FXML private JFXButton aboutBtn;
-  @FXML private JFXButton swapButton;
+  @FXML private JFXButton multDestinationBtn;
 
   //  @FXML private Slider zoomSlider;
   //  @FXML private Button upButton;
@@ -124,8 +124,6 @@ public class PathfindingPageController extends SubPage {
     overlayGridPane.toFront();
 
     //    sideMenuVBox.setPickOnBounds(false);
-    aboutBtn.setOnAction(e -> buttonClicked(e));
-    swapButton.setOnAction(e -> buttonClicked(e));
     exitDirectionBtn.setOnAction(e -> updateTextDirectionBox());
     //         attaches a handler to the button with a lambda expression
 
@@ -260,7 +258,7 @@ public class PathfindingPageController extends SubPage {
             resetBtn.setMinHeight(36);
             // ((JFXButton) menuItem).setStyle("-fx-font: 20");
             resetBtn.setStyle(
-                "-fx-font-size: 10; -fx-background-color: #efeff9; -fx-background-radius: 18; -fx-font-size: 8");
+                "-fx-font-size: 10; -fx-background-color: #5a5c94; -fx-text-fill:#efeff9; -fx-background-radius: 18; -fx-font-size: 8");
           }
 
           int i = -1;
@@ -280,7 +278,7 @@ public class PathfindingPageController extends SubPage {
               // ((JFXButton) menuItem).setStyle("-fx-font: 20");
               ((JFXButton) menuItem)
                   .setStyle(
-                      "-fx-font-size: 17; -fx-background-color: #efeff9; -fx-background-radius: 18");
+                      "-fx-font-size: 17; -fx-background-color: #5a5c94; -fx-text-fill: #efeff9; -fx-background-radius: 18");
               // HBox.setMargin(menuItem, new Insets(0, 50, 0, 0));
             }
           }
@@ -552,11 +550,14 @@ public class PathfindingPageController extends SubPage {
   // button event handler
   @FXML
   private void buttonClicked(ActionEvent e) {
-    if (e.getSource() == aboutBtn) {
-      parent.setCenterColumnWidth(0);
-      parent.loadRightSubPage("AboutPage.fxml");
-    } else if (e.getSource() == swapButton) {
-      parent.loadRightSubPage("AboutPage.fxml");
+    // error handling for FXMLLoader.load
+    try {
+      // initializing stage
+      Stage stage = null;
+
+      // display new stage
+      stage.show();
+    } catch (Exception exp) {
     }
   }
 
