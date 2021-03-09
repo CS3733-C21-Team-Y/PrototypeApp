@@ -28,7 +28,7 @@
             <children>
                 <GridPane>
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints fx:id="requestsColumn" hgrow="SOMETIMES" minWidth="10.0" />
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints maxHeight="70.0" minHeight="70.0" vgrow="SOMETIMES" />
