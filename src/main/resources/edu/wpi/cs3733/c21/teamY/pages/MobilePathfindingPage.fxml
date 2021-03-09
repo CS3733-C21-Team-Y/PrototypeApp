@@ -6,6 +6,7 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -166,11 +167,15 @@
                         <RowConstraints minHeight="10.0" percentHeight="90.0" prefHeight="9999.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <VBox fx:id="textDirectionViewer" minWidth="350.0" prefHeight="9999.0" prefWidth="350.0" spacing="5.0">
-                           <padding>
-                              <Insets left="20.0" top="20.0" />
-                           </padding>
-                        </VBox>
+                        <ScrollPane hbarPolicy="NEVER" pannable="true" prefHeight="300.0" prefWidth="250.0" style="-fx-background-color: white;">
+                           <content>
+                              <VBox fx:id="textDirectionViewer" minHeight="400.0" minWidth="350.0" prefWidth="350.0" spacing="5.0" style="-fx-background-color: white;">
+                                 <padding>
+                                    <Insets left="20.0" top="20.0" />
+                                 </padding>
+                              </VBox>
+                           </content>
+                        </ScrollPane>
                      </children>
                   </GridPane>
                </children>
