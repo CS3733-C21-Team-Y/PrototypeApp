@@ -100,6 +100,7 @@ public class ServiceRequestElementController extends CenterPage {
 
   public void openRequest() {
     parent.loadRightSubPage("RequestInfoPage.fxml");
+    parent.setCenterColumnWidth(0);
     StageInformation info = (StageInformation) type.getScene().getWindow().getUserData();
     info.setService(service);
     type.getScene().getWindow().setUserData(info);

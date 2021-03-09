@@ -192,7 +192,6 @@ public class AdminPageController extends SubPage {
             }
           }
 
-          
           // mouse move
 
           mapInsertController
