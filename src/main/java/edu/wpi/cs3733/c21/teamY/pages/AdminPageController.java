@@ -614,7 +614,7 @@ public class AdminPageController extends SubPage {
 
     addNodeMenuItem.setOnAction(
         event -> {
-          createNodeAt(contextMenuX, contextMenuY);
+          createNodeAt(Math.floor(contextMenuX), Math.floor(contextMenuY));
         });
 
     alignHorizontal.setOnAction(
@@ -721,10 +721,10 @@ public class AdminPageController extends SubPage {
   private void loadNodesFromDB() {
     mapInsertController.removeAllAdornerElements();
 
-    nodeIDCounter = nodes.size() + 1;
     try {
       nodes = DataOperations.getListOfNodes();
       edges = DataOperations.getListOfEdge();
+      nodeIDCounter = nodes.size() + 1;
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -737,6 +737,8 @@ public class AdminPageController extends SubPage {
       Node node = fxmlLoader.load(getClass().getResource("MapUserControl.fxml").openStream());
       mapInsertController = (MapController) fxmlLoader.getController();
       mapInsertController.setParent(parent);
+      mapInsertController.setAdminPage(true);
+
       // call method before page load
       splitPaneTop.getChildren().add(node);
     } catch (IOException e) {

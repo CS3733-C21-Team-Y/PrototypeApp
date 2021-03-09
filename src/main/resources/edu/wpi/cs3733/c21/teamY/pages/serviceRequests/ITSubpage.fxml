@@ -57,7 +57,7 @@
                                       <Insets />
                                   </opaqueInsets>
                                   <padding>
-                                      <Insets left="15.0" top="5.0" />
+                                      <Insets bottom="10.0" top="10.0" />
                                   </padding>
                               </JFXComboBox>
                               <JFXComboBox fx:id="locationComboBox" focusColor="#5a5c94" labelFloat="true" prefWidth="40000.0" promptText="Location" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
@@ -65,19 +65,16 @@
                                       <Insets />
                                   </opaqueInsets>
                                   <padding>
-                                      <Insets left="15.0" top="5.0" />
+                                      <Insets bottom="10.0" top="10.0" />
                                   </padding>
                               </JFXComboBox>
                               <JFXDialog GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <JFXTextArea fx:id="description" focusColor="#5a5c94" labelFloat="true" promptText="Please describe the issue" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                  <font>
-                                      <Font name="Arial" size="14.0" />
-                                  </font>
                                   <opaqueInsets>
                                       <Insets />
                                   </opaqueInsets>
                                   <padding>
-                                      <Insets left="15.0" top="5.0" />
+                                      <Insets bottom="10.0" top="10.0" />
                                   </padding>
                               </JFXTextArea>
                               <GridPane GridPane.columnIndex="1" GridPane.rowIndex="5">
@@ -89,30 +86,30 @@
                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                   </rowConstraints>
                                   <children>
-                                      <JFXButton fx:id="clearBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: c2c3ed; -fx-font-family: calibri; -fx-font-weight: bold; -fx-font-size: 16;" text="Clear" textFill="#5a5c94" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                      <JFXButton fx:id="clearBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: c2c3ed; -fx-font-family: calibri; -fx-font-weight: bold; -fx-font-size: 16;" text="Clear" textFill="#5a5c94" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                           <font>
                                               <Font name="Arial" size="14.0" />
                                           </font>
                                           <GridPane.margin>
-                                              <Insets top="20.0" />
+                                              <Insets />
                                           </GridPane.margin>
                                       </JFXButton>
-                                      <JFXButton fx:id="submitBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: efeff9; -fx-font-family: calibri; -fx-font-weight: bold; -fx-font-size: 16;" text="Submit" textFill="#5a5c94" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                                      <JFXButton fx:id="submitBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 8; -fx-background-color: efeff9; -fx-font-family: calibri; -fx-font-weight: bold; -fx-font-size: 16;" text="Submit" textFill="#5a5c94" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                           <font>
                                               <Font name="Arial" size="14.0" />
                                           </font>
                                           <GridPane.margin>
-                                              <Insets top="20.0" />
+                                              <Insets />
                                           </GridPane.margin>
                                       </JFXButton>
                                   </children>
                               </GridPane>
-                              <JFXComboBox fx:id="affectsComboBox" focusColor="#5a5c94" labelFloat="true" prefHeight="27.0" prefWidth="40000.0" promptText="This issue affects" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <JFXComboBox fx:id="affectsComboBox" focusColor="#5a5c94" labelFloat="true" prefHeight="27.0" prefWidth="40000.0" promptText="This issue affects" style="-fx-font-family: system;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                   <opaqueInsets>
                                       <Insets />
                                   </opaqueInsets>
                                   <padding>
-                                      <Insets left="15.0" top="5.0" />
+                                      <Insets bottom="10.0" top="10.0" />
                                   </padding>
                               </JFXComboBox>
                         <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" ">
@@ -122,7 +119,7 @@
                         </JFXButton>
                         <JFXComboBox fx:id="employeeComboBox" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefWidth="9.999999999E9" promptText="Employee" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <padding>
-                              <Insets left="15.0" top="5.0" />
+                              <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </JFXComboBox>
                           </children>

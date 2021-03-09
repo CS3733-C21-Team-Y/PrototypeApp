@@ -6,6 +6,7 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -61,8 +62,11 @@
                               <MaterialDesignIconView fill="#8d8eae" glyphName="SWAP_VERTICAL" size="30" strokeLineCap="ROUND" strokeLineJoin="ROUND" text="" />
                            </graphic>
                            <GridPane.margin>
-                              <Insets bottom="-20.0" left="-10.0" />
+                              <Insets />
                            </GridPane.margin>
+                           <padding>
+                              <Insets right="2.0" />
+                           </padding>
                         </JFXButton>
                         <GridPane>
                            <columnConstraints>
@@ -97,33 +101,41 @@
                            </GridPane.margin>
                            <children>
                               <FontAwesomeIconView fill="#8d8eae" glyphName="MAP_SIGNS" rotate="-180.0" size="25" />
-                              <JFXButton fx:id="bathroomBtn" contentDisplay="GRAPHIC_ONLY">
+                              <JFXButton fx:id="bathroomBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="HUMAN_MALE_FEMALE" size="25" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="cafeBtn" contentDisplay="GRAPHIC_ONLY">
+                              <JFXButton fx:id="cafeBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="FOOD" size="25" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="kioskBtn" contentDisplay="GRAPHIC_ONLY">
+                              <JFXButton fx:id="kioskBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="DESKTOP_MAC" size="25" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="parkingBtn" contentDisplay="GRAPHIC_ONLY">
+                              <JFXButton fx:id="parkingBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="PARKING" size="25" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="noStairsBtn" contentDisplay="GRAPHIC_ONLY" text="Button">
+                              <JFXButton fx:id="noStairsBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;" text="Button">
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="WHEELCHAIR_ACCESSIBILITY" size="25" />
                                  </graphic>
                               </JFXButton>
                            </children>
                         </JFXNodesList>
+                        <JFXButton fx:id="multDestinationBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#efeff9" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <graphic>
+                              <MaterialDesignIconView fill="#8d8eae" glyphName="PLUS" size="30" />
+                           </graphic>
+                           <padding>
+                              <Insets right="2.0" />
+                           </padding>
+                        </JFXButton>
                      </children>
                      <VBox.margin>
                         <Insets bottom="10.0" left="5.0" right="15.0" top="15.0" />
@@ -155,11 +167,15 @@
                         <RowConstraints minHeight="10.0" percentHeight="90.0" prefHeight="9999.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <VBox fx:id="textDirectionViewer" minWidth="350.0" prefHeight="9999.0" prefWidth="350.0" spacing="5.0">
-                           <padding>
-                              <Insets left="20.0" top="20.0" />
-                           </padding>
-                        </VBox>
+                        <ScrollPane hbarPolicy="NEVER" pannable="true" prefHeight="300.0" prefWidth="250.0" style="-fx-background-color: white;">
+                           <content>
+                              <VBox fx:id="textDirectionViewer" minHeight="400.0" minWidth="350.0" prefWidth="350.0" spacing="5.0" style="-fx-background-color: white;">
+                                 <padding>
+                                    <Insets left="20.0" top="20.0" />
+                                 </padding>
+                              </VBox>
+                           </content>
+                        </ScrollPane>
                      </children>
                   </GridPane>
                </children>
