@@ -2,10 +2,44 @@ package edu.wpi.cs3733.c21.teamY.dataops;
 
 import org.apache.commons.mail.*;
 
-public class EmailUtils {
+public class EmailUtils implements Runnable {
+  private Thread thread;
+  private String fromEmail;
+  private String toEmail;
+  private String withSubject;
+  private String andMessage;
+  private String threadName;
 
-  public static void sendEmail(
-      String fromEmail, String toEmail, String withSubject, String andMessage) {
+  public EmailUtils(
+      String fromEmail, String toEmail, String withSubject, String andMessage, String threadname) {
+    this.fromEmail = fromEmail;
+    this.toEmail = toEmail;
+    this.withSubject = withSubject;
+    this.andMessage = andMessage;
+    this.threadName = threadname;
+  }
+
+  @Override
+  public void run() {
+    System.out.println("Running Thread: " + this.threadName);
+
+    try {
+      sendEmail();
+    } catch (Exception e) {
+      System.out.println("Thread Interrupted: " + this.threadName);
+    }
+
+    System.out.println("Exiting Thread: " + this.threadName);
+  }
+
+  public void start() {
+    if (thread == null) {
+      thread = new Thread(this, this.threadName);
+      thread.start();
+    }
+  }
+
+  private void sendEmail() {
     try {
       Email email = new SimpleEmail();
 

@@ -10,8 +10,10 @@ import edu.wpi.cs3733.c21.teamY.dataops.PasswordUtils;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 
 public class ForgotPasswordPageController extends SubPage {
   @FXML JFXButton submitBtn;
@@ -70,13 +72,18 @@ public class ForgotPasswordPageController extends SubPage {
 
           // Send email with temp password
           if (result) {
-            EmailUtils.sendEmail(
-                "passwordreset@yellowyetis.com",
-                emailField.getText(),
-                "Password Reset Request",
-                "Here is your new password for the Brigham and Womans Faulker Hospital: \n "
-                    + newPassword);
+            EmailUtils mailClient =
+                new EmailUtils(
+                    "passwordreset@yellowyetis.com",
+                    emailField.getText(),
+                    "Password Reset Request",
+                    "Here is your new password for the Brigham and Womans Faulker Hospital: \n "
+                        + newPassword,
+                    "Email_Connection");
+            mailClient.start();
             System.out.println("Should be done sending email");
+            this.emailField.setText("");
+            createPopUp(stackPane, "#5a5c94", "#FFFFFF", "Email Sent!");
           }
         }
       } else {
@@ -86,5 +93,43 @@ public class ForgotPasswordPageController extends SubPage {
       }
       //            parent.loadRightSubPage("LoginPage.fxml");
     }
+  }
+
+  /**
+   * Creates a generic popup that is dismissed by clicking on the screen
+   *
+   * @param stackPane
+   * @param backgroundColor
+   * @param textColor
+   * @param textContent
+   */
+  private void createPopUp(
+      StackPane stackPane, String backgroundColor, String textColor, String textContent) {
+    JFXDialog submitted = new JFXDialog();
+
+    Label message = new Label();
+    message.setStyle(
+        " -fx-background-color: "
+            + backgroundColor
+            + "; -fx-background-radius: 6; -fx-font-size: 25; -fx-text-fill: "
+            + textColor);
+    message.setText(textContent);
+    message.maxHeight(70);
+    message.maxWidth(300);
+    message.prefHeight(70);
+    message.prefWidth(250);
+    Insets myInset = new Insets(10);
+    message.setPadding(myInset);
+    BorderStroke myStroke =
+        new BorderStroke(
+            Paint.valueOf(backgroundColor),
+            new BorderStrokeStyle(null, null, null, 6, 1, null),
+            new CornerRadii(6),
+            new BorderWidths(3));
+    Border myB = new Border(myStroke);
+    message.setBorder(myB);
+
+    submitted.setContent(message);
+    submitted.show(stackPane);
   }
 }
