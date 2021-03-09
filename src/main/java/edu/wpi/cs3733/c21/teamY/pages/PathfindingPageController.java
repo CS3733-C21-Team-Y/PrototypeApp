@@ -45,7 +45,6 @@ public class PathfindingPageController extends SubPage {
   @FXML private GridPane overlayGridPane;
   @FXML private JFXButton multDestinationBtn;
 
-
   //  @FXML private Slider zoomSlider;
   //  @FXML private Button upButton;
   //  @FXML private Button downButton;
@@ -69,6 +68,7 @@ public class PathfindingPageController extends SubPage {
   private ArrayList<Node> pathNodes = new ArrayList<Node>(); // Used to store path between floors
   private ComboBox lastSelectedComboBox = null;
   ArrayList<String> endLocations = new ArrayList<>();
+  Boolean addDest = false; // Toggle state of the add destinations button
   // Used to save start/end node on a floor
   MapController.CircleEx startNode;
   MapController.CircleEx endNode;
@@ -195,6 +195,10 @@ public class PathfindingPageController extends SubPage {
           startLocationBox.setValue(endLocationBox.getValue());
           endLocationBox.setValue(startLoc);
           calculatePath();
+        });
+    multDestinationBtn.setOnAction(
+        e -> {
+          addDest = true;
         });
 
     startLocationBox.setOnAction(e -> lastSelectedComboBox = startLocationBox);
@@ -383,6 +387,22 @@ public class PathfindingPageController extends SubPage {
       startLocationBox.setValue(start);
       endLocationBox.setValue(end);
     }
+    // Detour handling for multiple destinations
+    System.out.println("End size " + endLocations.size());
+    endLocations.remove(endLocations.size() - 1);
+    int size = endLocations.size();
+    for (int k = 0; k < size; k++) {
+      System.out.println("Inside loop");
+      if ((graph.nodeFromID(endLocations.get(k)).nodeType.equals("BATH"))
+          || (graph.nodeFromID(endLocations.get(k)).nodeType.equals("KIOS"))
+          || (graph.nodeFromID(endLocations.get(k)).nodeType.equals("FOOD"))) {
+        System.out.println("Removing " + graph.nodeFromID(endLocations.get(k)).longName);
+        endLocations.remove(endLocations.get(k));
+        size--;
+      }
+    }
+    addDest = true;
+
     calculatePath();
   }
   // NEAREST NODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -665,10 +685,10 @@ public class PathfindingPageController extends SubPage {
       String endID =
           graph.longNodes.get((String) endLocationBox.getValue())
               .nodeID; // (String) endLocationBox.getValue();
+      endLocations.add(endID);
       String startID =
           graph.longNodes.get((String) startLocationBox.getValue())
               .nodeID; // (String) startLocationBox.getValue();
-      endLocations.add(endID);
 
       if (graph.longNodes.get((String) startLocationBox.getValue()).nodeType.equals("PARK")) {
         try {
@@ -710,6 +730,7 @@ public class PathfindingPageController extends SubPage {
       drawPath(pathNodes);
 
       generateTextDirections(pathNodes);
+      addDest = false;
     }
   }
 
@@ -776,7 +797,9 @@ public class PathfindingPageController extends SubPage {
   private void clearPath() {
     mapInsertController.clearSelection();
     pathNodes = new ArrayList<Node>();
-    endLocations = new ArrayList<String>();
+    if (!addDest) {
+      endLocations = new ArrayList<String>();
+    }
   }
 
   public JFXButton getBathroomBtn() {
