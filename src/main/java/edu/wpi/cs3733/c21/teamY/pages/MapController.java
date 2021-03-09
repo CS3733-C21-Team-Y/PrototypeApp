@@ -48,6 +48,8 @@ public class MapController extends SubPage {
   @FXML private JFXButton reset;
   @FXML private JFXNodesList floorList;
   @FXML private JFXButton currentFloorBtn;
+
+  private boolean isAdminPage;
   private boolean floorListOpen = false;
   // endregion
 
@@ -79,6 +81,14 @@ public class MapController extends SubPage {
   private double scaledCircleRadius = 0;
   private double scaledLineWidth = 0;
   private double scaledLineWidthSelected = 0;
+
+  public boolean isAdminPage() {
+    return isAdminPage;
+  }
+
+  public void setAdminPage(boolean adminPage) {
+    isAdminPage = adminPage;
+  }
 
   protected enum MAP_PAGE {
     PARKING,
@@ -996,16 +1006,27 @@ public class MapController extends SubPage {
   protected void resetMapView() {
     System.out.println(parent.isDesktop);
     if (parent.isDesktop) {
-      System.out.println("scaling");
-      mapImageView.setScaleX(0.8);
-      mapImageView.setScaleY(0.8);
-      adornerPane.setScaleX(0.8);
-      adornerPane.setScaleY(0.8);
+      if (isAdminPage) {
+        mapImageView.setScaleX(0.8);
+        mapImageView.setScaleY(0.8);
+        adornerPane.setScaleX(0.8);
+        adornerPane.setScaleY(0.8);
 
-      mapImageView.translateXProperty().setValue(-500);
-      mapImageView.translateYProperty().setValue(-500);
-      adornerPane.translateXProperty().setValue(-500);
-      adornerPane.translateYProperty().setValue(-500);
+        mapImageView.translateXProperty().setValue(-500);
+        mapImageView.translateYProperty().setValue(-500);
+        adornerPane.translateXProperty().setValue(-500);
+        adornerPane.translateYProperty().setValue(-500);
+      } else {
+        mapImageView.setScaleX(0.8);
+        mapImageView.setScaleY(0.8);
+        adornerPane.setScaleX(0.8);
+        adornerPane.setScaleY(0.8);
+
+        mapImageView.translateXProperty().setValue(-500);
+        mapImageView.translateYProperty().setValue(-500);
+        adornerPane.translateXProperty().setValue(-500);
+        adornerPane.translateYProperty().setValue(-500);
+      }
     } else {
       mapImageView.setScaleX(0.28);
       mapImageView.setScaleY(0.28);

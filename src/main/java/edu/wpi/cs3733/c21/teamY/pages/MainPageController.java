@@ -191,7 +191,10 @@ public class MainPageController {
     } else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
     else if (e.getSource() == origSignOutBtn) {
       // PAT PAT PAT LOOK HERE PLEASE PAT PAT
+      // I looked - Pat
+      Settings.getSettings().logout();
       // Insert Code to sign out
+      instance.drawByPermissions();
       instance.loadRightSubPage("LoginPage.fxml");
     } else if (e.getSource() == origServiceRequestBtn) {
       if (instance.isDesktop) {
@@ -327,6 +330,8 @@ public class MainPageController {
     boolean serviceAccess = false;
     boolean adminAccess = false;
     switch (perm) {
+      case -1:
+        signOutBtn.setVisible(false);
       case 0: // guest
       case 1: // patient
         serviceAccess = false;

@@ -41,7 +41,7 @@
                                         <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
-                                        <JFXButton fx:id="swapLocationsBox" contentDisplay="GRAPHIC_ONLY" prefHeight="40.0" prefWidth="40.0" textFill="WHITE" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                                        <JFXButton fx:id="swapLocationsBox" contentDisplay="GRAPHIC_ONLY" prefHeight="40.0" prefWidth="40.0" ripplerFill="#efeff9" textFill="WHITE" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                                             <graphic>
                                                 <MaterialDesignIconView fill="#8d8eae" glyphName="SWAP_VERTICAL" size="30" strokeLineCap="ROUND" strokeLineJoin="ROUND" text="" />
                                             </graphic>
