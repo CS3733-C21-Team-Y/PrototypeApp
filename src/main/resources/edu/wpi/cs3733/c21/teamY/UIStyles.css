@@ -107,5 +107,21 @@
 }
 .SRElementAnchor {
     -fx-background-color: #3f417a;
+}
 
+.context-menu-title:disabled {
+    -fx-opacity: 1.0;
+}
+
+.context-menu-title:disabled .label {
+    -fx-opacity: 1.0;
+}
+
+.context-menu-title:disabled:hover {
+    -fx-background-color: white;
+}
+
+.context-menu-title:disabled:hover .label {
+    -fx-background-color: white;
+    -fx-text-fill: black;
 }

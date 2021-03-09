@@ -502,7 +502,11 @@ public class AdminPageController extends SubPage {
         mapInsertController.selectCircle(rightClickedNode);
 
         // NODE MENU
-        contextMenu.getItems().addAll(addEdgeMenuItem, deleteMenuItem);
+        adornerTitleLabel.setText(rightClickedNode.getId());
+        adornerTitleLabel.setDisable(true);
+        contextMenu
+            .getItems()
+            .addAll(adornerTitleLabel, separator1, addEdgeMenuItem, deleteMenuItem);
         contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
       }
       // Right Clicked Edge
@@ -521,7 +525,16 @@ public class AdminPageController extends SubPage {
 
         mapInsertController.selectLine(rightClickedEdge);
         // EDGE MENU
-        contextMenu.getItems().addAll(makeNodeHorizontal, makeNodeVertical, deleteMenuItem);
+        adornerTitleLabel.setText(rightClickedEdge.getId());
+        adornerTitleLabel.setDisable(true);
+        contextMenu
+            .getItems()
+            .addAll(
+                adornerTitleLabel,
+                separator1,
+                makeNodeHorizontal,
+                makeNodeVertical,
+                deleteMenuItem);
         contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
       }
       // Right Clicked MultiSelect
@@ -561,7 +574,13 @@ public class AdminPageController extends SubPage {
   MenuItem makeNodeHorizontal = new MenuItem("Make Horizontal");
   MenuItem deleteMenuItem = new MenuItem("Delete");
 
+  SeparatorMenuItem separator1 = new SeparatorMenuItem();
+  MenuItem adornerTitleLabel = new MenuItem();
+
   private void assignContextMenuActions() {
+
+    adornerTitleLabel.getStyleClass().add("context-menu-title");
+    separator1.setDisable(true);
 
     contextMenu = new ContextMenu();
 
