@@ -14,6 +14,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -29,7 +30,10 @@ public class RequestInfoPageController<label> extends SubPage {
   @FXML private VBox rightBox;
   @FXML private JFXButton submitBtn;
   @FXML private JFXComboBox employeeComboBox;
+  // @FXML private AnchorPane annoyingVbox;
   Scene scene;
+
+  // private boolean desktop;
 
   private Service service;
 
@@ -45,6 +49,7 @@ public class RequestInfoPageController<label> extends SubPage {
     saveBtn = new JFXButton();
     saveBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitEmployee());
+    // desktop = parent.isDesktop;
 
     try {
       ArrayList<Employee> employeeList = DataOperations.getStaffList();
@@ -130,6 +135,11 @@ public class RequestInfoPageController<label> extends SubPage {
   }
 
   private void createInfoBox(String title, String data) {
+    if (parent.isDesktop) {
+      infoBox.setPadding(new Insets(2, 5, 4, 50));
+    } else {
+      infoBox.setPadding(new Insets(2, 100, 4, 50));
+    }
     scene = infoBox.getScene();
     FXMLLoader fxmlLoader = new FXMLLoader();
     try {
@@ -137,7 +147,7 @@ public class RequestInfoPageController<label> extends SubPage {
           fxmlLoader.load(getClass().getResource("ServiceRequestInfoElement.fxml").openStream());
       ServiceRequestInfoElementController controller =
           (ServiceRequestInfoElementController) fxmlLoader.getController();
-      controller.populateInformation(title, data);
+      controller.populateInformation(title, data, parent.isDesktop);
       infoBox.getChildren().add(node);
     } catch (IOException e) {
       e.printStackTrace();
