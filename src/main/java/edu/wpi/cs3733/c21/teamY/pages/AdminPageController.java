@@ -183,21 +183,25 @@ public class AdminPageController extends SubPage {
                       removeSelected();
                       System.out.println("Delete key pressed.");
                     }
-                    if (e.getCode() == KeyCode.UP) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, 0.1);
-                      System.out.println("UP key pressed.");
+                    if (e.getCode() == KeyCode.ESCAPE) {
+                      mapInsertController.clearSelection();
+                      System.out.println("ESC Key Pressed");
                     }
-                    if (e.getCode() == KeyCode.DOWN) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, -0.1);
-                      System.out.println("DOWN key pressed.");
+                    if (e.getCode() == KeyCode.W) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, -5);
+                      System.out.println("W key pressed.");
                     }
-                    if (e.getCode() == KeyCode.LEFT) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), -0.1, 0.0);
-                      System.out.println("LEFT key pressed.");
+                    if (e.getCode() == KeyCode.S) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, 5);
+                      System.out.println("S key pressed.");
                     }
-                    if (e.getCode() == KeyCode.RIGHT) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.1, 0.0);
-                      System.out.println("RIGHT key pressed.");
+                    if (e.getCode() == KeyCode.A) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 5, 0.0);
+                      System.out.println("A key pressed.");
+                    }
+                    if (e.getCode() == KeyCode.D) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), -5, 0.0);
+                      System.out.println("D key pressed.");
                     }
 
                     if (e.isShiftDown()) {
@@ -296,7 +300,6 @@ public class AdminPageController extends SubPage {
           assignContextMenuActions();
         });
   }
-
 
   private void exportToCSV() {
     try {
