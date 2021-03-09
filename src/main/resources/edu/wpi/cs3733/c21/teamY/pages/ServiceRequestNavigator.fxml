@@ -109,7 +109,7 @@
                         <Insets bottom="5.0" />
                      </GridPane.margin>
                   </ToggleButton>
-                  <ToggleButton fx:id="assignedBtn" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: #5e5d94; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="Assigned To Me" textFill="#efeff9" toggleGroup="$group" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                  <ToggleButton fx:id="assignedBtn" minWidth="100.0" mnemonicParsing="false" style="-fx-base: #5e5d94; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="Assigned To Me" textFill="#efeff9" toggleGroup="$group" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                      <font>
                         <Font name="Calibri" size="13.0" />
                      </font>

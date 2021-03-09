@@ -19,7 +19,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
   @FXML private JFXButton submitBtn;
   @FXML private JFXTextField medicine;
   @FXML private JFXTextField patient;
-  @FXML private JFXTextField date;
+  @FXML private JFXDatePicker date;
   @FXML private JFXTextField doctor;
   @FXML private StackPane stackPane;
   @FXML private JFXComboBox employeeComboBox;
@@ -50,7 +50,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
 
   private void clearButton() {
     patient.setText("");
-    date.setText("");
+    date.setValue(null);
     doctor.setText("");
     medicine.setText("");
   }
@@ -66,7 +66,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
     clearIncomplete(employeeComboBox);
 
     if (patient.getText().equals("")
-        || date.getText().equals("")
+        || date.getValue().equals(null)
         || doctor.getText().equals("")
         || medicine.getText().equals("")) {
       if (patient.getText().equals("")
@@ -74,7 +74,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
               && employeeComboBox.getValue() == null)) {
         incomplete(patient);
       }
-      if (date.getText().equals("")) {
+      if (date.getValue().equals(null)) {
         incomplete(date);
       }
       if (doctor.getText().equals("")) {
@@ -93,7 +93,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
       this.IDCount++;
       service.setCategory(medicine.getText());
       service.setDescription(patient.getText());
-      service.setDate(date.getText());
+      service.setDate(String.valueOf(date.getValue()));
       service.setAdditionalInfo(doctor.getText());
       service.setRequester(settings.getCurrentUsername());
       if (settings.getCurrentPermissions() == 3) {
