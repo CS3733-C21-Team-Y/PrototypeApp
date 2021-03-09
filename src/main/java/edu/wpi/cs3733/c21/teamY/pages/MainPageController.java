@@ -186,7 +186,7 @@ public class MainPageController {
     if (e.getSource() == origAdminToolsBtn) {
       instance.setRightColumnWidth(30);
     } else {
-      instance.setCenterColumnWidth(0);
+      // instance.setCenterColumnWidth(0);
     }
     if (e.getSource() == origNavigationBtn) {
       if (instance.isDesktop) {
@@ -208,11 +208,11 @@ public class MainPageController {
       instance.drawByPermissions();
       instance.loadRightSubPage("LoginPage.fxml");
     } else if (e.getSource() == origServiceRequestBtn) {
+      instance.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
       if (instance.isDesktop) {
         instance.loadCenterSubPage("ServiceRequestNavigator.fxml");
-        instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
+        // parent.setCenterColumnWidth(350);
       } else {
-        instance.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
         instance.setCenterColumnWidth(0);
       }
     } else if (e.getSource() == origAdminToolsBtn) {
