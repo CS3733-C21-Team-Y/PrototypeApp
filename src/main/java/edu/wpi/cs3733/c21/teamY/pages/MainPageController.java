@@ -29,6 +29,7 @@ public class MainPageController {
   @FXML public JFXButton origAdminToolsBtn;
   @FXML private JFXButton origGoogleNavBtn;
   @FXML private JFXButton exitBtn;
+  @FXML ColumnConstraints requestsColumn;
   //  @FXML private ScrollPane scrollPane;
 
   private JFXButton signInBtn;
@@ -42,6 +43,8 @@ public class MainPageController {
   public boolean isDesktop;
   //  @FXML private JFXButton SRMenuBtn;
   private static MainPageController instance;
+
+  private ColumnConstraints instanceRequestsColumn;
   public SubPage rightPageController;
   public SubPage centerPageController;
   Settings settings;
@@ -62,7 +65,8 @@ public class MainPageController {
       JFXButton navigationBtn,
       JFXButton serviceRequestBtn,
       JFXButton adminToolsBtn,
-      JFXButton googleNavBtn) {
+      JFXButton googleNavBtn,
+      ColumnConstraints instanceRequestsColumn) {
     this.settings = Settings.getSettings();
     this.centerPane = centerPane;
     this.rightPane = rightPane;
@@ -72,6 +76,7 @@ public class MainPageController {
     this.adminToolsBtn = adminToolsBtn;
     this.isDesktop = true;
     this.googleNavBtn = googleNavBtn;
+    this.instanceRequestsColumn = instanceRequestsColumn;
 
     loadRightSubPage("LandingPage.fxml");
 
@@ -88,7 +93,8 @@ public class MainPageController {
             origNavigationBtn,
             origServiceRequestBtn,
             origAdminToolsBtn,
-            origGoogleNavBtn);
+            origGoogleNavBtn,
+            requestsColumn);
     instance.setCenterColumnWidth(0);
     origNavigationBtn.setOnAction(e -> buttonClicked(e));
     origServiceRequestBtn.setOnAction(e -> buttonClicked(e));
@@ -312,8 +318,11 @@ public class MainPageController {
         serviceAccess = true;
         adminAccess = true;
     }
+    if (serviceAccess && !instance.isDesktop) {
+      instanceRequestsColumn.setPercentWidth(25);
+    }
     serviceRequestBtn.setVisible(serviceAccess);
-    adminToolsBtn.setVisible(adminAccess);
+    if (instance.isDesktop) adminToolsBtn.setVisible(adminAccess);
   }
   //  public void loadSubPages() {
   //    Stage stage = (Stage) rightPane.getScene().getWindow();

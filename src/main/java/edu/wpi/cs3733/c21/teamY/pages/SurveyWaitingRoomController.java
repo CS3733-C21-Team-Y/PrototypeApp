@@ -27,8 +27,13 @@ public class SurveyWaitingRoomController extends SubPage {
     if (status == 1 || status == 0) {
       //      parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
       //      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
-      parent.loadRightSubPage("NavigationMap.fxml");
-      parent.loadCenterSubPage("PathfindingPage.fxml");
+      if (parent.isDesktop) {
+        parent.loadRightSubPage("NavigationMap.fxml");
+        parent.loadCenterSubPage("PathfindingPage.fxml");
+      } else {
+        parent.loadCenterSubPage("NavigationMap.fxml");
+        parent.loadRightSubPage("MobilePathfindingPage.fxml");
+      }
     } else if (status == -1) {
       createPopUp(stackPane, "#ff6666", "#fff9f9", "Your Response is Pending Review");
     }

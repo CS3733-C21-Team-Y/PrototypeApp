@@ -91,6 +91,9 @@ public class ServiceRequestNavigatorController extends SubPage {
   private void filterByRequester() {
     String username = parent.settings.getCurrentUsername();
     serviceBox.getChildren().clear();
+    myRequestsBtn.setStyle("-fx-background-color: #efeff9; -fx-text-fill: #5a5c94");
+    allRequestsBtn.setStyle("-fx-background-color: #5a5c94; -fx-text-fill: #efeff9");
+    assignedBtn.setStyle("-fx-background-color: #5a5c94;-fx-text-fill: #efeff9");
     try {
       ArrayList<Service> serviceList = DataOperations.exportService("", "");
       for (Service service : serviceList) {
@@ -104,6 +107,10 @@ public class ServiceRequestNavigatorController extends SubPage {
   private void filterByEmployee() {
     String username = parent.settings.getCurrentUsername();
     serviceBox.getChildren().clear();
+    assignedBtn.setStyle("-fx-background-color: #efeff9; -fx-text-fill: #5a5c94");
+    allRequestsBtn.setStyle("-fx-background-color: #5a5c94; -fx-text-fill: #efeff9");
+    myRequestsBtn.setStyle("-fx-background-color: #5a5c94;-fx-text-fill: #efeff9");
+    serviceBox.getChildren().clear();
     try {
       ArrayList<Service> serviceList = DataOperations.exportService("", "");
       for (Service service : serviceList) {
@@ -116,6 +123,9 @@ public class ServiceRequestNavigatorController extends SubPage {
 
   private void loadServicesFromDB() {
     serviceBox.getChildren().clear();
+    allRequestsBtn.setStyle("-fx-background-color: #efeff9; -fx-text-fill: #5a5c94");
+    assignedBtn.setStyle("-fx-background-color: #5a5c94; -fx-text-fill: #efeff9");
+    myRequestsBtn.setStyle("-fx-background-color: #5a5c94;-fx-text-fill: #efeff9");
     try {
       ArrayList<Service> serviceList = DataOperations.exportService("", "");
       for (Service service : serviceList) {

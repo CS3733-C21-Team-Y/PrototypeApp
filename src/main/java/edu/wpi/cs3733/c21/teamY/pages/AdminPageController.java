@@ -178,27 +178,21 @@ public class AdminPageController extends SubPage {
 
                     if (e.getCode() == KeyCode.DELETE) {
                       removeSelected();
-                      System.out.println("Delete key pressed.");
                     }
                     if (e.getCode() == KeyCode.ESCAPE) {
                       mapInsertController.clearSelection();
-                      System.out.println("ESC Key Pressed");
                     }
                     if (e.getCode() == KeyCode.W) {
                       moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, -5);
-                      System.out.println("W key pressed.");
                     }
                     if (e.getCode() == KeyCode.S) {
                       moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, 5);
-                      System.out.println("S key pressed.");
                     }
                     if (e.getCode() == KeyCode.A) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 5, 0.0);
-                      System.out.println("A key pressed.");
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), -5, 0.0);
                     }
                     if (e.getCode() == KeyCode.D) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), -5, 0.0);
-                      System.out.println("D key pressed.");
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 5, 0.0);
                     }
 
                     if (e.isShiftDown()) {
@@ -817,8 +811,8 @@ public class AdminPageController extends SubPage {
     try {
       edu.wpi.cs3733.c21.teamY.entity.Node n =
           new edu.wpi.cs3733.c21.teamY.entity.Node(
-              mapInsertController.scaleUpXCoords(Double.parseDouble(newX.getText())),
-              mapInsertController.scaleUpYCoords(Double.parseDouble(newY.getText())),
+              Math.floor(mapInsertController.scaleUpXCoords(Double.parseDouble(newX.getText()))),
+              Math.floor(mapInsertController.scaleUpYCoords(Double.parseDouble(newY.getText()))),
               mapInsertController.floorNumber,
               nodeID);
 

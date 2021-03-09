@@ -33,7 +33,7 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+                        <ColumnConstraints fx:id="requestsColumn" hgrow="SOMETIMES" minWidth="10.0" percentWidth="0.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="60.0" vgrow="NEVER" />
@@ -94,15 +94,15 @@
                               <Insets top="2.0" />
                            </GridPane.margin>
                         </JFXButton>
+                        <JFXButton fx:id="origAdminToolsBtn" alignment="CENTER" contentDisplay="TOP" maxHeight="90.0" opacity="0.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text="Test" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" visible="false">
+                           <graphic>
+                              <FontAwesomeIconView accessibleText="Hello" fill="#575aa3" glyphName="SIGN_OUT" size="30" />
+                           </graphic>
+                        </JFXButton>
                      </children>
                   </GridPane>
                </children>
             </HBox>
-            <JFXButton fx:id="origAdminToolsBtn" alignment="CENTER" contentDisplay="TOP" maxHeight="90.0" prefHeight="200.0" prefWidth="100.0" ripplerFill="#8d8ea4" style="-fx-border-width: 0; -fx-text-fill: transparent; -fx-font-size: 14;" text="Test" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" visible="false">
-               <graphic>
-                  <FontAwesomeIconView accessibleText="Hello" fill="#575aa3" glyphName="SIGN_OUT" size="30" />
-               </graphic>
-            </JFXButton>
          </children>
       </GridPane>
    </children>
