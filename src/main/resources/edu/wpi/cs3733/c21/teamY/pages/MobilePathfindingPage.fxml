@@ -25,9 +25,9 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="BOTTOM" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <VBox maxHeight="100.0" minHeight="100.0" minWidth="350.0" prefHeight="100.0" prefWidth="350.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 0 0 0 0;" GridPane.valignment="TOP">
+            <VBox maxHeight="120.0" minHeight="120.0" minWidth="350.0" prefHeight="100.0" prefWidth="350.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 0 0 0 0;" GridPane.valignment="TOP">
                <children>
-                  <GridPane>
+                  <GridPane prefHeight="110.0" prefWidth="380.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="75.0" prefWidth="100.0" />
@@ -35,8 +35,8 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
-                        <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="50.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
                         <JFXComboBox fx:id="startLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="99999.0" promptText="Start Location" style="-fx-prompt-text-fill: #8d8eae;" styleClass="jfx-combo-box" stylesheets="@../UIStyles.css" unFocusColor="WHITE" GridPane.columnIndex="1">
@@ -44,7 +44,7 @@
                               <Insets left="5.0" right="5.0" />
                            </GridPane.margin>
                         </JFXComboBox>
-                        <JFXComboBox fx:id="endLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="9999.0" promptText="End Location" style="-fx-prompt-text-fill: #8d8eae;" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <JFXComboBox fx:id="endLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="9999.0" promptText="End Location" style="-fx-prompt-text-fill: #8d8eae;" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                            <GridPane.margin>
                               <Insets left="5.0" right="5.0" />
                            </GridPane.margin>
@@ -119,7 +119,7 @@
                         </JFXNodesList>
                      </children>
                      <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="10.0" left="5.0" right="15.0" top="15.0" />
                      </VBox.margin>
                   </GridPane>
                </children>
@@ -127,6 +127,14 @@
                   <DropShadow />
                </effect>
             </VBox>
+            <JFXButton fx:id="exitDirectionBtn" buttonType="RAISED" style="-fx-background-color: #efeff9;" text="Show Steps" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <font>
+                  <Font name="Calibri" size="14.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets top="130.0" />
+               </GridPane.margin>
+            </JFXButton>
             <VBox fx:id="textDirectionsBox" prefWidth="350.0" style="-fx-background-color: white;" visible="false" GridPane.rowIndex="1">
                <effect>
                   <DropShadow />
@@ -138,15 +146,9 @@
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" percentHeight="90.0" prefHeight="9999.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" percentHeight="10.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <JFXButton fx:id="exitDirectionBtn" buttonType="RAISED" style="-fx-background-color: #efeff9;" text="Exit Direction View" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                           <font>
-                              <Font name="Calibri" size="14.0" />
-                           </font>
-                        </JFXButton>
-                        <VBox fx:id="textDirectionViewer" minWidth="350.0" prefHeight="9999.0" prefWidth="350.0" spacing="5.0" style="-fx-background-color: red;">
+                        <VBox fx:id="textDirectionViewer" minWidth="350.0" prefHeight="9999.0" prefWidth="350.0" spacing="5.0">
                            <padding>
                               <Insets left="20.0" top="20.0" />
                            </padding>
@@ -154,6 +156,12 @@
                      </children>
                   </GridPane>
                </children>
+               <GridPane.margin>
+                  <Insets top="45.0" />
+               </GridPane.margin>
+               <padding>
+                  <Insets top="35.0" />
+               </padding>
             </VBox>
          </children>
       </GridPane>

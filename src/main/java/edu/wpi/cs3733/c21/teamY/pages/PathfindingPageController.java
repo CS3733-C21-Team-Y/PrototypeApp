@@ -75,6 +75,8 @@ public class PathfindingPageController extends SubPage {
   private boolean kiosk = false;
   private int nearestNodeRadius = 200;
 
+  private boolean textExpanded = false;
+
   // TooltipInstantiations
   Tooltip bathroomTooltip = new Tooltip("Add/Remove Bathroom Detour");
   Tooltip cafeTooltip = new Tooltip("Add/Remove Cafe Detour");
@@ -111,11 +113,7 @@ public class PathfindingPageController extends SubPage {
     overlayGridPane.toFront();
 
     //    sideMenuVBox.setPickOnBounds(false);
-    exitDirectionBtn.setOnAction(
-        e -> {
-          if (!parent.isDesktop) parent.setCenterColumnWidth(400);
-          textDirectionsBox.setVisible(false);
-        });
+    exitDirectionBtn.setOnAction(e -> updateTextDirectionBox());
     //         attaches a handler to the button with a lambda expression
 
     // Reset view button
@@ -519,14 +517,37 @@ public class PathfindingPageController extends SubPage {
 
   @Override
   public void loadNavigationBar() {
-    if (!parent.isDesktop) parent.setCenterColumnWidth(400);
+    if (!parent.isDesktop) parent.setCenterColumnWidth(380);
   };
+
+  private void updateTextDirectionBox() {
+    if (!parent.isDesktop) {
+      if (textExpanded) {
+        textDirectionsBox.setVisible(false);
+        textDirectionViewer.setVisible(false);
+        exitDirectionBtn.setText("Show Steps");
+
+        parent.setCenterColumnWidth(380);
+      } else {
+        textDirectionsBox.setVisible(true);
+        textDirectionViewer.setVisible(true);
+        exitDirectionBtn.setText("Exit Steps");
+
+        parent.setCenterColumnWidth(0);
+      }
+      textExpanded = !textExpanded;
+    }
+    exitDirectionBtn.toFront();
+    // textDirectionsBox.setVisible(false);
+  }
 
   private void generateTextDirections(ArrayList<Node> pathNodes) {
     textDirectionViewer.getChildren().clear();
-    if (!parent.isDesktop) parent.setCenterColumnWidth(0);
-    textDirectionsBox.setVisible(true);
-    textDirectionViewer.setVisible(true);
+
+    if (parent.isDesktop) {
+      textDirectionsBox.setVisible(true);
+      textDirectionViewer.setVisible(true);
+    }
 
     ArrayList<String> directionList = AlgorithmCalls.textDirections(pathNodes);
     System.out.println(directionList.size());
