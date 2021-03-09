@@ -89,7 +89,7 @@ public class ServiceRequestNavigatorController extends SubPage {
   }
 
   private void filterByRequester() {
-    String username = parent.settings.getCurrentUsername();
+    String username = Settings.getSettings().getCurrentUsername();
     serviceBox.getChildren().clear();
     myRequestsBtn.setStyle("-fx-background-color: #efeff9; -fx-text-fill: #5a5c94");
     allRequestsBtn.setStyle("-fx-background-color: #5a5c94; -fx-text-fill: #efeff9");
@@ -105,7 +105,7 @@ public class ServiceRequestNavigatorController extends SubPage {
   }
 
   private void filterByEmployee() {
-    String username = parent.settings.getCurrentUsername();
+    String username = Settings.getSettings().getCurrentUsername();
     serviceBox.getChildren().clear();
     assignedBtn.setStyle("-fx-background-color: #efeff9; -fx-text-fill: #5a5c94");
     allRequestsBtn.setStyle("-fx-background-color: #5a5c94; -fx-text-fill: #efeff9");
