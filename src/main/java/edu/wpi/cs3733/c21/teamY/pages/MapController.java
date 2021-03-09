@@ -1007,15 +1007,15 @@ public class MapController extends SubPage {
     System.out.println(parent.isDesktop);
     if (parent.isDesktop) {
       if (isAdminPage) {
-        mapImageView.setScaleX(0.8);
-        mapImageView.setScaleY(0.8);
-        adornerPane.setScaleX(0.8);
-        adornerPane.setScaleY(0.8);
+        mapImageView.setScaleX(0.7);
+        mapImageView.setScaleY(0.7);
+        adornerPane.setScaleX(0.7);
+        adornerPane.setScaleY(0.7);
 
-        mapImageView.translateXProperty().setValue(-500);
-        mapImageView.translateYProperty().setValue(-500);
-        adornerPane.translateXProperty().setValue(-500);
-        adornerPane.translateYProperty().setValue(-500);
+        mapImageView.translateXProperty().setValue(-800);
+        mapImageView.translateYProperty().setValue(500);
+        adornerPane.translateXProperty().setValue(-800);
+        adornerPane.translateYProperty().setValue(500);
       } else {
         mapImageView.setScaleX(0.8);
         mapImageView.setScaleY(0.8);
