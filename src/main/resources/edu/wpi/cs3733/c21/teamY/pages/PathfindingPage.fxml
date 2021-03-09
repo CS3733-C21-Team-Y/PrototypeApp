@@ -141,7 +141,7 @@
                                 <DropShadow />
                             </effect>
                         </VBox>
-                          <VBox fx:id="textDirectionsBox" maxWidth="400.0" prefHeight="9999.0" prefWidth="400.0" style="-fx-background-color: white;">
+                          <VBox fx:id="textDirectionsBox" maxWidth="400.0" prefHeight="9999.0" prefWidth="400.0" style="-fx-background-color: white;" visible="false">
                      <effect>
                         <DropShadow />
                      </effect>
