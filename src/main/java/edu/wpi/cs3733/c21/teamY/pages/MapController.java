@@ -346,14 +346,14 @@ public class MapController extends SubPage {
 
           if (child instanceof CircleEx) {
             CircleEx c = (CircleEx) child;
-            if (c.isVisible() && c.hasFocus) {
+            if (c.isVisible() && !c.hasFocus) {
               c.setVisible(false);
             }
           }
 
           if (child instanceof LineEx) {
             LineEx l = (LineEx) child;
-            if (l.isVisible() && l.hasFocus) {
+            if (l.isVisible() && !l.hasFocus) {
               l.setVisible(false);
             }
           }
