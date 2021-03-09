@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -52,7 +53,10 @@ public class LandingPageController extends SubPage implements Initializable {
 
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == loginBtn) parent.loadRightSubPage("LoginPage.fxml");
-    if (e.getSource() == guestBtn) parent.loadRightSubPage("CovidScreening.fxml");
+    if (e.getSource() == guestBtn) {
+      parent.loadRightSubPage("CovidScreening.fxml");
+      Settings.getSettings().loginSuccess("guest", 0);
+    }
   }
 
   @Override

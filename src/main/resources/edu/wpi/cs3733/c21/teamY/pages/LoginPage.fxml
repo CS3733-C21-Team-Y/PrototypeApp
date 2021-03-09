@@ -80,7 +80,7 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox alignment="CENTER" maxHeight="50.0" maxWidth="250.0" prefHeight="49.0" prefWidth="253.0" style="-fx-background-color: efeff9;">
+                        <HBox alignment="CENTER" maxHeight="50.0" maxWidth="250.0" prefHeight="49.0" prefWidth="253.0">
                            <children>
                               <JFXButton fx:id="guestBtn" alignment="CENTER" maxHeight="50.0" maxWidth="250.0" minHeight="30.0" minWidth="150.0" prefHeight="56.0" prefWidth="251.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Sign in as guest" textAlignment="CENTER" textFill="#5a5c94">
                                  <font>
