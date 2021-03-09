@@ -93,6 +93,9 @@ public class PathfindingPageController extends SubPage {
   Tooltip kioskTooltip = new Tooltip("Add/Remove Kiosk Detour");
   Tooltip parkingTooltip = new Tooltip("Return to parking lot");
   Tooltip noStairsTooltip = new Tooltip("Toggle handicap accessible route on/off");
+  Tooltip swapTooltip = new Tooltip("Click to swap your start and end destination");
+  Tooltip multiDestTooltip =
+      new Tooltip("Click to save the current destination to allow for additional destinations");
 
   /** Do not use it. It does nothing. */
   public PathfindingPageController() {}
@@ -146,6 +149,8 @@ public class PathfindingPageController extends SubPage {
     Tooltip.install(cafeBtn, cafeTooltip);
     Tooltip.install(parkingBtn, parkingTooltip);
     Tooltip.install(noStairsBtn, noStairsTooltip);
+    Tooltip.install(multDestinationBtn, multiDestTooltip);
+    Tooltip.install(swapLocationsBox, swapTooltip);
 
     JFXDialog dialog = new JFXDialog();
     dialog.setContent(
