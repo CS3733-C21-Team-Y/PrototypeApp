@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
 import com.jfoenix.controls.*;
+import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
@@ -26,6 +27,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
   @FXML private JFXTextField dateInput;
   @FXML private JFXComboBox employeeComboBox;
   Settings settings;
+  AutoCompleteComboBoxListener<String> employeeAuto;
 
   @FXML private StackPane stackPane;
 
@@ -52,6 +54,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
     } else {
       employeeComboBox.setVisible(false);
     }
+    employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
   }
 
   private void buttonClicked(ActionEvent e) {

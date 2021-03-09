@@ -135,8 +135,8 @@ public class DataOperations {
     return CSV.getListOfNodes();
   }
 
-  public static boolean findUser(String username, String password) throws SQLException {
-    return JDBCUtils.findUser(username, password);
+  public static boolean setUserSettings(String username) throws SQLException {
+    return JDBCUtils.findUser(username);
   }
 
   public static String findUserByEmail(String email) throws SQLException {
@@ -155,8 +155,12 @@ public class DataOperations {
     CSV.loadCSVtoDBEmployee();
   }
 
-  public static boolean updateUserPassword(String newPassword, String userID) throws SQLException {
-    return JDBCUtils.updateUserPassword(userID, newPassword);
+  public static boolean updateUserPassword(String newPassword, String email) throws SQLException {
+    return JDBCUtils.updateUserPassword(newPassword, email);
+  }
+
+  public static boolean updateUserSalt(String email, String salt) throws SQLException {
+    return JDBCUtils.updateUserSalt(email, salt);
   }
 
   public static int checkSurveyStatus(String userID) {
@@ -190,5 +194,13 @@ public class DataOperations {
 
   public static boolean updateParkingSpot(String nodeID, String userID) throws SQLException {
     return JDBCUtils.updateParkingSpot(nodeID, userID);
+  }
+
+  public static String findUserSecurePassword(String username) {
+    return JDBCUtils.findUserSecurePassword(username);
+  }
+
+  public static String findUserSalt(String username) {
+    return JDBCUtils.findUserSalt(username);
   }
 }

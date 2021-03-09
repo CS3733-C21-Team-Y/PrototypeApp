@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
 import com.jfoenix.controls.*;
+import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
@@ -17,21 +18,25 @@ public class OutsideHospitalSubpageController extends GenericServiceFormPage {
   @FXML private JFXButton clearBtn;
   @FXML private JFXButton backBtn;
   @FXML private JFXButton submitBtn;
-  @FXML private JFXTextArea descriptionTextArea;
-  @FXML private JFXTextField locationTextField;
-  @FXML private JFXDatePicker serviceDate;
+  @FXML private JFXTextField patientName;
+  @FXML private JFXTextArea description;
+  @FXML private JFXDatePicker date;
+  @FXML private JFXTextField currentLocation;
+  @FXML private JFXTextField desiredLocation;
   @FXML private JFXComboBox employeeComboBox;
+  AutoCompleteComboBoxListener<String> employeeAuto;
 
   @FXML private StackPane stackPane;
 
-  private Settings settings;
-
   public OutsideHospitalSubpageController() {}
 
-  // this runs once the FXML loads in to attach functions to components
+  private Settings settings;
+
   @FXML
   private void initialize() {
+
     settings = Settings.getSettings();
+
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
     clearBtn.setOnAction(e -> clearButton());
@@ -49,52 +54,72 @@ public class OutsideHospitalSubpageController extends GenericServiceFormPage {
     } else {
       employeeComboBox.setVisible(false);
     }
+    employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
   }
 
-  @FXML
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
   }
 
   private void clearButton() {
-    locationTextField.setText("");
-    serviceDate.setValue(null);
-    descriptionTextArea.setText("");
+    description.setText("");
+    currentLocation.setText("");
+    patientName.setText("");
+    date.setValue(null);
+    desiredLocation.setText("");
     employeeComboBox.getSelectionModel().clearSelection();
   }
 
   @FXML
   private void submitBtnClicked() {
+    // put code for submitting a service request here
 
-    clearIncomplete(locationTextField);
-    clearIncomplete(descriptionTextArea);
-    clearIncomplete(serviceDate);
+    clearIncomplete(desiredLocation);
+    clearIncomplete(description);
+    clearIncomplete(currentLocation);
+    clearIncomplete(patientName);
+    clearIncomplete(date);
     clearIncomplete(employeeComboBox);
 
-    if (locationTextField.getText().equals("")
-        || descriptionTextArea.getText().equals("")
-        || serviceDate.getValue() == null
+    if (description.getText().equals("")
+        || currentLocation.getText().equals("")
+        || desiredLocation.getText().equals("")
+        || patientName.getText().equals("")
+        || date.getValue() == null
         || (Settings.getSettings().getCurrentPermissions() == 3
             && employeeComboBox.getValue() == null)) {
-      if (locationTextField.getText().equals("")) {
-        incomplete(locationTextField);
+      if (currentLocation.getText().equals("")) {
+        incomplete(currentLocation);
       }
-      if (descriptionTextArea.getText().equals("")) {
-        incomplete(descriptionTextArea);
+      if (patientName.getText().equals("")) {
+        incomplete(patientName);
       }
-      if (serviceDate.getValue() == null) {
-        incomplete(serviceDate);
+      if (date.getValue() == null) {
+        incomplete(date);
+      }
+      if (desiredLocation.getText().equals("")) {
+        incomplete(desiredLocation);
       }
       if (employeeComboBox.getValue() == null) {
         incomplete(employeeComboBox);
       }
+      if (description.getText().equals("")) {
+        incomplete(description);
+      }
       nonCompleteForm(stackPane);
     } else {
-      Service service = new Service(this.IDCount, "Outside Hospital");
+
+      Service service = new Service(this.IDCount, "Outside Transport");
       this.IDCount++;
-      service.setLocation(locationTextField.getText());
-      service.setDate(serviceDate.getValue().toString());
-      service.setDescription(descriptionTextArea.getText());
+      // service.setCategory((String) patientName.getText());
+      // service.setLocation((String) patientName.getValue());
+      service.setDescription(description.getText());
+      service.setRequester(settings.getCurrentUsername());
+      service.setLocation(
+          "From: " + currentLocation.getText() + "To: " + desiredLocation.getText());
+      service.setCategory(patientName.getText());
+      service.setDate(date.getValue().toString());
+      service.setAdditionalInfo(desiredLocation.getText());
       service.setRequester(settings.getCurrentUsername());
       if (settings.getCurrentPermissions() == 3) {
         service.setEmployee((String) employeeComboBox.getValue());
@@ -104,7 +129,9 @@ public class OutsideHospitalSubpageController extends GenericServiceFormPage {
 
       try {
         DataOperations.saveService(service);
-      } catch (IllegalAccessException | SQLException e) {
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      } catch (IllegalAccessException e) {
         e.printStackTrace();
       }
 

@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
 import com.jfoenix.controls.*;
+import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
@@ -24,6 +25,11 @@ public class SecuritySubpageController extends GenericServiceFormPage {
   @FXML private JFXDatePicker datePickerObject;
   @FXML private JFXTextArea description;
   @FXML private JFXComboBox employeeComboBox;
+
+  AutoCompleteComboBoxListener<String> locationAuto;
+  AutoCompleteComboBoxListener<String> urgencyAuto;
+  AutoCompleteComboBoxListener<String> employeeAuto;
+  AutoCompleteComboBoxListener<String> categoryAuto;
 
   @FXML private StackPane stackPane;
 
@@ -59,6 +65,11 @@ public class SecuritySubpageController extends GenericServiceFormPage {
     } else {
       employeeComboBox.setVisible(false);
     }
+
+    locationAuto = new AutoCompleteComboBoxListener<>(locationBox);
+    urgencyAuto = new AutoCompleteComboBoxListener<>(urgency);
+    employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
+    categoryAuto = new AutoCompleteComboBoxListener<>(category);
   }
 
   private void clearButton() {

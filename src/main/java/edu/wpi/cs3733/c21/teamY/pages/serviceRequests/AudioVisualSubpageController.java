@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
+import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
@@ -25,6 +26,9 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
   @FXML private JFXDatePicker avDate;
   @FXML private JFXTextArea avDesc;
   @FXML private Button backBtn;
+  AutoCompleteComboBoxListener<String> typeAuto;
+  AutoCompleteComboBoxListener<String> locationAuto;
+  AutoCompleteComboBoxListener<String> employeeAuto;
 
   private Settings settings;
 
@@ -61,6 +65,9 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
     avSubmitBtn.setOnAction(e -> submitBtnClicked());
     backBtn.setOnAction(e -> buttonClicked(e));
     avClearBtn.setOnAction(e -> clearButton());
+    employeeAuto = new AutoCompleteComboBoxListener<>(avEmployeeComboBox);
+    locationAuto = new AutoCompleteComboBoxListener<>(avLocationComboBox);
+    typeAuto = new AutoCompleteComboBoxListener<>(avTypeComboBox);
   }
 
   private void buttonClicked(ActionEvent e) {

@@ -2,8 +2,8 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextArea?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -24,8 +24,8 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="100.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #efeff9;">
@@ -53,36 +53,36 @@
                       <RowConstraints minHeight="60.0" percentHeight="30.0" prefHeight="70.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <JFXComboBox fx:id="locationField" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefHeight="45.0" prefWidth="9999999.0" promptText="Location" style="-fx-border-color: #dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: #8f8f8f;" GridPane.columnIndex="1">
+                        <JFXComboBox fx:id="locationField" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefHeight="45.0" prefWidth="9999999.0" promptText="Location" style="-fx-font-style: Calibri;" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
                            <padding>
-                              <Insets bottom="4.0" left="15.0" top="4.0" />
+                              <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </JFXComboBox>
-                        <JFXComboBox fx:id="category" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefHeight="45.0" prefWidth="9999999.0" promptText="Category" style="-fx-border-color: #dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: #8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <JFXComboBox fx:id="category" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefHeight="45.0" prefWidth="9999999.0" promptText="Category" style="-fx-font-style: Calibri;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
                            <padding>
-                              <Insets bottom="4.0" left="15.0" top="4.0" />
+                              <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </JFXComboBox>
-                        <JFXComboBox fx:id="urgency" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefHeight="45.0" prefWidth="9999999.0" promptText="Urgency" style="-fx-border-color: #dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: #8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <JFXComboBox fx:id="urgency" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefHeight="45.0" prefWidth="9999999.0" promptText="Urgency" style="-fx-font-style: Calibri;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
                            <padding>
-                              <Insets bottom="4.0" left="15.0" top="4.0" />
+                              <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </JFXComboBox>
-                        <JFXTextArea fx:id="description" focusColor="#5a5c94" promptText="Description" style="-fx-border-color: #dedede; -fx-border-width: 0.5; -fx-border-radius: 6; -fx-text-fill: #8f8f8f;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <JFXTextArea fx:id="description" focusColor="#5a5c94" labelFloat="true" promptText="Description" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
                            <padding>
-                              <Insets left="15.0" top="5.0" />
+                              <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </JFXTextArea>
                         <GridPane GridPane.columnIndex="1" GridPane.rowIndex="6">
@@ -108,19 +108,19 @@
                         </GridPane>
                         <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" ">
                            <graphic>
-                              <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />
+                              <FontAwesomeIconView fill="#8d8ea4" glyphName="ANGLE_LEFT" size="35" />
                            </graphic>
                         </JFXButton>
-                        <JFXTextField fx:id="date2" labelFloat="true" minHeight="40.0" prefHeight="40.0" promptText="Date" style="-fx-border-color: dedede; -fx-border-width: .5; -fx-border-radius: 6;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <JFXComboBox fx:id="employeeComboBox" labelFloat="true" minHeight="50.0" prefWidth="9.999999999E9" promptText="Employee" style="-fx-font-style: Calibri;" unFocusColor="#5a5c94" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </JFXTextField>
-                        <JFXComboBox fx:id="employeeComboBox" labelFloat="true" minHeight="50.0" prefWidth="9.999999999E9" promptText="Employee" style="-fx-border-color: dcdcde; -fx-border-width: 0.5; -fx-border-radius: 6;" unFocusColor="#5a5c94" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                           <padding>
-                              <Insets left="15.0" right="15.0" />
+                              <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </JFXComboBox>
+                        <JFXDatePicker fx:id="date2" defaultColor="#5a5c94" editable="false" prefHeight="381.0" prefWidth="9999.0" promptText="Date" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <padding>
+                              <Insets bottom="10.0" top="10.0" />
+                           </padding>
+                        </JFXDatePicker>
                      </children>
                      <padding>
                         <Insets top="20.0" />

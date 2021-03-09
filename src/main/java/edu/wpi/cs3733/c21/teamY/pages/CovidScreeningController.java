@@ -73,7 +73,8 @@ public class CovidScreeningController extends SubPage {
     boolean allResp =
         (posN.isSelected() || posY.isSelected())
             && (sympN.isSelected() || sympY.isSelected())
-            && (closeN.isSelected() || closeY.isSelected());
+            && (closeN.isSelected() || closeY.isSelected())
+            && !parkingBox.getSelectionModel().isEmpty();
     boolean isPositive = (!posN.isSelected() && posY.isSelected());
     boolean hasSymp = (!sympN.isSelected() && sympY.isSelected());
     boolean wasClose = (!closeN.isSelected() && closeY.isSelected());

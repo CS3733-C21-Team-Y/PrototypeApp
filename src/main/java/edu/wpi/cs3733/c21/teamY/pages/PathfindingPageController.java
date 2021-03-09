@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.*;
 import java.sql.SQLException;
@@ -33,6 +34,9 @@ public class PathfindingPageController extends SubPage {
   @FXML private ComboBox startLocationBox;
   @FXML private ComboBox endLocationBox;
 
+  FuzzySearchComboBoxListener startLocationFuzzy;
+  FuzzySearchComboBoxListener endLocationFuzzy;
+
   @FXML private JFXButton bathroomBtn;
   @FXML private JFXButton cafeBtn;
   @FXML private JFXButton kioskBtn;
@@ -49,8 +53,10 @@ public class PathfindingPageController extends SubPage {
   //  @FXML private JFXButton zoomOutButton;
   @FXML private VBox textDirectionsBox;
   @FXML private VBox textDirectionViewer;
+  @FXML public VBox navigationHeaderVBox;
+
   @FXML private JFXButton exitDirectionBtn;
-  @FXML private VBox sideMenuVBox;
+  //  @FXML private VBox sideMenuVBox;
   @FXML private RowConstraints row1;
   // @FXML private Label zoomLabel;
 
@@ -74,6 +80,8 @@ public class PathfindingPageController extends SubPage {
   private boolean noStairs = false;
   private boolean kiosk = false;
   private int nearestNodeRadius = 200;
+
+  private boolean textExpanded = false;
 
   // TooltipInstantiations
   Tooltip bathroomTooltip = new Tooltip("Add/Remove Bathroom Detour");
@@ -104,12 +112,14 @@ public class PathfindingPageController extends SubPage {
   @FXML
   private void initialize() {
     //    loadMap();
-    textDirectionsBox.setVisible(false);
+    textDirectionViewer.setVisible(false);
+    //    textDirectionsBox.setVisible(false);
+    //    exitDirectionBtn.setVisible(false);
     overlayGridPane.setPickOnBounds(false);
     overlayGridPane.toFront();
 
-    sideMenuVBox.setPickOnBounds(false);
-    exitDirectionBtn.setOnAction(e -> textDirectionsBox.setVisible(false));
+    //    sideMenuVBox.setPickOnBounds(false);
+    exitDirectionBtn.setOnAction(e -> updateTextDirectionBox());
     //         attaches a handler to the button with a lambda expression
 
     // Reset view button
@@ -219,8 +229,24 @@ public class PathfindingPageController extends SubPage {
     // Init Map
     Platform.runLater(
         () -> {
-          mapInsertController =
-              ((NavigationMapController) parent.rightPageController).getMapInsertController();
+          if (parent.isDesktop) {
+            mapInsertController =
+                ((NavigationMapController) parent.rightPageController).getMapInsertController();
+          } else {
+
+            mapInsertController =
+                ((NavigationMapController) parent.centerPageController).getMapInsertController();
+
+            JFXButton resetBtn = mapInsertController.getReset();
+            resetBtn.setText("Reset");
+            resetBtn.setMaxWidth(36);
+            resetBtn.setMaxHeight(36);
+            resetBtn.setMinWidth(36);
+            resetBtn.setMinHeight(36);
+            // ((JFXButton) menuItem).setStyle("-fx-font: 20");
+            resetBtn.setStyle(
+                "-fx-font-size: 10; -fx-background-color: #efeff9; -fx-background-radius: 18");
+          }
 
           int i = -1;
           for (javafx.scene.Node menuItem : mapInsertController.getFloorList().getChildren()) {
@@ -230,6 +256,17 @@ public class PathfindingPageController extends SubPage {
               i++;
             } else {
               i++;
+            }
+            if (!parent.isDesktop) {
+              ((JFXButton) menuItem).setMaxWidth(36);
+              ((JFXButton) menuItem).setMaxHeight(36);
+              ((JFXButton) menuItem).setMinWidth(36);
+              ((JFXButton) menuItem).setMinHeight(36);
+              // ((JFXButton) menuItem).setStyle("-fx-font: 20");
+              ((JFXButton) menuItem)
+                  .setStyle(
+                      "-fx-font-size: 17; -fx-background-color: #efeff9; -fx-background-radius: 18");
+              // HBox.setMargin(menuItem, new Insets(0, 50, 0, 0));
             }
           }
 
@@ -473,7 +510,6 @@ public class PathfindingPageController extends SubPage {
   //    //    }
   //    // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   //  }
-
   private void handleFloorChanged(ActionEvent e, int menuItemIndex) {
     // This should be optimised to only switch if the floor actually changed, but its very fast, so
     // I cant be bothered
@@ -501,15 +537,48 @@ public class PathfindingPageController extends SubPage {
     }
   }
 
+  @Override
+  public void loadNavigationBar() {
+    if (!parent.isDesktop) parent.animateCenterColumnWidth(380);
+  };
+
+  private void updateTextDirectionBox() {
+    if (!parent.isDesktop) {
+      if (textExpanded) {
+        textDirectionsBox.setVisible(false);
+        textDirectionViewer.setVisible(false);
+        exitDirectionBtn.setText("Show Steps");
+
+        parent.animateCenterColumnWidth(380);
+      } else {
+        textDirectionsBox.setVisible(true);
+        textDirectionViewer.setVisible(true);
+        exitDirectionBtn.setText("Exit Steps");
+
+        parent.animateCenterColumnWidth(0);
+      }
+      textExpanded = !textExpanded;
+    } else {
+      textDirectionsBox.setVisible(false);
+    }
+    exitDirectionBtn.toFront();
+  }
+
   private void generateTextDirections(ArrayList<Node> pathNodes) {
     textDirectionViewer.getChildren().clear();
-    textDirectionsBox.setVisible(true);
+
+    if (parent.isDesktop) {
+      textDirectionsBox.setVisible(true);
+      textDirectionViewer.setVisible(true);
+    }
 
     ArrayList<String> directionList = AlgorithmCalls.textDirections(pathNodes);
+    System.out.println(directionList.size());
     for (String direction : directionList) {
 
       Label newLabel = new Label(direction);
       textDirectionViewer.getChildren().add(newLabel);
+      newLabel.toFront();
     }
   }
 
@@ -517,11 +586,11 @@ public class PathfindingPageController extends SubPage {
 
   /** resetGraphNodesEdges sets graph, nodes, stairs, to updated values in ActiveGraph */
   private void resetGraphNodesEdges() {
-    try {
-      ActiveGraph.initialize();
-    } catch (Exception exception) {
-      // IT NO WORK
-    }
+    //    try {
+    //      ActiveGraph.initialize();
+    //    } catch (Exception exception) {
+    //      // IT NO WORK
+    //    }
     nodes = ActiveGraph.getNodes();
     edges = ActiveGraph.getEdges();
     graph = ActiveGraph.getActiveGraph();
@@ -544,6 +613,8 @@ public class PathfindingPageController extends SubPage {
         endLocationBox.getItems().add(name);
       }
     }
+    startLocationFuzzy = new FuzzySearchComboBoxListener(startLocationBox);
+    endLocationFuzzy = new FuzzySearchComboBoxListener(endLocationBox);
   }
 
   /**

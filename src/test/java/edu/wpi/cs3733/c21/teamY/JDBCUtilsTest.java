@@ -7,9 +7,12 @@ import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
 
 class JDBCUtilsTestEmployeeAndService {
-  Employee employee1 = new Employee("John", "Deer", "employee1", 1, "ICU");
-  Employee employee2 = new Employee("Jane", "Doe", "employee2", 3, "administration");
-  Employee employee3 = new Employee("Jonathan", "Deer", "employee1", 2, "UpdatedICU");
+  Employee employee1 =
+      new Employee("John", "Deer", "employee1", "peepee", "ICU", 3, "lib", "asdfsadf");
+  Employee employee2 =
+      new Employee("Jane", "Doe", "employee2", "peepee", "ICU", 3, "lib", "asdfsadf");
+  Employee employee3 =
+      new Employee("Jonathan", "Deer", "employee1", "peepee", "ICU", 3, "lib", "asdfsadf");
 
   @Test
   public void TestInsert_Employee() throws SQLException {

@@ -22,7 +22,8 @@ public class SurveyWaitingRoomController extends SubPage {
     if (status == 1 || status == 0) {
       //      parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
       //      parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
-      parent.loadRightSubPage("PathfindingPage.fxml");
+      parent.loadRightSubPage("NavigationMap.fxml");
+      parent.loadCenterSubPage("PathfindingPage.fxml");
     }
   }
 }

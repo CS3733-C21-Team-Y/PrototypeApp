@@ -172,6 +172,7 @@ public class CSV {
       String email = stringEdge[4];
       String accessLevel = stringEdge[5];
       String primaryWorkSpace = stringEdge[6];
+      String salt = stringEdge[7];
 
       Employee employee =
           new Employee(
@@ -181,9 +182,10 @@ public class CSV {
               password,
               email,
               Integer.parseInt(accessLevel),
-              primaryWorkSpace);
+              primaryWorkSpace,
+              salt);
 
-      JDBCUtils.insert(7, employee, "Employee");
+      JDBCUtils.insert(employee);
     }
   }
 

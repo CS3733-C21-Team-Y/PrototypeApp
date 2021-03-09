@@ -3,9 +3,11 @@ package edu.wpi.cs3733.c21.teamY.pages;
 import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.io.IOException;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -28,6 +30,12 @@ public class NavigationMapController extends SubPage {
   public void initialize() {
     addMapPage();
     expandBtn.setOnAction(e -> expandPathfinder(e));
+    Platform.runLater(
+        () -> {
+          if (!parent.isDesktop) {
+            splitPaneTop.setPadding(new Insets(0, 15, 0, 0));
+          }
+        });
   }
 
   public MapController getMapInsertController() {
