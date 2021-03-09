@@ -48,7 +48,7 @@
                         </ImageView>
                      </children>
                         </VBox>
-                  <HBox alignment="CENTER" styleClass="darkPane" stylesheets="@../UIStyles.css" GridPane.rowIndex="2">
+                  <HBox fx:id="navBar" alignment="CENTER" styleClass="darkPane" stylesheets="@../UIStyles.css" GridPane.rowIndex="2">
                      <children>
                         <JFXButton fx:id="exitBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#efeff9" style="-fx-background-color: transparent;" text="Mobile View">
                            <graphic>
@@ -77,6 +77,11 @@
                         <JFXButton fx:id="origGoogleNavBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Google Maps" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
                            <graphic>
                               <MaterialDesignIconView fill="#8d8ea4" glyphName="GOOGLE" size="40" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="origSignOutBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Sign Out" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" visible="false">
+                           <graphic>
+                              <MaterialDesignIconView fill="#8d8ea4" glyphName="ACCOUNT_REMOVE" size="40" />
                            </graphic>
                         </JFXButton>
                         <JFXButton fx:id="origServiceRequestBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Service Requests" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">

@@ -12,7 +12,7 @@ public class Settings {
 
   private Settings() {
     this.currentUsername = "guest";
-    this.currentPermissions = 0;
+    this.currentPermissions = -1;
     AlgorithmSelection.setContext(new AStarI());
   }
 
