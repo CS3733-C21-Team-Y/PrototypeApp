@@ -719,10 +719,10 @@ public class AdminPageController extends SubPage {
   private void loadNodesFromDB() {
     mapInsertController.removeAllAdornerElements();
 
-    nodeIDCounter = nodes.size() + 1;
     try {
       nodes = DataOperations.getListOfNodes();
       edges = DataOperations.getListOfEdge();
+      nodeIDCounter = nodes.size() + 1;
     } catch (Exception e) {
       e.printStackTrace();
     }
