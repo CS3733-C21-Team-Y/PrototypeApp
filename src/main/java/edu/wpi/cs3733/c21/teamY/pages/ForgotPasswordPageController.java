@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.EmailUtils;
 import edu.wpi.cs3733.c21.teamY.dataops.GeneratePassword;
+import edu.wpi.cs3733.c21.teamY.dataops.PasswordUtils;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,7 +57,12 @@ public class ForgotPasswordPageController extends SubPage {
           // Update DB with new password
           Boolean result = false;
           try {
-            result = DataOperations.updateUserPassword(newPassword, emailExists);
+            String salt = PasswordUtils.getSalt(newPassword.length());
+            String securePass = PasswordUtils.generateSecurePassword(newPassword, salt);
+            System.out.println(securePass);
+            System.out.println(salt);
+            result = DataOperations.updateUserPassword(securePass, emailExists);
+            DataOperations.updateUserSalt(emailExists, salt);
           } catch (SQLException throwables) {
             throwables.printStackTrace();
           }

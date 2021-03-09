@@ -1,10 +1,7 @@
-firstName,lastName,username,password,email,permissionLevel,department
-Wilson,Wong,admin,admin,@WPI,3,WPI
-Mike,Jake,employee,employee,@WPI,2,WPI
-Your,Name,staff,staff,none,2,WPI
-a,guest,guest,guest,none,0,none
-Pat,Lee,lee,lee,prlee@wpi.edu,3,Student
-Wilson,Wong,wwong,wwong,wwong2@wpi.edu,3,WPI
-quick,mafs,q,q,none,3,WPI
-first,patient,p1,p1,none,1,patient
-second,patient,p2,p2,none,1,patient
+firstName,lastName,username,password,email,permissionLevel,department,salt
+Wilson,Wong,admin,wc4FGNGCOwZyAo6NVRpo9RTStAv6ytXyBfThDWPM5LM=,temp@temp.com,3,,VpvtO
+Pat,Lee,lee,nekLp6HPz9O0ItADJFMJbW8sj0oBETRP6RgUtV/ezS0=,prlee@wpi.edu,3,,xxS
+Mike,Hoffman,employee,nkKbdXXHWUIhrvArjRKtCw/vifV21lIo+6+WCaUVxr8=,mhoff@mail.com,2,,h5go2VVE
+Your,Name,staff,AV56T6qsQOywOYwb6Liemq60YRUfqjhyFa4Na/2znCY=,yn@test.com,2,,wJGUb
+First,Patient,p1,w3Vf/w8jJ8V39jh11LVDcLhYzVqUyFr2ucFbkaR4rIA=,fp@mail.com,1,,JN
+Second,Patient,p2,hOlQshwE9lAChFADQPYnEIrvefhY8koph4tFpYHofgk=,sp@mail.com,1,,Xj

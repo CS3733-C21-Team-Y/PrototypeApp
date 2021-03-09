@@ -9,7 +9,8 @@ import org.junit.After;
 class ServiceTest {
 
   Employee employee =
-      new Employee("employee1", "adsfasdf", "employeeID", "dfasdf", "asdfasd", 0, "asdf");
+      new Employee(
+          "employee1", "adsfasdf", "employeeID", "dfasdf", "asdfasd", 0, "asdf", "asdfsadf");
   Service service =
       new Service(
           12,
