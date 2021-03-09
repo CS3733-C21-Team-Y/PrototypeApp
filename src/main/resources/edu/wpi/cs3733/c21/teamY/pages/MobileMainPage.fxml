@@ -122,7 +122,7 @@
                                     <DropShadow blurType="GAUSSIAN" color="#0000007e" spread="0.12" />
                                  </effect>
                               </JFXButton>
-                              <JFXButton fx:id="logoButton" alignment="CENTER" maxHeight="90.0" prefHeight="35.0" prefWidth="110.0" style="-fx-background-color: #8d8ea4;" text="About" textAlignment="CENTER" textFill="#373751" textOverrun="LEADING_WORD_ELLIPSIS">
+                              <JFXButton fx:id="logoButton" alignment="CENTER" maxHeight="90.0" prefHeight="35.0" prefWidth="110.0" style="-fx-background-color: #efeff9; -fx-border-color: #8d8ea4; -fx-border-radius: 2;" text="About" textAlignment="CENTER" textFill="#373751" textOverrun="LEADING_WORD_ELLIPSIS">
                                  <graphic>
                                     <FontAwesomeIconView fill="#575aa3" glyphName="INFO_CIRCLE" size="20" />
                                  </graphic>

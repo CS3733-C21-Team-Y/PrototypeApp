@@ -94,7 +94,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </JFXComboBox>
-                        <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" " GridPane.halignment="RIGHT">
+                        <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" maxHeight="270.0" maxWidth="238.0" minHeight="50.0" minWidth="50.0" prefHeight="270.0" prefWidth="57.0" style="-fx-background-radius: 25;" text=" " GridPane.halignment="RIGHT">
                            <graphic>
                               <FontAwesomeIconView fill="#8d8ea4" glyphName="ANGLE_LEFT" size="35" />
                            </graphic>
