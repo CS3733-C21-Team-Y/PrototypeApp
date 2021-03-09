@@ -510,13 +510,14 @@ public class AdminPageController extends SubPage {
       ArrayList<MapController.LineEx> selEdges = mapInsertController.getSelectedEdges();
 
       if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
-          && selEdges.size() == 0
-          && (selNodes.size() == 0
-              || (selNodes.size() == 1
-                  && selNodes.get(0)
-                      == (MapController.CircleEx) e.getPickResult().getIntersectedNode()))) {
+          && (!((MapController.CircleEx) e.getPickResult().getIntersectedNode()).hasFocus
+              || (selEdges.size() == 0
+                  && ((selNodes.size() == 1
+                      && selNodes.get(0) == e.getPickResult().getIntersectedNode()))))) {
+        mapInsertController.clearSelection();
         rightClickedNode = (MapController.CircleEx) e.getPickResult().getIntersectedNode();
         rightClickedEdge = null;
+        mapInsertController.selectCircle(rightClickedNode);
 
         // NODE MENU
         contextMenu.getItems().addAll(addEdgeMenuItem, deleteMenuItem);
@@ -525,16 +526,18 @@ public class AdminPageController extends SubPage {
       // Right Clicked Edge
       else if (e.getPickResult().getIntersectedNode() instanceof Line
           && e.getPickResult().getIntersectedNode().getParent() instanceof MapController.LineEx
-          && selNodes.size() == 0
-          && (selEdges.size() == 0
-              || (selEdges.size() == 1
-                  && selEdges.get(0)
-                      == (MapController.LineEx)
-                          e.getPickResult().getIntersectedNode().getParent()))) {
+          && (!((MapController.LineEx) e.getPickResult().getIntersectedNode().getParent()).hasFocus
+              || (selNodes.size() == 0
+                  && (selEdges.size() == 0
+                      || (selEdges.size() == 1
+                          && selEdges.get(0)
+                              == e.getPickResult().getIntersectedNode().getParent()))))) {
+        mapInsertController.clearSelection();
         rightClickedNode = null;
         rightClickedEdge =
             (MapController.LineEx) e.getPickResult().getIntersectedNode().getParent();
 
+        mapInsertController.selectLine(rightClickedEdge);
         // EDGE MENU
         contextMenu.getItems().addAll(makeNodeHorizontal, makeNodeVertical, deleteMenuItem);
         contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
