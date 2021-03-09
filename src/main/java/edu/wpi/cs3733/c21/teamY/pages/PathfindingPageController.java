@@ -610,11 +610,12 @@ public class PathfindingPageController extends SubPage {
 
   /** resetGraphNodesEdges sets graph, nodes, stairs, to updated values in ActiveGraph */
   private void resetGraphNodesEdges() {
-    //    try {
-    //      ActiveGraph.initialize();
-    //    } catch (Exception exception) {
-    //      // IT NO WORK
-    //    }
+    try {
+      ActiveGraph.initialize();
+    } catch (Exception exception) {
+      System.out.println("no work");
+      // IT NO WORK
+    }
     nodes = ActiveGraph.getNodes();
     edges = ActiveGraph.getEdges();
     graph = ActiveGraph.getActiveGraph();
