@@ -157,7 +157,7 @@
                         <DropShadow />
                      </effect>
                      <children>
-                        <GridPane prefWidth="400.0">
+                        <GridPane fx:id="textDirectionGrid" prefWidth="400.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
@@ -171,7 +171,7 @@
                                     <Font name="Calibri" size="14.0" />
                                  </font>
                               </JFXButton>
-                              <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
+                              <ScrollPane fx:id="textDirectionScroll" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
                                  <content>
                                     <VBox fx:id="textDirectionViewer" prefHeight="405.0" prefWidth="400.0" spacing="5.0">
                                        <padding>
