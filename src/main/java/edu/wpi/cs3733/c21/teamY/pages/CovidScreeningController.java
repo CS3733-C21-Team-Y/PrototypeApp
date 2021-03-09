@@ -47,7 +47,6 @@ public class CovidScreeningController extends SubPage {
     submitBtn.setOnAction(e -> submitBtnClicked());
 
     fillComboBox();
-
   }
 
   @FXML

@@ -183,7 +183,11 @@ public class MainPageController {
   private void buttonClicked(ActionEvent e) {
 
     System.out.println("clicked");
-    instance.setCenterColumnWidth(0);
+    if (e.getSource() == origAdminToolsBtn) {
+      instance.setRightColumnWidth(30);
+    } else {
+      instance.setCenterColumnWidth(0);
+    }
     if (e.getSource() == origNavigationBtn) {
       if (instance.isDesktop) {
         instance.loadRightSubPage("NavigationMap.fxml");
@@ -278,12 +282,31 @@ public class MainPageController {
     if (width != 0) setCenterColumnWidth(width);
   }
 
+  public void setRightColumnWidth(double width) {
+    Stage stage = (Stage) centerPane.getScene().getWindow();
+    setCenterColumnWidth(stage.getWidth() - width - 141);
+  }
+
+  public void animateRightColumnWidth(double width) {
+    Stage stage = (Stage) centerPane.getScene().getWindow();
+    animateCenterColumnWidth(stage.getWidth() - width - 141);
+  }
+
   public void updateCenterPaneVisibility(double width) {
     // centerPane.setPrefWidth(width);
     if (width == 0) {
       centerPane.setVisible(false);
     } else {
       centerPane.setVisible(true);
+    }
+  }
+
+  public void updateRightPaneVisibility(double width) {
+    // centerPane.setPrefWidth(width);
+    if (width == 0) {
+      rightPane.setVisible(false);
+    } else {
+      rightPane.setVisible(true);
     }
   }
 
