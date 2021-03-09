@@ -41,11 +41,15 @@
                                 <DropShadow blurType="GAUSSIAN" height="0.0" radius="0.0" width="0.0" />
                             </effect>
                      <children>
-                        <ImageView fitHeight="55.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/BWHLogoShield.png" />
-                           </image>
-                        </ImageView>
+                        <JFXButton fx:id="logoButton" contentDisplay="GRAPHIC_ONLY" prefHeight="430.0" prefWidth="130.0" ripplerFill="#8d8ea4" textAlignment="CENTER">
+                           <graphic>
+                              <ImageView fitHeight="55.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/BWHLogoShield.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
                      </children>
                         </VBox>
                   <HBox fx:id="navBar" alignment="CENTER" styleClass="darkPane" stylesheets="@../UIStyles.css" GridPane.rowIndex="2">

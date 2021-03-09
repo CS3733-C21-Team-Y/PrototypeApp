@@ -415,7 +415,7 @@
                                                 <MaterialDesignIconView fx:id="insideIcon" fill="#5a5c94" glyphName="DOWNLOAD" size="45" />
                                              </graphic>
                                           </JFXButton>
-                                          <JFXButton fx:id="outsideHosBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Outisde Hospital" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                          <JFXButton fx:id="outsideHosBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#5a5c94" style="-fx-background-color: transparent;" text="Outside Hospital" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                                              <font>
                                                 <Font name="Calibri" size="14.0" />
                                              </font>

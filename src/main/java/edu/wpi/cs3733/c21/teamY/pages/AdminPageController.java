@@ -88,6 +88,7 @@ public class AdminPageController extends SubPage {
 
   @FXML private Button toolTip;
   @FXML private Button resetView;
+  @FXML private JFXButton helpBtn;
 
   @FXML private MenuItem depthFirst;
   @FXML private MenuItem breadthFirst;
@@ -124,6 +125,8 @@ public class AdminPageController extends SubPage {
 
     Platform.runLater(
         () -> {
+          editNodeTableController =
+              ((EditNodeTableController) parent.rightPageController).getEditNodeTableController();
           addMapPage();
           loadNodesFromDB();
           resetComboBoxes();
@@ -246,9 +249,12 @@ public class AdminPageController extends SubPage {
                     } else {
                       handleMouseReleased(e);
                     }
+
+                    updateTableSelection();
                   });
 
           selectNewAlgo.setOnAction(e -> selectAlgo(e));
+          helpBtn.setOnAction(e -> helpPopUp(e));
 
           addEdge.setOnAction(
               event -> {
@@ -264,6 +270,39 @@ public class AdminPageController extends SubPage {
 
           assignContextMenuActions();
         });
+  }
+
+  private void helpPopUp(ActionEvent e) {
+    if (e.getSource() == helpBtn) {
+      JFXDialog submitted = new JFXDialog();
+
+      Label message = new Label();
+      message.setStyle(
+          " -fx-background-color: #efeff9 "
+              + "; -fx-background-radius: 6; -fx-font-size: 25; -fx-text-fill: #5a5c94");
+      message.setText(
+          "ESC: Unhighlights selected nodes\n"
+              + "SHIFT: Hold and drag mouse to highlight area\n"
+              + "DEL: Deletes selected nodes\n"
+              + "W/A/S/D: Move node up, left, down, or right");
+      message.maxHeight(70);
+      message.maxWidth(300);
+      message.prefHeight(70);
+      message.prefWidth(250);
+      Insets myInset = new Insets(10);
+      message.setPadding(myInset);
+      BorderStroke myStroke =
+          new BorderStroke(
+              Paint.valueOf("#efeff9"),
+              new BorderStrokeStyle(null, null, null, 6, 1, null),
+              new CornerRadii(6),
+              new BorderWidths(3));
+      Border myB = new Border(myStroke);
+      message.setBorder(myB);
+
+      submitted.setContent(message);
+      submitted.show(stackPane);
+    }
   }
 
   private boolean rightClicked;
@@ -392,7 +431,7 @@ public class AdminPageController extends SubPage {
       // Node
       if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
         if (creatingEdge) {
-          System.out.println("got here");
+          // System.out.println("got here");
           endEdgeCreation((MapController.CircleEx) e.getPickResult().getIntersectedNode());
           // end the thing
         }
@@ -502,7 +541,11 @@ public class AdminPageController extends SubPage {
         mapInsertController.selectCircle(rightClickedNode);
 
         // NODE MENU
-        contextMenu.getItems().addAll(addEdgeMenuItem, deleteMenuItem);
+        adornerTitleLabel.setText(rightClickedNode.getId());
+        adornerTitleLabel.setDisable(true);
+        contextMenu
+            .getItems()
+            .addAll(adornerTitleLabel, separator1, addEdgeMenuItem, deleteMenuItem);
         contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
       }
       // Right Clicked Edge
@@ -521,7 +564,16 @@ public class AdminPageController extends SubPage {
 
         mapInsertController.selectLine(rightClickedEdge);
         // EDGE MENU
-        contextMenu.getItems().addAll(makeNodeHorizontal, makeNodeVertical, deleteMenuItem);
+        adornerTitleLabel.setText(rightClickedEdge.getId());
+        adornerTitleLabel.setDisable(true);
+        contextMenu
+            .getItems()
+            .addAll(
+                adornerTitleLabel,
+                separator1,
+                makeNodeHorizontal,
+                makeNodeVertical,
+                deleteMenuItem);
         contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
       }
       // Right Clicked MultiSelect
@@ -561,7 +613,13 @@ public class AdminPageController extends SubPage {
   MenuItem makeNodeHorizontal = new MenuItem("Make Horizontal");
   MenuItem deleteMenuItem = new MenuItem("Delete");
 
+  SeparatorMenuItem separator1 = new SeparatorMenuItem();
+  MenuItem adornerTitleLabel = new MenuItem();
+
   private void assignContextMenuActions() {
+
+    adornerTitleLabel.getStyleClass().add("context-menu-title");
+    separator1.setDisable(true);
 
     contextMenu = new ContextMenu();
 
@@ -591,12 +649,12 @@ public class AdminPageController extends SubPage {
 
     alignHorizontal.setOnAction(
         event -> {
-          contextMenuActions_Align(false);
+          contextMenuActions_Align(true);
         });
 
     alignVertical.setOnAction(
         event -> {
-          contextMenuActions_Align(true);
+          contextMenuActions_Align(false);
         });
 
     makeNodeVertical.setOnAction(
@@ -1178,6 +1236,16 @@ public class AdminPageController extends SubPage {
         // Shift adds node to selection
         mapInsertController.selectCircle((MapController.CircleEx) node);
       }
+    }
+  }
+
+  private void updateTableSelection() {
+    if (mapInsertController.getSelectedNodes().size() == 0) {
+      editNodeTableController.clearSelection();
+    }
+    for (MapController.CircleEx c : mapInsertController.getSelectedNodes()) {
+
+      editNodeTableController.selectRow(c.getId());
     }
   }
 }

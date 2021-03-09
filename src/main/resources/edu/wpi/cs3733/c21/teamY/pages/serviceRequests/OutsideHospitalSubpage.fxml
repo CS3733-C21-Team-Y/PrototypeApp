@@ -103,7 +103,7 @@
                               <FontAwesomeIconView fill="#8d8ea4" glyphName="ANGLE_LEFT" size="35" />
                            </graphic>
                         </JFXButton>
-                        <JFXComboBox fx:id="employeeComboBox" labelFloat="true" minHeight="50.0" prefHeight="71.0" prefWidth="881.0" promptText="Employee" style="-fx-border-color: transparent;" unFocusColor="#5a5c94" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                        <JFXComboBox fx:id="employeeComboBox" labelFloat="true" minHeight="50.0" prefHeight="71.0" prefWidth="887.0" promptText="Employee" style="-fx-border-color: transparent;" unFocusColor="#5a5c94" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <padding>
                               <Insets bottom="10.0" top="10.0" />
                            </padding>

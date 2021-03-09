@@ -84,9 +84,9 @@
                                       </JFXButton>
                                   </children>
                               </GridPane>
-                        <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" ">
+                        <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" maxHeight="447.0" maxWidth="781.0" minHeight="50.0" minWidth="50.0" prefHeight="447.0" prefWidth="56.0" style="-fx-background-radius: 25;" text=" ">
                            <graphic>
-                              <FontAwesomeIconView fill="#8d8ea4" glyphName="ARROW_LEFT" size="35" />
+                              <FontAwesomeIconView fill="#8d8ea4" glyphName="ANGLE_LEFT" size="35" />
                            </graphic>
                         </JFXButton>
                         <JFXComboBox fx:id="employeeComboBox" labelFloat="true" minHeight="50.0" prefWidth="9.999999999E9" promptText="Employee" unFocusColor="#5a5c94" GridPane.columnIndex="1" GridPane.rowIndex="4">

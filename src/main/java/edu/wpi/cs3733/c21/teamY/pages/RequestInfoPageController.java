@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -28,6 +29,7 @@ public class RequestInfoPageController<label> extends SubPage {
   @FXML private VBox rightBox;
   @FXML private JFXButton submitBtn;
   @FXML private JFXComboBox employeeComboBox;
+  Scene scene;
 
   private Service service;
 
@@ -128,6 +130,7 @@ public class RequestInfoPageController<label> extends SubPage {
   }
 
   private void createInfoBox(String title, String data) {
+    scene = infoBox.getScene();
     FXMLLoader fxmlLoader = new FXMLLoader();
     try {
       Node node =

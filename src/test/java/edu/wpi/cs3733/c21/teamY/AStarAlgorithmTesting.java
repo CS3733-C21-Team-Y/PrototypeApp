@@ -213,32 +213,38 @@ public class AStarAlgorithmTesting {
     TestGraph.initialize();
 
     ArrayList<String> answerList = new ArrayList<>();
-    answerList.add("Start from Node1 to Node5 for 5.8 ft.");
-    answerList.add("Bear right from Node5 to Node7 for 4.3 ft.");
-    answerList.add("Turn left from Node7 to Node6 in 4.8 ft.");
-    answerList.add("Continue Straight from Node6 to Node10 for 11.2 ft.");
-    answerList.add("You have reached your destination.");
+    answerList.add("Start from Node1 to Node5 for 1.4 ft.");
+    answerList.add("Bear right from Node5 to Node7 for 1.0 ft.");
+    answerList.add("Turn left from Node7 to Node6 in 1.1 ft.");
+    answerList.add("Continue Straight from Node6 to Node10 for 2.6 ft.");
+    answerList.add("You have reached Node10");
+    ArrayList<String> dests = new ArrayList<>();
+    dests.add("10");
 
     ArrayList<Node> nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", "10", "");
-    assertEquals(answerList, AStarAlgorithm.textDirections(nodes));
+    assertEquals(answerList, AStarAlgorithm.textDirections(nodes, dests));
 
     ArrayList<String> dest = new ArrayList<>();
     dest.add("10");
     dest.add("7");
 
-    answerList.remove("You have reached your destination.");
-    answerList.add("Walk towards Node10 and turn around facing Node6 for 11.2 ft.");
-    answerList.add("Continue Straight from Node6 to Node7 for 4.8 ft.");
-    answerList.add("You have reached your destination.");
+    // answerList.remove("You have reached your destination.");
+    answerList.add("Walk towards Node10 and turn around facing Node6 for 2.6 ft.");
+    answerList.add("Continue Straight from Node6 to Node7 for 1.1 ft.");
+    dests.clear();
+    dests.add("10");
 
     nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", dest, "");
-    assertEquals(answerList, AStarAlgorithm.textDirections(nodes));
+    assertEquals(answerList, AStarAlgorithm.textDirections(nodes, dests));
 
     answerList.clear();
-    answerList.add("Start from Node1 to Node2 for 6.9 ft.");
-    answerList.add("Continue Straight from Node2 to Node9 for 5.9 ft.");
-    answerList.add("You have reached your destination.");
+    answerList.add("Start from Node1 to Node2 for 1.6 ft.");
+    answerList.add("Continue Straight from Node2 to Node9 for 1.4 ft.");
+    answerList.add("You have reached Node9");
+    dests.clear();
+    dests.add("9");
+
     nodes = AStarAlgorithm.aStar(TestGraph.getActiveGraph(), "1", "9", "");
-    assertEquals(answerList, AStarAlgorithm.textDirections(nodes));
+    assertEquals(answerList, AStarAlgorithm.textDirections(nodes, dests));
   }
 }

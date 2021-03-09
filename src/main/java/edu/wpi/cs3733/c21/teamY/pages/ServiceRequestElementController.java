@@ -7,6 +7,7 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
@@ -23,6 +24,7 @@ public class ServiceRequestElementController extends SubPage {
   @FXML private JFXButton deleteBtn;
   @FXML private JFXButton completeBtn;
   @FXML private Label employeeLabel;
+  Scene scene;
 
   private Service service;
 
