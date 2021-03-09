@@ -536,7 +536,7 @@ public class PathfindingPageController extends SubPage {
 
   @Override
   public void loadNavigationBar() {
-    if (!parent.isDesktop) parent.setCenterColumnWidth(380);
+    if (!parent.isDesktop) parent.animateCenterColumnWidth(380);
   };
 
   private void updateTextDirectionBox() {
@@ -546,13 +546,13 @@ public class PathfindingPageController extends SubPage {
         textDirectionViewer.setVisible(false);
         exitDirectionBtn.setText("Show Steps");
 
-        parent.setCenterColumnWidth(380);
+        parent.animateCenterColumnWidth(380);
       } else {
         textDirectionsBox.setVisible(true);
         textDirectionViewer.setVisible(true);
         exitDirectionBtn.setText("Exit Steps");
 
-        parent.setCenterColumnWidth(0);
+        parent.animateCenterColumnWidth(0);
       }
       textExpanded = !textExpanded;
     } else {

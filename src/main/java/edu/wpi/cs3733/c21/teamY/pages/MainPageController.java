@@ -218,14 +218,19 @@ public class MainPageController {
       // centerPane.setMinWidth(width);
       timeline.play();
     } else {
-      centerPane.setMinHeight(width);
-      centerPane.setPrefHeight(width);
-      centerPane.setMaxHeight(width);
-      if (width == 0) {
-        centerPane.setVisible(false);
-      } else {
-        centerPane.setVisible(true);
-      }
+      Timeline timeline = new Timeline();
+
+      ArrayList<KeyValue> values = new ArrayList<KeyValue>();
+
+      KeyValue kv2 = new KeyValue(centerPane.minHeightProperty(), width, Interpolator.EASE_IN);
+
+      // KeyFrame kf = new KeyFrame(Duration.seconds(1), kv2);
+      KeyFrame kf = new KeyFrame(Duration.seconds(0.5), kv2);
+      // KeyFrame kf = new KeyFrame(Duration.seconds(1), kv2);
+      timeline.getKeyFrames().add(kf);
+      timeline.setOnFinished(event -> updateCenterPaneVisibility(width));
+      // centerPane.setMinWidth(width);
+      timeline.play();
     }
     if (width != 0) setCenterColumnWidth(width);
   }
