@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="604.0" prefWidth="671.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.AboutController">
+<AnchorPane prefHeight="604.0" prefWidth="671.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.AboutPageController">
    <children>
       <GridPane layoutX="14.0" prefHeight="384.0" prefWidth="591.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -38,7 +38,7 @@
                      <children>
                         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/WPI_logo.png" />
+                              <Image url="/edu/wpi/cs3733/c21/teamY/images/WPI_logo.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -47,7 +47,7 @@
                      <children>
                         <ImageView fitHeight="100.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/BWHLogoShield.png" />
+                              <Image url="/edu/wpi/cs3733/c21/teamY/images/BWHLogoShield.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -216,77 +216,77 @@
                               </HBox>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                  <image>
-                                    <Image url="@../images/WilsonWong.jpg" />
+                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/WilsonWong.jpg" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                  <image>
-                                    <Image url="@../images/ezgif-7-53b22eb459a9.gif" />
+                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/ezgif-7-53b22eb459a9.gif" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                                  <image>
-                                    <Image url="@../images/Pat.PNG" />
+                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Pat.PNG" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                                  <image>
-                                    <Image url="@../images/Lia.PNG" />
+                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Lia.PNG" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
                                  <image>
-                                    <Image url="@../images/Brian.PNG" />
+                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Brian.PNG" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
                                  <image>
-                                    <Image url="@../images/Cole.PNG" />
+                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Cole.PNG" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
                                  <image>
-                                    <Image url="@../images/Samantha.PNG" />
+                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Samantha.PNG" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
                                  <image>
-                                    <Image url="@../images/Manjusha.PNG" />
+                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Manjusha.PNG" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="CENTER">
                                  <image>
-                                    <Image url="@../images/Corinne.PNG" />
+                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Corinne.PNG" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="CENTER">
                                  <image>
-                                    <Image url="@../images/Yonghua.PNG" />
+                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Yonghua.PNG" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="12" GridPane.valignment="CENTER">
                                  <image>
-                                    <Image url="@../images/Ian.PNG" />
+                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Ian.PNG" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="12" GridPane.valignment="CENTER">
                                  <image>
-                                    <Image url="@../images/Alex.PNG" />
+                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Alex.PNG" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="14" GridPane.valignment="CENTER">
                                  <image>
-                                    <Image url="@../images/Greg.PNG" />
+                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Greg.PNG" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="17" GridPane.valignment="CENTER">
                                  <image>
-                                    <Image url="@../images/Hospital.jpg" />
+                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Hospital.jpg" />
                                  </image>
                               </ImageView>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="17" GridPane.valignment="CENTER">
                                  <image>
-                                    <Image url="@../images/tenor.gif" />
+                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/tenor.gif" />
                                  </image>
                               </ImageView>
                               <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2147483647">

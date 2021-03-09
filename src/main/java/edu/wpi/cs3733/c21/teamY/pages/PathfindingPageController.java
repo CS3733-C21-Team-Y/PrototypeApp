@@ -531,7 +531,7 @@ public class PathfindingPageController extends SubPage {
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == aboutBtn) {
       parent.setCenterColumnWidth(0);
-      parent.loadRightSubPage("Test.fxml");
+      parent.loadRightSubPage("AboutPage.fxml");
     } else if (e.getSource() == swapButton) {
       parent.loadRightSubPage("AboutPage.fxml");
     }
