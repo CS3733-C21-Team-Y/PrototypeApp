@@ -122,8 +122,6 @@ public class AdminPageController extends SubPage {
           kn.start();
         });
 
-    // selectNewAlgo.getItems().addAll(depthFirst, breadthFirst, aStar);
-
     Platform.runLater(
         () -> {
           addMapPage();
@@ -194,14 +192,7 @@ public class AdminPageController extends SubPage {
             }
           }
 
-          mapInsertController.containerStackPane.setTranslateY(
-              0 - mapInsertController.getMapImageView().getImage().getHeight() / 2);
-
-          mapInsertController.containerStackPane.setOnScroll(
-              e ->
-                  mapInsertController.shiftedZoom(
-                      e, 0, 0 - mapInsertController.getMapImageView().getImage().getHeight() / 2));
-
+          
           // mouse move
 
           mapInsertController
