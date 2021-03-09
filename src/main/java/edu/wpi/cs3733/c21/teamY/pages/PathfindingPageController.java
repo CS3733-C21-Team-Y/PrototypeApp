@@ -43,6 +43,8 @@ public class PathfindingPageController extends SubPage {
   @FXML private JFXButton parkingBtn;
   @FXML private JFXButton noStairsBtn;
   @FXML private GridPane overlayGridPane;
+  @FXML private JFXButton multDestinationBtn;
+
 
   //  @FXML private Slider zoomSlider;
   //  @FXML private Button upButton;
@@ -257,7 +259,7 @@ public class PathfindingPageController extends SubPage {
             resetBtn.setMinHeight(36);
             // ((JFXButton) menuItem).setStyle("-fx-font: 20");
             resetBtn.setStyle(
-                "-fx-font-size: 10; -fx-background-color: #efeff9; -fx-background-radius: 18");
+                "-fx-font-size: 10; -fx-background-color: #efeff9; -fx-background-radius: 18; -fx-font-size: 8");
           }
 
           int i = -1;

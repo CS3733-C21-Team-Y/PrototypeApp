@@ -6,6 +6,7 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -39,19 +40,25 @@
                         <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="50.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <JFXComboBox fx:id="startLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="99999.0" promptText="Start Location" style="-fx-prompt-text-fill: #8d8eae;" styleClass="jfx-combo-box" stylesheets="@../UIStyles.css" unFocusColor="WHITE" GridPane.columnIndex="1">
+                        <JFXComboBox fx:id="startLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="99999.0" promptText="Start Location - Press To Select" style="-fx-prompt-text-fill: #efeff9; -fx-base: #efeff9;" styleClass="jfx-combo-box" stylesheets="@../UIStyles.css" unFocusColor="WHITE" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets left="5.0" right="5.0" />
                            </GridPane.margin>
+                           <effect>
+                              <ColorAdjust brightness="1.0" />
+                           </effect>
                         </JFXComboBox>
-                        <JFXComboBox fx:id="endLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="9999.0" promptText="End Location" style="-fx-prompt-text-fill: #8d8eae;" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                        <JFXComboBox fx:id="endLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="9999.0" promptText="End Location - Press To Select" style="-fx-prompt-text-fill: #efeff9; -fx-base: #efeff9;" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                            <GridPane.margin>
                               <Insets left="5.0" right="5.0" />
                            </GridPane.margin>
+                           <effect>
+                              <ColorAdjust brightness="1.0" />
+                           </effect>
                         </JFXComboBox>
-                        <JFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="40.0" prefWidth="40.0" textFill="WHITE" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+                        <JFXButton fx:id="swapLocationsBox" contentDisplay="GRAPHIC_ONLY" prefHeight="40.0" prefWidth="40.0" text="Button" textFill="WHITE" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
                            <graphic>
-                              <MaterialDesignIconView fx:id="swapLocationsBox" fill="#8d8eae" glyphName="SWAP_VERTICAL" size="30" strokeLineCap="ROUND" strokeLineJoin="ROUND" text="" />
+                              <MaterialDesignIconView fill="#8d8eae" glyphName="SWAP_VERTICAL" size="30" strokeLineCap="ROUND" strokeLineJoin="ROUND" text="" />
                            </graphic>
                            <GridPane.margin>
                               <Insets bottom="-20.0" left="-10.0" />
