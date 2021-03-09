@@ -9,7 +9,7 @@ public class ServiceRequestInfoElementController {
   @FXML private Label data;
   @FXML private AnchorPane annoyingVbox;
 
-  public void populateInformation(String title, String data) {
+  public void populateInformation(String title, String data, boolean desktop) {
     String newData = "";
     int count = 0;
     int numLines = 1;
@@ -27,6 +27,15 @@ public class ServiceRequestInfoElementController {
     } else {
       annoyingVbox.setPrefHeight(numLines * 30);
     }
+
+    if (desktop) {
+      annoyingVbox.setPrefWidth(1200);
+      annoyingVbox.setMinWidth(800);
+
+    } else {
+      annoyingVbox.setPrefWidth(5);
+    }
+
     this.title.setText(title);
     this.data.setText(newData);
   }

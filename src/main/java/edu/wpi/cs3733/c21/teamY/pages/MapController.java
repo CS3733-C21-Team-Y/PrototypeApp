@@ -1012,9 +1012,9 @@ public class MapController extends SubPage {
         adornerPane.setScaleX(0.7);
         adornerPane.setScaleY(0.7);
 
-        mapImageView.translateXProperty().setValue(-600);
+        mapImageView.translateXProperty().setValue(-350);
         mapImageView.translateYProperty().setValue(-300);
-        adornerPane.translateXProperty().setValue(-600);
+        adornerPane.translateXProperty().setValue(-350);
         adornerPane.translateYProperty().setValue(-300);
       } else {
         mapImageView.setScaleX(0.8);
