@@ -58,6 +58,7 @@ public class PathfindingPageController extends SubPage {
   @FXML private JFXButton exitDirectionBtn;
   //  @FXML private VBox sideMenuVBox;
   @FXML private RowConstraints row1;
+  @FXML private JFXButton swapLocationsBox;
   // @FXML private Label zoomLabel;
 
   private ArrayList<Node> nodes = new ArrayList<Node>();
@@ -186,6 +187,14 @@ public class PathfindingPageController extends SubPage {
               }
             });
 
+    swapLocationsBox.setOnAction(
+        e -> {
+          String startLoc = (String) startLocationBox.getValue();
+          startLocationBox.setValue(endLocationBox.getValue());
+          endLocationBox.setValue(startLoc);
+          calculatePath();
+        });
+
     startLocationBox.setOnAction(e -> lastSelectedComboBox = startLocationBox);
     endLocationBox.setOnAction(e -> lastSelectedComboBox = endLocationBox);
 
@@ -248,7 +257,7 @@ public class PathfindingPageController extends SubPage {
             resetBtn.setMinHeight(36);
             // ((JFXButton) menuItem).setStyle("-fx-font: 20");
             resetBtn.setStyle(
-                "-fx-font-size: 10; -fx-background-color: #efeff9; -fx-background-radius: 18");
+                "-fx-font-size: 10; -fx-background-color: #efeff9; -fx-background-radius: 18; -fx-font-size: 8");
           }
 
           int i = -1;
