@@ -393,7 +393,7 @@ public class PathfindingPageController extends SubPage {
     int size = endLocations.size();
     for (int k = 0; k < size; k++) {
       System.out.println("Inside loop");
-      if ((graph.nodeFromID(endLocations.get(k)).nodeType.equals("BATH"))
+      if ((graph.nodeFromID(endLocations.get(k)).nodeType.equals("REST"))
           || (graph.nodeFromID(endLocations.get(k)).nodeType.equals("KIOS"))
           || (graph.nodeFromID(endLocations.get(k)).nodeType.equals("FOOD"))) {
         System.out.println("Removing " + graph.nodeFromID(endLocations.get(k)).longName);
@@ -709,21 +709,16 @@ public class PathfindingPageController extends SubPage {
 
       ArrayList<Node> algoNodes = runAlgo(graph, startID, endLocations, noType);
 
-      boolean detour = false;
       if (bathroom) {
         endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "REST");
-        detour = true;
+        algoNodes = runAlgo(graph, startID, endLocations, noType);
       }
       if (restaurant) {
         endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "FOOD");
-        detour = true;
+        algoNodes = runAlgo(graph, startID, endLocations, noType);
       }
       if (kiosk) {
         endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "KIOS");
-        detour = true;
-      }
-      // If we've taken a detour, regenerate path
-      if (detour) {
         algoNodes = runAlgo(graph, startID, endLocations, noType);
       }
 
