@@ -79,11 +79,6 @@
                               <MaterialDesignIconView fill="#8d8ea4" glyphName="GOOGLE" size="40" />
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="origSignOutBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Sign Out" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" visible="false">
-                           <graphic>
-                              <MaterialDesignIconView fill="#8d8ea4" glyphName="ACCOUNT_REMOVE" size="40" />
-                           </graphic>
-                        </JFXButton>
                         <JFXButton fx:id="origServiceRequestBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Service Requests" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
                            <graphic>
                               <FontAwesomeIconView fill="#8d8ea4" glyphName="CHECK_SQUARE_ALT" size="40" />
@@ -92,6 +87,12 @@
                         <JFXButton fx:id="origAdminToolsBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Admin Tools" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
                            <graphic>
                               <FontAwesomeIconView fill="#8d8ea4" glyphName="COG" size="40" />
+                           </graphic>
+                        </JFXButton>
+                        <VBox prefHeight="9999.0" prefWidth="100.0" />
+                        <JFXButton fx:id="origSignOutBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Sign Out" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS" visible="false">
+                           <graphic>
+                              <MaterialDesignIconView fill="#8d8ea4" glyphName="ACCOUNT_REMOVE" size="40" />
                            </graphic>
                         </JFXButton>
                             </children>

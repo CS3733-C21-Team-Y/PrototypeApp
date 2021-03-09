@@ -737,9 +737,9 @@ public class AdminPageController extends SubPage {
       Node node = fxmlLoader.load(getClass().getResource("MapUserControl.fxml").openStream());
       mapInsertController = (MapController) fxmlLoader.getController();
       mapInsertController.setParent(parent);
-        mapInsertController.setAdminPage(true);
+      mapInsertController.setAdminPage(true);
 
-        // call method before page load
+      // call method before page load
       splitPaneTop.getChildren().add(node);
     } catch (IOException e) {
       e.printStackTrace();
