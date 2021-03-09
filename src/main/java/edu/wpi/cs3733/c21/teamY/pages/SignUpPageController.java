@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
@@ -18,7 +19,7 @@ public class SignUpPageController extends SubPage {
   @FXML private Button signupBtn;
   @FXML private Button exitBtn;
   @FXML private JFXTextField usernameTextField;
-  @FXML private JFXTextField passwordTextField;
+  @FXML private JFXPasswordField passwordTextField;
   @FXML private JFXTextField firstnameTextField;
   @FXML private JFXTextField lastnameTextField;
   @FXML private JFXTextField emailTextField;
@@ -100,7 +101,15 @@ public class SignUpPageController extends SubPage {
     input.setStyle("-fx-border-color: transparent; -fx-border-radius: 10");
   }
 
+  public void clearIncomplete(JFXPasswordField input) {
+    input.setStyle("-fx-border-color: transparent; -fx-border-radius: 10");
+  }
+
   public void incomplete(JFXTextField input) {
+    input.setStyle("-fx-border-color: red; -fx-border-radius: 0");
+  }
+
+  public void incomplete(JFXPasswordField input) {
     input.setStyle("-fx-border-color: red; -fx-border-radius: 0");
   }
 
