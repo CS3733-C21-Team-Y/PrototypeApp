@@ -811,8 +811,8 @@ public class AdminPageController extends SubPage {
     try {
       edu.wpi.cs3733.c21.teamY.entity.Node n =
           new edu.wpi.cs3733.c21.teamY.entity.Node(
-              mapInsertController.scaleUpXCoords(Double.parseDouble(newX.getText())),
-              mapInsertController.scaleUpYCoords(Double.parseDouble(newY.getText())),
+              Math.floor(mapInsertController.scaleUpXCoords(Double.parseDouble(newX.getText()))),
+              Math.floor(mapInsertController.scaleUpYCoords(Double.parseDouble(newY.getText()))),
               mapInsertController.floorNumber,
               nodeID);
 
