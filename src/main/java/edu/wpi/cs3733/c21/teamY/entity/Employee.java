@@ -9,7 +9,9 @@ public class Employee {
   private String email;
   private int accessLevel;
   private String primaryWorkspace;
+  private String salt;
 
+  // all feilds including salt
   public Employee(
       String firstName,
       String lastName,
@@ -17,7 +19,8 @@ public class Employee {
       String password,
       String email,
       int accessLevel,
-      String primaryWorkspace) {
+      String primaryWorkspace,
+      String salt) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.employeeID = employeeID;
@@ -25,32 +28,23 @@ public class Employee {
     this.email = email;
     this.accessLevel = accessLevel;
     this.primaryWorkspace = primaryWorkspace;
-  }
-  // constructor for visitors when they create their account first time
-  // access level start with 0
-  // no primary workspace
-  public Employee(
-      String firstName, String lastName, String employeeID, String password, String email) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.employeeID = employeeID;
-    this.password = password;
-    this.email = email;
-    this.accessLevel = 0;
-    this.primaryWorkspace = "";
+    this.salt = salt;
   }
 
+  // for account creation
   public Employee(
       String firstName,
       String lastName,
       String employeeID,
-      int accessLevel,
-      String primaryWorkspace) {
+      String password,
+      String email,
+      String salt) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.employeeID = employeeID;
-    this.accessLevel = accessLevel;
-    this.primaryWorkspace = primaryWorkspace;
+    this.password = password;
+    this.email = email;
+    this.salt = salt;
   }
 
   public Employee(TableEmployee tb) {
@@ -65,6 +59,10 @@ public class Employee {
 
   public String getPassword() {
     return password;
+  }
+
+  public String getSalt() {
+    return salt;
   }
 
   public String getEmail() {

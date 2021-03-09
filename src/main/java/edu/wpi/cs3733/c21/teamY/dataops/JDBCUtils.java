@@ -73,7 +73,7 @@ public class JDBCUtils {
 
       String sqlEmployee =
           "create table Employee(firstName varchar(30) not null, lastName varchar(30) not null, employeeID varchar(30) PRIMARY KEY not null, "
-              + "password varchar(40), email varchar(50), accessLevel int not null, primaryWorkspace varchar(30))";
+              + "password varchar(100), email varchar(50), accessLevel int not null, primaryWorkspace varchar(30), salt varchar(100))";
 
       String sqlParkingLot =
           "create table ParkingLot(nodeID varchar(20) DEFAULT 'to be changed', userName varchar(30) PRIMARY KEY, "
@@ -622,7 +622,7 @@ public class JDBCUtils {
       Connection connection = JDBCUtils.getConn();
       PreparedStatement stmt =
           connection.prepareStatement(
-              "insert into ADMIN.EMPLOYEE values ((?),(?),(?),(?),(?),(?),(?))");
+              "insert into ADMIN.EMPLOYEE values ((?),(?),(?),(?),(?),(?),(?),(?))");
       stmt.setString(1, employee.getFirstName());
       stmt.setString(2, employee.getLastName());
       stmt.setString(3, employee.getEmployeeID());
@@ -630,6 +630,7 @@ public class JDBCUtils {
       stmt.setString(5, employee.getEmail());
       stmt.setInt(6, employee.getAccessLevel());
       stmt.setString(7, employee.getPrimaryWorkspace());
+      stmt.setString(8, employee.getSalt());
       stmt.executeUpdate();
       stmt.closeOnCompletion();
     } catch (SQLException e) {
@@ -730,6 +731,7 @@ public class JDBCUtils {
     String email;
     int accessLevel;
     String primaryWorkspace;
+    String salt;
     while (resultSet.next()) {
       firstName = resultSet.getString(1);
       lastName = resultSet.getString(2);
@@ -738,9 +740,17 @@ public class JDBCUtils {
       email = resultSet.getString(5);
       accessLevel = resultSet.getInt(6);
       primaryWorkspace = resultSet.getString(7);
+      salt = resultSet.getString(8);
       Employee employee =
           new Employee(
-              firstName, lastName, employeeID, password, email, accessLevel, primaryWorkspace);
+              firstName,
+              lastName,
+              employeeID,
+              password,
+              email,
+              accessLevel,
+              primaryWorkspace,
+              salt);
       employees.add(employee);
     }
     resultSet.close();
@@ -755,7 +765,7 @@ public class JDBCUtils {
             .prepareStatement(
                 "select * from ADMIN.EMPLOYEE WHERE ACCESSLEVEL = 2 OR ACCESSLEVEL = 3");
     java.sql.ResultSet r = stmt.executeQuery();
-    String firstName, lastName, employeeID, password, email, primaryWorkspace;
+    String firstName, lastName, employeeID, password, email, primaryWorkspace, salt;
     int accessLevel;
     while (r.next()) {
       firstName = r.getString(1);
@@ -765,9 +775,17 @@ public class JDBCUtils {
       email = r.getString(5);
       accessLevel = r.getInt(6);
       primaryWorkspace = r.getString(7);
+      salt = r.getString(8);
       Employee employee =
           new Employee(
-              firstName, lastName, employeeID, password, email, accessLevel, primaryWorkspace);
+              firstName,
+              lastName,
+              employeeID,
+              password,
+              email,
+              accessLevel,
+              primaryWorkspace,
+              salt);
       employees.add(employee);
     }
     r.close();
@@ -784,22 +802,19 @@ public class JDBCUtils {
    * Determines if there is a user in the table with a given username and password
    *
    * @param username the username of the desired user
-   * @param password the password of the desired user
    * @return boolean indicating whether the user was found or not
    * @throws SQLException upon SQL error communicating with the DB
    */
-  public static boolean findUser(String username, String password) throws SQLException {
+  public static boolean findUser(String username) throws SQLException {
     PreparedStatement query =
         getConn()
             .prepareStatement(
                 "Select ADMIN.EMPLOYEE.ACCESSLEVEL, "
                     + "ADMIN.EMPLOYEE.EMPLOYEEID, ADMIN.EMPLOYEE.PASSWORD "
                     + "FROM ADMIN.EMPLOYEE "
-                    + "WHERE EMPLOYEEID = (?) "
-                    + "AND PASSWORD = (?)");
+                    + "WHERE EMPLOYEEID = (?) ");
 
     query.setString(1, username);
-    query.setString(2, password);
 
     java.sql.ResultSet resultSet = query.executeQuery();
 
@@ -815,6 +830,46 @@ public class JDBCUtils {
     }
   }
 
+  public static String findUserSecurePassword(String username) {
+    try {
+      PreparedStatement query =
+          getConn()
+              .prepareStatement(
+                  "Select ADMIN.EMPLOYEE.PASSWORD "
+                      + "FROM ADMIN.EMPLOYEE "
+                      + "WHERE ADMIN.EMPLOYEE.EMPLOYEEID = (?)");
+      query.setString(1, username);
+
+      java.sql.ResultSet resultSet = query.executeQuery();
+      if (resultSet.next()) {
+        return resultSet.getString(1);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return "none";
+  }
+
+  public static String findUserSalt(String username) {
+    try {
+      PreparedStatement query =
+          getConn()
+              .prepareStatement(
+                  "Select ADMIN.EMPLOYEE.SALT "
+                      + "FROM ADMIN.EMPLOYEE "
+                      + "WHERE ADMIN.EMPLOYEE.EMPLOYEEID = (?)");
+      query.setString(1, username);
+
+      java.sql.ResultSet resultSet = query.executeQuery();
+      if (resultSet.next()) {
+        return resultSet.getString(1);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return "none";
+  }
+
   /**
    * determines if there is a User in the Employee table with a given email
    *
@@ -826,7 +881,7 @@ public class JDBCUtils {
       PreparedStatement query =
           getConn()
               .prepareStatement(
-                  "Select ADMIN.EMPLOYEE.EMPLOYEEID "
+                  "Select ADMIN.EMPLOYEE.EMAIL "
                       + "FROM ADMIN.EMPLOYEE "
                       + "WHERE ADMIN.EMPLOYEE.EMAIL = (?)");
       query.setString(1, email);
@@ -847,7 +902,7 @@ public class JDBCUtils {
    * @throws SQLException sql exception
    */
   public static boolean createUserAccount(Employee employee) throws SQLException {
-    String createAccount = "insert into ADMIN.EMPLOYEE values(?,?,?,?,?,?,?)";
+    String createAccount = "insert into ADMIN.EMPLOYEE values(?,?,?,?,?,?,?,?)";
     PreparedStatement preparedStatement = getConn().prepareStatement(createAccount);
     preparedStatement.setString(1, employee.getFirstName());
     preparedStatement.setString(2, employee.getLastName());
@@ -856,6 +911,7 @@ public class JDBCUtils {
     preparedStatement.setString(5, employee.getEmail());
     preparedStatement.setInt(6, employee.getAccessLevel());
     preparedStatement.setString(7, employee.getPrimaryWorkspace());
+    preparedStatement.setString(8, employee.getSalt());
     int check = preparedStatement.executeUpdate();
     return check != 0;
   }
@@ -864,15 +920,15 @@ public class JDBCUtils {
    * updated the password of the User with the specified userID
    *
    * @param userID of the user who's password is to be changed
-   * @param newPassWord to change password to
+   * @param newPassword to change password to
    * @return boolean for whether reset was successful
    * @throws SQLException upon sql error communicating with the database
    */
-  public static boolean updateUserPassword(String userID, String newPassWord) throws SQLException {
-    String update = "update ADMIN.EMPLOYEE set PASSWORD= (?) WHERE EMPLOYEEID=(?)";
+  public static boolean updateUserPassword(String newPassword, String email) throws SQLException {
+    String update = "update ADMIN.EMPLOYEE set PASSWORD= (?) WHERE EMAIL=(?)";
     PreparedStatement preparedStatement = getConn().prepareStatement(update);
-    preparedStatement.setString(1, newPassWord);
-    preparedStatement.setString(2, userID);
+    preparedStatement.setString(1, newPassword);
+    preparedStatement.setString(2, email);
     int check = preparedStatement.executeUpdate();
     preparedStatement.close();
     return check != 0;
@@ -967,6 +1023,16 @@ public class JDBCUtils {
     ps.setString(1, nodeID);
     ps.setString(2, userID);
     int check = ps.executeUpdate();
+    return check != 0;
+  }
+
+  public static boolean updateUserSalt(String email, String salt) throws SQLException {
+    String update = "update ADMIN.EMPLOYEE set SALT= (?) WHERE EMAIL=(?)";
+    PreparedStatement preparedStatement = getConn().prepareStatement(update);
+    preparedStatement.setString(1, salt);
+    preparedStatement.setString(2, email);
+    int check = preparedStatement.executeUpdate();
+    preparedStatement.close();
     return check != 0;
   }
 }

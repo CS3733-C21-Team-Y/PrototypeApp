@@ -1,9 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
@@ -23,7 +20,7 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
   @FXML private JFXButton submitBtn;
   @FXML private JFXTextField patientName;
   @FXML private JFXTextArea description;
-  @FXML private JFXTextField date;
+  @FXML private JFXDatePicker date;
   @FXML private JFXTextField currentLocation;
   @FXML private JFXTextField desiredLocation;
   @FXML private JFXComboBox employeeComboBox;
@@ -68,7 +65,7 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
     description.setText("");
     currentLocation.setText("");
     patientName.setText("");
-    date.setText("");
+    date.setValue(null);
     desiredLocation.setText("");
     employeeComboBox.getSelectionModel().clearSelection();
   }
@@ -88,7 +85,7 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
         || currentLocation.getText().equals("")
         || desiredLocation.getText().equals("")
         || patientName.getText().equals("")
-        || date.getText().equals("")
+        || date.getValue() == null
         || (Settings.getSettings().getCurrentPermissions() == 3
             && employeeComboBox.getValue() == null)) {
       if (currentLocation.getText().equals("")) {
@@ -97,7 +94,7 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
       if (patientName.getText().equals("")) {
         incomplete(patientName);
       }
-      if (date.getText().equals("")) {
+      if (date.getValue() == null) {
         incomplete(date);
       }
       if (desiredLocation.getText().equals("")) {
@@ -121,7 +118,7 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
       service.setLocation(
           "From: " + currentLocation.getText() + "To: " + desiredLocation.getText());
       service.setCategory(patientName.getText());
-      service.setDate(date.getText());
+      service.setDate(date.getValue().toString());
       service.setAdditionalInfo(desiredLocation.getText());
       service.setRequester(settings.getCurrentUsername());
       if (settings.getCurrentPermissions() == 3) {
