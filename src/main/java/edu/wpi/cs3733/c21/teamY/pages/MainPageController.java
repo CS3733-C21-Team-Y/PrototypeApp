@@ -313,7 +313,7 @@ public class MainPageController {
         adminAccess = true;
     }
     serviceRequestBtn.setVisible(serviceAccess);
-    adminToolsBtn.setVisible(adminAccess);
+    if (instance.isDesktop) adminToolsBtn.setVisible(adminAccess);
   }
   //  public void loadSubPages() {
   //    Stage stage = (Stage) rightPane.getScene().getWindow();
