@@ -11,7 +11,7 @@ public class Settings {
   private AlgoContext AlgorithmSelection = new AlgoContext();
 
   private Settings() {
-    this.currentUsername = "guest";
+    this.currentUsername = null;
     this.currentPermissions = -1;
     AlgorithmSelection.setContext(new AStarI());
   }
