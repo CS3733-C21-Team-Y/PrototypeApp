@@ -595,13 +595,19 @@ public class PathfindingPageController extends SubPage {
       textDirectionViewer.setVisible(true);
     }
 
-    ArrayList<String> directionList = AlgorithmCalls.textDirections(pathNodes);
+    ArrayList<String> directionList = AlgorithmCalls.textDirections(pathNodes, endLocations);
     System.out.println(directionList.size());
     for (String direction : directionList) {
 
       Label newLabel = new Label(direction);
       textDirectionViewer.getChildren().add(newLabel);
       newLabel.toFront();
+      for (String endLocation : endLocations) {
+        if (direction.contains(graph.nodeFromID(endLocation).longName)
+            && direction.contains("reached")) {
+          newLabel.setStyle("-fx-font-weight:BOLD;");
+        }
+      }
     }
   }
 

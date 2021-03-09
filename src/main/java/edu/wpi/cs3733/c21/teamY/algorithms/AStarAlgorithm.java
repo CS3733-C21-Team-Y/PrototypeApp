@@ -190,7 +190,7 @@ public class AStarAlgorithm {
     return strDouble;
   }
 
-  public static ArrayList<String> textDirections(ArrayList<Node> path) {
+  public static ArrayList<String> textDirections(ArrayList<Node> path, ArrayList<String> ends) {
 
     ArrayList<String> pathDirections = new ArrayList<>();
 
@@ -292,6 +292,9 @@ public class AStarAlgorithm {
                 + nodeToRealDist(path.get(i + 1), path.get(i + 2))
                 + " ft.");
       }
+      if (ends.contains(path.get(i + 2).nodeID)) {
+        pathDirections.add("You have reached " + path.get(i + 2).longName);
+      }
     }
 
     for (int j = 0; j < pathDirections.size() - 1; j++) {
@@ -323,7 +326,6 @@ public class AStarAlgorithm {
         j--;
       }
     }
-    pathDirections.add("You have reached your destination.");
     return pathDirections;
   }
 
