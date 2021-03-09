@@ -328,10 +328,19 @@ public class PathfindingPageController extends SubPage {
   }
 
   private void detourBtnPressed(ActionEvent e) {
-    if (e.getSource() == bathroomBtn) bathroom = !bathroom;
-    else if (e.getSource() == cafeBtn) restaurant = !restaurant;
-    else if (e.getSource() == kioskBtn) kiosk = !kiosk;
-    else if (e.getSource() == parkingBtn) {
+    if (e.getSource() == bathroomBtn) {
+      bathroom = !bathroom;
+      if (bathroom) bathroomBtn.setStyle("-fx-background-color: #efeff9");
+      else bathroomBtn.setStyle("-fx-background-color: transparent");
+    } else if (e.getSource() == cafeBtn) {
+      restaurant = !restaurant;
+      if (restaurant) cafeBtn.setStyle("-fx-background-color: #efeff9");
+      else cafeBtn.setStyle("-fx-background-color: transparent");
+    } else if (e.getSource() == kioskBtn) {
+      kiosk = !kiosk;
+      if (kiosk) kioskBtn.setStyle("-fx-background-color: #efeff9");
+      else kioskBtn.setStyle("-fx-background-color: transparent");
+    } else if (e.getSource() == parkingBtn) {
       try {
         endLocationBox.setValue(
             graph.nodeFromID(
@@ -348,8 +357,10 @@ public class PathfindingPageController extends SubPage {
 
       if (!noStairs) {
         noType = "";
+        noStairsBtn.setStyle("-fx-background-color: transparent");
       } else {
         noType = "STAI";
+        noStairsBtn.setStyle("-fx-background-color: #efeff9");
       }
 
       mapInsertController.removeAllAdornerElements();

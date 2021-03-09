@@ -53,27 +53,27 @@
                                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                             <children>
-                                                <JFXButton fx:id="bathroomBtn" contentDisplay="GRAPHIC_ONLY" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                <JFXButton fx:id="bathroomBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#efeff9" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                                     <graphic>
                                                         <MaterialDesignIconView fill="#8d8eae" glyphName="HUMAN_MALE_FEMALE" size="25" />
                                                     </graphic>
                                                 </JFXButton>
-                                                <JFXButton fx:id="cafeBtn" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                <JFXButton fx:id="cafeBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#efeff9" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                                     <graphic>
                                                         <MaterialDesignIconView fill="#8d8eae" glyphName="FOOD" size="25" />
                                                     </graphic>
                                                 </JFXButton>
-                                                <JFXButton fx:id="kioskBtn" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                <JFXButton fx:id="kioskBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#efeff9" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                                     <graphic>
                                                         <MaterialDesignIconView fill="#8d8eae" glyphName="DESKTOP_MAC" size="25" />
                                                     </graphic>
                                                 </JFXButton>
-                                                <JFXButton fx:id="parkingBtn" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                <JFXButton fx:id="parkingBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#efeff9" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                                     <graphic>
                                                         <MaterialDesignIconView fill="#8d8eae" glyphName="PARKING" size="25" />
                                                     </graphic>
                                                 </JFXButton>
-                                                <JFXButton fx:id="noStairsBtn" contentDisplay="GRAPHIC_ONLY" text="Button" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                <JFXButton fx:id="noStairsBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#efeff9" text="Button" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                                     <graphic>
                                                         <MaterialDesignIconView fill="#8d8eae" glyphName="WHEELCHAIR_ACCESSIBILITY" size="25" />
                                                     </graphic>
@@ -120,7 +120,7 @@
                                     <ColorAdjust brightness="1.0" />
                                  </effect>
                                  <GridPane.margin>
-                                    <Insets bottom="5.0" />
+                                    <Insets top="5.0" />
                                  </GridPane.margin>
                               </JFXComboBox>
                               <JFXComboBox fx:id="endLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="9999.0" promptText="End Location" style="-fx-prompt-text-fill: #8d8eae; -fx-base: #efeff9;" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
