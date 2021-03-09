@@ -112,6 +112,8 @@ public class PathfindingPageController extends SubPage {
   @FXML
   private void initialize() {
     //    loadMap();
+    textDirectionsBox.setPickOnBounds(false);
+    textDirectionViewer.setPickOnBounds(false);
     textDirectionViewer.setVisible(false);
     //    textDirectionsBox.setVisible(false);
     //    exitDirectionBtn.setVisible(false);
