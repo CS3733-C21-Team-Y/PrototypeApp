@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
+import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
@@ -24,6 +25,11 @@ public class ITSubpageController extends GenericServiceFormPage {
   @FXML private JFXComboBox affectsComboBox;
   @FXML private JFXTextArea description;
   @FXML private JFXComboBox employeeComboBox;
+
+  AutoCompleteComboBoxListener<String> locationAuto;
+  AutoCompleteComboBoxListener<String> categoryAuto;
+  AutoCompleteComboBoxListener<String> affectsAuto;
+  AutoCompleteComboBoxListener<String> employeeAuto;
 
   @FXML private StackPane stackPane;
 
@@ -62,6 +68,11 @@ public class ITSubpageController extends GenericServiceFormPage {
     } else {
       employeeComboBox.setVisible(false);
     }
+
+    employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
+    affectsAuto = new AutoCompleteComboBoxListener<>(affectsComboBox);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
+    categoryAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
   }
 
   private void buttonClicked(ActionEvent e) {
