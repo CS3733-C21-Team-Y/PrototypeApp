@@ -287,16 +287,16 @@ public class EditEmployeeTableController extends SubPage {
     parent.setCenterColumnWidth(1000);
   }
 
-    private void exportToCSV() {
-        try {
-            DataOperations.DBtoCSV("NODE");
-            DataOperations.DBtoCSV("EDGE");
-            DataOperations.DBtoCSV("EMPLOYEE");
-            DataOperations.DBtoCSV("SERVICE");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+  private void exportToCSV() {
+    try {
+      DataOperations.DBtoCSV("NODE");
+      DataOperations.DBtoCSV("EDGE");
+      DataOperations.DBtoCSV("EMPLOYEE");
+      DataOperations.DBtoCSV("SERVICE");
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
     }
+  }
 
   private void expandTable(ActionEvent e) {
     if (!expanded) {
