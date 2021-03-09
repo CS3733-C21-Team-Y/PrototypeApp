@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 
-public class ServiceRequestElementController extends CenterPage {
+public class ServiceRequestElementController extends SubPage {
   @FXML private Label type;
   @FXML private Label test;
   @FXML private Label serviceID;
