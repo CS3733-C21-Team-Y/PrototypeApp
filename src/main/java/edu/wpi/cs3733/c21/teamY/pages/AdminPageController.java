@@ -117,6 +117,7 @@ public class AdminPageController extends SubPage {
 
   public void initialize() {
 
+    secret.setVisible(false);
     secret.setOnAction(
         e -> {
           KnockKnockServer kn = new KnockKnockServer("ESP_Connection", nodes.get(0), nodes.get(3));

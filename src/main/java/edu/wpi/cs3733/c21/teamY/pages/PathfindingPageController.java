@@ -57,9 +57,11 @@ public class PathfindingPageController extends SubPage {
   @FXML public VBox navigationHeaderVBox;
 
   @FXML private JFXButton exitDirectionBtn;
-  //  @FXML private VBox sideMenuVBox;
+  @FXML private VBox sideMenuVBox;
   @FXML private RowConstraints row1;
   @FXML private JFXButton swapLocationsBox;
+  @FXML private GridPane textDirectionGrid;
+  @FXML private ScrollPane textDirectionScroll;
   // @FXML private Label zoomLabel;
 
   private ArrayList<Node> nodes = new ArrayList<Node>();
@@ -124,7 +126,12 @@ public class PathfindingPageController extends SubPage {
     textDirectionViewer.setVisible(false);
     //    textDirectionsBox.setVisible(false);
     //    exitDirectionBtn.setVisible(false);
+    anchor.setPickOnBounds(false);
     overlayGridPane.setPickOnBounds(false);
+    overlayGridPane.setPickOnBounds(false);
+    sideMenuVBox.setPickOnBounds(false);
+    textDirectionGrid.setPickOnBounds(false);
+    textDirectionScroll.setPickOnBounds(false);
     overlayGridPane.toFront();
 
     //    sideMenuVBox.setPickOnBounds(false);

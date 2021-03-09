@@ -159,7 +159,7 @@
                   <DropShadow />
                </effect>
                <children>
-                  <GridPane prefWidth="400.0">
+                  <GridPane fx:id="textDirectionGrid" prefWidth="400.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                      </columnConstraints>
@@ -167,7 +167,7 @@
                         <RowConstraints minHeight="10.0" percentHeight="90.0" prefHeight="9999.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ScrollPane hbarPolicy="NEVER" pannable="true" prefHeight="300.0" prefWidth="250.0" style="-fx-background-color: white;">
+                        <ScrollPane fx:id="textDirectionScroll" hbarPolicy="NEVER" pannable="true" prefHeight="300.0" prefWidth="250.0" style="-fx-background-color: white;">
                            <content>
                               <VBox fx:id="textDirectionViewer" minHeight="400.0" minWidth="350.0" prefWidth="350.0" spacing="5.0" style="-fx-background-color: white;">
                                  <padding>
@@ -188,5 +188,6 @@
             </VBox>
          </children>
       </GridPane>
+      <VBox fx:id="sideMenuVBox" maxHeight="0.0" maxWidth="0.0" prefHeight="0.0" prefWidth="0.0" />
    </children>
 </AnchorPane>
