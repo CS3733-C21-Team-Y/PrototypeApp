@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
@@ -175,6 +176,7 @@ public class AdminPageController extends SubPage {
                     // Should be improved
                     if (e.isShiftDown()) {
                       shiftPressed = true;
+                      System.out.println("Shift pressed");
                     } else {
                       shiftPressed = false;
                     }
@@ -185,6 +187,27 @@ public class AdminPageController extends SubPage {
               .setOnKeyReleased(
                   e -> {
                     mapInsertController.scrollOnRelease(e);
+
+                    if (e.getCode() == KeyCode.DELETE) {
+                      removeSelected();
+                      System.out.println("Delete key pressed.");
+                    }
+                    if (e.getCode() == KeyCode.UP) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, 0.1);
+                      System.out.println("UP key pressed.");
+                    }
+                    if (e.getCode() == KeyCode.DOWN) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, -0.1);
+                      System.out.println("DOWN key pressed.");
+                    }
+                    if (e.getCode() == KeyCode.LEFT) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), -0.1, 0.0);
+                      System.out.println("LEFT key pressed.");
+                    }
+                    if (e.getCode() == KeyCode.RIGHT) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.1, 0.0);
+                      System.out.println("RIGHT key pressed.");
+                    }
 
                     if (e.isShiftDown()) {
                       shiftPressed = true;
@@ -573,6 +596,7 @@ public class AdminPageController extends SubPage {
       }
     }
   }
+
   // These are referenced in handler
   MenuItem alignVertical = new MenuItem("Align Nodes Vertically");
   MenuItem alignHorizontal = new MenuItem("Align Nodes Horizontally");
