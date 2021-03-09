@@ -301,17 +301,6 @@ public class AdminPageController extends SubPage {
         });
   }
 
-  private void exportToCSV() {
-    try {
-      DataOperations.DBtoCSV("NODE");
-      DataOperations.DBtoCSV("EDGE");
-      DataOperations.DBtoCSV("EMPLOYEE");
-      DataOperations.DBtoCSV("SERVICE");
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    }
-  }
-
   private boolean rightClicked;
 
   private void handleMouseDown(MouseEvent e) {
