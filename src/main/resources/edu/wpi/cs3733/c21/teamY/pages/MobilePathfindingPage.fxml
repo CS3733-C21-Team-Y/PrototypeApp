@@ -61,8 +61,11 @@
                               <MaterialDesignIconView fill="#8d8eae" glyphName="SWAP_VERTICAL" size="30" strokeLineCap="ROUND" strokeLineJoin="ROUND" text="" />
                            </graphic>
                            <GridPane.margin>
-                              <Insets bottom="-20.0" left="-10.0" />
+                              <Insets />
                            </GridPane.margin>
+                           <padding>
+                              <Insets right="2.0" />
+                           </padding>
                         </JFXButton>
                         <GridPane>
                            <columnConstraints>
@@ -124,6 +127,14 @@
                               </JFXButton>
                            </children>
                         </JFXNodesList>
+                        <JFXButton fx:id="multDestinationBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#efeff9" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <graphic>
+                              <MaterialDesignIconView fill="#8d8eae" glyphName="PLUS" size="30" />
+                           </graphic>
+                           <padding>
+                              <Insets right="2.0" />
+                           </padding>
+                        </JFXButton>
                      </children>
                      <VBox.margin>
                         <Insets bottom="10.0" left="5.0" right="15.0" top="15.0" />
