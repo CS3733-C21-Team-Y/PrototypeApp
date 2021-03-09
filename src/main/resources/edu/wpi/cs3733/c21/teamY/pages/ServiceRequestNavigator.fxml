@@ -50,7 +50,13 @@
             </FontAwesomeIconView>
             <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" style="-fx-background-color: #3f417a;" stylesheets="@../UIStyles.css" GridPane.rowIndex="3">
                <content>
-                  <VBox fx:id="serviceBox" maxHeight="9999.0" prefHeight="421.0" prefWidth="311.0" style="-fx-background-color: #3f417a;" />
+                  <VBox fx:id="serviceBox" maxHeight="9999.0" prefHeight="421.0" prefWidth="755.0" style="-fx-background-color: #3f417a;">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="25.0" />
+                     </padding></VBox>
                </content>
             </ScrollPane>
             <Label text="Service Requests" textFill="WHITE" GridPane.rowIndex="1">
@@ -58,7 +64,7 @@
                   <Font name="Calibri" size="23.0" />
                </font>
                <GridPane.margin>
-                  <Insets left="5.0" />
+                  <Insets left="15.0" />
                </GridPane.margin>
             </Label>
             <JFXButton fx:id="button2" style="-fx-background-color: #8d8ea4;" text="Export" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
@@ -84,23 +90,32 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ToggleButton fx:id="allRequestsBtn" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: #5e5da4; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="All Requests" textFill="#eeffee" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                  <ToggleButton fx:id="allRequestsBtn" minWidth="100.0" mnemonicParsing="false" style="-fx-base: #5e5d94; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="All Requests" textFill="#efeff9" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                      <font>
                         <Font name="Calibri" size="13.0" />
                      </font>
                      <toggleGroup>
                         <ToggleGroup fx:id="group" />
                      </toggleGroup>
+                     <GridPane.margin>
+                        <Insets bottom="5.0" />
+                     </GridPane.margin>
                   </ToggleButton>
-                  <ToggleButton fx:id="myRequestsBtn" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: #5e5da4; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="Made By Me" textFill="#efeff9" toggleGroup="$group" GridPane.halignment="CENTER">
+                  <ToggleButton fx:id="myRequestsBtn" minWidth="100.0" mnemonicParsing="false" style="-fx-base: #5e5d94; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="Made By Me" textFill="#efeff9" toggleGroup="$group" GridPane.halignment="CENTER">
                      <font>
                         <Font name="Calibri" size="13.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets bottom="5.0" />
+                     </GridPane.margin>
                   </ToggleButton>
-                  <ToggleButton fx:id="assignedBtn" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: #5e5da4; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="Assigned To Me" textFill="#efeff9" toggleGroup="$group" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                  <ToggleButton fx:id="assignedBtn" minWidth="100.0" mnemonicParsing="false" style="-fx-background-color: #5e5d94; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="Assigned To Me" textFill="#efeff9" toggleGroup="$group" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                      <font>
                         <Font name="Calibri" size="13.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets bottom="5.0" />
+                     </GridPane.margin>
                   </ToggleButton>
                </children>
             </GridPane>
