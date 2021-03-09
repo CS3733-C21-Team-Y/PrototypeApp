@@ -6,6 +6,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -30,17 +31,20 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <ComboBox fx:id="startLocationBox" prefWidth="150.0" promptText="First Node Box" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                        <ComboBox fx:id="endLocationBox" prefWidth="150.0" promptText="Second Node Box" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                        <SplitMenuButton fx:id="selectNewAlgo" mnemonicParsing="false" styleClass="button" text="Select New Algorithm" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                        <ComboBox fx:id="startLocationBox" prefWidth="150.0" promptText="First Node Box" style="-fx-background-color: #efeff9; -fx-text-fill: #5a5c94;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                        <ComboBox fx:id="endLocationBox" prefWidth="150.0" promptText="Second Node Box" style="-fx-background-color: #efeff9; -fx-text-fill: #5a5c94;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                        <SplitMenuButton fx:id="selectNewAlgo" mnemonicParsing="false" style="-fx-base: #efeff9; -fx-background-color: #efeff9;" text="Select New Algorithm" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                            <items>
-                              <MenuItem fx:id="depthFirst" mnemonicParsing="false" text="Depth First" />
-                              <MenuItem fx:id="breadthFirst" mnemonicParsing="false" text="Breadth First" />
-                              <MenuItem fx:id="aStar" mnemonicParsing="false" text="A-Star" />
-                              <MenuItem fx:id="dijkstra" mnemonicParsing="false" text="Dijkstra" />
+                              <MenuItem fx:id="depthFirst" mnemonicParsing="false" style="-fx-base: #efeff9;" text="Depth First" />
+                              <MenuItem fx:id="breadthFirst" mnemonicParsing="false" style="-fx-base: #efeff9;" text="Breadth First" />
+                              <MenuItem fx:id="aStar" mnemonicParsing="false" style="-fx-base: #efeff9;" text="A-Star" />
+                              <MenuItem fx:id="dijkstra" mnemonicParsing="false" style="-fx-base: #efeff9;" text="Dijkstra" />
                            </items>
+                           <effect>
+                              <ColorAdjust contrast="1.0" />
+                           </effect>
                         </SplitMenuButton>
-                        <JFXButton fx:id="addEdge" style="-fx-background-color: #efeff9;" text="Add Edge" textFill="#5a5c94" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                        <JFXButton fx:id="addEdge" style="-fx-background-color: #efeff9; -fx-text-fill: #000000;" text="Add Edge" textFill="#5a5c94" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                      </children>
                   </GridPane>
                </children>

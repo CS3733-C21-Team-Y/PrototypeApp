@@ -94,7 +94,11 @@
                               <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </JFXComboBox>
-                        <FontAwesomeIconView fill="#8d8ea4" glyphName="ANGLE_LEFT" size="35" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" " GridPane.halignment="RIGHT">
+                           <graphic>
+                              <FontAwesomeIconView fill="#8d8ea4" glyphName="ANGLE_LEFT" size="35" />
+                           </graphic>
+                        </JFXButton>
                      </children>
                      <GridPane.margin>
                         <Insets />
@@ -112,7 +116,6 @@
                         </Label>
                      </children>
                   </HBox>
-                  <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" " GridPane.halignment="RIGHT" />
                </children>
             </GridPane>
          </children>
