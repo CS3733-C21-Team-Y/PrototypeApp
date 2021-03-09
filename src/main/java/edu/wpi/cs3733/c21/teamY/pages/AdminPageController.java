@@ -192,7 +192,6 @@ public class AdminPageController extends SubPage {
             }
           }
 
-
           // mouse move
 
           mapInsertController
@@ -592,12 +591,12 @@ public class AdminPageController extends SubPage {
 
     alignHorizontal.setOnAction(
         event -> {
-          contextMenuActions_Align(false);
+          contextMenuActions_Align(true);
         });
 
     alignVertical.setOnAction(
         event -> {
-          contextMenuActions_Align(true);
+          contextMenuActions_Align(false);
         });
 
     makeNodeVertical.setOnAction(
@@ -642,7 +641,7 @@ public class AdminPageController extends SubPage {
     }
 
     for (MapController.CircleEx c : mapInsertController.getSelectedNodes()) {
-      if (!vertical) {
+      if (vertical) {
         c.setCenterY(centerY);
       } else {
         c.setCenterX(centerX);
