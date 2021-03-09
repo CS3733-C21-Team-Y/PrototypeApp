@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
@@ -66,8 +67,7 @@ public class RequestInfoPageController<label> extends SubPage {
   }
 
   private void loadInformation() {
-    StageInformation info = (StageInformation) title.getScene().getWindow().getUserData();
-    service = info.getService();
+    service = Settings.getSettings().getCurrentDisplayedService();
 
     createInfoBox("Type: ", service.getType());
     if (service.getDescription().length() > 0)

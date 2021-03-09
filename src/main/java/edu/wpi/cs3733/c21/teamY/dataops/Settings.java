@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamY.dataops;
 
 import edu.wpi.cs3733.c21.teamY.algorithms.AStarI;
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgoContext;
+import edu.wpi.cs3733.c21.teamY.entity.Service;
 
 public class Settings {
 
@@ -9,6 +10,7 @@ public class Settings {
   private String currentUsername;
   private int currentPermissions;
   private AlgoContext AlgorithmSelection = new AlgoContext();
+  private Service currentDisplayedService;
 
   private Settings() {
     this.currentUsername = null;
@@ -44,5 +46,13 @@ public class Settings {
   public void logout() {
     this.currentUsername = null;
     this.currentPermissions = -1;
+  }
+
+  public Service getCurrentDisplayedService() {
+    return currentDisplayedService;
+  }
+
+  public void setCurrentDisplayedService(Service currentDisplayedService) {
+    this.currentDisplayedService = currentDisplayedService;
   }
 }

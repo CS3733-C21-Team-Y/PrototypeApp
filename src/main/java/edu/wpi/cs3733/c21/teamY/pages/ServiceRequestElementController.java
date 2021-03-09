@@ -2,6 +2,7 @@ package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
@@ -101,8 +102,6 @@ public class ServiceRequestElementController extends SubPage {
   public void openRequest() {
     parent.loadRightSubPage("RequestInfoPage.fxml");
     parent.setCenterColumnWidth(0);
-    StageInformation info = (StageInformation) type.getScene().getWindow().getUserData();
-    info.setService(service);
-    type.getScene().getWindow().setUserData(info);
+    Settings.getSettings().setCurrentDisplayedService(service);
   }
 }
