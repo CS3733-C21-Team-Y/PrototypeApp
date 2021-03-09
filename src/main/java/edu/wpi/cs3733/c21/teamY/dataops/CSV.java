@@ -29,6 +29,11 @@ public class CSV {
   public static BufferedReader brEmployee;
   public static BufferedWriter bwEmployee;
 
+  public static String edgeJarPath = "MapYEdgesAllFloors.csv";
+  public static String nodeJarPath = "MapYNodesAllFloors.csv";
+  public static String serviceJarPath = "Services.csv";
+  public static String employeeJarPath = "Employee.csv";
+
   // load the BufferedReader for node
   public static void initCSV() {
     try {
@@ -36,7 +41,7 @@ public class CSV {
       // parsing a CSV file into BufferedReader class constructor
 
       try {
-        brNode = new BufferedReader(new FileReader(nodePath));
+        brNode = new BufferedReader(new FileReader(nodeJarPath));
 
       } catch (FileNotFoundException e) {
         System.out.println("Node BufferedReader initialized failed!");
@@ -51,7 +56,7 @@ public class CSV {
     // parsing a CSV file into BufferedReader class constructor
 
     try {
-      brEdge = new BufferedReader(new FileReader(edgePath));
+      brEdge = new BufferedReader(new FileReader(edgeJarPath));
 
     } catch (FileNotFoundException e) {
       System.out.println("Edge BufferedReader initialized failed!");
@@ -62,7 +67,7 @@ public class CSV {
 
     // parsing a CSV file into BufferedReader class constructor
     try {
-      CSV.brService = new BufferedReader(new FileReader(CSV.servicePath));
+      CSV.brService = new BufferedReader(new FileReader(CSV.serviceJarPath));
     } catch (FileNotFoundException e) {
       System.out.println("Service BufferedReader initialized failed!");
 
@@ -70,7 +75,7 @@ public class CSV {
     }
 
     try {
-      CSV.brEmployee = new BufferedReader(new FileReader(CSV.employeePath));
+      CSV.brEmployee = new BufferedReader(new FileReader(CSV.employeeJarPath));
     } catch (FileNotFoundException e) {
       System.out.println("Employee BufferedReader initialized failed!");
 
@@ -80,7 +85,7 @@ public class CSV {
     // load the bufferWriter for service
 
     try {
-      CSV.bwService = new BufferedWriter(new FileWriter(CSV.servicePath, true));
+      CSV.bwService = new BufferedWriter(new FileWriter(CSV.serviceJarPath, true));
     } catch (FileNotFoundException e) {
       System.out.println("Service BufferedWriter initialized failed!");
 
@@ -92,7 +97,7 @@ public class CSV {
 
   static {
     try {
-      CSV.bwEmployee = new BufferedWriter(new FileWriter(CSV.employeePath, true));
+      CSV.bwEmployee = new BufferedWriter(new FileWriter(CSV.employeeJarPath, true));
     } catch (FileNotFoundException e) {
       System.out.println("Employee BufferedWriter initialized failed!");
 
