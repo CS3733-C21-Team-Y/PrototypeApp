@@ -40,7 +40,7 @@
                     </rowConstraints>
                      <children>
                         <JFXButton fx:id="employeeTableBtn" alignment="CENTER" contentDisplay="CENTER" style="-fx-background-color: efeff9;" text="Employee Table" textFill="#5a5c94" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                        <JFXButton fx:id="export" alignment="CENTER" style="-fx-background-color: efeff9;" text="Export" textFill="#5a5c94" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <JFXButton fx:id="exportBtn" alignment="CENTER" style="-fx-background-color: efeff9;" text="Export" textFill="#5a5c94" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                         <JFXButton fx:id="nodeTableBtn" style="-fx-background-color: efeff9;" text="Node Table" textFill="#5a5c94" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                      </children>
                   </GridPane>

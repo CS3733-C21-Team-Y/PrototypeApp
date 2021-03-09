@@ -81,11 +81,6 @@ public class AdminPageController extends SubPage {
   @FXML private VBox mapBox;
   @FXML private HBox hBox;
 
-  //  @FXML private JFXButton loadNodesButton; //bye bye fml
-
-  @FXML private JFXButton deleteButton;
-  @FXML private JFXButton export;
-
   @FXML private JFXButton addEdge;
 
   @FXML private Text nodeDisplay = new Text("Selected Node");
@@ -132,11 +127,6 @@ public class AdminPageController extends SubPage {
           KnockKnockServer kn = new KnockKnockServer("ESP_Connection", nodes.get(0), nodes.get(3));
           kn.start();
         });
-
-    export.setOnAction(e -> exportToCSV());
-
-    employeeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditEmployeeTable.fxml"));
-    nodeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditNodeTable.fxml"));
 
     Platform.runLater(
         () -> {
@@ -215,11 +205,6 @@ public class AdminPageController extends SubPage {
                       shiftPressed = false;
                     }
                   });
-
-          deleteButton.setOnAction(
-              e -> {
-                removeSelected();
-              });
 
           // selectNewAlgo.setText("Select Algorithm");
 
@@ -309,10 +294,6 @@ public class AdminPageController extends SubPage {
 
           assignContextMenuActions();
         });
-  }
-
-  private void exportToCSV() {
-    // what goes here
   }
 
   private boolean rightClicked;
