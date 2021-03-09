@@ -10,6 +10,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 
 public class ServiceRequestManagerSubpageController extends SubPage {
@@ -28,6 +29,11 @@ public class ServiceRequestManagerSubpageController extends SubPage {
   @FXML private JFXButton sanitizationBtn;
   @FXML private ScrollPane scrollPane;
   @FXML private JFXButton backBtn;
+  @FXML private Label HRLabel;
+  @FXML private Label ITLabel;
+  @FXML private Label MedLabel;
+  @FXML private Label FacLabel;
+  @FXML private Label TransLabel;
 
   @FXML private MaterialDesignIconView laundryIcon;
   @FXML private OctIconView maintenanceIcon;
@@ -125,6 +131,13 @@ public class ServiceRequestManagerSubpageController extends SubPage {
       securityBtn.setStyle("-fx-font-size:8");
       insideHosBtn.setStyle("-fx-font-size:8");
       sanitizationBtn.setStyle("-fx-font-size:8");
+      outsideHosBtn.setStyle("-fx-font-size: 8");
+      computerBtn.setStyle("-fx-font-size: 8");
+      HRLabel.setStyle("-fx-font-size: 14");
+      ITLabel.setStyle("-fx-font-size: 14");
+      MedLabel.setStyle("-fx-font-size: 14");
+      FacLabel.setStyle("-fx-font-size: 14");
+      TransLabel.setStyle("-fx-font-size: 14");
     }
 
     if (parent.isDesktop) {
@@ -138,6 +151,13 @@ public class ServiceRequestManagerSubpageController extends SubPage {
       securityBtn.setStyle("-fx-font-size:12");
       insideHosBtn.setStyle("-fx-font-size:12");
       sanitizationBtn.setStyle("-fx-font-size:12");
+      outsideHosBtn.setStyle("-fx-font-size: 12");
+      computerBtn.setStyle("-fx-font-size: 12");
+      HRLabel.setStyle("-fx-font-size: 22");
+      ITLabel.setStyle("-fx-font-size: 22");
+      MedLabel.setStyle("-fx-font-size: 22");
+      FacLabel.setStyle("-fx-font-size: 22");
+      TransLabel.setStyle("-fx-font-size: 22");
       double scale = .05 * x;
       laundryIcon.setSize(String.valueOf(scale));
       maintenanceIcon.setSize(String.valueOf(scale));

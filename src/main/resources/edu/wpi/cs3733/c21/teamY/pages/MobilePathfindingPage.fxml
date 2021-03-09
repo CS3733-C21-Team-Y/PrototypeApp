@@ -100,27 +100,27 @@
                            </GridPane.margin>
                            <children>
                               <FontAwesomeIconView fill="#8d8eae" glyphName="MAP_SIGNS" rotate="-180.0" size="25" />
-                              <JFXButton fx:id="bathroomBtn" contentDisplay="GRAPHIC_ONLY">
+                              <JFXButton fx:id="bathroomBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="HUMAN_MALE_FEMALE" size="25" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="cafeBtn" contentDisplay="GRAPHIC_ONLY">
+                              <JFXButton fx:id="cafeBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="FOOD" size="25" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="kioskBtn" contentDisplay="GRAPHIC_ONLY">
+                              <JFXButton fx:id="kioskBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="DESKTOP_MAC" size="25" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="parkingBtn" contentDisplay="GRAPHIC_ONLY">
+                              <JFXButton fx:id="parkingBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="PARKING" size="25" />
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="noStairsBtn" contentDisplay="GRAPHIC_ONLY" text="Button">
+                              <JFXButton fx:id="noStairsBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;" text="Button">
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="WHEELCHAIR_ACCESSIBILITY" size="25" />
                                  </graphic>
