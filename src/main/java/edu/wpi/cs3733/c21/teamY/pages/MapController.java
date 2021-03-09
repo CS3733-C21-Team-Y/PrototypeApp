@@ -258,6 +258,11 @@ public class MapController extends SubPage {
   }
 
   // region Getters and Setters
+
+  public JFXButton getReset() {
+    return reset;
+  }
+
   protected Pane getAdornerPane() {
     return adornerPane;
   }

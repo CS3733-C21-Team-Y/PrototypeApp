@@ -25,7 +25,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="BOTTOM" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <VBox maxHeight="120.0" minHeight="120.0" minWidth="350.0" prefHeight="100.0" prefWidth="350.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 0 0 0 0;" GridPane.valignment="TOP">
+            <VBox fx:id="navigationHeaderVBox" maxHeight="120.0" minHeight="120.0" minWidth="350.0" prefHeight="100.0" prefWidth="350.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 0 0 0 0;" GridPane.valignment="TOP">
                <children>
                   <GridPane prefHeight="110.0" prefWidth="380.0">
                      <columnConstraints>
