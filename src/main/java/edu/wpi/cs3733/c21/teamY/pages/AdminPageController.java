@@ -192,7 +192,7 @@ public class AdminPageController extends SubPage {
             }
           }
 
-          
+
           // mouse move
 
           mapInsertController
@@ -642,7 +642,7 @@ public class AdminPageController extends SubPage {
     }
 
     for (MapController.CircleEx c : mapInsertController.getSelectedNodes()) {
-      if (vertical) {
+      if (!vertical) {
         c.setCenterY(centerY);
       } else {
         c.setCenterX(centerX);
