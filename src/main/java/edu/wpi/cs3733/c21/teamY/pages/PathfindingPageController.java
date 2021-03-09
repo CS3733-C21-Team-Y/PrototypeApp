@@ -43,6 +43,8 @@ public class PathfindingPageController extends SubPage {
   @FXML private JFXButton parkingBtn;
   @FXML private JFXButton noStairsBtn;
   @FXML private GridPane overlayGridPane;
+  @FXML private JFXButton multDestinationBtn;
+
 
   //  @FXML private Slider zoomSlider;
   //  @FXML private Button upButton;
