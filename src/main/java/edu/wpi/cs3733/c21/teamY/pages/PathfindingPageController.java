@@ -629,7 +629,7 @@ public class PathfindingPageController extends SubPage {
         }
       }
       if (direction.contains("to go to floor")) {
-        //newLabel.setStyle("-fx-font-style:italic;");
+        // newLabel.setStyle("-fx-font-style:italic;");
         newLabel.setStyle("-fx-text-fill: GREEN");
         // newLabel.setStyle("-fx-font-weight:BOLD;");
       }
