@@ -622,14 +622,20 @@ public class PathfindingPageController extends SubPage {
     for (String direction : directionList) {
 
       Label newLabel = new Label(direction);
-      textDirectionViewer.getChildren().add(newLabel);
-      newLabel.toFront();
       for (String endLocation : endLocations) {
         if (direction.contains(graph.nodeFromID(endLocation).longName)
             && direction.contains("reached")) {
           newLabel.setStyle("-fx-font-weight:BOLD;");
         }
       }
+      if (direction.contains("to go to floor")) {
+        //newLabel.setStyle("-fx-font-style:italic;");
+        newLabel.setStyle("-fx-text-fill: GREEN");
+        // newLabel.setStyle("-fx-font-weight:BOLD;");
+      }
+
+      textDirectionViewer.getChildren().add(newLabel);
+      newLabel.toFront();
     }
   }
 

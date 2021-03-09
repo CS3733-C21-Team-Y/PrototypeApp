@@ -160,7 +160,8 @@ public class AStarAlgorithm {
     double cross_product = (node2.xcoord * P.ycoord - node2.ycoord * P.xcoord);
 
     // The points 2 and 3 are on-top of each other
-    if (P.longName.equals(node2.longName)) {
+    if (P.nodeType.equals(node2.nodeType)
+        && (P.nodeType.equals("STAI") || P.nodeType.equals("ELEV"))) {
       return 500.0;
     }
 
