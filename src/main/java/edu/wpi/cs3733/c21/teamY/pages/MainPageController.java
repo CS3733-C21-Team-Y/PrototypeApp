@@ -32,6 +32,7 @@ public class MainPageController {
   @FXML private JFXButton exitBtn;
   @FXML ColumnConstraints requestsColumn;
   @FXML private JFXButton origSignOutBtn;
+  @FXML private JFXButton logoButton;
   @FXML private HBox navBar;
   //  @FXML private ScrollPane scrollPane;
 
@@ -115,6 +116,7 @@ public class MainPageController {
     // exitBtn.setOnMouseClicked(e -> Platform.exit());
     exitBtn.setOnAction(e -> swapPlatforms());
     origGoogleNavBtn.setOnAction(e -> buttonClicked(e));
+    logoButton.setOnAction(e -> buttonClicked(e));
     exitBtn.setOnMouseClicked(e -> Platform.exit());
     instance.drawByPermissions();
     origCenterPane.setPickOnBounds(false);
@@ -181,7 +183,11 @@ public class MainPageController {
   private void buttonClicked(ActionEvent e) {
 
     System.out.println("clicked");
-    instance.setCenterColumnWidth(0);
+    if (e.getSource() == origAdminToolsBtn) {
+      instance.setRightColumnWidth(30);
+    } else {
+      instance.setCenterColumnWidth(0);
+    }
     if (e.getSource() == origNavigationBtn) {
       if (instance.isDesktop) {
         instance.loadRightSubPage("NavigationMap.fxml");
@@ -213,6 +219,14 @@ public class MainPageController {
       instance.loadCenterSubPage("AdminPage.fxml");
       instance.loadRightSubPage("EditNodeTable.fxml");
     } else if (e.getSource() == origGoogleNavBtn) instance.loadRightSubPage("GoogleMaps.fxml");
+    else if (e.getSource() == logoButton) {
+      if (instance.isDesktop) {
+        instance.loadRightSubPage("AboutPage.fxml");
+      } else {
+        instance.loadRightSubPage("AboutPage.fxml");
+        instance.setCenterColumnWidth(0);
+      }
+    }
   }
 
   public void setCenterColumnWidth(double width) {
@@ -268,12 +282,31 @@ public class MainPageController {
     if (width != 0) setCenterColumnWidth(width);
   }
 
+  public void setRightColumnWidth(double width) {
+    Stage stage = (Stage) centerPane.getScene().getWindow();
+    setCenterColumnWidth(stage.getWidth() - width - 141);
+  }
+
+  public void animateRightColumnWidth(double width) {
+    Stage stage = (Stage) centerPane.getScene().getWindow();
+    animateCenterColumnWidth(stage.getWidth() - width - 141);
+  }
+
   public void updateCenterPaneVisibility(double width) {
     // centerPane.setPrefWidth(width);
     if (width == 0) {
       centerPane.setVisible(false);
     } else {
       centerPane.setVisible(true);
+    }
+  }
+
+  public void updateRightPaneVisibility(double width) {
+    // centerPane.setPrefWidth(width);
+    if (width == 0) {
+      rightPane.setVisible(false);
+    } else {
+      rightPane.setVisible(true);
     }
   }
 

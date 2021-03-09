@@ -53,7 +53,7 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                           <children>
-                              <JFXComboBox fx:id="locationField" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefHeight="40.0" prefWidth="849.0" promptText="Location" GridPane.columnIndex="1">
+                              <JFXComboBox fx:id="locationField" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefHeight="50.0" prefWidth="865.0" promptText="Location" GridPane.columnIndex="1">
                                   <GridPane.margin>
                                       <Insets />
                                   </GridPane.margin>
@@ -106,7 +106,7 @@
                                       </JFXComboBox>
                                   </children>
                               </GridPane>
-                              <JFXComboBox fx:id="urgency" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefHeight="40.0" prefWidth="849.0" promptText="Urgency" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <JFXComboBox fx:id="urgency" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefHeight="50.0" prefWidth="862.0" promptText="Urgency" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                   <padding>
                                       <Insets left="15.0" top="5.0" />
                                   </padding>

@@ -316,7 +316,7 @@ public class EditEmployeeTableController extends SubPage {
 
   @Override
   public void loadNavigationBar() {
-    parent.setCenterColumnWidth(1000);
+    parent.animateRightColumnWidth(30);
   }
 
   private void exportToCSV() {
@@ -332,10 +332,10 @@ public class EditEmployeeTableController extends SubPage {
 
   private void expandTable(ActionEvent e) {
     if (!expanded) {
-      parent.animateCenterColumnWidth(600);
+      parent.animateRightColumnWidth(800);
       expandIcon.setGlyphName("ANGLE_DOUBLE_RIGHT");
     } else {
-      parent.animateCenterColumnWidth(1000);
+      parent.animateRightColumnWidth(30);
       expandIcon.setGlyphName("ANGLE_DOUBLE_LEFT");
     }
     expanded = !expanded;

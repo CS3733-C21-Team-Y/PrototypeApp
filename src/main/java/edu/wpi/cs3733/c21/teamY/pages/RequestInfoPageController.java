@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -27,6 +29,7 @@ public class RequestInfoPageController<label> extends SubPage {
   @FXML private VBox rightBox;
   @FXML private JFXButton submitBtn;
   @FXML private JFXComboBox employeeComboBox;
+  Scene scene;
 
   private Service service;
 
@@ -66,8 +69,7 @@ public class RequestInfoPageController<label> extends SubPage {
   }
 
   private void loadInformation() {
-    StageInformation info = (StageInformation) title.getScene().getWindow().getUserData();
-    service = info.getService();
+    service = Settings.getSettings().getCurrentDisplayedService();
 
     createInfoBox("Type: ", service.getType());
     if (service.getDescription().length() > 0)
@@ -128,6 +130,7 @@ public class RequestInfoPageController<label> extends SubPage {
   }
 
   private void createInfoBox(String title, String data) {
+    scene = infoBox.getScene();
     FXMLLoader fxmlLoader = new FXMLLoader();
     try {
       Node node =

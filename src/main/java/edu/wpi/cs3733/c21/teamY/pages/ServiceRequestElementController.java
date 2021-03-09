@@ -2,15 +2,17 @@ package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 
-public class ServiceRequestElementController extends CenterPage {
+public class ServiceRequestElementController extends SubPage {
   @FXML private Label type;
   @FXML private Label test;
   @FXML private Label serviceID;
@@ -22,6 +24,7 @@ public class ServiceRequestElementController extends CenterPage {
   @FXML private JFXButton deleteBtn;
   @FXML private JFXButton completeBtn;
   @FXML private Label employeeLabel;
+  Scene scene;
 
   private Service service;
 
@@ -100,8 +103,7 @@ public class ServiceRequestElementController extends CenterPage {
 
   public void openRequest() {
     parent.loadRightSubPage("RequestInfoPage.fxml");
-    StageInformation info = (StageInformation) type.getScene().getWindow().getUserData();
-    info.setService(service);
-    type.getScene().getWindow().setUserData(info);
+    parent.setCenterColumnWidth(0);
+    Settings.getSettings().setCurrentDisplayedService(service);
   }
 }

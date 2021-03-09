@@ -64,17 +64,17 @@
                                                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                             <children>
-                                                <JFXButton fx:id="bathroomBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#efeff9" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                <JFXButton fx:id="bathroomBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#5a5c94" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                                     <graphic>
                                                         <MaterialDesignIconView fill="#8d8eae" glyphName="HUMAN_MALE_FEMALE" size="25" />
                                                     </graphic>
                                                 </JFXButton>
-                                                <JFXButton fx:id="cafeBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#efeff9" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                <JFXButton fx:id="cafeBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#5a5c94" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                                     <graphic>
                                                         <MaterialDesignIconView fill="#8d8eae" glyphName="FOOD" size="25" />
                                                     </graphic>
                                                 </JFXButton>
-                                                <JFXButton fx:id="kioskBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#efeff9" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                <JFXButton fx:id="kioskBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#5a5c94" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                                     <graphic>
                                                         <MaterialDesignIconView fill="#8d8eae" glyphName="DESKTOP_MAC" size="25" />
                                                     </graphic>
@@ -84,7 +84,7 @@
                                                         <MaterialDesignIconView fill="#8d8eae" glyphName="PARKING" size="25" />
                                                     </graphic>
                                                 </JFXButton>
-                                                <JFXButton fx:id="noStairsBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#efeff9" text="Button" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                <JFXButton fx:id="noStairsBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#5a5c94" text="Button" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                                     <graphic>
                                                         <MaterialDesignIconView fill="#8d8eae" glyphName="WHEELCHAIR_ACCESSIBILITY" size="25" />
                                                     </graphic>
