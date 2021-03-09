@@ -2,13 +2,14 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="527.0" prefWidth="760.0" style="-fx-background-color: ffffff;" stylesheets="/edu/wpi/cs3733/c21/teamY/UIStyles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.NavigationMapController">
+<AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="100.0" prefHeight="520.0" prefWidth="731.0" stylesheets="/edu/wpi/cs3733/c21/teamY/UIStyles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.NavigationMapController">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -18,10 +19,13 @@
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <SplitPane fx:id="splitPane" orientation="VERTICAL">
+            <SplitPane fx:id="splitPane" orientation="VERTICAL" prefHeight="9999.0" prefWidth="9999.0">
               <items>
-                <AnchorPane fx:id="splitPaneTop" minHeight="0.0" minWidth="0.0" />
+                <AnchorPane fx:id="splitPaneTop" minHeight="200.0" minWidth="350.0" />
               </items>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
             </SplitPane>
             <JFXButton fx:id="expandBtn" contentDisplay="GRAPHIC_ONLY" prefHeight="100.0" ripplerFill="#aaaaea" style="-fx-background-color: efeeff; -fx-background-radius: 0 4 4 0;">
                <graphic>
