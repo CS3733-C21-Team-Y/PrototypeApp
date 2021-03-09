@@ -38,9 +38,6 @@ public class AdminPageController extends SubPage {
   @FXML private TextField newX;
   @FXML private TextField newY;
 
-  @FXML private JFXButton employeeTableBtn;
-  @FXML private JFXButton nodeTableBtn;
-
   //  private Button resetView;
 
   private boolean startEdgeFlag = true;
@@ -281,6 +278,11 @@ public class AdminPageController extends SubPage {
                     }
                   });
 
+          addEdge.setOnAction(
+              event -> {
+                createEdge(
+                    (String) startLocationBox.getValue(), (String) endLocationBox.getValue());
+              });
           // Resize the adorners so that they are easier to see
           // Only has to happen once on page load
 
@@ -859,11 +861,58 @@ public class AdminPageController extends SubPage {
     mapInsertController.selectCircle(c);
   }
 
-  /*
+  private void createEdge(String startNodeString, String endNodeString) {
+
+    if (startNodeString == null || endNodeString == null) {
+      System.out.println("invalid entry");
+    }
+
+    MapController.CircleEx startNode =
+        (MapController.CircleEx) mapInsertController.getAdornerPane().lookup("#" + startNodeString);
+    MapController.CircleEx endNode =
+        (MapController.CircleEx) mapInsertController.getAdornerPane().lookup("#" + endNodeString);
+
+    try {
+      startNodeID = startNode.getId();
+      startx = startNode.getCenterX();
+      starty = startNode.getCenterY();
+    } catch (Exception exception) {
+      System.out.println("Could not identify start point");
+      return;
+    }
+
+    try {
+      endNodeID = endNode.getId();
+      endx = endNode.getCenterX();
+      endy = endNode.getCenterY();
+    } catch (Exception exception) {
+      System.out.println("Could not identify end point");
+      return;
+    }
+
+    // creating the line and adding as a child to the pane
+    String edgeID = startNodeID + "_" + endNodeID;
+    Edge ed = new Edge(edgeID, startNodeID, endNodeID);
+
+    // JDBCUtils.insert(3, ed, "EDGE");
+    // JDBCUtils.insert(JDBCUtils.insertString(ed));
+
+    try {
+      //          DatabaseQueryAdministrator.insertEdge(ed);
+      JDBCUtils.insert(3, ed, "Edge");
+    } catch (Exception exception) {
+      System.out.println("nodeEdgeDispController.createEdgecb");
+      return;
+    }
+    //        CSV.saveEdge(ed);
+    mapInsertController.clearSelection();
+    mapInsertController.selectLine(mapInsertController.addEdgeLine(ed));
+  }
+
   private void checkBoxCreateEdge(MapController.CircleEx endNode) {
     // creates an edge between two selected points when the checkbox is selected
     ArrayList<MapController.CircleEx> selectedNodes = mapInsertController.getSelectedNodes();
-    if (addEdgecb.isSelected() && selectedNodes.size() == 1 && endNode != selectedNodes.get(0)) {
+    if (selectedNodes.size() == 1 && endNode != selectedNodes.get(0)) {
 
       MapController.CircleEx lastSelectedNode = selectedNodes.get(0);
       try {
@@ -902,7 +951,7 @@ public class AdminPageController extends SubPage {
       mapInsertController.clearSelection();
       mapInsertController.selectLine(mapInsertController.addEdgeLine(ed));
     }
-  }*/
+  }
 
   Line edgeCreationLine = null;
 
