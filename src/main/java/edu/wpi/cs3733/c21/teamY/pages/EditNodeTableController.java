@@ -26,6 +26,9 @@ public class EditNodeTableController extends SubPage {
   @FXML public JFXTreeTableView<TableNodes> treeTable;
   @FXML public JFXButton expandBtn;
   @FXML public FontAwesomeIconView expandIcon;
+  @FXML public JFXButton employeeTableBtn;
+  @FXML public JFXButton nodeTableBtn;
+  @FXML public JFXButton exportBtn;
 
   public JFXTreeTableColumn<TableNodes, String> nodeIDCol;
   public JFXTreeTableColumn<TableNodes, String> nodeTypeCol;
@@ -47,6 +50,9 @@ public class EditNodeTableController extends SubPage {
     //    treeTable.setPrefHeight(300);
     treeTable.setFixedCellSize(30);
     expandBtn.setOnAction(e -> expandTable(e));
+    employeeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditEmployeeTable.fxml"));
+    nodeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditNodeTable.fxml"));
+    exportBtn.setOnAction(e -> exportToCSV());
 
     // tree table stuff
 
@@ -358,6 +364,10 @@ public class EditNodeTableController extends SubPage {
   @Override
   public void loadNavigationBar() {
     parent.setCenterColumnWidth(1000);
+  }
+
+  private void exportToCSV() {
+    // what goes here
   }
 
   private void expandTable(ActionEvent e) {

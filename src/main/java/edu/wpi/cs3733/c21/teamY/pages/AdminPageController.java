@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
@@ -39,6 +40,10 @@ public class AdminPageController extends SubPage {
   //  private Button toHomeBtn;
   @FXML private TextField newX;
   @FXML private TextField newY;
+
+  @FXML private JFXButton employeeTableBtn;
+  @FXML private JFXButton nodeTableBtn;
+
   //  private Button resetView;
 
   private boolean startEdgeFlag = true;
@@ -76,11 +81,6 @@ public class AdminPageController extends SubPage {
   @FXML private HBox header;
   @FXML private VBox mapBox;
   @FXML private HBox hBox;
-
-  //  @FXML private JFXButton loadNodesButton; //bye bye fml
-
-  @FXML private JFXButton deleteButton;
-  @FXML private JFXButton export;
 
   @FXML private JFXButton addEdge;
 
@@ -129,8 +129,6 @@ public class AdminPageController extends SubPage {
           kn.start();
         });
 
-    export.setOnAction(e -> exportToCSV());
-
     Platform.runLater(
         () -> {
           addMapPage();
@@ -169,6 +167,7 @@ public class AdminPageController extends SubPage {
                     // Should be improved
                     if (e.isShiftDown()) {
                       shiftPressed = true;
+                      System.out.println("Shift pressed");
                     } else {
                       shiftPressed = false;
                     }
@@ -180,17 +179,33 @@ public class AdminPageController extends SubPage {
                   e -> {
                     mapInsertController.scrollOnRelease(e);
 
+                    if (e.getCode() == KeyCode.DELETE) {
+                      removeSelected();
+                      System.out.println("Delete key pressed.");
+                    }
+                    if (e.getCode() == KeyCode.UP) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, 0.1);
+                      System.out.println("UP key pressed.");
+                    }
+                    if (e.getCode() == KeyCode.DOWN) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, -0.1);
+                      System.out.println("DOWN key pressed.");
+                    }
+                    if (e.getCode() == KeyCode.LEFT) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), -0.1, 0.0);
+                      System.out.println("LEFT key pressed.");
+                    }
+                    if (e.getCode() == KeyCode.RIGHT) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.1, 0.0);
+                      System.out.println("RIGHT key pressed.");
+                    }
+
                     if (e.isShiftDown()) {
                       shiftPressed = true;
                     } else {
                       shiftPressed = false;
                     }
                   });
-
-          deleteButton.setOnAction(
-              e -> {
-                removeSelected();
-              });
 
           // selectNewAlgo.setText("Select Algorithm");
 
@@ -281,6 +296,7 @@ public class AdminPageController extends SubPage {
           assignContextMenuActions();
         });
   }
+
 
   private void exportToCSV() {
     try {

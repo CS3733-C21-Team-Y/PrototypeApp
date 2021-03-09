@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
 import com.jfoenix.controls.*;
+import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
@@ -22,6 +23,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
   @FXML private JFXTextField doctor;
   @FXML private StackPane stackPane;
   @FXML private JFXComboBox employeeComboBox;
+  AutoCompleteComboBoxListener<String> employeeAuto;
 
   private Settings settings;
 
@@ -38,6 +40,8 @@ public class MedicineSubpageController extends GenericServiceFormPage {
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
     clearBtn.setOnAction(e -> clearButton());
+
+    employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
   }
 
   private void buttonClicked(ActionEvent e) {

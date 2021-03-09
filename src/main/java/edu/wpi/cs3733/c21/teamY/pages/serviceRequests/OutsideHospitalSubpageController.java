@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
 import com.jfoenix.controls.*;
+import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
@@ -21,6 +22,8 @@ public class OutsideHospitalSubpageController extends GenericServiceFormPage {
   @FXML private JFXTextField locationTextField;
   @FXML private JFXDatePicker serviceDate;
   @FXML private JFXComboBox employeeComboBox;
+
+  AutoCompleteComboBoxListener<String> employeeAuto;
 
   @FXML private StackPane stackPane;
 
@@ -49,6 +52,8 @@ public class OutsideHospitalSubpageController extends GenericServiceFormPage {
     } else {
       employeeComboBox.setVisible(false);
     }
+
+    employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
   }
 
   @FXML

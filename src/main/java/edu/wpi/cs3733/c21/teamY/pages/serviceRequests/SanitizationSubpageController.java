@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
 import com.jfoenix.controls.*;
+import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
@@ -19,6 +20,11 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
   @FXML private JFXComboBox biohazardLevel;
   @FXML private JFXComboBox employeeComboBox;
   // @FXML private JFXTextField chemHazardLevel;
+
+  AutoCompleteComboBoxListener<String> locationAuto;
+  AutoCompleteComboBoxListener<String> urgencyAuto;
+  AutoCompleteComboBoxListener<String> employeeAuto;
+  AutoCompleteComboBoxListener<String> biohazardAuto;
 
   @FXML private JFXTextArea description;
 
@@ -78,6 +84,11 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
     } else {
       employeeComboBox.setVisible(false);
     }
+
+    locationAuto = new AutoCompleteComboBoxListener<>(locationField);
+    urgencyAuto = new AutoCompleteComboBoxListener<>(urgency);
+    employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
+    biohazardAuto = new AutoCompleteComboBoxListener<>(biohazardLevel);
   }
 
   private void buttonClicked(ActionEvent e) {
