@@ -174,6 +174,10 @@ public class MainPageController {
     this.signInBtn.setText("Welcome\n" + this.settings.getCurrentUsername());
   }
 
+  public void updateProfileBtn(String message) {
+    this.signInBtn.setText(message);
+  }
+
   private void buttonClicked(ActionEvent e) {
 
     System.out.println("clicked");
@@ -194,6 +198,7 @@ public class MainPageController {
       // I looked - Pat
       Settings.getSettings().logout();
       // Insert Code to sign out
+      instance.updateProfileBtn("Not Signed In");
       instance.drawByPermissions();
       instance.loadRightSubPage("LoginPage.fxml");
     } else if (e.getSource() == origServiceRequestBtn) {

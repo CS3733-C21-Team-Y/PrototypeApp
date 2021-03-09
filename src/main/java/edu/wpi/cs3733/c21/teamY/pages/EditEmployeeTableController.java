@@ -36,6 +36,7 @@ public class EditEmployeeTableController extends SubPage {
   public JFXTreeTableColumn<TableEmployee, String> emailCol;
   public JFXTreeTableColumn<TableEmployee, String> accessLevelCol;
   public JFXTreeTableColumn<TableEmployee, String> primaryWorkspaceCol;
+  public JFXTreeTableColumn<TableEmployee, String> saltCol;
 
   private boolean expanded = false;
 
@@ -118,6 +119,16 @@ public class EditEmployeeTableController extends SubPage {
             return param.getValue().getValue().getPrimaryWorkspace();
           } else {
             return primaryWorkspaceCol.getComputedValue(param);
+          }
+        });
+    saltCol = new JFXTreeTableColumn<>("Salt");
+    saltCol.setPrefWidth(80);
+    saltCol.setCellValueFactory(
+        (TreeTableColumn.CellDataFeatures<TableEmployee, String> param) -> {
+          if (saltCol.validateValue(param)) {
+            return param.getValue().getValue().getSalt();
+          } else {
+            return saltCol.getComputedValue(param);
           }
         });
 
@@ -261,6 +272,26 @@ public class EditEmployeeTableController extends SubPage {
             throwables.printStackTrace();
           }
         });
+    saltCol.setCellFactory(
+        (TreeTableColumn<TableEmployee, String> param) ->
+            new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+    saltCol.setOnEditCommit(
+        (TreeTableColumn.CellEditEvent<TableEmployee, String> t) -> {
+          t.getTreeTableView()
+              .getTreeItem(t.getTreeTablePosition().getRow())
+              .getValue()
+              .getSalt()
+              .set(t.getNewValue());
+          try {
+            DataOperations.update(
+                new Employee(
+                    t.getTreeTableView()
+                        .getTreeItem(t.getTreeTablePosition().getRow())
+                        .getValue()));
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+        });
 
     treeTable.setShowRoot(false);
     treeTable.setEditable(true);
@@ -273,7 +304,8 @@ public class EditEmployeeTableController extends SubPage {
             passwordCol,
             emailCol,
             accessLevelCol,
-            primaryWorkspaceCol);
+            primaryWorkspaceCol,
+            saltCol);
     setList();
     setColumns();
     Platform.runLater(

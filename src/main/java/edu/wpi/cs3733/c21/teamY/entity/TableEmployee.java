@@ -12,6 +12,7 @@ public class TableEmployee extends RecursiveTreeObject<TableEmployee> {
   public StringProperty email;
   public StringProperty accessLevel;
   public StringProperty primaryWorkspace;
+  public StringProperty salt;
 
   public TableEmployee(Employee employee) {
     this.firstName = new SimpleStringProperty(employee.getFirstName());
@@ -21,6 +22,7 @@ public class TableEmployee extends RecursiveTreeObject<TableEmployee> {
     this.email = new SimpleStringProperty(employee.getEmail());
     this.accessLevel = new SimpleStringProperty(employee.getAccessLevel() + "");
     this.primaryWorkspace = new SimpleStringProperty(employee.getPrimaryWorkspace());
+    this.salt = new SimpleStringProperty(employee.getSalt());
   }
 
   public StringProperty getFirstName() {
@@ -49,5 +51,9 @@ public class TableEmployee extends RecursiveTreeObject<TableEmployee> {
 
   public StringProperty getPrimaryWorkspace() {
     return this.primaryWorkspace;
+  }
+
+  public StringProperty getSalt() {
+    return this.salt;
   }
 }
