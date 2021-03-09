@@ -281,6 +281,10 @@ public class AdminPageController extends SubPage {
                     }
                   });
 
+          addEdge.setOnAction(
+              event -> {
+                checkBoxCreateEdge(rightClickedNode);
+              });
           // Resize the adorners so that they are easier to see
           // Only has to happen once on page load
 
@@ -857,11 +861,10 @@ public class AdminPageController extends SubPage {
     mapInsertController.selectCircle(c);
   }
 
-  /*
   private void checkBoxCreateEdge(MapController.CircleEx endNode) {
     // creates an edge between two selected points when the checkbox is selected
     ArrayList<MapController.CircleEx> selectedNodes = mapInsertController.getSelectedNodes();
-    if (addEdgecb.isSelected() && selectedNodes.size() == 1 && endNode != selectedNodes.get(0)) {
+    if (addEdge.isPressed() && selectedNodes.size() == 1 && endNode != selectedNodes.get(0)) {
 
       MapController.CircleEx lastSelectedNode = selectedNodes.get(0);
       try {
@@ -900,7 +903,7 @@ public class AdminPageController extends SubPage {
       mapInsertController.clearSelection();
       mapInsertController.selectLine(mapInsertController.addEdgeLine(ed));
     }
-  }*/
+  }
 
   Line edgeCreationLine = null;
 
