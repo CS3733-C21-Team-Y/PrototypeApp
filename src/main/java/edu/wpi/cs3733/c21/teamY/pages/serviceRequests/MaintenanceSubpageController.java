@@ -1,9 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
@@ -26,7 +23,7 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
   @FXML private JFXComboBox category;
   @FXML private JFXTextArea description;
   @FXML private JFXComboBox urgency;
-  @FXML private JFXTextField date2;
+  @FXML private JFXDatePicker date2;
   @FXML private JFXComboBox locationField;
   @FXML private StackPane stackPane;
   @FXML private JFXComboBox employeeComboBox;
@@ -100,7 +97,7 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
     category.setValue(null);
     urgency.setValue(null);
     description.setText("");
-    date2.setText("");
+    date2.setValue(null);
     locationField.setValue(null);
     employeeComboBox.getSelectionModel().clearSelection();
   }
@@ -118,7 +115,7 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
     if (category.getValue() == null
         || description.getText().equals("")
         || urgency.getValue() == null
-        || date2.getText().equals("")
+        || date2.getValue()==null
         || locationField.getValue() == null
         || (Settings.getSettings().getCurrentPermissions() == 3
             && employeeComboBox.getValue() == null)) {
@@ -131,7 +128,7 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
       if (description.getText().equals("")) {
         incomplete(description);
       }
-      if (date2.getText().equals("")) {
+      if (date2.getValue()==null) {
         incomplete(date2);
       }
       if (locationField.getValue() == null) {
@@ -152,7 +149,7 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
       service.setLocation((String) locationField.getValue());
       service.setDescription(description.getText());
       service.setAdditionalInfo("Urgency: " + (String) urgency.getValue());
-      service.setDate(date2.getText());
+      service.setDate(date2.getValue().toString());
       service.setRequester(settings.getCurrentUsername());
       if (settings.getCurrentPermissions() == 3) {
         service.setEmployee((String) employeeComboBox.getValue());
