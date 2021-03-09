@@ -84,9 +84,9 @@
                               <Insets left="10.0" top="75.0" />
                            </GridPane.margin>
                         </GridPane>
-                        <JFXNodesList GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                        <JFXNodesList GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                            <GridPane.margin>
-                              <Insets bottom="-15.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="-10.0" left="10.0" right="10.0" top="10.0" />
                            </GridPane.margin>
                            <children>
                               <FontAwesomeIconView fill="#8d8eae" glyphName="MAP_SIGNS" rotate="-180.0" size="25" />
@@ -117,6 +117,11 @@
                               </JFXButton>
                            </children>
                         </JFXNodesList>
+                        <JFXButton fx:id="aboutBtn" contentDisplay="GRAPHIC_ONLY" GridPane.columnIndex="3">
+                           <graphic>
+                              <FontAwesomeIconView fill="#8d8eae" glyphName="INFO_CIRCLE" size="20" />
+                           </graphic>
+                        </JFXButton>
                      </children>
                      <VBox.margin>
                         <Insets bottom="10.0" left="5.0" right="15.0" top="15.0" />

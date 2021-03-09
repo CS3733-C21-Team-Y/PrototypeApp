@@ -21,7 +21,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
 
 public class PathfindingPageController extends SubPage {
 
@@ -43,6 +42,8 @@ public class PathfindingPageController extends SubPage {
   @FXML private JFXButton parkingBtn;
   @FXML private JFXButton noStairsBtn;
   @FXML private GridPane overlayGridPane;
+  @FXML private JFXButton aboutBtn;
+  @FXML private JFXButton swapButton;
 
   //  @FXML private Slider zoomSlider;
   //  @FXML private Button upButton;
@@ -119,6 +120,8 @@ public class PathfindingPageController extends SubPage {
     overlayGridPane.toFront();
 
     //    sideMenuVBox.setPickOnBounds(false);
+    aboutBtn.setOnAction(e -> buttonClicked(e));
+    swapButton.setOnAction(e -> buttonClicked(e));
     exitDirectionBtn.setOnAction(e -> updateTextDirectionBox());
     //         attaches a handler to the button with a lambda expression
 
@@ -526,14 +529,11 @@ public class PathfindingPageController extends SubPage {
   // button event handler
   @FXML
   private void buttonClicked(ActionEvent e) {
-    // error handling for FXMLLoader.load
-    try {
-      // initializing stage
-      Stage stage = null;
-
-      // display new stage
-      stage.show();
-    } catch (Exception exp) {
+    if (e.getSource() == aboutBtn) {
+      parent.setCenterColumnWidth(0);
+      parent.loadRightSubPage("Test.fxml");
+    } else if (e.getSource() == swapButton) {
+      parent.loadRightSubPage("AboutPage.fxml");
     }
   }
 
