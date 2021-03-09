@@ -173,29 +173,44 @@ public class ServiceRequestManagerSubpageController extends SubPage {
   @FXML
   private void pageButtonClicked(ActionEvent e) {
 
-    if (e.getSource() == laundryBtn) parent.loadRightSubPage("serviceRequests/LaundrySubpage.fxml");
-    else if (e.getSource() == maintenanceBtn)
+    if (e.getSource() == laundryBtn) {
+      parent.loadRightSubPage("serviceRequests/LaundrySubpage.fxml");
+      parent.setCenterColumnWidth(0);
+    } else if (e.getSource() == maintenanceBtn) {
       parent.loadRightSubPage("serviceRequests/MaintenanceSubpage.fxml");
-    else if (e.getSource() == AVBtn)
+    } else if (e.getSource() == AVBtn) {
       parent.loadRightSubPage("serviceRequests/AudioVisualSubPage.fxml");
-    else if (e.getSource() == floralBtn)
+      parent.setCenterColumnWidth(0);
+    } else if (e.getSource() == floralBtn) {
       parent.loadRightSubPage("serviceRequests/FloralDeliverySubpage.fxml");
-    else if (e.getSource() == languageBtn)
+      parent.setCenterColumnWidth(0);
+    } else if (e.getSource() == languageBtn) {
       parent.loadRightSubPage("serviceRequests/LanguageSubpage.fxml");
-    else if (e.getSource() == giftBtn)
+      parent.setCenterColumnWidth(0);
+    } else if (e.getSource() == giftBtn) {
       parent.loadRightSubPage("serviceRequests/GiftDeliverySubpage.fxml");
-    else if (e.getSource() == medicineBtn)
+      parent.setCenterColumnWidth(0);
+    } else if (e.getSource() == medicineBtn) {
       parent.loadRightSubPage("serviceRequests/MedicineSubpage.fxml");
-    else if (e.getSource() == securityBtn)
+      parent.setCenterColumnWidth(0);
+    } else if (e.getSource() == securityBtn) {
       parent.loadRightSubPage("serviceRequests/SecuritySubpage.fxml");
-    else if (e.getSource() == insideHosBtn)
+      parent.setCenterColumnWidth(0);
+    } else if (e.getSource() == insideHosBtn) {
       parent.loadRightSubPage("serviceRequests/InsideHospitalSubpage.fxml");
-    else if (e.getSource() == computerBtn)
+      parent.setCenterColumnWidth(0);
+    } else if (e.getSource() == computerBtn) {
       parent.loadRightSubPage("serviceRequests/ITSubpage.fxml");
-    else if (e.getSource() == outsideHosBtn)
+      parent.setCenterColumnWidth(0);
+    } else if (e.getSource() == outsideHosBtn) {
       parent.loadRightSubPage("serviceRequests/OutsideHospitalSubpage.fxml");
-    else if (e.getSource() == sanitizationBtn)
+      parent.setCenterColumnWidth(0);
+    } else if (e.getSource() == sanitizationBtn) {
       parent.loadRightSubPage("serviceRequests/SanitizationSubpage.fxml");
-    else if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestNavigator.fxml");
+      parent.setCenterColumnWidth(0);
+    } else if (e.getSource() == backBtn) {
+      parent.loadRightSubPage("ServiceRequestNavigator.fxml");
+      parent.setCenterColumnWidth(0);
+    }
   }
 }
