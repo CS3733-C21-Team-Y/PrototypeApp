@@ -160,7 +160,8 @@ public class AStarAlgorithm {
     double cross_product = (node2.xcoord * P.ycoord - node2.ycoord * P.xcoord);
 
     // The points 2 and 3 are on-top of each other
-    if (P.longName.equals(node2.longName)) {
+    if (P.nodeType.equals(node2.nodeType)
+        && (P.nodeType.equals("STAI") || P.nodeType.equals("ELEV"))) {
       return 500.0;
     }
 
@@ -190,7 +191,7 @@ public class AStarAlgorithm {
     return strDouble;
   }
 
-  public static ArrayList<String> textDirections(ArrayList<Node> path) {
+  public static ArrayList<String> textDirections(ArrayList<Node> path, ArrayList<String> ends) {
 
     ArrayList<String> pathDirections = new ArrayList<>();
 
@@ -292,6 +293,9 @@ public class AStarAlgorithm {
                 + nodeToRealDist(path.get(i + 1), path.get(i + 2))
                 + " ft.");
       }
+      if (ends.contains(path.get(i + 2).nodeID)) {
+        pathDirections.add("You have reached " + path.get(i + 2).longName);
+      }
     }
 
     for (int j = 0; j < pathDirections.size() - 1; j++) {
@@ -323,7 +327,6 @@ public class AStarAlgorithm {
         j--;
       }
     }
-    pathDirections.add("You have reached your destination.");
     return pathDirections;
   }
 

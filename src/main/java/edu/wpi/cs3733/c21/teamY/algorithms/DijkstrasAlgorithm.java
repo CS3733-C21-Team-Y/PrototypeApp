@@ -236,10 +236,12 @@ public class DijkstrasAlgorithm {
       if (minNode.nodeType.equals(detourType)) {
         for (int j = 0; j < path.size(); j++) {
           if (path.get(j).getNeighbors().contains(minNode) || path.get(j) == minNode) {
+
             endLocations.add(end, min);
             return endLocations;
           }
           if (endLocations.contains(path.get(j).nodeID)) {
+            System.out.println("Detour end location" + path.get(j).longName);
             end++;
           }
         }

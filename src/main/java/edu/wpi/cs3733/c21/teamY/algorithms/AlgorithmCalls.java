@@ -45,8 +45,8 @@ public class AlgorithmCalls {
     return AStarAlgorithm.directionOfPoint(node1, node2, P);
   }
 
-  public static ArrayList<String> textDirections(ArrayList<Node> path) {
-    return AStarAlgorithm.textDirections(path);
+  public static ArrayList<String> textDirections(ArrayList<Node> path, ArrayList<String> ends) {
+    return AStarAlgorithm.textDirections(path, ends);
   }
 
   public static ArrayList<Node> dijkstraPath(Graph g, String startID, ArrayList<String> goalIDs) {

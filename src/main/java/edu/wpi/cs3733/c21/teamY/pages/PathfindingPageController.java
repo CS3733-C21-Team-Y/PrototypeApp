@@ -68,6 +68,7 @@ public class PathfindingPageController extends SubPage {
   private ArrayList<Node> pathNodes = new ArrayList<Node>(); // Used to store path between floors
   private ComboBox lastSelectedComboBox = null;
   ArrayList<String> endLocations = new ArrayList<>();
+  Boolean addDest = false; // Toggle state of the add destinations button
   // Used to save start/end node on a floor
   MapController.CircleEx startNode;
   MapController.CircleEx endNode;
@@ -194,6 +195,10 @@ public class PathfindingPageController extends SubPage {
           startLocationBox.setValue(endLocationBox.getValue());
           endLocationBox.setValue(startLoc);
           calculatePath();
+        });
+    multDestinationBtn.setOnAction(
+        e -> {
+          addDest = true;
         });
 
     startLocationBox.setOnAction(e -> lastSelectedComboBox = startLocationBox);
@@ -382,6 +387,22 @@ public class PathfindingPageController extends SubPage {
       startLocationBox.setValue(start);
       endLocationBox.setValue(end);
     }
+    // Detour handling for multiple destinations
+    System.out.println("End size " + endLocations.size());
+    endLocations.remove(endLocations.size() - 1);
+    int size = endLocations.size();
+    for (int k = 0; k < size; k++) {
+      System.out.println("Inside loop");
+      if ((graph.nodeFromID(endLocations.get(k)).nodeType.equals("REST"))
+          || (graph.nodeFromID(endLocations.get(k)).nodeType.equals("KIOS"))
+          || (graph.nodeFromID(endLocations.get(k)).nodeType.equals("FOOD"))) {
+        System.out.println("Removing " + graph.nodeFromID(endLocations.get(k)).longName);
+        endLocations.remove(endLocations.get(k));
+        size--;
+      }
+    }
+    addDest = true;
+
     calculatePath();
   }
   // NEAREST NODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -596,11 +617,23 @@ public class PathfindingPageController extends SubPage {
       textDirectionViewer.setVisible(true);
     }
 
-    ArrayList<String> directionList = AlgorithmCalls.textDirections(pathNodes);
+    ArrayList<String> directionList = AlgorithmCalls.textDirections(pathNodes, endLocations);
     System.out.println(directionList.size());
     for (String direction : directionList) {
 
       Label newLabel = new Label(direction);
+      for (String endLocation : endLocations) {
+        if (direction.contains(graph.nodeFromID(endLocation).longName)
+            && direction.contains("reached")) {
+          newLabel.setStyle("-fx-font-weight:BOLD;");
+        }
+      }
+      if (direction.contains("to go to floor")) {
+        //newLabel.setStyle("-fx-font-style:italic;");
+        newLabel.setStyle("-fx-text-fill: GREEN");
+        // newLabel.setStyle("-fx-font-weight:BOLD;");
+      }
+
       textDirectionViewer.getChildren().add(newLabel);
       newLabel.toFront();
     }
@@ -659,10 +692,10 @@ public class PathfindingPageController extends SubPage {
       String endID =
           graph.longNodes.get((String) endLocationBox.getValue())
               .nodeID; // (String) endLocationBox.getValue();
+      endLocations.add(endID);
       String startID =
           graph.longNodes.get((String) startLocationBox.getValue())
               .nodeID; // (String) startLocationBox.getValue();
-      endLocations.add(endID);
 
       if (graph.longNodes.get((String) startLocationBox.getValue()).nodeType.equals("PARK")) {
         try {
@@ -682,21 +715,16 @@ public class PathfindingPageController extends SubPage {
 
       ArrayList<Node> algoNodes = runAlgo(graph, startID, endLocations, noType);
 
-      boolean detour = false;
       if (bathroom) {
         endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "REST");
-        detour = true;
+        algoNodes = runAlgo(graph, startID, endLocations, noType);
       }
       if (restaurant) {
         endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "FOOD");
-        detour = true;
+        algoNodes = runAlgo(graph, startID, endLocations, noType);
       }
       if (kiosk) {
         endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "KIOS");
-        detour = true;
-      }
-      // If we've taken a detour, regenerate path
-      if (detour) {
         algoNodes = runAlgo(graph, startID, endLocations, noType);
       }
 
@@ -704,6 +732,7 @@ public class PathfindingPageController extends SubPage {
       drawPath(pathNodes);
 
       generateTextDirections(pathNodes);
+      addDest = false;
     }
   }
 
@@ -770,7 +799,9 @@ public class PathfindingPageController extends SubPage {
   private void clearPath() {
     mapInsertController.clearSelection();
     pathNodes = new ArrayList<Node>();
-    endLocations = new ArrayList<String>();
+    if (!addDest) {
+      endLocations = new ArrayList<String>();
+    }
   }
 
   public JFXButton getBathroomBtn() {
