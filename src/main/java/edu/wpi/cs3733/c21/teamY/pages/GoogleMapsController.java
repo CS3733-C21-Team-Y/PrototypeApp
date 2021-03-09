@@ -35,7 +35,7 @@ public class GoogleMapsController extends SubPage
       directionsRenderer.clearDirections();
     }
     DirectionsRequest request =
-        new DirectionsRequest(from.get(), "42.301099, -71.127548", TravelModes.DRIVING, false);
+        new DirectionsRequest(from.get(), "42.30173, -71.12738", TravelModes.DRIVING, false);
     directionsRenderer = new DirectionsRenderer(true, mapView.getMap(), directionsPane);
     directionsService.getRoute(request, this, directionsRenderer);
   }
