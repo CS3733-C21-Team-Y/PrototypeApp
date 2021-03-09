@@ -25,6 +25,9 @@ public class EditEmployeeTableController extends SubPage {
   @FXML public JFXTreeTableView<TableEmployee> treeTable;
   @FXML public JFXButton expandBtn;
   @FXML public FontAwesomeIconView expandIcon;
+  @FXML public JFXButton employeeTableBtn;
+  @FXML public JFXButton nodeTableBtn;
+  @FXML public JFXButton exportBtn;
 
   public JFXTreeTableColumn<TableEmployee, String> firstnameCol;
   public JFXTreeTableColumn<TableEmployee, String> lastnameCol;
@@ -43,6 +46,9 @@ public class EditEmployeeTableController extends SubPage {
   public void initialize() {
     treeTable.setFixedCellSize(30);
     expandBtn.setOnAction(e -> expandTable(e));
+    employeeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditEmployeeTable.fxml"));
+    nodeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditNodeTable.fxml"));
+    exportBtn.setOnAction(e -> exportToCSV());
 
     firstnameCol = new JFXTreeTableColumn<>("First Name");
     firstnameCol.setPrefWidth(80);
@@ -279,6 +285,10 @@ public class EditEmployeeTableController extends SubPage {
   @Override
   public void loadNavigationBar() {
     parent.setCenterColumnWidth(1000);
+  }
+
+  private void exportToCSV() {
+    // what goes here
   }
 
   private void expandTable(ActionEvent e) {

@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls;
+import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.*;
@@ -32,6 +33,9 @@ public class PathfindingPageController extends SubPage {
   //  @FXML private JFXButton resetView;
   @FXML private ComboBox startLocationBox;
   @FXML private ComboBox endLocationBox;
+
+  AutoCompleteComboBoxListener<String> startLocationAutoFill;
+  AutoCompleteComboBoxListener<String> endLocationAutoFill;
 
   @FXML private JFXButton bathroomBtn;
   @FXML private JFXButton cafeBtn;
@@ -506,7 +510,6 @@ public class PathfindingPageController extends SubPage {
   //    //    }
   //    // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   //  }
-
   private void handleFloorChanged(ActionEvent e, int menuItemIndex) {
     // This should be optimised to only switch if the floor actually changed, but its very fast, so
     // I cant be bothered
@@ -583,11 +586,11 @@ public class PathfindingPageController extends SubPage {
 
   /** resetGraphNodesEdges sets graph, nodes, stairs, to updated values in ActiveGraph */
   private void resetGraphNodesEdges() {
-    try {
-      ActiveGraph.initialize();
-    } catch (Exception exception) {
-      // IT NO WORK
-    }
+    //    try {
+    //      ActiveGraph.initialize();
+    //    } catch (Exception exception) {
+    //      // IT NO WORK
+    //    }
     nodes = ActiveGraph.getNodes();
     edges = ActiveGraph.getEdges();
     graph = ActiveGraph.getActiveGraph();
@@ -610,6 +613,8 @@ public class PathfindingPageController extends SubPage {
         endLocationBox.getItems().add(name);
       }
     }
+    startLocationAutoFill = new AutoCompleteComboBoxListener<>(startLocationBox);
+    endLocationAutoFill = new AutoCompleteComboBoxListener<>(endLocationBox);
   }
 
   /**

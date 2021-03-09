@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
@@ -25,6 +26,10 @@ public class LanguageSubpageController extends GenericServiceFormPage {
   @FXML private JFXTextField locationField;
   @FXML private JFXTextArea description;
   @FXML private JFXComboBox employeeComboBox;
+
+  AutoCompleteComboBoxListener<String> employeeAuto;
+  AutoCompleteComboBoxListener<String> urgencyAuto;
+  AutoCompleteComboBoxListener<String> langAuto;
 
   @FXML private StackPane stackPane;
 
@@ -64,6 +69,10 @@ public class LanguageSubpageController extends GenericServiceFormPage {
     } else {
       employeeComboBox.setVisible(false);
     }
+
+    langAuto = new AutoCompleteComboBoxListener<>(langOptions);
+    employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
+    urgencyAuto = new AutoCompleteComboBoxListener<>(urgency);
   }
 
   private void buttonClicked(ActionEvent e) {

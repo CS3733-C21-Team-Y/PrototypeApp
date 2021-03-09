@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
@@ -25,6 +26,9 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
   @FXML private JFXTextField description;
   @FXML private JFXDatePicker datePicker;
   @FXML private JFXComboBox employeeComboBox;
+  AutoCompleteComboBoxListener<String> locationAuto;
+  AutoCompleteComboBoxListener<String> typeAuto;
+  AutoCompleteComboBoxListener<String> employeeAuto;
 
   private Settings settings;
 
@@ -62,6 +66,10 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
     } else {
       employeeComboBox.setVisible(false);
     }
+
+    employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
+    typeAuto = new AutoCompleteComboBoxListener<>(giftType);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationField);
   }
 
   private void buttonClicked(ActionEvent e) {

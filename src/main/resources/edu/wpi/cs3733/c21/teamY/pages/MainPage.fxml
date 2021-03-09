@@ -50,7 +50,7 @@
                         </VBox>
                   <HBox alignment="CENTER" styleClass="darkPane" stylesheets="@../UIStyles.css" GridPane.rowIndex="2">
                      <children>
-                        <JFXButton fx:id="exitBtn" contentDisplay="GRAPHIC_ONLY" prefHeight="300.0" prefWidth="300.0" ripplerFill="#efeff9" styleClass="darkPane" stylesheets="@../UIStyles.css">
+                        <JFXButton fx:id="exitBtn" contentDisplay="TOP" prefHeight="300.0" prefWidth="300.0" ripplerFill="#efeff9" style="-fx-background-color: transparent;" text="Mobile View">
                            <graphic>
                               <FontAwesomeIconView fill="#8d8ea4" glyphName="SIGN_OUT" size="45" text="" />
                            </graphic>
@@ -81,12 +81,12 @@
                         </JFXButton>
                         <JFXButton fx:id="origServiceRequestBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Service Requests" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
                            <graphic>
-                              <FontAwesomeIconView fill="#8d8ea4" glyphName="COG" size="40" />
+                              <FontAwesomeIconView fill="#8d8ea4" glyphName="CHECK_SQUARE_ALT" size="40" />
                            </graphic>
                         </JFXButton>
                         <JFXButton fx:id="origAdminToolsBtn" buttonType="RAISED" contentDisplay="TOP" maxHeight="90.0" minHeight="90.0" prefHeight="90.0" prefWidth="140.0" style="-fx-border-width: 0; -fx-text-fill: #9b9eb9; -fx-font-size: 14;" styleClass="unselectedMenu" stylesheets="@../UIStyles.css" text="Admin Tools" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
                            <graphic>
-                              <MaterialDesignIconView fill="#8d8ea4" glyphName="WII" size="40" />
+                              <FontAwesomeIconView fill="#8d8ea4" glyphName="COG" size="40" />
                            </graphic>
                         </JFXButton>
                             </children>

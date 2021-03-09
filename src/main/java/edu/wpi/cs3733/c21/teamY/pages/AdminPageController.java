@@ -9,6 +9,7 @@ import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -17,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
@@ -80,11 +82,6 @@ public class AdminPageController extends SubPage {
   @FXML private VBox mapBox;
   @FXML private HBox hBox;
 
-  //  @FXML private JFXButton loadNodesButton; //bye bye fml
-
-  @FXML private JFXButton deleteButton;
-  @FXML private JFXButton export;
-
   @FXML private JFXButton addEdge;
 
   @FXML private Text nodeDisplay = new Text("Selected Node");
@@ -132,11 +129,6 @@ public class AdminPageController extends SubPage {
           kn.start();
         });
 
-    export.setOnAction(e -> exportToCSV());
-
-    employeeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditEmployeeTable.fxml"));
-    nodeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditNodeTable.fxml"));
-
     Platform.runLater(
         () -> {
           addMapPage();
@@ -175,6 +167,7 @@ public class AdminPageController extends SubPage {
                     // Should be improved
                     if (e.isShiftDown()) {
                       shiftPressed = true;
+                      System.out.println("Shift pressed");
                     } else {
                       shiftPressed = false;
                     }
@@ -186,17 +179,33 @@ public class AdminPageController extends SubPage {
                   e -> {
                     mapInsertController.scrollOnRelease(e);
 
+                    if (e.getCode() == KeyCode.DELETE) {
+                      removeSelected();
+                      System.out.println("Delete key pressed.");
+                    }
+                    if (e.getCode() == KeyCode.UP) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, 0.1);
+                      System.out.println("UP key pressed.");
+                    }
+                    if (e.getCode() == KeyCode.DOWN) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, -0.1);
+                      System.out.println("DOWN key pressed.");
+                    }
+                    if (e.getCode() == KeyCode.LEFT) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), -0.1, 0.0);
+                      System.out.println("LEFT key pressed.");
+                    }
+                    if (e.getCode() == KeyCode.RIGHT) {
+                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.1, 0.0);
+                      System.out.println("RIGHT key pressed.");
+                    }
+
                     if (e.isShiftDown()) {
                       shiftPressed = true;
                     } else {
                       shiftPressed = false;
                     }
                   });
-
-          deleteButton.setOnAction(
-              e -> {
-                removeSelected();
-              });
 
           // selectNewAlgo.setText("Select Algorithm");
 
@@ -288,8 +297,16 @@ public class AdminPageController extends SubPage {
         });
   }
 
+
   private void exportToCSV() {
-    // what goes here
+    try {
+      DataOperations.DBtoCSV("NODE");
+      DataOperations.DBtoCSV("EDGE");
+      DataOperations.DBtoCSV("EMPLOYEE");
+      DataOperations.DBtoCSV("SERVICE");
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
   }
 
   private boolean rightClicked;
@@ -573,6 +590,7 @@ public class AdminPageController extends SubPage {
       }
     }
   }
+
   // These are referenced in handler
   MenuItem alignVertical = new MenuItem("Align Nodes Vertically");
   MenuItem alignHorizontal = new MenuItem("Align Nodes Horizontally");
