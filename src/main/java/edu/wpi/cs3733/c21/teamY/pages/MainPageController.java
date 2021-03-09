@@ -252,6 +252,7 @@ public class MainPageController {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    rightPane.toFront();
   }
 
   public void printWords() {
