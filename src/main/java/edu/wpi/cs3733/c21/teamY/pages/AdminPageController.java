@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.SuperSecretSurprise.KnockKnockServer;
 import edu.wpi.cs3733.c21.teamY.algorithms.*;
@@ -86,7 +87,6 @@ public class AdminPageController extends SubPage {
   @FXML private Button toolTip;
   @FXML private Button resetView;
 
-  @FXML private SplitMenuButton selectNewAlgo;
   @FXML private MenuItem depthFirst;
   @FXML private MenuItem breadthFirst;
   @FXML private MenuItem aStar;
@@ -96,8 +96,9 @@ public class AdminPageController extends SubPage {
   //  @FXML private MenuItem setFloorFourPage;
   //  @FXML private MenuItem setFloorFivePage;
 
-  @FXML private ComboBox startLocationBox;
-  @FXML private ComboBox endLocationBox;
+  @FXML private JFXComboBox selectNewAlgo;
+  @FXML private JFXComboBox startLocationBox;
+  @FXML private JFXComboBox endLocationBox;
 
   @FXML private Button secret;
 
@@ -122,6 +123,8 @@ public class AdminPageController extends SubPage {
           KnockKnockServer kn = new KnockKnockServer("ESP_Connection", nodes.get(0), nodes.get(3));
           kn.start();
         });
+
+    // selectNewAlgo.getItems().addAll(depthFirst, breadthFirst, aStar);
 
     Platform.runLater(
         () -> {
