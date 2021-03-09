@@ -125,6 +125,8 @@ public class AdminPageController extends SubPage {
 
     Platform.runLater(
         () -> {
+          editNodeTableController =
+              ((EditNodeTableController) parent.rightPageController).getEditNodeTableController();
           addMapPage();
           loadNodesFromDB();
           resetComboBoxes();
@@ -247,6 +249,8 @@ public class AdminPageController extends SubPage {
                     } else {
                       handleMouseReleased(e);
                     }
+
+                    updateTableSelection();
                   });
 
           selectNewAlgo.setOnAction(e -> selectAlgo(e));
@@ -423,7 +427,7 @@ public class AdminPageController extends SubPage {
       // Node
       if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
         if (creatingEdge) {
-          System.out.println("got here");
+          // System.out.println("got here");
           endEdgeCreation((MapController.CircleEx) e.getPickResult().getIntersectedNode());
           // end the thing
         }
@@ -1228,6 +1232,16 @@ public class AdminPageController extends SubPage {
         // Shift adds node to selection
         mapInsertController.selectCircle((MapController.CircleEx) node);
       }
+    }
+  }
+
+  private void updateTableSelection() {
+    if (mapInsertController.getSelectedNodes().size() == 0) {
+      editNodeTableController.clearSelection();
+    }
+    for (MapController.CircleEx c : mapInsertController.getSelectedNodes()) {
+
+      editNodeTableController.selectRow(c.getId());
     }
   }
 }

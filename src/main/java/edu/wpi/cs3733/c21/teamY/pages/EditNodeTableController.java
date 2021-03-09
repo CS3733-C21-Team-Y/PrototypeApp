@@ -18,8 +18,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.*;
 
 public class EditNodeTableController extends SubPage {
 
@@ -405,5 +404,36 @@ public class EditNodeTableController extends SubPage {
     } catch (Exception e) {
 
     }
+  }
+
+  public void selectRow(String nodeID) {
+    int i = 0;
+    while (nodeIDCol.getCellData(i) != null) {
+      if (nodeIDCol.getCellData(i).equals(nodeID)) {
+        treeTable.getSelectionModel().select(i);
+        treeTable.scrollTo(i);
+        return;
+      }
+      i++;
+    }
+  }
+
+  public void deselectRow(String nodeID) {
+    int i = 0;
+    while (nodeIDCol.getCellData(i) != null) {
+      if (nodeIDCol.getCellData(i).equals(nodeID)) {
+        treeTable.getSelectionModel().select(i);
+        return;
+      }
+      i++;
+    }
+  }
+
+  public void clearSelection() {
+    treeTable.getSelectionModel().clearSelection();
+  }
+
+  public EditNodeTableController getEditNodeTableController() {
+    return this;
   }
 }
