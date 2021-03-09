@@ -115,7 +115,7 @@
                                                 <Insets left="10.0" top="75.0" />
                                             </GridPane.margin>
                                         </GridPane>
-                              <JFXComboBox fx:id="startLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="99999.0" promptText="Start Location" style="-fx-prompt-text-fill: #8d8eae; -fx-base: #efeff9;" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <JFXComboBox fx:id="startLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="99999.0" promptText="Start Location - Press To Select" style="-fx-prompt-text-fill: #8d8eae; -fx-base: #efeff9;" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <effect>
                                     <ColorAdjust brightness="1.0" />
                                  </effect>
@@ -123,7 +123,7 @@
                                     <Insets top="5.0" />
                                  </GridPane.margin>
                               </JFXComboBox>
-                              <JFXComboBox fx:id="endLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="9999.0" promptText="End Location" style="-fx-prompt-text-fill: #8d8eae; -fx-base: #efeff9;" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <JFXComboBox fx:id="endLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="9999.0" promptText="End Location - Press To Select" style="-fx-prompt-text-fill: #8d8eae; -fx-base: #efeff9;" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <effect>
                                     <ColorAdjust brightness="1.0" />
                                  </effect>
