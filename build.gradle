@@ -35,6 +35,8 @@ dependencies {
 
             //Maps
             'com.dlsc:GMapsFX:8.0.0',
+            //fuzzysearch
+            'me.xdrop:fuzzywuzzy:1.3.1'
     )
     compile group: 'de.jensd', name: 'fontawesomefx', version: '8.9'
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
@@ -45,6 +47,7 @@ dependencies {
     compile group: 'com.sun.mail', name: 'javax.mail', version: '1.5'
     compile group: 'org.apache.commons', name: 'commons-email', version: '1.5'
     compile group: 'com.dlsc', name: 'GMapsFX', version: '8.0.0'
+    compile group: 'me.xdrop', name: 'fuzzywuzzy', version: '1.3.1'
 
     testCompile(
             'de.jensd:fontawesomefx:8.9',
@@ -55,6 +58,7 @@ dependencies {
             'org.apache.commons:commons-email:1.5',
             'com.sun.mail:javax.mail:1.5',
             'com.dlsc:GMapsFX:8.0.0',
+            'me.xdrop:fuzzywuzzy:1.3.1',
     )
 
 }

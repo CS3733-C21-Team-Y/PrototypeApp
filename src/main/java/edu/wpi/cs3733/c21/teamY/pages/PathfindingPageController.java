@@ -4,8 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls;
-import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.*;
 import java.sql.SQLException;
@@ -34,8 +34,8 @@ public class PathfindingPageController extends SubPage {
   @FXML private ComboBox startLocationBox;
   @FXML private ComboBox endLocationBox;
 
-  AutoCompleteComboBoxListener<String> startLocationAutoFill;
-  AutoCompleteComboBoxListener<String> endLocationAutoFill;
+  FuzzySearchComboBoxListener startLocationFuzzy;
+  FuzzySearchComboBoxListener endLocationFuzzy;
 
   @FXML private JFXButton bathroomBtn;
   @FXML private JFXButton cafeBtn;
@@ -547,8 +547,8 @@ public class PathfindingPageController extends SubPage {
         endLocationBox.getItems().add(name);
       }
     }
-    startLocationAutoFill = new AutoCompleteComboBoxListener<>(startLocationBox);
-    endLocationAutoFill = new AutoCompleteComboBoxListener<>(endLocationBox);
+    startLocationFuzzy = new FuzzySearchComboBoxListener(startLocationBox);
+    endLocationFuzzy = new FuzzySearchComboBoxListener(endLocationBox);
   }
 
   /**
