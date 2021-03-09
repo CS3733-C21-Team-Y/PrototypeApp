@@ -20,8 +20,8 @@
    <children>
       <GridPane layoutX="14.0" layoutY="182.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="31.5" minWidth="10.0" percentWidth="5.0" prefWidth="14.75" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="310.25" minWidth="10.0" prefWidth="310.25" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -39,26 +39,6 @@
                   <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
-               <children>
-                  <ToggleButton fx:id="assignedBtn" minWidth="100.0" mnemonicParsing="false" rotate="-90.0" style="-fx-base: #5e5da3; -fx-focus-color: #efeff9; -fx-faint-focus-color: #effef9;" text="Assigned" textFill="#efeff9" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                     <font>
-                        <Font name="Calibri" size="15.0" />
-                     </font>
-                     <toggleGroup>
-                        <ToggleGroup fx:id="group" />
-                     </toggleGroup>
-                  </ToggleButton>
-                  <ToggleButton fx:id="myRequestsBtn" minWidth="100.0" mnemonicParsing="false" rotate="-90.0" style="-fx-base: #5e5da3; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="My Requests" textFill="#efeff9" toggleGroup="$group" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Calibri" size="15.0" />
-                     </font>
-                  </ToggleButton>
-                  <ToggleButton fx:id="allRequestsBtn" minWidth="100.0" mnemonicParsing="false" rotate="-90.0" style="-fx-base: #5e5da3; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="All Requests" textFill="#eeffee" toggleGroup="$group" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-                     <font>
-                        <Font name="Calibri" size="15.0" />
-                     </font>
-                  </ToggleButton>
-               </children>
                <GridPane.margin>
                   <Insets right="5.0" />
                </GridPane.margin>
@@ -73,6 +53,7 @@
                <rowConstraints>
                   <RowConstraints minHeight="10.0" percentHeight="10.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
@@ -100,7 +81,7 @@
                         <Insets left="6.0" top="4.0" />
                      </GridPane.margin>
                   </FontAwesomeIconView>
-                  <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #3f417a;" stylesheets="@../UIStyles.css" GridPane.rowIndex="2">
+                  <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #3f417a;" stylesheets="@../UIStyles.css" GridPane.rowIndex="3">
                      <content>
                         <VBox fx:id="serviceBox" maxHeight="9999.0" prefHeight="1440.0" prefWidth="510.0" style="-fx-background-color: #3f417a;">
                            <padding>
@@ -127,6 +108,36 @@
                         <Insets right="-10.0" />
                      </GridPane.margin>
                   </JFXButton>
+                  <GridPane alignment="CENTER" GridPane.rowIndex="2">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <ToggleButton fx:id="allRequestsBtn" minWidth="100.0" mnemonicParsing="false" style="-fx-base: #5e5da3; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="All Requests" textFill="#eeffee" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                           <font>
+                              <Font name="Calibri" size="15.0" />
+                           </font>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="group" />
+                           </toggleGroup>
+                        </ToggleButton>
+                        <ToggleButton fx:id="assignedBtn" minWidth="100.0" mnemonicParsing="false" style="-fx-base: #5e5da3; -fx-focus-color: #efeff9; -fx-faint-focus-color: #effef9;" text="Assigned" textFill="#efeff9" toggleGroup="$group" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                           <font>
+                              <Font name="Calibri" size="15.0" />
+                           </font>
+                        </ToggleButton>
+                        <ToggleButton fx:id="myRequestsBtn" minWidth="100.0" mnemonicParsing="false" style="-fx-base: #5e5da3; -fx-focus-color: #efeff9; -fx-faint-focus-color: #efeff9;" text="My Requests" textFill="#efeff9" toggleGroup="$group" GridPane.halignment="CENTER">
+                           <font>
+                              <Font name="Calibri" size="15.0" />
+                           </font>
+                        </ToggleButton>
+                     </children>
+                  </GridPane>
                </children>
                <padding>
                   <Insets left="3.0" right="10.0" />

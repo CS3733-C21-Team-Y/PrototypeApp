@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
@@ -26,6 +27,7 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
   @FXML private JFXTextField currentLocation;
   @FXML private JFXTextField desiredLocation;
   @FXML private JFXComboBox employeeComboBox;
+  AutoCompleteComboBoxListener<String> employeeAuto;
 
   @FXML private StackPane stackPane;
 
@@ -55,6 +57,7 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
     } else {
       employeeComboBox.setVisible(false);
     }
+    employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
   }
 
   private void buttonClicked(ActionEvent e) {
