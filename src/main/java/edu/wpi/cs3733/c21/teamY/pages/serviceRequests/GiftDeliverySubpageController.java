@@ -1,9 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
@@ -23,7 +20,7 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
   @FXML private JFXButton submitBtn;
   @FXML private JFXComboBox locationField;
   @FXML private JFXComboBox giftType;
-  @FXML private JFXTextField description;
+  @FXML private JFXTextArea description;
   @FXML private JFXDatePicker datePicker;
   @FXML private JFXComboBox employeeComboBox;
   AutoCompleteComboBoxListener<String> locationAuto;
