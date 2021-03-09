@@ -612,7 +612,7 @@ public class AdminPageController extends SubPage {
 
     addNodeMenuItem.setOnAction(
         event -> {
-          createNodeAt(contextMenuX, contextMenuY);
+          createNodeAt(Math.floor(contextMenuX), Math.floor(contextMenuY));
         });
 
     alignHorizontal.setOnAction(
