@@ -46,7 +46,7 @@
                   </GridPane>
                </children>
             </GridPane>
-            <JFXButton fx:id="expandBtn" contentDisplay="GRAPHIC_ONLY" prefHeight="9999.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <JFXButton fx:id="expandBtn" contentDisplay="GRAPHIC_ONLY" prefHeight="9999.0" ripplerFill="#3b3d73" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <graphic>
                   <FontAwesomeIconView fx:id="expandIcon" fill="#5a5c94" glyphName="ANGLE_DOUBLE_LEFT" size="30" />
                </graphic>

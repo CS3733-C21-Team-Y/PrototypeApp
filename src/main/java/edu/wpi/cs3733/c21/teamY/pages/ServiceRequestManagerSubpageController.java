@@ -195,42 +195,43 @@ public class ServiceRequestManagerSubpageController extends SubPage {
 
     if (e.getSource() == laundryBtn) {
       parent.loadRightSubPage("serviceRequests/LaundrySubpage.fxml");
-      parent.setCenterColumnWidth(0);
+      //      parent.setCenterColumnWidth(0);
     } else if (e.getSource() == maintenanceBtn) {
       parent.loadRightSubPage("serviceRequests/MaintenanceSubpage.fxml");
     } else if (e.getSource() == AVBtn) {
-      parent.loadRightSubPage("serviceRequests/AudioVisualSubPage.fxml");
-      parent.setCenterColumnWidth(0);
+      parent.loadRightSubPage("serviceRequests/AudioVisualSubpage.fxml");
+      //      parent.setCenterColumnWidth(0);
     } else if (e.getSource() == floralBtn) {
       parent.loadRightSubPage("serviceRequests/FloralDeliverySubpage.fxml");
-      parent.setCenterColumnWidth(0);
+      //      parent.setCenterColumnWidth(0);
     } else if (e.getSource() == languageBtn) {
       parent.loadRightSubPage("serviceRequests/LanguageSubpage.fxml");
-      parent.setCenterColumnWidth(0);
+      //      parent.setCenterColumnWidth(0);
     } else if (e.getSource() == giftBtn) {
       parent.loadRightSubPage("serviceRequests/GiftDeliverySubpage.fxml");
-      parent.setCenterColumnWidth(0);
+      //      parent.setCenterColumnWidth(0);
     } else if (e.getSource() == medicineBtn) {
       parent.loadRightSubPage("serviceRequests/MedicineSubpage.fxml");
-      parent.setCenterColumnWidth(0);
+      //      parent.setCenterColumnWidth(0);
     } else if (e.getSource() == securityBtn) {
       parent.loadRightSubPage("serviceRequests/SecuritySubpage.fxml");
-      parent.setCenterColumnWidth(0);
+      //      parent.setCenterColumnWidth(0);
     } else if (e.getSource() == insideHosBtn) {
       parent.loadRightSubPage("serviceRequests/InsideHospitalSubpage.fxml");
-      parent.setCenterColumnWidth(0);
+      //      parent.setCenterColumnWidth(0);
     } else if (e.getSource() == computerBtn) {
       parent.loadRightSubPage("serviceRequests/ITSubpage.fxml");
-      parent.setCenterColumnWidth(0);
+      //      parent.setCenterColumnWidth(0);
     } else if (e.getSource() == outsideHosBtn) {
       parent.loadRightSubPage("serviceRequests/OutsideHospitalSubpage.fxml");
-      parent.setCenterColumnWidth(0);
+      //      parent.setCenterColumnWidth(0);
     } else if (e.getSource() == sanitizationBtn) {
       parent.loadRightSubPage("serviceRequests/SanitizationSubpage.fxml");
-      parent.setCenterColumnWidth(0);
+      //      parent.setCenterColumnWidth(0);
     } else if (e.getSource() == backBtn) {
       parent.loadRightSubPage("ServiceRequestNavigator.fxml");
-      parent.setCenterColumnWidth(0);
+      //      parent.setCenterColumnWidth(0);
     }
+    if (!parent.isDesktop) parent.setCenterColumnWidth(0);
   }
 }

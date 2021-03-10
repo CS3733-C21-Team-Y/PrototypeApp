@@ -20,7 +20,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXButton fx:id="expandBtn" contentDisplay="GRAPHIC_ONLY" prefHeight="99999.0" prefWidth="34.0" ripplerFill="#efeff9" textFill="#5a5c94" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <JFXButton fx:id="expandBtn" contentDisplay="GRAPHIC_ONLY" prefHeight="99999.0" prefWidth="34.0" ripplerFill="#3b3d73" textFill="#5a5c94" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <graphic>
                   <FontAwesomeIconView fx:id="expandIcon" fill="#5a5c94" glyphName="ANGLE_DOUBLE_LEFT" size="30" wrappingWidth="17.14285659790039" />
                </graphic>
