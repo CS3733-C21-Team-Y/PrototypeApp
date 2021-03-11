@@ -120,7 +120,8 @@ public class AdminPageController extends SubPage {
     secret.setVisible(false);
     secret.setOnAction(
         e -> {
-          KnockKnockServer kn = new KnockKnockServer("ESP_Connection", nodes.get(0), nodes.get(3));
+          KnockKnockServer kn =
+              new KnockKnockServer("ESP_Connection", nodes); // just passing whole thing in for now
           kn.start();
         });
 
@@ -282,7 +283,7 @@ public class AdminPageController extends SubPage {
           " -fx-background-color: #efeff9 "
               + "; -fx-background-radius: 6; -fx-font-size: 25; -fx-text-fill: #5a5c94");
       message.setText(
-              "Right click: Node menu \n"
+          "Right click: Node menu \n"
               + "ESC: Unhighlights selected nodes\n"
               + "SHIFT: Hold and drag mouse to highlight area\n"
               + "DEL: Deletes selected nodes\n"

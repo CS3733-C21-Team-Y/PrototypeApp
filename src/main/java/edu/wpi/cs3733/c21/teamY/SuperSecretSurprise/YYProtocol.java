@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.SuperSecretSurprise;
 
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls;
-import edu.wpi.cs3733.c21.teamY.entity.Graph;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.util.ArrayList;
 
@@ -11,20 +10,14 @@ public class YYProtocol {
   private static final int SENDNODES = 1;
   private static final int VERIFY = 2;
 
-  private Node startNode;
-  private Node endNode;
-  private Graph graph;
+  private ArrayList<Node> nodeList;
   private int lengthOfList;
 
   private int state = WAITING;
 
-  private ArrayList<Node> nodes = new ArrayList<>();
-
-  public String processInput(String theInput, Node start, Node end, Graph graph) {
+  public String processInput(String theInput, ArrayList<Node> nodeList) {
     String theOutput = null;
-    this.startNode = start;
-    this.endNode = end;
-    this.graph = graph;
+    this.nodeList = nodeList;
     // this is not as bad as it looks, its a state machine that sends a prompt and waits for a
     // response
 
@@ -52,12 +45,16 @@ public class YYProtocol {
         break;
       case (VERIFY):
         if (theInput.equalsIgnoreCase(lengthOfList + "")) {
+
+          // change here so it waits for a path complete confirmation
           theOutput = "Bye.";
           state = WAITING;
         } else {
           theOutput = "Incorrect, try again";
           state = WAITING;
         }
+
+        // =========================================================
         break;
     }
 
@@ -85,12 +82,14 @@ public class YYProtocol {
    * */
 
   private String nodesToSendable() {
+
+    // probably going to need to scale and size everything here
+
     // gets list of nodes in the path
-    nodes = AlgorithmCalls.aStar(graph, startNode.nodeID, endNode.nodeID, "STAI");
-    this.lengthOfList = nodes.size();
+    this.lengthOfList = nodeList.size();
     StringBuffer sendable = new StringBuffer();
     sendable.append("[");
-    for (Node node : nodes) {
+    for (Node node : nodeList) {
       sendable.append(
           "={" + node.getXcoord() + "," + node.getYcoord() + "," + node.getFloor() + "}");
     }
@@ -101,12 +100,12 @@ public class YYProtocol {
     return sendable.toString();
   }
 
-  //Removes intermediate nodes in a straight path
-  private ArrayList<Node> removeStraight(ArrayList<Node> path){
+  // Removes intermediate nodes in a straight path
+  private ArrayList<Node> removeStraight(ArrayList<Node> path) {
     ArrayList<Node> newPath = (ArrayList<Node>) path.clone();
     for (int i = 0; i < newPath.size() - 2; i++) {
       double angle = AlgorithmCalls.directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2));
-      if(angle==0){
+      if (angle == 0) {
         newPath.remove(i + 1);
         i--;
       }
@@ -114,16 +113,16 @@ public class YYProtocol {
     return newPath;
   }
 
-  private ArrayList<Node> scaleNodes(ArrayList<Node> path){
+  private ArrayList<Node> scaleNodes(ArrayList<Node> path) {
     ArrayList<Node> newPath = (ArrayList<Node>) path.clone();
 
-    //Following scale factor converts to cm
-    //Example distance is 145 on map to 96.015cm in CAD
-    double scaleFactor=0.6621724; //This is based on the physical model we built
+    // Following scale factor converts to cm
+    // Example distance is 145 on map to 96.015cm in CAD
+    double scaleFactor = 0.6621724; // This is based on the physical model we built
 
     for (int i = 0; i < newPath.size() - 1; i++) {
-      newPath.get(i).xcoord = newPath.get(i).xcoord*scaleFactor;
-      newPath.get(i).ycoord = newPath.get(i).ycoord*scaleFactor;
+      newPath.get(i).xcoord = newPath.get(i).xcoord * scaleFactor;
+      newPath.get(i).ycoord = newPath.get(i).ycoord * scaleFactor;
     }
     return newPath;
   }
