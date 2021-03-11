@@ -33,6 +33,7 @@ public class LoginPageController extends SubPage {
     passwordTextField.setOnKeyPressed(e -> submit(e));
     forgotPasswordBtn.setOnAction(e -> buttonClicked(e));
     newAccount.setOnAction(e -> newAccountClicked(e));
+    guestBtn.setVisible(false);
   }
 
   private void newAccountClicked(ActionEvent e) {

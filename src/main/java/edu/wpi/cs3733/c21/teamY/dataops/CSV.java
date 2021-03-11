@@ -29,6 +29,11 @@ public class CSV {
   public static BufferedReader brEmployee;
   public static BufferedWriter bwEmployee;
 
+  public static String edgeJarPath = "MapYEdgesAllFloors.csv";
+  public static String nodeJarPath = "MapYNodesAllFloors.csv";
+  public static String serviceJarPath = "Services.csv";
+  public static String employeeJarPath = "Employee.csv";
+
   // load the BufferedReader for node
   public static void initCSV() {
     try {
@@ -36,7 +41,7 @@ public class CSV {
       // parsing a CSV file into BufferedReader class constructor
 
       try {
-        brNode = new BufferedReader(new FileReader(nodePath));
+        brNode = new BufferedReader(new FileReader(nodeTestPath));
 
       } catch (FileNotFoundException e) {
         System.out.println("Node BufferedReader initialized failed!");
@@ -51,7 +56,7 @@ public class CSV {
     // parsing a CSV file into BufferedReader class constructor
 
     try {
-      brEdge = new BufferedReader(new FileReader(edgePath));
+      brEdge = new BufferedReader(new FileReader(edgeTestPath));
 
     } catch (FileNotFoundException e) {
       System.out.println("Edge BufferedReader initialized failed!");

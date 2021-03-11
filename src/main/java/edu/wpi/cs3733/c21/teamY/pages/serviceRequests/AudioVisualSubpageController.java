@@ -71,8 +71,7 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
   }
 
   private void buttonClicked(ActionEvent e) {
-
-    if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubPage.fxml");
+    if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
   }
 
   private void clearButton() {
@@ -85,7 +84,6 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
     avEmployeeComboBox.getSelectionModel().clearSelection();
   }
 
-  @FXML
   private void submitBtnClicked() {
     // put code for submitting a service request here
 

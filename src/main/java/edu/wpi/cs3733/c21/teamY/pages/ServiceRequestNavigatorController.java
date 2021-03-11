@@ -7,7 +7,6 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,8 +41,8 @@ public class ServiceRequestNavigatorController extends SubPage {
     assignedBtn.setOnAction(e -> filterByEmployee());
     allRequestsBtn.setOnAction(e -> loadServicesFromDB());
     backBtn.setOnAction(e -> buttonClicked(e));
-    drawByPermissions();
-    Platform.runLater(() -> filterByRequester());
+    //    drawByPermissions();
+    //    Platform.runLater(() -> filterByRequester());
 
     Tooltip.install(button2, button2Tooltip);
     Tooltip.install(myRequestsBtn, myRequestsBtnTooltip);
@@ -89,7 +88,7 @@ public class ServiceRequestNavigatorController extends SubPage {
   }
 
   private void filterByRequester() {
-    String username = parent.settings.getCurrentUsername();
+    String username = Settings.getSettings().getCurrentUsername();
     serviceBox.getChildren().clear();
     myRequestsBtn.setStyle("-fx-background-color: #efeff9; -fx-text-fill: #5a5c94");
     allRequestsBtn.setStyle("-fx-background-color: #5a5c94; -fx-text-fill: #efeff9");
@@ -105,7 +104,7 @@ public class ServiceRequestNavigatorController extends SubPage {
   }
 
   private void filterByEmployee() {
-    String username = parent.settings.getCurrentUsername();
+    String username = Settings.getSettings().getCurrentUsername();
     serviceBox.getChildren().clear();
     assignedBtn.setStyle("-fx-background-color: #efeff9; -fx-text-fill: #5a5c94");
     allRequestsBtn.setStyle("-fx-background-color: #5a5c94; -fx-text-fill: #efeff9");
