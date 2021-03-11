@@ -100,4 +100,31 @@ public class YYProtocol {
 
     return sendable.toString();
   }
+
+  //Removes intermediate nodes in a straight path
+  private ArrayList<Node> removeStraight(ArrayList<Node> path){
+    ArrayList<Node> newPath = (ArrayList<Node>) path.clone();
+    for (int i = 0; i < newPath.size() - 2; i++) {
+      double angle = AlgorithmCalls.directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2));
+      if(angle==0){
+        newPath.remove(i + 1);
+        i--;
+      }
+    }
+    return newPath;
+  }
+
+  private ArrayList<Node> scaleNodes(ArrayList<Node> path){
+    ArrayList<Node> newPath = (ArrayList<Node>) path.clone();
+
+    //Following scale factor converts to cm
+    //Example distance is 145 on map to 96.015cm in CAD
+    double scaleFactor=0.6621724; //This is based on the physical model we built
+
+    for (int i = 0; i < newPath.size() - 1; i++) {
+      newPath.get(i).xcoord = newPath.get(i).xcoord*scaleFactor;
+      newPath.get(i).ycoord = newPath.get(i).ycoord*scaleFactor;
+    }
+    return newPath;
+  }
 }
