@@ -17,6 +17,8 @@ const char* streamId   = "....................";
 const char* privateKey = "....................";
 
 int numOfNodesReceived(String);
+void talkToApp(void);
+void talkToRomi(void);
 
 Node nodeArray[300];
 String stringFromServer = "";
@@ -111,6 +113,29 @@ void loop()
     * */
     // Read all the lines of the reply from server and print them to Serial
     while(client.available()) {
+        talkToApp();     
+      
+    }
+    Serial.println();
+    Serial.println("closing connection");
+
+    //talk to romi
+    talkToRomi();
+}
+
+void talkToRomi(){
+  String str = "";
+    Serial.println("start");
+    Serial.println(stringfromServer);
+    while(Serial.available()){
+      str = Serial.read();
+      if(str == "received"){
+        return;  
+      }  
+    }
+}
+
+void talkToApp(){
         String line = client.readStringUntil('\r');//WAITING
         Serial.println("Server:"+line);
         if(line == "Ready to send?"){
@@ -120,25 +145,20 @@ void loop()
           line = client.readStringUntil('\r');
           Serial.println("Server:"+line);
           Serial.println(line[1]=='[');
-        if(line[1] == '['){
-           stringFromServer = line
-           numOfNodes = numOfNodesReceived(line);
-           Serial.println(numOfNodes);
-           client.println(numOfNodes);
+          if(line[1] == '['){
+            stringFromServer = line;
+            numOfNodes = numOfNodesReceived(line);
+            Serial.println(numOfNodes);
+            client.println(numOfNodes);
            
-           line = client.readStringUntil('\r');
-        Serial.println(line);
-        if(line[1] == 'B'){
-          Serial.println("verified");  
-          client.println("");
-        }
-        }
-        }         
-      
-    }
-
-    Serial.println();
-    Serial.println("closing connection");
+            line = client.readStringUntil('\r');
+            Serial.println(line);
+            if(line[1] == 'B'){
+              Serial.println("verified");  
+              client.println("");
+            }
+          }
+        }   
 }
 
 int numOfNodesReceived(String str){
