@@ -41,7 +41,7 @@ public class CSV {
       // parsing a CSV file into BufferedReader class constructor
 
       try {
-        brNode = new BufferedReader(new FileReader(nodeJarPath));
+        brNode = new BufferedReader(new FileReader(nodeTestPath));
 
       } catch (FileNotFoundException e) {
         System.out.println("Node BufferedReader initialized failed!");
@@ -56,7 +56,7 @@ public class CSV {
     // parsing a CSV file into BufferedReader class constructor
 
     try {
-      brEdge = new BufferedReader(new FileReader(edgeJarPath));
+      brEdge = new BufferedReader(new FileReader(edgeTestPath));
 
     } catch (FileNotFoundException e) {
       System.out.println("Edge BufferedReader initialized failed!");
@@ -67,7 +67,7 @@ public class CSV {
 
     // parsing a CSV file into BufferedReader class constructor
     try {
-      CSV.brService = new BufferedReader(new FileReader(CSV.serviceJarPath));
+      CSV.brService = new BufferedReader(new FileReader(CSV.servicePath));
     } catch (FileNotFoundException e) {
       System.out.println("Service BufferedReader initialized failed!");
 
@@ -75,7 +75,7 @@ public class CSV {
     }
 
     try {
-      CSV.brEmployee = new BufferedReader(new FileReader(CSV.employeeJarPath));
+      CSV.brEmployee = new BufferedReader(new FileReader(CSV.employeePath));
     } catch (FileNotFoundException e) {
       System.out.println("Employee BufferedReader initialized failed!");
 
@@ -85,7 +85,7 @@ public class CSV {
     // load the bufferWriter for service
 
     try {
-      CSV.bwService = new BufferedWriter(new FileWriter(CSV.serviceJarPath, true));
+      CSV.bwService = new BufferedWriter(new FileWriter(CSV.servicePath, true));
     } catch (FileNotFoundException e) {
       System.out.println("Service BufferedWriter initialized failed!");
 
@@ -97,7 +97,7 @@ public class CSV {
 
   static {
     try {
-      CSV.bwEmployee = new BufferedWriter(new FileWriter(CSV.employeeJarPath, true));
+      CSV.bwEmployee = new BufferedWriter(new FileWriter(CSV.employeePath, true));
     } catch (FileNotFoundException e) {
       System.out.println("Employee BufferedWriter initialized failed!");
 
