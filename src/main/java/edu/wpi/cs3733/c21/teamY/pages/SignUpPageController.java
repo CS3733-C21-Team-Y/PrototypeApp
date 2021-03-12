@@ -7,6 +7,8 @@ import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.PasswordUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import java.sql.SQLException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -21,6 +23,7 @@ public class SignUpPageController extends SubPage {
   @FXML private Button exitBtn;
   @FXML private JFXTextField usernameTextField;
   @FXML private JFXPasswordField passwordTextField;
+  @FXML private JFXPasswordField passwordCheck;
   @FXML private JFXTextField firstnameTextField;
   @FXML private JFXTextField lastnameTextField;
   @FXML private JFXTextField emailTextField;
@@ -33,6 +36,20 @@ public class SignUpPageController extends SubPage {
     exitBtn.setOnAction(e -> exitBtnClicked(e));
     signupBtn.setOnAction(e -> signupBtnClicked());
     clearBtn.setOnAction(e -> clearButtonClicked());
+    passwordTextField
+        .textProperty()
+        .addListener(
+            new ChangeListener<String>() {
+              @Override
+              public void changed(
+                  ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue.length() > 20) {
+                  passwordTextField.setText(oldValue);
+                  createPopUp(
+                      stackPane, "#ff6666", "#fff9f9", "20 chracters at maximum is allowed");
+                }
+              }
+            });
   }
 
   private void exitBtnClicked(ActionEvent e) {
@@ -50,11 +67,13 @@ public class SignUpPageController extends SubPage {
   private void signupBtnClicked() {
     clearIncomplete(usernameTextField);
     clearIncomplete(passwordTextField);
+    clearIncomplete(passwordCheck);
     clearIncomplete(firstnameTextField);
     clearIncomplete(lastnameTextField);
     clearIncomplete(emailTextField);
     if (usernameTextField.getText().equals("")
         || passwordTextField.getText().equals("")
+        || passwordCheck.getText().equals("")
         || firstnameTextField.getText().equals("")
         || lastnameTextField.getText().equals("")
         || emailTextField.getText().equals("")) {
@@ -63,6 +82,9 @@ public class SignUpPageController extends SubPage {
       }
       if (passwordTextField.getText().equals("")) {
         incomplete(passwordTextField);
+      }
+      if (passwordCheck.getText().equals("")) {
+        incomplete(passwordCheck);
       }
       if (firstnameTextField.getText().equals("")) {
         incomplete(firstnameTextField);
@@ -75,6 +97,12 @@ public class SignUpPageController extends SubPage {
       }
 
       nonCompleteForm(stackPane);
+    } else if (passwordTextField.getText().length() < 7) {
+      createPopUp(stackPane, "#ff6666", "#fff9f9", "password should have at least 7 characters");
+
+    } else if (!passwordTextField.getText().equals(passwordCheck.getText())) {
+      createPopUp(stackPane, "#ff6666", "#fff9f9", "password entered not consistent");
+
     } else if (!emailTextField
         .getText()
         .toUpperCase()

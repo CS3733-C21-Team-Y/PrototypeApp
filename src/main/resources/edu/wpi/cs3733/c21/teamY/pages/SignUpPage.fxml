@@ -55,7 +55,9 @@
                         <RowConstraints maxHeight="100.0" minHeight="34.0" prefHeight="44.0" />
                         <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" />
                         <RowConstraints maxHeight="132.0" minHeight="25.0" prefHeight="40.0" />
-                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" />
+                        <RowConstraints maxHeight="132.0" minHeight="14.0" prefHeight="23.0" />
+                        <RowConstraints maxHeight="42.0" minHeight="-Infinity" prefHeight="40.0" />
+                        <RowConstraints maxHeight="22.0" minHeight="10.0" prefHeight="20.0" />
                       <RowConstraints maxHeight="221.0" minHeight="40.0" prefHeight="50.0" />
                         <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="20.0" />
                       <RowConstraints maxHeight="269.0" minHeight="42.0" prefHeight="46.0" />
@@ -75,7 +77,7 @@
                               </JFXPasswordField>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                            <children>
                               <JFXTextField fx:id="firstnameTextField" focusColor="#5a5c94" labelFloat="true" prefHeight="27.0" prefWidth="200.0" promptText="First Name" unFocusColor="#5a5c94">
                                  <font>
@@ -84,7 +86,7 @@
                               </JFXTextField>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
                            <children>
                               <JFXTextField fx:id="lastnameTextField" focusColor="#5a5c94" labelFloat="true" prefHeight="27.0" prefWidth="200.0" promptText="Last Name" unFocusColor="#5a5c94">
                                  <font>
@@ -93,7 +95,7 @@
                               </JFXTextField>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
                            <children>
                               <JFXTextField fx:id="emailTextField" focusColor="#5a5c94" labelFloat="true" prefHeight="27.0" prefWidth="200.0" promptText="Email" unFocusColor="#5a5c94">
                                  <font>
@@ -111,7 +113,7 @@
                               </JFXTextField>
                            </children>
                         </HBox>
-                        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="465.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="11" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="465.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="13" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                           <columnConstraints>
                             <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="10.0" percentWidth="50.0" prefWidth="420.0" />
                             <ColumnConstraints hgrow="NEVER" maxWidth="-Infinity" minWidth="10.0" prefWidth="420.0" />
@@ -163,6 +165,15 @@
                               <FontAwesomeIconView fill="#8d8ea4" glyphName="ANGLE_LEFT" size="45" />
                            </graphic>
                         </JFXButton>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                           <children>
+                              <JFXPasswordField fx:id="passwordCheck" focusColor="#5a5c94" labelFloat="true" prefHeight="26.0" prefWidth="197.0" promptText="enter password again " unFocusColor="#5a5c94">
+                                 <font>
+                                    <Font name="Calibri" size="14.0" />
+                                 </font>
+                              </JFXPasswordField>
+                           </children>
+                        </HBox>
                      </children>
                   </GridPane>
                </children>
