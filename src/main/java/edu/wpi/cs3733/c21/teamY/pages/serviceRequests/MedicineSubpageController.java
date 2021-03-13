@@ -89,7 +89,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
       nonCompleteForm(stackPane);
     } else {
 
-      Service service = new Service(DataOperations.generateServiceID("MED"), "Medicine");
+      Service service = new Service(DataOperations.generateUniqueID("MED"), "Medicine");
       service.setCategory(medicine.getText());
       service.setDescription(patient.getText());
       service.setDate(String.valueOf(date.getValue()));

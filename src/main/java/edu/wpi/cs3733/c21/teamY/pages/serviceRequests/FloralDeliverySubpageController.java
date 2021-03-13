@@ -7,7 +7,6 @@ import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
-import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
@@ -114,7 +113,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       }
       nonCompleteForm(stackPane);
     } else {
-      Service service = new Service(DataOperations.generateServiceID("FD"), "Floral Delivery");
+      Service service = new Service(DataOperations.generateUniqueID("FD"), "Floral Delivery");
       service.setLocation(roomNumberInput.getText());
       service.setCategory(categoryInput.getText());
       service.setDescription(descriptionInput.getText());

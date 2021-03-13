@@ -117,7 +117,7 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
       }
       nonCompleteForm(stackPane);
     } else {
-      Service service = new Service(DataOperations.generateServiceID("AV"), "Audio Visual");
+      Service service = new Service(DataOperations.generateUniqueID("AV"), "Audio Visual");
 
       service.setCategory((String) avTypeComboBox.getValue());
       service.setLocation((String) avLocationComboBox.getValue());

@@ -81,7 +81,7 @@ public class JDBCUtils {
     }
     try {
       String sqlService =
-          "create table Service(serviceID PRIMARY KEY , type varchar(20),"
+          "create table Service(serviceID varchar(10) PRIMARY KEY , type varchar(20),"
               + "description varchar(255) , location varchar(30), category varchar(20), "
               + "urgency varchar(10), date varchar(20), additionalInfo varchar(255), requester varchar(30) not null, status int,"
               + " employee varchar(30) DEFAULT 'admin',"
@@ -1165,6 +1165,22 @@ public class JDBCUtils {
 
   public static boolean serviceIDExists(String id) {
     String check = "Select * from ADMIN.SERVICE WHERE SERVICEID=(?)";
+    PreparedStatement ps = null;
+    try {
+      ps = getConn().prepareStatement(check);
+      ps.setString(1, id);
+      ResultSet r = ps.executeQuery();
+      if (r.next()) {
+        return true;
+      }
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+    return false;
+  }
+
+  public static boolean nodeIDExists(String id) {
+    String check = "Select * from ADMIN.NODE WHERE NODEID=(?)";
     PreparedStatement ps = null;
     try {
       ps = getConn().prepareStatement(check);
