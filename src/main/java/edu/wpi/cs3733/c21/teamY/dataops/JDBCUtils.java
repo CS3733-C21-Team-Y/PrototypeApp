@@ -56,7 +56,9 @@ public class JDBCUtils {
 
       stmt.executeUpdate(sqlNode);
     } catch (SQLException ignored) {
-      // ignored.printStackTrace();
+      if (ignored.getErrorCode() == 30000) {
+        System.out.println("Creation Failed: Node Table Already Exists");
+      }
     }
 
     try {
@@ -67,7 +69,9 @@ public class JDBCUtils {
 
       stmt.executeUpdate(sqlEdge);
     } catch (SQLException exception) {
-      exception.printStackTrace();
+      if (exception.getErrorCode() == 30000) {
+        System.out.println("Creation Failed: Edge Table Already Exists");
+      }
     }
 
     try {
@@ -77,7 +81,9 @@ public class JDBCUtils {
 
       stmt.executeUpdate(sqlEmployee);
     } catch (SQLException exception) {
-      exception.printStackTrace();
+      if (exception.getErrorCode() == 30000) {
+        System.out.println("Creation Failed: Employee Table Already Exists");
+      }
     }
     try {
       String sqlService =
@@ -90,7 +96,9 @@ public class JDBCUtils {
               + " check( status=-1 OR status =0 OR status=1))";
       stmt.executeUpdate(sqlService);
     } catch (SQLException exception) {
-      exception.printStackTrace();
+      if (exception.getErrorCode() == 30000) {
+        System.out.println("Creation Failed: Service Table Already Exists");
+      }
     }
 
     try {
@@ -101,7 +109,9 @@ public class JDBCUtils {
 
       stmt.executeUpdate(sqlParkingLot);
     } catch (SQLException exception) {
-      exception.printStackTrace();
+      if (exception.getErrorCode() == 30000) {
+        System.out.println("Creation Failed: Parking Lot Table Already Exists");
+      }
     }
 
     try {
@@ -112,7 +122,9 @@ public class JDBCUtils {
       stmt.executeUpdate(sqlClearToEnter);
       stmt.closeOnCompletion();
     } catch (SQLException exception) {
-      exception.printStackTrace();
+      if (exception.getErrorCode() == 30000) {
+        System.out.println("Creation Failed: Clearance Table Already Exists");
+      }
     }
     try {
       try {
@@ -670,7 +682,9 @@ public class JDBCUtils {
       stmt.executeUpdate();
       stmt.closeOnCompletion();
     } catch (SQLException e) {
-      e.printStackTrace();
+      if (e.getErrorCode() == 30000) {
+        update(employee);
+      }
     }
   }
 
