@@ -90,8 +90,7 @@ public class CovidScreeningController extends SubPage {
     //      // parent.loadRightSubPage("LoginPage.fxml");
     //    }
     else {
-      Service service = new Service(this.IDCount, "Covid Form");
-      this.IDCount++;
+      Service service = new Service(DataOperations.generateServiceID("PARK"), "Covid Form");
       service.setDescription(createDescription(isPositive, hasSymp, wasClose));
       service.setRequester(Settings.getSettings().getCurrentUsername());
       service.setLocation(parkingBox.getValue());

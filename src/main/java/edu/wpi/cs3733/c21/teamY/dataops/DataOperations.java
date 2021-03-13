@@ -4,6 +4,7 @@ import edu.wpi.cs3733.c21.teamY.entity.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Random;
 import org.apache.derby.iapi.sql.ResultSet;
 
 public class DataOperations {
@@ -97,7 +98,7 @@ public class DataOperations {
     return JDBCUtils.exportService(serviceType, requester);
   }
 
-  public static void removeService(int ID) throws SQLException {
+  public static void removeService(String ID) throws SQLException {
     JDBCUtils.delete(ID);
   }
 
@@ -105,7 +106,7 @@ public class DataOperations {
     JDBCUtils.updateServiceStatus(service, status);
   }
 
-  public static void updateServiceAdditionalInfoOnly(int serviceID, String newInfo)
+  public static void updateServiceAdditionalInfoOnly(String serviceID, String newInfo)
       throws SQLException {
     JDBCUtils.updateServiceAdditionalInfoOnly(serviceID, newInfo);
   }
@@ -171,7 +172,7 @@ public class DataOperations {
     return JDBCUtils.checkForCompletedCovidSurvey(userID);
   }
 
-  public static boolean assignEmpoyeeToService(String employeeID, int serviceID)
+  public static boolean assignEmpoyeeToService(String employeeID, String serviceID)
       throws SQLException {
     return JDBCUtils.assignEmployeeToRequest(employeeID, serviceID);
   }
@@ -202,5 +203,40 @@ public class DataOperations {
 
   public static String findUserSalt(String username) {
     return JDBCUtils.findUserSalt(username);
+  }
+
+  public static String generateServiceID(String type) {
+    Random rng = new Random(System.currentTimeMillis());
+    rng.ints(0, 25);
+    StringBuilder sb = new StringBuilder();
+    int charType;
+    int nextInt;
+    for (int i = 0; i < 4; i++) {
+      charType = rng.nextInt() % 3;
+      nextInt = rng.nextInt();
+      switch (charType) {
+        case 0: // number
+          int num = nextInt % 10;
+          sb.append(num);
+          break;
+        case 1: // capital letter
+          char c = (char) (nextInt + 65);
+          sb.append(c);
+          break;
+        case 2: // lowercase letter
+          char d = (char) (nextInt + 97);
+          sb.append(d);
+          break;
+      }
+    }
+
+    String ID = type + '-' + sb.toString();
+
+    // need to check to see if this ID exists in the DB already
+    if (JDBCUtils.serviceIDExists(ID)) {
+      ID = generateServiceID(type);
+    }
+
+    return ID;
   }
 }

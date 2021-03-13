@@ -113,8 +113,7 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
       }
       nonCompleteForm(stackPane);
     } else {
-      Service service = new Service(this.IDCount, "Gift Delivery");
-      this.IDCount++;
+      Service service = new Service(DataOperations.generateServiceID("GD"), "Gift Delivery");
       service.setCategory((String) giftType.getValue());
       service.setLocation((String) locationField.getValue());
       service.setDescription(description.getText());

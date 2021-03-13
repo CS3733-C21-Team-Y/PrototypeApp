@@ -2,7 +2,7 @@ package edu.wpi.cs3733.c21.teamY.entity;
 
 public class Service {
 
-  private int serviceID;
+  private String serviceID;
   private String type;
 
   private String description;
@@ -18,7 +18,7 @@ public class Service {
 
   // no requester
   public Service(
-      int serviceID,
+      String serviceID,
       String type,
       String description,
       String location,
@@ -41,7 +41,7 @@ public class Service {
 
   // requester
   public Service(
-      int serviceID,
+      String serviceID,
       String type,
       String description,
       String location,
@@ -64,7 +64,7 @@ public class Service {
     this.employee = "admin";
   }
 
-  public Service(int serviceID, String type) {
+  public Service(String serviceID, String type) {
     this.serviceID = serviceID;
     this.type = type;
     description = "";
@@ -77,7 +77,7 @@ public class Service {
   }
 
   public Service(
-      int serviceID,
+      String serviceID,
       String type,
       String description,
       String location,
@@ -96,7 +96,7 @@ public class Service {
   }
 
   public Service(
-      int serviceID,
+      String serviceID,
       String type,
       String description,
       String location,
@@ -116,7 +116,7 @@ public class Service {
   }
 
   public Service(
-      int serviceID,
+      String serviceID,
       String type,
       String description,
       String location,
@@ -164,11 +164,11 @@ public class Service {
     this.status = status;
   }
 
-  public int getServiceID() {
+  public String getServiceID() {
     return serviceID;
   }
 
-  public void setServiceID(int serviceID) {
+  public void setServiceID(String serviceID) {
     this.serviceID = serviceID;
   }
 

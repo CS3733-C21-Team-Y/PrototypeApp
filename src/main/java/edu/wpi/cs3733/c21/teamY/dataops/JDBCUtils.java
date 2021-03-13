@@ -63,7 +63,7 @@ public class JDBCUtils {
       stmt.executeUpdate(sqlEdge);
 
       String sqlService =
-          "create table Service(serviceID int PRIMARY KEY , type varchar(20),"
+          "create table Service(serviceID PRIMARY KEY , type varchar(20),"
               + "description varchar(255) , location varchar(30), category varchar(20), "
               + "urgency varchar(10), date varchar(20), additionalInfo varchar(255), requester varchar(30) not null, status int,"
               + " employee varchar(30) DEFAULT 'admin',"
@@ -389,7 +389,7 @@ public class JDBCUtils {
       PreparedStatement stmt =
           connection.prepareStatement(
               "INSERT INTO ADMIN.SERVICE VALUES ((?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?))");
-      stmt.setString(1, String.valueOf(service.getServiceID()));
+      stmt.setString(1, service.getServiceID());
       stmt.setString(2, service.getType());
       stmt.setString(3, service.getDescription());
       stmt.setString(4, service.getLocation());
@@ -413,7 +413,7 @@ public class JDBCUtils {
    * @param serviceID is the ID of the service to update
    * @param newInfo the new value of the AdditionalInfo of the service to be updated
    */
-  public static void updateServiceAdditionalInfoOnly(int serviceID, String newInfo) {
+  public static void updateServiceAdditionalInfoOnly(String serviceID, String newInfo) {
     try {
 
       PreparedStatement stmt =
@@ -456,7 +456,7 @@ public class JDBCUtils {
     Connection conn = getConn();
     Statement statement = conn.createStatement();
     java.sql.ResultSet resultSet = statement.executeQuery(string);
-    int serviceID;
+    String serviceID;
     String type;
     String description;
     String location;
@@ -468,7 +468,7 @@ public class JDBCUtils {
     String employee;
     String additionalInfo;
     while (resultSet.next()) {
-      serviceID = resultSet.getInt(1);
+      serviceID = resultSet.getString(1);
       type = resultSet.getString(2);
       description = resultSet.getString(3);
       location = resultSet.getString(4);
@@ -508,13 +508,13 @@ public class JDBCUtils {
    *
    * @param ID service ID of the service to be removed
    */
-  public static void delete(int ID) {
+  public static void delete(String ID) {
     int numRows = 0;
     try {
       PreparedStatement stmt =
           getConn()
               .prepareStatement("delete from ADMIN.Service where ADMIN.Service.serviceID= (?)");
-      stmt.setString(1, String.valueOf(ID));
+      stmt.setString(1, ID);
       numRows = stmt.executeUpdate();
       stmt.closeOnCompletion();
     } catch (SQLException e) {
@@ -593,7 +593,7 @@ public class JDBCUtils {
 
     try {
 
-      preparedStatement.setInt(1, service.getServiceID());
+      preparedStatement.setString(1, service.getServiceID());
       preparedStatement.setString(2, service.getType());
       preparedStatement.setString(3, service.getDescription());
       preparedStatement.setString(4, service.getLocation());
@@ -919,7 +919,6 @@ public class JDBCUtils {
   /**
    * updated the password of the User with the specified userID
    *
-   * @param userID of the user who's password is to be changed
    * @param newPassword to change password to
    * @return boolean for whether reset was successful
    * @throws SQLException upon sql error communicating with the database
@@ -981,12 +980,12 @@ public class JDBCUtils {
    * @return true if update successful
    * @throws SQLException something went wrong with DB
    */
-  public static boolean assignEmployeeToRequest(String employeeID, int serviceID)
+  public static boolean assignEmployeeToRequest(String employeeID, String serviceID)
       throws SQLException {
     String assign = "update ADMIN.SERVICE set EMPLOYEE=(?) where SERVICEID=(?)";
     PreparedStatement preparedStatement = getConn().prepareStatement(assign);
     preparedStatement.setString(1, employeeID);
-    preparedStatement.setInt(2, serviceID);
+    preparedStatement.setString(2, serviceID);
     int check = preparedStatement.executeUpdate();
     preparedStatement.close();
 
@@ -1034,5 +1033,21 @@ public class JDBCUtils {
     int check = preparedStatement.executeUpdate();
     preparedStatement.close();
     return check != 0;
+  }
+
+  public static boolean serviceIDExists(String id) {
+    String check = "Select * from ADMIN.SERVICE WHERE SERVICEID=(?)";
+    PreparedStatement ps = null;
+    try {
+      ps = getConn().prepareStatement(check);
+      ps.setString(1, id);
+      ResultSet r = ps.executeQuery();
+      if (r.next()) {
+        return true;
+      }
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+    return false;
   }
 }

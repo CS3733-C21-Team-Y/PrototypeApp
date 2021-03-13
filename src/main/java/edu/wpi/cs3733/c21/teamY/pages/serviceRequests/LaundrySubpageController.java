@@ -115,8 +115,7 @@ public class LaundrySubpageController extends GenericServiceFormPage {
       nonCompleteForm(stackPane);
     } else {
 
-      Service service = new Service(this.IDCount, "Laundry");
-      this.IDCount++;
+      Service service = new Service(DataOperations.generateServiceID("LAUN"), "Laundry");
       service.setCategory((String) category.getValue());
       service.setLocation((String) locationField.getValue());
       service.setDescription(description.getText());

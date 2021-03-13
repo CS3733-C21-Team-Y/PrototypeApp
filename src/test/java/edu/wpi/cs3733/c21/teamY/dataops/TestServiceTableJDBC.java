@@ -8,7 +8,7 @@ public class TestServiceTableJDBC {
 
   Service service1 =
       new Service(
-          1,
+          DataOperations.generateServiceID("MAIN"),
           "Maintenance",
           "Broken door in atrium",
           "Atrium",
@@ -19,7 +19,7 @@ public class TestServiceTableJDBC {
           0);
   Service service2 =
       new Service(
-          2,
+          DataOperations.generateServiceID("MAIN"),
           "Maintenance",
           "Tile Removed from walkway",
           "outide",
