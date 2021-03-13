@@ -4,6 +4,7 @@ import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import org.apache.commons.lang3.RandomStringUtils;
 
 abstract class SubPage {
 
@@ -16,6 +17,11 @@ abstract class SubPage {
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
+  }
+
+  public String generateIDString() {
+    String id = RandomStringUtils.random(4);
+    return id;
   }
 
   protected MainPageController parent;

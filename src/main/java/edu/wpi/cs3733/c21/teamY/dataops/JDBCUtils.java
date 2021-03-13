@@ -634,7 +634,8 @@ public class JDBCUtils {
     }
   }
 
-  private static void addFieldsToStmt(Service service, PreparedStatement preparedStatement) throws SQLException {
+  private static void addFieldsToStmt(Service service, PreparedStatement preparedStatement)
+      throws SQLException {
     preparedStatement.setString(2, service.getType());
     preparedStatement.setString(3, service.getDescription());
     preparedStatement.setString(4, service.getLocation());
@@ -664,7 +665,8 @@ public class JDBCUtils {
     }
   }
 
-  private static void createEmployeeFromResult(Employee employee, PreparedStatement stmt) throws SQLException {
+  private static void createEmployeeFromResult(Employee employee, PreparedStatement stmt)
+      throws SQLException {
     stmt.setString(1, employee.getFirstName());
     stmt.setString(2, employee.getLastName());
     stmt.setString(3, employee.getEmployeeID());
@@ -786,7 +788,8 @@ public class JDBCUtils {
     return employees;
   }
 
-  private static void createAndAddEmployee(ArrayList<Employee> employees, ResultSet r) throws SQLException {
+  private static void createAndAddEmployee(ArrayList<Employee> employees, ResultSet r)
+      throws SQLException {
     String firstName;
     String lastName;
     String employeeID;
