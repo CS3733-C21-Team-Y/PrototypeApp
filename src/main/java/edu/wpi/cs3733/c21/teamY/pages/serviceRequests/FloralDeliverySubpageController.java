@@ -114,8 +114,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       }
       nonCompleteForm(stackPane);
     } else {
-      Service service = new Service(this.IDCount, "Floral Delivery");
-      this.IDCount++;
+      Service service = new Service(DataOperations.generateServiceID("FD"), "Floral Delivery");
       service.setLocation(roomNumberInput.getText());
       service.setCategory(categoryInput.getText());
       service.setDescription(descriptionInput.getText());

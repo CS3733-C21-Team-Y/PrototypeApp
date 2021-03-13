@@ -30,7 +30,7 @@ public class Examples {
     System.out.print(JDBCUtils.getConn());
 
     Service service1 =
-        new Service(500, "testing", "description", "dummy location", "none", "low", "6", -1);
+        new Service("TEST", "testing", "description", "dummy location", "none", "low", "6", -1);
 
     Edge edge1 = new Edge("edge1", "node1", "node2");
 

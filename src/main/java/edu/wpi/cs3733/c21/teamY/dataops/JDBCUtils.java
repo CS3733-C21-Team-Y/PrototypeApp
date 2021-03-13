@@ -81,7 +81,7 @@ public class JDBCUtils {
     }
     try {
       String sqlService =
-          "create table Service(serviceID int PRIMARY KEY , type varchar(20),"
+          "create table Service(serviceID PRIMARY KEY , type varchar(20),"
               + "description varchar(255) , location varchar(30), category varchar(20), "
               + "urgency varchar(10), date varchar(20), additionalInfo varchar(255), requester varchar(30) not null, status int,"
               + " employee varchar(30) DEFAULT 'admin',"
@@ -425,8 +425,15 @@ public class JDBCUtils {
       PreparedStatement stmt =
           connection.prepareStatement(
               "INSERT INTO ADMIN.SERVICE VALUES ((?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?))");
-      stmt.setString(1, String.valueOf(service.getServiceID()));
-      addFieldsToStmt(service, stmt);
+      stmt.setString(1, service.getServiceID());
+      stmt.setString(2, service.getType());
+      stmt.setString(3, service.getDescription());
+      stmt.setString(4, service.getLocation());
+      stmt.setString(5, service.getCategory());
+      stmt.setString(6, service.getUrgency());
+      stmt.setString(7, service.getDate());
+      stmt.setString(8, service.getAdditionalInfo());
+      stmt.setString(9, service.getRequester());
       stmt.setString(10, String.valueOf(service.getStatus()));
       stmt.setString(11, service.getEmployee());
       stmt.executeUpdate();
@@ -442,7 +449,7 @@ public class JDBCUtils {
    * @param serviceID is the ID of the service to update
    * @param newInfo the new value of the AdditionalInfo of the service to be updated
    */
-  public static void updateServiceAdditionalInfoOnly(int serviceID, String newInfo) {
+  public static void updateServiceAdditionalInfoOnly(String serviceID, String newInfo) {
     try {
 
       PreparedStatement stmt =
@@ -485,7 +492,7 @@ public class JDBCUtils {
     Connection conn = getConn();
     Statement statement = conn.createStatement();
     java.sql.ResultSet resultSet = statement.executeQuery(string);
-    int serviceID;
+    String serviceID;
     String type;
     String description;
     String location;
@@ -497,7 +504,7 @@ public class JDBCUtils {
     String employee;
     String additionalInfo;
     while (resultSet.next()) {
-      serviceID = resultSet.getInt(1);
+      serviceID = resultSet.getString(1);
       type = resultSet.getString(2);
       description = resultSet.getString(3);
       location = resultSet.getString(4);
@@ -537,13 +544,13 @@ public class JDBCUtils {
    *
    * @param ID service ID of the service to be removed
    */
-  public static void delete(int ID) {
+  public static void delete(String ID) {
     int numRows = 0;
     try {
       PreparedStatement stmt =
           getConn()
               .prepareStatement("delete from ADMIN.Service where ADMIN.Service.serviceID= (?)");
-      stmt.setString(1, String.valueOf(ID));
+      stmt.setString(1, ID);
       numRows = stmt.executeUpdate();
       stmt.closeOnCompletion();
     } catch (SQLException e) {
@@ -622,8 +629,15 @@ public class JDBCUtils {
 
     try {
 
-      preparedStatement.setInt(1, service.getServiceID());
-      addFieldsToStmt(service, preparedStatement);
+      preparedStatement.setString(1, service.getServiceID());
+      preparedStatement.setString(2, service.getType());
+      preparedStatement.setString(3, service.getDescription());
+      preparedStatement.setString(4, service.getLocation());
+      preparedStatement.setString(5, service.getCategory());
+      preparedStatement.setString(6, service.getUrgency());
+      preparedStatement.setString(7, service.getDate());
+      preparedStatement.setString(8, service.getAdditionalInfo());
+      preparedStatement.setString(9, service.getRequester());
       preparedStatement.setInt(10, service.getStatus());
       preparedStatement.setString(11, service.getEmployee());
 
@@ -632,18 +646,6 @@ public class JDBCUtils {
     } catch (SQLException e) {
       System.out.print("It seems there is an error in the SQL syntax");
     }
-  }
-
-  private static void addFieldsToStmt(Service service, PreparedStatement preparedStatement)
-      throws SQLException {
-    preparedStatement.setString(2, service.getType());
-    preparedStatement.setString(3, service.getDescription());
-    preparedStatement.setString(4, service.getLocation());
-    preparedStatement.setString(5, service.getCategory());
-    preparedStatement.setString(6, service.getUrgency());
-    preparedStatement.setString(7, service.getDate());
-    preparedStatement.setString(8, service.getAdditionalInfo());
-    preparedStatement.setString(9, service.getRequester());
   }
 
   /**
@@ -657,24 +659,19 @@ public class JDBCUtils {
       PreparedStatement stmt =
           connection.prepareStatement(
               "insert into ADMIN.EMPLOYEE values ((?),(?),(?),(?),(?),(?),(?),(?))");
-      createEmployeeFromResult(employee, stmt);
+      stmt.setString(1, employee.getFirstName());
+      stmt.setString(2, employee.getLastName());
+      stmt.setString(3, employee.getEmployeeID());
+      stmt.setString(4, employee.getPassword());
+      stmt.setString(5, employee.getEmail());
+      stmt.setInt(6, employee.getAccessLevel());
+      stmt.setString(7, employee.getPrimaryWorkspace());
+      stmt.setString(8, employee.getSalt());
       stmt.executeUpdate();
       stmt.closeOnCompletion();
     } catch (SQLException e) {
       e.printStackTrace();
     }
-  }
-
-  private static void createEmployeeFromResult(Employee employee, PreparedStatement stmt)
-      throws SQLException {
-    stmt.setString(1, employee.getFirstName());
-    stmt.setString(2, employee.getLastName());
-    stmt.setString(3, employee.getEmployeeID());
-    stmt.setString(4, employee.getPassword());
-    stmt.setString(5, employee.getEmail());
-    stmt.setInt(6, employee.getAccessLevel());
-    stmt.setString(7, employee.getPrimaryWorkspace());
-    stmt.setString(8, employee.getSalt());
   }
 
   /**
@@ -735,7 +732,6 @@ public class JDBCUtils {
       e.printStackTrace();
     }
   }
-
   /**
    * Removes the given employee from the Employee table
    *
@@ -764,7 +760,36 @@ public class JDBCUtils {
     String s = "select * from ADMIN.EMPLOYEE";
     Statement statement = getConn().createStatement();
     java.sql.ResultSet resultSet = statement.executeQuery(s);
-    createAndAddEmployee(employees, resultSet);
+    String firstName;
+    String lastName;
+    String employeeID;
+    String password;
+    String email;
+    int accessLevel;
+    String primaryWorkspace;
+    String salt;
+    while (resultSet.next()) {
+      firstName = resultSet.getString(1);
+      lastName = resultSet.getString(2);
+      employeeID = resultSet.getString(3);
+      password = resultSet.getString(4);
+      email = resultSet.getString(5);
+      accessLevel = resultSet.getInt(6);
+      primaryWorkspace = resultSet.getString(7);
+      salt = resultSet.getString(8);
+      Employee employee =
+          new Employee(
+              firstName,
+              lastName,
+              employeeID,
+              password,
+              email,
+              accessLevel,
+              primaryWorkspace,
+              salt);
+      employees.add(employee);
+    }
+    resultSet.close();
 
     return employees;
   }
@@ -778,26 +803,6 @@ public class JDBCUtils {
     java.sql.ResultSet r = stmt.executeQuery();
     String firstName, lastName, employeeID, password, email, primaryWorkspace, salt;
     int accessLevel;
-    createAndAddEmployee(employees, r);
-
-    try {
-      close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return employees;
-  }
-
-  private static void createAndAddEmployee(ArrayList<Employee> employees, ResultSet r)
-      throws SQLException {
-    String firstName;
-    String lastName;
-    String employeeID;
-    String password;
-    String email;
-    int accessLevel;
-    String primaryWorkspace;
-    String salt;
     while (r.next()) {
       firstName = r.getString(1);
       lastName = r.getString(2);
@@ -820,6 +825,13 @@ public class JDBCUtils {
       employees.add(employee);
     }
     r.close();
+
+    try {
+      close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return employees;
   }
 
   /**
@@ -928,7 +940,14 @@ public class JDBCUtils {
   public static boolean createUserAccount(Employee employee) throws SQLException {
     String createAccount = "insert into ADMIN.EMPLOYEE values(?,?,?,?,?,?,?,?)";
     PreparedStatement preparedStatement = getConn().prepareStatement(createAccount);
-    createEmployeeFromResult(employee, preparedStatement);
+    preparedStatement.setString(1, employee.getFirstName());
+    preparedStatement.setString(2, employee.getLastName());
+    preparedStatement.setString(3, employee.getEmployeeID());
+    preparedStatement.setString(4, employee.getPassword());
+    preparedStatement.setString(5, employee.getEmail());
+    preparedStatement.setInt(6, employee.getAccessLevel());
+    preparedStatement.setString(7, employee.getPrimaryWorkspace());
+    preparedStatement.setString(8, employee.getSalt());
     int check = preparedStatement.executeUpdate();
     return check != 0;
   }
@@ -998,12 +1017,12 @@ public class JDBCUtils {
    * @return true if update successful
    * @throws SQLException something went wrong with DB
    */
-  public static boolean assignEmployeeToRequest(String employeeID, int serviceID)
+  public static boolean assignEmployeeToRequest(String employeeID, String serviceID)
       throws SQLException {
     String assign = "update ADMIN.SERVICE set EMPLOYEE=(?) where SERVICEID=(?)";
     PreparedStatement preparedStatement = getConn().prepareStatement(assign);
     preparedStatement.setString(1, employeeID);
-    preparedStatement.setInt(2, serviceID);
+    preparedStatement.setString(2, serviceID);
     int check = preparedStatement.executeUpdate();
     preparedStatement.close();
 
@@ -1142,5 +1161,21 @@ public class JDBCUtils {
         e.printStackTrace();
       }
     }
+  }
+
+  public static boolean serviceIDExists(String id) {
+    String check = "Select * from ADMIN.SERVICE WHERE SERVICEID=(?)";
+    PreparedStatement ps = null;
+    try {
+      ps = getConn().prepareStatement(check);
+      ps.setString(1, id);
+      ResultSet r = ps.executeQuery();
+      if (r.next()) {
+        return true;
+      }
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+    return false;
   }
 }

@@ -13,7 +13,7 @@ class ServiceTest {
           "employee1", "adsfasdf", "employeeID", "dfasdf", "asdfasd", 0, "asdf", "asdfsadf");
   Service service =
       new Service(
-          12,
+          "TEST-0",
           "adfasdf",
           "asdfasdf",
           "asdfasdf",
@@ -25,7 +25,7 @@ class ServiceTest {
           0);
   Service service2 =
       new Service(
-          12,
+          "TEST-1",
           "adfasdf",
           "asdfasdf",
           "asdfasdf",

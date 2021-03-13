@@ -142,8 +142,7 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
 
       // Stage stage = null;
       // put code for submitting a service request here
-      Service service = new Service(this.IDCount, "Maintenance");
-      this.IDCount++;
+      Service service = new Service(DataOperations.generateServiceID("MAIN"), "Maintenance");
       // System.out.println(this.IDCount);
       service.setCategory((String) category.getValue());
       service.setLocation((String) locationField.getValue());
