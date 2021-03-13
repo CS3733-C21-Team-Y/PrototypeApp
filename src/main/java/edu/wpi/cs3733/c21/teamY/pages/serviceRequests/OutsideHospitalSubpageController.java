@@ -109,7 +109,7 @@ public class OutsideHospitalSubpageController extends GenericServiceFormPage {
       nonCompleteForm(stackPane);
     } else {
 
-      Service service = new Service("OH", "Outside Transport");
+      Service service = new Service("Outside Transport");
       // service.setCategory((String) patientName.getText());
       // service.setLocation((String) patientName.getValue());
       service.setDescription(description.getText());

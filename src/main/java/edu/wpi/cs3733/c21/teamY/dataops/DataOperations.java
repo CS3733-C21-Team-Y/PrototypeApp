@@ -98,7 +98,7 @@ public class DataOperations {
     return JDBCUtils.exportService(serviceType, requester);
   }
 
-  public static void removeService(String ID) throws SQLException {
+  public static void removeService(int ID) throws SQLException {
     JDBCUtils.delete(ID);
   }
 
@@ -106,7 +106,7 @@ public class DataOperations {
     JDBCUtils.updateServiceStatus(service, status);
   }
 
-  public static void updateServiceAdditionalInfoOnly(String serviceID, String newInfo)
+  public static void updateServiceAdditionalInfoOnly(int serviceID, String newInfo)
       throws SQLException {
     JDBCUtils.updateServiceAdditionalInfoOnly(serviceID, newInfo);
   }
@@ -205,15 +205,15 @@ public class DataOperations {
     return JDBCUtils.findUserSalt(username);
   }
 
-  public static String generateServiceID(String type) {
+  public static String generateUniqueID(String type) {
     Random rng = new Random(System.currentTimeMillis());
-    rng.ints(0, 25);
+
     StringBuilder sb = new StringBuilder();
     int charType;
     int nextInt;
     for (int i = 0; i < 4; i++) {
-      charType = rng.nextInt() % 3;
-      nextInt = rng.nextInt();
+      charType = rng.nextInt(3);
+      nextInt = rng.nextInt(26);
       switch (charType) {
         case 0: // number
           int num = nextInt % 10;
@@ -232,9 +232,13 @@ public class DataOperations {
 
     String ID = type + '-' + sb.toString();
 
+    if (type.equals("NODE") && JDBCUtils.nodeIDExists(ID)) {
+      ID = generateUniqueID(type);
+    }
+
     // need to check to see if this ID exists in the DB already
-    if (JDBCUtils.serviceIDExists(ID)) {
-      ID = generateServiceID(type);
+    else if (JDBCUtils.serviceIDExists(ID)) {
+      ID = generateUniqueID(type);
     }
 
     return ID;

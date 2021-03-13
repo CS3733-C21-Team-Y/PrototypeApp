@@ -8,7 +8,7 @@ public class TestServiceTableJDBC {
 
   Service service1 =
       new Service(
-          DataOperations.generateServiceID("MAIN"),
+          DataOperations.generateUniqueID("MAIN"),
           "Maintenance",
           "Broken door in atrium",
           "Atrium",
@@ -19,7 +19,7 @@ public class TestServiceTableJDBC {
           0);
   Service service2 =
       new Service(
-          DataOperations.generateServiceID("MAIN"),
+          DataOperations.generateUniqueID("MAIN"),
           "Maintenance",
           "Tile Removed from walkway",
           "outide",
@@ -45,8 +45,8 @@ public class TestServiceTableJDBC {
   //    System.out.println(DataOperations.exportService("Maintenance", ""));
   //  }
 
-  @Test
-  public void testDeleteService() throws SQLException {
-    DataOperations.removeService(service2.getServiceID());
-  }
+//  @Test
+//  public void testDeleteService() throws SQLException {
+//    DataOperations.removeService(service2.getServiceID());
+//  }
 }

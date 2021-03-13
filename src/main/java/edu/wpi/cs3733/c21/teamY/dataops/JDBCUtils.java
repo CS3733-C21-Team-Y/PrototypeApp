@@ -81,7 +81,7 @@ public class JDBCUtils {
     }
     try {
       String sqlService =
-          "create table Service(serviceID PRIMARY KEY , type varchar(20),"
+          "create table Service(serviceID varchar(10) PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), type varchar(20),"
               + "description varchar(255) , location varchar(30), category varchar(20), "
               + "urgency varchar(10), date varchar(20), additionalInfo varchar(255), requester varchar(30) not null, status int,"
               + " employee varchar(30) DEFAULT 'admin',"
@@ -425,7 +425,7 @@ public class JDBCUtils {
       PreparedStatement stmt =
           connection.prepareStatement(
               "INSERT INTO ADMIN.SERVICE VALUES ((?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?))");
-      stmt.setString(1, service.getServiceID());
+      stmt.setString(1, "default");
       stmt.setString(2, service.getType());
       stmt.setString(3, service.getDescription());
       stmt.setString(4, service.getLocation());
@@ -449,7 +449,7 @@ public class JDBCUtils {
    * @param serviceID is the ID of the service to update
    * @param newInfo the new value of the AdditionalInfo of the service to be updated
    */
-  public static void updateServiceAdditionalInfoOnly(String serviceID, String newInfo) {
+  public static void updateServiceAdditionalInfoOnly(int serviceID, String newInfo) {
     try {
 
       PreparedStatement stmt =
@@ -459,7 +459,7 @@ public class JDBCUtils {
                       + " ADDITIONALINFO = (?) "
                       + " where SERVICEid = (?)");
       stmt.setString(1, newInfo);
-      stmt.setString(2, String.valueOf(serviceID));
+      stmt.setInt(2, serviceID);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -488,11 +488,12 @@ public class JDBCUtils {
     } else {
       string = "select * from ADMIN.Service where requester =" + Requester;
     }
+    string+="order by ADMIN.SERVICE.SERVICEID DESC";
 
     Connection conn = getConn();
     Statement statement = conn.createStatement();
     java.sql.ResultSet resultSet = statement.executeQuery(string);
-    String serviceID;
+    int serviceID;
     String type;
     String description;
     String location;
@@ -504,7 +505,7 @@ public class JDBCUtils {
     String employee;
     String additionalInfo;
     while (resultSet.next()) {
-      serviceID = resultSet.getString(1);
+      serviceID = resultSet.getInt(1);
       type = resultSet.getString(2);
       description = resultSet.getString(3);
       location = resultSet.getString(4);
@@ -544,13 +545,13 @@ public class JDBCUtils {
    *
    * @param ID service ID of the service to be removed
    */
-  public static void delete(String ID) {
+  public static void delete(int ID) {
     int numRows = 0;
     try {
       PreparedStatement stmt =
           getConn()
               .prepareStatement("delete from ADMIN.Service where ADMIN.Service.serviceID= (?)");
-      stmt.setString(1, ID);
+      stmt.setInt(1, ID);
       numRows = stmt.executeUpdate();
       stmt.closeOnCompletion();
     } catch (SQLException e) {
@@ -629,7 +630,7 @@ public class JDBCUtils {
 
     try {
 
-      preparedStatement.setString(1, service.getServiceID());
+      preparedStatement.setInt(1, service.getServiceID());
       preparedStatement.setString(2, service.getType());
       preparedStatement.setString(3, service.getDescription());
       preparedStatement.setString(4, service.getLocation());
@@ -1165,6 +1166,22 @@ public class JDBCUtils {
 
   public static boolean serviceIDExists(String id) {
     String check = "Select * from ADMIN.SERVICE WHERE SERVICEID=(?)";
+    PreparedStatement ps = null;
+    try {
+      ps = getConn().prepareStatement(check);
+      ps.setString(1, id);
+      ResultSet r = ps.executeQuery();
+      if (r.next()) {
+        return true;
+      }
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+    return false;
+  }
+
+  public static boolean nodeIDExists(String id) {
+    String check = "Select * from ADMIN.NODE WHERE NODEID=(?)";
     PreparedStatement ps = null;
     try {
       ps = getConn().prepareStatement(check);

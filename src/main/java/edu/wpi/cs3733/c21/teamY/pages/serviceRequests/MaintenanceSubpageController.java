@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 
 public class MaintenanceSubpageController extends GenericServiceFormPage {
@@ -142,7 +141,7 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
 
       // Stage stage = null;
       // put code for submitting a service request here
-      Service service = new Service(DataOperations.generateServiceID("MAIN"), "Maintenance");
+      Service service = new Service("Maintenance");
       // System.out.println(this.IDCount);
       service.setCategory((String) category.getValue());
       service.setLocation((String) locationField.getValue());
