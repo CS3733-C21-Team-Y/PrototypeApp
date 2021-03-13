@@ -203,4 +203,9 @@ public class DataOperations {
   public static String findUserSalt(String username) {
     return JDBCUtils.findUserSalt(username);
   }
+
+  public static ArrayList<EmployeeClearanceInfo> getListCleared() {
+    return JDBCUtils.getListCleared();
+  }
+
 }

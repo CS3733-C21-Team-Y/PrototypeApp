@@ -1072,4 +1072,44 @@ public class JDBCUtils {
     preparedStatement.close();
     return check != 0;
   }
+
+  public static ArrayList<EmployeeClearanceInfo> getListCleared() {
+
+    try {
+      PreparedStatement stmt = getConn().prepareStatement("select ADMIN.EMPLOYEE.FIRSTNAME, " +
+              "ADMIN.EMPLOYEE.LASTNAME, " +
+              "ADMIN.EMPLOYEE.EMPLOYEEID," +
+              "ADMIN.CLEARANCE.CLEARANCE " +
+              "from ADMIN.EMPLOYEE " +
+              "JOIN ADMIN.CLEARANCE " +
+              "ON EMPLOYEE.EMPLOYEEID = CLEARANCE.EMPLOYEEID");
+
+      ResultSet resultSet = stmt.executeQuery();
+
+      ArrayList<EmployeeClearanceInfo> list = new ArrayList();
+      String firstName;
+      String lastName;
+      String employeeID;
+      boolean cleared;
+      while(resultSet.next()) {
+        firstName = resultSet.getString(1);
+        lastName = resultSet.getString(2);
+        employeeID = resultSet.getString(3);
+        cleared = resultSet.getBoolean(4);
+        EmployeeClearanceInfo employeeClearanceInfo = new EmployeeClearanceInfo(firstName, lastName, employeeID, cleared);
+        list.add(employeeClearanceInfo);
+      }
+
+      return list;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+    }
+
+    return null;
+
+  }
+
+
+
+
 }
