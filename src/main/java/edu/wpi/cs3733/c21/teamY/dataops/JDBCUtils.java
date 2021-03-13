@@ -40,8 +40,9 @@ public class JDBCUtils {
 
       e.printStackTrace();
     }
+    Statement stmt = null;
     try {
-      Statement stmt = conn.createStatement();
+      stmt = conn.createStatement();
       String sqlNode =
           "create table Node(nodeID varchar(20) PRIMARY KEY ,\n"
               + "nodeType varchar(8) not null ,\n"
@@ -54,14 +55,31 @@ public class JDBCUtils {
               + "teamAssigned char not null )";
 
       stmt.executeUpdate(sqlNode);
+    } catch (SQLException ignored) {
+      // ignored.printStackTrace();
+    }
 
+    try {
       String sqlEdge =
           "create table Edge(edgeID varchar(40) PRIMARY KEY NOT NULL ,\n"
               + "startNode varchar(30) not null ,\n"
               + "endNode varchar(30) not null)";
 
       stmt.executeUpdate(sqlEdge);
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+    }
 
+    try {
+      String sqlEmployee =
+          "create table Employee(firstName varchar(30) not null, lastName varchar(30) not null, employeeID varchar(30) PRIMARY KEY not null, "
+              + "password varchar(100), email varchar(50), accessLevel int not null, primaryWorkspace varchar(30), salt varchar(100))";
+
+      stmt.executeUpdate(sqlEmployee);
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+    }
+    try {
       String sqlService =
           "create table Service(serviceID int PRIMARY KEY , type varchar(20),"
               + "description varchar(255) , location varchar(30), category varchar(20), "
@@ -70,24 +88,42 @@ public class JDBCUtils {
               + "constraint FK_Requester_ID FOREIGN KEY (requester) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE,"
               + "constraint FK_Employee FOREIGN KEY (employee) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE,"
               + " check( status=-1 OR status =0 OR status=1))";
+      stmt.executeUpdate(sqlService);
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+    }
 
-      String sqlEmployee =
-          "create table Employee(firstName varchar(30) not null, lastName varchar(30) not null, employeeID varchar(30) PRIMARY KEY not null, "
-              + "password varchar(100), email varchar(50), accessLevel int not null, primaryWorkspace varchar(30), salt varchar(100))";
-
+    try {
       String sqlParkingLot =
           "create table ParkingLot(nodeID varchar(20) DEFAULT 'to be changed', userName varchar(30) PRIMARY KEY, "
               + "constraint FK_UserName FOREIGN KEY(userName) REFERENCES ADMIN.EMPLOYEE(EMPLOYEEID) ON DELETE CASCADE,"
               + "constraint FK_NodeID FOREIGN KEY(nodeID) REFERENCES ADMIN.Node(NODEID) ON DELETE CASCADE)";
-      stmt.executeUpdate(sqlEmployee);
-      stmt.executeUpdate(sqlService);
-      stmt.executeUpdate(sqlParkingLot);
 
-      JDBCUtils.fillTablesFromCSV();
-    } catch (SQLException ignored) {
-      // ignored.printStackTrace();
-    } catch (IllegalAccessException | IOException e) {
-      e.printStackTrace();
+      stmt.executeUpdate(sqlParkingLot);
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+    }
+
+    try {
+      String sqlClearToEnter =
+          "create table Clearance(employeeID varchar(30) PRIMARY KEY, clearance boolean,"
+              + " constraint FK_USER_TO_BE_CLEARED FOREIGN KEY (employeeID) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE)";
+
+      stmt.executeUpdate(sqlClearToEnter);
+      stmt.closeOnCompletion();
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+    }
+    try {
+      try {
+        JDBCUtils.fillTablesFromCSV();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    } catch (SQLException exception) {
+      exception.printStackTrace();
     }
   }
 
@@ -696,6 +732,7 @@ public class JDBCUtils {
       e.printStackTrace();
     }
   }
+
   /**
    * Removes the given employee from the Employee table
    *
@@ -919,7 +956,7 @@ public class JDBCUtils {
   /**
    * updated the password of the User with the specified userID
    *
-   * @param userID of the user who's password is to be changed
+   * @param email of the user who's password is to be changed
    * @param newPassword to change password to
    * @return boolean for whether reset was successful
    * @throws SQLException upon sql error communicating with the database

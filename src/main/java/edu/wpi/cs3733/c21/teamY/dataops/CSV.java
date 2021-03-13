@@ -41,7 +41,7 @@ public class CSV {
       // parsing a CSV file into BufferedReader class constructor
 
       try {
-        brNode = new BufferedReader(new FileReader(nodeTestPath));
+        brNode = new BufferedReader(new FileReader(nodePath));
 
       } catch (FileNotFoundException e) {
         System.out.println("Node BufferedReader initialized failed!");
@@ -56,7 +56,7 @@ public class CSV {
     // parsing a CSV file into BufferedReader class constructor
 
     try {
-      brEdge = new BufferedReader(new FileReader(edgeTestPath));
+      brEdge = new BufferedReader(new FileReader(edgePath));
 
     } catch (FileNotFoundException e) {
       System.out.println("Edge BufferedReader initialized failed!");
