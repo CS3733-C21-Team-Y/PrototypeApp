@@ -10,6 +10,7 @@ public class Employee {
   private int accessLevel;
   private String primaryWorkspace;
   private String salt;
+  private boolean cleared;
 
   // all feilds including salt
   public Employee(
@@ -56,6 +57,18 @@ public class Employee {
     this.accessLevel = Integer.parseInt(tb.getAccessLevel().getValue());
     this.primaryWorkspace = tb.getPrimaryWorkspace().getValue();
     this.salt = tb.getSalt().getValue();
+  }
+
+  // Employee constructor for use in the view of cleared employees
+  public Employee(String firstName, String lastName, String employeeID, boolean cleared) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.employeeID = employeeID;
+    this.cleared = cleared;
+  }
+
+  public boolean getClearance() {
+    return cleared;
   }
 
   public String getPassword() {

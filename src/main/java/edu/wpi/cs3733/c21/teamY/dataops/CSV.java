@@ -41,7 +41,7 @@ public class CSV {
       // parsing a CSV file into BufferedReader class constructor
 
       try {
-        brNode = new BufferedReader(new FileReader(nodeTestPath));
+        brNode = new BufferedReader(new FileReader(nodePath));
 
       } catch (FileNotFoundException e) {
         System.out.println("Node BufferedReader initialized failed!");
@@ -56,7 +56,7 @@ public class CSV {
     // parsing a CSV file into BufferedReader class constructor
 
     try {
-      brEdge = new BufferedReader(new FileReader(edgeTestPath));
+      brEdge = new BufferedReader(new FileReader(edgePath));
 
     } catch (FileNotFoundException e) {
       System.out.println("Edge BufferedReader initialized failed!");
@@ -214,7 +214,7 @@ public class CSV {
 
       Service service =
           new Service(
-              Integer.parseInt(serviceID),
+              serviceID,
               type,
               description,
               location,
@@ -556,7 +556,7 @@ public class CSV {
     brService.readLine(); // Reads first line to clear the attributes line
     while ((line = brService.readLine()) != null) {
       String[] strService = line.split(splitBy);
-      int serviceID = Integer.parseInt(strService[0]);
+      String serviceID = strService[0];
       String type = strService[1];
       String description = strService[2];
       String location = strService[3];
