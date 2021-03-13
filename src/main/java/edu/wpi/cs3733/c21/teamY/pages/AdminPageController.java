@@ -368,7 +368,7 @@ public class AdminPageController extends SubPage {
   }
 
   private void handleMouseDragged(MouseEvent e) {
-    if (nodesAffectedByDrag.size() > 0) {
+    if (nodesAffectedByDrag.size() > 0 && !creatingEdge) {
       isDraggingAdorner = true;
 
       mapInsertController.clearSelection();
@@ -388,7 +388,7 @@ public class AdminPageController extends SubPage {
         double deltaY = e.getY() - handle.getStartY() - dragStartYRelativeEdge;
         moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), deltaX, deltaY);
       }
-    } else if (shiftPressed) {
+    } else if (shiftPressed && !creatingEdge) {
       if (rectangleSelection == null) {
         rectangleSelection = new Rectangle();
         rectangleSelection.setX(dragStartX);
