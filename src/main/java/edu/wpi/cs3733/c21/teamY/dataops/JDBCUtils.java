@@ -1073,16 +1073,18 @@ public class JDBCUtils {
     return check != 0;
   }
 
-  public static ArrayList<EmployeeClearanceInfo> getListCleared() {
+  public static ArrayList<EmployeeClearanceInfo> getClearanceList() {
 
     try {
-      PreparedStatement stmt = getConn().prepareStatement("select ADMIN.EMPLOYEE.FIRSTNAME, " +
-              "ADMIN.EMPLOYEE.LASTNAME, " +
-              "ADMIN.EMPLOYEE.EMPLOYEEID," +
-              "ADMIN.CLEARANCE.CLEARANCE " +
-              "from ADMIN.EMPLOYEE " +
-              "JOIN ADMIN.CLEARANCE " +
-              "ON EMPLOYEE.EMPLOYEEID = CLEARANCE.EMPLOYEEID");
+      PreparedStatement stmt =
+          getConn()
+              .prepareStatement(
+                  "select FIRSTNAME, "
+                      + "LASTNAME, "
+                      + "EMPLOYEEID, "
+                      + "CLEARANCE "
+                      + "from ADMIN.EMPLOYEE "
+                      + "NATURAL JOIN ADMIN.CLEARANCE ");
 
       ResultSet resultSet = stmt.executeQuery();
 
@@ -1091,12 +1093,13 @@ public class JDBCUtils {
       String lastName;
       String employeeID;
       boolean cleared;
-      while(resultSet.next()) {
+      while (resultSet.next()) {
         firstName = resultSet.getString(1);
         lastName = resultSet.getString(2);
         employeeID = resultSet.getString(3);
         cleared = resultSet.getBoolean(4);
-        EmployeeClearanceInfo employeeClearanceInfo = new EmployeeClearanceInfo(firstName, lastName, employeeID, cleared);
+        EmployeeClearanceInfo employeeClearanceInfo =
+            new EmployeeClearanceInfo(firstName, lastName, employeeID, cleared);
         list.add(employeeClearanceInfo);
       }
 
@@ -1106,10 +1109,58 @@ public class JDBCUtils {
     }
 
     return null;
-
   }
 
+  public static void markAsCleared(String employeeID) {
 
+    try {
+      PreparedStatement stmt =
+          getConn().prepareStatement("INSERT INTO ADMIN.CLEARANCE VALUES ((?),(?))");
+      stmt.setString(1, employeeID);
+      stmt.setBoolean(2, true);
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
 
+    } catch (SQLException e) {
+      try {
+        PreparedStatement stmt =
+            getConn()
+                .prepareStatement(
+                    "update ADMIN.CLEARANCE " + "set CLEARANCE = (?)" + "where EMPLOYEEID = (?)");
+        stmt.setBoolean(1, true);
+        stmt.setString(2, employeeID);
+        stmt.executeUpdate();
+        stmt.closeOnCompletion();
+      } catch (SQLException exception) {
+        System.out.println("Error updating the database: Could not mark this user as cleared");
+        e.printStackTrace();
+      }
+    }
+  }
 
+  public static void markAsNotCleared(String employeeID) {
+    try {
+      PreparedStatement stmt =
+          getConn().prepareStatement("INSERT INTO ADMIN.CLEARANCE VALUES ((?),(?))");
+      stmt.setString(1, employeeID);
+      stmt.setBoolean(2, false);
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
+
+    } catch (SQLException e) {
+      try {
+        PreparedStatement stmt =
+            getConn()
+                .prepareStatement(
+                    "update ADMIN.CLEARANCE " + "set CLEARANCE = (?)" + "where EMPLOYEEID = (?)");
+        stmt.setBoolean(1, false);
+        stmt.setString(2, employeeID);
+        stmt.executeUpdate();
+        stmt.closeOnCompletion();
+      } catch (SQLException exception) {
+        System.out.println("Error updating the database: Could not mark this user as not cleared");
+        e.printStackTrace();
+      }
+    }
+  }
 }

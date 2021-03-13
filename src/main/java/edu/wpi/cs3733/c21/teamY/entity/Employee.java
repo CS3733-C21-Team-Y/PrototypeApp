@@ -59,12 +59,16 @@ public class Employee {
     this.salt = tb.getSalt().getValue();
   }
 
-  //Employee constructor for use in the view of cleared employees
-  public Employee(String firstName, String lastName, String employeeID, boolean cleared){
+  // Employee constructor for use in the view of cleared employees
+  public Employee(String firstName, String lastName, String employeeID, boolean cleared) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.employeeID = employeeID;
     this.cleared = cleared;
+  }
+
+  public boolean getClearance() {
+    return cleared;
   }
 
   public String getPassword() {

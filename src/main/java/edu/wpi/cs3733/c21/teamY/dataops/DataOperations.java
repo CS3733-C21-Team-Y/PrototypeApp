@@ -204,8 +204,15 @@ public class DataOperations {
     return JDBCUtils.findUserSalt(username);
   }
 
-  public static ArrayList<EmployeeClearanceInfo> getListCleared() {
-    return JDBCUtils.getListCleared();
+  public static ArrayList<EmployeeClearanceInfo> getClearanceList() {
+    return JDBCUtils.getClearanceList();
   }
 
+  public static void markAsCleared(String employeeID) {
+    JDBCUtils.markAsCleared(employeeID);
+  }
+
+  public static void markAsNotCleared(String employeeID) {
+    JDBCUtils.markAsNotCleared(employeeID);
+  }
 }
