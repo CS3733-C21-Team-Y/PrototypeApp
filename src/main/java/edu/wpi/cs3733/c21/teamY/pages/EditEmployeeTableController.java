@@ -51,6 +51,85 @@ public class EditEmployeeTableController extends SubPage {
     nodeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditNodeTable.fxml"));
     exportBtn.setOnAction(e -> exportToCSV());
 
+    populateColumns();
+
+    treeTable.setShowRoot(false);
+    treeTable.setEditable(true);
+    allColumns();
+    setList();
+    setColumns();
+    Platform.runLater(
+        () -> {
+          treeTable.maxHeightProperty().bind(treeTable.getScene().heightProperty());
+        });
+  }
+
+  @Override
+  public void loadNavigationBar() {
+    parent.animateRightColumnWidth(30);
+  }
+
+  private void exportToCSV() {
+    try {
+      DataOperations.DBtoCSV("NODE");
+      DataOperations.DBtoCSV("EDGE");
+      DataOperations.DBtoCSV("EMPLOYEE");
+      DataOperations.DBtoCSV("SERVICE");
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+  }
+
+  private void expandTable(ActionEvent e) {
+    if (!expanded) {
+      parent.animateRightColumnWidth(800);
+      expandIcon.setGlyphName("ANGLE_DOUBLE_RIGHT");
+    } else {
+      parent.animateRightColumnWidth(30);
+      expandIcon.setGlyphName("ANGLE_DOUBLE_LEFT");
+    }
+    expanded = !expanded;
+  }
+
+  public void setColumns() {
+    ObservableList<TableEmployee> tn = FXCollections.observableArrayList();
+    for (Employee employee : employees) {
+      tn.add(new TableEmployee(employee));
+    }
+    final TreeItem<TableEmployee> root =
+        new RecursiveTreeItem<>(tn, RecursiveTreeObject::getChildren);
+
+    treeTable.setRoot(root);
+  }
+
+  public void setList() {
+    // get list of nodes from database
+    try {
+      this.employees = DataOperations.getListOfEmployeeFromDB();
+    } catch (Exception e) {
+
+    }
+  }
+
+  public void allColumns() {
+    treeTable
+        .getColumns()
+        .setAll(
+            firstnameCol,
+            lastnameCol,
+            employeeIDCol,
+            passwordCol,
+            emailCol,
+            accessLevelCol,
+            primaryWorkspaceCol,
+            saltCol);
+  }
+
+  public void subsetColumns() {
+    treeTable.getColumns().setAll(firstnameCol, lastnameCol, employeeIDCol);
+  }
+
+  public void populateColumns() {
     firstnameCol = new JFXTreeTableColumn<>("First Name");
     firstnameCol.setPrefWidth(80);
     firstnameCol.setCellValueFactory(
@@ -292,72 +371,5 @@ public class EditEmployeeTableController extends SubPage {
             throwables.printStackTrace();
           }
         });
-
-    treeTable.setShowRoot(false);
-    treeTable.setEditable(true);
-    treeTable
-        .getColumns()
-        .setAll(
-            firstnameCol,
-            lastnameCol,
-            employeeIDCol,
-            passwordCol,
-            emailCol,
-            accessLevelCol,
-            primaryWorkspaceCol,
-            saltCol);
-    setList();
-    setColumns();
-    Platform.runLater(
-        () -> {
-          treeTable.maxHeightProperty().bind(treeTable.getScene().heightProperty());
-        });
-  }
-
-  @Override
-  public void loadNavigationBar() {
-    parent.animateRightColumnWidth(30);
-  }
-
-  private void exportToCSV() {
-    try {
-      DataOperations.DBtoCSV("NODE");
-      DataOperations.DBtoCSV("EDGE");
-      DataOperations.DBtoCSV("EMPLOYEE");
-      DataOperations.DBtoCSV("SERVICE");
-    } catch (SQLException throwables) {
-      throwables.printStackTrace();
-    }
-  }
-
-  private void expandTable(ActionEvent e) {
-    if (!expanded) {
-      parent.animateRightColumnWidth(800);
-      expandIcon.setGlyphName("ANGLE_DOUBLE_RIGHT");
-    } else {
-      parent.animateRightColumnWidth(30);
-      expandIcon.setGlyphName("ANGLE_DOUBLE_LEFT");
-    }
-    expanded = !expanded;
-  }
-
-  public void setColumns() {
-    ObservableList<TableEmployee> tn = FXCollections.observableArrayList();
-    for (Employee employee : employees) {
-      tn.add(new TableEmployee(employee));
-    }
-    final TreeItem<TableEmployee> root =
-        new RecursiveTreeItem<>(tn, RecursiveTreeObject::getChildren);
-
-    treeTable.setRoot(root);
-  }
-
-  public void setList() {
-    // get list of nodes from database
-    try {
-      this.employees = DataOperations.getListOfEmployeeFromDB();
-    } catch (Exception e) {
-
-    }
   }
 }
