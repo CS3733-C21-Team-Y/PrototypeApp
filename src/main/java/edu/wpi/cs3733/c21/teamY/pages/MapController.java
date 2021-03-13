@@ -936,7 +936,7 @@ public class MapController extends SubPage {
     }
 
     // determine offset that we will have to move the node
-    Bounds bounds = mapImageView.localToScene(mapImageView.getBoundsInLocal());
+    Bounds bounds = mapImageView.getBoundsInParent();
     double dx = (x - (bounds.getWidth() / 2 + bounds.getMinX()));
     double dy = (y - (bounds.getHeight() / 2 + bounds.getMinY()));
 
@@ -950,16 +950,17 @@ public class MapController extends SubPage {
             new KeyFrame(Duration.millis(200), new KeyValue(node.scaleYProperty(), scale))
     );
     timeline.play();*/
-    mapImageView.setTranslateX(mapImageView.getTranslateX() - f * dx);
-    adornerPane.setTranslateX(adornerPane.getTranslateX() - f * dx);
-
-    mapImageView.setTranslateY(mapImageView.getTranslateY() - f * dy);
-    adornerPane.setTranslateY(adornerPane.getTranslateY() - f * dy);
 
     mapImageView.setScaleX(scale);
     mapImageView.setScaleY(scale);
     adornerPane.setScaleX(scale);
     adornerPane.setScaleY(scale);
+
+    mapImageView.setTranslateX(mapImageView.getTranslateX() - f * dx);
+    adornerPane.setTranslateX(adornerPane.getTranslateX() - f * dx);
+
+    mapImageView.setTranslateY(mapImageView.getTranslateY() - f * dy);
+    adornerPane.setTranslateY(adornerPane.getTranslateY() - f * dy);
   }
 
   protected void updateAdornerVisualsOnZoom() {
