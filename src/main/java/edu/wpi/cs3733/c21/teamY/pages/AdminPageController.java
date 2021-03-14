@@ -794,6 +794,8 @@ public class AdminPageController extends SubPage {
   private void handleFloorChanged(ActionEvent e, int menuItemIndex) {
     // This should be optimised to only switch if the floor actually changed, but its very fast, so
     // I cant be bothered
+    nodes = mapInsertController.loadNodesFromDB();
+    edges = mapInsertController.loadEdgesFromDB();
     mapInsertController.removeAllAdornerElements();
     mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
     mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
