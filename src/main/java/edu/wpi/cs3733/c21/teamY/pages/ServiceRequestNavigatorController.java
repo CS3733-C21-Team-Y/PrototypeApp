@@ -7,6 +7,7 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,8 +42,8 @@ public class ServiceRequestNavigatorController extends SubPage {
     assignedBtn.setOnAction(e -> filterByEmployee());
     allRequestsBtn.setOnAction(e -> loadServicesFromDB());
     backBtn.setOnAction(e -> buttonClicked(e));
-    //    drawByPermissions();
-    //    Platform.runLater(() -> filterByRequester());
+    drawByPermissions();
+    Platform.runLater(() -> filterByRequester());
 
     Tooltip.install(button2, button2Tooltip);
     Tooltip.install(myRequestsBtn, myRequestsBtnTooltip);
