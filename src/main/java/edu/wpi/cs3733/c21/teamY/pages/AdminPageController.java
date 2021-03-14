@@ -949,6 +949,8 @@ public class AdminPageController extends SubPage {
     mapInsertController.clearSelection();
     MapController.CircleEx c = mapInsertController.addNodeCircle(n);
     mapInsertController.selectCircle(c);
+    editNodeTableController.initialize();
+    editNodeTableController.selectRow(n.getNodeID());
   }
 
   private void createEdge(String startNodeString, String endNodeString) {
@@ -1157,6 +1159,7 @@ public class AdminPageController extends SubPage {
     }
 
     mapInsertController.removeSelected();
+    editNodeTableController.initialize();
   }
 
   private void loadMapFromCSV() {
