@@ -224,7 +224,7 @@ public class AdminPageController extends SubPage {
               .setOnMousePressed(
                   e -> {
                     if (e.isSecondaryButtonDown()) {
-                      System.out.println("Right button clicked");
+                      // System.out.println("Right button clicked");
                       rightClicked = true;
                     } else {
                       handleMouseDown(e);
@@ -251,7 +251,7 @@ public class AdminPageController extends SubPage {
               .setOnMouseReleased(
                   e -> {
                     if (rightClicked) {
-                      System.out.println("Right button released");
+                      // System.out.println("Right button released");
                       handleRightClick(e);
                       rightClicked = false;
                     } else {
@@ -903,6 +903,7 @@ public class AdminPageController extends SubPage {
     mapInsertController.updateMapScreen();
   }
 
+  @Deprecated
   private void createNode(ActionEvent e) {
     // creates a new instance of the local node class and creates a red circle
     // to add as a child of the pane in the scene
@@ -937,8 +938,7 @@ public class AdminPageController extends SubPage {
   }*/
 
   private void createNodeAt(double x, double y) {
-    String nodeID = String.valueOf(nodeIDCounter);
-    nodeIDCounter++;
+    String nodeID = DataOperations.generateUniqueID("NODE");
 
     edu.wpi.cs3733.c21.teamY.entity.Node n =
         new edu.wpi.cs3733.c21.teamY.entity.Node(x, y, mapInsertController.floorNumber, nodeID);

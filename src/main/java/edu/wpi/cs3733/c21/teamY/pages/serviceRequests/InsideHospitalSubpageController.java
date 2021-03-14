@@ -109,8 +109,7 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
       nonCompleteForm(stackPane);
     } else {
 
-      Service service = new Service(this.IDCount, "Inside Transport");
-      this.IDCount++;
+      Service service = new Service(DataOperations.generateUniqueID("IH"), "Inside Transport");
       // service.setCategory((String) patientName.getText());
       // service.setLocation((String) patientName.getValue());
       service.setDescription(description.getText());

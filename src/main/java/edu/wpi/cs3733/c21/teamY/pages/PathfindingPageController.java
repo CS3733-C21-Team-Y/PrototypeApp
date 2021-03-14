@@ -15,6 +15,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -206,7 +207,6 @@ public class PathfindingPageController extends SubPage {
           String startLoc = (String) startLocationBox.getValue();
           startLocationBox.setValue(endLocationBox.getValue());
           endLocationBox.setValue(startLoc);
-          calculatePath();
         });
     multDestinationBtn.setOnAction(
         e -> {
@@ -300,13 +300,33 @@ public class PathfindingPageController extends SubPage {
             }
           }
 
+          mapInsertController
+              .getAdornerPane()
+              .setOnMousePressed(
+                  e -> {
+                    if (e.isSecondaryButtonDown()) {
+                      System.out.println("Right button clicked");
+                      rightClicked = true;
+                    } else {
+                      resetContextMenu();
+                    }
+                    mapInsertController.defaultOnMousePressed(e);
+                  });
+
           // Set handler for Mouse Click Anywhere on Map
           mapInsertController
               .getAdornerPane()
               .setOnMouseReleased(
                   e -> {
-                    handleClickOnMap(e);
+                    if (rightClicked) {
+                      System.out.println("Right button released");
+                      handleRightClick(e);
+                      rightClicked = false;
+                    } else {
+                      handleClickOnMap(e);
+                    }
                   });
+
           mapInsertController.changeMapImage(MapController.MAP_PAGE.PARKING);
           mapInsertController.removeAllAdornerElements();
           // mapInsertController.getFloorMenu().setText("Parking");
@@ -318,6 +338,7 @@ public class PathfindingPageController extends SubPage {
           //          SubPage subPage = parent.rightPageController;
           startLocationBox.requestFocus();
 
+          setContextMenuActions();
           // overlayGridPane.maxWidthProperty().bind(getWidth());
 
           // overlayGridPane.prefWidthProperty().bind(overlayGridPane.getScene().widthProperty());
@@ -516,6 +537,7 @@ public class PathfindingPageController extends SubPage {
           }
         }
         mapInsertController.selectCircle(node);
+        endNode = node;
         endLocationBox.setValue(
             graph.nodeFromID(node.getId()).longName); // endLocationBox.setValue(node.getId());
       }
@@ -541,6 +563,110 @@ public class PathfindingPageController extends SubPage {
           mapInsertController.selectCircle(startNode);
         }
       }
+    }
+  }
+
+  private boolean rightClicked;
+  private MapController.CircleEx rightClickedNode = null;
+
+  private void handleRightClick(MouseEvent e) {
+    resetContextMenu();
+
+    Point2D pt = new Point2D(e.getSceneX(), e.getSceneY());
+    pt = mapInsertController.getAdornerPane().sceneToLocal(pt);
+    rightClickedNode = getNearestNode(pt.getX(), pt.getY());
+
+    adornerTitleLabel.setDisable(true);
+
+    if (rightClickedNode != null) {
+      Node node = graph.nodeFromID(rightClickedNode.getId());
+      if (node != null) {
+        adornerTitleLabel.setText(node.longName);
+      }
+
+      mapContextMenu
+          .getItems()
+          .addAll(adornerTitleLabel, separator1, selectStartNode, selectEndNode);
+
+      if (pathActive) {
+        mapContextMenu.getItems().addAll(separator2, flipPath, clearPath);
+      }
+
+      mapContextMenu.show(
+          mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+
+    } else if (pathActive) {
+      mapContextMenu.getItems().addAll(flipPath, clearPath);
+      mapContextMenu.show(
+          mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+    }
+  }
+
+  ContextMenu mapContextMenu = new ContextMenu();
+
+  MenuItem selectStartNode = new MenuItem("Select Start Location");
+  MenuItem selectEndNode = new MenuItem("Select End Location");
+
+  MenuItem clearPath = new MenuItem("Clear path");
+  MenuItem flipPath = new MenuItem("Flip path");
+
+  SeparatorMenuItem separator1 = new SeparatorMenuItem();
+  SeparatorMenuItem separator2 = new SeparatorMenuItem();
+  MenuItem adornerTitleLabel = new MenuItem();
+
+  private void setContextMenuActions() {
+    adornerTitleLabel.getStyleClass().add("context-menu-title");
+    separator1.setDisable(true);
+
+    selectStartNode.setOnAction(
+        e -> {
+          if (startLocationBox.getValue() != null && startNode != null) {
+            mapInsertController.deSelectCircle(startNode);
+          }
+
+          if (rightClickedNode != null) {
+            Node node = graph.nodeFromID(rightClickedNode.getId());
+            if (node != null) {
+              startLocationBox.setValue(node.longName);
+              mapInsertController.selectCircle(rightClickedNode);
+            }
+          }
+        });
+
+    selectEndNode.setOnAction(
+        e -> {
+          if (endLocationBox.getValue() != null && endNode != null) {
+            mapInsertController.deSelectCircle(endNode);
+          }
+
+          if (rightClickedNode != null) {
+            Node node = graph.nodeFromID(rightClickedNode.getId());
+            if (node != null) {
+              endLocationBox.setValue(node.longName);
+              mapInsertController.selectCircle(rightClickedNode);
+            }
+          }
+        });
+
+    clearPath.setOnAction(
+        e -> {
+          startLocationBox.setValue("");
+          endLocationBox.setValue("");
+          clearPath();
+        });
+
+    flipPath.setOnAction(
+        e -> {
+          String startLoc = (String) startLocationBox.getValue();
+          startLocationBox.setValue(endLocationBox.getValue());
+          endLocationBox.setValue(startLoc);
+        });
+  }
+
+  private void resetContextMenu() {
+    if (mapContextMenu != null) {
+      mapContextMenu.getItems().remove(0, mapContextMenu.getItems().size());
+      mapContextMenu.hide();
     }
   }
 
@@ -754,8 +880,9 @@ public class PathfindingPageController extends SubPage {
    * @param nodes is the path passed in
    */
   private void drawPath(ArrayList<Node> nodes) {
-    mapInsertController.clearSelection();
     if (nodes != null) {
+      mapInsertController.clearSelection();
+      pathActive = true;
       for (int i = 0; i < nodes.size() - 1; i++) {
         MapController.CircleEx n =
             (MapController.CircleEx)
@@ -809,6 +936,7 @@ public class PathfindingPageController extends SubPage {
 
   /** clearPath deselects all and clears saved path */
   private void clearPath() {
+    pathActive = false;
     mapInsertController.clearSelection();
     pathNodes = new ArrayList<Node>();
     if (!addDest) {
