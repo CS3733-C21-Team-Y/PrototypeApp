@@ -1012,13 +1012,13 @@ public class MapController extends SubPage {
     double xShift;
     if (parent.isDesktop) {
       if (isAdminPage) {
-        scale = size / 1300.0;
-        yShift = -adornerPane.getScene().getHeight() / 2;
-        xShift = -adornerPane.getScene().getWidth() / 3;
+        scale = size / 1400.0;
+        yShift = -adornerPane.getScene().getHeight() / 3.8;
+        xShift = -adornerPane.getScene().getWidth() / 5.4;
       } else {
-        scale = size / 1300.0;
-        yShift = -adornerPane.getScene().getHeight() / 2;
-        xShift = -adornerPane.getScene().getWidth() / 3;
+        scale = size / 1400.0;
+        yShift = -adornerPane.getScene().getHeight() / 3.8;
+        xShift = -adornerPane.getScene().getWidth() / 5.4;
       }
     } else {
       scale = 0.28;
