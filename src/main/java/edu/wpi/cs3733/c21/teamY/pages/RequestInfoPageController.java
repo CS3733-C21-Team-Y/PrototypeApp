@@ -31,7 +31,7 @@ public class RequestInfoPageController<label> extends SubPage {
   @FXML private JFXButton submitBtn;
   @FXML private JFXComboBox employeeComboBox;
   // @FXML private AnchorPane annoyingVbox;
-  Scene scene;
+  Scene scene = null;
 
   // private boolean desktop;
 
@@ -43,14 +43,32 @@ public class RequestInfoPageController<label> extends SubPage {
 
   @FXML
   private void initialize() {
-    Platform.runLater(() -> loadInformation());
+
     leftArea = new JFXTextField();
     centerArea = new JFXTextField();
     saveBtn = new JFXButton();
     saveBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitEmployee());
-    // desktop = parent.isDesktop;
-
+    Platform.runLater(
+        () -> {
+          loadInformation();
+          //          scene = submitBtn.getScene();
+          //          saveBtn.getScene();
+          //          // desktop = parent.isDesktop;
+          //          scene
+          //              .widthProperty()
+          //              .addListener(
+          //                  new ChangeListener<Number>() {
+          //                    @Override
+          //                    public void changed(
+          //                        ObservableValue<? extends Number> observable,
+          //                        Number oldValue,
+          //                        Number newValue) {
+          //                      infoBox.setMaxWidth(.3 * (double) newValue);
+          //                      // (.6 * (double) newValue);
+          //                    }
+          //                  });
+        });
     try {
       ArrayList<Employee> employeeList = DataOperations.getStaffList();
       for (Employee employee : employeeList) {
@@ -136,7 +154,8 @@ public class RequestInfoPageController<label> extends SubPage {
 
   private void createInfoBox(String title, String data) {
     if (parent.isDesktop) {
-      infoBox.setPadding(new Insets(2, 5, 4, 50));
+      // infoBox.setMaxWidth(infoBox.getScene().getWidth() * .25);
+      infoBox.setPadding(new Insets(2, 100, 4, 50));
     } else {
       infoBox.setPadding(new Insets(2, 100, 4, 50));
     }

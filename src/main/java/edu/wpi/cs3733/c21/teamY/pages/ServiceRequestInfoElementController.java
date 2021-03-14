@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -8,6 +9,25 @@ public class ServiceRequestInfoElementController {
   @FXML private Label title;
   @FXML private Label data;
   @FXML private AnchorPane annoyingVbox;
+
+  @FXML
+  private void initialize() {
+    Platform.runLater(
+        () -> {
+          annoyingVbox
+              .getParent()
+              .getScene()
+              .getWindow()
+              .widthProperty()
+              .addListener(
+                  e -> {
+                    annoyingVbox.setPrefWidth(
+                        .5 * annoyingVbox.getParent().getScene().getWindow().getWidth());
+                    annoyingVbox.setPrefWidth(
+                        .5 * annoyingVbox.getParent().getScene().getWindow().getWidth());
+                  });
+        });
+  }
 
   public void populateInformation(String title, String data, boolean desktop) {
     String newData = "";
