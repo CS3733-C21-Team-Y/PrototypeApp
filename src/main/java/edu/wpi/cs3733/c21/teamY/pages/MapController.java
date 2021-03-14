@@ -1005,40 +1005,36 @@ public class MapController extends SubPage {
   //  }
 
   protected void resetMapView() {
+    double size = Math.sqrt(adornerPane.getScene().getWidth() * adornerPane.getScene().getHeight());
     System.out.println(parent.isDesktop);
+    double scale;
+    double yShift;
+    double xShift;
     if (parent.isDesktop) {
       if (isAdminPage) {
-        mapImageView.setScaleX(0.7);
-        mapImageView.setScaleY(0.7);
-        adornerPane.setScaleX(0.7);
-        adornerPane.setScaleY(0.7);
-
-        mapImageView.translateXProperty().setValue(-400);
-        mapImageView.translateYProperty().setValue(-300);
-        adornerPane.translateXProperty().setValue(-400);
-        adornerPane.translateYProperty().setValue(-300);
+        scale = size / 1300.0;
+        yShift = -adornerPane.getScene().getHeight() / 2;
+        xShift = -adornerPane.getScene().getWidth() / 3;
       } else {
-        mapImageView.setScaleX(0.8);
-        mapImageView.setScaleY(0.8);
-        adornerPane.setScaleX(0.8);
-        adornerPane.setScaleY(0.8);
-
-        mapImageView.translateXProperty().setValue(-300);
-        mapImageView.translateYProperty().setValue(-300);
-        adornerPane.translateXProperty().setValue(-300);
-        adornerPane.translateYProperty().setValue(-300);
+        scale = size / 1300.0;
+        yShift = -adornerPane.getScene().getHeight() / 2;
+        xShift = -adornerPane.getScene().getWidth() / 3;
       }
     } else {
-      mapImageView.setScaleX(0.28);
-      mapImageView.setScaleY(0.28);
-      adornerPane.setScaleX(0.28);
-      adornerPane.setScaleY(0.28);
-
-      mapImageView.translateXProperty().setValue(-1010);
-      mapImageView.translateYProperty().setValue(-540);
-      adornerPane.translateXProperty().setValue(-1010);
-      adornerPane.translateYProperty().setValue(-540);
+      scale = 0.28;
+      yShift = -540;
+      xShift = -1010;
     }
+
+    mapImageView.setScaleX(scale);
+    mapImageView.setScaleY(scale);
+    adornerPane.setScaleX(scale);
+    adornerPane.setScaleY(scale);
+
+    mapImageView.translateXProperty().setValue(xShift);
+    mapImageView.translateYProperty().setValue(yShift);
+    adornerPane.translateXProperty().setValue(xShift);
+    adornerPane.translateYProperty().setValue(yShift);
 
     updateAdornerVisualsOnZoom();
   }
