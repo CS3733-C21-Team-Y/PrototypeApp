@@ -218,7 +218,7 @@ public class AdminPageController extends SubPage {
               .setOnMousePressed(
                   e -> {
                     if (e.isSecondaryButtonDown()) {
-                      System.out.println("Right button clicked");
+                      // System.out.println("Right button clicked");
                       rightClicked = true;
                     } else {
                       handleMouseDown(e);
@@ -245,7 +245,7 @@ public class AdminPageController extends SubPage {
               .setOnMouseReleased(
                   e -> {
                     if (rightClicked) {
-                      System.out.println("Right button released");
+                      // System.out.println("Right button released");
                       handleRightClick(e);
                       rightClicked = false;
                     } else {
