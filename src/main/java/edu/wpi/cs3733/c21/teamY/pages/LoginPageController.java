@@ -34,6 +34,10 @@ public class LoginPageController extends SubPage {
     forgotPasswordBtn.setOnAction(e -> buttonClicked(e));
     newAccount.setOnAction(e -> newAccountClicked(e));
     guestBtn.setVisible(false);
+    if (SignUpPageController.success) {
+      accountPopUp(stackPane);
+      SignUpPageController.success = false;
+    }
   }
 
   private void newAccountClicked(ActionEvent e) {
@@ -127,6 +131,10 @@ public class LoginPageController extends SubPage {
 
   public void submittedPopUp(StackPane stackPane) {
     createPopUp(stackPane, "#5a5c94", "#ffffff", "log in successfully!");
+  }
+
+  public void accountPopUp(StackPane stackPane) {
+    createPopUp(stackPane, "#5a5c94", "#ffffff", "Account Created!");
   }
 
   public void unrecognizedUserOrPasswordPopUp(StackPane stackPane) {
