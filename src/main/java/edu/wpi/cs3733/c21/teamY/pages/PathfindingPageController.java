@@ -66,8 +66,8 @@ public class PathfindingPageController extends SubPage {
   @FXML private ScrollPane textDirectionScroll;
   // @FXML private Label zoomLabel;
 
-  private ArrayList<Node> nodes = new ArrayList<Node>();
   private ArrayList<Edge> edges = new ArrayList<Edge>();
+  private ArrayList<Node> nodes = new ArrayList<Node>();
 
   private ArrayList<Node> pathNodes = new ArrayList<Node>(); // Used to store path between floors
   private ComboBox lastSelectedComboBox = null;

@@ -3,9 +3,9 @@ package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
-import edu.wpi.cs3733.c21.teamY.entity.Employee;
-import edu.wpi.cs3733.c21.teamY.entity.Service;
+import edu.wpi.cs3733.c21.teamY.entity.*;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,7 +18,8 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
   @FXML private JFXButton clearBtn;
   @FXML private JFXButton backBtn;
   @FXML private JFXButton submitBtn;
-  @FXML private JFXTextField roomNumberInput;
+  // @FXML private JFXTextField roomNumberInput;
+  @FXML private JFXComboBox locationComboBox;
   @FXML private JFXTextField categoryInput;
   @FXML private JFXTextField fromInput;
   @FXML private JFXTextField toInput;
@@ -27,6 +28,10 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
   @FXML private JFXComboBox employeeComboBox;
   Settings settings;
   AutoCompleteComboBoxListener<String> employeeAuto;
+  private ArrayList<Node> nodes = new ArrayList<Node>();
+  FuzzySearchComboBoxListener locationFuzzy;
+
+  private Graph graph;
 
   @FXML private StackPane stackPane;
 
@@ -39,6 +44,17 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
     clearBtn.setOnAction(e -> clearButton());
+    resetComboBoxes();
+    resetGraphNodesEdges();
+
+    try {
+      locationComboBox.setValue(
+          graph.nodeFromID(
+                  DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()))
+              .longName);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
 
     if (settings.getCurrentPermissions() == 3) {
       employeeComboBox.setVisible(true);
@@ -56,12 +72,39 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
   }
 
+  private void resetGraphNodesEdges() {
+    try {
+      ActiveGraph.initialize();
+    } catch (Exception exception) {
+      System.out.println("no work");
+      // IT NO WORK
+    }
+    nodes = ActiveGraph.getNodes();
+    graph = ActiveGraph.getActiveGraph();
+  }
+
+  private void resetComboBoxes() {
+    locationComboBox.getItems().remove(0, locationComboBox.getItems().size());
+    for (Node node : nodes) {
+      String name = node.longName;
+      String type = node.nodeType;
+      // Filtering out the unwanted midway points
+      if (!type.equals("WALK")
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
+        locationComboBox.getItems().add(name);
+      }
+    }
+    locationFuzzy = new FuzzySearchComboBoxListener(locationComboBox);
+  }
+
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
   }
 
   private void clearButton() {
-    roomNumberInput.setText("");
+    // roomNumberInput.setText("");
     categoryInput.setText("");
     descriptionInput.setText("");
     fromInput.setText("");
@@ -74,7 +117,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    clearIncomplete(roomNumberInput);
+    // clearIncomplete(roomNumberInput);
     clearIncomplete(categoryInput);
     clearIncomplete(descriptionInput);
     clearIncomplete(dateInput);
@@ -82,8 +125,9 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
     clearIncomplete(toInput);
     clearIncomplete(employeeComboBox);
 
-    if (roomNumberInput.getText().equals("")
-        || categoryInput.getText().equals("")
+    if (
+    // roomNumberInput.getText().equals("")||
+    categoryInput.getText().equals("")
         || descriptionInput.getText().equals("")
         || dateInput.getText().equals("")
         || fromInput.getText().equals("")
@@ -99,9 +143,12 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       if (dateInput.getText().equals("")) {
         incomplete(dateInput);
       }
+      /*
       if (roomNumberInput.getText().equals("")) {
         incomplete(roomNumberInput);
       }
+
+       */
       if (toInput.getText().equals("")) {
         incomplete(toInput);
       }
@@ -114,7 +161,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(DataOperations.generateUniqueID("FD"), "Floral Delivery");
-      service.setLocation(roomNumberInput.getText());
+      // service.setLocation(roomNumberInput.getText());
       service.setCategory(categoryInput.getText());
       service.setDescription(descriptionInput.getText());
       service.setRequester(settings.getCurrentUsername());
