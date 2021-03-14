@@ -240,7 +240,7 @@
                                                                   <Insets right="10.0" />
                                                                </padding>
                                                             </Label>
-                                                            <JFXComboBox fx:id="parkingBox" editable="true" focusColor="BLACK" labelFloat="true" maxWidth="-Infinity" minHeight="20.0" minWidth="100.0" prefHeight="30.0" prefWidth="300.0" promptText="  Parking Spot" style="-fx-prompt-text-fill: #000000; -fx-background-color: d49b9d;" unFocusColor="BLACK" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER">
+                                                            <JFXComboBox fx:id="parkingBox" editable="true" focusColor="BLACK" labelFloat="true" maxWidth="-Infinity" minHeight="20.0" minWidth="100.0" prefHeight="30.0" prefWidth="300.0" promptText="  Parking Lot" style="-fx-prompt-text-fill: #000000; -fx-background-color: d49b9d;" unFocusColor="BLACK" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER">
                                                                <padding>
                                                                   <Insets left="10.0" />
                                                                </padding>
