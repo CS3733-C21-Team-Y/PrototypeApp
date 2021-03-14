@@ -76,12 +76,12 @@ PSERV00303,1233,957,3,Faulkner,RETL,Gift Shop,GIFTS,P
 PDEPT00503,1387,355,3,Faulkner,DEPT,Division of GYN,GYN ,P
 PDEPT00303,1314,253,3,Faulkner,DEPT,Gynocology/Oncologoy,GYNO/ONCO,P
 PHALL00101,1021,515,1,Faulkner,HALL,Hall 1 Floor 1,HALL001,P
-PHALL00102,741,657,2,Faulkner,HALL,Hall 1 Floor 2,HALL001,P
+PHALL00102,741,657,2,Faulkner,HALL,Hall 1 Floor 2,HALL001,y
 PHALL00103,1148,464,3,Faulkner,HALL,Hall 1 Floor 3,HALL001,P
 PHALL00104,1146,477,4,Faulkner,HALL,Hall 1 Floor 4,HALL001,P
 PHALL00105,1141,479,5,Faulkner,HALL,Hall 1 Floor 5,HALL001,P
 PHALL00201,1121,515,1,Faulkner,HALL,Hall 2 Floor 1,HALL002,P
-PHALL00202,742,708,2,Faulkner,HALL,Hall 2 Floor 2,HALL002,P
+PHALL00202,742,708,2,Faulkner,HALL,Hall 2 Floor 2,HALL002,y
 PHALL00203,1147,298,3,Faulkner,HALL,Hall 2 Floor 3,HALL002,P
 PHALL00204,1145,424,4,Faulkner,HALL,Hall 2 Floor 4,HALL002,P
 PHALL00205,1141,409,5,Faulkner,HALL,Hall 2 Floor 5,HALL002,P
@@ -126,7 +126,7 @@ PHALL01003,1257,466,3,Faulkner,HALL,Hall 10 Floor 3,HALL010,P
 PHALL01004,1356,480,4,Faulkner,HALL,Hall 10 Floor 4,HALL010,P
 PHALL01005,1356,439,5,Faulkner,HALL,Hall 10 Floor 5,HALL010,P
 PHALL01101,1253,406,1,Faulkner,HALL,Hall 11 Floor 1,HALL011,P
-PHALL01102,1402,1202,2,Faulkner,HALL,Hall 11 Floor 2,HALL011,P
+PHALL01102,1400,1205,2,Faulkner,HALL,Hall 11 Floor 2,HALL011,P
 PHALL01103,1255,391,3,Faulkner,HALL,Hall 11 Floor 3,HALL011,P
 PHALL01104,1252,479,4,Faulkner,HALL,Hall 11 Floor 4,HALL011,P
 PHALL01105,1357,477,5,Faulkner,HALL,Hall 11 Floor 5,HALL011,P
@@ -178,7 +178,7 @@ PHALL02005,1250,850,5,Faulkner,HALL,Hall 20 Floor 5,HALL020,P
 PHALL02101,1254,866,1,Faulkner,HALL,Hall 21 Floor 1,HALL021,P
 PHALL02102,1354,369,2,Faulkner,HALL,Hall 21 Floor 2,HALL021,P
 PHALL02103,1194,1219,3,Faulkner,HALL,Hall 21 Floor 3,HALL021,P
-PHALL02104,1252,1213,4,Faulkner,HALL,Hall 21 Floor 4,HALL021,P
+PHALL02104,1252,1213,4,Faulkner,HALL,Hall 21 Floor 4,HALL021,y
 PHALL02105,1250,953,5,Faulkner,HALL,Hall 21 Floor 5,HALL021,P
 PHALL02201,1254,923,1,Faulkner,HALL,Hall 22 Floor 1,HALL022,P
 PHALL02202,1351,278,2,Faulkner,HALL,Hall 22 Floor 2,HALL022,P
@@ -191,7 +191,7 @@ PHALL02303,1253,1327,3,Faulkner,HALL,Hall 23 Floor 3,HALL023,P
 PHALL02304,1460,1213,4,Faulkner,HALL,Hall 23 Floor 4,HALL023,P
 PHALL02305,1251,1110,5,Faulkner,HALL,Hall 23 Floor 5,HALL023,P
 PHALL02401,1255,1065,1,Faulkner,HALL,Hall 24 Floor 1,HALL024,P
-PHALL02402,1249,395,2,Faulkner,HALL,Hall 24 Floor 2,HALL024,P
+PHALL02402,1249,395,2,Faulkner,HALL,Hall 24 Floor 2,HALL024,y
 PHALL02404,1573,1213,4,Faulkner,HALL,Hall 24 Floor 4,HALL024,P
 PHALL02405,1296,1110,5,Faulkner,HALL,Hall 24 Floor 5,HALL024,P
 PHALL02501,1255,1139,1,Faulkner,HALL,Hall 25 Floor 1,HALL025,P
@@ -221,7 +221,7 @@ PHALL03105,947,1209,5,Faulkner,HALL,Hall 31 Floor 5,HALL031,P
 PHALL03204,2210,1213,4,Faulkner,HALL,Hall 32 Floor 4,HALL032,P
 PHALL03205,804,1210,5,Faulkner,HALL,Hall 32 Floor 5,HALL032,P
 PHALL03304,2291,1213,4,Faulkner,HALL,Hall 33 Floor 4,HALL033,P
-PHALL03305,680,1210,5,Faulkner,HALL,Hall 33 Floor 5,HALL033,P
+PHALL03305,680,1210,5,Faulkner,HALL,Hall 33 Floor 5,HALL033,y
 PHALL03404,1098,1213,4,Faulkner,HALL,Hall 34 Floor 4,HALL034,P
 PHALL03405,622,1211,5,Faulkner,HALL,Hall 34 Floor 5,HALL034,P
 PHALL03504,1002,1213,4,Faulkner,HALL,Hall 35 Floor 4,HALL035,P
@@ -229,7 +229,7 @@ PHALL03505,157,1201,5,Faulkner,HALL,Hall 35 Floor 5,HALL035,P
 PHALL03604,908,1213,4,Faulkner,HALL,Hall 36,HALL036,P
 PHALL03704,695,1218,4,Faulkner,HALL,Hall 37,HALL037,P
 PHALL03804,447,1220,4,Faulkner,HALL,Hall 38,HALL038,P
-PHALL03904,308,1220,4,Faulkner,HALL,Hall 39,HALL039,P
+PHALL03904,308,1220,4,Faulkner,HALL,Hall 39,HALL039,y
 PCONF00103,1141,723,3,Faulkner,CONF,Huvos Auditorium,HAUD,P
 PDEPT01005,1228,623,5,Faulkner,DEPT,Internal Medicine/Headache,HEAD,P
 PDEPT01805,805,1189,5,Faulkner,DEPT,HemoDialysis,HEMO,P
@@ -273,7 +273,7 @@ PDEPT00504,1459,1194,4,Faulkner,DEPT,PATSAFE,PATSAFE,P
 PDEPT00704,1570,1236,4,Faulkner,DEPT,Primary Care Physicians,PCP,P
 PDEPT00202,763,707,2,Faulkner,DEPT,Pharmacy,PHARM,P
 PDEPT01105,1230,745,5,Faulkner,DEPT,BWH Primary Care Physicians,PHYS,P
-PDEPT01002,1636,1203,2,Faulkner,DEPT,Psychiatric Inpatient Care,PICARE,P
+PDEPT01002,1635,1206,2,Faulkner,DEPT,Psychiatric Inpatient Care,PICARE,P
 PDEPT00601,1275,559,1,Faulkner,DEPT,Pre-Admittance Screening,PSCREEN,P
 PDEPT01804,1270,844,4,Faulkner,DEPT,Pulmonary Services,PSERV,P
 PDEPT01102,1374,458,2,Faulkner,DEPT,Plastic Surgery,PSURGERY,P
@@ -286,7 +286,7 @@ PDEPT00801,1838,760,1,Faulkner,DEPT,Recovery,RECOV,P
 PDEPT01705,948,1186,5,Faulkner,DEPT,Residents ,RES,P
 PREST00101,1147,490,1,Faulkner,REST,Restroom A Floor 1,RESTA,P
 PREST00102,1380,363,2,Faulkner,REST,Restroom A Floor 2,RESTA,P
-PREST00103,1255,297,3,Faulkner,REST,Restroom A Floor 3,RESTA,P
+PREST00103,1254,324,3,Faulkner,REST,Restroom A Floor 3,RESTA,P
 PREST00104,1251,307,4,Faulkner,REST,Restroom A Floor 4,RESTA,P
 PREST00105,1249,312,5,Faulkner,REST,Restroom A Floor 5,RESTA,P
 PREST00201,1313,503,1,Faulkner,REST,Restroom B Floor 1,RESTB,P
@@ -356,3 +356,54 @@ YWALK03201,1358,663,0,Faulkner,WALK,Walkway 32,WALK32,Y
 YWALK03301,1413,630,0,Faulkner,WALK,Walkway 33,WALK33,Y
 YWALK03401,1486,617,0,Faulkner,WALK,Walkway 34,WALK34,Y
 YWALK03501,1585,615,0,Faulkner,WALK,Walkway 35,WALK35,Y
+NODE-e1Pr,1464,1114,1,Faulkner,HALL,Hall 28-1 Floor 1,usrShrtNme,y
+NODE-TnKw,1554,1114,1,Faulkner,HALL,Hall 28-2 Floor 1,usrShrtNme,y
+NODE-vqd8,1642,1115,1,Faulkner,HALL,Hall 28-3 Floor 1,usrShrtNme,y
+NODE-2lcl,1741,1115,1,Faulkner,HALL,Hall 28-4 Floor 1,usrShrtNme,y
+NODE-Ux18,1831,1115,1,Faulkner,HALL,Hall 28-5 Floor 1,usrShrtNme,y
+NODE-69kt,1914,1114,1,Faulkner,HALL,Hall 28-6 Floor 1,usrShrtNme,y
+NODE-7K1z,1989,1114,1,Faulkner,HALL,Hall 28-7 Floor 1,usrShrtNme,y
+NODE-0Qe0,1400,1032,1,Faulkner,HALL,Hall 27-1 Floor 1,usrShrtNme,y
+NODE-Atx3,1473,741,1,Faulkner,HALL,Hall 14-1 Floor 1,usrShrtNme,y
+NODE-4k9p,1562,740,1,Faulkner,HALL,Hall 14-2 Floor 1,usrShrtNme,y
+NODE-9ne1,1653,740,1,Faulkner,HALL,Hall 14-3 Floor 1,usrShrtNme,y
+NODE-sH9i,1740,741,1,Faulkner,HALL,Hall 14-4 Floor 1,usrShrtNme,y
+NODE-R13U,1401,628,1,Faulkner,HALL,Hall 9-1 Floor 1,usrShrtNme,y
+NODE-S8Wi,1254,651,1,Faulkner,HALL,Hall 18-1 Floor 1,usrShrtNme,y
+NODE-iKVv,1254,736,1,Faulkner,HALL,Hall 18-2 Floor 1,usrShrtNme,y
+NODE-ny4I,1174,829,1,Faulkner,HALL,Hall 17-1 Floor 1,usrShrtNme,y
+NODE-q6Rh,1006,832,1,Faulkner,HALL,Hall 19-1 Floor 1,usrShrtNme,y
+NODE-Enut,2149,1114,1,Faulkner,HALL,Hall 30-1 Floor 1,usrShrtNme,y
+NODE-1534,2256,1114,1,Faulkner,HALL,Hall 30-2 Floor 1,usrShrtNme,y
+NODE-iSeF,1435,776,2,Faulkner,HALL,Hall 15-1 Floor 2,usrShrtNme,y
+NODE-78i2,1434,678,2,Faulkner,HALL,Hall 15-2 Floor 2,usrShrtNme,y
+NODE-yp3O,1248,336,2,Faulkner,HALL,Hall 24-1 Floor 2,usrShrtNme,y
+NODE-B93O,743,774,2,Faulkner,HALL,Hall 2-1 Floor 2,usrShrtNme,y
+NODE-W3s3,745,907,2,Faulkner,HALL,Hall 3-1 Floor 2,usrShrtNme,y
+NODE-Ie34,745,1048,2,Faulkner,HALL,Hall 4-1 Floor 2,usrShrtNme,y
+NODE-t9Fu,745,1132,2,Faulkner,HALL,Hall 4-2 Floor 2,usrShrtNme,y
+NODE-dIq6,896,1205,2,Faulkner,HALL,Hall 6-1 Floor 2,usrShrtNme,y
+NODE-2MIQ,988,1206,2,Faulkner,HALL,Hall 6-2 Floor 2,usrShrtNme,y
+NODE-8z42,1061,1205,2,Faulkner,HALL,Hall 6-3 Floor 2,usrShrtNme,y
+NODE-inIL,1316,1203,2,Faulkner,HALL,Hall 9-1 Floor 2,usrShrtNme,y
+NODE-RiZ5,1473,1205,2,Faulkner,HALL,Hall 11-1 Floor 2,usrShrtNme,y
+NODE-gPUQ,1570,1207,2,Faulkner,HALL,Hall 11-2 Floor 2,usrShrtNme,y
+NODE-FTji,1201,281,2,Faulkner,HALL,Hall 23-1 Floor 2,usrShrtNme,y
+NODE-a15X,1300,278,2,Faulkner,HALL,Hall 23-2 Floor 2,usrShrtNme,y
+NODE-t3Fz,1147,381,3,Faulkner,HALL,Hall 1-1 Floor 3,usrShrtNme,y
+NODE-4f12,1209,552,3,Faulkner,HALL,Hall 13-1 Floor 3,usrShrtNme,y
+NODE-3522,1209,627,3,Faulkner,HALL,Hall 13-2 Floor 3,usrShrtNme,y
+NODE-UT7e,1255,827,3,Faulkner,HALL,Hall 17-1 Floor 3,usrShrtNme,y
+NODE-tVdR,1255,898,3,Faulkner,HALL,Hall 17-2 Floor 3,usrShrtNme,y
+NODE-N4J6,1252,1396,3,Faulkner,HALL,Hall 23-1 Floor 3,usrShrtNme,y
+NODE-T543,1192,1328,3,Faulkner,HALL,Hall 23-2 Floor 3,usrShrtNme,y
+NODE-Z9V4,1321,1328,3,Faulkner,HALL,Hall 23-3 Floor 3,usrShrtNme,y
+NODE-OzsO,233,1220,4,Faulkner,HALL,Hall 39-1,usrShrtNme,y
+NODE-lrqK,564,1219,4,Faulkner,HALL,Hall 37-1,usrShrtNme,y
+NODE-u6NJ,802,1217,4,Faulkner,HALL,Hall 36-1,usrShrtNme,y
+NODE-uQEH,1173,1213,4,Faulkner,HALL,Hall 21-1 Floor 4,usrShrtNme,y
+NODE-ktRP,1330,1213,4,Faulkner,HALL,Hall 21-2 Floor 4,usrShrtNme,y
+NODE-44qA,745,1210,5,Faulkner,HALL,Hall 33-1 Floor 5,usrShrtNme,y
+NODE-20xA,879,1210,5,Faulkner,HALL,Hall 32-1 Floor 5,usrShrtNme,y
+NODE-r4X9,1035,1211,5,Faulkner,HALL,Hall 31-1 Floor 5,usrShrtNme,y
+NODE-7P3y,1125,1211,5,Faulkner,HALL,Hall 31-2 Floor 5,usrShrtNme,y
