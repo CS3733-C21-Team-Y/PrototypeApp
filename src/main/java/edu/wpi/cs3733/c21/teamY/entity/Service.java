@@ -16,8 +16,8 @@ public class Service {
 
   private String employee;
 
-  public Service(String type){
-    this.type=type;
+  public Service(String type) {
+    this.type = type;
   }
 
   // no requester

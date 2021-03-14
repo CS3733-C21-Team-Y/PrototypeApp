@@ -200,7 +200,7 @@ public class CSV {
 
       String[] stringEdge = line.split(splitBy); // use comma as separator
 
-      String serviceID = stringEdge[0];
+      int serviceID = Integer.parseInt(stringEdge[0]);
       String type = stringEdge[1];
       String description = stringEdge[2];
       String location = stringEdge[3];
@@ -556,7 +556,7 @@ public class CSV {
     brService.readLine(); // Reads first line to clear the attributes line
     while ((line = brService.readLine()) != null) {
       String[] strService = line.split(splitBy);
-      String serviceID = strService[0];
+      int serviceID = Integer.parseInt(strService[0]);
       String type = strService[1];
       String description = strService[2];
       String location = strService[3];

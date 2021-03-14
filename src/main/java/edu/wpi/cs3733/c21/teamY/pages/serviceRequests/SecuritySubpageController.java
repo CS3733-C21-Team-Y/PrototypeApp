@@ -124,7 +124,7 @@ public class SecuritySubpageController extends GenericServiceFormPage {
       }
       nonCompleteForm(stackPane);
     } else {
-      Service service = new Service( "Security");
+      Service service = new Service("Security");
       service.setCategory((String) category.getValue());
       service.setLocation((String) locationBox.getValue());
       service.setUrgency((String) urgency.getValue());

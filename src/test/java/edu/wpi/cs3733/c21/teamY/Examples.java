@@ -3,7 +3,6 @@ package edu.wpi.cs3733.c21.teamY;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
-import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
@@ -29,8 +28,8 @@ public class Examples {
 
     System.out.print(JDBCUtils.getConn());
 
-//    Service service1 =
-//        new Service("testing", "description", "dummy location", "none", "low", "6", -1);
+    //    Service service1 =
+    //        new Service("testing", "description", "dummy location", "none", "low", "6", -1);
 
     Edge edge1 = new Edge("edge1", "node1", "node2");
 

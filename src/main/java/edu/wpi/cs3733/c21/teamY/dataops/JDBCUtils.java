@@ -488,7 +488,7 @@ public class JDBCUtils {
     } else {
       string = "select * from ADMIN.Service where requester =" + Requester;
     }
-    string+="order by ADMIN.SERVICE.SERVICEID DESC";
+    string += "order by ADMIN.SERVICE.SERVICEID DESC";
 
     Connection conn = getConn();
     Statement statement = conn.createStatement();

@@ -45,8 +45,8 @@ public class TestServiceTableJDBC {
   //    System.out.println(DataOperations.exportService("Maintenance", ""));
   //  }
 
-//  @Test
-//  public void testDeleteService() throws SQLException {
-//    DataOperations.removeService(service2.getServiceID());
-//  }
+  //  @Test
+  //  public void testDeleteService() throws SQLException {
+  //    DataOperations.removeService(service2.getServiceID());
+  //  }
 }

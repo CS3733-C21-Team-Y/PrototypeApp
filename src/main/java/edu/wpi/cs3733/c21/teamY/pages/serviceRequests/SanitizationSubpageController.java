@@ -137,7 +137,7 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
     } else {
 
       // put code for submitting a service request here
-      Service service = new Service( "Sanitization");
+      Service service = new Service("Sanitization");
       // System.out.println(this.IDCount);
       service.setLocation((String) locationField.getValue());
       service.setCategory((String) biohazardLevel.getValue());

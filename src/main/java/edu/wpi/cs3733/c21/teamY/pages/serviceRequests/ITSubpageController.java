@@ -121,7 +121,7 @@ public class ITSubpageController extends GenericServiceFormPage {
       nonCompleteForm(stackPane);
     } else {
 
-      Service service = new Service( "IT Request");
+      Service service = new Service("IT Request");
       service.setCategory((String) categoryComboBox.getValue());
       service.setLocation((String) locationComboBox.getValue());
       service.setAdditionalInfo("Affects: " + (String) affectsComboBox.getValue());

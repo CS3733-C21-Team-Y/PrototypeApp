@@ -115,7 +115,7 @@ public class LaundrySubpageController extends GenericServiceFormPage {
       nonCompleteForm(stackPane);
     } else {
 
-      Service service = new Service( "Laundry");
+      Service service = new Service("Laundry");
       service.setCategory((String) category.getValue());
       service.setLocation((String) locationField.getValue());
       service.setDescription(description.getText());
