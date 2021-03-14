@@ -18,6 +18,7 @@ public class ServiceRequestElementController extends SubPage {
   @FXML private Label serviceID;
   @FXML private Label status;
   @FXML private GridPane statusGrid;
+  @FXML private GridPane actualStatusGrid;
   @FXML private JFXButton statusBtn;
   @FXML private JFXButton incompleteBtn;
   @FXML private JFXButton inProgressBtn;
@@ -52,6 +53,18 @@ public class ServiceRequestElementController extends SubPage {
 
   private void toggleStatusGrid() {
     statusGrid.setVisible(!statusGrid.isVisible());
+    int permissions = Settings.getSettings().getCurrentPermissions();
+    if (permissions >= 2) {
+      actualStatusGrid.setMinHeight(120);
+      incompleteBtn.setVisible(true);
+      inProgressBtn.setVisible(true);
+      completeBtn.setVisible(true);
+    } else {
+      actualStatusGrid.setMinHeight(30);
+      incompleteBtn.setVisible(false);
+      inProgressBtn.setVisible(false);
+      completeBtn.setVisible(false);
+    }
   }
 
   private void statusBtnClicked(ActionEvent e) {
@@ -103,7 +116,11 @@ public class ServiceRequestElementController extends SubPage {
 
   public void openRequest() {
     parent.loadRightSubPage("RequestInfoPage.fxml");
-    parent.setCenterColumnWidth(0);
+    if (parent.isDesktop) {
+      parent.setCenterColumnWidth(350);
+    } else {
+      parent.setCenterColumnWidth(0);
+    }
     Settings.getSettings().setCurrentDisplayedService(service);
   }
 }
