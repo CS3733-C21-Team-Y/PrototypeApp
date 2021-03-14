@@ -769,6 +769,15 @@ public class PathfindingPageController extends SubPage {
                     n.getId()))) { // selects first circle in path and any destinations
           mapInsertController.selectCircle(n);
         }
+        ArrayList<Node> neighbors = nodes.get(i).getNeighbors();
+
+        for (Node neighbor : neighbors) {
+          if (n != null && !neighbor.floor.equals(nodes.get(i).floor)) {
+            mapInsertController.selectCircle(n);
+            break;
+          }
+        }
+
         if (m != null && i == nodes.size() - 2) { // Selects last node in path
           mapInsertController.selectCircle(m);
         }
