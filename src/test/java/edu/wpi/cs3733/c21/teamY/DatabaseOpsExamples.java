@@ -27,7 +27,7 @@ public class DatabaseOpsExamples {
   public void testInsert()
       throws NoSuchFieldException, SQLException, IllegalAccessException, InstantiationException,
           ClassNotFoundException {
-    DataOperations.initDB();
+    //    DataOperations.initDB();
     System.out.print(JDBCUtils.getConn());
     JDBCUtils.insert(9, node1, "Node");
 

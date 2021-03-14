@@ -40,8 +40,9 @@ public class JDBCUtils {
 
       e.printStackTrace();
     }
+    Statement stmt = null;
     try {
-      Statement stmt = conn.createStatement();
+      stmt = conn.createStatement();
       String sqlNode =
           "create table Node(nodeID varchar(20) PRIMARY KEY ,\n"
               + "nodeType varchar(8) not null ,\n"
@@ -54,40 +55,87 @@ public class JDBCUtils {
               + "teamAssigned char not null )";
 
       stmt.executeUpdate(sqlNode);
+    } catch (SQLException ignored) {
+      if (ignored.getErrorCode() == 30000) {
+        System.out.println("Creation Failed: Node Table Already Exists");
+      }
+    }
 
+    try {
       String sqlEdge =
           "create table Edge(edgeID varchar(40) PRIMARY KEY NOT NULL ,\n"
               + "startNode varchar(30) not null ,\n"
               + "endNode varchar(30) not null)";
 
       stmt.executeUpdate(sqlEdge);
+    } catch (SQLException exception) {
+      if (exception.getErrorCode() == 30000) {
+        System.out.println("Creation Failed: Edge Table Already Exists");
+      }
+    }
 
+    try {
+      String sqlEmployee =
+          "create table Employee(firstName varchar(30) not null, lastName varchar(30) not null, employeeID varchar(30) PRIMARY KEY not null, "
+              + "password varchar(100), email varchar(50), accessLevel int not null, primaryWorkspace varchar(30), salt varchar(100))";
+
+      stmt.executeUpdate(sqlEmployee);
+    } catch (SQLException exception) {
+      if (exception.getErrorCode() == 30000) {
+        System.out.println("Creation Failed: Employee Table Already Exists");
+      }
+    }
+    try {
       String sqlService =
-          "create table Service(serviceID int PRIMARY KEY , type varchar(20),"
+          "create table Service(serviceID varchar(10) PRIMARY KEY , type varchar(20),"
               + "description varchar(255) , location varchar(30), category varchar(20), "
               + "urgency varchar(10), date varchar(20), additionalInfo varchar(255), requester varchar(30) not null, status int,"
               + " employee varchar(30) DEFAULT 'admin',"
               + "constraint FK_Requester_ID FOREIGN KEY (requester) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE,"
               + "constraint FK_Employee FOREIGN KEY (employee) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE,"
               + " check( status=-1 OR status =0 OR status=1))";
+      stmt.executeUpdate(sqlService);
+    } catch (SQLException exception) {
+      if (exception.getErrorCode() == 30000) {
+        System.out.println("Creation Failed: Service Table Already Exists");
+      }
+    }
 
-      String sqlEmployee =
-          "create table Employee(firstName varchar(30) not null, lastName varchar(30) not null, employeeID varchar(30) PRIMARY KEY not null, "
-              + "password varchar(100), email varchar(50), accessLevel int not null, primaryWorkspace varchar(30), salt varchar(100))";
-
+    try {
       String sqlParkingLot =
           "create table ParkingLot(nodeID varchar(20) DEFAULT 'to be changed', userName varchar(30) PRIMARY KEY, "
               + "constraint FK_UserName FOREIGN KEY(userName) REFERENCES ADMIN.EMPLOYEE(EMPLOYEEID) ON DELETE CASCADE,"
               + "constraint FK_NodeID FOREIGN KEY(nodeID) REFERENCES ADMIN.Node(NODEID) ON DELETE CASCADE)";
-      stmt.executeUpdate(sqlEmployee);
-      stmt.executeUpdate(sqlService);
-      stmt.executeUpdate(sqlParkingLot);
 
-      JDBCUtils.fillTablesFromCSV();
-    } catch (SQLException ignored) {
-      // ignored.printStackTrace();
-    } catch (IllegalAccessException | IOException e) {
-      e.printStackTrace();
+      stmt.executeUpdate(sqlParkingLot);
+    } catch (SQLException exception) {
+      if (exception.getErrorCode() == 30000) {
+        System.out.println("Creation Failed: Parking Lot Table Already Exists");
+      }
+    }
+
+    try {
+      String sqlClearToEnter =
+          "create table Clearance(employeeID varchar(30) PRIMARY KEY, clearance boolean,"
+              + " constraint FK_USER_TO_BE_CLEARED FOREIGN KEY (employeeID) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE)";
+
+      stmt.executeUpdate(sqlClearToEnter);
+      stmt.closeOnCompletion();
+    } catch (SQLException exception) {
+      if (exception.getErrorCode() == 30000) {
+        System.out.println("Creation Failed: Clearance Table Already Exists");
+      }
+    }
+    try {
+      try {
+        JDBCUtils.fillTablesFromCSV();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    } catch (SQLException exception) {
+      exception.printStackTrace();
     }
   }
 
@@ -389,7 +437,7 @@ public class JDBCUtils {
       PreparedStatement stmt =
           connection.prepareStatement(
               "INSERT INTO ADMIN.SERVICE VALUES ((?),(?),(?),(?),(?),(?),(?),(?),(?),(?),(?))");
-      stmt.setString(1, String.valueOf(service.getServiceID()));
+      stmt.setString(1, service.getServiceID());
       stmt.setString(2, service.getType());
       stmt.setString(3, service.getDescription());
       stmt.setString(4, service.getLocation());
@@ -413,7 +461,7 @@ public class JDBCUtils {
    * @param serviceID is the ID of the service to update
    * @param newInfo the new value of the AdditionalInfo of the service to be updated
    */
-  public static void updateServiceAdditionalInfoOnly(int serviceID, String newInfo) {
+  public static void updateServiceAdditionalInfoOnly(String serviceID, String newInfo) {
     try {
 
       PreparedStatement stmt =
@@ -456,7 +504,7 @@ public class JDBCUtils {
     Connection conn = getConn();
     Statement statement = conn.createStatement();
     java.sql.ResultSet resultSet = statement.executeQuery(string);
-    int serviceID;
+    String serviceID;
     String type;
     String description;
     String location;
@@ -468,7 +516,7 @@ public class JDBCUtils {
     String employee;
     String additionalInfo;
     while (resultSet.next()) {
-      serviceID = resultSet.getInt(1);
+      serviceID = resultSet.getString(1);
       type = resultSet.getString(2);
       description = resultSet.getString(3);
       location = resultSet.getString(4);
@@ -508,13 +556,13 @@ public class JDBCUtils {
    *
    * @param ID service ID of the service to be removed
    */
-  public static void delete(int ID) {
+  public static void delete(String ID) {
     int numRows = 0;
     try {
       PreparedStatement stmt =
           getConn()
               .prepareStatement("delete from ADMIN.Service where ADMIN.Service.serviceID= (?)");
-      stmt.setString(1, String.valueOf(ID));
+      stmt.setString(1, ID);
       numRows = stmt.executeUpdate();
       stmt.closeOnCompletion();
     } catch (SQLException e) {
@@ -593,7 +641,7 @@ public class JDBCUtils {
 
     try {
 
-      preparedStatement.setInt(1, service.getServiceID());
+      preparedStatement.setString(1, service.getServiceID());
       preparedStatement.setString(2, service.getType());
       preparedStatement.setString(3, service.getDescription());
       preparedStatement.setString(4, service.getLocation());
@@ -634,7 +682,9 @@ public class JDBCUtils {
       stmt.executeUpdate();
       stmt.closeOnCompletion();
     } catch (SQLException e) {
-      e.printStackTrace();
+      if (e.getErrorCode() == 30000) {
+        update(employee);
+      }
     }
   }
 
@@ -919,7 +969,7 @@ public class JDBCUtils {
   /**
    * updated the password of the User with the specified userID
    *
-   * @param userID of the user who's password is to be changed
+   * @param email of the user who's password is to be changed
    * @param newPassword to change password to
    * @return boolean for whether reset was successful
    * @throws SQLException upon sql error communicating with the database
@@ -981,12 +1031,12 @@ public class JDBCUtils {
    * @return true if update successful
    * @throws SQLException something went wrong with DB
    */
-  public static boolean assignEmployeeToRequest(String employeeID, int serviceID)
+  public static boolean assignEmployeeToRequest(String employeeID, String serviceID)
       throws SQLException {
     String assign = "update ADMIN.SERVICE set EMPLOYEE=(?) where SERVICEID=(?)";
     PreparedStatement preparedStatement = getConn().prepareStatement(assign);
     preparedStatement.setString(1, employeeID);
-    preparedStatement.setInt(2, serviceID);
+    preparedStatement.setString(2, serviceID);
     int check = preparedStatement.executeUpdate();
     preparedStatement.close();
 
@@ -1034,5 +1084,128 @@ public class JDBCUtils {
     int check = preparedStatement.executeUpdate();
     preparedStatement.close();
     return check != 0;
+  }
+
+  public static ArrayList<EmployeeClearanceInfo> getClearanceList() {
+
+    try {
+      PreparedStatement stmt =
+          getConn()
+              .prepareStatement(
+                  "select FIRSTNAME, "
+                      + "LASTNAME, "
+                      + "EMPLOYEEID, "
+                      + "CLEARANCE "
+                      + "from ADMIN.EMPLOYEE "
+                      + "NATURAL JOIN ADMIN.CLEARANCE ");
+
+      ResultSet resultSet = stmt.executeQuery();
+
+      ArrayList<EmployeeClearanceInfo> list = new ArrayList<>();
+      String firstName;
+      String lastName;
+      String employeeID;
+      boolean cleared;
+      while (resultSet.next()) {
+        firstName = resultSet.getString(1);
+        lastName = resultSet.getString(2);
+        employeeID = resultSet.getString(3);
+        cleared = resultSet.getBoolean(4);
+        EmployeeClearanceInfo employeeClearanceInfo =
+            new EmployeeClearanceInfo(firstName, lastName, employeeID, cleared);
+        list.add(employeeClearanceInfo);
+      }
+
+      return list;
+    } catch (SQLException exception) {
+      exception.printStackTrace();
+    }
+
+    return null;
+  }
+
+  public static void markAsCleared(String employeeID) {
+
+    try {
+      PreparedStatement stmt =
+          getConn().prepareStatement("INSERT INTO ADMIN.CLEARANCE VALUES ((?),(?))");
+      stmt.setString(1, employeeID);
+      stmt.setBoolean(2, true);
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
+
+    } catch (SQLException e) {
+      try {
+        PreparedStatement stmt =
+            getConn()
+                .prepareStatement(
+                    "update ADMIN.CLEARANCE " + "set CLEARANCE = (?)" + "where EMPLOYEEID = (?)");
+        stmt.setBoolean(1, true);
+        stmt.setString(2, employeeID);
+        stmt.executeUpdate();
+        stmt.closeOnCompletion();
+      } catch (SQLException exception) {
+        System.out.println("Error updating the database: Could not mark this user as cleared");
+        e.printStackTrace();
+      }
+    }
+  }
+
+  public static void markAsNotCleared(String employeeID) {
+    try {
+      PreparedStatement stmt =
+          getConn().prepareStatement("INSERT INTO ADMIN.CLEARANCE VALUES ((?),(?))");
+      stmt.setString(1, employeeID);
+      stmt.setBoolean(2, false);
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
+
+    } catch (SQLException e) {
+      try {
+        PreparedStatement stmt =
+            getConn()
+                .prepareStatement(
+                    "update ADMIN.CLEARANCE " + "set CLEARANCE = (?)" + "where EMPLOYEEID = (?)");
+        stmt.setBoolean(1, false);
+        stmt.setString(2, employeeID);
+        stmt.executeUpdate();
+        stmt.closeOnCompletion();
+      } catch (SQLException exception) {
+        System.out.println("Error updating the database: Could not mark this user as not cleared");
+        e.printStackTrace();
+      }
+    }
+  }
+
+  public static boolean serviceIDExists(String id) {
+    String check = "Select * from ADMIN.SERVICE WHERE SERVICEID=(?)";
+    PreparedStatement ps = null;
+    try {
+      ps = getConn().prepareStatement(check);
+      ps.setString(1, id);
+      ResultSet r = ps.executeQuery();
+      if (r.next()) {
+        return true;
+      }
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+    return false;
+  }
+
+  public static boolean nodeIDExists(String id) {
+    String check = "Select * from ADMIN.NODE WHERE NODEID=(?)";
+    PreparedStatement ps = null;
+    try {
+      ps = getConn().prepareStatement(check);
+      ps.setString(1, id);
+      ResultSet r = ps.executeQuery();
+      if (r.next()) {
+        return true;
+      }
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+    return false;
   }
 }

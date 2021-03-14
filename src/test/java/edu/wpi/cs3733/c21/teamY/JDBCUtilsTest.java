@@ -57,7 +57,7 @@ class JDBCUtilsTestEmployeeAndService {
 
   @Test
   public void TestAssignEmployeeToService() throws SQLException {
-    System.out.println(JDBCUtils.assignEmployeeToRequest("mike", 1));
+    // System.out.println(JDBCUtils.assignEmployeeToRequest("mike", 1));
   }
 
   /*

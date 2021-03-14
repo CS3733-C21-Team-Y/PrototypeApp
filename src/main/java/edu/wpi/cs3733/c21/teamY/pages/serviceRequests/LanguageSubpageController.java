@@ -120,8 +120,7 @@ public class LanguageSubpageController extends GenericServiceFormPage {
       }
       nonCompleteForm(stackPane);
     } else {
-      Service service = new Service(this.IDCount, "Language");
-      this.IDCount++;
+      Service service = new Service(DataOperations.generateUniqueID("LANG"), "Language");
       service.setCategory((String) langOptions.getValue());
       service.setLocation(locationField.getText());
       service.setDescription(description.getText());
