@@ -1146,6 +1146,15 @@ public class AdminPageController extends SubPage {
   //        }
 
   private void removeSelected() {
+
+    for (MapController.CircleEx circ : mapInsertController.getSelectedNodes()) {
+      if (circ.connectingEdges != null) {
+        for (MapController.LineEx line : circ.connectingEdges) {
+          mapInsertController.selectLine(line);
+        }
+      }
+    }
+
     ArrayList<String> nodeIDs = new ArrayList<String>();
     for (MapController.CircleEx node : mapInsertController.getSelectedNodes()) {
       nodeIDs.add(node.getId());
