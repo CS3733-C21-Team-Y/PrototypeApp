@@ -1,9 +1,9 @@
 nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName,teamAssigned
-YPARK00101,484,1130,0,Faulkner,PARK,Parking Spot 1,Spot1,Y
-YPARK00201,484,1038,0,Faulkner,PARK,Parking Spot 2,Spot2,Y
-YPARK00301,484,943,0,Faulkner,PARK,Parking Spot 3,Spot3,Y
-YPARK00401,1483,699,0,Faulkner,PARK,Parking Spot 4,Spot4,Y
-YPARK00501,1585,699,0,Faulkner,PARK,Parking Spot 5,Spot5,Y
+YPARK00101,484,1130,0,Faulkner,PARK,Parking Lot 1,Spot1,Y
+YPARK00201,484,1038,0,Faulkner,PARK,Parking Lot 2,Spot2,Y
+YPARK00301,484,943,0,Faulkner,PARK,Parking Lot 3,Spot3,Y
+YPARK00401,1483,699,0,Faulkner,PARK,Parking Lot 4,Spot4,Y
+YPARK00501,1585,699,0,Faulkner,PARK,Parking Lot 5,Spot5,Y
 YWALK00101,580,1134,0,Faulkner,WALK,Walkway 1,Walk1,Y
 YWALK00201,579,1042,0,Faulkner,WALK,Walkway 2,Walk2,Y
 YWALK00301,579,933,0,Faulkner,WALK,Walkway 3,Walk3,Y
