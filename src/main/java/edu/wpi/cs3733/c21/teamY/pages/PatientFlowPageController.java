@@ -24,9 +24,22 @@ public class PatientFlowPageController extends SubPage {
   private void pageButtonClicked(ActionEvent e) {
 
     if (e.getSource() == NavBtn) {
-      parent.loadRightSubPage("NavigationSubPage.fxml");
+      if (parent.isDesktop) {
+        parent.loadRightSubPage("NavigationMap.fxml");
+        parent.loadCenterSubPage("PathfindingPage.fxml");
+      } else {
+        parent.loadCenterSubPage("NavigationMap.fxml");
+        parent.loadRightSubPage("MobilePathfindingPage.fxml");
+      }
     } else if (e.getSource() == RequestBtn) {
       parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+      if (parent.isDesktop) {
+
+        parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+        // parent.setCenterColumnWidth(350);
+      } else {
+        parent.setCenterColumnWidth(0);
+      }
     } else if (e.getSource() == HospDirBtn) {
       parent.loadRightSubPage("GoogleMaps.fxml");
     } else if (e.getSource() == ParkBtn) {

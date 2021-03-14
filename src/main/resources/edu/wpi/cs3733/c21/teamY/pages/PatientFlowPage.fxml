@@ -62,7 +62,7 @@
                                  <graphic>
                                     <ImageView fitHeight="65.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../images/Hospital%20Directions%20Icon%205a5c94.png" />
+                                          <Image url="/edu/wpi/cs3733/c21/teamY/images/Hospital Directions Icon 5a5c94.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -75,7 +75,7 @@
                                  <graphic>
                                     <ImageView fitHeight="65.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../images/Parking%20Icon%205a5c94.png" />
+                                          <Image url="/edu/wpi/cs3733/c21/teamY/images/Parking Icon 5a5c94.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -88,7 +88,7 @@
                                  <graphic>
                                     <ImageView fitHeight="65.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../images/Direction%20Icon%205a5c94.png" />
+                                          <Image url="/edu/wpi/cs3733/c21/teamY/images/Direction Icon 5a5c94.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -101,7 +101,7 @@
                                  <graphic>
                                     <ImageView fitHeight="65.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../images/Request%20Icon%205a5c94.png" />
+                                          <Image url="/edu/wpi/cs3733/c21/teamY/images/Request Icon 5a5c94.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
@@ -125,7 +125,7 @@
                                  <children>
                                     <ImageView fitHeight="53.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../images/Covid%20Icon%205a5c94.png" />
+                                          <Image url="/edu/wpi/cs3733/c21/teamY/images/Covid Icon 5a5c94.png" />
                                        </image>
                                     </ImageView>
                                  </children>
