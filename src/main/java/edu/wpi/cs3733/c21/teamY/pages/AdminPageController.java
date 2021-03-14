@@ -1007,6 +1007,7 @@ public class AdminPageController extends SubPage {
     //        CSV.saveEdge(ed);
     mapInsertController.clearSelection();
     mapInsertController.selectLine(mapInsertController.addEdgeLine(ed));
+    editNodeTableController.initialize();
   }
 
   private void checkBoxCreateEdge(MapController.CircleEx endNode) {
@@ -1164,7 +1165,7 @@ public class AdminPageController extends SubPage {
 
     ArrayList<String> edgeIDs = new ArrayList<String>();
     for (MapController.LineEx edge : mapInsertController.getSelectedEdges()) {
-      nodeIDs.add(edge.getId());
+      edgeIDs.add(edge.getId());
     }
 
     for (String nodeId : nodeIDs) {
@@ -1172,7 +1173,7 @@ public class AdminPageController extends SubPage {
     }
 
     for (String edgeId : edgeIDs) {
-      JDBCUtils.deleteNode(edgeId);
+      JDBCUtils.deleteEdge(edgeId);
     }
 
     mapInsertController.removeSelected();
