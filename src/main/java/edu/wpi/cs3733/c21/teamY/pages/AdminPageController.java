@@ -117,11 +117,17 @@ public class AdminPageController extends SubPage {
 
   public void initialize() {
 
-    secret.setVisible(false);
+    secret.setVisible(true);
     secret.setOnAction(
         e -> {
+          ArrayList<edu.wpi.cs3733.c21.teamY.entity.Node> x =
+              new ArrayList<edu.wpi.cs3733.c21.teamY.entity.Node>();
+          x.add(nodes.get(1));
+          x.add(nodes.get(2));
+          x.add(nodes.get(3));
+
           KnockKnockServer kn =
-              new KnockKnockServer("ESP_Connection", nodes); // just passing whole thing in for now
+              new KnockKnockServer("ESP_Connection", x); // just passing whole thing in for now
           kn.start();
         });
 
@@ -218,7 +224,7 @@ public class AdminPageController extends SubPage {
               .setOnMousePressed(
                   e -> {
                     if (e.isSecondaryButtonDown()) {
-                      System.out.println("Right button clicked");
+                      // System.out.println("Right button clicked");
                       rightClicked = true;
                     } else {
                       handleMouseDown(e);
@@ -245,7 +251,7 @@ public class AdminPageController extends SubPage {
               .setOnMouseReleased(
                   e -> {
                     if (rightClicked) {
-                      System.out.println("Right button released");
+                      // System.out.println("Right button released");
                       handleRightClick(e);
                       rightClicked = false;
                     } else {
