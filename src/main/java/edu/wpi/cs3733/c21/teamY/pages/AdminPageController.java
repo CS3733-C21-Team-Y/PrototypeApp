@@ -162,29 +162,34 @@ public class AdminPageController extends SubPage {
                   e -> {
                     mapInsertController.scrollOnRelease(e);
 
-                    if (e.getCode() == KeyCode.DELETE) {
-                      removeSelected();
-                    }
-                    if (e.getCode() == KeyCode.ESCAPE) {
-                      mapInsertController.clearSelection();
-                    }
-                    if (e.getCode() == KeyCode.W) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, -5);
-                    }
-                    if (e.getCode() == KeyCode.S) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, 5);
-                    }
-                    if (e.getCode() == KeyCode.A) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), -5, 0.0);
-                    }
-                    if (e.getCode() == KeyCode.D) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 5, 0.0);
-                    }
+                    if (!(editNodeTableController.treeTable.getEditingCell() != null
+                        || selectNewAlgo.isFocused()
+                        || startLocationBox.isFocused()
+                        || endLocationBox.isFocused())) {
+                      if (e.getCode() == KeyCode.DELETE || e.getCode() == KeyCode.BACK_SPACE) {
+                        removeSelected();
+                      }
+                      if (e.getCode() == KeyCode.ESCAPE) {
+                        mapInsertController.clearSelection();
+                      }
+                      if (e.getCode() == KeyCode.W) {
+                        moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, -5);
+                      }
+                      if (e.getCode() == KeyCode.S) {
+                        moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, 5);
+                      }
+                      if (e.getCode() == KeyCode.A) {
+                        moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), -5, 0.0);
+                      }
+                      if (e.getCode() == KeyCode.D) {
+                        moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 5, 0.0);
+                      }
 
-                    if (e.isShiftDown()) {
-                      shiftPressed = true;
-                    } else {
-                      shiftPressed = false;
+                      if (e.isShiftDown()) {
+                        shiftPressed = true;
+                      } else {
+                        shiftPressed = false;
+                      }
                     }
                   });
 
@@ -223,6 +228,7 @@ public class AdminPageController extends SubPage {
               .getAdornerPane()
               .setOnMousePressed(
                   e -> {
+                    mapInsertController.getContainerStackPane().requestFocus();
                     if (e.isSecondaryButtonDown()) {
                       // System.out.println("Right button clicked");
                       rightClicked = true;
