@@ -3,12 +3,12 @@ package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
-import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.*;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
@@ -29,7 +29,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
   Settings settings;
   AutoCompleteComboBoxListener<String> employeeAuto;
   private ArrayList<Node> nodes = new ArrayList<Node>();
-  FuzzySearchComboBoxListener locationFuzzy;
+  // FuzzySearchComboBoxListener locationFuzzy;
 
   private Graph graph;
 
@@ -44,16 +44,12 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
     clearBtn.setOnAction(e -> clearButton());
-    resetComboBoxes();
-    resetGraphNodesEdges();
+
 
     try {
-      locationComboBox.setValue(
-          graph.nodeFromID(
-                  DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()))
-              .longName);
-    } catch (SQLException e) {
-      e.printStackTrace();
+      nodes = DataOperations.getListOfNodes();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
     }
 
     if (settings.getCurrentPermissions() == 3) {
@@ -70,20 +66,25 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       employeeComboBox.setVisible(false);
     }
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
-  }
 
-  private void resetGraphNodesEdges() {
-    try {
-      ActiveGraph.initialize();
-    } catch (Exception exception) {
-      System.out.println("no work");
-      // IT NO WORK
-    }
-    nodes = ActiveGraph.getNodes();
-    graph = ActiveGraph.getActiveGraph();
+    Platform.runLater(
+            () -> {
+              resetComboBoxes();
+            });
   }
 
   private void resetComboBoxes() {
+    /*
+    if(ActiveGraph.getActiveGraph()==null){
+      try {
+        ActiveGraph.initialize();
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    }
+
+     */
+
     locationComboBox.getItems().remove(0, locationComboBox.getItems().size());
     for (Node node : nodes) {
       String name = node.longName;
@@ -96,7 +97,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
         locationComboBox.getItems().add(name);
       }
     }
-    locationFuzzy = new FuzzySearchComboBoxListener(locationComboBox);
+    // locationFuzzy = new FuzzySearchComboBoxListener(locationComboBox);
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -161,7 +162,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(DataOperations.generateUniqueID("FD"), "Floral Delivery");
-      // service.setLocation(roomNumberInput.getText());
+      service.setLocation("check");
       service.setCategory(categoryInput.getText());
       service.setDescription(descriptionInput.getText());
       service.setRequester(settings.getCurrentUsername());
