@@ -375,8 +375,11 @@ public class PathfindingPageController extends SubPage {
 
     } else if (e.getSource() == noStairsBtn) {
       noStairs = !noStairs;
-      String start = (String) destinationCB1.getValue();
-      String end = (String) destinationCB2.getValue();
+      ArrayList<String> cbvalues = new ArrayList<>();
+
+      for (DestinationItemController dest : destinations) {
+        cbvalues.add((String) dest.getDestinationCB().getValue());
+      }
 
       if (!noStairs) {
         noType = "";
@@ -389,8 +392,9 @@ public class PathfindingPageController extends SubPage {
       mapInsertController.removeAllAdornerElements();
       mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
-      destinationCB1.setValue(start);
-      destinationCB2.setValue(end);
+      for (int i = 0; i < cbvalues.size(); i++) {
+        destinations.get(i).getDestinationCB().setValue(i);
+      }
     }
     // Detour handling for multiple destinations
     System.out.println("End size " + endLocations.size());
@@ -490,8 +494,8 @@ public class PathfindingPageController extends SubPage {
     if (!node.hasFocus || (node.hasFocus && isPathActive())) {
 
       ComboBox selectedBox = null;
-      for(DestinationItemController dest : destinations){
-        if(dest.getDestinationCB().isFocused()){
+      for (DestinationItemController dest : destinations) {
+        if (dest.getDestinationCB().isFocused()) {
           selectedBox = dest.getDestinationCB();
         }
       }
@@ -501,14 +505,14 @@ public class PathfindingPageController extends SubPage {
         if (selectedBox.getValue() != null) {
 
           MapController.CircleEx oldNodeCircle = null;
-            Node oldNode = graph.longNodes.get((String) selectedBox.getValue());
-            String nodeId = oldNode.nodeID;
-            if(nodeId != null){
-                oldNodeCircle = (MapController.CircleEx)
-                        mapInsertController.getAdornerPane().lookup("#" + nodeId);
-            }
+          Node oldNode = graph.longNodes.get((String) selectedBox.getValue());
+          String nodeId = oldNode.nodeID;
+          if (nodeId != null) {
+            oldNodeCircle =
+                (MapController.CircleEx) mapInsertController.getAdornerPane().lookup("#" + nodeId);
+          }
 
-          if(oldNodeCircle != null){
+          if (oldNodeCircle != null) {
             mapInsertController.deSelectCircle(oldNodeCircle);
           }
         }
@@ -978,16 +982,35 @@ public class PathfindingPageController extends SubPage {
   /** calculatePath Calculates the path between two nodes in the comboboxes and saves it to path */
   public void calculatePath() {
     clearPath();
-    if (destinationCB1.getValue() != null && destinationCB2.getValue() != null) {
-      String endID =
-          graph.longNodes.get((String) destinationCB2.getValue())
-              .nodeID; // (String) endLocationBox.getValue();
-      endLocations.add(endID);
-      String startID =
-          graph.longNodes.get((String) destinationCB1.getValue())
-              .nodeID; // (String) startLocationBox.getValue();
 
-      if (graph.longNodes.get((String) destinationCB1.getValue()).nodeType.equals("PARK")) {
+    int numLocations = 0;
+    for (DestinationItemController dest : destinations) {
+      if (dest.getDestinationCB().getValue() != null) {
+        numLocations++;
+      }
+    }
+
+    if (numLocations > 1 && destinations.get(0).getDestinationCB().getValue() != null) {
+
+      String startID =
+          graph.longNodes.get((String) destinations.get(0).getDestinationCB().getValue()).nodeID;
+
+      for (int i = 1; i < destinations.size(); i++) {
+        DestinationItemController dest = destinations.get(i);
+        if (dest.getDestinationCB().getValue() != null) {
+          String endID =
+              graph.longNodes.get((String) dest.getDestinationCB().getValue())
+                  .nodeID; // (String) endLocationBox.getValue();
+
+          endLocations.add(endID);
+        }
+      }
+
+      if (graph
+          .longNodes
+          .get((String) destinations.get(0).getDestinationCB().getValue())
+          .nodeType
+          .equals("PARK")) {
         try {
           if (DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername())
               .equals("")) {
