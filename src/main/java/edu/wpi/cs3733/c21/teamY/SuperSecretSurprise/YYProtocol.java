@@ -128,7 +128,7 @@ public class YYProtocol {
 
     // Following scale factor converts to cm
     // Example distance is 145 on map to 96.015cm in CAD
-    double scaleFactor = 0.6621724; // This is based on the physical model we built
+    double scaleFactor = 7.8; // This is based on the physical model we built
 
     for (int i = 0; i < path.size(); i++) {
       Node newNode = new Node(path.get(i));
