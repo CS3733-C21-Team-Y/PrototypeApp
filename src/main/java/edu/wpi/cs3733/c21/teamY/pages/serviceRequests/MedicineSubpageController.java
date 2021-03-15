@@ -4,9 +4,11 @@ import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
@@ -40,6 +42,20 @@ public class MedicineSubpageController extends GenericServiceFormPage {
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
     clearBtn.setOnAction(e -> clearButton());
+
+    if (settings.getCurrentPermissions() == 3) {
+      employeeComboBox.setVisible(true);
+      try {
+        ArrayList<Employee> employeeList = DataOperations.getStaffList();
+        for (Employee employee : employeeList) {
+          employeeComboBox.getItems().add(employee.getEmployeeID());
+        }
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    } else {
+      employeeComboBox.setVisible(false);
+    }
 
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
   }
@@ -92,7 +108,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
       Service service = new Service(DataOperations.generateUniqueID("MED"), "Medicine");
       service.setCategory(medicine.getText());
       service.setDescription(patient.getText());
-      service.setDate(String.valueOf(date.getValue()));
+      service.setDate(date.getValue().toString());
       service.setAdditionalInfo(doctor.getText());
       service.setRequester(settings.getCurrentUsername());
       if (settings.getCurrentPermissions() == 3) {
