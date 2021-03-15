@@ -45,7 +45,6 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
     submitBtn.setOnAction(e -> submitBtnClicked());
     clearBtn.setOnAction(e -> clearButton());
 
-
     try {
       nodes = DataOperations.getListOfNodes();
     } catch (SQLException throwables) {
@@ -68,9 +67,9 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
 
     Platform.runLater(
-            () -> {
-              resetComboBoxes();
-            });
+        () -> {
+          resetComboBoxes();
+        });
   }
 
   private void resetComboBoxes() {

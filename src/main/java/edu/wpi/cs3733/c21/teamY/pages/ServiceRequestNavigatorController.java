@@ -43,7 +43,20 @@ public class ServiceRequestNavigatorController extends SubPage {
     allRequestsBtn.setOnAction(e -> loadServicesFromDB());
     backBtn.setOnAction(e -> buttonClicked(e));
     drawByPermissions();
-    Platform.runLater(() -> filterByRequester());
+    Platform.runLater(
+        () -> {
+          if (parent.getNavMode().equals("ASSIGNED")) {
+            filterByEmployee();
+            assignedBtn.setSelected(true);
+            myRequestsBtn.setSelected(false);
+          } else if (parent.getNavMode().equals("ALL")) {
+            loadServicesFromDB();
+            allRequestsBtn.setSelected(true);
+            myRequestsBtn.setSelected(false);
+          } else {
+            filterByRequester();
+          }
+        });
 
     Tooltip.install(button2, button2Tooltip);
     Tooltip.install(myRequestsBtn, myRequestsBtnTooltip);
@@ -102,6 +115,7 @@ public class ServiceRequestNavigatorController extends SubPage {
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
+    parent.setNavMode("REQUESTER");
   }
 
   private void filterByEmployee() {
@@ -119,6 +133,7 @@ public class ServiceRequestNavigatorController extends SubPage {
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
+    parent.setNavMode("ASSIGNED");
   }
 
   private void loadServicesFromDB() {
@@ -134,6 +149,7 @@ public class ServiceRequestNavigatorController extends SubPage {
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
+    parent.setNavMode("ALL");
   }
 
   private void addService(Service service) {

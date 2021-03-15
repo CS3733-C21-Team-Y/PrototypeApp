@@ -49,6 +49,10 @@ public class ServiceRequestElementController extends SubPage {
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
+    parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+
+    // parent.setCenterColumnWidth(350);
+
   }
 
   private void toggleStatusGrid() {
