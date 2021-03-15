@@ -21,7 +21,7 @@
          <center>
             <ImageView fitHeight="359.0" fitWidth="592.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                <image>
-                  <Image url="@../images/img1.jpg" />
+                  <Image url="/edu/wpi/cs3733/c21/teamY/images/img1.jpg" />
                </image>
                <BorderPane.margin>
                   <Insets />
@@ -63,7 +63,7 @@
                                  <center>
                                     <ImageView fitHeight="603.0" fitWidth="669.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                                        <image>
-                                          <Image url="@../images/新冠对于身体的伤害.png" />
+                                          <Image url="/edu/wpi/cs3733/c21/teamY/images/新冠对于身体的伤害.png" />
                                        </image>
                                     </ImageView>
                                  </center>
@@ -90,7 +90,7 @@
                                                    <top>
                                                       <ImageView fitHeight="142.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                                                          <image>
-                                                            <Image url="@../images/washhands.png" />
+                                                            <Image url="/edu/wpi/cs3733/c21/teamY/images/washhands.png" />
                                                          </image>
                                                       </ImageView>
                                                    </top>
@@ -99,7 +99,7 @@
                                                          <center>
                                                             <ImageView fitHeight="134.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                                                                <image>
-                                                                  <Image url="@../images/clean.png" />
+                                                                  <Image url="/edu/wpi/cs3733/c21/teamY/images/clean.png" />
                                                                </image>
                                                             </ImageView>
                                                          </center>
@@ -115,7 +115,7 @@
                                                                <center>
                                                                   <ImageView fitHeight="123.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                                                                      <image>
-                                                                        <Image url="@../images/mask.png" />
+                                                                        <Image url="/edu/wpi/cs3733/c21/teamY/images/mask.png" />
                                                                      </image>
                                                                   </ImageView>
                                                                </center>
@@ -131,7 +131,7 @@
                                                                      <center>
                                                                         <ImageView fitHeight="119.0" fitWidth="132.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                                                                            <image>
-                                                                              <Image url="@../images/accine%20icon.png" />
+                                                                              <Image url="/edu/wpi/cs3733/c21/teamY/images/accine icon.png" />
                                                                            </image>
                                                                         </ImageView>
                                                                      </center>
@@ -147,7 +147,7 @@
                                                                            <center>
                                                                               <ImageView fitHeight="126.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                                                                                  <image>
-                                                                                    <Image url="@../images/crowd.png" />
+                                                                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/crowd.png" />
                                                                                  </image>
                                                                               </ImageView>
                                                                            </center>
@@ -183,7 +183,7 @@
                      <top>
                         <ImageView fitHeight="292.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                            <image>
-                              <Image url="@../images/img2.jpg" />
+                              <Image url="/edu/wpi/cs3733/c21/teamY/images/img2.jpg" />
                            </image>
                         </ImageView>
                      </top>

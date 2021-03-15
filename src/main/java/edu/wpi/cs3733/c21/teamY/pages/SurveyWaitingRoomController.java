@@ -4,18 +4,26 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import java.io.IOException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class SurveyWaitingRoomController extends SubPage {
 
   @FXML private Label waitLabel;
 
   @FXML private JFXButton refreshButton;
+  @FXML private JFXButton CovidBtn;
   @FXML private StackPane stackPane;
 
   @FXML
@@ -25,6 +33,37 @@ public class SurveyWaitingRoomController extends SubPage {
         () -> {
           checkStatus();
         });
+    CovidBtn.setOnAction(
+        e -> {
+          try {
+            visitCovidPage();
+          } catch (IOException ioException) {
+            ioException.printStackTrace();
+          }
+        });
+  }
+
+  private void visitCovidPage() throws IOException {
+    BorderPane main = FXMLLoader.load(getClass().getResource("covid.fxml"));
+    // main.setPrefSize(600, 900);
+    ScrollPane scrollPane = new ScrollPane();
+    scrollPane.setFitToHeight(true);
+    scrollPane.setFitToWidth(true);
+    scrollPane.setContent(main);
+    Scene covidPage = new Scene(scrollPane);
+
+    Stage stage = new Stage();
+    stage.setScene(covidPage);
+    stage.getIcons().add(new Image("/edu/wpi/cs3733/c21/teamY/images/BWHLogoShield.png"));
+    stage.setTitle("covid info");
+    stage.initModality(Modality.WINDOW_MODAL);
+    //    stage.setMaxHeight(900);
+    //    stage.setMinWidth(600);
+    //    stage.setMaxWidth(900);
+    stage.setWidth(600);
+    stage.setHeight(900);
+
+    stage.show();
   }
 
   private void checkStatus() {
