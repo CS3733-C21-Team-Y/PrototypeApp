@@ -73,7 +73,7 @@ public class PathfindingPageController extends SubPage {
   private ArrayList<Node> pathNodes = new ArrayList<Node>(); // Used to store path between floors
   private ComboBox lastSelectedComboBox = null;
   ArrayList<String> endLocations = new ArrayList<>();
-  Boolean addDest = false; // Toggle state of the add destinations button
+  // Boolean addDest = false; // Toggle state of the add destinations button
   // Used to save start/end node on a floor
   MapController.CircleEx startNode;
   MapController.CircleEx endNode;
@@ -184,7 +184,7 @@ public class PathfindingPageController extends SubPage {
         });
     multDestinationBtn.setOnAction(
         e -> {
-          addDest = true;
+          // addDest = true;
           initializeNewDestination();
         });
 
@@ -410,7 +410,7 @@ public class PathfindingPageController extends SubPage {
         size--;
       }
     }
-    addDest = true;
+    // addDest = true;
 
     calculatePath();
   }
@@ -1001,7 +1001,7 @@ public class PathfindingPageController extends SubPage {
           String endID =
               graph.longNodes.get((String) dest.getDestinationCB().getValue())
                   .nodeID; // (String) endLocationBox.getValue();
-
+          System.out.println("We in this place with: " + dest.getDestinationCB().getValue());
           endLocations.add(endID);
         }
       }
@@ -1040,12 +1040,13 @@ public class PathfindingPageController extends SubPage {
         endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "KIOS");
         algoNodes = runAlgo(graph, startID, endLocations, noType);
       }
+      System.out.println(endLocations);
 
       pathNodes = algoNodes;
       drawPath(pathNodes);
 
       generateTextDirections(pathNodes);
-      addDest = false;
+      // addDest = false;
     }
   }
 
@@ -1123,9 +1124,7 @@ public class PathfindingPageController extends SubPage {
     pathActive = false;
     mapInsertController.clearSelection();
     pathNodes = new ArrayList<Node>();
-    if (!addDest) {
-      endLocations = new ArrayList<String>();
-    }
+    endLocations = new ArrayList<String>();
     textDirectionViewer.getChildren().clear();
   }
 
