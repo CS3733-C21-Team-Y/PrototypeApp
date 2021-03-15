@@ -41,7 +41,7 @@
                         <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="50.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <JFXComboBox fx:id="startLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="99999.0" promptText="Start Location - Press To Select" style="-fx-prompt-text-fill: #efeff9; -fx-base: #efeff9;" styleClass="jfx-combo-box" stylesheets="@../UIStyles.css" unFocusColor="WHITE" GridPane.columnIndex="1">
+                        <JFXComboBox fx:id="destinationCB1" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="99999.0" promptText="Start Location - Press To Select" style="-fx-prompt-text-fill: #efeff9; -fx-base: #efeff9;" styleClass="jfx-combo-box" stylesheets="@../UIStyles.css" unFocusColor="WHITE" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets left="5.0" right="5.0" />
                            </GridPane.margin>
@@ -49,7 +49,7 @@
                               <ColorAdjust brightness="1.0" />
                            </effect>
                         </JFXComboBox>
-                        <JFXComboBox fx:id="endLocationBox" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="9999.0" promptText="End Location - Press To Select" style="-fx-prompt-text-fill: #efeff9; -fx-base: #efeff9;" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                        <JFXComboBox fx:id="destinationCB2" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="9999.0" promptText="End Location - Press To Select" style="-fx-prompt-text-fill: #efeff9; -fx-base: #efeff9;" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                            <GridPane.margin>
                               <Insets left="5.0" right="5.0" />
                            </GridPane.margin>
@@ -57,17 +57,6 @@
                               <ColorAdjust brightness="1.0" />
                            </effect>
                         </JFXComboBox>
-                        <JFXButton fx:id="swapLocationsBox" contentDisplay="GRAPHIC_ONLY" prefHeight="40.0" prefWidth="40.0" text="Button" textFill="WHITE" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
-                           <graphic>
-                              <MaterialDesignIconView fill="#8d8eae" glyphName="SWAP_VERTICAL" size="30" strokeLineCap="ROUND" strokeLineJoin="ROUND" text="" />
-                           </graphic>
-                           <GridPane.margin>
-                              <Insets />
-                           </GridPane.margin>
-                           <padding>
-                              <Insets right="2.0" />
-                           </padding>
-                        </JFXButton>
                         <GridPane>
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -125,6 +114,14 @@
                                  <graphic>
                                     <MaterialDesignIconView fill="#8d8eae" glyphName="WHEELCHAIR_ACCESSIBILITY" size="25" />
                                  </graphic>
+                              </JFXButton>
+                              <JFXButton fx:id="swapLocationsBox" contentDisplay="GRAPHIC_ONLY" prefHeight="40.0" prefWidth="40.0" text="Button" textFill="WHITE" textOverrun="CLIP">
+                                 <graphic>
+                                    <MaterialDesignIconView fill="#8d8eae" glyphName="SWAP_VERTICAL" size="30" strokeLineCap="ROUND" strokeLineJoin="ROUND" text="" />
+                                 </graphic>
+                                 <padding>
+                                    <Insets right="2.0" />
+                                 </padding>
                               </JFXButton>
                            </children>
                         </JFXNodesList>
