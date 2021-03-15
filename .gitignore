@@ -161,3 +161,8 @@ gradle-app.setting
 # End of https://www.gitignore.io/api/java,macos,gradle,intellij+all
 
 /DB
+
+# Certain CSV sources can be excluded
+/src/main/resources/edu/wpi/cs3733/c21/teamY/TestService.csv
+/src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/TestNode.csv
+/src/main/resources/edu/wpi/cs3733/c21/teamY/CSV/TestEdge.csv
