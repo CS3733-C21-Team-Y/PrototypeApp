@@ -94,7 +94,7 @@ public class YYProtocol {
     // probably going to need to scale and size everything here
 
     // gets list of nodes in the path
-    ArrayList<Node> send = scaleNodes(removeStraight(nodeList));
+    ArrayList<Node> send = nodeList;
     this.lengthOfList = send.size();
     StringBuffer sendable = new StringBuffer();
     sendable.append("[");
@@ -110,10 +110,11 @@ public class YYProtocol {
   }
 
   // Removes intermediate nodes in a straight path
-  private ArrayList<Node> removeStraight(ArrayList<Node> path) {
+  public ArrayList<Node> removeStraight(ArrayList<Node> path) {
     ArrayList<Node> newPath = (ArrayList<Node>) path.clone();
     for (int i = 0; i < newPath.size() - 2; i++) {
-      double angle = AlgorithmCalls.directionOfPoint(newPath.get(i), newPath.get(i + 1), newPath.get(i + 2));
+      double angle =
+          AlgorithmCalls.directionOfPoint(newPath.get(i), newPath.get(i + 1), newPath.get(i + 2));
       if (Math.abs(angle) < 25) {
         newPath.remove(i + 1);
         i--;
@@ -122,7 +123,7 @@ public class YYProtocol {
     return newPath;
   }
 
-  private ArrayList<Node> scaleNodes(ArrayList<Node> path) {
+  public ArrayList<Node> scaleNodes(ArrayList<Node> path) {
     ArrayList<Node> newPath = (ArrayList<Node>) path.clone();
 
     // Following scale factor converts to cm
