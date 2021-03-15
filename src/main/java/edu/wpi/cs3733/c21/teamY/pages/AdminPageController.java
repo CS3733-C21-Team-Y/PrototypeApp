@@ -162,29 +162,34 @@ public class AdminPageController extends SubPage {
                   e -> {
                     mapInsertController.scrollOnRelease(e);
 
-                    if (e.getCode() == KeyCode.DELETE) {
-                      removeSelected();
-                    }
-                    if (e.getCode() == KeyCode.ESCAPE) {
-                      mapInsertController.clearSelection();
-                    }
-                    if (e.getCode() == KeyCode.W) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, -5);
-                    }
-                    if (e.getCode() == KeyCode.S) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, 5);
-                    }
-                    if (e.getCode() == KeyCode.A) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), -5, 0.0);
-                    }
-                    if (e.getCode() == KeyCode.D) {
-                      moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 5, 0.0);
-                    }
+                    if (!(editNodeTableController.treeTable.getEditingCell() != null
+                        || selectNewAlgo.isFocused()
+                        || startLocationBox.isFocused()
+                        || endLocationBox.isFocused())) {
+                      if (e.getCode() == KeyCode.DELETE || e.getCode() == KeyCode.BACK_SPACE) {
+                        removeSelected();
+                      }
+                      if (e.getCode() == KeyCode.ESCAPE) {
+                        mapInsertController.clearSelection();
+                      }
+                      if (e.getCode() == KeyCode.W) {
+                        moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, -5);
+                      }
+                      if (e.getCode() == KeyCode.S) {
+                        moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 0.0, 5);
+                      }
+                      if (e.getCode() == KeyCode.A) {
+                        moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), -5, 0.0);
+                      }
+                      if (e.getCode() == KeyCode.D) {
+                        moveSelectedCirclesBy(mapInsertController.getSelectedNodes(), 5, 0.0);
+                      }
 
-                    if (e.isShiftDown()) {
-                      shiftPressed = true;
-                    } else {
-                      shiftPressed = false;
+                      if (e.isShiftDown()) {
+                        shiftPressed = true;
+                      } else {
+                        shiftPressed = false;
+                      }
                     }
                   });
 
@@ -223,6 +228,7 @@ public class AdminPageController extends SubPage {
               .getAdornerPane()
               .setOnMousePressed(
                   e -> {
+                    mapInsertController.getContainerStackPane().requestFocus();
                     if (e.isSecondaryButtonDown()) {
                       // System.out.println("Right button clicked");
                       rightClicked = true;
@@ -788,6 +794,8 @@ public class AdminPageController extends SubPage {
   private void handleFloorChanged(ActionEvent e, int menuItemIndex) {
     // This should be optimised to only switch if the floor actually changed, but its very fast, so
     // I cant be bothered
+    nodes = mapInsertController.loadNodesFromDB();
+    edges = mapInsertController.loadEdgesFromDB();
     mapInsertController.removeAllAdornerElements();
     mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
     mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
@@ -955,6 +963,8 @@ public class AdminPageController extends SubPage {
     mapInsertController.clearSelection();
     MapController.CircleEx c = mapInsertController.addNodeCircle(n);
     mapInsertController.selectCircle(c);
+    editNodeTableController.initialize();
+    editNodeTableController.selectRow(n.getNodeID());
   }
 
   private void createEdge(String startNodeString, String endNodeString) {
@@ -1003,6 +1013,7 @@ public class AdminPageController extends SubPage {
     //        CSV.saveEdge(ed);
     mapInsertController.clearSelection();
     mapInsertController.selectLine(mapInsertController.addEdgeLine(ed));
+    editNodeTableController.initialize();
   }
 
   private void checkBoxCreateEdge(MapController.CircleEx endNode) {
@@ -1144,6 +1155,15 @@ public class AdminPageController extends SubPage {
   //        }
 
   private void removeSelected() {
+
+    for (MapController.CircleEx circ : mapInsertController.getSelectedNodes()) {
+      if (circ.connectingEdges != null) {
+        for (MapController.LineEx line : circ.connectingEdges) {
+          mapInsertController.selectLine(line);
+        }
+      }
+    }
+
     ArrayList<String> nodeIDs = new ArrayList<String>();
     for (MapController.CircleEx node : mapInsertController.getSelectedNodes()) {
       nodeIDs.add(node.getId());
@@ -1151,7 +1171,7 @@ public class AdminPageController extends SubPage {
 
     ArrayList<String> edgeIDs = new ArrayList<String>();
     for (MapController.LineEx edge : mapInsertController.getSelectedEdges()) {
-      nodeIDs.add(edge.getId());
+      edgeIDs.add(edge.getId());
     }
 
     for (String nodeId : nodeIDs) {
@@ -1159,10 +1179,11 @@ public class AdminPageController extends SubPage {
     }
 
     for (String edgeId : edgeIDs) {
-      JDBCUtils.deleteNode(edgeId);
+      JDBCUtils.deleteEdge(edgeId);
     }
 
     mapInsertController.removeSelected();
+    editNodeTableController.initialize();
   }
 
   private void loadMapFromCSV() {

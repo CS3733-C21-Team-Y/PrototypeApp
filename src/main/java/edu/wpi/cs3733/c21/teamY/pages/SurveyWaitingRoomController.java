@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -20,6 +21,10 @@ public class SurveyWaitingRoomController extends SubPage {
   @FXML
   private void initialize() {
     refreshButton.setOnAction(e -> checkStatus());
+    Platform.runLater(
+        () -> {
+          checkStatus();
+        });
   }
 
   private void checkStatus() {

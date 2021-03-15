@@ -139,7 +139,7 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="120.0" prefWidth="232.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="NEVER">
                                  <children>
-                                    <JFXButton fx:id="signupBtn" prefHeight="50.0" prefWidth="90.0" ripplerFill="#545aae" style="-fx-background-color: #5a5c94;" text="SignUp" textFill="#fff9f9" HBox.hgrow="NEVER">
+                                    <JFXButton fx:id="signupBtn" prefHeight="50.0" prefWidth="90.0" ripplerFill="#545aae" style="-fx-background-color: #5a5c94;" text="Sign Up" textFill="#fff9f9" HBox.hgrow="NEVER">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -167,7 +167,7 @@
                         </JFXButton>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <children>
-                              <JFXPasswordField fx:id="passwordCheck" focusColor="#5a5c94" labelFloat="true" prefHeight="26.0" prefWidth="197.0" promptText="enter password again " unFocusColor="#5a5c94">
+                              <JFXPasswordField fx:id="passwordCheck" focusColor="#5a5c94" labelFloat="true" prefHeight="26.0" prefWidth="197.0" promptText="Enter Password Again " unFocusColor="#5a5c94">
                                  <font>
                                     <Font name="Calibri" size="14.0" />
                                  </font>

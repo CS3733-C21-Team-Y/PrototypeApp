@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.PasswordUtils;
-import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,6 +33,10 @@ public class LoginPageController extends SubPage {
     forgotPasswordBtn.setOnAction(e -> buttonClicked(e));
     newAccount.setOnAction(e -> newAccountClicked(e));
     guestBtn.setVisible(false);
+    if (SignUpPageController.success) {
+      accountPopUp(stackPane);
+      SignUpPageController.success = false;
+    }
   }
 
   private void newAccountClicked(ActionEvent e) {
@@ -86,27 +89,34 @@ public class LoginPageController extends SubPage {
 
         parent.updateProfileBtn();
 
-        if (Settings.getSettings().getCurrentPermissions() == 3) {
-          parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
-          if (parent.isDesktop) {
-            parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
-            // parent.setCenterColumnWidth(350);
-          } else {
-            parent.setCenterColumnWidth(0);
+        parent.loadRightSubPage("PatientFlowPage.fxml");
+
+        /*
+
+          if (Settings.getSettings().getCurrentPermissions() == 3) {
+            parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+            if (parent.isDesktop) {
+              parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+              // parent.setCenterColumnWidth(350);
+            } else {
+              parent.setCenterColumnWidth(0);
+            }
+            parent.drawByPermissions();
+            return;
           }
-          parent.drawByPermissions();
-          return;
-        }
 
-        if (DataOperations.checkForCompletedCovidSurvey(
-            Settings.getSettings().getCurrentUsername())) {
-          parent.loadRightSubPage("SurveyWaitingRoom.fxml");
-        } else {
-          parent.loadRightSubPage("CovidScreening.fxml");
-          // parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
-          // parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
+          if (DataOperations.checkForCompletedCovidSurvey(
+              Settings.getSettings().getCurrentUsername())) {
+            parent.loadRightSubPage("SurveyWaitingRoom.fxml");
+          } else {
+            parent.loadRightSubPage("CovidScreening.fxml");
+            // parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+            // parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
 
-        }
+
+
+          }
+        */
       } else {
         if (!errorMsgDisplayed) {
           errorMsgDisplayed = true;
@@ -127,6 +137,10 @@ public class LoginPageController extends SubPage {
 
   public void submittedPopUp(StackPane stackPane) {
     createPopUp(stackPane, "#5a5c94", "#ffffff", "log in successfully!");
+  }
+
+  public void accountPopUp(StackPane stackPane) {
+    createPopUp(stackPane, "#5a5c94", "#ffffff", "Account Created!");
   }
 
   public void unrecognizedUserOrPasswordPopUp(StackPane stackPane) {
