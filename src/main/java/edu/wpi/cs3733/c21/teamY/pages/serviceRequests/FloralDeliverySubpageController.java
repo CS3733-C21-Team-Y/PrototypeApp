@@ -116,13 +116,15 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
     clearIncomplete(employeeComboBox);
 
     if (locationComboBox.getValue() == null
+        || !locationComboBox.getItems().contains(locationComboBox.getValue())
         || categoryInput.getText().equals("")
         || descriptionInput.getText().equals("")
         || dateInput.getText().equals("")
         || fromInput.getText().equals("")
         || toInput.getText().equals("")
         || (Settings.getSettings().getCurrentPermissions() == 3
-            && employeeComboBox.getValue() == null)) {
+            && ((employeeComboBox.getValue() == null)
+                || !employeeComboBox.getItems().contains(employeeComboBox.getValue())))) {
       if (categoryInput.getText().equals("")) {
         incomplete(categoryInput);
       }
@@ -132,7 +134,8 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       if (dateInput.getText().equals("")) {
         incomplete(dateInput);
       }
-      if (locationComboBox.getValue() == null) {
+      if (locationComboBox.getValue() == null
+          || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
         incomplete(locationComboBox);
       }
 
@@ -142,7 +145,8 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       if (fromInput.getText().equals("")) {
         incomplete(fromInput);
       }
-      if (employeeComboBox.getValue() == null) {
+      if (employeeComboBox.getValue() == null
+          || !employeeComboBox.getItems().contains(employeeComboBox.getValue())) {
         incomplete(employeeComboBox);
       }
       nonCompleteForm(stackPane);
