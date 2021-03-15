@@ -107,7 +107,7 @@
                               <Insets left="15.0" top="5.0" />
                            </padding>
                         </JFXComboBox>
-                        <JFXDatePicker defaultColor="#5a5c94" prefHeight="27.0" prefWidth="999999.0" promptText="Date" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                        <JFXDatePicker fx:id="date" defaultColor="#5a5c94" prefHeight="27.0" prefWidth="999999.0" promptText="Date" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                            <padding>
                               <Insets left="15.0" top="5.0" />
                            </padding>
