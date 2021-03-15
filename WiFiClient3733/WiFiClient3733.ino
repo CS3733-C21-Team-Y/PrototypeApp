@@ -1,3 +1,6 @@
+#include <WiFi.h>
+
+
 /*
  *  This sketch sends data via HTTP GET requests to data.sparkfun.com service.
  *
@@ -6,7 +9,6 @@
  *
  */
 
-#include <WiFi.h>
 #include "Node.c"
 
 const char* ssid     = "itHertzwhenIP"; //my wifi
@@ -17,11 +19,10 @@ const char* streamId   = "....................";
 const char* privateKey = "....................";
 
 int numOfNodesReceived(String);
-void talkToApp(void);
-void talkToRomi(void);
 
 Node nodeArray[300];
 String stringFromServer = "";
+String romiVerify = "";
 int numOfNodes = 0;
 
 String test = "[{484.0,1135.0,0}={580.0,1139.0,0}={719.0,977.0,0}={845.0,946.0,0}={953.0,927.0,0}={1024.0,937.0,0}={1077.0,973.0,0}={1204.0,972.0,0}={1260.0,976.0,0}={1308.0,995.0,0}={1352.0,977.0,0}={1471.0,927.0,0}={1585.0,900.0,0}={1585.0,802.0,0}={1483.0,704.0,0}]";
@@ -113,29 +114,6 @@ void loop()
     * */
     // Read all the lines of the reply from server and print them to Serial
     while(client.available()) {
-        talkToApp();     
-      
-    }
-    Serial.println();
-    Serial.println("closing connection");
-
-    //talk to romi
-    talkToRomi();
-}
-
-void talkToRomi(){
-  String str = "";
-    Serial.println("start");
-    Serial.println(stringfromServer);
-    while(Serial.available()){
-      str = Serial.read();
-      if(str == "received"){
-        return;  
-      }  
-    }
-}
-
-void talkToApp(){
         String line = client.readStringUntil('\r');//WAITING
         Serial.println("Server:"+line);
         if(line == "Ready to send?"){
@@ -144,21 +122,43 @@ void talkToApp(){
           
           line = client.readStringUntil('\r');
           Serial.println("Server:"+line);
-          Serial.println(line[1]=='[');
           if(line[1] == '['){
-            stringFromServer = line;
-            numOfNodes = numOfNodesReceived(line);
-            Serial.println(numOfNodes);
-            client.println(numOfNodes);
-           
-            line = client.readStringUntil('\r');
-            Serial.println(line);
-            if(line[1] == 'B'){
-              Serial.println("verified");  
-              client.println("");
+             stringFromServer = line;
+             numOfNodes = numOfNodesReceived(line);
+             Serial.println(numOfNodes);
+             client.println(numOfNodes);
+             line = client.readStringUntil('\r');
+             if(line[1] == 'w'){
+              //start romi talk
+              Serial.println("_romi");
+              Serial.println(stringFromServer);
+              
+              //wait for romi to finish
+              while(!Serial.available()){
+                romiVerify = Serial.read();
+//                Serial.println(romiVerify);               
+              }
+
+              Serial.println("_/romi");
+              //end romi talk
+              Serial.print("client: finished");
+              client.print("finished");
+              line = client.readStringUntil('\r');
+              Serial.println(line);
+              if(line[1] == 'B'){
+                Serial.println("verified");  
+                client.println("");
+              }
             }
           }
-        }   
+        }         
+      
+    }
+
+    Serial.println();
+    Serial.println("closing connection");
+
+    
 }
 
 int numOfNodesReceived(String str){

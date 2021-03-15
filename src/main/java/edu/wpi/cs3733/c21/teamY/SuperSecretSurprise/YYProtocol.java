@@ -9,6 +9,7 @@ public class YYProtocol {
   private static final int WAITING = 0;
   private static final int SENDNODES = 1;
   private static final int VERIFY = 2;
+  private static final int WAITINGFORBOT = 3;
 
   private ArrayList<Node> nodeList;
   private int lengthOfList;
@@ -47,15 +48,22 @@ public class YYProtocol {
         if (theInput.equalsIgnoreCase(lengthOfList + "")) {
 
           // change here so it waits for a path complete confirmation
-          theOutput = "Bye.";
-          state = WAITING;
+          theOutput = "waiting for robot";
+          state = WAITINGFORBOT;
         } else {
-          theOutput = "Incorrect, try again";
-          state = WAITING;
+          theOutput = "Incorrect, Ready to send?";
+          state = SENDNODES;
         }
 
         // =========================================================
         break;
+      case (WAITINGFORBOT):
+        if (theInput.equalsIgnoreCase("finished")) {
+          theOutput = "Bye.";
+          state = WAITING;
+        } else {
+
+        }
     }
 
     System.out.println(theOutput);

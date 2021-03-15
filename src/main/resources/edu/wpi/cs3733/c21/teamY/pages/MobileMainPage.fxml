@@ -29,7 +29,7 @@
             <AnchorPane fx:id="origCenterPane" GridPane.rowIndex="1" />
             <HBox fx:id="navBar" maxHeight="-Infinity" prefHeight="75.0" prefWidth="335.0" style="-fx-background-color: efeff9;" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
                <children>
-                  <GridPane>
+                  <GridPane fx:id="navGridPane">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
@@ -111,6 +111,14 @@
                                     <DropShadow blurType="GAUSSIAN" color="#0000007e" spread="0.12" />
                                  </effect>
                               </JFXButton>
+                              <JFXButton fx:id="logoButton" alignment="CENTER" maxHeight="90.0" prefHeight="35.0" prefWidth="110.0" style="-fx-background-color: #efeff9; -fx-border-color: #8d8ea4; -fx-border-radius: 2;" text="About" textAlignment="CENTER" textFill="#373751" textOverrun="LEADING_WORD_ELLIPSIS">
+                                 <graphic>
+                                    <FontAwesomeIconView fill="#575aa3" glyphName="INFO_CIRCLE" size="20" />
+                                 </graphic>
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </JFXButton>
                               <JFXButton fx:id="origSignOutBtn" alignment="CENTER" maxHeight="90.0" prefHeight="35.0" prefWidth="110.0" ripplerFill="#efeff9" style="-fx-background-color: #efeff9; -fx-border-color: #8d8ea4; -fx-border-radius: 2;" text="Sign Out" textAlignment="CENTER" textFill="#373751" textOverrun="LEADING_WORD_ELLIPSIS">
                                  <font>
                                     <Font size="10.0" />
@@ -121,14 +129,6 @@
                                  <effect>
                                     <DropShadow blurType="GAUSSIAN" color="#0000007e" spread="0.12" />
                                  </effect>
-                              </JFXButton>
-                              <JFXButton fx:id="logoButton" alignment="CENTER" maxHeight="90.0" prefHeight="35.0" prefWidth="110.0" style="-fx-background-color: #efeff9; -fx-border-color: #8d8ea4; -fx-border-radius: 2;" text="About" textAlignment="CENTER" textFill="#373751" textOverrun="LEADING_WORD_ELLIPSIS">
-                                 <graphic>
-                                    <FontAwesomeIconView fill="#575aa3" glyphName="INFO_CIRCLE" size="20" />
-                                 </graphic>
-                                 <font>
-                                    <Font size="10.0" />
-                                 </font>
                               </JFXButton>
                            </children>
                            <GridPane.margin>

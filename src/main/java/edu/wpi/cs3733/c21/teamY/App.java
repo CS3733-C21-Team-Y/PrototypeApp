@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
@@ -72,6 +73,7 @@ public class App extends Application {
 
     // sets the title of the window in the upper right
     primaryStage.setTitle("Brigham and Womens' Hospital");
+    primaryStage.getIcons().add(new Image("/edu/wpi/cs3733/c21/teamY/images/BWHLogoShield.png"));
     primaryStage.setScene(mainPage);
     primaryStage.show();
   }

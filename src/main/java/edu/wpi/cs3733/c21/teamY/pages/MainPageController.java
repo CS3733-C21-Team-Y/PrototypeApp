@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -34,6 +35,7 @@ public class MainPageController {
   @FXML private JFXButton origSignOutBtn;
   @FXML private JFXButton logoButton;
   @FXML private HBox navBar;
+  @FXML private GridPane navGridPane;
   //  @FXML private ScrollPane scrollPane;
 
   private JFXButton signInBtn;
@@ -107,6 +109,8 @@ public class MainPageController {
             origGoogleNavBtn,
             requestsColumn,
             navBar);
+    navBar.setPickOnBounds(false);
+    navGridPane.setPickOnBounds(false);
     instance.setCenterColumnWidth(0);
     origNavigationBtn.setOnAction(e -> buttonClicked(e));
     origServiceRequestBtn.setOnAction(e -> buttonClicked(e));
@@ -370,9 +374,13 @@ public class MainPageController {
     switch (perm) {
       case -1:
         signOutBtn.setVisible(false);
+        break;
       case 0: // guest
+        serviceAccess = true;
+        adminAccess = false;
+        break;
       case 1: // patient
-        serviceAccess = false;
+        serviceAccess = true;
         adminAccess = false;
         break;
       case 2: // staff
