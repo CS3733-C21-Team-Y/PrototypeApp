@@ -44,26 +44,50 @@ public class SurveyWaitingRoomController extends SubPage {
   }
 
   private void visitCovidPage() throws IOException {
-    BorderPane main = FXMLLoader.load(getClass().getResource("covid.fxml"));
-    // main.setPrefSize(600, 900);
-    ScrollPane scrollPane = new ScrollPane();
-    scrollPane.setFitToHeight(true);
-    scrollPane.setFitToWidth(true);
-    scrollPane.setContent(main);
-    Scene covidPage = new Scene(scrollPane);
 
-    Stage stage = new Stage();
-    stage.setScene(covidPage);
-    stage.getIcons().add(new Image("/edu/wpi/cs3733/c21/teamY/images/BWHLogoShield.png"));
-    stage.setTitle("covid info");
-    stage.initModality(Modality.WINDOW_MODAL);
-    //    stage.setMaxHeight(900);
-    //    stage.setMinWidth(600);
-    //    stage.setMaxWidth(900);
-    stage.setWidth(600);
-    stage.setHeight(900);
+    if (parent.isDesktop) {
+      BorderPane main = FXMLLoader.load(getClass().getResource("covid.fxml"));
+      // main.setPrefSize(600, 900);
+      ScrollPane scrollPane = new ScrollPane();
+      scrollPane.setFitToHeight(true);
+      scrollPane.setFitToWidth(true);
+      scrollPane.setContent(main);
+      Scene covidPage = new Scene(scrollPane);
 
-    stage.show();
+      Stage stage = new Stage();
+      stage.setScene(covidPage);
+      stage.getIcons().add(new Image("/edu/wpi/cs3733/c21/teamY/images/BWHLogoShield.png"));
+      stage.setTitle("covid info");
+      stage.initModality(Modality.WINDOW_MODAL);
+      //    stage.setMaxHeight(900);
+      //    stage.setMinWidth(600);
+      //    stage.setMaxWidth(900);
+      stage.setWidth(600);
+      stage.setHeight(900);
+
+      stage.show();
+    } else {
+
+      // BorderPane main = FXMLLoader.load(getClass().getResource("covidMobilePage.fxml"));
+      AnchorPane main = FXMLLoader.load(getClass().getResource("covidMobilePage.fxml"));
+
+      // main.setPrefSize(600, 900);
+
+      Scene covidPage = new Scene(main);
+
+      Stage stage = new Stage();
+      stage.setScene(covidPage);
+      stage.getIcons().add(new Image("/edu/wpi/cs3733/c21/teamY/images/BWHLogoShield.png"));
+      stage.setTitle("covid info");
+      stage.initModality(Modality.WINDOW_MODAL);
+      //    stage.setMaxHeight(900);
+      //    stage.setMinWidth(600);
+      //    stage.setMaxWidth(900);
+      stage.setWidth(350);
+      stage.setHeight(600);
+
+      stage.show();
+    }
   }
 
   private void checkStatus() {
