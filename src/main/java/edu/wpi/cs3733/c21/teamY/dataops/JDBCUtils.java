@@ -390,13 +390,17 @@ public class JDBCUtils {
    *
    * @param edgeID@throws SQLException
    */
-  public static void deleteEdge(String edgeID) throws SQLException {
-    Connection connection = getConn();
-    PreparedStatement stmt =
-        connection.prepareStatement("DELETE FROM ADMIN.EDGE WHERE EDGEID = (?)");
-    stmt.setString(1, edgeID);
-    stmt.executeUpdate();
-    stmt.closeOnCompletion();
+  public static void deleteEdge(String edgeID) {
+    try {
+      Connection connection = getConn();
+      PreparedStatement stmt =
+          connection.prepareStatement("DELETE FROM ADMIN.EDGE WHERE EDGEID = (?)");
+      stmt.setString(1, edgeID);
+      stmt.executeUpdate();
+      stmt.closeOnCompletion();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -746,6 +750,7 @@ public class JDBCUtils {
       e.printStackTrace();
     }
   }
+
   /**
    * Removes the given employee from the Employee table
    *

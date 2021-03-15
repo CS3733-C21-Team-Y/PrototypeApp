@@ -10,6 +10,7 @@ import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -65,8 +66,8 @@ public class PathfindingPageController extends SubPage {
   @FXML private ScrollPane textDirectionScroll;
   // @FXML private Label zoomLabel;
 
-  private ArrayList<Node> nodes = new ArrayList<Node>();
   private ArrayList<Edge> edges = new ArrayList<Edge>();
+  private ArrayList<Node> nodes = new ArrayList<Node>();
 
   private ArrayList<Node> pathNodes = new ArrayList<Node>(); // Used to store path between floors
   private ComboBox lastSelectedComboBox = null;
@@ -592,6 +593,33 @@ public class PathfindingPageController extends SubPage {
         mapContextMenu.getItems().addAll(separator2, flipPath, clearPath);
       }
 
+      if (rightClickedNode.hasFocus
+          && !pathNodes.get(0).equals(node)
+          && !pathNodes.get(pathNodes.size() - 1).equals(node)) {
+        List<Integer> nodeIndexs = indexOfAll(node, pathNodes);
+        boolean next = false, prev = false;
+        for (Integer nodeIndex : nodeIndexs) {
+          int nextFloorChange =
+              Integer.valueOf(pathNodes.get(nodeIndex + 1).floor)
+                  - Integer.valueOf(mapInsertController.floorNumber);
+          int prevFloorChange =
+              Integer.valueOf(pathNodes.get(nodeIndex - 1).floor)
+                  - Integer.valueOf(mapInsertController.floorNumber);
+          if (nextFloorChange != 0) {
+            next = true;
+          } else if (prevFloorChange != 0) {
+            prev = true;
+          }
+        }
+        if (next && prev) {
+          mapContextMenu.getItems().addAll(separator3, prevPath, nextPath);
+        } else if (next) {
+          mapContextMenu.getItems().addAll(separator3, nextPath);
+        } else if (prev) {
+          mapContextMenu.getItems().addAll(separator3, prevPath);
+        }
+      }
+
       mapContextMenu.show(
           mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
 
@@ -610,8 +638,12 @@ public class PathfindingPageController extends SubPage {
   MenuItem clearPath = new MenuItem("Clear path");
   MenuItem flipPath = new MenuItem("Flip path");
 
+  MenuItem nextPath = new MenuItem("Continue on Path");
+  MenuItem prevPath = new MenuItem("Return to Previous Path");
+
   SeparatorMenuItem separator1 = new SeparatorMenuItem();
   SeparatorMenuItem separator2 = new SeparatorMenuItem();
+  SeparatorMenuItem separator3 = new SeparatorMenuItem();
   MenuItem adornerTitleLabel = new MenuItem();
 
   private void setContextMenuActions() {
@@ -660,6 +692,40 @@ public class PathfindingPageController extends SubPage {
           String startLoc = (String) startLocationBox.getValue();
           startLocationBox.setValue(endLocationBox.getValue());
           endLocationBox.setValue(startLoc);
+        });
+
+    prevPath.setOnAction(
+        e -> {
+          if (rightClickedNode != null) {
+            Node node = graph.nodeFromID(rightClickedNode.getId());
+            List<Integer> nodeIndexs = indexOfAll(node, pathNodes);
+            int floorChange = Integer.valueOf(mapInsertController.floorNumber);
+            for (Integer nodeIndex : nodeIndexs) {
+              floorChange = Integer.valueOf(pathNodes.get(nodeIndex - 1).floor);
+              System.out.println(floorChange);
+              if (floorChange - Integer.valueOf(mapInsertController.floorNumber) != 0) {
+                break;
+              }
+            }
+            handleFloorChanged(e, floorChange);
+          }
+        });
+
+    nextPath.setOnAction(
+        e -> {
+          if (rightClickedNode != null) {
+            Node node = graph.nodeFromID(rightClickedNode.getId());
+            List<Integer> nodeIndexs = indexOfAll(node, pathNodes);
+            int floorChange = Integer.valueOf(mapInsertController.floorNumber);
+            for (Integer nodeIndex : nodeIndexs) {
+              floorChange = Integer.valueOf(pathNodes.get(nodeIndex + 1).floor);
+              System.out.println(floorChange);
+              if (floorChange - Integer.valueOf(mapInsertController.floorNumber) != 0) {
+                break;
+              }
+            }
+            handleFloorChanged(e, floorChange);
+          }
         });
   }
 
@@ -951,9 +1017,20 @@ public class PathfindingPageController extends SubPage {
     if (!addDest) {
       endLocations = new ArrayList<String>();
     }
+    textDirectionViewer.getChildren().clear();
   }
 
   public JFXButton getBathroomBtn() {
     return bathroomBtn;
+  }
+
+  public <T> List<Integer> indexOfAll(T obj, List<T> list) {
+    final List<Integer> indexList = new ArrayList<>();
+    for (int i = 0; i < list.size(); i++) {
+      if (obj.equals(list.get(i))) {
+        indexList.add(i);
+      }
+    }
+    return indexList;
   }
 }
