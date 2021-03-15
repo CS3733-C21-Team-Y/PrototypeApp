@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -35,7 +38,8 @@
                      </opaqueInsets>
                      <padding>
                         <Insets left="25.0" />
-                     </padding></VBox>
+                     </padding>
+                  </VBox>
                </content>
             </ScrollPane>
             <Label text="Service Requests" textFill="WHITE" GridPane.rowIndex="1">
@@ -46,17 +50,9 @@
                   <Insets left="15.0" />
                </GridPane.margin>
             </Label>
-            <JFXButton fx:id="button2" style="-fx-background-color: #8d8ea4;" text="Export" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <JFXButton fx:id="button2" style="-fx-background-color: #8d8ea4;" text="Export" textFill="#efeff9" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets right="5.0" />
-               </GridPane.margin>
-            </JFXButton>
-            <JFXButton fx:id="backBtn" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" " GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-               <graphic>
-                  <FontAwesomeIconView fill="#8d8ea4" glyphName="ANGLE_LEFT" size="35" />
-               </graphic>
-               <GridPane.margin>
-                  <Insets right="-10.0" />
                </GridPane.margin>
             </JFXButton>
             <GridPane alignment="CENTER" GridPane.rowIndex="2">
@@ -102,10 +98,54 @@
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="7.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
+               <children>
+                  <JFXButton fx:id="backBtn" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" " GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                     <graphic>
+                        <FontAwesomeIconView fill="#8d8ea4" glyphName="ANGLE_LEFT" size="35" />
+                     </graphic>
+                     <GridPane.margin>
+                        <Insets right="-10.0" />
+                     </GridPane.margin>
+                  </JFXButton>
+                  <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                     <children>
+                        <JFXComboBox fx:id="statusCombo" focusColor="#efeff9" labelFloat="true" promptText="Status" unFocusColor="#efeff9">
+                           <effect>
+                              <ColorAdjust brightness="1.0" />
+                           </effect>
+                        </JFXComboBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                     <children>
+                        <JFXComboBox fx:id="employeeCombo" focusColor="#efeff9" labelFloat="true" promptText="Employee" unFocusColor="#efeff9">
+                           <effect>
+                              <ColorAdjust brightness="1.0" />
+                           </effect>
+                        </JFXComboBox>
+                     </children>
+                  </HBox>
+                  <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Sort Requests By:" textFill="#efeff9">
+                           <padding>
+                              <Insets left="2.0" />
+                           </padding>
+                        </Label>
+                        <JFXComboBox fx:id="typeCombo" focusColor="#efeff9" labelFloat="true" promptText="Type" unFocusColor="#efeff9">
+                           <effect>
+                              <ColorAdjust brightness="1.0" />
+                           </effect>
+                        </JFXComboBox>
+                     </children>
+                  </VBox>
+               </children>
             </GridPane>
          </children>
          <padding>

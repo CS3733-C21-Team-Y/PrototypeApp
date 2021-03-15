@@ -19,7 +19,6 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
   @FXML private JFXButton clearBtn;
   @FXML private JFXButton backBtn;
   @FXML private JFXButton submitBtn;
-  // @FXML private JFXTextField roomNumberInput;
   @FXML private JFXComboBox locationComboBox;
   @FXML private JFXTextField categoryInput;
   @FXML private JFXTextField fromInput;
@@ -116,9 +115,8 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
     clearIncomplete(toInput);
     clearIncomplete(employeeComboBox);
 
-    if (
-    locationComboBox.getValue()==null||
-    categoryInput.getText().equals("")
+    if (locationComboBox.getValue() == null
+        || categoryInput.getText().equals("")
         || descriptionInput.getText().equals("")
         || dateInput.getText().equals("")
         || fromInput.getText().equals("")
@@ -134,10 +132,9 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       if (dateInput.getText().equals("")) {
         incomplete(dateInput);
       }
-      if(locationComboBox.getValue()==null){
+      if (locationComboBox.getValue() == null) {
         incomplete(locationComboBox);
       }
-
 
       if (toInput.getText().equals("")) {
         incomplete(toInput);
