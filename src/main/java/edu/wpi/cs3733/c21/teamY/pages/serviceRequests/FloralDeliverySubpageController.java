@@ -161,7 +161,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(DataOperations.generateUniqueID("FD"), "Floral Delivery");
-      service.setLocation("check");
+      service.setLocation(locationComboBox.getValue().toString());
       service.setCategory(categoryInput.getText());
       service.setDescription(descriptionInput.getText());
       service.setRequester(settings.getCurrentUsername());
