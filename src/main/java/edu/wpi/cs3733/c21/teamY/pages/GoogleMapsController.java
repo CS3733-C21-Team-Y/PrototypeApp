@@ -51,16 +51,13 @@ public class GoogleMapsController extends SubPage
 
   @FXML
   private void sendToPage(ActionEvent event) {
-    arrivedButton.setOnAction(
-        e -> {
-          if (parent.isDesktop) {
-            parent.loadRightSubPage("NavigationMap.fxml");
-            parent.loadCenterSubPage("PathfindingPage.fxml");
-          } else {
-            parent.loadCenterSubPage("NavigationMap.fxml");
-            parent.loadRightSubPage("MobilePathfindingPage.fxml");
-          }
-        });
+    if (parent.isDesktop) {
+      parent.loadRightSubPage("NavigationMap.fxml");
+      parent.loadCenterSubPage("PathfindingPage.fxml");
+    } else {
+      parent.loadCenterSubPage("NavigationMap.fxml");
+      parent.loadRightSubPage("MobilePathfindingPage.fxml");
+    }
   }
 
   @Override

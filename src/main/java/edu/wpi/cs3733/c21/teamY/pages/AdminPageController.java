@@ -141,7 +141,7 @@ public class AdminPageController extends SubPage {
             throwables.printStackTrace();
           }
           for (Service service : services) {
-            if(service.getEmployee().equals("robot")){
+            if (service.getEmployee().equals("robot")) {
               end.add(ActiveGraph.getActiveGraph().longNodes.get(service.getLocation()).nodeID);
             }
           }
