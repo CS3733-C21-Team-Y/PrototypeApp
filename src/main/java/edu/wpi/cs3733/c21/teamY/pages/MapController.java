@@ -459,6 +459,10 @@ public class MapController extends SubPage {
   }
 
   protected void changeMapImage(MapController.MAP_PAGE floor) {
+    changeMapImage(floor, true);
+  }
+
+  protected void changeMapImage(MapController.MAP_PAGE floor, boolean animate) {
     switch (floor) {
       case FLOOR1:
         mapImageView.setImage(f1);
@@ -493,7 +497,9 @@ public class MapController extends SubPage {
         break;
     }
     floorList.animateList(false);
-    floorMenuAction();
+    if (animate) {
+      floorMenuAction();
+    }
   }
 
   protected void setNewMapImage(Image image, MapController.MAP_PAGE floor) {

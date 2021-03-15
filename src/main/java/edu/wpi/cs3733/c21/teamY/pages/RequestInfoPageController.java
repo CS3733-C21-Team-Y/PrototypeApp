@@ -184,7 +184,7 @@ public class RequestInfoPageController<label> extends SubPage {
             Node node = fxmlLoader.load(getClass().getResource("MapUserControl.fxml").openStream());
             mapInsertController = (MapController) fxmlLoader.getController();
             mapInsertController.setParent(parent);
-            mapInsertController.setAdminPage(false);
+            mapInsertController.setAdminPage(true);
             // call method before page load
           } catch (IOException exception) {
             exception.printStackTrace();
@@ -231,7 +231,7 @@ public class RequestInfoPageController<label> extends SubPage {
             System.out.println("Floor could not be found");
             return;
           }
-          mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(floor));
+          mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(floor), false);
           MapController.CircleEx nodeCircle = mapInsertController.addNodeCircle(node);
           if (nodeCircle == null) {
             System.out.println("OOF");
