@@ -11,7 +11,6 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -61,7 +60,6 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
     urgencies.add("Medium");
     urgencies.add("High");
 
-
     try {
       nodes = DataOperations.getListOfNodes();
     } catch (SQLException throwables) {
@@ -91,9 +89,9 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
     }
 
     Platform.runLater(
-            () -> {
-              resetComboBoxes();
-            });
+        () -> {
+          resetComboBoxes();
+        });
     urgencyAuto = new AutoCompleteComboBoxListener<>(urgency);
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
     categoryAuto = new AutoCompleteComboBoxListener<>(category);
@@ -107,9 +105,9 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
       String type = node.nodeType;
       // Filtering out the unwanted midway points
       if (!type.equals("WALK")
-              && !type.equals("ELEV")
-              && !type.equals("HALL")
-              && !type.equals("STAI")) {
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
         locationComboBox.getItems().add(name);
       }
     }
@@ -143,11 +141,11 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
         || description.getText().equals("")
         || urgency.getValue() == null
         || date2.getValue() == null
-        ||locationComboBox.getValue() == null
-            || !locationComboBox.getItems().contains(locationComboBox.getValue())
+        || locationComboBox.getValue() == null
+        || !locationComboBox.getItems().contains(locationComboBox.getValue())
         || (Settings.getSettings().getCurrentPermissions() == 3
             && ((employeeComboBox.getValue() == null)
-            || !employeeComboBox.getItems().contains(employeeComboBox.getValue())))) {
+                || !employeeComboBox.getItems().contains(employeeComboBox.getValue())))) {
       if (category.getValue() == null) {
         incomplete(category);
       }
@@ -161,24 +159,23 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
         incomplete(date2);
       }
       if (locationComboBox.getValue() == null
-              || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
+          || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
         incomplete(locationComboBox);
       }
       if (employeeComboBox.getValue() == null
-              || !employeeComboBox.getItems().contains(employeeComboBox.getValue())) {
+          || !employeeComboBox.getItems().contains(employeeComboBox.getValue())) {
         incomplete(employeeComboBox);
       }
 
       nonCompleteForm(stackPane);
-    }
-    else {
+    } else {
 
       // Stage stage = null;
       // put code for submitting a service request here
       Service service = new Service(DataOperations.generateUniqueID("MAIN"), "Maintenance");
       // System.out.println(this.IDCount);
       service.setCategory((String) category.getValue());
-    service.setLocation(locationComboBox.getValue().toString());
+      service.setLocation(locationComboBox.getValue().toString());
       service.setDescription(description.getText());
       service.setAdditionalInfo("Urgency: " + (String) urgency.getValue());
       service.setDate(date2.getValue().toString());

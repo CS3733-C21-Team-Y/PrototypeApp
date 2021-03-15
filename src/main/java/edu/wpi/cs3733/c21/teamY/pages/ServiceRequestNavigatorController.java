@@ -24,7 +24,7 @@ public class ServiceRequestNavigatorController extends SubPage {
 
   public ScrollPane scrollPane;
   @FXML private VBox serviceBox;
-  @FXML private JFXButton button2;
+  @FXML private JFXButton export;
   @FXML private ToggleButton myRequestsBtn;
   @FXML private ToggleButton allRequestsBtn;
   @FXML private ToggleButton assignedBtn;
@@ -46,7 +46,7 @@ public class ServiceRequestNavigatorController extends SubPage {
 
     settings = Settings.getSettings();
 
-    button2.setOnAction(e -> exportServices());
+    export.setOnAction(e -> exportServices());
     myRequestsBtn.setOnAction(e -> filterByRequester());
     assignedBtn.setOnAction(e -> filterByEmployee());
     allRequestsBtn.setOnAction(e -> loadServicesFromDB());
@@ -67,7 +67,7 @@ public class ServiceRequestNavigatorController extends SubPage {
           }
         });
 
-    Tooltip.install(button2, button2Tooltip);
+    Tooltip.install(export, button2Tooltip);
     Tooltip.install(myRequestsBtn, myRequestsBtnTooltip);
     Tooltip.install(allRequestsBtn, allRequestBtnTooltip);
     Tooltip.install(assignedBtn, assignedBtnTooltip);

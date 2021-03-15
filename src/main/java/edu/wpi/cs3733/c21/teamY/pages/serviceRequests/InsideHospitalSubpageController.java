@@ -11,7 +11,6 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -69,9 +68,9 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
 
     Platform.runLater(
-            () -> {
-              resetComboBoxes();
-            });
+        () -> {
+          resetComboBoxes();
+        });
   }
 
   private void resetComboBoxes() {
@@ -82,9 +81,9 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
       String type = node.nodeType;
       // Filtering out the unwanted midway points
       if (!type.equals("WALK")
-              && !type.equals("ELEV")
-              && !type.equals("HALL")
-              && !type.equals("STAI")) {
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
         locationComboBox.getItems().add(name);
         locationComboBox2.getItems().add(name);
       }
@@ -111,27 +110,29 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
 
     clearIncomplete(locationComboBox);
     clearIncomplete(description);
-    clearIncomplete(locationComboBox2);;
+    clearIncomplete(locationComboBox2);
+    ;
     clearIncomplete(patientName);
     clearIncomplete(date);
     clearIncomplete(employeeComboBox);
 
     if (description.getText().equals("")
         || locationComboBox.getValue() == null
-            || !locationComboBox.getItems().contains(locationComboBox.getValue())
+        || !locationComboBox.getItems().contains(locationComboBox.getValue())
         || locationComboBox.getValue() == null
-            || !locationComboBox2.getItems().contains(locationComboBox2.getValue())
+        || !locationComboBox2.getItems().contains(locationComboBox2.getValue())
         || patientName.getText().equals("")
         || date.getValue() == null
-        || (Settings.getSettings().getCurrentPermissions() == 3
-            && employeeComboBox.getValue() == null)) {
+        || ((Settings.getSettings().getCurrentPermissions() == 3
+            && ((employeeComboBox.getValue() == null)
+                || !employeeComboBox.getItems().contains(employeeComboBox.getValue()))))) {
       if (locationComboBox.getValue() == null
-              || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
+          || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
         incomplete(locationComboBox);
       }
 
       if (locationComboBox2.getValue() == null
-              || !locationComboBox2.getItems().contains(locationComboBox2.getValue())) {
+          || !locationComboBox2.getItems().contains(locationComboBox2.getValue())) {
         incomplete(locationComboBox2);
       }
       if (patientName.getText().equals("")) {
@@ -140,7 +141,8 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
       if (date.getValue() == null) {
         incomplete(date);
       }
-      if (employeeComboBox.getValue() == null) {
+      if (employeeComboBox.getValue() == null
+          || !employeeComboBox.getItems().contains(employeeComboBox.getValue())) {
         incomplete(employeeComboBox);
       }
       if (description.getText().equals("")) {
@@ -155,7 +157,10 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());
       service.setLocation(
-          "From: " + locationComboBox.getValue().toString() + "To: " + locationComboBox2.getValue().toString());
+          "From: "
+              + locationComboBox.getValue().toString()
+              + "To: "
+              + locationComboBox2.getValue().toString());
       service.setCategory(patientName.getText());
       service.setDate(date.getValue().toString());
       service.setRequester(settings.getCurrentUsername());

@@ -3,12 +3,15 @@ package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
@@ -19,7 +22,7 @@ public class SecuritySubpageController extends GenericServiceFormPage {
   @FXML private JFXButton backBtn;
   @FXML private JFXButton submitBtn;
   @FXML private JFXComboBox category;
-  @FXML private JFXComboBox locationBox;
+  @FXML private JFXComboBox locationComboBox;
   @FXML private JFXComboBox urgency;
   @FXML private JFXTimePicker time;
   @FXML private JFXDatePicker datePickerObject;
@@ -34,6 +37,8 @@ public class SecuritySubpageController extends GenericServiceFormPage {
   @FXML private StackPane stackPane;
 
   Settings settings;
+  private ArrayList<Node> nodes = new ArrayList<Node>();
+  FuzzySearchComboBoxListener locationFuzzy;
 
   public SecuritySubpageController() {}
 
@@ -45,12 +50,15 @@ public class SecuritySubpageController extends GenericServiceFormPage {
     clearBtn.setOnAction(e -> clearButton());
 
     category.getItems().add("Guard");
-    locationBox.getItems().add("Lobby");
-    locationBox.getItems().add("Radiology");
-    locationBox.getItems().add("Phlebotomy");
     urgency.getItems().add("Low");
     urgency.getItems().add("Medium");
     urgency.getItems().add("High");
+
+    try {
+      nodes = DataOperations.getListOfNodes();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
 
     if (settings.getCurrentPermissions() == 3) {
       employeeComboBox.setVisible(true);
@@ -66,14 +74,35 @@ public class SecuritySubpageController extends GenericServiceFormPage {
       employeeComboBox.setVisible(false);
     }
 
-    locationAuto = new AutoCompleteComboBoxListener<>(locationBox);
     urgencyAuto = new AutoCompleteComboBoxListener<>(urgency);
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
     categoryAuto = new AutoCompleteComboBoxListener<>(category);
+
+    Platform.runLater(
+        () -> {
+          resetComboBoxes();
+        });
+  }
+
+  private void resetComboBoxes() {
+
+    locationComboBox.getItems().remove(0, locationComboBox.getItems().size());
+    for (Node node : nodes) {
+      String name = node.longName;
+      String type = node.nodeType;
+      // Filtering out the unwanted midway points
+      if (!type.equals("WALK")
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
+        locationComboBox.getItems().add(name);
+      }
+    }
+    locationFuzzy = new FuzzySearchComboBoxListener(locationComboBox);
   }
 
   private void clearButton() {
-    locationBox.setValue(null);
+    locationComboBox.setValue(null);
     datePickerObject.setValue(null);
     time.setValue(null);
     description.setText("");
@@ -87,25 +116,27 @@ public class SecuritySubpageController extends GenericServiceFormPage {
 
     clearIncomplete(employeeComboBox);
     clearIncomplete(description);
-    clearIncomplete(locationBox);
+    clearIncomplete(locationComboBox);
     clearIncomplete(category);
     clearIncomplete(urgency);
     clearIncomplete(time);
     clearIncomplete(datePickerObject);
 
-    if (locationBox.toString().equals("")
+    if (!locationComboBox.getItems().contains(locationComboBox.getValue())
         || description.getText().equals("")
         || category.toString().equals("")
         || urgency.toString().equals("")
         || time.toString().equals("")
         || datePickerObject.getValue() == null
-        || (Settings.getSettings().getCurrentPermissions() == 3
-            && employeeComboBox.getValue() == null)) {
+        || ((Settings.getSettings().getCurrentPermissions() == 3
+            && ((employeeComboBox.getValue() == null)
+                || !employeeComboBox.getItems().contains(employeeComboBox.getValue()))))) {
       if (description.getText().equals("")) {
         incomplete(description);
       }
-      if (locationBox.getValue() == null) {
-        incomplete(locationBox);
+      if (locationComboBox.getValue() == null
+          || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
+        incomplete(locationComboBox);
       }
       if (category.getValue() == null) {
         incomplete(category);
@@ -119,14 +150,15 @@ public class SecuritySubpageController extends GenericServiceFormPage {
       if (datePickerObject.getValue() == null) {
         incomplete(datePickerObject);
       }
-      if (employeeComboBox.getValue() == null) {
+      if (employeeComboBox.getValue() == null
+          || !employeeComboBox.getItems().contains(employeeComboBox.getValue())) {
         incomplete(employeeComboBox);
       }
       nonCompleteForm(stackPane);
     } else {
       Service service = new Service(DataOperations.generateUniqueID("SEC"), "Security");
       service.setCategory((String) category.getValue());
-      service.setLocation((String) locationBox.getValue());
+      service.setLocation(locationComboBox.getValue().toString());
       service.setUrgency((String) urgency.getValue());
       service.setAdditionalInfo("Time: " + time.getValue().toString());
       service.setDate(datePickerObject.getValue().toString());

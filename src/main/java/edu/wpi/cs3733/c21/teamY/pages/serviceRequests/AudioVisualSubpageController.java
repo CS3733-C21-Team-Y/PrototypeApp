@@ -13,7 +13,6 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -77,9 +76,9 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
     typeAuto = new AutoCompleteComboBoxListener<>(avTypeComboBox);
 
     Platform.runLater(
-            () -> {
-              resetComboBoxes();
-            });
+        () -> {
+          resetComboBoxes();
+        });
   }
 
   private void resetComboBoxes() {
@@ -90,9 +89,9 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
       String type = node.nodeType;
       // Filtering out the unwanted midway points
       if (!type.equals("WALK")
-              && !type.equals("ELEV")
-              && !type.equals("HALL")
-              && !type.equals("STAI")) {
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
         locationComboBox.getItems().add(name);
       }
     }
@@ -122,15 +121,15 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
     clearIncomplete(avEmployeeComboBox);
 
     if (locationComboBox.getValue() == null
-            || !locationComboBox.getItems().contains(locationComboBox.getValue())
+        || !locationComboBox.getItems().contains(locationComboBox.getValue())
         || avTypeComboBox.getValue() == null
         || avDesc.getText().equals("")
         || avDate.getValue() == null
         || (Settings.getSettings().getCurrentPermissions() == 3
             && ((avEmployeeComboBox.getValue() == null)
-            || !avEmployeeComboBox.getItems().contains(avEmployeeComboBox.getValue())))) {
+                || !avEmployeeComboBox.getItems().contains(avEmployeeComboBox.getValue())))) {
       if (locationComboBox.getValue() == null
-              || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
+          || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
         incomplete(locationComboBox);
       }
       if (avTypeComboBox.getValue() == null) {
@@ -144,7 +143,7 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
         incomplete(avDate);
       }
       if (avEmployeeComboBox.getValue() == null
-              || !avEmployeeComboBox.getItems().contains(avEmployeeComboBox.getValue())) {
+          || !avEmployeeComboBox.getItems().contains(avEmployeeComboBox.getValue())) {
         incomplete(avEmployeeComboBox);
       }
       nonCompleteForm(stackPane);

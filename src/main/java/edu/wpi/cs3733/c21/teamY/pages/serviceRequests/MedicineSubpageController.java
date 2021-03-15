@@ -3,12 +3,15 @@ package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
@@ -20,6 +23,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
   @FXML private JFXButton backBtn;
   @FXML private JFXButton submitBtn;
   @FXML private JFXTextField medicine;
+  @FXML private JFXComboBox locationComboBox;
   @FXML private JFXTextField patient;
   @FXML private JFXDatePicker date;
   @FXML private JFXTextField doctor;
@@ -27,7 +31,9 @@ public class MedicineSubpageController extends GenericServiceFormPage {
   @FXML private JFXComboBox employeeComboBox;
   AutoCompleteComboBoxListener<String> employeeAuto;
 
-  private Settings settings;
+  Settings settings;
+  private ArrayList<Node> nodes = new ArrayList<Node>();
+  FuzzySearchComboBoxListener locationFuzzy;
 
   // unused constructor
   public MedicineSubpageController() {}
@@ -42,6 +48,12 @@ public class MedicineSubpageController extends GenericServiceFormPage {
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
     clearBtn.setOnAction(e -> clearButton());
+
+    try {
+      nodes = DataOperations.getListOfNodes();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
 
     if (settings.getCurrentPermissions() == 3) {
       employeeComboBox.setVisible(true);
@@ -58,6 +70,28 @@ public class MedicineSubpageController extends GenericServiceFormPage {
     }
 
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
+
+    Platform.runLater(
+        () -> {
+          resetComboBoxes();
+        });
+  }
+
+  private void resetComboBoxes() {
+
+    locationComboBox.getItems().remove(0, locationComboBox.getItems().size());
+    for (Node node : nodes) {
+      String name = node.longName;
+      String type = node.nodeType;
+      // Filtering out the unwanted midway points
+      if (!type.equals("WALK")
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
+        locationComboBox.getItems().add(name);
+      }
+    }
+    locationFuzzy = new FuzzySearchComboBoxListener(locationComboBox);
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -66,6 +100,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
 
   private void clearButton() {
     patient.setText("");
+    locationComboBox.setValue(null);
     date.setValue(null);
     doctor.setText("");
     medicine.setText("");
@@ -76,6 +111,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
     // put code for submitting a service request here
 
     clearIncomplete(patient);
+    clearIncomplete(locationComboBox);
     clearIncomplete(date);
     clearIncomplete(doctor);
     clearIncomplete(medicine);
@@ -83,8 +119,13 @@ public class MedicineSubpageController extends GenericServiceFormPage {
 
     if (patient.getText().equals("")
         || date.getValue().equals(null)
+        || locationComboBox.getValue() == null
+        || !locationComboBox.getItems().contains(locationComboBox.getValue())
         || doctor.getText().equals("")
-        || medicine.getText().equals("")) {
+        || medicine.getText().equals("")
+        || (Settings.getSettings().getCurrentPermissions() == 3
+            && ((employeeComboBox.getValue() == null)
+                || !employeeComboBox.getItems().contains(employeeComboBox.getValue())))) {
       if (patient.getText().equals("")
           || (Settings.getSettings().getCurrentPermissions() == 3
               && employeeComboBox.getValue() == null)) {
@@ -93,13 +134,18 @@ public class MedicineSubpageController extends GenericServiceFormPage {
       if (date.getValue().equals(null)) {
         incomplete(date);
       }
+      if (locationComboBox.getValue() == null
+          || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
+        incomplete(locationComboBox);
+      }
       if (doctor.getText().equals("")) {
         incomplete(doctor);
       }
       if (medicine.getText().equals("")) {
         incomplete(medicine);
       }
-      if (employeeComboBox.getValue() == null) {
+      if (employeeComboBox.getValue() == null
+          || !employeeComboBox.getItems().contains(employeeComboBox.getValue())) {
         incomplete(employeeComboBox);
       }
       nonCompleteForm(stackPane);
@@ -110,6 +156,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
       service.setDescription(patient.getText());
       service.setDate(date.getValue().toString());
       service.setAdditionalInfo(doctor.getText());
+      service.setLocation(locationComboBox.getValue().toString());
       service.setRequester(settings.getCurrentUsername());
       if (settings.getCurrentPermissions() == 3) {
         service.setEmployee((String) employeeComboBox.getValue());

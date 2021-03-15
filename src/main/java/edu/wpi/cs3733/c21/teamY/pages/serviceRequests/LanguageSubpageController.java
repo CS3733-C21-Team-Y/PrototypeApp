@@ -3,7 +3,6 @@ package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
@@ -14,7 +13,6 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -87,9 +85,9 @@ public class LanguageSubpageController extends GenericServiceFormPage {
     urgencyAuto = new AutoCompleteComboBoxListener<>(urgency);
 
     Platform.runLater(
-            () -> {
-              resetComboBoxes();
-            });
+        () -> {
+          resetComboBoxes();
+        });
   }
 
   private void resetComboBoxes() {
@@ -100,9 +98,9 @@ public class LanguageSubpageController extends GenericServiceFormPage {
       String type = node.nodeType;
       // Filtering out the unwanted midway points
       if (!type.equals("WALK")
-              && !type.equals("ELEV")
-              && !type.equals("HALL")
-              && !type.equals("STAI")) {
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
         locationComboBox.getItems().add(name);
       }
     }
@@ -135,10 +133,10 @@ public class LanguageSubpageController extends GenericServiceFormPage {
         || description.getText().equals("")
         || urgency.getValue() == null
         || locationComboBox.getValue() == null
-            || !locationComboBox.getItems().contains(locationComboBox.getValue())
+        || !locationComboBox.getItems().contains(locationComboBox.getValue())
         || (Settings.getSettings().getCurrentPermissions() == 3
             && ((employeeComboBox.getValue() == null)
-            || !employeeComboBox.getItems().contains(employeeComboBox.getValue())))) {
+                || !employeeComboBox.getItems().contains(employeeComboBox.getValue())))) {
       if (langOptions.getValue() == null) {
         incomplete(langOptions);
       }
@@ -149,11 +147,11 @@ public class LanguageSubpageController extends GenericServiceFormPage {
         incomplete(urgency);
       }
       if (locationComboBox.getValue() == null
-              || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
+          || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
         incomplete(locationComboBox);
       }
       if (employeeComboBox.getValue() == null
-              || !employeeComboBox.getItems().contains(employeeComboBox.getValue())) {
+          || !employeeComboBox.getItems().contains(employeeComboBox.getValue())) {
         incomplete(employeeComboBox);
       }
       nonCompleteForm(stackPane);

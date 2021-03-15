@@ -13,7 +13,6 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -84,9 +83,9 @@ public class ITSubpageController extends GenericServiceFormPage {
     categoryAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
 
     Platform.runLater(
-            () -> {
-              resetComboBoxes();
-            });
+        () -> {
+          resetComboBoxes();
+        });
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -101,9 +100,9 @@ public class ITSubpageController extends GenericServiceFormPage {
       String type = node.nodeType;
       // Filtering out the unwanted midway points
       if (!type.equals("WALK")
-              && !type.equals("ELEV")
-              && !type.equals("HALL")
-              && !type.equals("STAI")) {
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
         locationComboBox.getItems().add(name);
       }
     }
@@ -130,17 +129,17 @@ public class ITSubpageController extends GenericServiceFormPage {
 
     if (categoryComboBox.getValue() == null
         || locationComboBox.getValue() == null
-            || !locationComboBox.getItems().contains(locationComboBox.getValue())
+        || !locationComboBox.getItems().contains(locationComboBox.getValue())
         || affectsComboBox.getValue() == null
         || description.getText().equals("")
         || (Settings.getSettings().getCurrentPermissions() == 3
             && ((employeeComboBox.getValue() == null)
-            || !employeeComboBox.getItems().contains(employeeComboBox.getValue())))) {
+                || !employeeComboBox.getItems().contains(employeeComboBox.getValue())))) {
       if (categoryComboBox.getValue() == null) {
         incomplete(categoryComboBox);
       }
       if (locationComboBox.getValue() == null
-              || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
+          || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
         incomplete(locationComboBox);
       }
       if (affectsComboBox.getValue() == null) {
@@ -150,7 +149,7 @@ public class ITSubpageController extends GenericServiceFormPage {
         incomplete(description);
       }
       if (employeeComboBox.getValue() == null
-              || !employeeComboBox.getItems().contains(employeeComboBox.getValue())) {
+          || !employeeComboBox.getItems().contains(employeeComboBox.getValue())) {
         incomplete(employeeComboBox);
       }
       nonCompleteForm(stackPane);
