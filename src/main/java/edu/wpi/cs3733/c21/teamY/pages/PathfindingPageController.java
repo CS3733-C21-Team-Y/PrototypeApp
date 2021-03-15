@@ -833,18 +833,34 @@ public class PathfindingPageController extends SubPage {
         if (direction.contains(graph.nodeFromID(endLocation).longName)
             && direction.contains("reached")) {
           newLabel.setStyle("-fx-font-weight:BOLD;");
+          Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/destinationIcon.png");
+          ImageView view = new ImageView(img);
+          view.setFitHeight(20);
+          view.setPreserveRatio(true);
+          newLabel.setGraphic(view);
+          newLabel.setWrapText(true);
+        }
+        if (direction.contains("to go to floor")) {
+          // newLabel.setStyle("-fx-font-style:italic;");
+          newLabel.setStyle("-fx-text-fill: GREEN");
+          // newLabel.setStyle("-fx-font-weight:BOLD;");
         }
       }
-      if (direction.contains("to go to floor")) {
-        // newLabel.setStyle("-fx-font-style:italic;");
-        newLabel.setStyle("-fx-text-fill: GREEN");
-        // newLabel.setStyle("-fx-font-weight:BOLD;");
+
+      if (direction.contains("turn around")) {
+        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/leftTurnAround.png");
+        ImageView view = new ImageView(img);
+        view.setFitHeight(20);
+        view.setPreserveRatio(true);
+        newLabel.setWrapText(true);
+        newLabel.setGraphic(view);
       }
       if (direction.contains("Turn left")) {
         Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/arrow_turn_left.png");
         ImageView view = new ImageView(img);
         view.setFitHeight(20);
         view.setPreserveRatio(true);
+        newLabel.setWrapText(true);
         newLabel.setGraphic(view);
       }
       if (direction.contains("Bear left")) {
@@ -877,16 +893,16 @@ public class PathfindingPageController extends SubPage {
         view.setFitHeight(20);
         view.setPreserveRatio(true);
         newLabel.setGraphic(view);
-        newLabel.setWrapText(true);
+        // newLabel.setWrapText(true);
       }
-      if (direction.contains("Staircase")) {
+      if (direction.contains("use Staircase")) {
         Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/stairs.png");
         ImageView view = new ImageView(img);
         view.setFitHeight(20);
         view.setPreserveRatio(true);
         newLabel.setGraphic(view);
         newLabel.setWrapText(true);
-      } else if (direction.contains("Elevator")) {
+      } else if (direction.contains("use Elevator")) {
         Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/elevator.png");
         ImageView view = new ImageView(img);
         view.setFitHeight(20);
@@ -896,8 +912,8 @@ public class PathfindingPageController extends SubPage {
       }
 
       textDirectionViewer.getChildren().add(newLabel);
-      newLabel.setWrapText(true);
       newLabel.toFront();
+      newLabel.setWrapText(true);
     }
   }
 

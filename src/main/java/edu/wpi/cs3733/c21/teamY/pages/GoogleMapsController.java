@@ -14,8 +14,10 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javax.swing.*;
 
 public class GoogleMapsController extends SubPage
     implements Initializable, MapComponentInitializedListener, DirectionsServiceCallback {
@@ -28,6 +30,7 @@ public class GoogleMapsController extends SubPage
 
   @FXML protected GoogleMapView mapView;
   @FXML protected TextField fromTextField;
+  @FXML private Button arrivedButton;
 
   @FXML
   private void textFieldAction(ActionEvent event) {
@@ -44,6 +47,11 @@ public class GoogleMapsController extends SubPage
   private void clearDirections(ActionEvent event) {
     directionsRenderer.clearDirections();
     fromTextField.setText("");
+  }
+
+  @FXML
+  private void sendToPage(ActionEvent event) {
+    arrivedButton.setOnAction(e -> parent.loadRightSubPage("PathfindingPage.fxml"));
   }
 
   @Override
