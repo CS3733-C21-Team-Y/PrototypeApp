@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <BorderPane style="-fx-background-color: #ff8080;" BorderPane.alignment="CENTER">
+         <top>
+            <Label prefHeight="94.0" prefWidth="561.0" text="                      What is Covid-19?" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Label>
+         </top>
+         <center>
+            <ImageView fitHeight="359.0" fitWidth="592.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../images/img1.jpg" />
+               </image>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </ImageView>
+         </center>
+         <bottom>
+            <BorderPane prefHeight="226.0" prefWidth="594.0" style="-fx-background-color: #ff8080;" BorderPane.alignment="CENTER">
+               <top>
+                  <JFXTextArea focusColor="#f4f4f4" prefHeight="213.0" prefWidth="594.0" text="COVID-19 is a new strain of coronavirus that has not been previously identified in humans.&#10;Since December 2019, cases have been identified in a growing number of countries. Coronaviruses are a large family of viruses that are known to cause illness ranging from the common cold to more severe diseases such as Severe Acute Respiratory syndrome (SARS) and Middle East Respiratory Syndrome (MERS).&#10;Public health authorities are learning more every day. We will continue to update as we learn more.&#10;" unFocusColor="#f4f4f4" BorderPane.alignment="CENTER" />
+               </top>
+               <center>
+                  <Label text="Transmission of COVID-19" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+               </center>
+               <bottom>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <bottom>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <center>
+                              <Label text="perilous ways the coronavirus attacks the body" BorderPane.alignment="CENTER">
+                                 <font>
+                                    <Font size="27.0" />
+                                 </font>
+                              </Label>
+                           </center>
+                           <bottom>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                 <top>
+                                    <Label text="Common symptoms" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font size="21.0" />
+                                       </font>
+                                    </Label>
+                                 </top>
+                                 <center>
+                                    <ImageView fitHeight="603.0" fitWidth="669.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                       <image>
+                                          <Image url="@../images/新冠对于身体的伤害.png" />
+                                       </image>
+                                    </ImageView>
+                                 </center>
+                                 <bottom>
+                                    <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                       <bottom>
+                                          <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                             <center>
+                                                <Label text="How to Protect Yourself &amp; Others" BorderPane.alignment="CENTER">
+                                                   <font>
+                                                      <Font size="25.0" />
+                                                   </font>
+                                                </Label>
+                                             </center>
+                                             <bottom>
+                                                <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                                   <center>
+                                                      <Label text="Wash your hands often" BorderPane.alignment="CENTER">
+                                                         <font>
+                                                            <Font size="20.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </center>
+                                                   <top>
+                                                      <ImageView fitHeight="142.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                                         <image>
+                                                            <Image url="@../images/washhands.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </top>
+                                                   <bottom>
+                                                      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                                         <center>
+                                                            <ImageView fitHeight="134.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                                               <image>
+                                                                  <Image url="@../images/clean.png" />
+                                                               </image>
+                                                            </ImageView>
+                                                         </center>
+                                                         <bottom>
+                                                            <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                                               <top>
+                                                                  <Label text="Clean and disinfect" BorderPane.alignment="CENTER">
+                                                                     <font>
+                                                                        <Font size="19.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                               </top>
+                                                               <center>
+                                                                  <ImageView fitHeight="123.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                                                     <image>
+                                                                        <Image url="@../images/mask.png" />
+                                                                     </image>
+                                                                  </ImageView>
+                                                               </center>
+                                                               <bottom>
+                                                                  <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                                                     <top>
+                                                                        <Label text="Wear a mask" BorderPane.alignment="CENTER">
+                                                                           <font>
+                                                                              <Font size="19.0" />
+                                                                           </font>
+                                                                        </Label>
+                                                                     </top>
+                                                                     <center>
+                                                                        <ImageView fitHeight="119.0" fitWidth="132.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                                                           <image>
+                                                                              <Image url="@../images/accine%20icon.png" />
+                                                                           </image>
+                                                                        </ImageView>
+                                                                     </center>
+                                                                     <bottom>
+                                                                        <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                                                           <top>
+                                                                              <Label text="Get vaccinated" BorderPane.alignment="CENTER">
+                                                                                 <font>
+                                                                                    <Font size="19.0" />
+                                                                                 </font>
+                                                                              </Label>
+                                                                           </top>
+                                                                           <center>
+                                                                              <ImageView fitHeight="126.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                                                                                 <image>
+                                                                                    <Image url="@../images/crowd.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                           </center>
+                                                                           <bottom>
+                                                                              <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                                                                 <top>
+                                                                                    <Label text="Social distance" BorderPane.alignment="CENTER">
+                                                                                       <font>
+                                                                                          <Font size="19.0" />
+                                                                                       </font>
+                                                                                    </Label>
+                                                                                 </top>
+                                                                              </BorderPane>
+                                                                           </bottom>
+                                                                        </BorderPane>
+                                                                     </bottom>
+                                                                  </BorderPane>
+                                                               </bottom>
+                                                            </BorderPane>
+                                                         </bottom>
+                                                      </BorderPane>
+                                                   </bottom>
+                                                </BorderPane>
+                                             </bottom>
+                                          </BorderPane>
+                                       </bottom>
+                                    </BorderPane>
+                                 </bottom>
+                              </BorderPane>
+                           </bottom>
+                        </BorderPane>
+                     </bottom>
+                     <top>
+                        <ImageView fitHeight="292.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                           <image>
+                              <Image url="@../images/img2.jpg" />
+                           </image>
+                        </ImageView>
+                     </top>
+                     <center>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <top>
+                              <JFXTextArea focusColor="#f4f4f4" text="Human atomization of viruses arises from coughing or sneezing of an infected person, producing virus-containing droplets (&gt;5 μm) and aerosols (&lt;5 μm).&#10; Virus transmission from person to person occurs through direct/indirect contact and airborne aerosol/droplet routes.&#10; Large droplets mainly settle out of air to cause person/object contamination, while aerosols are efficiently dispersed in air. &#10;Direct and airborne transmissions occur in short range and extended distance/time, respectively.&#10; Inhaled airborne viruses deposit directly into the human respiration tract.&#10;" unFocusColor="#f4f4f4" BorderPane.alignment="CENTER" />
+                           </top>
+                        </BorderPane>
+                     </center>
+                  </BorderPane>
+               </bottom>
+            </BorderPane>
+         </bottom>
+      </BorderPane>
+   </center>
+</BorderPane>
