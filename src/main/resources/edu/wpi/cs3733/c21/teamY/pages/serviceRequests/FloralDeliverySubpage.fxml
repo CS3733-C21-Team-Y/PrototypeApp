@@ -116,7 +116,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </JFXComboBox>
-                        <JFXComboBox fx:id="locationComboBox" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefWidth="9.999999999E9" promptText="Location" GridPane.columnIndex="1">
+                        <JFXComboBox fx:id="locationComboBox" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefWidth="9.999999999E9" promptText="Location" style="-fx-background-color: transparent;" GridPane.columnIndex="1">
                            <padding>
                               <Insets bottom="10.0" top="10.0" />
                            </padding>

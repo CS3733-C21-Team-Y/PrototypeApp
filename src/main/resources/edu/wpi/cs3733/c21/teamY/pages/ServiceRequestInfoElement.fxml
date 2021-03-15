@@ -35,7 +35,7 @@
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
                   </Label>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="900.0" prefWidth="900.0" GridPane.columnIndex="1">
+                  <HBox fx:id="dataHBox" alignment="CENTER_RIGHT" prefHeight="900.0" prefWidth="900.0" GridPane.columnIndex="1">
                      <children>
                         <Label fx:id="data" alignment="CENTER_RIGHT" prefHeight="900.0" prefWidth="1800.0" text="1231 123 123 \n 123123" textAlignment="RIGHT" textFill="#5e5d94" HBox.hgrow="ALWAYS">
                            <font>

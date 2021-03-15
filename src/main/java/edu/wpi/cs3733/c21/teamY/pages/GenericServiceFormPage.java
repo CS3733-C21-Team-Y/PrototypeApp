@@ -69,7 +69,7 @@ public class GenericServiceFormPage extends SubPage {
   }
 
   public void nonCompleteForm(StackPane stackPane) {
-    createPopUp(stackPane, "#ff6666", "#fff9f9", "Not all fields filled out");
+    createPopUp(stackPane, "#ff6666", "#fff9f9", "Fill all fields with valid information");
   }
 
   /**

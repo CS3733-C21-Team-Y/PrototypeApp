@@ -356,7 +356,9 @@ public class EditNodeTableController extends SubPage {
     Platform.runLater(
         () -> {
           treeTable.maxHeightProperty().bind(treeTable.getScene().heightProperty());
-          expandTable();
+          if (expanded != parent.tableExpanded) {
+            expandTable();
+          }
         });
   }
 

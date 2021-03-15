@@ -1,8 +1,10 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import edu.wpi.cs3733.c21.teamY.entity.Employee;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -27,6 +29,11 @@ public class ServiceRequestNavigatorController extends SubPage {
   @FXML private ToggleButton allRequestsBtn;
   @FXML private ToggleButton assignedBtn;
   @FXML private JFXButton backBtn;
+  @FXML private JFXComboBox typeCombo;
+  @FXML private JFXComboBox statusCombo;
+  @FXML private JFXComboBox employeeCombo;
+
+  private Settings settings;
 
   // tooltip instantiations
   Tooltip button2Tooltip = new Tooltip("Export Services");
@@ -36,6 +43,8 @@ public class ServiceRequestNavigatorController extends SubPage {
 
   @FXML
   private void initialize() {
+
+    settings = Settings.getSettings();
 
     button2.setOnAction(e -> exportServices());
     myRequestsBtn.setOnAction(e -> filterByRequester());
@@ -69,6 +78,37 @@ public class ServiceRequestNavigatorController extends SubPage {
     assignedBtn.setToggleGroup(group);
     allRequestsBtn.setToggleGroup(group);
     // button3.setToggleGroup(group);
+
+    typeCombo.getItems().add("Language");
+    typeCombo.getItems().add("Gift Delivery");
+    typeCombo.getItems().add("Laundry");
+    typeCombo.getItems().add("Floral Delivery");
+    typeCombo.getItems().add("Audio Visual");
+    typeCombo.getItems().add("IT Services");
+    typeCombo.getItems().add("Medicine");
+    typeCombo.getItems().add("Sanitization");
+    typeCombo.getItems().add("Security");
+    typeCombo.getItems().add("Maintenance");
+    typeCombo.getItems().add("Inside Hospital");
+    typeCombo.getItems().add("Outside Hospital");
+
+    statusCombo.getItems().add("Incomplete");
+    statusCombo.getItems().add("In Progress");
+    statusCombo.getItems().add("Complete");
+
+    if (settings.getCurrentPermissions() == 3) {
+      employeeCombo.setVisible(true);
+      try {
+        ArrayList<Employee> employeeList = DataOperations.getStaffList();
+        for (Employee employee : employeeList) {
+          employeeCombo.getItems().add(employee.getEmployeeID());
+        }
+      } catch (SQLException throwables) {
+        throwables.printStackTrace();
+      }
+    } else {
+      employeeCombo.setVisible(false);
+    }
   }
 
   @Override
