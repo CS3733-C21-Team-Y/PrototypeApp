@@ -71,6 +71,18 @@ public class Node {
     this.nodeID = tb.getNodeID().getValue();
   }
 
+  public Node(Node node) {
+    this.nodeType = node.nodeType;
+    this.xcoord = node.xcoord;
+    this.ycoord = node.ycoord;
+    this.floor = node.floor;
+    this.building = node.building;
+    this.longName = node.longName;
+    this.shortName = node.shortName;
+    this.teamAssigned = 'y';
+    this.nodeID = node.nodeID;
+  }
+
   public boolean addEdge(Node node) {
     return neighbors.add(node);
   }

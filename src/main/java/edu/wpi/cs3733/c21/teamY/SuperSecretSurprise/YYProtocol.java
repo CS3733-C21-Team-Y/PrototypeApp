@@ -131,7 +131,7 @@ public class YYProtocol {
     double scaleFactor = 0.6621724; // This is based on the physical model we built
 
     for (int i = 0; i < path.size(); i++) {
-      Node newNode = path.get(i);
+      Node newNode = new Node(path.get(i));
       newNode.xcoord = path.get(i).xcoord * scaleFactor;
       newNode.ycoord = path.get(i).ycoord * scaleFactor;
       newPath.add(newNode);
