@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.*;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
@@ -29,7 +30,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
   Settings settings;
   AutoCompleteComboBoxListener<String> employeeAuto;
   private ArrayList<Node> nodes = new ArrayList<Node>();
-  // FuzzySearchComboBoxListener locationFuzzy;
+  FuzzySearchComboBoxListener locationFuzzy;
 
   private Graph graph;
 
@@ -73,16 +74,6 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
   }
 
   private void resetComboBoxes() {
-    /*
-    if(ActiveGraph.getActiveGraph()==null){
-      try {
-        ActiveGraph.initialize();
-      } catch (SQLException throwables) {
-        throwables.printStackTrace();
-      }
-    }
-
-     */
 
     locationComboBox.getItems().remove(0, locationComboBox.getItems().size());
     for (Node node : nodes) {
@@ -96,7 +87,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
         locationComboBox.getItems().add(name);
       }
     }
-    // locationFuzzy = new FuzzySearchComboBoxListener(locationComboBox);
+    locationFuzzy = new FuzzySearchComboBoxListener(locationComboBox);
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -104,7 +95,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
   }
 
   private void clearButton() {
-    // roomNumberInput.setText("");
+    locationComboBox.setValue(null);
     categoryInput.setText("");
     descriptionInput.setText("");
     fromInput.setText("");
@@ -117,7 +108,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    // clearIncomplete(roomNumberInput);
+    clearIncomplete(locationComboBox);
     clearIncomplete(categoryInput);
     clearIncomplete(descriptionInput);
     clearIncomplete(dateInput);
@@ -126,7 +117,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
     clearIncomplete(employeeComboBox);
 
     if (
-    // roomNumberInput.getText().equals("")||
+    locationComboBox.getValue()==null||
     categoryInput.getText().equals("")
         || descriptionInput.getText().equals("")
         || dateInput.getText().equals("")
@@ -143,12 +134,11 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       if (dateInput.getText().equals("")) {
         incomplete(dateInput);
       }
-      /*
-      if (roomNumberInput.getText().equals("")) {
-        incomplete(roomNumberInput);
+      if(locationComboBox.getValue()==null){
+        incomplete(locationComboBox);
       }
 
-       */
+
       if (toInput.getText().equals("")) {
         incomplete(toInput);
       }
