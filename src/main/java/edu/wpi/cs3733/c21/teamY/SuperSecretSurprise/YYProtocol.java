@@ -113,8 +113,8 @@ public class YYProtocol {
   private ArrayList<Node> removeStraight(ArrayList<Node> path) {
     ArrayList<Node> newPath = (ArrayList<Node>) path.clone();
     for (int i = 0; i < newPath.size() - 2; i++) {
-      double angle = AlgorithmCalls.directionOfPoint(path.get(i), path.get(i + 1), path.get(i + 2));
-      if (angle == 0) {
+      double angle = AlgorithmCalls.directionOfPoint(newPath.get(i), newPath.get(i + 1), newPath.get(i + 2));
+      if (Math.abs(angle) < 25) {
         newPath.remove(i + 1);
         i--;
       }
