@@ -124,7 +124,7 @@ public class YYProtocol {
   }
 
   public static ArrayList<Node> scaleNodes(ArrayList<Node> path) {
-    ArrayList<Node> newPath = (ArrayList<Node>) path.clone();
+    ArrayList<Node> newPath = new ArrayList<>();
 
     // Following scale factor converts to cm
     // Example distance is 145 on map to 96.015cm in CAD
