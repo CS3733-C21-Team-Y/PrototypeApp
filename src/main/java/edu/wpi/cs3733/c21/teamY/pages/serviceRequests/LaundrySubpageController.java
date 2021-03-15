@@ -35,7 +35,6 @@ public class LaundrySubpageController extends GenericServiceFormPage {
   private ArrayList<Node> nodes = new ArrayList<Node>();
   FuzzySearchComboBoxListener locationFuzzy;
 
-  AutoCompleteComboBoxListener<String> locationAuto;
   AutoCompleteComboBoxListener<String> categoryAuto;
 
   private ArrayList<String> categories;

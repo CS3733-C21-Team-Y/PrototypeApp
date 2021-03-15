@@ -57,7 +57,7 @@
                                       <Insets left="15.0" top="5.0" />
                                   </padding>
                               </JFXComboBox>
-                              <JFXComboBox fx:id="avLocationComboBox" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefWidth="9.999999999E9" promptText="Location" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <JFXComboBox fx:id="locationComboBox" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefWidth="9.999999999E9" promptText="Location" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                   <padding>
                                       <Insets left="15.0" top="5.0" />
                                   </padding>

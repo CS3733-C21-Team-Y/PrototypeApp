@@ -3,12 +3,16 @@ package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
@@ -21,8 +25,8 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
   @FXML private JFXTextField patientName;
   @FXML private JFXTextArea description;
   @FXML private JFXDatePicker date;
-  @FXML private JFXTextField currentLocation;
-  @FXML private JFXTextField desiredLocation;
+  @FXML private JFXComboBox locationComboBox;
+  @FXML private JFXComboBox locationComboBox2;
   @FXML private JFXComboBox employeeComboBox;
   AutoCompleteComboBoxListener<String> employeeAuto;
 
@@ -30,7 +34,9 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
 
   public InsideHospitalSubpageController() {}
 
-  private Settings settings;
+  Settings settings;
+  private ArrayList<Node> nodes = new ArrayList<Node>();
+  FuzzySearchComboBoxListener locationFuzzy;
 
   @FXML
   private void initialize() {
@@ -40,6 +46,12 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
     clearBtn.setOnAction(e -> clearButton());
+
+    try {
+      nodes = DataOperations.getListOfNodes();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
 
     if (settings.getCurrentPermissions() == 3) {
       employeeComboBox.setVisible(true);
@@ -55,6 +67,29 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
       employeeComboBox.setVisible(false);
     }
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
+
+    Platform.runLater(
+            () -> {
+              resetComboBoxes();
+            });
+  }
+
+  private void resetComboBoxes() {
+
+    locationComboBox.getItems().remove(0, locationComboBox.getItems().size());
+    for (Node node : nodes) {
+      String name = node.longName;
+      String type = node.nodeType;
+      // Filtering out the unwanted midway points
+      if (!type.equals("WALK")
+              && !type.equals("ELEV")
+              && !type.equals("HALL")
+              && !type.equals("STAI")) {
+        locationComboBox.getItems().add(name);
+        locationComboBox2.getItems().add(name);
+      }
+    }
+    locationFuzzy = new FuzzySearchComboBoxListener(locationComboBox);
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -63,10 +98,10 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
 
   private void clearButton() {
     description.setText("");
-    currentLocation.setText("");
+    locationComboBox.setValue(null);
     patientName.setText("");
     date.setValue(null);
-    desiredLocation.setText("");
+    locationComboBox2.setValue(null);
     employeeComboBox.getSelectionModel().clearSelection();
   }
 
@@ -74,31 +109,36 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    clearIncomplete(desiredLocation);
+    clearIncomplete(locationComboBox);
     clearIncomplete(description);
-    clearIncomplete(currentLocation);
+    clearIncomplete(locationComboBox2);;
     clearIncomplete(patientName);
     clearIncomplete(date);
     clearIncomplete(employeeComboBox);
 
     if (description.getText().equals("")
-        || currentLocation.getText().equals("")
-        || desiredLocation.getText().equals("")
+        || locationComboBox.getValue() == null
+            || !locationComboBox.getItems().contains(locationComboBox.getValue())
+        || locationComboBox.getValue() == null
+            || !locationComboBox2.getItems().contains(locationComboBox2.getValue())
         || patientName.getText().equals("")
         || date.getValue() == null
         || (Settings.getSettings().getCurrentPermissions() == 3
             && employeeComboBox.getValue() == null)) {
-      if (currentLocation.getText().equals("")) {
-        incomplete(currentLocation);
+      if (locationComboBox.getValue() == null
+              || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
+        incomplete(locationComboBox);
+      }
+
+      if (locationComboBox2.getValue() == null
+              || !locationComboBox2.getItems().contains(locationComboBox2.getValue())) {
+        incomplete(locationComboBox2);
       }
       if (patientName.getText().equals("")) {
         incomplete(patientName);
       }
       if (date.getValue() == null) {
         incomplete(date);
-      }
-      if (desiredLocation.getText().equals("")) {
-        incomplete(desiredLocation);
       }
       if (employeeComboBox.getValue() == null) {
         incomplete(employeeComboBox);
@@ -115,10 +155,9 @@ public class InsideHospitalSubpageController extends GenericServiceFormPage {
       service.setDescription(description.getText());
       service.setRequester(settings.getCurrentUsername());
       service.setLocation(
-          "From: " + currentLocation.getText() + "To: " + desiredLocation.getText());
+          "From: " + locationComboBox.getValue().toString() + "To: " + locationComboBox2.getValue().toString());
       service.setCategory(patientName.getText());
       service.setDate(date.getValue().toString());
-      service.setAdditionalInfo(desiredLocation.getText());
       service.setRequester(settings.getCurrentUsername());
       if (settings.getCurrentPermissions() == 3) {
         service.setEmployee((String) employeeComboBox.getValue());
