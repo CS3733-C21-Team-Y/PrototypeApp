@@ -56,6 +56,7 @@ public class MainPageController {
   public SubPage rightPageController;
   public SubPage centerPageController;
   Settings settings;
+  String mode = "default";
 
   // tooltip Initializations
   Tooltip origSignInBtnTooltip = new Tooltip("Navigate to Login Page");
@@ -420,4 +421,12 @@ public class MainPageController {
   //      e.printStackTrace();
   //    }
   //  }
+
+  public String getNavMode() {
+    return this.mode;
+  }
+
+  public void setNavMode(String mode) {
+    this.mode = mode;
+  }
 }

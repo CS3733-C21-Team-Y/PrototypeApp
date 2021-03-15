@@ -71,6 +71,7 @@ public class RequestInfoPageController<label> extends SubPage {
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
+    parent.loadCenterSubPage("ServiceRequestNavigator.fxml");
   }
 
   private void loadInformation() {
