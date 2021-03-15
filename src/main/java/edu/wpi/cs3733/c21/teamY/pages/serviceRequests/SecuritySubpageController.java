@@ -77,6 +77,7 @@ public class SecuritySubpageController extends GenericServiceFormPage {
     urgencyAuto = new AutoCompleteComboBoxListener<>(urgency);
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
     categoryAuto = new AutoCompleteComboBoxListener<>(category);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
 
     Platform.runLater(
         () -> {

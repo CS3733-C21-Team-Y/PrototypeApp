@@ -32,6 +32,7 @@ public class LanguageSubpageController extends GenericServiceFormPage {
   AutoCompleteComboBoxListener<String> employeeAuto;
   AutoCompleteComboBoxListener<String> urgencyAuto;
   AutoCompleteComboBoxListener<String> langAuto;
+  AutoCompleteComboBoxListener<String> locationAuto;
 
   @FXML private StackPane stackPane;
 
@@ -83,6 +84,7 @@ public class LanguageSubpageController extends GenericServiceFormPage {
     langAuto = new AutoCompleteComboBoxListener<>(langOptions);
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
     urgencyAuto = new AutoCompleteComboBoxListener<>(urgency);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
 
     Platform.runLater(
         () -> {

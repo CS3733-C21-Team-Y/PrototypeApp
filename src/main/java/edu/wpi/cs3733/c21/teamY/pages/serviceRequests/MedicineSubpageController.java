@@ -30,6 +30,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
   @FXML private StackPane stackPane;
   @FXML private JFXComboBox employeeComboBox;
   AutoCompleteComboBoxListener<String> employeeAuto;
+  AutoCompleteComboBoxListener<String> locationAuto;
 
   Settings settings;
   private ArrayList<Node> nodes = new ArrayList<Node>();
@@ -70,6 +71,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
     }
 
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
 
     Platform.runLater(
         () -> {
