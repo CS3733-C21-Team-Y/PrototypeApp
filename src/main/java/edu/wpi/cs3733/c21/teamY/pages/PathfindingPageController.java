@@ -18,8 +18,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -828,7 +826,6 @@ public class PathfindingPageController extends SubPage {
     for (String direction : directionList) {
 
       Label newLabel = new Label(direction);
-
       for (String endLocation : endLocations) {
         if (direction.contains(graph.nodeFromID(endLocation).longName)
             && direction.contains("reached")) {
@@ -840,63 +837,8 @@ public class PathfindingPageController extends SubPage {
         newLabel.setStyle("-fx-text-fill: GREEN");
         // newLabel.setStyle("-fx-font-weight:BOLD;");
       }
-      if (direction.contains("Turn left")) {
-        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/arrow_turn_left.png");
-        ImageView view = new ImageView(img);
-        view.setFitHeight(20);
-        view.setPreserveRatio(true);
-        newLabel.setGraphic(view);
-      }
-      if (direction.contains("Bear left")) {
-        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/bearLeft.png");
-        ImageView view = new ImageView(img);
-        view.setFitHeight(20);
-        view.setPreserveRatio(true);
-        newLabel.setGraphic(view);
-        newLabel.setWrapText(true);
-      }
-      if (direction.contains("Bear right")) {
-        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/bearRight.png");
-        ImageView view = new ImageView(img);
-        view.setFitHeight(20);
-        view.setPreserveRatio(true);
-        newLabel.setGraphic(view);
-        newLabel.setWrapText(true);
-      }
-      if (direction.contains("Turn right")) {
-        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/turnRight.png");
-        ImageView view = new ImageView(img);
-        view.setFitHeight(20);
-        view.setPreserveRatio(true);
-        newLabel.setGraphic(view);
-        newLabel.setWrapText(true);
-      }
-      if (direction.contains("Continue Straight")) {
-        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/straight.png");
-        ImageView view = new ImageView(img);
-        view.setFitHeight(20);
-        view.setPreserveRatio(true);
-        newLabel.setGraphic(view);
-        newLabel.setWrapText(true);
-      }
-      if (direction.contains("Staircase")) {
-        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/stairs.png");
-        ImageView view = new ImageView(img);
-        view.setFitHeight(20);
-        view.setPreserveRatio(true);
-        newLabel.setGraphic(view);
-        newLabel.setWrapText(true);
-      } else if (direction.contains("Elevator")) {
-        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/elevator.png");
-        ImageView view = new ImageView(img);
-        view.setFitHeight(20);
-        view.setPreserveRatio(true);
-        newLabel.setGraphic(view);
-        newLabel.setWrapText(true);
-      }
 
       textDirectionViewer.getChildren().add(newLabel);
-      newLabel.setWrapText(true);
       newLabel.toFront();
     }
   }
