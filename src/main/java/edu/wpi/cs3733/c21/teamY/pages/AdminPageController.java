@@ -124,12 +124,12 @@ public class AdminPageController extends SubPage {
         e -> {
           ArrayList<edu.wpi.cs3733.c21.teamY.entity.Node> x =
               new ArrayList<edu.wpi.cs3733.c21.teamY.entity.Node>();
-         /*
+          /*
           x.add(nodes.get(1));
           x.add(nodes.get(2));
           x.add(nodes.get(3));
           */
-          x=AlgorithmCalls.aStar(ActiveGraph.getActiveGraph(),"PSERV00301","PHALL01401","");
+          x = AlgorithmCalls.aStar(ActiveGraph.getActiveGraph(), "PSERV00301", "PHALL01401", "");
 
           x = YYProtocol.scaleNodes(YYProtocol.removeStraight(x));
           KnockKnockServer kn =
