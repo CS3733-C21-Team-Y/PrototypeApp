@@ -180,21 +180,14 @@ public class PathfindingPageController extends SubPage {
 
     swapLocationsBox.setOnAction(
         e -> {
-          ArrayList<String> cbvalues = new ArrayList<>();
-          for (DestinationItemController dest : destinations) {
-            cbvalues.add((String) dest.getDestinationCB().getValue());
-          }
-
-          for (int i = 0; i < cbvalues.size(); i++) {
-            destinations.get(i).getDestinationCB().setValue(cbvalues.get(cbvalues.size() - 1 - i));
-          }
+          flipPath();
         });
     multDestinationBtn.setOnAction(
         e -> {
           addDest = true;
+          initializeNewDestination();
         });
 
-    destinationCB1.setOnAction(e -> lastSelectedComboBox = destinationCB1);
     destinationCB2.setOnAction(e -> lastSelectedComboBox = destinationCB2);
 
     bathroomBtn.setOnAction(e -> detourBtnPressed(e));
@@ -496,29 +489,34 @@ public class PathfindingPageController extends SubPage {
   private void handleClickOnNode(MapController.CircleEx node) {
     if (!node.hasFocus || (node.hasFocus && isPathActive())) {
 
-      // Start node box is selected -> deselect old start node, use new one
-      if (destinationCB1.isFocused()) {
-        if (destinationCB1.getValue() != null && startNode != null) {
-          mapInsertController.deSelectCircle(startNode);
+      ComboBox selectedBox = null;
+      for(DestinationItemController dest : destinations){
+        if(dest.getDestinationCB().isFocused()){
+          selectedBox = dest.getDestinationCB();
         }
-        destinationCB1.setValue(
+      }
+
+      // Start node box is selected -> deselect old node, use new one
+      if (selectedBox.isFocused()) {
+        if (selectedBox.getValue() != null) {
+
+          MapController.CircleEx oldNodeCircle = null;
+            Node oldNode = graph.longNodes.get((String) selectedBox.getValue());
+            String nodeId = oldNode.nodeID;
+            if(nodeId != null){
+                oldNodeCircle = (MapController.CircleEx)
+                        mapInsertController.getAdornerPane().lookup("#" + nodeId);
+            }
+
+          if(oldNodeCircle != null){
+            mapInsertController.deSelectCircle(oldNodeCircle);
+          }
+        }
+        selectedBox.setValue(
             graph.nodeFromID(node.getId()).longName); // startLocationBox.setValue(node.getId())
         startNode = node;
 
         mapInsertController.selectCircle(node);
-      }
-
-      // End node box is selected -> deselect old end node, use new one
-      else if (destinationCB2.isFocused()) {
-        if (destinationCB2.getValue() != null) {
-          if (destinationCB2.getValue() != null && endNode != null) {
-            mapInsertController.deSelectCircle(endNode);
-          }
-        }
-        mapInsertController.selectCircle(node);
-        endNode = node;
-        destinationCB2.setValue(
-            graph.nodeFromID(node.getId()).longName); // endLocationBox.setValue(node.getId());
       }
 
     }
@@ -667,9 +665,7 @@ public class PathfindingPageController extends SubPage {
 
     flipPath.setOnAction(
         e -> {
-          String startLoc = (String) destinationCB1.getValue();
-          destinationCB1.setValue(destinationCB2.getValue());
-          destinationCB2.setValue(startLoc);
+          flipPath();
         });
 
     prevPath.setOnAction(
@@ -711,6 +707,17 @@ public class PathfindingPageController extends SubPage {
     if (mapContextMenu != null) {
       mapContextMenu.getItems().remove(0, mapContextMenu.getItems().size());
       mapContextMenu.hide();
+    }
+  }
+
+  private void flipPath() {
+    ArrayList<String> cbvalues = new ArrayList<>();
+    for (DestinationItemController dest : destinations) {
+      cbvalues.add((String) dest.getDestinationCB().getValue());
+    }
+
+    for (int i = 0; i < cbvalues.size(); i++) {
+      destinations.get(i).getDestinationCB().setValue(cbvalues.get(cbvalues.size() - 1 - i));
     }
   }
 
@@ -928,6 +935,9 @@ public class PathfindingPageController extends SubPage {
                   calculatePath();
                 }
               });
+
+      // Last selected ComboBox setting
+      destCB.setOnAction(e -> lastSelectedComboBox = destCB);
 
     } catch (IOException e) {
       e.printStackTrace();
