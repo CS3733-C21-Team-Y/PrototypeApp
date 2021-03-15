@@ -5,8 +5,8 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -30,7 +30,7 @@
                <children>
                   <Label fx:id="title" text="Service Request Viewer" textAlignment="CENTER" textFill="#3b3d73">
                      <font>
-                        <Font name="Calibri Bold" size="23.0" />
+                        <Font name="Calibri Bold" size="31.0" />
                      </font>
                   </Label>
                </children>
@@ -41,29 +41,25 @@
                   <Insets />
                </GridPane.margin>
             </HBox>
-            <GridPane alignment="TOP_CENTER" prefHeight="407.0" prefWidth="357.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" />
-                <ColumnConstraints hgrow="SOMETIMES" percentWidth="85.0" />
+            <JFXButton fx:id="backBtn" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#efeff9" style="-fx-background-radius: 25;" text=" ">
+               <graphic>
+                  <FontAwesomeIconView fill="#8d8ea4" glyphName="ANGLE_LEFT" size="35" />
+               </graphic>
+            </JFXButton>
+            <GridPane alignment="TOP_CENTER" prefHeight="407.0" prefWidth="357.0" GridPane.rowIndex="1">
+               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" percentHeight="80.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="85.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="45.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
-                  <ScrollPane style="-fx-border-radius: 10;" vbarPolicy="ALWAYS" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                     <content>
-                        <VBox fx:id="infoBox" prefHeight="863.0" prefWidth="755.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <padding>
-                              <Insets left="65.0" />
-                           </padding></VBox>
-                     </content>
-                  </ScrollPane>
-                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="80.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -74,7 +70,7 @@
                      <children>
                         <JFXButton fx:id="submitBtn" buttonType="RAISED" minWidth="75.0" prefWidth="9999.0" style="-fx-background-color: #efeff9; -fx-background-radius: 8;" text="Submit" textFill="#5a5c94" GridPane.columnIndex="1">
                            <GridPane.margin>
-                              <Insets left="5.0" right="5.0" />
+                              <Insets left="5.0" right="10.0" />
                            </GridPane.margin>
                            <font>
                               <Font size="16.0" />
@@ -85,7 +81,7 @@
                               <Insets right="15.0" />
                            </padding>
                            <GridPane.margin>
-                              <Insets left="5.0" />
+                              <Insets left="10.0" />
                            </GridPane.margin>
                         </JFXComboBox>
                      </children>
@@ -93,16 +89,231 @@
                         <Insets />
                      </GridPane.margin>
                   </GridPane>
+                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label text="Type">
+                           <font>
+                              <Font name="Calibri" size="21.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="type" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1">
+                           <font>
+                              <Font name="Calibri" size="19.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <effect>
+                              <InnerShadow color="#c8c8c8" offsetY="2.0" radius="4.75" width="0.0" />
+                           </effect>
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Location" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Calibri" size="21.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Category" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Calibri" size="21.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Request ID" GridPane.rowIndex="6">
+                           <font>
+                              <Font name="Calibri" size="21.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Employee Assigned" GridPane.rowIndex="7">
+                           <font>
+                              <Font name="Calibri" size="21.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="location" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Calibri" size="19.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <effect>
+                              <InnerShadow color="#c8c8c8" offsetY="2.0" radius="4.75" width="0.0" />
+                           </effect>
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="category" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Calibri" size="19.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <effect>
+                              <InnerShadow color="#c8c8c8" offsetY="2.0" radius="4.75" width="0.0" />
+                           </effect>
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="requestID" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                           <font>
+                              <Font name="Calibri" size="19.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <effect>
+                              <InnerShadow color="#c8c8c8" offsetY="2.0" radius="4.75" width="0.0" />
+                           </effect>
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="employee" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                           <font>
+                              <Font name="Calibri" size="19.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <effect>
+                              <InnerShadow color="#c8c8c8" offsetY="2.0" radius="4.75" width="0.0" />
+                           </effect>
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Date" GridPane.rowIndex="4">
+                           <font>
+                              <Font name="Calibri" size="21.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Urgency" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Calibri" size="21.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="date" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <font>
+                              <Font name="Calibri" size="19.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <effect>
+                              <InnerShadow color="#c8c8c8" offsetY="2.0" radius="4.75" width="0.0" />
+                           </effect>
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="urgency" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Calibri" size="19.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <effect>
+                              <InnerShadow color="#c8c8c8" offsetY="2.0" radius="4.75" width="0.0" />
+                           </effect>
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Requester" GridPane.rowIndex="5">
+                           <font>
+                              <Font name="Calibri" size="21.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="requester" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                           <font>
+                              <Font name="Calibri" size="19.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <effect>
+                              <InnerShadow color="#c8c8c8" offsetY="2.0" radius="4.75" width="0.0" />
+                           </effect>
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                     </children>
+                  </GridPane>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <Label text="Description">
+                           <font>
+                              <Font name="Calibri" size="21.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="description" alignment="TOP_LEFT" prefHeight="9999.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label">
+                           <font>
+                              <Font name="Calibri" size="19.0" />
+                           </font>
+                           <padding>
+                              <Insets left="10.0" top="10.0" />
+                           </padding>
+                           <effect>
+                              <InnerShadow color="#c8c8c8" offsetY="2.0" radius="4.75" width="0.0" />
+                           </effect>
+                           <VBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </VBox>
                </children>
-               <GridPane.margin>
-                  <Insets top="5.0" />
-               </GridPane.margin>
             </GridPane>
-            <JFXButton fx:id="backBtn" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#efeff9" style="-fx-background-radius: 25;" text=" ">
-               <graphic>
-                  <FontAwesomeIconView fill="#8d8ea4" glyphName="ANGLE_LEFT" size="35" />
-               </graphic>
-            </JFXButton>
          </children>
       </GridPane>
    </children>

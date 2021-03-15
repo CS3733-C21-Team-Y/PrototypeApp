@@ -16,24 +16,28 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class RequestInfoPageController<label> extends SubPage {
+public class RequestInfoPageController extends SubPage {
   @FXML private Label title;
-  @FXML private VBox infoBox;
-  @FXML private VBox leftBox;
-  @FXML private VBox centerBox;
-  @FXML private VBox rightBox;
+  @FXML private Label type;
+  @FXML private Label location;
+  @FXML private Label category;
+  @FXML private Label urgency;
+  @FXML private Label date;
+  @FXML private Label requester;
+  @FXML private Label requestID;
+  @FXML private Label employee;
+  @FXML private Label description;
+  //  //  @FXML private VBox leftBox;
+  //  //  @FXML private VBox centerBox;
+  //  //  @FXML private VBox rightBox;
   @FXML private JFXButton submitBtn;
   @FXML private JFXComboBox employeeComboBox;
   @FXML private JFXButton backBtn;
@@ -70,8 +74,8 @@ public class RequestInfoPageController<label> extends SubPage {
   }
 
   private void submitEmployee() {
-    System.out.println((String) employeeComboBox.getValue());
-    service.setEmployee((String) employeeComboBox.getValue());
+    //    System.out.println((String) employeeComboBox.getValue());
+    //    service.setEmployee((String) employeeComboBox.getValue());
     parent.loadRightSubPage("RequestInfoPage.fxml");
 
     try {
@@ -85,42 +89,33 @@ public class RequestInfoPageController<label> extends SubPage {
   private void loadInformation() {
     service = Settings.getSettings().getCurrentDisplayedService();
 
-    createInfoBox("Type: ", service.getType());
-    if (service.getDescription().length() > 0)
-      createInfoBox("Description: ", service.getDescription());
-    if (service.getLocation().length() > 0) {
-      ServiceRequestInfoElementController locationController =
-          createInfoBox("Location: ", service.getLocation());
-      configSeeLocationButton(locationController);
-    }
-    if (service.getCategory().length() > 0) createInfoBox("Category: ", service.getCategory());
-    if (service.getUrgency().length() > 0) createInfoBox("Urgency: ", service.getUrgency());
-    if (service.getDate().length() > 0) createInfoBox("Date: ", service.getDate());
-    if (service.getRequester().length() > 0) createInfoBox("Requester: ", service.getRequester());
-    if (service.getEmployee().length() > 0) {
-      createInfoBox("Employee Assigned: ", service.getEmployee());
-      employeeComboBox.setValue(service.getEmployee());
-    }
-    if (service.getAdditionalInfo().length() > 0)
-      createInfoBox("Additional Info: ", service.getAdditionalInfo());
+    type.setText(service.getType());
+    description.setText(service.getDescription());
+    location.setText(service.getLocation());
+    category.setText("Hello");
+    urgency.setText(service.getUrgency());
+    date.setText(service.getDate());
+    requester.setText(service.getRequester());
+    requestID.setText(service.getServiceID());
+    employee.setText(service.getEmployee());
 
-    if (service.getType().equals("Laundry")) {
-
-      saveBtn.setText("Save");
-      saveBtn.setPrefWidth(9999);
-      saveBtn.setFont(new Font("Calibri", 15));
-      saveBtn.setStyle("-fx-background-color: #efeff9; ");
-
-      leftArea.setPromptText("Loads of laundry done:");
-      centerArea.setPromptText("Number of garments discarded:");
-      leftArea.setLabelFloat(true);
-      centerArea.setLabelFloat(true);
-      leftArea.setFocusColor(Color.web("#5a5c94"));
-
-      leftBox.getChildren().add(leftArea);
-      centerBox.getChildren().add(centerArea);
-      rightBox.getChildren().add(saveBtn);
-    }
+    //    if (service.getType().equals("Laundry")) {
+    //
+    //      //      saveBtn.setText("Save");
+    //      //      saveBtn.setPrefWidth(9999);
+    //      //      saveBtn.setFont(new Font("Calibri", 15));
+    //      //      saveBtn.setStyle("-fx-background-color: #efeff9; ");
+    //      //
+    //      //      leftArea.setPromptText("Loads of laundry done:");
+    //      //      centerArea.setPromptText("Number of garments discarded:");
+    //      //      leftArea.setLabelFloat(true);
+    //      //      centerArea.setLabelFloat(true);
+    //      //      leftArea.setFocusColor(Color.web("#5a5c94"));
+    //
+    //      //      leftBox.getChildren().add(leftArea);
+    //      //      centerBox.getChildren().add(centerArea);
+    //      //      rightBox.getChildren().add(saveBtn);
+    //    }
   }
 
   private void back() {
@@ -129,21 +124,23 @@ public class RequestInfoPageController<label> extends SubPage {
 
   private void buttonClicked(ActionEvent e) {
 
-    if (!leftArea.getText().equals("") && !leftArea.getText().equals("")) {
-      // # of loads
-      String numLoads =
-          "# loads done: " + leftArea.getText() + "  # discarded garments: " + centerArea.getText();
-
-      StageInformation info = (StageInformation) title.getScene().getWindow().getUserData();
-      Service service = info.getService();
-      service.setAdditionalInfo(numLoads);
-      try {
-        DataOperations.updateServiceAdditionalInfoOnly(service.getServiceID(), numLoads);
-      } catch (SQLException throwables) {
-        throwables.printStackTrace();
-      }
-      parent.loadRightSubPage("RequestInfoPage.fxml");
-    }
+    //    if (!leftArea.getText().equals("") && !leftArea.getText().equals("")) {
+    //      // # of loads
+    //      String numLoads =
+    //          "# loads done: " + leftArea.getText() + "  # discarded garments: " +
+    // centerArea.getText();
+    //
+    //      StageInformation info = (StageInformation)
+    // title.getScene().getWindow().getUserData();
+    //      Service service = info.getService();
+    //      service.setAdditionalInfo(numLoads);
+    //      try {
+    //        DataOperations.updateServiceAdditionalInfoOnly(service.getServiceID(), numLoads);
+    //      } catch (SQLException throwables) {
+    //        throwables.printStackTrace();
+    //      }
+    //      parent.loadRightSubPage("RequestInfoPage.fxml");
+    //    }
   }
 
   @Override
@@ -151,26 +148,27 @@ public class RequestInfoPageController<label> extends SubPage {
     parent.setCenterColumnWidth(350);
   }
 
-  private ServiceRequestInfoElementController createInfoBox(String title, String data) {
-    if (parent.isDesktop) {
-      infoBox.setPadding(new Insets(2, 5, 4, 50));
-    } else {
-      infoBox.setPadding(new Insets(2, 100, 4, 50));
-    }
-    scene = infoBox.getScene();
-    FXMLLoader fxmlLoader = new FXMLLoader();
-    ServiceRequestInfoElementController controller = null;
-    try {
-      Node node =
-          fxmlLoader.load(getClass().getResource("ServiceRequestInfoElement.fxml").openStream());
-      controller = (ServiceRequestInfoElementController) fxmlLoader.getController();
-      controller.populateInformation(title, data, parent.isDesktop);
-      infoBox.getChildren().add(node);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return controller;
-  }
+  //  private ServiceRequestInfoElementController createInfoBox(String title, String data) {
+  //    if (parent.isDesktop) {
+  //      infoBox.setPadding(new Insets(2, 5, 4, 50));
+  //    } else {
+  //      infoBox.setPadding(new Insets(2, 100, 4, 50));
+  //    }
+  //    scene = infoBox.getScene();
+  //    FXMLLoader fxmlLoader = new FXMLLoader();
+  //    ServiceRequestInfoElementController controller = null;
+  //    try {
+  //      Node node =
+  //
+  // fxmlLoader.load(getClass().getResource("ServiceRequestInfoElement.fxml").openStream());
+  //      controller = (ServiceRequestInfoElementController) fxmlLoader.getController();
+  //      controller.populateInformation(title, data, parent.isDesktop);
+  //      infoBox.getChildren().add(node);
+  //    } catch (IOException e) {
+  //      e.printStackTrace();
+  //    }
+  //    return controller;
+  //  }
 
   private void configSeeLocationButton(ServiceRequestInfoElementController locationController) {
     HBox dataHBox = locationController.getDataHBox();
