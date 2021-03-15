@@ -184,7 +184,8 @@ public class RequestInfoPageController<label> extends SubPage {
             Node node = fxmlLoader.load(getClass().getResource("MapUserControl.fxml").openStream());
             mapInsertController = (MapController) fxmlLoader.getController();
             mapInsertController.setParent(parent);
-            mapInsertController.setAdminPage(true);
+            mapInsertController.setAdminPage(false);
+            mapInsertController.setLocationPopUp(true);
             // call method before page load
           } catch (IOException exception) {
             exception.printStackTrace();
@@ -196,11 +197,7 @@ public class RequestInfoPageController<label> extends SubPage {
           final Stage dialog = new Stage();
           dialog.initModality(Modality.APPLICATION_MODAL);
           dialog.initOwner(scene.getWindow());
-          Scene dialogScene =
-              new Scene(
-                  mapInsertController.getAnchorPane(),
-                  scene.getWindow().getWidth() / 2,
-                  scene.getWindow().getHeight() / 2);
+          Scene dialogScene = new Scene(mapInsertController.getAnchorPane(), 600, 400);
           dialog.setScene(dialogScene);
 
           // popupAnchor.setClip(popupAnchor);
