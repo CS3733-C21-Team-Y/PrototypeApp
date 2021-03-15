@@ -178,45 +178,16 @@ public class PathfindingPageController extends SubPage {
                 + "\n Hold SHIFT + Scroll to Pan left and right"
                 + "\n Reset brings back the original framing"));
 
-    // Node selection menus Keys
-    destinationCB1.setOnKeyPressed(
-        e -> {
-          if (e.getCode() == KeyCode.ENTER) {
-            calculatePath();
-          }
-        });
-
-    // Start and End location box events
-    destinationCB1
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (options, oldValue, newValue) -> {
-              if ((oldValue == null && newValue != null) || (!oldValue.equals(newValue))) {
-                calculatePath();
-              }
-            });
-    destinationCB2.setOnKeyPressed(
-        e -> {
-          if (e.getCode() == KeyCode.ENTER) {
-            calculatePath();
-          }
-        });
-    destinationCB2
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (options, oldValue, newValue) -> {
-              if ((oldValue == null && newValue != null) || (!oldValue.equals(newValue))) {
-                calculatePath();
-              }
-            });
-
     swapLocationsBox.setOnAction(
         e -> {
-          String startLoc = (String) destinationCB1.getValue();
-          destinationCB1.setValue(destinationCB2.getValue());
-          destinationCB2.setValue(startLoc);
+          ArrayList<String> cbvalues = new ArrayList<>();
+          for (DestinationItemController dest : destinations) {
+            cbvalues.add((String) dest.getDestinationCB().getValue());
+          }
+
+          for (int i = 0; i < cbvalues.size(); i++) {
+            destinations.get(i).getDestinationCB().setValue(cbvalues.get(cbvalues.size() - 1 - i));
+          }
         });
     multDestinationBtn.setOnAction(
         e -> {
@@ -936,6 +907,28 @@ public class PathfindingPageController extends SubPage {
       destinations.add(controller);
       destinationsVBox.getChildren().add(node);
       output = controller.getDestinationCB();
+
+      ComboBox destCB = controller.getDestinationCB();
+
+      // Enter Pressed Event
+      destCB.setOnKeyPressed(
+          e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+              calculatePath();
+            }
+          });
+
+      // Value changed event
+      destCB
+          .getSelectionModel()
+          .selectedItemProperty()
+          .addListener(
+              (options, oldValue, newValue) -> {
+                if ((oldValue == null && newValue != null) || (!oldValue.equals(newValue))) {
+                  calculatePath();
+                }
+              });
+
     } catch (IOException e) {
       e.printStackTrace();
     }
