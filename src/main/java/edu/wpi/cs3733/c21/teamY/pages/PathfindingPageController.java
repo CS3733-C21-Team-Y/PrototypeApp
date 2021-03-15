@@ -5,9 +5,9 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
-import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.*;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -37,9 +38,7 @@ public class PathfindingPageController extends SubPage {
   //  @FXML private JFXButton resetView;
   @FXML private ComboBox destinationCB1;
   @FXML private ComboBox destinationCB2;
-
-  FuzzySearchComboBoxListener startLocationFuzzy;
-  FuzzySearchComboBoxListener endLocationFuzzy;
+  @FXML private VBox destinationsVBox;
 
   @FXML private JFXButton bathroomBtn;
   @FXML private JFXButton cafeBtn;
@@ -103,6 +102,9 @@ public class PathfindingPageController extends SubPage {
   Tooltip multiDestTooltip =
       new Tooltip("Click to save the current destination to allow for additional destinations");
 
+  private ArrayList<DestinationItemController> destinations =
+      new ArrayList<DestinationItemController>();
+
   /** Do not use it. It does nothing. */
   public PathfindingPageController() {}
 
@@ -152,6 +154,11 @@ public class PathfindingPageController extends SubPage {
     //    zoomOutButton.toFront();
 
     // Set the starting image early because otherwise it will flash default
+
+    // Init Graph
+    resetGraphNodesEdges();
+    destinationCB1 = initializeNewDestination();
+    destinationCB2 = initializeNewDestination();
 
     // tooltips
 
@@ -241,9 +248,7 @@ public class PathfindingPageController extends SubPage {
     // Select startNodeBox
     destinationCB1.requestFocus();
 
-    // Init Graph
-    resetGraphNodesEdges();
-    resetComboBoxes();
+    // resetComboBoxes();
     System.out.println("Made it one!");
     // this handles auto route calculation after covid survey determination
 
@@ -919,6 +924,24 @@ public class PathfindingPageController extends SubPage {
 
   // PATHFINDING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  private ComboBox initializeNewDestination() {
+    FXMLLoader fxmlLoader = new FXMLLoader();
+    DestinationItemController controller = null;
+    ComboBox output = null;
+    try {
+      javafx.scene.Node node =
+          fxmlLoader.load(getClass().getResource("DestinationItem.fxml").openStream());
+      controller = (DestinationItemController) fxmlLoader.getController();
+      controller.populateComboBox(nodes);
+      destinations.add(controller);
+      destinationsVBox.getChildren().add(node);
+      output = controller.getDestinationCB();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return output;
+  }
+
   /** resetGraphNodesEdges sets graph, nodes, stairs, to updated values in ActiveGraph */
   private void resetGraphNodesEdges() {
     try {
@@ -934,23 +957,9 @@ public class PathfindingPageController extends SubPage {
 
   /** resetComboBoxes Resets node comboboxes with values from nodes and edges */
   private void resetComboBoxes() {
-    destinationCB1.getItems().remove(0, destinationCB1.getItems().size());
-    destinationCB2.getItems().remove(0, destinationCB2.getItems().size());
-
-    for (Node node : nodes) {
-      String name = node.longName;
-      String type = node.nodeType;
-      // Filtering out the unwanted midway points
-      if (!type.equals("WALK")
-          && !type.equals("ELEV")
-          && !type.equals("HALL")
-          && !type.equals("STAI")) {
-        destinationCB1.getItems().add(name);
-        destinationCB2.getItems().add(name);
-      }
+    for (DestinationItemController dest : destinations) {
+      dest.populateComboBox(nodes);
     }
-    startLocationFuzzy = new FuzzySearchComboBoxListener(destinationCB1);
-    endLocationFuzzy = new FuzzySearchComboBoxListener(destinationCB2);
   }
 
   /**

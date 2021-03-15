@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -103,89 +101,7 @@
                                                 <FontAwesomeIconView fill="#8d8eae" glyphName="MAP_MARKER" size="16" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
                                             </children>
                                         </GridPane>
-                              <VBox fx:id="destinationsVBox">
-                                 <children>
-                                    <HBox fx:id="selectDestHBox1">
-                                       <children>
-                                          <JFXComboBox fx:id="destinationCB1" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="99999.0" promptText="Start Location - Press To Select" style="-fx-prompt-text-fill: #8d8eae; -fx-base: #efeff9;" unFocusColor="WHITE">
-                                             <effect>
-                                                <ColorAdjust brightness="1.0" />
-                                             </effect>
-                                          </JFXComboBox>
-                                          <HBox>
-                                             <HBox.margin>
-                                                <Insets right="20.0" />
-                                             </HBox.margin>
-                                             <children>
-                                                <VBox prefHeight="200.0" prefWidth="100.0">
-                                                   <children>
-                                                      <JFXButton fx:id="upBtn1" contentDisplay="GRAPHIC_ONLY" maxHeight="15.0" maxWidth="20.0" minHeight="15.0" minWidth="20.0" prefHeight="15.0" prefWidth="20.0">
-                                                         <graphic>
-                                                            <MaterialDesignIconView fill="WHITE" glyphName="MENU_UP" size="24" />
-                                                         </graphic>
-                                                      </JFXButton>
-                                                      <JFXButton fx:id="downBtn1" contentDisplay="GRAPHIC_ONLY" maxHeight="15.0" maxWidth="20.0" minHeight="15.0" minWidth="20.0" prefHeight="15.0" prefWidth="20.0">
-                                                         <graphic>
-                                                            <MaterialDesignIconView fill="WHITE" glyphName="MENU_DOWN" size="24" />
-                                                         </graphic>
-                                                      </JFXButton>
-                                                   </children>
-                                                </VBox>
-                                                <JFXButton fx:id="removeBtn1" contentDisplay="GRAPHIC_ONLY" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" prefHeight="30.0" prefWidth="30.0">
-                                                   <graphic>
-                                                      <MaterialDesignIconView fill="WHITE" glyphName="CLOSE" size="24" />
-                                                   </graphic>
-                                                </JFXButton>
-                                             </children>
-                                             <padding>
-                                                <Insets left="10.0" />
-                                             </padding>
-                                          </HBox>
-                                       </children>
-                                       <padding>
-                                          <Insets top="2.0" />
-                                       </padding>
-                                    </HBox>
-                                    <HBox fx:id="selectDestHBox2">
-                                       <children>
-                                          <JFXComboBox fx:id="destinationCB2" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="9999.0" promptText="End Location - Press To Select" style="-fx-prompt-text-fill: #8d8eae; -fx-base: #efeff9;" unFocusColor="WHITE">
-                                             <effect>
-                                                <ColorAdjust brightness="1.0" />
-                                             </effect>
-                                          </JFXComboBox>
-                                          <HBox>
-                                             <HBox.margin>
-                                                <Insets left="10.0" right="20.0" />
-                                             </HBox.margin>
-                                             <children>
-                                                <VBox prefHeight="200.0" prefWidth="100.0">
-                                                   <children>
-                                                      <JFXButton fx:id="upBtn2" contentDisplay="GRAPHIC_ONLY" maxHeight="15.0" maxWidth="20.0" minHeight="15.0" minWidth="20.0" prefHeight="15.0" prefWidth="20.0">
-                                                         <graphic>
-                                                            <MaterialDesignIconView fill="WHITE" glyphName="MENU_UP" size="24" />
-                                                         </graphic>
-                                                      </JFXButton>
-                                                      <JFXButton fx:id="downBtn2" contentDisplay="GRAPHIC_ONLY" maxHeight="15.0" maxWidth="20.0" minHeight="15.0" minWidth="20.0" prefHeight="15.0" prefWidth="20.0">
-                                                         <graphic>
-                                                            <MaterialDesignIconView fill="WHITE" glyphName="MENU_DOWN" size="24" />
-                                                         </graphic>
-                                                      </JFXButton>
-                                                   </children>
-                                                </VBox>
-                                                <JFXButton fx:id="removeBtn2" contentDisplay="GRAPHIC_ONLY" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" prefHeight="30.0" prefWidth="30.0">
-                                                   <graphic>
-                                                      <MaterialDesignIconView fill="WHITE" glyphName="CLOSE" size="24" />
-                                                   </graphic>
-                                                </JFXButton>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                       <padding>
-                                          <Insets top="2.0" />
-                                       </padding>
-                                    </HBox>
-                                 </children>
-                              </VBox>
+                              <VBox fx:id="destinationsVBox" />
                            </children>
                         </HBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
