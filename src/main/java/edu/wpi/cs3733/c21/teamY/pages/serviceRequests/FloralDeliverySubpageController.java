@@ -31,8 +31,6 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
   private ArrayList<Node> nodes = new ArrayList<Node>();
   FuzzySearchComboBoxListener locationFuzzy;
 
-  private Graph graph;
-
   @FXML private StackPane stackPane;
 
   public FloralDeliverySubpageController() {}
