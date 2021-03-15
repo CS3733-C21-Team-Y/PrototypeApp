@@ -91,6 +91,7 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
     urgencyAuto = new AutoCompleteComboBoxListener<>(urgency);
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
     biohazardAuto = new AutoCompleteComboBoxListener<>(biohazardLevel);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
 
     Platform.runLater(
         () -> {

@@ -51,7 +51,16 @@ public class GoogleMapsController extends SubPage
 
   @FXML
   private void sendToPage(ActionEvent event) {
-    arrivedButton.setOnAction(e -> parent.loadRightSubPage("PathfindingPage.fxml"));
+    arrivedButton.setOnAction(
+        e -> {
+          if (parent.isDesktop) {
+            parent.loadRightSubPage("NavigationMap.fxml");
+            parent.loadCenterSubPage("PathfindingPage.fxml");
+          } else {
+            parent.loadCenterSubPage("NavigationMap.fxml");
+            parent.loadRightSubPage("MobilePathfindingPage.fxml");
+          }
+        });
   }
 
   @Override
@@ -60,7 +69,7 @@ public class GoogleMapsController extends SubPage
     DirectionsRoute route = results.getRoutes().get(0);
     List<DirectionsLeg> legs = route.getLegs();
     List<DirectionsSteps> allSteps = null;
-    System.out.println("Done Initalizing");
+    System.out.println("Done Initializing");
     for (DirectionsLeg leg : legs) {
       for (DirectionsSteps step : leg.getSteps()) {
         allSteps.add(step);

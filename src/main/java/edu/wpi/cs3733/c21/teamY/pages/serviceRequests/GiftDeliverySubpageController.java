@@ -28,6 +28,7 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
   @FXML private JFXComboBox employeeComboBox;
   AutoCompleteComboBoxListener<String> typeAuto;
   AutoCompleteComboBoxListener<String> employeeAuto;
+  AutoCompleteComboBoxListener<String> locationAuto;
 
   Settings settings;
   private ArrayList<Node> nodes = new ArrayList<Node>();
@@ -73,6 +74,7 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
 
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
     typeAuto = new AutoCompleteComboBoxListener<>(giftType);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
 
     Platform.runLater(
         () -> {
