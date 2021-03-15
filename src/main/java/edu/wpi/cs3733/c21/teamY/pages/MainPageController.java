@@ -57,6 +57,7 @@ public class MainPageController {
   public SubPage centerPageController;
   Settings settings;
   String mode = "default";
+  public boolean tableExpanded = false;
 
   // tooltip Initializations
   Tooltip origSignInBtnTooltip = new Tooltip("Navigate to Login Page");
