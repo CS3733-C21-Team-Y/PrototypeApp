@@ -32,6 +32,7 @@ public class ServiceRequestNavigatorController extends SubPage {
   @FXML private JFXComboBox typeCombo;
   @FXML private JFXComboBox statusCombo;
   @FXML private JFXComboBox employeeCombo;
+  @FXML private JFXButton clearSortBtn;
 
   private Settings settings;
 
@@ -51,6 +52,7 @@ public class ServiceRequestNavigatorController extends SubPage {
     settings = Settings.getSettings();
 
     export.setOnAction(e -> exportServices());
+    clearSortBtn.setOnAction(e -> clearSorts());
     myRequestsBtn.setOnAction(e -> filterByRequester());
     assignedBtn.setOnAction(e -> filterByEmployee());
     allRequestsBtn.setOnAction(e -> loadServicesFromDB());
@@ -167,6 +169,22 @@ public class ServiceRequestNavigatorController extends SubPage {
               }
               System.out.println("new type of service value is" + newValue);
             });
+  }
+
+  private void clearSorts() {
+    typeCombo.setValue(null);
+    statusCombo.setValue(null);
+    employeeCombo.setValue(null);
+    this.currentType = "";
+    this.currentStatus = 2;
+    this.currentEmployeeCombo = "";
+    if (myRequestsBtn.isSelected()) {
+      filterByRequester();
+    } else if (assignedBtn.isSelected()) {
+      filterByEmployee();
+    } else {
+      loadServicesFromDB();
+    }
   }
 
   @Override
