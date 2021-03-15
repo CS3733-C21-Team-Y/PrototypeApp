@@ -29,7 +29,7 @@
                <content>
                   <AnchorPane prefHeight="1325.0" prefWidth="669.0" style="-fx-background-color: #9b9eb9;">
                      <children>
-                        <GridPane alignment="CENTER" layoutX="211.0" layoutY="22.0" prefHeight="100.0" prefWidth="669.0" AnchorPane.bottomAnchor="-28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GridPane alignment="TOP_CENTER" layoutX="211.0" layoutY="22.0" prefHeight="100.0" prefWidth="669.0" AnchorPane.bottomAnchor="-28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" />
                           </columnConstraints>
@@ -125,13 +125,13 @@
                                  <children>
                                     <Label text="Thank you to the Brigham &amp; Women's Hospital!" textAlignment="CENTER" wrapText="true">
                                        <font>
-                                          <Font size="16.0" />
+                                          <Font size="14.0" />
                                        </font>
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin>
                                     </Label>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="124.0" fitWidth="109.0" pickOnBounds="true" preserveRatio="true">
                                        <VBox.margin>
                                           <Insets top="20.0" />
                                        </VBox.margin>
@@ -143,6 +143,11 @@
                                        <VBox.margin>
                                           <Insets bottom="20.0" top="20.0" />
                                        </VBox.margin>
+                                    </Label>
+                                    <Label text="The Brigham &amp; Women’s Hospital maps and data used in this application are copyrighted and provided for the sole use of educational purposes" textAlignment="CENTER" wrapText="true">
+                                       <padding>
+                                          <Insets left="5.0" right="5.0" />
+                                       </padding>
                                     </Label>
                                  </children>
                               </VBox>
