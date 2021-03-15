@@ -110,7 +110,7 @@ public class YYProtocol {
   }
 
   // Removes intermediate nodes in a straight path
-  public ArrayList<Node> removeStraight(ArrayList<Node> path) {
+  public static ArrayList<Node> removeStraight(ArrayList<Node> path) {
     ArrayList<Node> newPath = (ArrayList<Node>) path.clone();
     for (int i = 0; i < newPath.size() - 2; i++) {
       double angle =
@@ -123,7 +123,7 @@ public class YYProtocol {
     return newPath;
   }
 
-  public ArrayList<Node> scaleNodes(ArrayList<Node> path) {
+  public static ArrayList<Node> scaleNodes(ArrayList<Node> path) {
     ArrayList<Node> newPath = (ArrayList<Node>) path.clone();
 
     // Following scale factor converts to cm
