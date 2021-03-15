@@ -24,6 +24,7 @@ void loop() {
         in = Serial.readStringUntil(']');
 //        Serial.println(in);
         numOfNodes = numOfNodesReceived(in);
+        delay(1000);
         Serial.println("done");
         Serial.println(nodeArray[2].x);
 

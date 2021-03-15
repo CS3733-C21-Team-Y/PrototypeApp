@@ -94,10 +94,11 @@ public class YYProtocol {
     // probably going to need to scale and size everything here
 
     // gets list of nodes in the path
-    this.lengthOfList = nodeList.size();
+    ArrayList<Node> send = scaleNodes(removeStraight(nodeList));
+    this.lengthOfList = send.size();
     StringBuffer sendable = new StringBuffer();
     sendable.append("[");
-    for (Node node : nodeList) {
+    for (Node node : send) {
       sendable.append(
           "={" + node.getXcoord() + "," + node.getYcoord() + "," + node.getFloor() + "}");
     }

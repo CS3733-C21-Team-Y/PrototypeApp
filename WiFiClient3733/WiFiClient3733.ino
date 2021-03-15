@@ -1,15 +1,8 @@
 #include <WiFi.h>
-
-
-/*
- *  This sketch sends data via HTTP GET requests to data.sparkfun.com service.
- *
- *  You need to get streamId and privateKey at data.sparkfun.com and paste them
- *  below. Or just customize this script to talk to other HTTP servers.
- *
- */
-
 #include "Node.c"
+
+#define RXD2 16
+#define TXD2 17
 
 const char* ssid     = "itHertzwhenIP"; //my wifi
 const char* password = "11@35*13";      //my password;
@@ -19,6 +12,7 @@ const char* streamId   = "....................";
 const char* privateKey = "....................";
 
 int numOfNodesReceived(String);
+int numOfNodesSent(String);
 
 Node nodeArray[300];
 String stringFromServer = "";
@@ -27,9 +21,15 @@ int numOfNodes = 0;
 
 String test = "[{484.0,1135.0,0}={580.0,1139.0,0}={719.0,977.0,0}={845.0,946.0,0}={953.0,927.0,0}={1024.0,937.0,0}={1077.0,973.0,0}={1204.0,972.0,0}={1260.0,976.0,0}={1308.0,995.0,0}={1352.0,977.0,0}={1471.0,927.0,0}={1585.0,900.0,0}={1585.0,802.0,0}={1483.0,704.0,0}]";
 String test2 = "[{2,4,6}={3,5,7}]";
+
+
 void setup()
 {
+    pinMode(3, INPUT);
     Serial.begin(115200);
+    Serial2.begin(115200, SERIAL_8N1, RXD2, TXD2);
+    Serial.println("Serial Txd is on pin: "+String(TXD2));
+    Serial.println("Serial Rxd is on pin: "+String(RXD2));
     delay(10);
 
     // We start by connecting to a WiFi network
@@ -131,14 +131,21 @@ void loop()
              if(line[1] == 'w'){
               //start romi talk
               Serial.println("_romi");
+              Serial2.println("_romi");
+
+//              int k = numOfNodesSent(stringFromServer);
               Serial.println(stringFromServer);
+              Serial2.print('@');
+              Serial2.print(stringFromServer); 
+              Serial2.println('@');
+              
               
               //wait for romi to finish
-              while(!Serial.available()){
-                romiVerify = Serial.read();
+              while(!Serial2.available()){
+                romiVerify = Serial2.read();
 //                Serial.println(romiVerify);               
               }
-
+              
               Serial.println("_/romi");
               //end romi talk
               Serial.print("client: finished");
@@ -157,8 +164,58 @@ void loop()
 
     Serial.println();
     Serial.println("closing connection");
-
+    Serial2.flush();
+    Serial2.end();
+    Serial2.begin(115200);
     
+}
+
+int numOfNodesSent(String str){
+  //parse string into struct and count
+  int returnVal=0; 
+  String delimiter = "=";
+  String s = "";
+  String sub = "";
+  String sub2 = "";
+  String sub3 = "";
+  double x=0;
+  double y=0;
+  double f=0;
+  Node n = {0,0,0};
+  int start = 1;
+  int j=0;
+  for(char i:str){
+    while(i!='=' && i!='[' && i!=']'){
+      s+=i;  
+      break;
+   }
+    if(i=='{'){
+      start = s.indexOf(i);
+    }
+   if(i=='}'){
+    sub = s.substring(start+1,s.indexOf(i)); 
+    s=s.substring(s.indexOf(i)+1,s.length());
+
+    x=(sub.substring(0,sub.indexOf(','))).toDouble();
+//   Serial.print("x: ");
+//   Serial.println(x);
+   sub2 = sub.substring(sub.indexOf(',')+1,sub.length());
+   y=sub2.substring(0,sub2.indexOf(',')).toDouble();
+//   Serial.print("y: ");
+//   Serial.println(y);
+   sub3 = sub2.substring(sub2.indexOf(',')+1,sub2.length());
+   f=sub3.substring(0,sub2.indexOf(',')).toInt();
+//   Serial.print("f: ");
+//   Serial.println(f);
+   n={x,y,f};
+
+   nodeArray[j]=n;
+   j++;
+   returnVal = j;
+   }  
+  }
+
+  return returnVal; 
 }
 
 int numOfNodesReceived(String str){
