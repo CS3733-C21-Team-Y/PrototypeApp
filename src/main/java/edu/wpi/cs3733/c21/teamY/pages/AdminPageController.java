@@ -131,7 +131,7 @@ public class AdminPageController extends SubPage {
           */
 
           ArrayList<String> end = new ArrayList<>();
-          end.add("PLAB00101");
+          end.add("PDEPT00601");
           end.add("PDEPT00201");
           end.add("PSERV00301");
           x = AlgorithmCalls.aStar(ActiveGraph.getActiveGraph(), "PSERV00301", end, "");

@@ -115,7 +115,7 @@ public class YYProtocol {
     for (int i = 0; i < newPath.size() - 2; i++) {
       double angle =
           AlgorithmCalls.directionOfPoint(newPath.get(i), newPath.get(i + 1), newPath.get(i + 2));
-      if (Math.abs(angle) < 25) {
+      if (Math.abs(angle) < 15) {
         newPath.remove(i + 1);
         i--;
       }
@@ -128,7 +128,7 @@ public class YYProtocol {
 
     // Following scale factor converts to cm
     // Example distance is 145 on map to 96.015cm in CAD
-    double scaleFactor = 7.8; // This is based on the physical model we built
+    double scaleFactor = 7.3; // This is based on the physical model we built
 
     for (int i = 0; i < path.size(); i++) {
       Node newNode = new Node(path.get(i));
