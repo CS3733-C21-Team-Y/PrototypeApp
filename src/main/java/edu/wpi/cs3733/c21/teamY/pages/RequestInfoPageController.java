@@ -5,7 +5,9 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
+import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
+import edu.wpi.cs3733.c21.teamY.entity.Graph;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,10 +19,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class RequestInfoPageController<label> extends SubPage {
   @FXML private Label title;
@@ -80,7 +86,11 @@ public class RequestInfoPageController<label> extends SubPage {
     createInfoBox("Type: ", service.getType());
     if (service.getDescription().length() > 0)
       createInfoBox("Description: ", service.getDescription());
-    if (service.getLocation().length() > 0) createInfoBox("Location: ", service.getLocation());
+    if (service.getLocation().length() > 0) {
+      ServiceRequestInfoElementController locationController =
+          createInfoBox("Location: ", service.getLocation());
+      configSeeLocationButton(locationController);
+    }
     if (service.getCategory().length() > 0) createInfoBox("Category: ", service.getCategory());
     if (service.getUrgency().length() > 0) createInfoBox("Urgency: ", service.getUrgency());
     if (service.getDate().length() > 0) createInfoBox("Date: ", service.getDate());
@@ -135,7 +145,7 @@ public class RequestInfoPageController<label> extends SubPage {
     parent.setCenterColumnWidth(350);
   }
 
-  private void createInfoBox(String title, String data) {
+  private ServiceRequestInfoElementController createInfoBox(String title, String data) {
     if (parent.isDesktop) {
       infoBox.setPadding(new Insets(2, 5, 4, 50));
     } else {
@@ -143,15 +153,87 @@ public class RequestInfoPageController<label> extends SubPage {
     }
     scene = infoBox.getScene();
     FXMLLoader fxmlLoader = new FXMLLoader();
+    ServiceRequestInfoElementController controller = null;
     try {
       Node node =
           fxmlLoader.load(getClass().getResource("ServiceRequestInfoElement.fxml").openStream());
-      ServiceRequestInfoElementController controller =
-          (ServiceRequestInfoElementController) fxmlLoader.getController();
+      controller = (ServiceRequestInfoElementController) fxmlLoader.getController();
       controller.populateInformation(title, data, parent.isDesktop);
       infoBox.getChildren().add(node);
     } catch (IOException e) {
       e.printStackTrace();
     }
+    return controller;
+  }
+
+  private void configSeeLocationButton(ServiceRequestInfoElementController locationController) {
+    HBox dataHBox = locationController.getDataHBox();
+    Button viewLocationButtton = new Button();
+    viewLocationButtton.setText("View Location");
+    viewLocationButtton.setOnAction(
+        e -> {
+          MapController mapInsertController = null;
+          FXMLLoader fxmlLoader = new FXMLLoader();
+          try {
+            Node node = fxmlLoader.load(getClass().getResource("MapUserControl.fxml").openStream());
+            mapInsertController = (MapController) fxmlLoader.getController();
+            mapInsertController.setParent(parent);
+            mapInsertController.setAdminPage(false);
+            // call method before page load
+          } catch (IOException exception) {
+            exception.printStackTrace();
+          }
+          if (mapInsertController == null) {
+            return;
+          }
+
+          final Stage dialog = new Stage();
+          dialog.initModality(Modality.APPLICATION_MODAL);
+          dialog.initOwner(scene.getWindow());
+          Scene dialogScene =
+              new Scene(
+                  mapInsertController.getAnchorPane(),
+                  scene.getWindow().getWidth() / 2,
+                  scene.getWindow().getHeight() / 2);
+          dialog.setScene(dialogScene);
+
+          // popupAnchor.setClip(popupAnchor);
+
+          Graph graph = null;
+          try {
+            graph = ActiveGraph.getActiveGraph();
+          } catch (Exception exception) {
+          }
+          if (graph == null) {
+            return;
+          }
+
+          String longname = locationController.getData().getText();
+          edu.wpi.cs3733.c21.teamY.entity.Node node = graph.longNodes.get(longname);
+          if (node == null) {
+            System.out.println("Node not found " + longname);
+            return;
+          }
+          Integer floor = null;
+          try {
+            floor = Integer.parseInt(node.floor);
+          } catch (Exception ee) {
+            ee.printStackTrace();
+          }
+
+          if (floor == null) {
+            System.out.println("Floor could not be found");
+            return;
+          }
+          mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(floor));
+          MapController.CircleEx nodeCircle = mapInsertController.addNodeCircle(node);
+          if (nodeCircle == null) {
+            System.out.println("OOF");
+          }
+          mapInsertController.selectCircle(nodeCircle);
+          mapInsertController.hideFloorMenu();
+          dialog.show();
+        });
+    dataHBox.getChildren().add(viewLocationButtton);
   }
 }
