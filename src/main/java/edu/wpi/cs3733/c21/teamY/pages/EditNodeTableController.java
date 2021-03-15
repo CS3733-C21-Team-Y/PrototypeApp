@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -48,7 +47,7 @@ public class EditNodeTableController extends SubPage {
   public void initialize() {
     //    treeTable.setPrefHeight(300);
     treeTable.setFixedCellSize(30);
-    expandBtn.setOnAction(e -> expandTable(e));
+    expandBtn.setOnAction(e -> expandTable());
     employeeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditEmployeeTable.fxml"));
     nodeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditNodeTable.fxml"));
     exportBtn.setOnAction(e -> exportToCSV());
@@ -357,6 +356,7 @@ public class EditNodeTableController extends SubPage {
     Platform.runLater(
         () -> {
           treeTable.maxHeightProperty().bind(treeTable.getScene().heightProperty());
+          expandTable();
         });
   }
 
@@ -376,7 +376,7 @@ public class EditNodeTableController extends SubPage {
     }
   }
 
-  private void expandTable(ActionEvent e) {
+  private void expandTable() {
     if (!expanded) {
       parent.animateRightColumnWidth(800);
       expandIcon.setGlyphName("ANGLE_DOUBLE_RIGHT");
@@ -385,6 +385,7 @@ public class EditNodeTableController extends SubPage {
       expandIcon.setGlyphName("ANGLE_DOUBLE_LEFT");
     }
     expanded = !expanded;
+    parent.tableExpanded = expanded;
   }
 
   public void setColumns() {
