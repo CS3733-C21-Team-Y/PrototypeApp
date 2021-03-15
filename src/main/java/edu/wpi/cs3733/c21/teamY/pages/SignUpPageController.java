@@ -28,6 +28,7 @@ public class SignUpPageController extends SubPage {
   @FXML private JFXTextField lastnameTextField;
   @FXML private JFXTextField emailTextField;
   @FXML private StackPane stackPane;
+  public static boolean success = false;
 
   public SignUpPageController() {}
 
@@ -50,6 +51,7 @@ public class SignUpPageController extends SubPage {
                 }
               }
             });
+    success = false;
   }
 
   private void exitBtnClicked(ActionEvent e) {
@@ -120,11 +122,12 @@ public class SignUpPageController extends SubPage {
               salt);
       try {
         DataOperations.createAccount(employee);
+        success = true;
+        parent.loadRightSubPage("LoginPage.fxml");
       } catch (SQLException throwables) {
         System.out.println("create account failed");
         throwables.printStackTrace();
       }
-      submittedPopUp(stackPane);
     }
   }
 
@@ -145,7 +148,7 @@ public class SignUpPageController extends SubPage {
   }
 
   public void submittedPopUp(StackPane stackPane) {
-    createPopUp(stackPane, "#5a5c94", "#ffffff", "Request Submitted!");
+    createPopUp(stackPane, "#5a5c94", "#ffffff", "Account Created!");
   }
 
   public void nonCompleteForm(StackPane stackPane) {
