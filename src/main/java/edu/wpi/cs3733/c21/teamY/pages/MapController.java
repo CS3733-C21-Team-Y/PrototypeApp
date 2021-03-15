@@ -268,6 +268,10 @@ public class MapController extends SubPage {
 
   // region Getters and Setters
 
+  public AnchorPane getAnchorPane() {
+    return anchor;
+  }
+
   public JFXButton getReset() {
     return reset;
   }
@@ -411,6 +415,16 @@ public class MapController extends SubPage {
   // endregion
 
   // region Change Floor or Image
+  public void showFloorMenu() {
+    currentFloorBtn.setVisible(true);
+    reset.setVisible(true);
+  }
+
+  public void hideFloorMenu() {
+    currentFloorBtn.setVisible(false);
+    reset.setVisible(false);
+  }
+
   private void floorMenuAction() {
     Timeline timeline = new Timeline();
     // Timeline timeline2 = new Timeline();
@@ -669,9 +683,13 @@ public class MapController extends SubPage {
 
   protected void updateMapScreen() {
     // adding the node and refreshing the scene
-    Stage stage = (Stage) containerStackPane.getScene().getWindow();
-    stage.setScene(containerStackPane.getScene());
-    stage.show();
+    try {
+      Stage stage = (Stage) containerStackPane.getScene().getWindow();
+      stage.setScene(containerStackPane.getScene());
+      stage.show();
+    } catch (Exception e) {
+      System.out.println("This is a popup");
+    }
   }
 
   protected void removeSelected() {

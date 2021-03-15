@@ -3,11 +3,22 @@ package edu.wpi.cs3733.c21.teamY.pages;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 
 public class ServiceRequestInfoElementController {
   @FXML private Label title;
   @FXML private Label data;
   @FXML private AnchorPane annoyingVbox;
+
+  public HBox getDataHBox() {
+    return dataHBox;
+  }
+
+  public Label getData() {
+    return data;
+  }
+
+  @FXML private HBox dataHBox;
 
   public void populateInformation(String title, String data, boolean desktop) {
     String newData = "";
