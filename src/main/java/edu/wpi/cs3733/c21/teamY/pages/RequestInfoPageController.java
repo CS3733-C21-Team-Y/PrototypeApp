@@ -36,6 +36,7 @@ public class RequestInfoPageController<label> extends SubPage {
   @FXML private VBox rightBox;
   @FXML private JFXButton submitBtn;
   @FXML private JFXComboBox employeeComboBox;
+  @FXML private JFXButton backBtn;
   // @FXML private AnchorPane annoyingVbox;
   Scene scene;
 
@@ -55,6 +56,7 @@ public class RequestInfoPageController<label> extends SubPage {
     saveBtn = new JFXButton();
     saveBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitEmployee());
+    backBtn.setOnAction(e -> back());
     // desktop = parent.isDesktop;
 
     try {
@@ -119,6 +121,10 @@ public class RequestInfoPageController<label> extends SubPage {
       centerBox.getChildren().add(centerArea);
       rightBox.getChildren().add(saveBtn);
     }
+  }
+
+  private void back() {
+    parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
   }
 
   private void buttonClicked(ActionEvent e) {

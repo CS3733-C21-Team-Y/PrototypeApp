@@ -120,6 +120,9 @@
                            </effect>
                         </JFXComboBox>
                      </children>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
                   </HBox>
                </children>
             </GridPane>

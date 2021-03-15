@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -97,6 +98,11 @@
                   <Insets top="5.0" />
                </GridPane.margin>
             </GridPane>
+            <JFXButton fx:id="backBtn" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" ripplerFill="#efeff9" style="-fx-background-radius: 25;" text=" ">
+               <graphic>
+                  <FontAwesomeIconView fill="#8d8ea4" glyphName="ANGLE_LEFT" size="35" />
+               </graphic>
+            </JFXButton>
          </children>
       </GridPane>
    </children>
