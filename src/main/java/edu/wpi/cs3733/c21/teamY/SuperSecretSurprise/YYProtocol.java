@@ -130,9 +130,11 @@ public class YYProtocol {
     // Example distance is 145 on map to 96.015cm in CAD
     double scaleFactor = 0.6621724; // This is based on the physical model we built
 
-    for (int i = 0; i < newPath.size() - 1; i++) {
-      newPath.get(i).xcoord = newPath.get(i).xcoord * scaleFactor;
-      newPath.get(i).ycoord = newPath.get(i).ycoord * scaleFactor;
+    for (int i = 0; i < path.size(); i++) {
+      Node newNode = path.get(i);
+      newNode.xcoord = path.get(i).xcoord * scaleFactor;
+      newNode.ycoord = path.get(i).ycoord * scaleFactor;
+      newPath.add(newNode);
     }
     return newPath;
   }
