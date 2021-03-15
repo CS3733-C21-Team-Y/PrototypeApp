@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.SuperSecretSurprise.KnockKnockServer;
+import edu.wpi.cs3733.c21.teamY.SuperSecretSurprise.YYProtocol;
 import edu.wpi.cs3733.c21.teamY.algorithms.*;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
@@ -126,6 +127,7 @@ public class AdminPageController extends SubPage {
           x.add(nodes.get(2));
           x.add(nodes.get(3));
 
+          x = YYProtocol.scaleNodes(YYProtocol.removeStraight(x));
           KnockKnockServer kn =
               new KnockKnockServer("ESP_Connection", x); // just passing whole thing in for now
           kn.start();

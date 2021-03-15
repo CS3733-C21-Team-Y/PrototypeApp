@@ -69,7 +69,6 @@ public class KnockKnockServer implements Runnable {
       // we wait in this until we get a response
       while ((inputLine = in.readLine()) != null) {
         System.out.println(inputLine);
-        nodeList = yyp.scaleNodes(yyp.removeStraight(nodeList));
         outputLine = yyp.processInput(inputLine, nodeList);
         out.println(outputLine);
         if (outputLine.equals("Bye.")) break;
