@@ -36,6 +36,7 @@ public class LaundrySubpageController extends GenericServiceFormPage {
   FuzzySearchComboBoxListener locationFuzzy;
 
   AutoCompleteComboBoxListener<String> categoryAuto;
+  AutoCompleteComboBoxListener<String> locationAuto;
 
   private ArrayList<String> categories;
 
@@ -84,6 +85,7 @@ public class LaundrySubpageController extends GenericServiceFormPage {
         });
     categoryAuto = new AutoCompleteComboBoxListener<>(category);
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
   }
 
   private void resetComboBoxes() {

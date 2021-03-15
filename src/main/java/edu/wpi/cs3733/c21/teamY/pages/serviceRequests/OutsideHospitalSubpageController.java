@@ -28,6 +28,7 @@ public class OutsideHospitalSubpageController extends GenericServiceFormPage {
   @FXML private JFXTextField desiredLocation;
   @FXML private JFXComboBox employeeComboBox;
   AutoCompleteComboBoxListener<String> employeeAuto;
+  AutoCompleteComboBoxListener<String> locationAuto;
 
   @FXML private StackPane stackPane;
 
@@ -66,6 +67,7 @@ public class OutsideHospitalSubpageController extends GenericServiceFormPage {
       employeeComboBox.setVisible(false);
     }
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
 
     Platform.runLater(
         () -> {
