@@ -485,6 +485,28 @@ public class PathfindingPageController extends SubPage {
     }
   }
 
+  private void clearComboBoxValue(int cbIndex) {
+    ComboBox selectedBox = destinations.get(cbIndex).getDestinationCB();
+
+    if (selectedBox.getValue() != null) {
+
+      MapController.CircleEx oldNodeCircle = null;
+      Node oldNode = graph.longNodes.get((String) selectedBox.getValue());
+      if (oldNode == null) {
+        return;
+      }
+      String nodeId = oldNode.nodeID;
+      if (nodeId != null) {
+        oldNodeCircle =
+            (MapController.CircleEx) mapInsertController.getAdornerPane().lookup("#" + nodeId);
+      }
+
+      if (oldNodeCircle != null) {
+        mapInsertController.deSelectCircle(oldNodeCircle);
+      }
+    }
+  }
+
   /**
    * handleClickOnNode Functionality for clicking on a node
    *
@@ -494,34 +516,25 @@ public class PathfindingPageController extends SubPage {
     if (!node.hasFocus || (node.hasFocus && isPathActive())) {
 
       ComboBox selectedBox = null;
+      int index = -1;
       for (DestinationItemController dest : destinations) {
+        index++;
         if (dest.getDestinationCB().isFocused()) {
           selectedBox = dest.getDestinationCB();
         }
       }
 
-      // Start node box is selected -> deselect old node, use new one
-      if (selectedBox.isFocused()) {
-        if (selectedBox.getValue() != null) {
-
-          MapController.CircleEx oldNodeCircle = null;
-          Node oldNode = graph.longNodes.get((String) selectedBox.getValue());
-          String nodeId = oldNode.nodeID;
-          if (nodeId != null) {
-            oldNodeCircle =
-                (MapController.CircleEx) mapInsertController.getAdornerPane().lookup("#" + nodeId);
-          }
-
-          if (oldNodeCircle != null) {
-            mapInsertController.deSelectCircle(oldNodeCircle);
-          }
-        }
-        selectedBox.setValue(
-            graph.nodeFromID(node.getId()).longName); // startLocationBox.setValue(node.getId())
-        startNode = node;
-
-        mapInsertController.selectCircle(node);
+      if (selectedBox == null) {
+        return;
       }
+
+      // Start node box is selected -> deselect old node, use new one
+      clearComboBoxValue(index);
+      selectedBox.setValue(
+          graph.nodeFromID(node.getId()).longName); // startLocationBox.setValue(node.getId())
+      startNode = node;
+
+      mapInsertController.selectCircle(node);
 
     }
     // Deselect start or end node
@@ -632,14 +645,14 @@ public class PathfindingPageController extends SubPage {
 
     selectStartNode.setOnAction(
         e -> {
-          if (destinationCB1.getValue() != null && startNode != null) {
-            mapInsertController.deSelectCircle(startNode);
+          if (destinations.get(0).getDestinationCB().getValue() != null && startNode != null) {
+            clearComboBoxValue(0);
           }
 
           if (rightClickedNode != null) {
             Node node = graph.nodeFromID(rightClickedNode.getId());
             if (node != null) {
-              destinationCB1.setValue(node.longName);
+              destinations.get(0).getDestinationCB().setValue(node.longName);
               mapInsertController.selectCircle(rightClickedNode);
             }
           }
@@ -647,14 +660,15 @@ public class PathfindingPageController extends SubPage {
 
     selectEndNode.setOnAction(
         e -> {
-          if (destinationCB2.getValue() != null && endNode != null) {
+          if (destinations.get(destinations.size() - 1).getDestinationCB().getValue() != null
+              && endNode != null) {
             mapInsertController.deSelectCircle(endNode);
           }
 
           if (rightClickedNode != null) {
             Node node = graph.nodeFromID(rightClickedNode.getId());
             if (node != null) {
-              destinationCB2.setValue(node.longName);
+              destinations.get(destinations.size() - 1).getDestinationCB().setValue(node.longName);
               mapInsertController.selectCircle(rightClickedNode);
             }
           }
@@ -662,9 +676,7 @@ public class PathfindingPageController extends SubPage {
 
     clearPath.setOnAction(
         e -> {
-          destinationCB1.setValue("");
-          destinationCB2.setValue("");
-          clearPath();
+          clearDestinations();
         });
 
     flipPath.setOnAction(
@@ -723,6 +735,29 @@ public class PathfindingPageController extends SubPage {
     for (int i = 0; i < cbvalues.size(); i++) {
       destinations.get(i).getDestinationCB().setValue(cbvalues.get(cbvalues.size() - 1 - i));
     }
+  }
+
+  private void clearDestinations() {
+    mapInsertController.clearSelection();
+    int i = -1;
+    for (DestinationItemController dest : destinations) {
+      i++;
+      if (i > 1) {
+        destinationsVBox.getChildren().remove(dest.getDestinationRootHBox());
+      }
+    }
+
+    DestinationItemController dest1 = destinations.get(0);
+    DestinationItemController dest2 = destinations.get(1);
+
+    destinations = new ArrayList<>();
+    destinations.add(dest1);
+    destinations.add(dest2);
+
+    dest1.getDestinationCB().setValue(null);
+    dest2.getDestinationCB().setValue(null);
+
+    clearPath();
   }
 
   /**
@@ -983,20 +1018,25 @@ public class PathfindingPageController extends SubPage {
   public void calculatePath() {
     clearPath();
 
+    ArrayList<DestinationItemController> effectiveDests = new ArrayList<>();
     int numLocations = 0;
     for (DestinationItemController dest : destinations) {
-      if (dest.getDestinationCB().getValue() != null) {
+      if (dest.getDestinationCB().getValue() != null
+          && !dest.getDestinationCB().getValue().equals("")) {
         numLocations++;
+        effectiveDests.add(dest);
       }
     }
 
-    if (numLocations > 1 && destinations.get(0).getDestinationCB().getValue() != null) {
+    if (numLocations > 1
+        && destinations.get(0).getDestinationCB().getValue() != null
+        && !destinations.get(0).getDestinationCB().getValue().equals("")) {
 
       String startID =
-          graph.longNodes.get((String) destinations.get(0).getDestinationCB().getValue()).nodeID;
+          graph.longNodes.get((String) effectiveDests.get(0).getDestinationCB().getValue()).nodeID;
 
-      for (int i = 1; i < destinations.size(); i++) {
-        DestinationItemController dest = destinations.get(i);
+      for (int i = 1; i < effectiveDests.size(); i++) {
+        DestinationItemController dest = effectiveDests.get(i);
         if (dest.getDestinationCB().getValue() != null) {
           String endID =
               graph.longNodes.get((String) dest.getDestinationCB().getValue())
@@ -1008,7 +1048,7 @@ public class PathfindingPageController extends SubPage {
 
       if (graph
           .longNodes
-          .get((String) destinations.get(0).getDestinationCB().getValue())
+          .get((String) effectiveDests.get(0).getDestinationCB().getValue())
           .nodeType
           .equals("PARK")) {
         try {

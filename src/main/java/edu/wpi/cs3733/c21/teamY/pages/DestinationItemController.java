@@ -11,7 +11,7 @@ import javafx.scene.layout.HBox;
 
 public class DestinationItemController {
   @FXML private JFXComboBox destinationCB;
-  @FXML private HBox selectDestHBox;
+  @FXML private HBox destinationRootHBox;
   @FXML private JFXButton downBtn;
   @FXML private JFXButton upBtn;
   @FXML private JFXButton removeBtn;
@@ -32,6 +32,10 @@ public class DestinationItemController {
 
   public ComboBox getDestinationCB() {
     return destinationCB;
+  }
+
+  public HBox getDestinationRootHBox() {
+    return destinationRootHBox;
   }
 
   public void populateComboBox(ArrayList<Node> nodes) {
