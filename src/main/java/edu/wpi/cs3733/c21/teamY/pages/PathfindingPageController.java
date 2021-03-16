@@ -173,8 +173,6 @@ public class PathfindingPageController extends SubPage {
 
     // Init Graph
     resetGraphNodesEdges();
-    destinationCB1 = initializeNewDestination();
-    destinationCB2 = initializeNewDestination();
 
     // tooltips
 
@@ -209,8 +207,6 @@ public class PathfindingPageController extends SubPage {
           optimizePath();
         });
 
-    destinationCB2.setOnAction(e -> lastSelectedComboBox = destinationCB2);
-
     bathroomBtn.setOnAction(e -> detourBtnPressed(e));
     bathroomBtn.setCursor(Cursor.HAND);
     cafeBtn.setOnAction(e -> detourBtnPressed(e));
@@ -236,7 +232,6 @@ public class PathfindingPageController extends SubPage {
     // zoomLabel.setText("Zoom");
 
     // Select startNodeBox
-    destinationCB1.requestFocus();
 
     // resetComboBoxes();
     System.out.println("Made it one!");
@@ -275,6 +270,11 @@ public class PathfindingPageController extends SubPage {
             resetBtn.setStyle(
                 "-fx-font-size: 10; -fx-background-color: #5a5c94; -fx-text-fill:#efeff9; -fx-background-radius: 18; -fx-font-size: 8");
           }
+
+          destinationCB1 = initializeNewDestination();
+          destinationCB2 = initializeNewDestination();
+          destinationCB1.requestFocus();
+          destinationCB2.setOnAction(e -> lastSelectedComboBox = destinationCB2);
 
           int i = -1;
           for (javafx.scene.Node menuItem : mapInsertController.getFloorList().getChildren()) {
@@ -1176,7 +1176,7 @@ public class PathfindingPageController extends SubPage {
       double newHeight = (intendedHeight >= 370) ? 370 : intendedHeight;
       Timeline timeline = new Timeline();
       KeyValue kv2 =
-              new KeyValue(navigationHeaderVBox.minHeightProperty(), newHeight, Interpolator.EASE_IN);
+          new KeyValue(navigationHeaderVBox.minHeightProperty(), newHeight, Interpolator.EASE_IN);
       KeyFrame kf = new KeyFrame(Duration.seconds(0.25), kv2);
       timeline.getKeyFrames().add(kf);
       timeline.play();
@@ -1277,15 +1277,17 @@ public class PathfindingPageController extends SubPage {
   }
 
   private void removeDestinations(int index) {
-    intendedHeight -= 40;
-    double newHeight =
-        (intendedHeight <= 170) ? 170 : (intendedHeight >= 370) ? 370 : intendedHeight;
-    Timeline timeline = new Timeline();
-    KeyValue kv2 =
-        new KeyValue(navigationHeaderVBox.minHeightProperty(), newHeight, Interpolator.EASE_IN);
-    KeyFrame kf = new KeyFrame(Duration.seconds(0.25), kv2);
-    timeline.getKeyFrames().add(kf);
-    timeline.play();
+    if (parent.isDesktop) {
+      intendedHeight -= 40;
+      double newHeight =
+          (intendedHeight <= 170) ? 170 : (intendedHeight >= 370) ? 370 : intendedHeight;
+      Timeline timeline = new Timeline();
+      KeyValue kv2 =
+          new KeyValue(navigationHeaderVBox.minHeightProperty(), newHeight, Interpolator.EASE_IN);
+      KeyFrame kf = new KeyFrame(Duration.seconds(0.25), kv2);
+      timeline.getKeyFrames().add(kf);
+      timeline.play();
+    }
     if (index < destinations.size() && index >= 0) {
       clearComboBoxValue(index);
 
