@@ -50,9 +50,9 @@
             </JFXButton>
             <JFXNodesList fx:id="floorList" prefHeight="0.0" prefWidth="0.0" spacing="10.0" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                <children>
-                  <JFXButton fx:id="currentFloorBtn" buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 25;" text="P" textFill="#efeff9">
+                  <JFXButton fx:id="currentFloorBtn" buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 25;" text="Floor" textFill="#efeff9">
                      <font>
-                        <Font name="Calibri Bold" size="25.0" />
+                        <Font name="Calibri Bold" size="12.0" />
                      </font>
                   </JFXButton>
                   <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 25;" text="P" textFill="#efeff9">
