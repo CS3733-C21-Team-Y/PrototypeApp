@@ -1150,6 +1150,17 @@ public class PathfindingPageController extends SubPage {
     mapInsertController.clearSelection();
 
     ArrayList<Node> algoNodes = runAlgo(graph, start, endLocations, noType);
+    ArrayList<String> endLocationsNoDetours = endLocations;
+
+    int i = 0;
+    for (String endLocation : endLocationsNoDetours) {
+      DestinationItemController dest = destinations.get(i + 1);
+      if (i == 0) {
+        destinations.get(i).getDestinationCB().setValue(graph.nodeFromID(start).longName);
+      }
+      dest.getDestinationCB().setValue(graph.nodeFromID(endLocation).longName);
+      i++;
+    }
 
     if (bathroom) {
       endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "REST");
@@ -1168,16 +1179,6 @@ public class PathfindingPageController extends SubPage {
     drawPath(pathNodes);
 
     generateTextDirections(pathNodes);
-
-    int i = 0;
-    for (String endLocation : endLocations) {
-      DestinationItemController dest = destinations.get(i + 1);
-      if (i == 0) {
-        destinations.get(i).getDestinationCB().setValue(graph.nodeFromID(start).longName);
-      }
-      dest.getDestinationCB().setValue(graph.nodeFromID(endLocation).longName);
-      i++;
-    }
   }
 
   public void centerNodeInScrollPane(ScrollPane scrollPane, int index) {
