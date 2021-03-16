@@ -424,7 +424,13 @@ public class PathfindingPageController extends SubPage {
       mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
       for (int i = 0; i < cbvalues.size(); i++) {
-        destinations.get(i).getDestinationCB().setValue(cbvalues.get(i));
+        String newValue = cbvalues.get(i);
+        Node node = graph.nodeFromLongName(newValue);
+        if (noStairs && (node == null || node.nodeType.equals("STAI"))) {
+          newValue = "";
+        }
+
+        destinations.get(i).getDestinationCB().setValue(newValue);
       }
     }
     // Detour handling for multiple destinations
