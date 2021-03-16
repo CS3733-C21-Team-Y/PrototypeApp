@@ -55,6 +55,8 @@ public class EditNodeTableController extends SubPage {
     employeeTableBtn.setCursor(Cursor.HAND);
     nodeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditNodeTable.fxml"));
     nodeTableBtn.setCursor(Cursor.HAND);
+    covidFormBtn.setOnAction(e -> parent.loadRightSubPage("EmployeeSubsetTable.fxml"));
+
     exportBtn.setOnAction(e -> exportToCSV());
     exportBtn.setCursor(Cursor.HAND);
 

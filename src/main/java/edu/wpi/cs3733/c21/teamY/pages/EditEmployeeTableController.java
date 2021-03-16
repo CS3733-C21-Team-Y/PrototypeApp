@@ -54,6 +54,8 @@ public class EditEmployeeTableController extends SubPage {
     employeeTableBtn.setCursor(Cursor.HAND);
     nodeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditNodeTable.fxml"));
     nodeTableBtn.setCursor(Cursor.HAND);
+    covidFormBtn.setOnAction(e -> parent.loadRightSubPage("EmployeeSubsetTable.fxml"));
+
     exportBtn.setOnAction(e -> exportToCSV());
     exportBtn.setCursor(Cursor.HAND);
 
@@ -133,7 +135,7 @@ public class EditEmployeeTableController extends SubPage {
             accessLevelCol,
             primaryWorkspaceCol,
             saltCol,
-                clearanceCol);
+            clearanceCol);
   }
 
   public void subsetColumns() {
@@ -221,16 +223,16 @@ public class EditEmployeeTableController extends SubPage {
             return saltCol.getComputedValue(param);
           }
         });
-      clearanceCol = new JFXTreeTableColumn<>("First Name");
-      clearanceCol.setPrefWidth(80);
-      clearanceCol.setCellValueFactory(
-              (TreeTableColumn.CellDataFeatures<TableEmployee, String> param) -> {
-                  if (clearanceCol.validateValue(param)) {
-                      return param.getValue().getValue().getCleared();
-                  } else {
-                      return clearanceCol.getComputedValue(param);
-                  }
-              });
+    clearanceCol = new JFXTreeTableColumn<>("First Name");
+    clearanceCol.setPrefWidth(80);
+    clearanceCol.setCellValueFactory(
+        (TreeTableColumn.CellDataFeatures<TableEmployee, String> param) -> {
+          if (clearanceCol.validateValue(param)) {
+            return param.getValue().getValue().getCleared();
+          } else {
+            return clearanceCol.getComputedValue(param);
+          }
+        });
 
     firstnameCol.setCellFactory(
         (TreeTableColumn<TableEmployee, String> param) ->
@@ -392,25 +394,25 @@ public class EditEmployeeTableController extends SubPage {
             throwables.printStackTrace();
           }
         });
-      clearanceCol.setCellFactory(
-              (TreeTableColumn<TableEmployee, String> param) ->
-                      new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
-      clearanceCol.setOnEditCommit(
-              (TreeTableColumn.CellEditEvent<TableEmployee, String> t) -> {
-                  t.getTreeTableView()
-                          .getTreeItem(t.getTreeTablePosition().getRow())
-                          .getValue()
-                          .getCleared()
-                          .set(t.getNewValue());
-                  try {
-                      DataOperations.update(
-                              new Employee(
-                                      t.getTreeTableView()
-                                              .getTreeItem(t.getTreeTablePosition().getRow())
-                                              .getValue()));
-                  } catch (SQLException throwables) {
-                      throwables.printStackTrace();
-                  }
-              });
+    clearanceCol.setCellFactory(
+        (TreeTableColumn<TableEmployee, String> param) ->
+            new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+    clearanceCol.setOnEditCommit(
+        (TreeTableColumn.CellEditEvent<TableEmployee, String> t) -> {
+          t.getTreeTableView()
+              .getTreeItem(t.getTreeTablePosition().getRow())
+              .getValue()
+              .getCleared()
+              .set(t.getNewValue());
+          try {
+            DataOperations.update(
+                new Employee(
+                    t.getTreeTableView()
+                        .getTreeItem(t.getTreeTablePosition().getRow())
+                        .getValue()));
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+        });
   }
 }

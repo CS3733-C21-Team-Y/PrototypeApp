@@ -1,8 +1,6 @@
 package edu.wpi.cs3733.c21.teamY.entity;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -26,7 +24,7 @@ public class TableEmployee extends RecursiveTreeObject<TableEmployee> {
     this.accessLevel = new SimpleStringProperty(employee.getAccessLevel() + "");
     this.primaryWorkspace = new SimpleStringProperty(employee.getPrimaryWorkspace());
     this.salt = new SimpleStringProperty(employee.getSalt());
-    this.cleared = new SimpleStringProperty(employee.getClearance()+"");
+    this.cleared = new SimpleStringProperty(employee.getClearance() + "");
   }
 
   public StringProperty getFirstName() {
@@ -61,5 +59,7 @@ public class TableEmployee extends RecursiveTreeObject<TableEmployee> {
     return this.salt;
   }
 
-  public StringProperty getCleared(){return this.cleared;}
+  public StringProperty getCleared() {
+    return this.cleared;
+  }
 }
