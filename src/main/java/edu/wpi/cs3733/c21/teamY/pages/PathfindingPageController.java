@@ -855,6 +855,7 @@ public class PathfindingPageController extends SubPage {
     updateDestinationIndeces();
     refreshEnabledButtons();
     clearPath();
+    intendedHeight = 170;
   }
 
   /**
