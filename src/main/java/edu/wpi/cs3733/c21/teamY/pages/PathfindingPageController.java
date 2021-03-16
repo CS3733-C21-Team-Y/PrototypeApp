@@ -102,8 +102,7 @@ public class PathfindingPageController extends SubPage {
   Tooltip swapTooltip = new Tooltip("Click to swap your start and end destination");
   Tooltip multiDestTooltip =
       new Tooltip("Click to save the current destination to allow for additional destinations");
-  Tooltip optimizeTooltip =
-          new Tooltip("Optimizes the current path");
+  Tooltip optimizeTooltip = new Tooltip("Optimizes the current path");
 
   private ArrayList<DestinationItemController> destinations =
       new ArrayList<DestinationItemController>();
@@ -192,9 +191,9 @@ public class PathfindingPageController extends SubPage {
         });
 
     optimizeButton.setOnAction(
-            e -> {
-              optimizePath();
-            });
+        e -> {
+          optimizePath();
+        });
 
     destinationCB2.setOnAction(e -> lastSelectedComboBox = destinationCB2);
 
@@ -949,17 +948,48 @@ public class PathfindingPageController extends SubPage {
 
   // PATHFINDING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  private void optimizePath(){
+  private void optimizePath() {
     ArrayList<String> ends = new ArrayList<>();
     for (DestinationItemController dest : destinations) {
-
-      ends.add(graph.longNodes.get((String) dest.getDestinationCB().getValue()).nodeID);
+      if (dest != null) {
+        ends.add(graph.longNodes.get((String) dest.getDestinationCB().getValue()).nodeID);
+      }
     }
     String start = ends.get(0);
     ends.remove(0);
-    ArrayList<String> result = new ArrayList<>();
-    result = AlgorithmCalls.nearestNeighbor(graph,start, ends);
+    endLocations = AlgorithmCalls.nearestNeighbor(graph, start, ends);
 
+    mapInsertController.clearSelection();
+
+    ArrayList<Node> algoNodes = runAlgo(graph, start, endLocations, noType);
+
+    if (bathroom) {
+      endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "REST");
+      algoNodes = runAlgo(graph, start, endLocations, noType);
+    }
+    if (restaurant) {
+      endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "FOOD");
+      algoNodes = runAlgo(graph, start, endLocations, noType);
+    }
+    if (kiosk) {
+      endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "KIOS");
+      algoNodes = runAlgo(graph, start, endLocations, noType);
+    }
+
+    pathNodes = algoNodes;
+    drawPath(pathNodes);
+
+    generateTextDirections(pathNodes);
+
+    int i = 0;
+    for (String endLocation : endLocations) {
+      DestinationItemController dest = destinations.get(i + 1);
+      if (i == 0) {
+        destinations.get(i).getDestinationCB().setValue(graph.nodeFromID(start).longName);
+      }
+      dest.getDestinationCB().setValue(graph.nodeFromID(endLocation).longName);
+      i++;
+    }
   }
 
   private ComboBox initializeNewDestination() {
@@ -1130,7 +1160,6 @@ public class PathfindingPageController extends SubPage {
           String endID =
               graph.longNodes.get((String) dest.getDestinationCB().getValue())
                   .nodeID; // (String) endLocationBox.getValue();
-          System.out.println("We in this place with: " + dest.getDestinationCB().getValue());
           endLocations.add(endID);
         }
       }
@@ -1169,13 +1198,11 @@ public class PathfindingPageController extends SubPage {
         endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "KIOS");
         algoNodes = runAlgo(graph, startID, endLocations, noType);
       }
-      System.out.println(endLocations);
 
       pathNodes = algoNodes;
       drawPath(pathNodes);
 
       generateTextDirections(pathNodes);
-      // addDest = false;
     }
   }
 
