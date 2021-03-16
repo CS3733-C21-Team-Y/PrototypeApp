@@ -29,14 +29,15 @@ public class DijkstrasAlgorithm {
     // if executing neighbor calcs ignore floors
     if (start.getNeighbors().contains(end)) {
       return Math.sqrt(
-          Math.pow((end.xcoord - start.xcoord), 2) + Math.pow((end.ycoord - start.ycoord), 2));
+              Math.pow((end.xcoord - start.xcoord), 2) + Math.pow((end.ycoord - start.ycoord), 2))
+          + (Math.abs(Integer.parseInt(end.floor) - Integer.parseInt(start.floor)) * 1000);
     } else {
       // TODO: Modify to efficiently account for floor distance
       // If our end node isn't on the same floor as we are
       // Ideally returns distance to the stair we want to path to
       return Math.sqrt(
               Math.pow((end.xcoord - start.xcoord), 2) + Math.pow((end.ycoord - start.ycoord), 2))
-          + (Math.abs(Integer.parseInt(end.floor) - Integer.parseInt(start.floor)) * 210);
+          + (Math.abs(Integer.parseInt(end.floor) - Integer.parseInt(start.floor)) * 420);
     }
   }
 
