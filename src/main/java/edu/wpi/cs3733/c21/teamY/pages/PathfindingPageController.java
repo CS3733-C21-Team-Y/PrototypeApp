@@ -837,25 +837,13 @@ public class PathfindingPageController extends SubPage {
     mapInsertController.clearSelection();
     int i = -1;
     for (DestinationItemController dest : destinations) {
-      i++;
-      if (i > 1) {
-        destinationsVBox.getChildren().remove(dest.getDestinationRootHBox());
-      }
+      destinationsVBox.getChildren().remove(dest.getDestinationRootHBox());
     }
-
-    DestinationItemController dest1 = destinations.get(0);
-    DestinationItemController dest2 = destinations.get(1);
-
+    intendedHeight = 90;
     destinations = new ArrayList<>();
-    destinations.add(dest1);
-    destinations.add(dest2);
-
-    dest1.getDestinationCB().setValue(null);
-    dest2.getDestinationCB().setValue(null);
-    updateDestinationIndeces();
-    refreshEnabledButtons();
+    initializeNewDestination();
+    initializeNewDestination();
     clearPath();
-    intendedHeight = 170;
   }
 
   /**
