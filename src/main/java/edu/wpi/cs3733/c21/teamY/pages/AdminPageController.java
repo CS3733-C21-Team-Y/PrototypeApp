@@ -136,7 +136,7 @@ public class AdminPageController extends SubPage {
           ArrayList<Service> services = new ArrayList<>();
 
           try {
-            services = DataOperations.exportService("Laundry", "");
+            services = DataOperations.exportSortedService("Laundry", 2, "");
           } catch (SQLException throwables) {
             throwables.printStackTrace();
           }
