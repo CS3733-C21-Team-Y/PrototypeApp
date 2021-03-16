@@ -101,6 +101,7 @@ public class CovidScreeningController extends SubPage {
         DataOperations.saveParkingSpot(
             ActiveGraph.getActiveGraph().longNodes.get(parkingBox.getValue()).nodeID,
             Settings.getSettings().getCurrentUsername());
+        DataOperations.markAsNotCleared(Settings.getSettings().getCurrentUsername());
       } catch (SQLException e) {
         e.printStackTrace();
       }

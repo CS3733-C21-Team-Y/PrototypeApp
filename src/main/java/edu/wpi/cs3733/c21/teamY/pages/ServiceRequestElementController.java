@@ -84,6 +84,10 @@ public class ServiceRequestElementController extends SubPage {
       service.setStatus(0);
     } else if (e.getSource() == completeBtn) {
       service.setStatus(1);
+      if (service.getType().equals("Covid Form")) {
+        // update user clearance to be true
+        DataOperations.markAsCleared(service.getRequester());
+      }
     }
 
     try {
