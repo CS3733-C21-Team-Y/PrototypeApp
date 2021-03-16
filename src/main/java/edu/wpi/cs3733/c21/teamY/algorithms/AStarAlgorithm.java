@@ -327,6 +327,30 @@ public class AStarAlgorithm {
         j--;
       }
     }
+    for (int j = 0; j < pathDirections.size() - 1; j++) {
+      if (j == 0) {
+        String num = path.get(0).floor;
+        pathDirections.add(j, "You begin on Floor " + num);
+      } else if (pathDirections.get(j).contains("to go to floor")) {
+        String num =
+            pathDirections
+                .get(j)
+                .substring(
+                    pathDirections.get(j).indexOf("to go to floor") + 14,
+                    pathDirections.get(j).indexOf("to go to floor") + 16)
+                .trim();
+        pathDirections.add(j + 1, "You have reached Floor " + num);
+        j++;
+      } else if (pathDirections.get(j).contains("to Atrium Main Entrance")
+          || pathDirections.get(j).contains("Walk towards Atrium Main Entrance")) {
+        if (pathDirections.get(j).contains("from Walkway")) {
+          pathDirections.add(j + 1, "You have reached Floor " + 1);
+        } else {
+          pathDirections.add(j + 1, "You have reached the Parking Lot");
+        }
+        j += 2;
+      }
+    }
     return pathDirections;
   }
 

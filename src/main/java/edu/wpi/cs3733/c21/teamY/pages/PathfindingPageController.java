@@ -853,20 +853,38 @@ public class PathfindingPageController extends SubPage {
           newLabel.setGraphic(view);
           newLabel.setWrapText(true);
         }
-        if (direction.contains("to go to floor")) {
-          // newLabel.setStyle("-fx-font-style:italic;");
-          newLabel.setStyle("-fx-text-fill: GREEN");
+        if (direction.contains("You have reached Floor")) {
+          newLabel.setStyle("-fx-text-fill: GREEN; -fx-font-weight: BOLD;");
           newLabel.setOnMouseClicked(
               event -> {
-                parent.loadRightSubPage("ForgotPasswordPage.fxml");
+                ActionEvent ae = new ActionEvent();
+                handleFloorChanged(
+                    ae,
+                    Integer.valueOf(
+                        direction
+                            .substring(
+                                direction.indexOf("reached Floor") + 13,
+                                direction.indexOf("reached Floor") + 15)
+                            .trim()),
+                    false);
               });
-          //          Button button = new Button(newLabel.getText());
-          //          button.setOnAction(
-          //              event -> {
-          //                parent.loadRightSubPage("ForgotPasswordPage.fxml");
-          //              });
-
-          // newLabel.setStyle("-fx-font-weight:BOLD;");
+        } else if (direction.contains("You have reached the Parking")) {
+          newLabel.setStyle("-fx-text-fill: GREEN; -fx-font-weight: BOLD;");
+          newLabel.setOnMouseClicked(
+              event -> {
+                ActionEvent ae = new ActionEvent();
+                handleFloorChanged(ae, 0, false);
+              });
+        } else if (direction.contains("You begin")) {
+          newLabel.setStyle("-fx-text-fill: GREEN; -fx-font-weight: BOLD;");
+          newLabel.setOnMouseClicked(
+              event -> {
+                ActionEvent ae = new ActionEvent();
+                handleFloorChanged(
+                    ae,
+                    Integer.valueOf(direction.substring(direction.indexOf("on Floor") + 8).trim()),
+                    false);
+              });
         }
       }
 
@@ -942,8 +960,10 @@ public class PathfindingPageController extends SubPage {
     ArrayList<String> paneList = new ArrayList<>();
 
     for (int i = 0; i < labelList.size(); i++) {
-      if (labelList.get(i).getText().contains("use Staircase")
-          || labelList.get(i).getText().contains("reached")) {
+      if (labelList
+          .get(i)
+          .getText()
+          .contains("reached")) { // labelList.get(i).getText().contains("use Staircase")
         intList.add(i);
         paneList.add(labelList.get(i).getText());
       }
