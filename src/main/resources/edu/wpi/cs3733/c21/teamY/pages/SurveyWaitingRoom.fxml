@@ -50,17 +50,23 @@
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints maxHeight="59.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="59.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="96.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <JFXButton fx:id="refreshButton" buttonType="RAISED" prefHeight="37.0" prefWidth="107.0" style="-fx-background-color: #5a5c94;" text="Check Status" textFill="#fff9f9" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                              <JFXButton fx:id="refreshButton" buttonType="RAISED" minWidth="107.0" prefHeight="37.0" prefWidth="107.0" style="-fx-background-color: #5a5c94;" text="Check Status" textFill="#fff9f9" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER">
                                  <font>
-                                    <Font name="Calibri" size="16.0" />
+                                    <Font name="Calibri" size="14.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets />
                                  </GridPane.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="CovidBtn" buttonType="RAISED" prefHeight="37.0" prefWidth="107.0" style="-fx-background-color: #ff8080;" text="About Covid" textFill="#fff9f9" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font name="Calibri" size="16.0" />
+                                 </font>
                               </JFXButton>
                            </children>
                         </GridPane>

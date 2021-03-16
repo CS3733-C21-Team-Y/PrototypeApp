@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
@@ -22,7 +23,7 @@ import javafx.scene.layout.VBox;
 
 public class ServiceRequestNavigatorController extends SubPage {
 
-  public ScrollPane scrollPane;
+  @FXML public ScrollPane scrollPane;
   @FXML private VBox serviceBox;
   @FXML private JFXButton export;
   @FXML private ToggleButton myRequestsBtn;
@@ -32,6 +33,7 @@ public class ServiceRequestNavigatorController extends SubPage {
   @FXML private JFXComboBox typeCombo;
   @FXML private JFXComboBox statusCombo;
   @FXML private JFXComboBox employeeCombo;
+  @FXML private JFXButton clearSortBtn;
 
   private Settings settings;
 
@@ -41,16 +43,27 @@ public class ServiceRequestNavigatorController extends SubPage {
   Tooltip allRequestBtnTooltip = new Tooltip("Displays All Current Requests");
   Tooltip assignedBtnTooltip = new Tooltip("Displays Requests I Am Assigned");
 
+  private String currentType = "";
+  private int currentStatus = 2;
+  private String currentEmployeeCombo = "";
+
   @FXML
   private void initialize() {
 
     settings = Settings.getSettings();
 
     export.setOnAction(e -> exportServices());
+    export.setCursor(Cursor.HAND);
+    export.setOnAction(e -> exportServices());
+    clearSortBtn.setOnAction(e -> clearSorts());
     myRequestsBtn.setOnAction(e -> filterByRequester());
+    myRequestsBtn.setCursor(Cursor.HAND);
     assignedBtn.setOnAction(e -> filterByEmployee());
+    assignedBtn.setCursor(Cursor.HAND);
     allRequestsBtn.setOnAction(e -> loadServicesFromDB());
+    allRequestsBtn.setCursor(Cursor.HAND);
     backBtn.setOnAction(e -> buttonClicked(e));
+    backBtn.setCursor(Cursor.HAND);
     drawByPermissions();
     Platform.runLater(
         () -> {
@@ -91,10 +104,11 @@ public class ServiceRequestNavigatorController extends SubPage {
     typeCombo.getItems().add("Maintenance");
     typeCombo.getItems().add("Inside Hospital");
     typeCombo.getItems().add("Outside Hospital");
+    typeCombo.getItems().add("Covid Form");
 
-    statusCombo.getItems().add("Incomplete");
-    statusCombo.getItems().add("In Progress");
-    statusCombo.getItems().add("Complete");
+    statusCombo.getItems().add("Incomplete"); // -1
+    statusCombo.getItems().add("In Progress"); // 0
+    statusCombo.getItems().add("Complete"); // 1
 
     if (settings.getCurrentPermissions() == 3) {
       employeeCombo.setVisible(true);
@@ -108,6 +122,75 @@ public class ServiceRequestNavigatorController extends SubPage {
       }
     } else {
       employeeCombo.setVisible(false);
+    }
+
+    typeCombo
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              this.currentType = (String) newValue;
+              if (myRequestsBtn.isSelected()) {
+                filterByRequester();
+              } else if (assignedBtn.isSelected()) {
+                filterByEmployee();
+              } else {
+                loadServicesFromDB();
+              }
+              System.out.println("new type of service value is" + newValue);
+            });
+    statusCombo
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              if (newValue.equals("Incomplete")) {
+                this.currentStatus = -1;
+              } else if (newValue.equals("In Progress")) {
+                this.currentStatus = 0;
+              } else {
+                this.currentStatus = 1;
+              }
+              if (myRequestsBtn.isSelected()) {
+                filterByRequester();
+              } else if (assignedBtn.isSelected()) {
+                filterByEmployee();
+              } else {
+                loadServicesFromDB();
+              }
+
+              System.out.println("new status of service value is" + newValue);
+            });
+    employeeCombo
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              this.currentEmployeeCombo = (String) newValue;
+              if (myRequestsBtn.isSelected()) {
+                filterByRequester();
+              } else if (assignedBtn.isSelected()) {
+                filterByEmployee();
+              } else {
+                loadServicesFromDB();
+              }
+              System.out.println("new type of service value is" + newValue);
+            });
+  }
+
+  private void clearSorts() {
+    typeCombo.setValue(null);
+    statusCombo.setValue(null);
+    employeeCombo.setValue(null);
+    this.currentType = "";
+    this.currentStatus = 2;
+    this.currentEmployeeCombo = "";
+    if (myRequestsBtn.isSelected()) {
+      filterByRequester();
+    } else if (assignedBtn.isSelected()) {
+      filterByEmployee();
+    } else {
+      loadServicesFromDB();
     }
   }
 
@@ -148,7 +231,9 @@ public class ServiceRequestNavigatorController extends SubPage {
     allRequestsBtn.setStyle("-fx-background-color: #5a5c94; -fx-text-fill: #efeff9");
     assignedBtn.setStyle("-fx-background-color: #5a5c94;-fx-text-fill: #efeff9");
     try {
-      ArrayList<Service> serviceList = DataOperations.exportService("", "");
+      // ArrayList<Service> serviceList = DataOperations.exportService("", "");
+      ArrayList<Service> serviceList =
+          DataOperations.exportSortedService(currentType, currentStatus, currentEmployeeCombo);
       for (Service service : serviceList) {
         if (service.getRequester().equals(username)) addService(service);
       }
@@ -166,7 +251,9 @@ public class ServiceRequestNavigatorController extends SubPage {
     myRequestsBtn.setStyle("-fx-background-color: #5a5c94;-fx-text-fill: #efeff9");
     serviceBox.getChildren().clear();
     try {
-      ArrayList<Service> serviceList = DataOperations.exportService("", "");
+      // ArrayList<Service> serviceList = DataOperations.exportService("", "");
+      ArrayList<Service> serviceList =
+          DataOperations.exportSortedService(currentType, currentStatus, currentEmployeeCombo);
       for (Service service : serviceList) {
         if (service.getEmployee().equals(username)) addService(service);
       }
@@ -182,7 +269,9 @@ public class ServiceRequestNavigatorController extends SubPage {
     assignedBtn.setStyle("-fx-background-color: #5a5c94; -fx-text-fill: #efeff9");
     myRequestsBtn.setStyle("-fx-background-color: #5a5c94;-fx-text-fill: #efeff9");
     try {
-      ArrayList<Service> serviceList = DataOperations.exportService("", "");
+      // ArrayList<Service> serviceList = DataOperations.exportService("", "");
+      ArrayList<Service> serviceList =
+          DataOperations.exportSortedService(currentType, currentStatus, currentEmployeeCombo);
       for (Service service : serviceList) {
         addService(service);
       }
@@ -206,4 +295,13 @@ public class ServiceRequestNavigatorController extends SubPage {
       e.printStackTrace();
     }
   }
+
+  //  private void processServiceList(ArrayList<Service> services){
+  //    ArrayList<Service> services1=new ArrayList<>();
+  //    for (Service service : services) {
+  //      if(currentEmployeeCombo.equals("")&&currentStatus.equals("")&&currentType.equals("")){
+  //        return;
+  //      }
+  //    }
+  //  }
 }

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.layout.StackPane;
 
 public class MaintenanceSubpageController extends GenericServiceFormPage {
@@ -71,6 +72,9 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
     clearBtn.setOnAction(e -> clearButton());
+    backBtn.setCursor(Cursor.HAND);
+    submitBtn.setCursor(Cursor.HAND);
+    clearBtn.setCursor(Cursor.HAND);
 
     for (String c : categories) category.getItems().add(c);
     for (String c : urgencies) urgency.getItems().add(c);
@@ -95,6 +99,7 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
     urgencyAuto = new AutoCompleteComboBoxListener<>(urgency);
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
     categoryAuto = new AutoCompleteComboBoxListener<>(category);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
   }
 
   private void resetComboBoxes() {

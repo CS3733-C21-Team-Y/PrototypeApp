@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -37,7 +38,11 @@ public class RequestsManagerController extends GenericPage {
   @FXML
   private void initialize() {
     backBtn.setOnAction(e -> buttonClicked(e));
+    backBtn.setCursor(Cursor.HAND);
+    backBtn.setCursor(Cursor.HAND);
+
     addServiceBtn.setOnAction(e -> loadServicesFromDB());
+    addServiceBtn.setCursor(Cursor.HAND);
     // addServiceBtn.setOnAction(
     //     e -> addServiceToGrid(new Service(rowCount, "Laundry", "", "Cafeteria", "", "", "")));
     rowCount = 0;

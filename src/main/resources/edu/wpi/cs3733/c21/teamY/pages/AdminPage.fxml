@@ -63,7 +63,7 @@
                                                         <Insets right="2.0" />
                                                     </padding>
                                                 </JFXButton>
-                                            <Button fx:id="secret" mnemonicParsing="false" text="Secret" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                            <Button fx:id="secret" mnemonicParsing="false" text="Send Robot" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                                             </children>
                                         </GridPane>
                                     </children>

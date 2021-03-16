@@ -18,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -199,10 +200,15 @@ public class PathfindingPageController extends SubPage {
     destinationCB2.setOnAction(e -> lastSelectedComboBox = destinationCB2);
 
     bathroomBtn.setOnAction(e -> detourBtnPressed(e));
+    bathroomBtn.setCursor(Cursor.HAND);
     cafeBtn.setOnAction(e -> detourBtnPressed(e));
+    cafeBtn.setCursor(Cursor.HAND);
     kioskBtn.setOnAction(e -> detourBtnPressed(e));
+    kioskBtn.setCursor(Cursor.HAND);
     parkingBtn.setOnAction(e -> detourBtnPressed(e));
+    parkingBtn.setCursor(Cursor.HAND);
     noStairsBtn.setOnAction(e -> detourBtnPressed(e));
+    noStairsBtn.setCursor(Cursor.HAND);
 
     // Floor selection menu population
 
@@ -705,7 +711,7 @@ public class PathfindingPageController extends SubPage {
                 break;
               }
             }
-            handleFloorChanged(e, floorChange);
+            handleFloorChanged(e, floorChange, false);
           }
         });
 
@@ -722,7 +728,7 @@ public class PathfindingPageController extends SubPage {
                 break;
               }
             }
-            handleFloorChanged(e, floorChange);
+            handleFloorChanged(e, floorChange, false);
           }
         });
   }
@@ -793,10 +799,15 @@ public class PathfindingPageController extends SubPage {
   //    // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   //  }
   private void handleFloorChanged(ActionEvent e, int menuItemIndex) {
+    handleFloorChanged(e, menuItemIndex, true);
+  }
+
+  private void handleFloorChanged(ActionEvent e, int menuItemIndex, boolean animate) {
     // This should be optimised to only switch if the floor actually changed, but its very fast, so
     // I cant be bothered
     mapInsertController.removeAllAdornerElements();
-    mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
+    mapInsertController.changeMapImage(
+        mapInsertController.getMapOrder().get(menuItemIndex), animate);
     mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
     drawPath(pathNodes);
     if (lastSelectedComboBox != null) {
@@ -854,8 +865,10 @@ public class PathfindingPageController extends SubPage {
       textDirectionViewer.setVisible(true);
     }
 
+    ArrayList<Label> labelList = new ArrayList<>();
+
     ArrayList<String> directionList = AlgorithmCalls.textDirections(pathNodes, endLocations);
-    System.out.println(directionList.size());
+
     for (String direction : directionList) {
 
       Label newLabel = new Label(direction);
@@ -942,10 +955,71 @@ public class PathfindingPageController extends SubPage {
         newLabel.setWrapText(true);
       }
 
-      textDirectionViewer.getChildren().add(newLabel);
-      newLabel.toFront();
-      newLabel.setWrapText(true);
+      labelList.add(newLabel);
     }
+    System.out.println(labelList.size());
+    ArrayList<Integer> intList = new ArrayList<>();
+    ArrayList<List<Label>> arrOfArr = new ArrayList<>();
+    ArrayList<String> paneList = new ArrayList<>();
+
+    for (int i = 0; i < labelList.size(); i++) {
+      if (labelList.get(i).getText().contains("use Staircase")
+          || labelList.get(i).getText().contains("reached")) {
+        intList.add(i);
+        paneList.add(labelList.get(i).getText());
+      }
+    }
+
+    textDirectionViewer.getChildren().add(labelList.get(0));
+    paneList.add(0, labelList.get(1).getText());
+
+    Accordion accordion = new Accordion();
+    TitledPane gridTitlePane;
+    GridPane grid;
+
+    System.out.println(intList.size());
+
+    arrOfArr.add(labelList.subList(1, intList.get(0)));
+    if (intList.size() == 1) {
+      for (int i = 1; i < labelList.size() - 1; i++) {
+        textDirectionViewer.getChildren().add(labelList.get(i));
+      }
+
+    } else {
+      for (int i = 0; i < intList.size() - 1; i++) {
+        arrOfArr.add(labelList.subList(intList.get(i), intList.get(i + 1)));
+      }
+      arrOfArr.add(labelList.subList(intList.get(intList.size() - 1), labelList.size() - 1));
+    }
+
+    System.out.println(arrOfArr.size());
+    System.out.println(paneList.size());
+
+    if (intList.size() != 1) {
+      for (int i = 0; i < arrOfArr.size() - 1; i++) {
+        gridTitlePane = new TitledPane();
+        grid = new GridPane();
+        grid.setVgap(4);
+
+        // iterate through each arraylist and add it to a grid
+        for (int j = 0; j < arrOfArr.get(i).size(); j++) {
+          grid.add(arrOfArr.get(i).get(j), 0, j);
+          arrOfArr.get(i).get(j).setWrapText(true);
+        }
+        int floorNum = i + 1;
+        gridTitlePane.setContent(grid);
+        // replace text from arraylist of text
+        // gridTitlePane.setText(arrOfArr.get(i).get(i).getText());
+        gridTitlePane.setText(paneList.get(i));
+
+        gridTitlePane.setWrapText(true);
+        gridTitlePane.setExpanded(true);
+        accordion.getPanes().add(gridTitlePane);
+      }
+    }
+
+    textDirectionViewer.getChildren().add(accordion);
+    textDirectionViewer.getChildren().add(labelList.get(labelList.size() - 1));
   }
 
   // PATHFINDING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

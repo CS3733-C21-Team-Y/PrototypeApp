@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.layout.StackPane;
 
 public class MedicineSubpageController extends GenericServiceFormPage {
@@ -30,6 +31,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
   @FXML private StackPane stackPane;
   @FXML private JFXComboBox employeeComboBox;
   AutoCompleteComboBoxListener<String> employeeAuto;
+  AutoCompleteComboBoxListener<String> locationAuto;
 
   Settings settings;
   private ArrayList<Node> nodes = new ArrayList<Node>();
@@ -48,6 +50,9 @@ public class MedicineSubpageController extends GenericServiceFormPage {
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
     clearBtn.setOnAction(e -> clearButton());
+    backBtn.setCursor(Cursor.HAND);
+    submitBtn.setCursor(Cursor.HAND);
+    clearBtn.setCursor(Cursor.HAND);
 
     try {
       nodes = DataOperations.getListOfNodes();
@@ -70,6 +75,7 @@ public class MedicineSubpageController extends GenericServiceFormPage {
     }
 
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
 
     Platform.runLater(
         () -> {

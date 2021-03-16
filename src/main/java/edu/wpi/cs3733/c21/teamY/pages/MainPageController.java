@@ -12,6 +12,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Tooltip;
@@ -60,7 +61,7 @@ public class MainPageController {
   public boolean tableExpanded = false;
 
   // tooltip Initializations
-  Tooltip origSignInBtnTooltip = new Tooltip("Navigate to Login Page");
+  Tooltip origSignInBtnTooltip = new Tooltip("Navigate to your profile");
   Tooltip origNavigationBtnTooltip = new Tooltip("Navigate to Navigation Page");
   Tooltip origServiceRequestTooltip = new Tooltip("Navigate to Request Page");
   Tooltip origAdminToolsTooltip = new Tooltip("Navigate to Admin Page");
@@ -115,15 +116,24 @@ public class MainPageController {
     navGridPane.setPickOnBounds(false);
     instance.setCenterColumnWidth(0);
     origNavigationBtn.setOnAction(e -> buttonClicked(e));
+    origNavigationBtn.setCursor(Cursor.HAND);
     origServiceRequestBtn.setOnAction(e -> buttonClicked(e));
+    origServiceRequestBtn.setCursor(Cursor.HAND);
     origAdminToolsBtn.setOnAction(e -> buttonClicked(e));
+    origAdminToolsBtn.setCursor(Cursor.HAND);
     origSignInBtn.setOnAction(e -> buttonClicked(e));
+    origSignInBtn.setCursor(Cursor.HAND);
     origSignOutBtn.setOnAction(e -> buttonClicked(e));
+    origSignOutBtn.setCursor(Cursor.HAND);
     // exitBtn.setOnMouseClicked(e -> Platform.exit());
     exitBtn.setOnAction(e -> swapPlatforms());
+    exitBtn.setCursor(Cursor.HAND);
     origGoogleNavBtn.setOnAction(e -> buttonClicked(e));
+    origGoogleNavBtn.setCursor(Cursor.HAND);
     logoButton.setOnAction(e -> buttonClicked(e));
+    logoButton.setCursor(Cursor.HAND);
     exitBtn.setOnMouseClicked(e -> Platform.exit());
+    exitBtn.setCursor(Cursor.HAND);
     instance.drawByPermissions();
     origCenterPane.setPickOnBounds(false);
     origRightPane.setPickOnBounds(false);
@@ -204,8 +214,14 @@ public class MainPageController {
 
         // instance.setCenterColumnWidth(200);
       }
-    } else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
-    else if (e.getSource() == origSignOutBtn) {
+    } else if (e.getSource() == origSignInBtn) {
+      if (Settings.getSettings().getCurrentPermissions() == -1) {
+        instance.loadRightSubPage("LoginPage.fxml");
+      } else {
+        instance.loadRightSubPage("UserProfilePage.fxml");
+      }
+
+    } else if (e.getSource() == origSignOutBtn) {
       // PAT PAT PAT LOOK HERE PLEASE PAT PAT
       // I looked - Pat
       Settings.getSettings().logout();

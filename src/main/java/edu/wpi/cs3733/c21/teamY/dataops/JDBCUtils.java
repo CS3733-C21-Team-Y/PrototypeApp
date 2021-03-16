@@ -555,6 +555,79 @@ public class JDBCUtils {
     return services;
   }
 
+  public static ArrayList<Service> exportService(
+      String serviceType, int serviceStatus, String serviceEmployee) throws SQLException {
+    ArrayList<Service> services = new ArrayList<>();
+    String sqlService =
+        "create table Service(serviceID varchar(10) PRIMARY KEY , type varchar(20),"
+            + "description varchar(255) , location varchar(30), category varchar(20), "
+            + "urgency varchar(10), date varchar(20), additionalInfo varchar(255), requester varchar(30) not null, status int,"
+            + " employee varchar(30) DEFAULT 'admin',"
+            + "constraint FK_Requester_ID FOREIGN KEY (requester) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE,"
+            + "constraint FK_Employee FOREIGN KEY (employee) REFERENCES ADMIN.EMPLOYEE (EMPLOYEEID) ON DELETE CASCADE,"
+            + " check( status=-1 OR status =0 OR status=1))";
+    StringBuilder string = new StringBuilder("select * from ADMIN.Service");
+    if (!serviceType.equals("")) {
+      string.append(" where ADMIN.SERVICE.TYPE=" + "'" + serviceType + "'");
+    }
+    if (serviceStatus != 2) {
+      string.append(" AND  ADMIN.SERVICE.STATUS=" + serviceStatus);
+    }
+    if (!serviceEmployee.equals("")) {
+      string.append("AND ADMIN.SERVICE.employee=" + "'" + serviceEmployee + "'");
+    }
+    String string1 = string.toString();
+
+    Connection conn = getConn();
+    Statement statement = conn.createStatement();
+    java.sql.ResultSet resultSet = statement.executeQuery(string1);
+    String serviceID;
+    String type;
+    String description;
+    String location;
+    String category;
+    String urgency;
+    String date;
+    String requester;
+    int status;
+    String employee;
+    String additionalInfo;
+    while (resultSet.next()) {
+      serviceID = resultSet.getString(1);
+      type = resultSet.getString(2);
+      description = resultSet.getString(3);
+      location = resultSet.getString(4);
+      category = resultSet.getString(5);
+      urgency = resultSet.getString(6);
+      date = resultSet.getString(7);
+      additionalInfo = resultSet.getString(8);
+      requester = resultSet.getString(9);
+      status = resultSet.getInt(10);
+      employee = resultSet.getString(11);
+      Service service =
+          new Service(
+              serviceID,
+              type,
+              description,
+              location,
+              category,
+              urgency,
+              date,
+              additionalInfo,
+              requester,
+              status,
+              employee);
+      services.add(service);
+    }
+    resultSet.close();
+    //    try {
+    //      close();
+    //    } catch (IOException e) {
+    //      e.printStackTrace();
+    //    }
+    return services;
+  }
+
   /**
    * remove a service from database
    *
@@ -1212,5 +1285,44 @@ public class JDBCUtils {
       throwables.printStackTrace();
     }
     return false;
+  }
+
+  public static Employee locateEmployee(String id) throws SQLException {
+    String query = "select * from ADMIN.EMPLOYEE where ADMIN.EMPLOYEE.EMPLOYEEID=?";
+    PreparedStatement ps = getConn().prepareStatement(query);
+    ps.setString(1, id);
+    ResultSet rs = ps.executeQuery();
+    String firstName;
+    String lastName;
+    String employeeID;
+    String password;
+    String email;
+    int accessLevel;
+    String primaryWorkspace;
+    String salt;
+    Employee employee = null;
+    while (rs.next()) {
+      firstName = rs.getString(1);
+      lastName = rs.getString(2);
+      employeeID = rs.getString(3);
+      password = rs.getString(4);
+      email = rs.getString(5);
+      accessLevel = rs.getInt(6);
+      primaryWorkspace = rs.getString(7);
+      salt = rs.getString(8);
+      employee =
+          new Employee(
+              firstName,
+              lastName,
+              employeeID,
+              password,
+              email,
+              accessLevel,
+              primaryWorkspace,
+              salt);
+    }
+    rs.close();
+    ps.close();
+    return employee;
   }
 }

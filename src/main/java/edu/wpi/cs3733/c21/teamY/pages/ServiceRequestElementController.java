@@ -7,6 +7,7 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -34,10 +35,15 @@ public class ServiceRequestElementController extends SubPage {
   @FXML
   private void initialize() {
     incompleteBtn.setOnAction(e -> statusBtnClicked(e));
+    incompleteBtn.setCursor(Cursor.HAND);
     inProgressBtn.setOnAction(e -> statusBtnClicked(e));
+    inProgressBtn.setCursor(Cursor.HAND);
     completeBtn.setOnAction(e -> statusBtnClicked(e));
+    completeBtn.setCursor(Cursor.HAND);
     deleteBtn.setOnAction(e -> deleteService());
+    deleteBtn.setCursor(Cursor.HAND);
     statusBtn.setOnAction(e -> toggleStatusGrid());
+    statusBtn.setCursor(Cursor.HAND);
     statusGrid.setVisible(false);
 
     Tooltip.install(statusBtn, statusBtnTooltip);
@@ -119,12 +125,12 @@ public class ServiceRequestElementController extends SubPage {
   }
 
   public void openRequest() {
+    Settings.getSettings().setCurrentDisplayedService(service);
     parent.loadRightSubPage("RequestInfoPage.fxml");
     if (parent.isDesktop) {
       parent.setCenterColumnWidth(350);
     } else {
       parent.setCenterColumnWidth(0);
     }
-    Settings.getSettings().setCurrentDisplayedService(service);
   }
 }

@@ -98,6 +98,11 @@ public class DataOperations {
     return JDBCUtils.exportService(serviceType, requester);
   }
 
+  public static ArrayList<Service> exportSortedService(
+      String serviceType, int serviceStatus, String serviceEmployee) throws SQLException {
+    return JDBCUtils.exportService(serviceType, serviceStatus, serviceEmployee);
+  }
+
   public static void removeService(String ID) throws SQLException {
     JDBCUtils.delete(ID);
   }
@@ -254,5 +259,14 @@ public class DataOperations {
 
   public static void markAsNotCleared(String employeeID) {
     JDBCUtils.markAsNotCleared(employeeID);
+  }
+
+  public static Employee locateEmployee(String id) {
+    try {
+      return JDBCUtils.locateEmployee(id);
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+    return null;
   }
 }

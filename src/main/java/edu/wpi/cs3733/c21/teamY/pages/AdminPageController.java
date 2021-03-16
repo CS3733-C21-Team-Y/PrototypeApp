@@ -22,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -136,12 +137,15 @@ public class AdminPageController extends SubPage {
           ArrayList<Service> services = new ArrayList<>();
 
           try {
-            services = DataOperations.exportService("Laundry", "");
+            services = DataOperations.exportSortedService("Laundry", 2, "");
           } catch (SQLException throwables) {
             throwables.printStackTrace();
           }
           for (Service service : services) {
-            end.add(ActiveGraph.getActiveGraph().longNodes.get(service.getLocation()).nodeID);
+            if (service.getEmployee().equals("robot")) {
+              end.add(ActiveGraph.getActiveGraph().longNodes.get(service.getLocation()).nodeID);
+              service.setStatus(1);
+            }
           }
           /* Brute force approach
           end.add("PDEPT00601");
@@ -295,6 +299,7 @@ public class AdminPageController extends SubPage {
 
           selectNewAlgo.setOnAction(e -> selectAlgo(e));
           helpBtn.setOnAction(e -> helpPopUp(e));
+          helpBtn.setCursor(Cursor.HAND);
 
           addEdge.setOnAction(
               event -> {

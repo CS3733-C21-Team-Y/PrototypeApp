@@ -16,7 +16,7 @@
 
 <AnchorPane prefHeight="1782.0" prefWidth="671.0" style="-fx-background-color: #9b9eb9 #9b9eb9 #9b9eb9;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.AboutPageController">
    <children>
-      <GridPane layoutX="14.0" prefHeight="1636.0" prefWidth="671.0" AnchorPane.bottomAnchor="-424.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane layoutX="14.0" prefHeight="1782.0" prefWidth="671.0" AnchorPane.bottomAnchor="-424.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -29,7 +29,7 @@
                <content>
                   <AnchorPane prefHeight="1325.0" prefWidth="669.0" style="-fx-background-color: #9b9eb9;">
                      <children>
-                        <GridPane alignment="CENTER" layoutX="211.0" layoutY="22.0" prefHeight="100.0" prefWidth="669.0" AnchorPane.bottomAnchor="-28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GridPane alignment="TOP_CENTER" layoutX="211.0" layoutY="22.0" prefHeight="1324.0" prefWidth="669.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" />
                           </columnConstraints>
@@ -40,7 +40,9 @@
                               <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="300.0" minHeight="100.0" prefHeight="260.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="126.0" minHeight="50.0" percentHeight="5.0" prefHeight="123.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="496.0" minHeight="100.0" prefHeight="496.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="496.0" minHeight="350.0" prefHeight="350.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="496.0" minHeight="50.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="496.0" minHeight="100.0" prefHeight="300.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Yellow Yetis" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
@@ -125,13 +127,13 @@
                                  <children>
                                     <Label text="Thank you to the Brigham &amp; Women's Hospital!" textAlignment="CENTER" wrapText="true">
                                        <font>
-                                          <Font size="16.0" />
+                                          <Font size="14.0" />
                                        </font>
                                        <VBox.margin>
                                           <Insets />
                                        </VBox.margin>
                                     </Label>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="124.0" fitWidth="109.0" pickOnBounds="true" preserveRatio="true">
                                        <VBox.margin>
                                           <Insets top="20.0" />
                                        </VBox.margin>
@@ -143,6 +145,11 @@
                                        <VBox.margin>
                                           <Insets bottom="20.0" top="20.0" />
                                        </VBox.margin>
+                                    </Label>
+                                    <Label text="The Brigham &amp; Women’s Hospital maps and data used in this application are copyrighted and provided for the sole use of educational purposes" textAlignment="CENTER" wrapText="true">
+                                       <padding>
+                                          <Insets left="5.0" right="5.0" />
+                                       </padding>
                                     </Label>
                                  </children>
                               </VBox>
@@ -163,6 +170,49 @@
                                     <Insets left="20.0" right="20.0" />
                                  </padding>
                               </HBox>
+                              <Text layoutX="237.0" layoutY="676.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="26.0" />
+                                 </font>
+                              </Text>
+                              <GridPane GridPane.rowIndex="8">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <GridPane GridPane.rowIndex="1">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="JFoenix v8.0.10" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <Label layoutX="37.0" layoutY="35.0" text="Font Awesome v8.9" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <Label layoutX="160.0" layoutY="35.0" text="Derby v10.14.2.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <Label layoutX="279.0" layoutY="35.0" text="SQLite JDBC v3.30.1" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <Label layoutX="424.0" layoutY="35.0" text="JUnit v4.12" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <Label layoutX="585.0" layoutY="35.0" text="Javax Mail v1.5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                          <Label layoutX="39.0" layoutY="102.0" text="Commons Email v1.5" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                          <Label layoutX="157.0" layoutY="102.0" text="GMapsFX v8.0.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                          <Label layoutX="302.0" layoutY="102.0" text="FuzzyWuzzy v1.3.1" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                          <Label layoutX="430.0" layoutY="102.0" text="Commons Lang v3.12.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                       </children>
+                                    </GridPane>
+                                    <Label text="This application would not be possible without the use of the following APIs" wrapText="true" GridPane.halignment="CENTER" />
+                                 </children>
+                              </GridPane>
                            </children>
                         </GridPane>
                      </children>

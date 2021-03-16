@@ -8,6 +8,11 @@ public class SubsetEmployeeTableController extends EditEmployeeTableController {
 
   public void initialize() {
     treeTable.setFixedCellSize(30);
+    expandBtn.setOnAction(e -> expandTable());
+    employeeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditEmployeeTable.fxml"));
+    nodeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditNodeTable.fxml"));
+    covidFormBtn.setOnAction(e -> parent.loadRightSubPage("EmployeeSubsetTable.fxml"));
+    exportBtn.setOnAction(e -> exportToCSV());
 
     populateColumns();
 

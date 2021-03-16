@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.layout.StackPane;
 
 public class GiftDeliverySubpageController extends GenericServiceFormPage {
@@ -28,6 +29,7 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
   @FXML private JFXComboBox employeeComboBox;
   AutoCompleteComboBoxListener<String> typeAuto;
   AutoCompleteComboBoxListener<String> employeeAuto;
+  AutoCompleteComboBoxListener<String> locationAuto;
 
   Settings settings;
   private ArrayList<Node> nodes = new ArrayList<Node>();
@@ -46,6 +48,9 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
     backBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitBtnClicked());
     clearBtn.setOnAction(e -> clearButton());
+    backBtn.setCursor(Cursor.HAND);
+    submitBtn.setCursor(Cursor.HAND);
+    clearBtn.setCursor(Cursor.HAND);
 
     try {
       nodes = DataOperations.getListOfNodes();
@@ -73,6 +78,7 @@ public class GiftDeliverySubpageController extends GenericServiceFormPage {
 
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
     typeAuto = new AutoCompleteComboBoxListener<>(giftType);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
 
     Platform.runLater(
         () -> {

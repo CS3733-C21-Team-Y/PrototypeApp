@@ -57,6 +57,7 @@ public class Employee {
     this.accessLevel = Integer.parseInt(tb.getAccessLevel().getValue());
     this.primaryWorkspace = tb.getPrimaryWorkspace().getValue();
     this.salt = tb.getSalt().getValue();
+    this.cleared = Boolean.parseBoolean(tb.cleared.getValue());
   }
 
   // Employee constructor for use in the view of cleared employees

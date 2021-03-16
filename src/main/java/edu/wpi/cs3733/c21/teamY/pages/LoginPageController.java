@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -28,11 +29,15 @@ public class LoginPageController extends SubPage {
   @FXML
   private void initialize() {
     loginBtn.setOnAction(e -> buttonClicked(e));
+    loginBtn.setCursor(Cursor.HAND);
     employeeIDTextField.setOnKeyPressed(e -> submit(e));
     passwordTextField.setOnKeyPressed(e -> submit(e));
     forgotPasswordBtn.setOnAction(e -> buttonClicked(e));
+    forgotPasswordBtn.setCursor(Cursor.HAND);
     newAccount.setOnAction(e -> newAccountClicked(e));
+    newAccount.setCursor(Cursor.HAND);
     guestBtn.setVisible(false);
+    guestBtn.setCursor(Cursor.HAND);
     if (SignUpPageController.success) {
       accountPopUp(stackPane);
       SignUpPageController.success = false;

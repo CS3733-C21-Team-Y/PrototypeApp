@@ -17,6 +17,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 
@@ -27,6 +28,7 @@ public class EditEmployeeTableController extends SubPage {
   @FXML public JFXButton employeeTableBtn;
   @FXML public JFXButton nodeTableBtn;
   @FXML public JFXButton exportBtn;
+  @FXML public JFXButton covidFormBtn;
 
   public JFXTreeTableColumn<TableEmployee, String> firstnameCol;
   public JFXTreeTableColumn<TableEmployee, String> lastnameCol;
@@ -36,6 +38,7 @@ public class EditEmployeeTableController extends SubPage {
   public JFXTreeTableColumn<TableEmployee, String> accessLevelCol;
   public JFXTreeTableColumn<TableEmployee, String> primaryWorkspaceCol;
   public JFXTreeTableColumn<TableEmployee, String> saltCol;
+  public JFXTreeTableColumn<TableEmployee, String> clearanceCol;
 
   private boolean expanded = false;
 
@@ -46,9 +49,15 @@ public class EditEmployeeTableController extends SubPage {
   public void initialize() {
     treeTable.setFixedCellSize(30);
     expandBtn.setOnAction(e -> expandTable());
+    expandBtn.setCursor(Cursor.HAND);
     employeeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditEmployeeTable.fxml"));
+    employeeTableBtn.setCursor(Cursor.HAND);
     nodeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditNodeTable.fxml"));
+    nodeTableBtn.setCursor(Cursor.HAND);
+    covidFormBtn.setOnAction(e -> parent.loadRightSubPage("EmployeeSubsetTable.fxml"));
+
     exportBtn.setOnAction(e -> exportToCSV());
+    exportBtn.setCursor(Cursor.HAND);
 
     populateColumns();
 
@@ -71,7 +80,7 @@ public class EditEmployeeTableController extends SubPage {
     parent.animateRightColumnWidth(30);
   }
 
-  private void exportToCSV() {
+  void exportToCSV() {
     try {
       DataOperations.DBtoCSV("NODE");
       DataOperations.DBtoCSV("EDGE");
@@ -82,7 +91,7 @@ public class EditEmployeeTableController extends SubPage {
     }
   }
 
-  private void expandTable() {
+  void expandTable() {
     if (!expanded) {
       parent.animateRightColumnWidth(800);
       expandIcon.setGlyphName("ANGLE_DOUBLE_RIGHT");
@@ -125,11 +134,12 @@ public class EditEmployeeTableController extends SubPage {
             emailCol,
             accessLevelCol,
             primaryWorkspaceCol,
-            saltCol);
+            saltCol,
+            clearanceCol);
   }
 
   public void subsetColumns() {
-    treeTable.getColumns().setAll(firstnameCol, lastnameCol, employeeIDCol);
+    treeTable.getColumns().setAll(firstnameCol, lastnameCol, employeeIDCol, clearanceCol);
   }
 
   public void populateColumns() {
@@ -211,6 +221,16 @@ public class EditEmployeeTableController extends SubPage {
             return param.getValue().getValue().getSalt();
           } else {
             return saltCol.getComputedValue(param);
+          }
+        });
+    clearanceCol = new JFXTreeTableColumn<>("First Name");
+    clearanceCol.setPrefWidth(80);
+    clearanceCol.setCellValueFactory(
+        (TreeTableColumn.CellDataFeatures<TableEmployee, String> param) -> {
+          if (clearanceCol.validateValue(param)) {
+            return param.getValue().getValue().getCleared();
+          } else {
+            return clearanceCol.getComputedValue(param);
           }
         });
 
@@ -363,6 +383,26 @@ public class EditEmployeeTableController extends SubPage {
               .getTreeItem(t.getTreeTablePosition().getRow())
               .getValue()
               .getSalt()
+              .set(t.getNewValue());
+          try {
+            DataOperations.update(
+                new Employee(
+                    t.getTreeTableView()
+                        .getTreeItem(t.getTreeTablePosition().getRow())
+                        .getValue()));
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+        });
+    clearanceCol.setCellFactory(
+        (TreeTableColumn<TableEmployee, String> param) ->
+            new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+    clearanceCol.setOnEditCommit(
+        (TreeTableColumn.CellEditEvent<TableEmployee, String> t) -> {
+          t.getTreeTableView()
+              .getTreeItem(t.getTreeTablePosition().getRow())
+              .getValue()
+              .getCleared()
               .set(t.getNewValue());
           try {
             DataOperations.update(

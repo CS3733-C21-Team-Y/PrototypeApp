@@ -3,6 +3,7 @@
 
 #define RXD2 16
 #define TXD2 17
+#define LED 13
 
 const char* ssid     = "itHertzwhenIP"; //my wifi
 const char* password = "11@35*13";      //my password;
@@ -25,7 +26,8 @@ String test2 = "[{2,4,6}={3,5,7}]";
 
 void setup()
 {
-    pinMode(3, INPUT);
+    pinMode(LED, OUTPUT);
+    digitalWrite(LED, LOW);
     Serial.begin(115200);
     Serial2.begin(115200, SERIAL_8N1, RXD2, TXD2);
     Serial.println("Serial Txd is on pin: "+String(TXD2));
@@ -42,14 +44,18 @@ void setup()
     WiFi.begin(ssid, password);
 
     while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
+        digitalWrite(LED, HIGH);
+        delay(250);
+        digitalWrite(LED, LOW);
         Serial.print(".");
+        delay(250);
     }
 
     Serial.println("");
     Serial.println("WiFi connected");
     Serial.println("IP address: ");
     Serial.println(WiFi.localIP());
+    digitalWrite(LED,HIGH);
 
 //int k = numOfNodesReceived(test2);
 
