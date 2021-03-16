@@ -948,7 +948,7 @@ public class PathfindingPageController extends SubPage {
     for (String direction : directionList) {
 
       Label newLabel = new Label(direction);
-      newLabel.setMaxWidth(325);
+      newLabel.setMaxWidth(300);
       newLabel.setWrapText(true);
 
       for (String endLocation : endLocations) {
