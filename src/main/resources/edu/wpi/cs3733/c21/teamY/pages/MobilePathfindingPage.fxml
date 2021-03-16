@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXNodesList?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -29,128 +28,144 @@
          <children>
             <VBox fx:id="navigationHeaderVBox" maxHeight="120.0" minHeight="120.0" minWidth="350.0" prefHeight="100.0" prefWidth="350.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 0 0 0 0;" GridPane.valignment="TOP">
                <children>
-                  <GridPane prefHeight="110.0" prefWidth="380.0">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="75.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" percentHeight="40.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
+                  <VBox fx:id="navigationHeaderVBox1" minHeight="150.0" prefHeight="150.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 0 0 0 0;">
                      <children>
-                        <JFXComboBox fx:id="destinationCB1" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="99999.0" promptText="Start Location - Press To Select" style="-fx-prompt-text-fill: #efeff9; -fx-base: #efeff9;" styleClass="jfx-combo-box" stylesheets="@../UIStyles.css" unFocusColor="WHITE" GridPane.columnIndex="1">
-                           <GridPane.margin>
-                              <Insets left="5.0" right="5.0" />
-                           </GridPane.margin>
-                           <effect>
-                              <ColorAdjust brightness="1.0" />
-                           </effect>
-                        </JFXComboBox>
-                        <JFXComboBox fx:id="destinationCB2" editable="true" focusColor="WHITE" labelFloat="true" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="9999.0" promptText="End Location - Press To Select" style="-fx-prompt-text-fill: #efeff9; -fx-base: #efeff9;" unFocusColor="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
-                           <GridPane.margin>
-                              <Insets left="5.0" right="5.0" />
-                           </GridPane.margin>
-                           <effect>
-                              <ColorAdjust brightness="1.0" />
-                           </effect>
-                        </JFXComboBox>
-                        <GridPane>
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
+                        <HBox>
                            <children>
-                              <MaterialDesignIconView fill="#8d8eae" glyphName="ADJUST" size="16" GridPane.halignment="CENTER">
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </MaterialDesignIconView>
-                              <MaterialDesignIconView fill="#8d8eae" glyphName="DOTS_VERTICAL" size="20" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                                 <GridPane.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                 </GridPane.margin>
-                              </MaterialDesignIconView>
-                              <FontAwesomeIconView fill="#8d8eae" glyphName="MAP_MARKER" size="16" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                              <GridPane maxWidth="15.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <MaterialDesignIconView fill="#8d8eae" glyphName="ADJUST" size="16" GridPane.halignment="CENTER">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </MaterialDesignIconView>
+                                    <MaterialDesignIconView fill="#8d8eae" glyphName="DOTS_VERTICAL" size="20" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                    </MaterialDesignIconView>
+                                    <FontAwesomeIconView fill="#8d8eae" glyphName="MAP_MARKER" size="16" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                                 </children>
+                              </GridPane>
+                              <ScrollPane fx:id="destinationScrollPane" fitToHeight="true" hbarPolicy="NEVER" minHeight="75.0" style="-fx-background-color: transparent;">
+                                 <content>
+                                    <VBox fx:id="destinationsVBox" style="-fx-background-color: #5a5c94;" />
+                                 </content>
+                              </ScrollPane>
                            </children>
-                           <GridPane.margin>
-                              <Insets left="10.0" top="75.0" />
-                           </GridPane.margin>
-                        </GridPane>
-                        <JFXNodesList spacing="5.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
-                           <GridPane.margin>
-                              <Insets bottom="-15.0" left="10.0" right="10.0" top="10.0" />
-                           </GridPane.margin>
+                        </HBox>
+                        <VBox alignment="CENTER" maxHeight="50.0" maxWidth="325.0" minHeight="40.0" prefHeight="50.0" prefWidth="100.0">
                            <children>
-                              <FontAwesomeIconView fill="#8d8eae" glyphName="MAP_SIGNS" rotate="-180.0" size="25" />
-                              <JFXButton fx:id="bathroomBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
-                                 <graphic>
-                                    <MaterialDesignIconView fill="#8d8eae" glyphName="HUMAN_MALE_FEMALE" size="25" />
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton fx:id="cafeBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
-                                 <graphic>
-                                    <MaterialDesignIconView fill="#8d8eae" glyphName="FOOD" size="25" />
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton fx:id="kioskBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
-                                 <graphic>
-                                    <MaterialDesignIconView fill="#8d8eae" glyphName="DESKTOP_MAC" size="25" />
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton fx:id="parkingBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
-                                 <graphic>
-                                    <MaterialDesignIconView fill="#8d8eae" glyphName="PARKING" size="25" />
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton fx:id="noStairsBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;" text="Button">
-                                 <graphic>
-                                    <MaterialDesignIconView fill="#8d8eae" glyphName="WHEELCHAIR_ACCESSIBILITY" size="25" />
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton fx:id="swapLocationsBox" contentDisplay="GRAPHIC_ONLY" prefHeight="40.0" prefWidth="40.0" text="Button" textFill="WHITE" textOverrun="CLIP">
-                                 <graphic>
-                                    <MaterialDesignIconView fill="#8d8eae" glyphName="SWAP_VERTICAL" size="30" strokeLineCap="ROUND" strokeLineJoin="ROUND" text="" />
-                                 </graphic>
-                                 <padding>
-                                    <Insets right="2.0" />
-                                 </padding>
+                              <GridPane maxHeight="30.0" maxWidth="325.0" minHeight="30.0" prefHeight="30.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <JFXButton fx:id="multDestinationBtn" ripplerFill="#efeff9" text="Add Destination" textFill="WHITE">
+                                       <graphic>
+                                          <MaterialDesignIconView fill="#8d8eae" glyphName="PLUS" size="30" />
+                                       </graphic>
+                                       <padding>
+                                          <Insets right="2.0" />
+                                       </padding>
+                                       <font>
+                                          <Font name="Calibri" size="15.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <JFXButton fx:id="optimizeButton" ripplerFill="#efeff9" text="Optimize" textFill="WHITE" GridPane.columnIndex="1">
+                                       <graphic>
+                                          <MaterialDesignIconView fill="#8d8eae" glyphName="FLASH" size="30" />
+                                       </graphic>
+                                       <padding>
+                                          <Insets right="2.0" />
+                                       </padding>
+                                       <font>
+                                          <Font name="Calibri" size="15.0" />
+                                       </font>
+                                       <GridPane.margin>
+                                          <Insets right="10.0" />
+                                       </GridPane.margin>
+                                    </JFXButton>
+                                    <JFXNodesList spacing="5.0" GridPane.columnIndex="2">
+                                       <children>
+                                          <FontAwesomeIconView fill="#8d8eae" glyphName="MAP_SIGNS" size="25" />
+                                          <JFXButton fx:id="bathroomBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
+                                             <graphic>
+                                                <MaterialDesignIconView fill="#8d8eae" glyphName="HUMAN_MALE_FEMALE" size="25" />
+                                             </graphic>
+                                          </JFXButton>
+                                          <JFXButton fx:id="cafeBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
+                                             <graphic>
+                                                <MaterialDesignIconView fill="#8d8eae" glyphName="FOOD" size="25" />
+                                             </graphic>
+                                          </JFXButton>
+                                          <JFXButton fx:id="kioskBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
+                                             <graphic>
+                                                <MaterialDesignIconView fill="#8d8eae" glyphName="DESKTOP_MAC" size="25" />
+                                             </graphic>
+                                          </JFXButton>
+                                          <JFXButton fx:id="parkingBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;">
+                                             <graphic>
+                                                <MaterialDesignIconView fill="#8d8eae" glyphName="PARKING" size="25" />
+                                             </graphic>
+                                          </JFXButton>
+                                          <JFXButton fx:id="noStairsBtn" contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #efeff9;" text="Button">
+                                             <graphic>
+                                                <MaterialDesignIconView fill="#8d8eae" glyphName="WHEELCHAIR_ACCESSIBILITY" size="25" />
+                                             </graphic>
+                                          </JFXButton>
+                                          <JFXButton fx:id="swapLocationsBox" contentDisplay="GRAPHIC_ONLY" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #efeff9;" text="Button" textFill="WHITE" textOverrun="CLIP">
+                                             <graphic>
+                                                <MaterialDesignIconView fill="#8d8eae" glyphName="SWAP_VERTICAL" size="30" text="" />
+                                             </graphic>
+                                             <padding>
+                                                <Insets right="2.0" />
+                                             </padding>
+                                          </JFXButton>
+                                       </children>
+                                    </JFXNodesList>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </GridPane>
+                              <JFXButton fx:id="exitDirectionBtn" buttonType="RAISED" style="-fx-background-color: #efeff9;" text="Show Steps">
+                                 <font>
+                                    <Font name="Calibri" size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets top="4.0" />
+                                 </VBox.margin>
                               </JFXButton>
                            </children>
-                        </JFXNodesList>
-                        <JFXButton fx:id="multDestinationBtn" contentDisplay="GRAPHIC_ONLY" ripplerFill="#efeff9" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                           <graphic>
-                              <MaterialDesignIconView fill="#8d8eae" glyphName="PLUS" size="30" />
-                           </graphic>
-                           <padding>
-                              <Insets right="2.0" />
-                           </padding>
-                        </JFXButton>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </VBox>
                      </children>
-                     <VBox.margin>
-                        <Insets bottom="10.0" left="5.0" right="15.0" top="15.0" />
-                     </VBox.margin>
-                  </GridPane>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </VBox>
                </children>
                <effect>
                   <DropShadow />
                </effect>
             </VBox>
-            <JFXButton fx:id="exitDirectionBtn" buttonType="RAISED" style="-fx-background-color: #efeff9;" text="Show Steps" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-               <font>
-                  <Font name="Calibri" size="14.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets top="130.0" />
-               </GridPane.margin>
-            </JFXButton>
             <VBox fx:id="textDirectionsBox" prefWidth="350.0" style="-fx-background-color: white;" visible="false" GridPane.rowIndex="1">
                <effect>
                   <DropShadow />
