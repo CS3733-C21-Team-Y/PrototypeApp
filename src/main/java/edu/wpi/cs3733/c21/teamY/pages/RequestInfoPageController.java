@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 public class RequestInfoPageController extends SubPage {
   @FXML private Label title;
   @FXML private Label type;
-  @FXML private Label location;
+  @FXML private Label locationLabel;
   @FXML private Label category;
   @FXML private Label urgency;
   @FXML private Label date;
@@ -75,7 +75,7 @@ public class RequestInfoPageController extends SubPage {
 
   private void submitEmployee() {
     //    System.out.println((String) employeeComboBox.getValue());
-    //    service.setEmployee((String) employeeComboBox.getValue());
+    service.setEmployee((String) employeeComboBox.getValue());
     parent.loadRightSubPage("RequestInfoPage.fxml");
 
     try {
@@ -89,15 +89,16 @@ public class RequestInfoPageController extends SubPage {
   private void loadInformation() {
     service = Settings.getSettings().getCurrentDisplayedService();
 
-    type.setText(service.getType());
+    category.setText(service.getCategory());
     description.setText(service.getDescription());
-    location.setText(service.getLocation());
-    category.setText("Hello");
+    System.out.println(service.getLocation());
+    locationLabel.setText(service.getLocation());
     urgency.setText(service.getUrgency());
     date.setText(service.getDate());
     requester.setText(service.getRequester());
     requestID.setText(service.getServiceID());
     employee.setText(service.getEmployee());
+    type.setText(service.getType());
 
     //    if (service.getType().equals("Laundry")) {
     //

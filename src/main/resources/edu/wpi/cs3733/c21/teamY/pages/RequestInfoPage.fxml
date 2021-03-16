@@ -159,7 +159,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label fx:id="location" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label fx:id="locationLabel" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font name="Calibri" size="19.0" />
                            </font>
