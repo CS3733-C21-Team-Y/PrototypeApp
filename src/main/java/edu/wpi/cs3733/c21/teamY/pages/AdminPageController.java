@@ -22,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -298,6 +299,7 @@ public class AdminPageController extends SubPage {
 
           selectNewAlgo.setOnAction(e -> selectAlgo(e));
           helpBtn.setOnAction(e -> helpPopUp(e));
+          helpBtn.setCursor(Cursor.HAND);
 
           addEdge.setOnAction(
               event -> {

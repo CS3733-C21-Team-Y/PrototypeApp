@@ -12,6 +12,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
@@ -35,8 +36,11 @@ public class SignUpPageController extends SubPage {
   @FXML
   private void initialize() {
     exitBtn.setOnAction(e -> exitBtnClicked(e));
+    exitBtn.setCursor(Cursor.HAND);
     signupBtn.setOnAction(e -> signupBtnClicked());
+    signupBtn.setCursor(Cursor.HAND);
     clearBtn.setOnAction(e -> clearButtonClicked());
+    clearBtn.setCursor(Cursor.HAND);
     passwordTextField
         .textProperty()
         .addListener(

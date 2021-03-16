@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
@@ -52,11 +53,17 @@ public class ServiceRequestNavigatorController extends SubPage {
     settings = Settings.getSettings();
 
     export.setOnAction(e -> exportServices());
+    export.setCursor(Cursor.HAND);
+    export.setOnAction(e -> exportServices());
     clearSortBtn.setOnAction(e -> clearSorts());
     myRequestsBtn.setOnAction(e -> filterByRequester());
+    myRequestsBtn.setCursor(Cursor.HAND);
     assignedBtn.setOnAction(e -> filterByEmployee());
+    assignedBtn.setCursor(Cursor.HAND);
     allRequestsBtn.setOnAction(e -> loadServicesFromDB());
+    allRequestsBtn.setCursor(Cursor.HAND);
     backBtn.setOnAction(e -> buttonClicked(e));
+    backBtn.setCursor(Cursor.HAND);
     drawByPermissions();
     Platform.runLater(
         () -> {
