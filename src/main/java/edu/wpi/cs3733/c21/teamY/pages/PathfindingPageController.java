@@ -950,6 +950,7 @@ public class PathfindingPageController extends SubPage {
           fxmlLoader.load(getClass().getResource("DestinationItem.fxml").openStream());
       controller = (DestinationItemController) fxmlLoader.getController();
       controller.populateComboBox(nodes);
+      int index = destinations.size();
       destinations.add(controller);
       destinationsVBox.getChildren().add(node);
       output = controller.getDestinationCB();
@@ -978,10 +979,47 @@ public class PathfindingPageController extends SubPage {
       // Last selected ComboBox setting
       destCB.setOnAction(e -> lastSelectedComboBox = destCB);
 
+      controller
+          .getUpBtn()
+          .setOnAction(
+              e -> {
+                swapDestinations(index, index - 1);
+              });
+      controller
+          .getDownBtn()
+          .setOnAction(
+              e -> {
+                swapDestinations(index, index + 1);
+              });
+
+      refreshEnabledButtons();
     } catch (IOException e) {
       e.printStackTrace();
     }
     return output;
+  }
+
+  // swaps text in comboboxes at ints a and b
+  private void swapDestinations(int a, int b) {
+    if (a < destinations.size() && b < destinations.size() && a >= 0 && b >= 0) {
+      String dest1 = (String) destinations.get(b).getDestinationCB().getValue();
+      destinations
+          .get(b)
+          .getDestinationCB()
+          .setValue(destinations.get(a).getDestinationCB().getValue());
+      destinations.get(a).getDestinationCB().setValue(dest1);
+    }
+  }
+
+  private void refreshEnabledButtons() {
+    boolean closeButtonsEnabled = destinations.size() > 2;
+    for (DestinationItemController dest : destinations) {
+      dest.getRemoveBtn().setDisable(!closeButtonsEnabled);
+      dest.getUpBtn().setDisable(false);
+      dest.getDownBtn().setDisable(false);
+    }
+    destinations.get(0).getUpBtn().setDisable(true);
+    destinations.get(destinations.size() - 1).getDownBtn().setDisable(true);
   }
 
   /** resetGraphNodesEdges sets graph, nodes, stairs, to updated values in ActiveGraph */

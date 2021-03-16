@@ -12,23 +12,24 @@ import javafx.scene.layout.HBox;
 public class DestinationItemController {
   @FXML private JFXComboBox destinationCB;
   @FXML private HBox destinationRootHBox;
+
+  public JFXButton getDownBtn() {
+    return downBtn;
+  }
+
+  public JFXButton getUpBtn() {
+    return upBtn;
+  }
+
+  public JFXButton getRemoveBtn() {
+    return removeBtn;
+  }
+
   @FXML private JFXButton downBtn;
   @FXML private JFXButton upBtn;
   @FXML private JFXButton removeBtn;
 
   private FuzzySearchComboBoxListener locationFuzzy;
-
-  public void setDisabledUp(boolean disabled) {
-    upBtn.setDisable(disabled);
-  }
-
-  public void setDisabledDown(boolean disabled) {
-    downBtn.setDisable(disabled);
-  }
-
-  public void setDisabledRemove(boolean disabled) {
-    removeBtn.setDisable(disabled);
-  }
 
   public ComboBox getDestinationCB() {
     return destinationCB;
