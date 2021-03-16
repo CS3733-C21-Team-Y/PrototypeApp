@@ -642,6 +642,7 @@ public class PathfindingPageController extends SubPage {
 
   MenuItem selectStartNode = new MenuItem("Select Start Location");
   MenuItem selectEndNode = new MenuItem("Select End Location");
+  MenuItem removeDestination = new MenuItem("Remove Location")
 
   MenuItem clearPath = new MenuItem("Clear path");
   MenuItem flipPath = new MenuItem("Flip path");
