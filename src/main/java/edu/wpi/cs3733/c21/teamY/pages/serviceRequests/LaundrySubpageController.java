@@ -51,9 +51,10 @@ public class LaundrySubpageController extends GenericServiceFormPage {
     settings = Settings.getSettings();
 
     categories = new ArrayList<String>();
-    categories.add("Bedding");
-    categories.add("Dry Cleaning");
-    categories.add("Clothing");
+    category.getItems().add("Sheets");
+    category.getItems().add("Scrubs");
+    category.getItems().add("Towels");
+    category.getItems().add("Other");
     // attaches a handler to the button with a lambda expression
 
     backBtn.setOnAction(e -> buttonClicked(e));
