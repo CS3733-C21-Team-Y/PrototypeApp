@@ -1255,6 +1255,22 @@ public class JDBCUtils {
     }
   }
 
+  static boolean getClearedForEntry(String id) {
+    String str = "Select CLEARANCE from ADMIN.CLEARANCE where EMPLOYEEID=(?)";
+    PreparedStatement ps = null;
+    try {
+      ps = getConn().prepareStatement(str);
+      ps.setString(1, id);
+      ResultSet r = ps.executeQuery();
+      if (r.next()) {
+        return r.getBoolean(1);
+      }
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+    return false;
+  }
+
   public static boolean serviceIDExists(String id) {
     String check = "Select * from ADMIN.SERVICE WHERE SERVICEID=(?)";
     PreparedStatement ps = null;

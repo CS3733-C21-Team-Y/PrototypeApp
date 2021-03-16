@@ -261,6 +261,10 @@ public class DataOperations {
     JDBCUtils.markAsNotCleared(employeeID);
   }
 
+  public static boolean getClearedForEntry(String id) {
+    return JDBCUtils.getClearedForEntry(id);
+  }
+
   public static Employee locateEmployee(String id) {
     try {
       return JDBCUtils.locateEmployee(id);

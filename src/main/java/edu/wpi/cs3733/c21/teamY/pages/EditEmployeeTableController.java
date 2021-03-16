@@ -223,7 +223,7 @@ public class EditEmployeeTableController extends SubPage {
             return saltCol.getComputedValue(param);
           }
         });
-    clearanceCol = new JFXTreeTableColumn<>("First Name");
+    clearanceCol = new JFXTreeTableColumn<>("Cleared for Entry");
     clearanceCol.setPrefWidth(80);
     clearanceCol.setCellValueFactory(
         (TreeTableColumn.CellDataFeatures<TableEmployee, String> param) -> {
