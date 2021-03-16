@@ -53,6 +53,11 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
       throwables.printStackTrace();
     }
 
+    avTypeComboBox.getItems().add("Intercom");
+    avTypeComboBox.getItems().add("TV");
+    avTypeComboBox.getItems().add("Phone");
+    avTypeComboBox.getItems().add("Other");
+
     if (settings.getCurrentPermissions() == 3) {
       avEmployeeComboBox.setVisible(true);
       try {
