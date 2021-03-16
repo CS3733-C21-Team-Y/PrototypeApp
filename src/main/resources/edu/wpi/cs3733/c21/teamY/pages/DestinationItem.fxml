@@ -4,12 +4,22 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<HBox fx:id="destinationRootHBox" maxHeight="40.0" maxWidth="350.0" minHeight="40.0" prefHeight="40.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.DestinationItemController">
+<HBox fx:id="destinationRootHBox" alignment="CENTER_RIGHT" maxHeight="40.0" maxWidth="350.0" minHeight="40.0" prefHeight="40.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.DestinationItemController">
    <children>
+      <Label fx:id="indexLabel" alignment="CENTER" minWidth="30.0" text="0." textFill="WHITE">
+         <HBox.margin>
+            <Insets left="5.0" right="5.0" />
+         </HBox.margin>
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Label>
       <JFXComboBox fx:id="destinationCB" editable="true" focusColor="WHITE" minHeight="30.0" minWidth="75.0" prefHeight="30.0" prefWidth="9999.0" promptText="Destination - Press To Select" style="-fx-prompt-text-fill: #8d8eae; -fx-base: #efeff9;" unFocusColor="WHITE">
          <effect>
             <ColorAdjust brightness="1.0" />

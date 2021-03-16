@@ -11,9 +11,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -31,7 +28,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class PathfindingPageController extends SubPage {
 
@@ -1081,7 +1077,7 @@ public class PathfindingPageController extends SubPage {
     double lengthdown = scrollPane.getHeight() * (index) / (destinations.size() - 1);
     scrollPane.layout();
     scrollPane.setVvalue(lengthdown);
-/*
+    /*
     Timeline timeline = new Timeline();
     timeline.getKeyFrames().clear();
     timeline
@@ -1109,6 +1105,13 @@ public class PathfindingPageController extends SubPage {
 
       ComboBox destCB = controller.getDestinationCB();
 
+      controller.getIndexLabel().setText("" + (controller.index + 1) + ".");
+      controller
+          .getIndexLabel()
+          .setMinWidth(
+              controller.getIndexLabel().getText().length()
+                      * controller.getIndexLabel().getFont().getSize()
+                  + 2);
       // Enter Pressed Event
       destCB.setOnKeyPressed(
           e -> {
@@ -1194,6 +1197,14 @@ public class PathfindingPageController extends SubPage {
   private void updateDestinationIndeces() {
     for (int i = 0; i < destinations.size(); i++) {
       destinations.get(i).index = i;
+      destinations.get(i).getIndexLabel().setText("" + (i + 1) + ".");
+      destinations
+          .get(i)
+          .getIndexLabel()
+          .setMinWidth(
+              destinations.get(i).getIndexLabel().getText().length()
+                      * destinations.get(i).getIndexLabel().getFont().getSize()
+                  + 2);
     }
   }
 

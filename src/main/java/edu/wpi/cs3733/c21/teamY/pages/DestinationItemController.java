@@ -7,11 +7,13 @@ import edu.wpi.cs3733.c21.teamY.entity.Node;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 public class DestinationItemController {
   @FXML private JFXComboBox destinationCB;
   @FXML private HBox destinationRootHBox;
+  @FXML private Label indexLabel;
 
   public int index = 0;
 
@@ -25,6 +27,10 @@ public class DestinationItemController {
 
   public JFXButton getRemoveBtn() {
     return removeBtn;
+  }
+
+  public Label getIndexLabel() {
+    return indexLabel;
   }
 
   @FXML private JFXButton downBtn;
