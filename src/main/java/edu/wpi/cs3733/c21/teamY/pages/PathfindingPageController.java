@@ -918,15 +918,18 @@ public class PathfindingPageController extends SubPage {
     System.out.println(labelList.size());
     ArrayList<Integer> intList = new ArrayList<>();
     ArrayList<List<Label>> arrOfArr = new ArrayList<>();
+    ArrayList<String> paneList = new ArrayList<>();
 
     for (int i = 0; i < labelList.size(); i++) {
       if (labelList.get(i).getText().contains("use Staircase")
           || labelList.get(i).getText().contains("reached")) {
         intList.add(i);
+        paneList.add(labelList.get(i).getText());
       }
     }
 
     textDirectionViewer.getChildren().add(labelList.get(0));
+    paneList.add(0, labelList.get(1).getText());
 
     Accordion accordion = new Accordion();
     TitledPane gridTitlePane;
@@ -947,6 +950,9 @@ public class PathfindingPageController extends SubPage {
       arrOfArr.add(labelList.subList(intList.get(intList.size() - 1), labelList.size() - 1));
     }
 
+    System.out.println(arrOfArr.size());
+    System.out.println(paneList.size());
+
     if (intList.size() != 1) {
       for (int i = 0; i < arrOfArr.size() - 1; i++) {
         gridTitlePane = new TitledPane();
@@ -958,8 +964,14 @@ public class PathfindingPageController extends SubPage {
           grid.add(arrOfArr.get(i).get(j), 0, j);
           arrOfArr.get(i).get(j).setWrapText(true);
         }
+        int floorNum = i + 1;
         gridTitlePane.setContent(grid);
-        gridTitlePane.setText("Floor " + i);
+        // replace text from arraylist of text
+        // gridTitlePane.setText(arrOfArr.get(i).get(i).getText());
+        gridTitlePane.setText(paneList.get(i));
+
+        gridTitlePane.setWrapText(true);
+        gridTitlePane.setExpanded(true);
         accordion.getPanes().add(gridTitlePane);
       }
     }
