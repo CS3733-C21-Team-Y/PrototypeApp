@@ -424,7 +424,7 @@ public class PathfindingPageController extends SubPage {
       mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
       for (int i = 0; i < cbvalues.size(); i++) {
-        destinations.get(i).getDestinationCB().setValue(i);
+        destinations.get(i).getDestinationCB().setValue(cbvalues.get(i));
       }
     }
     // Detour handling for multiple destinations
