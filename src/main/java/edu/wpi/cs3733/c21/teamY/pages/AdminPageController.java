@@ -592,7 +592,8 @@ public class AdminPageController extends SubPage {
         contextMenu
             .getItems()
             .addAll(adornerTitleLabel, separator1, addEdgeMenuItem, deleteMenuItem);
-        contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+        contextMenu.show(
+            mapInsertController.getContainerStackPane(), e.getScreenX(), e.getScreenY());
       }
       // Right Clicked Edge
       else if (e.getPickResult().getIntersectedNode() instanceof Line
@@ -620,7 +621,8 @@ public class AdminPageController extends SubPage {
                 makeNodeHorizontal,
                 makeNodeVertical,
                 deleteMenuItem);
-        contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+        contextMenu.show(
+            mapInsertController.getContainerStackPane(), e.getScreenX(), e.getScreenY());
       }
       // Right Clicked MultiSelect
       else if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
@@ -637,7 +639,8 @@ public class AdminPageController extends SubPage {
 
         // MULTIPLE MENU
         contextMenu.getItems().addAll(alignHorizontal, alignVertical, deleteMenuItem);
-        contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+        contextMenu.show(
+            mapInsertController.getContainerStackPane(), e.getScreenX(), e.getScreenY());
       } else {
         mapInsertController.clearSelection();
         rightClickedNode = null; // just in case really
@@ -645,7 +648,8 @@ public class AdminPageController extends SubPage {
 
         // MAP MENU
         contextMenu.getItems().addAll(addNodeMenuItem);
-        contextMenu.show(mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+        contextMenu.show(
+            mapInsertController.getContainerStackPane(), e.getScreenX(), e.getScreenY());
       }
     }
   }
@@ -730,7 +734,9 @@ public class AdminPageController extends SubPage {
     double centerX = 0;
     double centerY = 0;
     if (rightClickedNode != null) {
-      centerX = rightClickedNode.getCenterX();
+      centerX =
+          rightClickedNode.getCenterX()
+              + mapInsertController.getAdornerPane().getScene().getWindow().getX();
       centerY = rightClickedNode.getCenterY();
     } else {
       MapController.CircleEx centerNode =

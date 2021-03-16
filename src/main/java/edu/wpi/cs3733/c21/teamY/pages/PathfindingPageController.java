@@ -664,12 +664,12 @@ public class PathfindingPageController extends SubPage {
       }
 
       mapContextMenu.show(
-          mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+          mapInsertController.getContainerStackPane(), e.getScreenX(), e.getScreenY());
 
     } else if (pathActive) {
       mapContextMenu.getItems().addAll(flipPath, clearPath);
       mapContextMenu.show(
-          mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+          mapInsertController.getContainerStackPane(), e.getScreenX(), e.getScreenY());
     }
   }
 
