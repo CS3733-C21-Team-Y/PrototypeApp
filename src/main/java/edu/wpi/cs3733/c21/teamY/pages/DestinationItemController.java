@@ -13,6 +13,8 @@ public class DestinationItemController {
   @FXML private JFXComboBox destinationCB;
   @FXML private HBox destinationRootHBox;
 
+  public int index = 0;
+
   public JFXButton getDownBtn() {
     return downBtn;
   }

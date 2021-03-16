@@ -950,7 +950,7 @@ public class PathfindingPageController extends SubPage {
           fxmlLoader.load(getClass().getResource("DestinationItem.fxml").openStream());
       controller = (DestinationItemController) fxmlLoader.getController();
       controller.populateComboBox(nodes);
-      int index = destinations.size();
+      controller.index = destinations.size();
       destinations.add(controller);
       destinationsVBox.getChildren().add(node);
       output = controller.getDestinationCB();
@@ -979,17 +979,29 @@ public class PathfindingPageController extends SubPage {
       // Last selected ComboBox setting
       destCB.setOnAction(e -> lastSelectedComboBox = destCB);
 
+      DestinationItemController finalController = controller;
+
       controller
           .getUpBtn()
           .setOnAction(
               e -> {
-                swapDestinations(index, index - 1);
+                swapDestinations(finalController.index, finalController.index - 1);
+                updateDestinationIndeces();
               });
       controller
           .getDownBtn()
           .setOnAction(
               e -> {
-                swapDestinations(index, index + 1);
+                swapDestinations(finalController.index, finalController.index + 1);
+                updateDestinationIndeces();
+              });
+
+      controller
+          .getRemoveBtn()
+          .setOnAction(
+              e -> {
+                removeDestinations(finalController.index);
+                updateDestinationIndeces();
               });
 
       refreshEnabledButtons();
@@ -1008,6 +1020,24 @@ public class PathfindingPageController extends SubPage {
           .getDestinationCB()
           .setValue(destinations.get(a).getDestinationCB().getValue());
       destinations.get(a).getDestinationCB().setValue(dest1);
+      calculatePath();
+    }
+  }
+
+  private void removeDestinations(int index) {
+    if (index < destinations.size() && index >= 0) {
+      clearComboBoxValue(index);
+
+      destinationsVBox.getChildren().remove(destinations.get(index).getDestinationRootHBox());
+      destinations.remove(index);
+      refreshEnabledButtons();
+      calculatePath();
+    }
+  }
+
+  private void updateDestinationIndeces() {
+    for (int i = 0; i < destinations.size(); i++) {
+      destinations.get(i).index = i;
     }
   }
 
