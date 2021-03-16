@@ -27,6 +27,7 @@ public class EditNodeTableController extends SubPage {
   @FXML public JFXButton employeeTableBtn;
   @FXML public JFXButton nodeTableBtn;
   @FXML public JFXButton exportBtn;
+  @FXML public JFXButton covidFormBtn;
 
   public JFXTreeTableColumn<TableNodes, String> nodeIDCol;
   public JFXTreeTableColumn<TableNodes, String> nodeTypeCol;

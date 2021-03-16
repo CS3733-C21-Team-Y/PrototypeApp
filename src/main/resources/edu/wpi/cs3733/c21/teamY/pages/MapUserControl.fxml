@@ -57,7 +57,7 @@
                   </JFXButton>
                   <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 25;" text="P" textFill="#efeff9">
                      <font>
-                        <Font name="Calibri Bold" size="25.0" />
+                        <Font size="25.0" />
                      </font>
                   </JFXButton>
                   <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 25;" text="1" textFill="#efeff9">
