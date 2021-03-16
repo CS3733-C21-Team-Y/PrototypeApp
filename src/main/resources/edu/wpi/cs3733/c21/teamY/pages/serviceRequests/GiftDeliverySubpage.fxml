@@ -52,7 +52,7 @@
                               <RowConstraints minHeight="40.0" percentHeight="30.0" prefHeight="60.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                           <children>
-                              <JFXComboBox fx:id="locationField" focusColor="#5a5c94" labelFloat="true" minHeight="40.0" prefHeight="40.0" prefWidth="999999.0" promptText="Location" GridPane.columnIndex="1" />
+                              <JFXComboBox fx:id="locationComboBox" focusColor="#5a5c94" labelFloat="true" minHeight="40.0" prefHeight="40.0" prefWidth="999999.0" promptText="Location" GridPane.columnIndex="1" />
                               <JFXComboBox fx:id="giftType" focusColor="#5a5c94" labelFloat="true" minHeight="40.0" prefHeight="40.0" prefWidth="9999999.0" promptText="Type Of Gift" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <JFXDatePicker fx:id="datePicker" defaultColor="#3b3d73" editable="false" minHeight="40.0" prefHeight="40.0" prefWidth="999999.0" promptText="Preferred Date" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <padding>

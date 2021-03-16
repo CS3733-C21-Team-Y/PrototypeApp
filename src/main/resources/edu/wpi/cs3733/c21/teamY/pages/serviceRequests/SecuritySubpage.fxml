@@ -75,14 +75,6 @@
                                       <JFXButton fx:id="submitBtn" buttonType="RAISED" minHeight="30.0" minWidth="70.0" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: efeff9; -fx-background-radius: 8; -fx-font-family: Calibri; -fx-font-weight: bold; -fx-font-size: 16;" text="Submit" textFill="#5a5c94" GridPane.columnIndex="1" />
                                   </children>
                               </GridPane>
-                              <JFXComboBox fx:id="locationBox" focusColor="#5a5c94" labelFloat="true" minHeight="40.0" prefHeight="40.0" prefWidth="999999.0" promptText="Location" style="-fx-border-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                  <padding>
-                                      <Insets bottom="10.0" top="10.0" />
-                                  </padding>
-                                  <GridPane.margin>
-                                      <Insets />
-                                  </GridPane.margin>
-                        </JFXComboBox>
                               <GridPane GridPane.columnIndex="1" GridPane.rowIndex="3">
                                   <columnConstraints>
                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="45.0" prefWidth="100.0" />
@@ -137,6 +129,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </padding>
                         </JFXComboBox>
+                        <JFXComboBox fx:id="locationComboBox" focusColor="#5a5c94" labelFloat="true" minHeight="30.0" prefHeight="40.0" prefWidth="9999.0" promptText="Location" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                           </children>
                           <GridPane.margin>
                               <Insets top="15.0" />

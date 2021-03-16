@@ -36,6 +36,7 @@ public class RequestInfoPageController<label> extends SubPage {
   @FXML private VBox rightBox;
   @FXML private JFXButton submitBtn;
   @FXML private JFXComboBox employeeComboBox;
+  @FXML private JFXButton backBtn;
   // @FXML private AnchorPane annoyingVbox;
   Scene scene;
 
@@ -55,6 +56,7 @@ public class RequestInfoPageController<label> extends SubPage {
     saveBtn = new JFXButton();
     saveBtn.setOnAction(e -> buttonClicked(e));
     submitBtn.setOnAction(e -> submitEmployee());
+    backBtn.setOnAction(e -> back());
     // desktop = parent.isDesktop;
 
     try {
@@ -121,6 +123,10 @@ public class RequestInfoPageController<label> extends SubPage {
     }
   }
 
+  private void back() {
+    parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+  }
+
   private void buttonClicked(ActionEvent e) {
 
     if (!leftArea.getText().equals("") && !leftArea.getText().equals("")) {
@@ -179,6 +185,7 @@ public class RequestInfoPageController<label> extends SubPage {
             mapInsertController = (MapController) fxmlLoader.getController();
             mapInsertController.setParent(parent);
             mapInsertController.setAdminPage(false);
+            mapInsertController.setLocationPopUp(true);
             // call method before page load
           } catch (IOException exception) {
             exception.printStackTrace();
@@ -190,11 +197,7 @@ public class RequestInfoPageController<label> extends SubPage {
           final Stage dialog = new Stage();
           dialog.initModality(Modality.APPLICATION_MODAL);
           dialog.initOwner(scene.getWindow());
-          Scene dialogScene =
-              new Scene(
-                  mapInsertController.getAnchorPane(),
-                  scene.getWindow().getWidth() / 2,
-                  scene.getWindow().getHeight() / 2);
+          Scene dialogScene = new Scene(mapInsertController.getAnchorPane(), 600, 400);
           dialog.setScene(dialogScene);
 
           // popupAnchor.setClip(popupAnchor);
@@ -225,7 +228,7 @@ public class RequestInfoPageController<label> extends SubPage {
             System.out.println("Floor could not be found");
             return;
           }
-          mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(floor));
+          mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(floor), false);
           MapController.CircleEx nodeCircle = mapInsertController.addNodeCircle(node);
           if (nodeCircle == null) {
             System.out.println("OOF");

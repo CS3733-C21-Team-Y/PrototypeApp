@@ -73,20 +73,6 @@
                               <Insets />
                            </opaqueInsets>
                         </JFXTextField>
-                        <JFXTextField fx:id="currentLocation" focusColor="#5a5c94" labelFloat="true" minHeight="30.0" prefHeight="243.0" prefWidth="324.0" promptText="Patient's Current Location" style="-fx-border-color: transparent;" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
-                           <GridPane.margin>
-                              <Insets top="4.0" />
-                           </GridPane.margin>
-                           <padding>
-                              <Insets bottom="10.0" top="10.0" />
-                           </padding>
-                           <font>
-                              <Font name="Calibri" size="12.0" />
-                           </font>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                        </JFXTextField>
                         <JFXTextField fx:id="desiredLocation" focusColor="#5a5c94" labelFloat="true" minHeight="30.0" prefHeight="256.0" prefWidth="324.0" promptText="Patient's Desired Location" style="-fx-border-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                            <padding>
                               <Insets bottom="10.0" top="10.0" />
@@ -140,6 +126,11 @@
                               </JFXButton>
                            </children>
                         </GridPane>
+                        <JFXComboBox fx:id="locationComboBox" focusColor="#5a5c94" labelFloat="true" minHeight="30.0" prefHeight="40.0" prefWidth="9999.0" promptText="Patient's Current Location" GridPane.columnIndex="1">
+                           <padding>
+                              <Insets bottom="10.0" top="10.0" />
+                           </padding>
+                        </JFXComboBox>
                      </children>
                   </GridPane>
                   </children>

@@ -49,7 +49,9 @@ public class MapController extends SubPage {
   @FXML private JFXNodesList floorList;
   @FXML private JFXButton currentFloorBtn;
 
-  private boolean isAdminPage;
+  private boolean isAdminPage = false;
+
+  private boolean isLocationPopUp = false;
   private boolean floorListOpen = false;
   // endregion
 
@@ -268,6 +270,14 @@ public class MapController extends SubPage {
 
   // region Getters and Setters
 
+  public boolean isLocationPopUp() {
+    return isLocationPopUp;
+  }
+
+  public void setLocationPopUp(boolean locationPopUp) {
+    isLocationPopUp = locationPopUp;
+  }
+
   public AnchorPane getAnchorPane() {
     return anchor;
   }
@@ -459,6 +469,10 @@ public class MapController extends SubPage {
   }
 
   protected void changeMapImage(MapController.MAP_PAGE floor) {
+    changeMapImage(floor, true);
+  }
+
+  protected void changeMapImage(MapController.MAP_PAGE floor, boolean animate) {
     switch (floor) {
       case FLOOR1:
         mapImageView.setImage(f1);
@@ -493,7 +507,9 @@ public class MapController extends SubPage {
         break;
     }
     floorList.animateList(false);
-    floorMenuAction();
+    if (animate) {
+      floorMenuAction();
+    }
   }
 
   protected void setNewMapImage(Image image, MapController.MAP_PAGE floor) {
@@ -1033,6 +1049,11 @@ public class MapController extends SubPage {
         scale = size / 1400.0;
         yShift = -adornerPane.getScene().getHeight() / 3.8;
         xShift = -adornerPane.getScene().getWidth() / 5.4;
+      } else if (isLocationPopUp) {
+        System.out.println("location pop up");
+        scale = size / 1700.0;
+        yShift = -540;
+        xShift = -900;
       } else {
         scale = size / 1400.0;
         yShift = -adornerPane.getScene().getHeight() / 3.8;

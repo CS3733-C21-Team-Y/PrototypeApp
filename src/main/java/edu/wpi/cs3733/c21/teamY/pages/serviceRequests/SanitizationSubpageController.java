@@ -3,19 +3,22 @@ package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
 public class SanitizationSubpageController extends GenericServiceFormPage {
 
-  @FXML private JFXComboBox locationField;
+  @FXML private JFXComboBox locationComboBox;
   @FXML private JFXComboBox urgency;
   @FXML private JFXComboBox biohazardLevel;
   @FXML private JFXComboBox employeeComboBox;
@@ -25,6 +28,10 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
   AutoCompleteComboBoxListener<String> urgencyAuto;
   AutoCompleteComboBoxListener<String> employeeAuto;
   AutoCompleteComboBoxListener<String> biohazardAuto;
+
+  Settings settings;
+  private ArrayList<Node> nodes = new ArrayList<Node>();
+  FuzzySearchComboBoxListener locationFuzzy;
 
   @FXML private JFXTextArea description;
 
@@ -36,9 +43,6 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
 
   private ArrayList<String> urgencies;
   private ArrayList<String> biohazardLevels;
-  private ArrayList<String> locationFields;
-
-  private Settings settings;
 
   public SanitizationSubpageController() {}
 
@@ -46,11 +50,11 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
   private void initialize() {
     settings = Settings.getSettings();
 
-    locationFields = new ArrayList<>();
-    locationFields.add("Emergency Room");
-    locationFields.add("Operating Theatre");
-    locationFields.add("Pediatrics Office");
-    locationFields.add("Intensive Care Unit");
+    try {
+      nodes = DataOperations.getListOfNodes();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
 
     urgencies = new ArrayList<>();
     urgencies.add("Low");
@@ -68,7 +72,6 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
     clearBtn.setOnAction(e -> clearButton());
 
     for (String c : urgencies) urgency.getItems().add(c);
-    for (String c : locationFields) locationField.getItems().add(c);
     for (String c : biohazardLevels) biohazardLevel.getItems().add(c);
 
     if (settings.getCurrentPermissions() == 3) {
@@ -85,10 +88,32 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
       employeeComboBox.setVisible(false);
     }
 
-    locationAuto = new AutoCompleteComboBoxListener<>(locationField);
     urgencyAuto = new AutoCompleteComboBoxListener<>(urgency);
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
     biohazardAuto = new AutoCompleteComboBoxListener<>(biohazardLevel);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
+
+    Platform.runLater(
+        () -> {
+          resetComboBoxes();
+        });
+  }
+
+  private void resetComboBoxes() {
+
+    locationComboBox.getItems().remove(0, locationComboBox.getItems().size());
+    for (Node node : nodes) {
+      String name = node.longName;
+      String type = node.nodeType;
+      // Filtering out the unwanted midway points
+      if (!type.equals("WALK")
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
+        locationComboBox.getItems().add(name);
+      }
+    }
+    locationFuzzy = new FuzzySearchComboBoxListener(locationComboBox);
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -96,7 +121,7 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
   }
 
   private void clearButton() {
-    locationField.setValue(null);
+    locationComboBox.setValue(null);
     description.setText("");
     biohazardLevel.setValue(null);
     urgency.setValue(null);
@@ -106,31 +131,35 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
   @FXML
   private void submitBtnClicked() {
 
-    clearIncomplete(locationField);
+    clearIncomplete(locationComboBox);
     clearIncomplete(urgency);
     clearIncomplete(biohazardLevel);
     clearIncomplete(description);
     clearIncomplete(employeeComboBox);
 
-    if (locationField.toString().equals("")
+    if (locationComboBox.getValue() == null
+        || !locationComboBox.getItems().contains(locationComboBox.getValue())
         || urgency.toString().equals("")
         || biohazardLevel.toString().equals("")
         || description.getText().equals("")) {
       if (description.getText().equals("")
           || (Settings.getSettings().getCurrentPermissions() == 3
-              && employeeComboBox.getValue() == null)) {
+              && ((employeeComboBox.getValue() == null)
+                  || !employeeComboBox.getItems().contains(employeeComboBox.getValue())))) {
         incomplete(description);
       }
       if (urgency.getValue() == null) {
         incomplete(urgency);
       }
-      if (locationField.getValue() == null) {
-        incomplete(locationField);
+      if (locationComboBox.getValue() == null
+          || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
+        incomplete(locationComboBox);
       }
       if (biohazardLevel.getValue() == null) {
         incomplete(biohazardLevel);
       }
-      if (employeeComboBox.getValue() == null) {
+      if (employeeComboBox.getValue() == null
+          || !employeeComboBox.getItems().contains(employeeComboBox.getValue())) {
         incomplete(employeeComboBox);
       }
       nonCompleteForm(stackPane);
@@ -139,7 +168,7 @@ public class SanitizationSubpageController extends GenericServiceFormPage {
       // put code for submitting a service request here
       Service service = new Service(DataOperations.generateUniqueID("SAN"), "Sanitization");
       // System.out.println(this.IDCount);
-      service.setLocation((String) locationField.getValue());
+      service.setLocation(locationComboBox.getValue().toString());
       service.setCategory((String) biohazardLevel.getValue());
       service.setDescription(description.getText());
       service.setAdditionalInfo("Urgency: " + (String) urgency.getValue());
