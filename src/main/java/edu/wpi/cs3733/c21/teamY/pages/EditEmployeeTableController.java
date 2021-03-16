@@ -36,6 +36,7 @@ public class EditEmployeeTableController extends SubPage {
   public JFXTreeTableColumn<TableEmployee, String> accessLevelCol;
   public JFXTreeTableColumn<TableEmployee, String> primaryWorkspaceCol;
   public JFXTreeTableColumn<TableEmployee, String> saltCol;
+  public JFXTreeTableColumn<TableEmployee, String> clearanceCol;
 
   private boolean expanded = false;
 
@@ -71,7 +72,7 @@ public class EditEmployeeTableController extends SubPage {
     parent.animateRightColumnWidth(30);
   }
 
-  private void exportToCSV() {
+  void exportToCSV() {
     try {
       DataOperations.DBtoCSV("NODE");
       DataOperations.DBtoCSV("EDGE");
@@ -82,7 +83,7 @@ public class EditEmployeeTableController extends SubPage {
     }
   }
 
-  private void expandTable() {
+  void expandTable() {
     if (!expanded) {
       parent.animateRightColumnWidth(800);
       expandIcon.setGlyphName("ANGLE_DOUBLE_RIGHT");
@@ -125,11 +126,12 @@ public class EditEmployeeTableController extends SubPage {
             emailCol,
             accessLevelCol,
             primaryWorkspaceCol,
-            saltCol);
+            saltCol,
+                clearanceCol);
   }
 
   public void subsetColumns() {
-    treeTable.getColumns().setAll(firstnameCol, lastnameCol, employeeIDCol);
+    treeTable.getColumns().setAll(firstnameCol, lastnameCol, employeeIDCol, clearanceCol);
   }
 
   public void populateColumns() {
@@ -213,6 +215,16 @@ public class EditEmployeeTableController extends SubPage {
             return saltCol.getComputedValue(param);
           }
         });
+      clearanceCol = new JFXTreeTableColumn<>("First Name");
+      clearanceCol.setPrefWidth(80);
+      clearanceCol.setCellValueFactory(
+              (TreeTableColumn.CellDataFeatures<TableEmployee, String> param) -> {
+                  if (clearanceCol.validateValue(param)) {
+                      return param.getValue().getValue().getCleared();
+                  } else {
+                      return clearanceCol.getComputedValue(param);
+                  }
+              });
 
     firstnameCol.setCellFactory(
         (TreeTableColumn<TableEmployee, String> param) ->
@@ -374,5 +386,25 @@ public class EditEmployeeTableController extends SubPage {
             throwables.printStackTrace();
           }
         });
+      clearanceCol.setCellFactory(
+              (TreeTableColumn<TableEmployee, String> param) ->
+                      new GenericEditableTreeTableCell<>(new TextFieldEditorBuilder()));
+      clearanceCol.setOnEditCommit(
+              (TreeTableColumn.CellEditEvent<TableEmployee, String> t) -> {
+                  t.getTreeTableView()
+                          .getTreeItem(t.getTreeTablePosition().getRow())
+                          .getValue()
+                          .getCleared()
+                          .set(t.getNewValue());
+                  try {
+                      DataOperations.update(
+                              new Employee(
+                                      t.getTreeTableView()
+                                              .getTreeItem(t.getTreeTablePosition().getRow())
+                                              .getValue()));
+                  } catch (SQLException throwables) {
+                      throwables.printStackTrace();
+                  }
+              });
   }
 }
