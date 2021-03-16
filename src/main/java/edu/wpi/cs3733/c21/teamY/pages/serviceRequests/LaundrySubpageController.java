@@ -5,12 +5,15 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -24,15 +27,17 @@ public class LaundrySubpageController extends GenericServiceFormPage {
   @FXML private JFXButton submitBtn;
   @FXML private JFXComboBox category;
   @FXML private JFXTextArea description;
-  @FXML private JFXComboBox locationField;
+  @FXML private JFXComboBox locationComboBox;
   @FXML private StackPane stackPane;
   @FXML private JFXComboBox employeeComboBox;
 
-  AutoCompleteComboBoxListener<String> locationAuto;
-  AutoCompleteComboBoxListener<String> categoryAuto;
+  Settings settings;
   AutoCompleteComboBoxListener<String> employeeAuto;
+  private ArrayList<Node> nodes = new ArrayList<Node>();
+  FuzzySearchComboBoxListener locationFuzzy;
 
-  private Settings settings;
+  AutoCompleteComboBoxListener<String> categoryAuto;
+  AutoCompleteComboBoxListener<String> locationAuto;
 
   private ArrayList<String> categories;
 
@@ -58,8 +63,11 @@ public class LaundrySubpageController extends GenericServiceFormPage {
     submitBtn.setCursor(Cursor.HAND);
     clearBtn.setCursor(Cursor.HAND);
 
-    for (String c : categories) category.getItems().add(c);
-    locationField.getItems().add("cafeteria");
+    try {
+      nodes = DataOperations.getListOfNodes();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
 
     if (settings.getCurrentPermissions() == 3) {
       employeeComboBox.setVisible(true);
@@ -74,9 +82,31 @@ public class LaundrySubpageController extends GenericServiceFormPage {
     } else {
       employeeComboBox.setVisible(false);
     }
-    locationAuto = new AutoCompleteComboBoxListener<>(locationField);
+
+    Platform.runLater(
+        () -> {
+          resetComboBoxes();
+        });
     categoryAuto = new AutoCompleteComboBoxListener<>(category);
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
+  }
+
+  private void resetComboBoxes() {
+
+    locationComboBox.getItems().remove(0, locationComboBox.getItems().size());
+    for (Node node : nodes) {
+      String name = node.longName;
+      String type = node.nodeType;
+      // Filtering out the unwanted midway points
+      if (!type.equals("WALK")
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
+        locationComboBox.getItems().add(name);
+      }
+    }
+    locationFuzzy = new FuzzySearchComboBoxListener(locationComboBox);
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -86,7 +116,7 @@ public class LaundrySubpageController extends GenericServiceFormPage {
   private void clearButton() {
     category.setValue(null);
     description.setText("");
-    locationField.setValue(null);
+    locationComboBox.setValue(null);
     employeeComboBox.getSelectionModel().clearSelection();
   }
 
@@ -96,24 +126,28 @@ public class LaundrySubpageController extends GenericServiceFormPage {
 
     clearIncomplete(category);
     clearIncomplete(description);
-    clearIncomplete(locationField);
+    clearIncomplete(locationComboBox);
     clearIncomplete(employeeComboBox);
 
     if (category.getValue() == null
         || description.getText().equals("")
-        || locationField.getValue() == null
+        || locationComboBox.getValue() == null
+        || !locationComboBox.getItems().contains(locationComboBox.getValue())
         || (Settings.getSettings().getCurrentPermissions() == 3
-            && employeeComboBox.getValue() == null)) {
+            && ((employeeComboBox.getValue() == null)
+                || !employeeComboBox.getItems().contains(employeeComboBox.getValue())))) {
       if (category.getValue() == null) {
         incomplete(category);
       }
       if (description.getText().equals("")) {
         incomplete(description);
       }
-      if (locationField.getValue() == null) {
-        incomplete(locationField);
+      if (locationComboBox.getValue() == null
+          || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
+        incomplete(locationComboBox);
       }
-      if (employeeComboBox.getValue() == null) {
+      if (employeeComboBox.getValue() == null
+          || !employeeComboBox.getItems().contains(employeeComboBox.getValue())) {
         incomplete(employeeComboBox);
       }
       nonCompleteForm(stackPane);
@@ -121,7 +155,7 @@ public class LaundrySubpageController extends GenericServiceFormPage {
 
       Service service = new Service(DataOperations.generateUniqueID("LAUN"), "Laundry");
       service.setCategory((String) category.getValue());
-      service.setLocation((String) locationField.getValue());
+      service.setLocation(locationComboBox.getValue().toString());
       service.setDescription(description.getText());
       System.out.println(settings.getCurrentUsername());
       service.setRequester(settings.getCurrentUsername());

@@ -125,12 +125,12 @@ public class ServiceRequestElementController extends SubPage {
   }
 
   public void openRequest() {
+    Settings.getSettings().setCurrentDisplayedService(service);
     parent.loadRightSubPage("RequestInfoPage.fxml");
     if (parent.isDesktop) {
       parent.setCenterColumnWidth(350);
     } else {
       parent.setCenterColumnWidth(0);
     }
-    Settings.getSettings().setCurrentDisplayedService(service);
   }
 }

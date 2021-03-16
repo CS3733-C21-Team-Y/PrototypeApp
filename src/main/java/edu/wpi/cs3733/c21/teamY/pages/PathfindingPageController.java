@@ -19,6 +19,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -713,7 +715,7 @@ public class PathfindingPageController extends SubPage {
                 break;
               }
             }
-            handleFloorChanged(e, floorChange);
+            handleFloorChanged(e, floorChange, false);
           }
         });
 
@@ -730,7 +732,7 @@ public class PathfindingPageController extends SubPage {
                 break;
               }
             }
-            handleFloorChanged(e, floorChange);
+            handleFloorChanged(e, floorChange, false);
           }
         });
   }
@@ -766,10 +768,15 @@ public class PathfindingPageController extends SubPage {
   //    // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   //  }
   private void handleFloorChanged(ActionEvent e, int menuItemIndex) {
+    handleFloorChanged(e, menuItemIndex, true);
+  }
+
+  private void handleFloorChanged(ActionEvent e, int menuItemIndex, boolean animate) {
     // This should be optimised to only switch if the floor actually changed, but its very fast, so
     // I cant be bothered
     mapInsertController.removeAllAdornerElements();
-    mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
+    mapInsertController.changeMapImage(
+        mapInsertController.getMapOrder().get(menuItemIndex), animate);
     mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
     drawPath(pathNodes);
     if (lastSelectedComboBox != null) {
@@ -832,20 +839,92 @@ public class PathfindingPageController extends SubPage {
     for (String direction : directionList) {
 
       Label newLabel = new Label(direction);
+
       for (String endLocation : endLocations) {
         if (direction.contains(graph.nodeFromID(endLocation).longName)
             && direction.contains("reached")) {
           newLabel.setStyle("-fx-font-weight:BOLD;");
+          Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/destinationIcon.png");
+          ImageView view = new ImageView(img);
+          view.setFitHeight(20);
+          view.setPreserveRatio(true);
+          newLabel.setGraphic(view);
+          newLabel.setWrapText(true);
+        }
+        if (direction.contains("to go to floor")) {
+          // newLabel.setStyle("-fx-font-style:italic;");
+          newLabel.setStyle("-fx-text-fill: GREEN");
+          // newLabel.setStyle("-fx-font-weight:BOLD;");
         }
       }
-      if (direction.contains("to go to floor")) {
-        // newLabel.setStyle("-fx-font-style:italic;");
-        newLabel.setStyle("-fx-text-fill: GREEN");
-        // newLabel.setStyle("-fx-font-weight:BOLD;");
+
+      if (direction.contains("turn around")) {
+        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/leftTurnAround.png");
+        ImageView view = new ImageView(img);
+        view.setFitHeight(20);
+        view.setPreserveRatio(true);
+        newLabel.setWrapText(true);
+        newLabel.setGraphic(view);
+      }
+      if (direction.contains("Turn left")) {
+        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/arrow_turn_left.png");
+        ImageView view = new ImageView(img);
+        view.setFitHeight(20);
+        view.setPreserveRatio(true);
+        newLabel.setWrapText(true);
+        newLabel.setGraphic(view);
+      }
+      if (direction.contains("Bear left")) {
+        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/bearLeft.png");
+        ImageView view = new ImageView(img);
+        view.setFitHeight(20);
+        view.setPreserveRatio(true);
+        newLabel.setGraphic(view);
+        newLabel.setWrapText(true);
+      }
+      if (direction.contains("Bear right")) {
+        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/bearRight.png");
+        ImageView view = new ImageView(img);
+        view.setFitHeight(20);
+        view.setPreserveRatio(true);
+        newLabel.setGraphic(view);
+        newLabel.setWrapText(true);
+      }
+      if (direction.contains("Turn right")) {
+        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/turnRight.png");
+        ImageView view = new ImageView(img);
+        view.setFitHeight(20);
+        view.setPreserveRatio(true);
+        newLabel.setGraphic(view);
+        newLabel.setWrapText(true);
+      }
+      if (direction.contains("Continue Straight")) {
+        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/straight.png");
+        ImageView view = new ImageView(img);
+        view.setFitHeight(20);
+        view.setPreserveRatio(true);
+        newLabel.setGraphic(view);
+        // newLabel.setWrapText(true);
+      }
+      if (direction.contains("use Staircase")) {
+        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/stairs.png");
+        ImageView view = new ImageView(img);
+        view.setFitHeight(20);
+        view.setPreserveRatio(true);
+        newLabel.setGraphic(view);
+        newLabel.setWrapText(true);
+      } else if (direction.contains("use Elevator")) {
+        Image img = new Image("edu/wpi/cs3733/c21/teamY/images/directions/elevator.png");
+        ImageView view = new ImageView(img);
+        view.setFitHeight(20);
+        view.setPreserveRatio(true);
+        newLabel.setGraphic(view);
+        newLabel.setWrapText(true);
       }
 
       textDirectionViewer.getChildren().add(newLabel);
       newLabel.toFront();
+      newLabel.setWrapText(true);
     }
   }
 

@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -54,7 +53,6 @@
                           </rowConstraints>
                           <children>
                               <JFXComboBox fx:id="langOptions" focusColor="#5a5c94" minHeight="40.0" prefHeight="40.0" prefWidth="999999.0" promptText="Language Needed" style="-fx-border-color: transparent;" GridPane.columnIndex="1" />
-                        <JFXTextField fx:id="locationField" minHeight="40.0" prefHeight="40.0" prefWidth="999999.0" promptText="Room Location" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <JFXTextArea fx:id="description" promptText="Description" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <padding>
                               <Insets bottom="10.0" top="10.0" />
@@ -82,6 +80,11 @@
                            </graphic>
                         </JFXButton>
                         <JFXComboBox fx:id="employeeComboBox" labelFloat="true" minHeight="50.0" prefWidth="9.999999999E9" promptText="Employee" unFocusColor="#5a5c94" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <padding>
+                              <Insets bottom="10.0" top="10.0" />
+                           </padding>
+                        </JFXComboBox>
+                        <JFXComboBox fx:id="locationComboBox" focusColor="#5a5c94" labelFloat="true" minHeight="30.0" prefHeight="40.0" prefWidth="9999.0" promptText="Location" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <padding>
                               <Insets bottom="10.0" top="10.0" />
                            </padding>

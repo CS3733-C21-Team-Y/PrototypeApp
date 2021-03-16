@@ -29,10 +29,9 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
   @FXML private JFXComboBox employeeComboBox;
   Settings settings;
   AutoCompleteComboBoxListener<String> employeeAuto;
+  AutoCompleteComboBoxListener<String> locationAuto;
   private ArrayList<Node> nodes = new ArrayList<Node>();
   FuzzySearchComboBoxListener locationFuzzy;
-
-  private Graph graph;
 
   @FXML private StackPane stackPane;
 
@@ -69,6 +68,7 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
       employeeComboBox.setVisible(false);
     }
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
 
     Platform.runLater(
         () -> {

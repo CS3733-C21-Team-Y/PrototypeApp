@@ -5,12 +5,15 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -34,7 +37,9 @@ public class ITSubpageController extends GenericServiceFormPage {
 
   @FXML private StackPane stackPane;
 
-  private Settings settings;
+  Settings settings;
+  private ArrayList<Node> nodes = new ArrayList<Node>();
+  FuzzySearchComboBoxListener locationFuzzy;
 
   public ITSubpageController() {}
 
@@ -53,11 +58,14 @@ public class ITSubpageController extends GenericServiceFormPage {
     categoryComboBox.getItems().add("Hardware");
     categoryComboBox.getItems().add("Software");
     categoryComboBox.getItems().add("Login");
-    locationComboBox.getItems().add("Nurse Station 1");
-    locationComboBox.getItems().add("Nurse Station 2");
-    locationComboBox.getItems().add("Admin Office");
     affectsComboBox.getItems().add("Floor Efficiency");
     affectsComboBox.getItems().add("Daily Tasks");
+
+    try {
+      nodes = DataOperations.getListOfNodes();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
 
     if (settings.getCurrentPermissions() == 3) {
       employeeComboBox.setVisible(true);
@@ -77,10 +85,32 @@ public class ITSubpageController extends GenericServiceFormPage {
     affectsAuto = new AutoCompleteComboBoxListener<>(affectsComboBox);
     locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
     categoryAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
+
+    Platform.runLater(
+        () -> {
+          resetComboBoxes();
+        });
   }
 
   private void buttonClicked(ActionEvent e) {
     if (e.getSource() == backBtn) parent.loadRightSubPage("ServiceRequestManagerSubpage.fxml");
+  }
+
+  private void resetComboBoxes() {
+
+    locationComboBox.getItems().remove(0, locationComboBox.getItems().size());
+    for (Node node : nodes) {
+      String name = node.longName;
+      String type = node.nodeType;
+      // Filtering out the unwanted midway points
+      if (!type.equals("WALK")
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
+        locationComboBox.getItems().add(name);
+      }
+    }
+    locationFuzzy = new FuzzySearchComboBoxListener(locationComboBox);
   }
 
   private void clearButton() {
@@ -103,14 +133,17 @@ public class ITSubpageController extends GenericServiceFormPage {
 
     if (categoryComboBox.getValue() == null
         || locationComboBox.getValue() == null
+        || !locationComboBox.getItems().contains(locationComboBox.getValue())
         || affectsComboBox.getValue() == null
         || description.getText().equals("")
         || (Settings.getSettings().getCurrentPermissions() == 3
-            && employeeComboBox.getValue() == null)) {
+            && ((employeeComboBox.getValue() == null)
+                || !employeeComboBox.getItems().contains(employeeComboBox.getValue())))) {
       if (categoryComboBox.getValue() == null) {
         incomplete(categoryComboBox);
       }
-      if (locationComboBox.getValue() == null) {
+      if (locationComboBox.getValue() == null
+          || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
         incomplete(locationComboBox);
       }
       if (affectsComboBox.getValue() == null) {
@@ -119,7 +152,8 @@ public class ITSubpageController extends GenericServiceFormPage {
       if (description.getText().equals("")) {
         incomplete(description);
       }
-      if (employeeComboBox.getValue() == null) {
+      if (employeeComboBox.getValue() == null
+          || !employeeComboBox.getItems().contains(employeeComboBox.getValue())) {
         incomplete(employeeComboBox);
       }
       nonCompleteForm(stackPane);

@@ -10,20 +10,215 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="604.0" prefWidth="671.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.AboutPageController">
+<AnchorPane prefHeight="1782.0" prefWidth="671.0" style="-fx-background-color: #9b9eb9 #9b9eb9 #9b9eb9;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.AboutPageController">
    <children>
-      <GridPane layoutX="14.0" prefHeight="384.0" prefWidth="591.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane layoutX="14.0" prefHeight="1782.0" prefWidth="671.0" AnchorPane.bottomAnchor="-424.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="187.0" minHeight="10.0" percentHeight="20.0" prefHeight="118.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="187.0" minHeight="10.0" percentHeight="20.0" prefHeight="118.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="288.0" minHeight="10.0" percentHeight="60.0" prefHeight="266.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="288.0" minHeight="10.0" percentHeight="60.0" prefHeight="266.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="1134.0" prefWidth="671.0" style="-fx-background-color: #9b9eb9;" vbarPolicy="NEVER" GridPane.rowIndex="1">
+               <content>
+                  <AnchorPane prefHeight="1325.0" prefWidth="669.0" style="-fx-background-color: #9b9eb9;">
+                     <children>
+                        <GridPane alignment="TOP_CENTER" layoutX="211.0" layoutY="22.0" prefHeight="1324.0" prefWidth="669.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints maxHeight="158.0" minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="158.0" minHeight="0.0" percentHeight="5.0" prefHeight="14.33331298828125" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="300.0" minHeight="100.0" prefHeight="260.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="126.0" minHeight="50.0" percentHeight="5.0" prefHeight="123.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="496.0" minHeight="350.0" prefHeight="350.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="496.0" minHeight="50.0" prefHeight="100.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="496.0" minHeight="100.0" prefHeight="300.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Yellow Yetis" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="26.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets top="10.0" />
+                                 </GridPane.margin>
+                              </Text>
+                              <VBox alignment="TOP_CENTER" prefHeight="254.0" prefWidth="669.0" GridPane.rowIndex="4">
+                                 <children>
+                                    <GridPane alignment="CENTER" prefHeight="267.0" prefWidth="669.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints maxHeight="212.0" minHeight="10.0" prefHeight="190.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="112.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <ImageView fx:id="imageView" fitHeight="160.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                             <image>
+                                                <Image url="/edu/wpi/cs3733/c21/teamY/images/Pat.PNG" />
+                                             </image>
+                                             <GridPane.margin>
+                                                <Insets top="10.0" />
+                                             </GridPane.margin>
+                                          </ImageView>
+                                          <Label fx:id="label" text="Pat Lee: Lead Engineer" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                             <font>
+                                                <Font name="System Bold" size="17.0" />
+                                             </font>
+                                             <GridPane.margin>
+                                                <Insets top="10.0" />
+                                             </GridPane.margin>
+                                          </Label>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WPI Professor and Advisor" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="26.0" />
+                                 </font>
+                                 <GridPane.margin>
+                                    <Insets bottom="30.0" />
+                                 </GridPane.margin>
+                              </Text>
+                              <GridPane GridPane.rowIndex="2">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" percentHeight="100.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="/edu/wpi/cs3733/c21/teamY/images/WilsonWong.jpg" />
+                                             </image>
+                                          </ImageView>
+                                          <Label text="Professor Wilson Wong" textAlignment="CENTER" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+                                       <children>
+                                          <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="/edu/wpi/cs3733/c21/teamY/images/WPI_logo.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Label text="TA Andrew Bonaventura" textAlignment="CENTER" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </GridPane>
+                              <VBox alignment="TOP_CENTER" prefHeight="488.0" prefWidth="669.0" GridPane.rowIndex="6" GridPane.valignment="TOP">
+                                 <children>
+                                    <Label text="Thank you to the Brigham &amp; Women's Hospital!" textAlignment="CENTER" wrapText="true">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </Label>
+                                    <ImageView fitHeight="124.0" fitWidth="109.0" pickOnBounds="true" preserveRatio="true">
+                                       <VBox.margin>
+                                          <Insets top="20.0" />
+                                       </VBox.margin>
+                                       <image>
+                                          <Image url="/edu/wpi/cs3733/c21/teamY/images/Hospital.jpg" />
+                                       </image>
+                                    </ImageView>
+                                    <Label text="Andrew Shinn: Brigham and Women’s Hospital Representative" textAlignment="CENTER" wrapText="true">
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" top="20.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label text="The Brigham &amp; Women’s Hospital maps and data used in this application are copyrighted and provided for the sole use of educational purposes" textAlignment="CENTER" wrapText="true">
+                                       <padding>
+                                          <Insets left="5.0" right="5.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hospital Assistance" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="26.0" />
+                                 </font>
+                              </Text>
+                              <HBox alignment="CENTER" prefHeight="141.0" prefWidth="671.0" style="-fx-background-color: #9b9eb9;">
+                                 <children>
+                                    <Label text="This project was done for WPI course CS3733. The project was completed by 11 students in the Yellow Yetis Group. This project couldn't have been completed without the help of our professor, advisor, and the hospital. Thank you all!" textAlignment="CENTER" wrapText="true">
+                                       <font>
+                                          <Font name="Calibri Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                              </HBox>
+                              <Text layoutX="237.0" layoutY="676.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="26.0" />
+                                 </font>
+                              </Text>
+                              <GridPane GridPane.rowIndex="8">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <GridPane GridPane.rowIndex="1">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="JFoenix v8.0.10" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <Label layoutX="37.0" layoutY="35.0" text="Font Awesome v8.9" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <Label layoutX="160.0" layoutY="35.0" text="Derby v10.14.2.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <Label layoutX="279.0" layoutY="35.0" text="SQLite JDBC v3.30.1" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <Label layoutX="424.0" layoutY="35.0" text="JUnit v4.12" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <Label layoutX="585.0" layoutY="35.0" text="Javax Mail v1.5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                          <Label layoutX="39.0" layoutY="102.0" text="Commons Email v1.5" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                          <Label layoutX="157.0" layoutY="102.0" text="GMapsFX v8.0.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                          <Label layoutX="302.0" layoutY="102.0" text="FuzzyWuzzy v1.3.1" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                          <Label layoutX="430.0" layoutY="102.0" text="Commons Lang v3.12.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                       </children>
+                                    </GridPane>
+                                    <Label text="This application would not be possible without the use of the following APIs" wrapText="true" GridPane.halignment="CENTER" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
             <GridPane style="-fx-background-color: #26274D;">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="45.0" prefWidth="100.0" />
@@ -54,295 +249,6 @@
                   </HBox>
                </children>
             </GridPane>
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #9b9eb9;" vbarPolicy="NEVER" GridPane.rowIndex="2">
-               <content>
-                  <AnchorPane prefHeight="2000.0" prefWidth="653.0" style="-fx-background-color: #9b9eb9;">
-                     <children>
-                        <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
-                                 <children>
-                                    <Label text="Professor Wilson Wong">
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <children>
-                                    <Label text="Andrew Bonaventura">
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
-                                 <children>
-                                    <Label text="Pat Lee: Lead Engineer">
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="7">
-                                 <children>
-                                    <Label text="Brian Boxell: Assistant Lead Engineer">
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="9">
-                                 <children>
-                                    <Label text="Samantha Braun: Project Manager">
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="11">
-                                 <children>
-                                    <Label text="Corinne Hartman: Documentation Analyst">
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="13">
-                                 <children>
-                                    <Label text="Ian Beazley: Algorithm Engineer">
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="15">
-                                 <children>
-                                    <Label text="Greg Klimov: UI/UX Engineer">
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.rowIndex="18">
-                                 <children>
-                                    <Label text="Andrew Shinn: Brigham and Women’s Hospital Representative " textAlignment="CENTER" wrapText="true">
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                                 <children>
-                                    <Label text="Lia Davis: Scrum Master">
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
-                                 <children>
-                                    <Label text="Cole Varney: Assistant Lead Engineer">
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11">
-                                 <children>
-                                    <Label text="Yonghua Wang: Database Engineer">
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
-                                 <children>
-                                    <Label text="Manjusha Chava: Product Ownerr">
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="13">
-                                 <children>
-                                    <Label text="Alex Corey: UI/UX Engineer">
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="15">
-                                 <children>
-                                    <Label>
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="18">
-                                 <children>
-                                    <Label>
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font></Label>
-                                 </children>
-                              </HBox>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/WilsonWong.jpg" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/WPI_logo.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Pat.PNG" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Lia.PNG" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Brian.PNG" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Cole.PNG" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Samantha.PNG" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Manjusha.PNG" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Corinne.PNG" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Yonghua.PNG" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="12" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Ian.PNG" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="12" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Alex.PNG" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="14" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Greg.PNG" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="17" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/Hospital.jpg" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="17" GridPane.valignment="CENTER">
-                                 <image>
-                                    <Image url="/edu/wpi/cs3733/c21/teamY/images/BWLogo.png" />
-                                 </image>
-                              </ImageView>
-                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2147483647">
-                                 <children>
-                                    <Label text="WPI Professor and Advisor" textAlignment="CENTER">
-                                       <font>
-                                          <Font name="Calibri Bold" size="36.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
-                                 <children>
-                                    <Label text="The Yellow Yetis" textOverrun="WORD_ELLIPSIS">
-                                       <font>
-                                          <Font name="Calibri Bold" size="36.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="16">
-                                 <children>
-                                    <Label text="Hospital Assistance" textOverrun="WORD_ELLIPSIS">
-                                       <font>
-                                          <Font name="Calibri Bold" size="36.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="18">
-                                 <children>
-                                    <Label text="And a huge thank you to Brigham and Women’s Hospital!" textAlignment="CENTER" wrapText="true">
-                                       <font>
-                                          <Font name="Calibri Bold" size="14.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </GridPane>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </ScrollPane>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #9b9eb9;" GridPane.rowIndex="1">
-               <children>
-                  <Label text="This project was done for WPI course CS3733. The project was completed by 11 students in the Yellow Yetis Group. This project couldn't have been completed without the help of our professor, advisor, and the hospital. Thank you all!" textAlignment="CENTER" wrapText="true">
-                     <font>
-                        <Font name="Calibri Bold" size="18.0" />
-                     </font>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets left="20.0" right="20.0" />
-               </padding>
-            </HBox>
          </children>
       </GridPane>
    </children>

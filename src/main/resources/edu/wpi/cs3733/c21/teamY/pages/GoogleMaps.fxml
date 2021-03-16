@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.dlsc.gmapsfx.GoogleMapView?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" fx:id="anchorPainPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.c21.teamY.pages.GoogleMapsController">
 <children>
@@ -21,8 +22,20 @@
           <GoogleMapView fx:id="mapView" />
          </children>
       </GridPane>
-    <TextField fx:id="fromTextField" onAction="#textFieldAction" prefHeight="27.0" prefWidth="222.0" promptText="From:" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-<!--    <TextField fx:id="toTextField" layoutX="10.0" layoutY="10.0" onAction="#toTextFieldAction" prefHeight="27.0" prefWidth="222.0" promptText="To:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0" />-->
-    <Button fx:id="clearButton" layoutX="180.0" layoutY="135.0" mnemonicParsing="false" onAction="#clearDirections" text="Clear" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0" />
+      <JFXTextField fx:id="fromTextField" focusColor="#5a5c94" labelFloat="true" onAction="#textFieldAction" prefHeight="27.0" prefWidth="222.0" promptText="Starting Location:" style="-fx-background-color: #efeff9;" unFocusColor="#5a5c94" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </JFXTextField>
+      <JFXButton fx:id="clearButton" onAction="#clearDirections" style="-fx-background-color: #efeff9;" text="Clear" textFill="#5a5c94" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="arrivedButton" layoutX="10.0" layoutY="10.0" onAction="#sendToPage" ripplerFill="#efeff9" style="-fx-background-color: #5a5c94;" text="I Have Arrived" textFill="#fff9f9" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </JFXButton>
 </children>
 </AnchorPane>

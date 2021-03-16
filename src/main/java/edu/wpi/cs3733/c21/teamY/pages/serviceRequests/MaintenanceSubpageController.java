@@ -3,12 +3,15 @@ package edu.wpi.cs3733.c21.teamY.pages.serviceRequests;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -24,7 +27,7 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
   @FXML private JFXTextArea description;
   @FXML private JFXComboBox urgency;
   @FXML private JFXDatePicker date2;
-  @FXML private JFXComboBox locationField;
+  @FXML private JFXComboBox locationComboBox;
   @FXML private StackPane stackPane;
   @FXML private JFXComboBox employeeComboBox;
   AutoCompleteComboBoxListener<String> locationAuto;
@@ -33,6 +36,8 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
   AutoCompleteComboBoxListener<String> categoryAuto;
 
   private Settings settings;
+  private ArrayList<Node> nodes = new ArrayList<Node>();
+  FuzzySearchComboBoxListener locationFuzzy;
 
   private ArrayList<String> categories;
   private ArrayList<String> urgencies;
@@ -55,10 +60,12 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
     urgencies.add("Low");
     urgencies.add("Medium");
     urgencies.add("High");
-    ArrayList<String> locations = new ArrayList<String>();
-    locations.add("Lobby");
-    locations.add("Roof");
-    locations.add("Cafeteria");
+
+    try {
+      nodes = DataOperations.getListOfNodes();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
     // attaches a handler to the button with a lambda expression
     /// clearBtn.setOnAction(e -> serviceButtonClicked(e, "MaintenancePage.fxml"));
 
@@ -71,7 +78,6 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
 
     for (String c : categories) category.getItems().add(c);
     for (String c : urgencies) urgency.getItems().add(c);
-    for (String c : locations) locationField.getItems().add(c);
     if (settings.getCurrentPermissions() == 3) {
       employeeComboBox.setVisible(true);
       try {
@@ -86,10 +92,31 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
       employeeComboBox.setVisible(false);
     }
 
-    locationAuto = new AutoCompleteComboBoxListener<>(locationField);
+    Platform.runLater(
+        () -> {
+          resetComboBoxes();
+        });
     urgencyAuto = new AutoCompleteComboBoxListener<>(urgency);
     employeeAuto = new AutoCompleteComboBoxListener<>(employeeComboBox);
     categoryAuto = new AutoCompleteComboBoxListener<>(category);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
+  }
+
+  private void resetComboBoxes() {
+
+    locationComboBox.getItems().remove(0, locationComboBox.getItems().size());
+    for (Node node : nodes) {
+      String name = node.longName;
+      String type = node.nodeType;
+      // Filtering out the unwanted midway points
+      if (!type.equals("WALK")
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
+        locationComboBox.getItems().add(name);
+      }
+    }
+    locationFuzzy = new FuzzySearchComboBoxListener(locationComboBox);
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -101,7 +128,7 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
     urgency.setValue(null);
     description.setText("");
     date2.setValue(null);
-    locationField.setValue(null);
+    locationComboBox.setValue(null);
     employeeComboBox.getSelectionModel().clearSelection();
   }
 
@@ -112,16 +139,18 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
     clearIncomplete(description);
     clearIncomplete(urgency);
     clearIncomplete(date2);
-    clearIncomplete(locationField);
+    clearIncomplete(locationComboBox);
     clearIncomplete(employeeComboBox);
 
     if (category.getValue() == null
         || description.getText().equals("")
         || urgency.getValue() == null
         || date2.getValue() == null
-        || locationField.getValue() == null
+        || locationComboBox.getValue() == null
+        || !locationComboBox.getItems().contains(locationComboBox.getValue())
         || (Settings.getSettings().getCurrentPermissions() == 3
-            && employeeComboBox.getValue() == null)) {
+            && ((employeeComboBox.getValue() == null)
+                || !employeeComboBox.getItems().contains(employeeComboBox.getValue())))) {
       if (category.getValue() == null) {
         incomplete(category);
       }
@@ -134,12 +163,15 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
       if (date2.getValue() == null) {
         incomplete(date2);
       }
-      if (locationField.getValue() == null) {
-        incomplete(locationField);
-        if (employeeComboBox.getValue() == null) {
-          incomplete(employeeComboBox);
-        }
+      if (locationComboBox.getValue() == null
+          || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
+        incomplete(locationComboBox);
       }
+      if (employeeComboBox.getValue() == null
+          || !employeeComboBox.getItems().contains(employeeComboBox.getValue())) {
+        incomplete(employeeComboBox);
+      }
+
       nonCompleteForm(stackPane);
     } else {
 
@@ -148,7 +180,7 @@ public class MaintenanceSubpageController extends GenericServiceFormPage {
       Service service = new Service(DataOperations.generateUniqueID("MAIN"), "Maintenance");
       // System.out.println(this.IDCount);
       service.setCategory((String) category.getValue());
-      service.setLocation((String) locationField.getValue());
+      service.setLocation(locationComboBox.getValue().toString());
       service.setDescription(description.getText());
       service.setAdditionalInfo("Urgency: " + (String) urgency.getValue());
       service.setDate(date2.getValue().toString());

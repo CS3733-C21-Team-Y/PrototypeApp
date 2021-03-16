@@ -25,7 +25,7 @@ public class ServiceRequestNavigatorController extends SubPage {
 
   @FXML public ScrollPane scrollPane;
   @FXML private VBox serviceBox;
-  @FXML private JFXButton button2;
+  @FXML private JFXButton export;
   @FXML private ToggleButton myRequestsBtn;
   @FXML private ToggleButton allRequestsBtn;
   @FXML private ToggleButton assignedBtn;
@@ -33,6 +33,7 @@ public class ServiceRequestNavigatorController extends SubPage {
   @FXML private JFXComboBox typeCombo;
   @FXML private JFXComboBox statusCombo;
   @FXML private JFXComboBox employeeCombo;
+  @FXML private JFXButton clearSortBtn;
 
   private Settings settings;
 
@@ -51,8 +52,10 @@ public class ServiceRequestNavigatorController extends SubPage {
 
     settings = Settings.getSettings();
 
-    button2.setOnAction(e -> exportServices());
-    button2.setCursor(Cursor.HAND);
+    export.setOnAction(e -> exportServices());
+    export.setCursor(Cursor.HAND);
+    export.setOnAction(e -> exportServices());
+    clearSortBtn.setOnAction(e -> clearSorts());
     myRequestsBtn.setOnAction(e -> filterByRequester());
     myRequestsBtn.setCursor(Cursor.HAND);
     assignedBtn.setOnAction(e -> filterByEmployee());
@@ -77,7 +80,7 @@ public class ServiceRequestNavigatorController extends SubPage {
           }
         });
 
-    Tooltip.install(button2, button2Tooltip);
+    Tooltip.install(export, button2Tooltip);
     Tooltip.install(myRequestsBtn, myRequestsBtnTooltip);
     Tooltip.install(allRequestsBtn, allRequestBtnTooltip);
     Tooltip.install(assignedBtn, assignedBtnTooltip);
@@ -173,6 +176,22 @@ public class ServiceRequestNavigatorController extends SubPage {
               }
               System.out.println("new type of service value is" + newValue);
             });
+  }
+
+  private void clearSorts() {
+    typeCombo.setValue(null);
+    statusCombo.setValue(null);
+    employeeCombo.setValue(null);
+    this.currentType = "";
+    this.currentStatus = 2;
+    this.currentEmployeeCombo = "";
+    if (myRequestsBtn.isSelected()) {
+      filterByRequester();
+    } else if (assignedBtn.isSelected()) {
+      filterByEmployee();
+    } else {
+      loadServicesFromDB();
+    }
   }
 
   @Override

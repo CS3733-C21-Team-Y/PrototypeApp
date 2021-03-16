@@ -11,7 +11,9 @@ import edu.wpi.cs3733.c21.teamY.dataops.JDBCUtils;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
 import edu.wpi.cs3733.c21.teamY.entity.Edge;
+import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -130,9 +132,26 @@ public class AdminPageController extends SubPage {
           x.add(nodes.get(2));
           x.add(nodes.get(3));
           */
+
           ArrayList<String> end = new ArrayList<>();
-          end.add("PLAB00101");
+          ArrayList<Service> services = new ArrayList<>();
+
+          try {
+            services = DataOperations.exportSortedService("Laundry", 2, "");
+          } catch (SQLException throwables) {
+            throwables.printStackTrace();
+          }
+          for (Service service : services) {
+            if (service.getEmployee().equals("robot")) {
+              end.add(ActiveGraph.getActiveGraph().longNodes.get(service.getLocation()).nodeID);
+              service.setStatus(1);
+            }
+          }
+          /* Brute force approach
+          end.add("PDEPT00601");
           end.add("PDEPT00201");
+           */
+          // This adds our starting location as the last point we go to
           end.add("PSERV00301");
           x = AlgorithmCalls.aStar(ActiveGraph.getActiveGraph(), "PSERV00301", end, "");
 

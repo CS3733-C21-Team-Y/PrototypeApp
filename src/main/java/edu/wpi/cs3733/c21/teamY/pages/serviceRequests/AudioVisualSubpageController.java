@@ -5,12 +5,15 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.c21.teamY.dataops.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.Employee;
+import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import edu.wpi.cs3733.c21.teamY.pages.GenericServiceFormPage;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -22,7 +25,7 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
   @FXML private Button avClearBtn;
   @FXML private Button avSubmitBtn;
   @FXML private JFXComboBox avTypeComboBox;
-  @FXML private JFXComboBox avLocationComboBox;
+  @FXML private JFXComboBox locationComboBox;
   @FXML private JFXComboBox avEmployeeComboBox;
   @FXML private JFXDatePicker avDate;
   @FXML private JFXTextArea avDesc;
@@ -31,7 +34,9 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
   AutoCompleteComboBoxListener<String> locationAuto;
   AutoCompleteComboBoxListener<String> employeeAuto;
 
-  private Settings settings;
+  Settings settings;
+  private ArrayList<Node> nodes = new ArrayList<Node>();
+  FuzzySearchComboBoxListener locationFuzzy;
 
   @FXML private StackPane stackPane;
 
@@ -42,10 +47,11 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
 
     settings = Settings.getSettings();
     // add combobox items
-    avTypeComboBox.getItems().add("Patient TV");
-    avTypeComboBox.getItems().add("Lecture Hall Setup");
-    avLocationComboBox.getItems().add("RM 124");
-    avLocationComboBox.getItems().add("Lecture Hall 1");
+    try {
+      nodes = DataOperations.getListOfNodes();
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
 
     if (settings.getCurrentPermissions() == 3) {
       avEmployeeComboBox.setVisible(true);
@@ -70,8 +76,30 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
     avClearBtn.setOnAction(e -> clearButton());
     avClearBtn.setCursor(Cursor.HAND);
     employeeAuto = new AutoCompleteComboBoxListener<>(avEmployeeComboBox);
-    locationAuto = new AutoCompleteComboBoxListener<>(avLocationComboBox);
+    locationAuto = new AutoCompleteComboBoxListener<>(locationComboBox);
     typeAuto = new AutoCompleteComboBoxListener<>(avTypeComboBox);
+
+    Platform.runLater(
+        () -> {
+          resetComboBoxes();
+        });
+  }
+
+  private void resetComboBoxes() {
+
+    locationComboBox.getItems().remove(0, locationComboBox.getItems().size());
+    for (Node node : nodes) {
+      String name = node.longName;
+      String type = node.nodeType;
+      // Filtering out the unwanted midway points
+      if (!type.equals("WALK")
+          && !type.equals("ELEV")
+          && !type.equals("HALL")
+          && !type.equals("STAI")) {
+        locationComboBox.getItems().add(name);
+      }
+    }
+    locationFuzzy = new FuzzySearchComboBoxListener(locationComboBox);
   }
 
   private void buttonClicked(ActionEvent e) {
@@ -81,8 +109,7 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
   private void clearButton() {
     avTypeComboBox.getSelectionModel().clearSelection();
     avTypeComboBox.setValue(null);
-    avLocationComboBox.getSelectionModel().clearSelection();
-    avLocationComboBox.setValue(null);
+    locationComboBox.setValue(null);
     avDate.setValue(null);
     avDesc.setText("");
     avEmployeeComboBox.getSelectionModel().clearSelection();
@@ -91,20 +118,23 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
   private void submitBtnClicked() {
     // put code for submitting a service request here
 
-    clearIncomplete(avLocationComboBox);
+    clearIncomplete(locationComboBox);
     clearIncomplete(avTypeComboBox);
     clearIncomplete(avDate);
     clearIncomplete(avDesc);
     clearIncomplete(avEmployeeComboBox);
 
-    if (avLocationComboBox.getValue() == null
+    if (locationComboBox.getValue() == null
+        || !locationComboBox.getItems().contains(locationComboBox.getValue())
         || avTypeComboBox.getValue() == null
         || avDesc.getText().equals("")
         || avDate.getValue() == null
         || (Settings.getSettings().getCurrentPermissions() == 3
-            && avEmployeeComboBox.getValue() == null)) {
-      if (avLocationComboBox.getValue() == null) {
-        incomplete(avLocationComboBox);
+            && ((avEmployeeComboBox.getValue() == null)
+                || !avEmployeeComboBox.getItems().contains(avEmployeeComboBox.getValue())))) {
+      if (locationComboBox.getValue() == null
+          || !locationComboBox.getItems().contains(locationComboBox.getValue())) {
+        incomplete(locationComboBox);
       }
       if (avTypeComboBox.getValue() == null) {
         incomplete(avTypeComboBox);
@@ -116,7 +146,8 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
         incomplete(avDate);
         incomplete(avDate);
       }
-      if (avEmployeeComboBox.getValue() == null) {
+      if (avEmployeeComboBox.getValue() == null
+          || !avEmployeeComboBox.getItems().contains(avEmployeeComboBox.getValue())) {
         incomplete(avEmployeeComboBox);
       }
       nonCompleteForm(stackPane);
@@ -124,7 +155,7 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
       Service service = new Service(DataOperations.generateUniqueID("AV"), "Audio Visual");
 
       service.setCategory((String) avTypeComboBox.getValue());
-      service.setLocation((String) avLocationComboBox.getValue());
+      service.setLocation(locationComboBox.getValue().toString());
       service.setDate(avDate.getValue().toString());
       service.setDescription(avDesc.getText());
       service.setRequester(settings.getCurrentUsername());

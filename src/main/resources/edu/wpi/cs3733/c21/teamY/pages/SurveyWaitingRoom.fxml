@@ -55,9 +55,9 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <JFXButton fx:id="refreshButton" buttonType="RAISED" prefHeight="37.0" prefWidth="107.0" style="-fx-background-color: #5a5c94;" text="Check Status" textFill="#fff9f9" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                              <JFXButton fx:id="refreshButton" buttonType="RAISED" minWidth="107.0" prefHeight="37.0" prefWidth="107.0" style="-fx-background-color: #5a5c94;" text="Check Status" textFill="#fff9f9" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER">
                                  <font>
-                                    <Font name="Calibri" size="16.0" />
+                                    <Font name="Calibri" size="14.0" />
                                  </font>
                                  <GridPane.margin>
                                     <Insets />

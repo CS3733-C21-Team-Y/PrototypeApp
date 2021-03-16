@@ -73,31 +73,6 @@
                               <Insets />
                            </opaqueInsets>
                                 </JFXTextField>
-                                <JFXTextField fx:id="currentLocation" focusColor="#5a5c94" labelFloat="true" minHeight="30.0" prefHeight="243.0" prefWidth="324.0" promptText="Patient's Current Location" style="-fx-border-color: transparent;" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
-                                    <GridPane.margin>
-                                        <Insets top="4.0" />
-                                    </GridPane.margin>
-                                    <padding>
-                                        <Insets bottom="10.0" top="10.0" />
-                                    </padding>
-                                    <font>
-                                        <Font name="Calibri" size="12.0" />
-                                    </font>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                                </JFXTextField>
-                                <JFXTextField fx:id="desiredLocation" focusColor="#5a5c94" labelFloat="true" minHeight="30.0" prefHeight="256.0" prefWidth="99999.0" promptText="Patient's Desired Location" style="-fx-border-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
-                                    <padding>
-                                        <Insets bottom="10.0" top="10.0" />
-                                    </padding>
-                                    <font>
-                                        <Font name="Calibri" size="12.0" />
-                                    </font>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                                </JFXTextField>
                                 <JFXButton fx:id="backBtn" alignment="TOP_CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-radius: 25;" text=" ">
                            <graphic>
                               <FontAwesomeIconView fill="#8d8ea4" glyphName="ANGLE_LEFT" size="35" />
@@ -140,6 +115,22 @@
                               </JFXButton>
                            </children>
                         </GridPane>
+                        <JFXComboBox fx:id="locationComboBox" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefHeight="68.0" prefWidth="1002.0" promptText="Patient's Current Location" style="-fx-border-color: transparent;" GridPane.columnIndex="1">
+                           <padding>
+                              <Insets bottom="10.0" top="10.0" />
+                           </padding>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </JFXComboBox>
+                        <JFXComboBox fx:id="locationComboBox2" focusColor="#5a5c94" labelFloat="true" minHeight="50.0" prefHeight="68.0" prefWidth="1002.0" promptText="Patient's Desired Location" style="-fx-border-color: transparent;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <padding>
+                              <Insets bottom="10.0" top="10.0" />
+                           </padding>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </JFXComboBox>
                             </children>
                         </GridPane>
                     </children>
