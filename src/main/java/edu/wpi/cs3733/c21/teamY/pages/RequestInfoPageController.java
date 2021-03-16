@@ -27,6 +27,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 public class RequestInfoPageController extends SubPage {
@@ -304,6 +306,15 @@ public class RequestInfoPageController extends SubPage {
       System.out.println("OOF");
     }
     mapInsertController.selectCircle(nodeCircle);
+    Circle bigCircle = new Circle();
+    bigCircle.setCenterX(nodeCircle.getCenterX());
+    bigCircle.setCenterY(nodeCircle.getCenterY());
+    bigCircle.setRadius(50);
+    bigCircle.setStrokeWidth(3);
+    bigCircle.setStroke(Color.BLUE);
+    bigCircle.setFill(Color.TRANSPARENT);
+    mapInsertController.getAdornerPane().getChildren().add(bigCircle);
+
     mapInsertController.hideFloorMenu();
   }
 }

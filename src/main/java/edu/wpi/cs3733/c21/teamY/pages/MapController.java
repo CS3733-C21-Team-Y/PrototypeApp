@@ -433,7 +433,7 @@ public class MapController extends SubPage {
 
   public void hideFloorMenu() {
     currentFloorBtn.setVisible(false);
-    reset.setVisible(false);
+    // reset.setVisible(false);
   }
 
   private void floorMenuAction() {
@@ -1057,8 +1057,8 @@ public class MapController extends SubPage {
         xShift = -1000;
       } else {
         scale = size / 1800.0;
-        yShift = -adornerPane.getScene().getHeight() / 3.8;
-        xShift = -adornerPane.getScene().getWidth() / 5.4;
+        yShift = -adornerPane.getScene().getHeight() / 2.5;
+        xShift = -adornerPane.getScene().getWidth() / 3.2;
       }
     } else {
       scale = 0.28;

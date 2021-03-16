@@ -5,17 +5,22 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
-import edu.wpi.cs3733.c21.teamY.dataops.FuzzySearchComboBoxListener;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.*;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
@@ -27,6 +32,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class PathfindingPageController extends SubPage {
 
@@ -36,11 +42,11 @@ public class PathfindingPageController extends SubPage {
 
   private MapController mapInsertController;
   //  @FXML private JFXButton resetView;
-  @FXML private ComboBox startLocationBox;
-  @FXML private ComboBox endLocationBox;
-
-  FuzzySearchComboBoxListener startLocationFuzzy;
-  FuzzySearchComboBoxListener endLocationFuzzy;
+  @FXML private ComboBox destinationCB1;
+  @FXML private ComboBox destinationCB2;
+  @FXML private VBox destinationsVBox;
+  @FXML private ScrollPane destinationScrollPane;
+  @FXML private SplitPane rightMenuSplitPane;
 
   @FXML private JFXButton bathroomBtn;
   @FXML private JFXButton cafeBtn;
@@ -49,6 +55,7 @@ public class PathfindingPageController extends SubPage {
   @FXML private JFXButton noStairsBtn;
   @FXML private GridPane overlayGridPane;
   @FXML private JFXButton multDestinationBtn;
+  @FXML private JFXButton optimizeButton;
 
   //  @FXML private Slider zoomSlider;
   //  @FXML private Button upButton;
@@ -75,7 +82,7 @@ public class PathfindingPageController extends SubPage {
   private ArrayList<Node> pathNodes = new ArrayList<Node>(); // Used to store path between floors
   private ComboBox lastSelectedComboBox = null;
   ArrayList<String> endLocations = new ArrayList<>();
-  Boolean addDest = false; // Toggle state of the add destinations button
+  // Boolean addDest = false; // Toggle state of the add destinations button
   // Used to save start/end node on a floor
   MapController.CircleEx startNode;
   MapController.CircleEx endNode;
@@ -92,6 +99,8 @@ public class PathfindingPageController extends SubPage {
   private boolean kiosk = false;
   private int nearestNodeRadius = 500;
 
+  private int intendedHeight = 90;
+
   private boolean textExpanded = false;
 
   // TooltipInstantiations
@@ -103,6 +112,10 @@ public class PathfindingPageController extends SubPage {
   Tooltip swapTooltip = new Tooltip("Click to swap your start and end destination");
   Tooltip multiDestTooltip =
       new Tooltip("Click to save the current destination to allow for additional destinations");
+  Tooltip optimizeTooltip = new Tooltip("Optimizes the current path");
+
+  private ArrayList<DestinationItemController> destinations =
+      new ArrayList<DestinationItemController>();
 
   /** Do not use it. It does nothing. */
   public PathfindingPageController() {}
@@ -140,7 +153,11 @@ public class PathfindingPageController extends SubPage {
     overlayGridPane.toFront();
 
     //    sideMenuVBox.setPickOnBounds(false);
-    exitDirectionBtn.setOnAction(e -> updateTextDirectionBox());
+    exitDirectionBtn.setOnAction(
+        e -> {
+          updateTextDirectionBox();
+          exitDirectionBtn.toFront();
+        });
     //         attaches a handler to the button with a lambda expression
 
     // Reset view button
@@ -154,6 +171,9 @@ public class PathfindingPageController extends SubPage {
 
     // Set the starting image early because otherwise it will flash default
 
+    // Init Graph
+    resetGraphNodesEdges();
+
     // tooltips
 
     Tooltip.install(bathroomBtn, bathroomTooltip);
@@ -162,6 +182,7 @@ public class PathfindingPageController extends SubPage {
     Tooltip.install(parkingBtn, parkingTooltip);
     Tooltip.install(noStairsBtn, noStairsTooltip);
     Tooltip.install(multDestinationBtn, multiDestTooltip);
+    Tooltip.install(optimizeButton, optimizeTooltip);
     Tooltip.install(swapLocationsBox, swapTooltip);
 
     JFXDialog dialog = new JFXDialog();
@@ -172,53 +193,19 @@ public class PathfindingPageController extends SubPage {
                 + "\n Hold SHIFT + Scroll to Pan left and right"
                 + "\n Reset brings back the original framing"));
 
-    // Node selection menus Keys
-    startLocationBox.setOnKeyPressed(
-        e -> {
-          if (e.getCode() == KeyCode.ENTER) {
-            calculatePath();
-          }
-        });
-
-    // Start and End location box events
-    startLocationBox
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (options, oldValue, newValue) -> {
-              if ((oldValue == null && newValue != null) || (!oldValue.equals(newValue))) {
-                calculatePath();
-              }
-            });
-    endLocationBox.setOnKeyPressed(
-        e -> {
-          if (e.getCode() == KeyCode.ENTER) {
-            calculatePath();
-          }
-        });
-    endLocationBox
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (options, oldValue, newValue) -> {
-              if ((oldValue == null && newValue != null) || (!oldValue.equals(newValue))) {
-                calculatePath();
-              }
-            });
-
     swapLocationsBox.setOnAction(
         e -> {
-          String startLoc = (String) startLocationBox.getValue();
-          startLocationBox.setValue(endLocationBox.getValue());
-          endLocationBox.setValue(startLoc);
+          flipPath();
         });
     multDestinationBtn.setOnAction(
         e -> {
-          addDest = true;
+          initializeNewDestination();
         });
 
-    startLocationBox.setOnAction(e -> lastSelectedComboBox = startLocationBox);
-    endLocationBox.setOnAction(e -> lastSelectedComboBox = endLocationBox);
+    optimizeButton.setOnAction(
+        e -> {
+          optimizePath();
+        });
 
     bathroomBtn.setOnAction(e -> detourBtnPressed(e));
     bathroomBtn.setCursor(Cursor.HAND);
@@ -245,11 +232,8 @@ public class PathfindingPageController extends SubPage {
     // zoomLabel.setText("Zoom");
 
     // Select startNodeBox
-    startLocationBox.requestFocus();
 
-    // Init Graph
-    resetGraphNodesEdges();
-    resetComboBoxes();
+    // resetComboBoxes();
     System.out.println("Made it one!");
     // this handles auto route calculation after covid survey determination
 
@@ -259,9 +243,9 @@ public class PathfindingPageController extends SubPage {
       System.out.println("Check complete!");
       int status = DataOperations.checkSurveyStatus(userId);
       if (status == 1) {
-        endLocationBox.setValue("Atrium Main Entrance");
+        destinationCB2.setValue("Atrium Main Entrance");
       } else if (status == 0) {
-        endLocationBox.setValue("Emergency Entrance");
+        destinationCB2.setValue("Emergency Entrance");
       }
     }
 
@@ -284,8 +268,13 @@ public class PathfindingPageController extends SubPage {
             resetBtn.setMinHeight(36);
             // ((JFXButton) menuItem).setStyle("-fx-font: 20");
             resetBtn.setStyle(
-                "-fx-font-size: 10; -fx-background-color: #5a5c94; -fx-text-fill:#efeff9; -fx-background-radius: 18; -fx-font-size: 8");
+                "-fx-background-color: #5a5c94; -fx-text-fill:#efeff9; -fx-background-radius: 18; -fx-font-size: 8");
           }
+
+          destinationCB1 = initializeNewDestination();
+          destinationCB2 = initializeNewDestination();
+          destinationCB1.requestFocus();
+          destinationCB2.setOnAction(e -> lastSelectedComboBox = destinationCB2);
 
           int i = -1;
           for (javafx.scene.Node menuItem : mapInsertController.getFloorList().getChildren()) {
@@ -306,6 +295,11 @@ public class PathfindingPageController extends SubPage {
                   .setStyle(
                       "-fx-font-size: 17; -fx-background-color: #5a5c94; -fx-text-fill: #efeff9; -fx-background-radius: 18");
               // HBox.setMargin(menuItem, new Insets(0, 50, 0, 0));
+              javafx.scene.Node currentFloor =
+                  mapInsertController.getFloorList().getChildren().get(0);
+              ((JFXButton) currentFloor)
+                  .setStyle(
+                      "-fx-font-size: 8; -fx-background-color: #5a5c94; -fx-text-fill: #efeff9; -fx-background-radius: 18");
             }
           }
 
@@ -345,7 +339,7 @@ public class PathfindingPageController extends SubPage {
           mapInsertController.setDisplayUnselectedAdorners(false);
 
           //          SubPage subPage = parent.rightPageController;
-          startLocationBox.requestFocus();
+          destinationCB1.requestFocus();
 
           setContextMenuActions();
           // overlayGridPane.maxWidthProperty().bind(getWidth());
@@ -367,7 +361,7 @@ public class PathfindingPageController extends SubPage {
                   });
           row1.maxHeightProperty().bind(anchor.getScene().heightProperty());
           try {
-            startLocationBox.setValue(
+            destinationCB1.setValue(
                 graph.nodeFromID(
                         DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()))
                     .longName);
@@ -402,7 +396,7 @@ public class PathfindingPageController extends SubPage {
       else kioskBtn.setStyle("-fx-background-color: transparent");
     } else if (e.getSource() == parkingBtn) {
       try {
-        endLocationBox.setValue(
+        destinationCB2.setValue(
             graph.nodeFromID(
                     DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername()))
                 .longName);
@@ -412,8 +406,11 @@ public class PathfindingPageController extends SubPage {
 
     } else if (e.getSource() == noStairsBtn) {
       noStairs = !noStairs;
-      String start = (String) startLocationBox.getValue();
-      String end = (String) endLocationBox.getValue();
+      ArrayList<String> cbvalues = new ArrayList<>();
+
+      for (DestinationItemController dest : destinations) {
+        cbvalues.add((String) dest.getDestinationCB().getValue());
+      }
 
       if (!noStairs) {
         noType = "";
@@ -426,8 +423,9 @@ public class PathfindingPageController extends SubPage {
       mapInsertController.removeAllAdornerElements();
       mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
-      startLocationBox.setValue(start);
-      endLocationBox.setValue(end);
+      for (int i = 0; i < cbvalues.size(); i++) {
+        destinations.get(i).getDestinationCB().setValue(i);
+      }
     }
     // Detour handling for multiple destinations
     System.out.println("End size " + endLocations.size());
@@ -443,7 +441,7 @@ public class PathfindingPageController extends SubPage {
         size--;
       }
     }
-    addDest = true;
+    // addDest = true;
 
     calculatePath();
   }
@@ -518,6 +516,28 @@ public class PathfindingPageController extends SubPage {
     }
   }
 
+  private void clearComboBoxValue(int cbIndex) {
+    ComboBox selectedBox = destinations.get(cbIndex).getDestinationCB();
+
+    if (selectedBox.getValue() != null) {
+
+      MapController.CircleEx oldNodeCircle = null;
+      Node oldNode = graph.longNodes.get((String) selectedBox.getValue());
+      if (oldNode == null) {
+        return;
+      }
+      String nodeId = oldNode.nodeID;
+      if (nodeId != null) {
+        oldNodeCircle =
+            (MapController.CircleEx) mapInsertController.getAdornerPane().lookup("#" + nodeId);
+      }
+
+      if (oldNodeCircle != null) {
+        mapInsertController.deSelectCircle(oldNodeCircle);
+      }
+    }
+  }
+
   /**
    * handleClickOnNode Functionality for clicking on a node
    *
@@ -526,53 +546,49 @@ public class PathfindingPageController extends SubPage {
   private void handleClickOnNode(MapController.CircleEx node) {
     if (!node.hasFocus || (node.hasFocus && isPathActive())) {
 
-      // Start node box is selected -> deselect old start node, use new one
-      if (startLocationBox.isFocused()) {
-        if (startLocationBox.getValue() != null && startNode != null) {
-          mapInsertController.deSelectCircle(startNode);
+      ComboBox selectedBox = null;
+      int index = -1;
+      for (DestinationItemController dest : destinations) {
+        index++;
+        if (dest.getDestinationCB().isFocused()) {
+          selectedBox = dest.getDestinationCB();
         }
-        startLocationBox.setValue(
-            graph.nodeFromID(node.getId()).longName); // startLocationBox.setValue(node.getId())
-        startNode = node;
-
-        mapInsertController.selectCircle(node);
       }
 
-      // End node box is selected -> deselect old end node, use new one
-      else if (endLocationBox.isFocused()) {
-        if (endLocationBox.getValue() != null) {
-          if (endLocationBox.getValue() != null && endNode != null) {
-            mapInsertController.deSelectCircle(endNode);
-          }
-        }
-        mapInsertController.selectCircle(node);
-        endNode = node;
-        endLocationBox.setValue(
-            graph.nodeFromID(node.getId()).longName); // endLocationBox.setValue(node.getId());
+      if (selectedBox == null) {
+        return;
       }
 
+      // Start node box is selected -> deselect old node, use new one
+      clearComboBoxValue(index);
+      selectedBox.setValue(
+          graph.nodeFromID(node.getId()).longName); // startLocationBox.setValue(node.getId())
+      startNode = node;
+
+      mapInsertController.selectCircle(node);
     }
     // Deselect start or end node
+    /*
     else {
-      if (startLocationBox.isFocused() && startLocationBox.getValue() != null) {
+      if (destinationCB1.isFocused() && destinationCB1.getValue() != null) {
         mapInsertController.deSelectCircle(node);
-        startLocationBox.setValue(null);
+        destinationCB1.setValue(null);
         startNode = null;
         clearPath();
         if (endNode != null) {
           mapInsertController.selectCircle(endNode);
         }
 
-      } else if (endLocationBox.isFocused() && endLocationBox.getValue() != null) {
+      } else if (destinationCB2.isFocused() && destinationCB2.getValue() != null) {
         mapInsertController.deSelectCircle(node);
-        endLocationBox.setValue(null);
+        destinationCB2.setValue(null);
         endNode = null;
         clearPath();
         if (startNode != null) {
           mapInsertController.selectCircle(startNode);
         }
       }
-    }
+    }*/
   }
 
   private boolean rightClicked;
@@ -593,12 +609,31 @@ public class PathfindingPageController extends SubPage {
         adornerTitleLabel.setText(node.longName);
       }
 
-      mapContextMenu
-          .getItems()
-          .addAll(adornerTitleLabel, separator1, selectStartNode, selectEndNode);
+      mapContextMenu.getItems().addAll(adornerTitleLabel, separator1, addDestination);
+
+      // if theres a selected thisng
+      ComboBox selectedBox = null;
+      int index = -1;
+      for (DestinationItemController dest : destinations) {
+        index++;
+        if (dest.getDestinationCB().isFocused()) {
+          selectedBox = dest.getDestinationCB();
+        }
+      }
+      if (selectedBox != null) {
+        mapContextMenu.getItems().add(selectDestination);
+        mapContextMenu.getItems().add(clearDestination);
+      }
+
+      if (rightClickedNode.hasFocus) {
+        mapContextMenu.getItems().add(removeDestination);
+        removeDestination.setDisable(destinations.size() <= 2);
+      }
+
+      mapContextMenu.getItems().addAll(separator1_5, selectStartNode, selectEndNode);
 
       if (pathActive) {
-        mapContextMenu.getItems().addAll(separator2, flipPath, clearPath);
+        mapContextMenu.getItems().addAll(separator2, flipPath, optimizePath, clearPath);
       }
 
       if (rightClickedNode.hasFocus
@@ -629,12 +664,12 @@ public class PathfindingPageController extends SubPage {
       }
 
       mapContextMenu.show(
-          mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+          mapInsertController.getContainerStackPane(), e.getScreenX(), e.getScreenY());
 
     } else if (pathActive) {
       mapContextMenu.getItems().addAll(flipPath, clearPath);
       mapContextMenu.show(
-          mapInsertController.getContainerStackPane(), e.getSceneX(), e.getSceneY());
+          mapInsertController.getContainerStackPane(), e.getScreenX(), e.getScreenY());
     }
   }
 
@@ -643,13 +678,20 @@ public class PathfindingPageController extends SubPage {
   MenuItem selectStartNode = new MenuItem("Select Start Location");
   MenuItem selectEndNode = new MenuItem("Select End Location");
 
+  MenuItem selectDestination = new MenuItem("Select Destination");
+  MenuItem removeDestination = new MenuItem("Remove Location");
+  MenuItem addDestination = new MenuItem("Add Destination");
+  MenuItem clearDestination = new MenuItem("Clear Destination");
+
   MenuItem clearPath = new MenuItem("Clear path");
   MenuItem flipPath = new MenuItem("Flip path");
+  MenuItem optimizePath = new MenuItem("Optimize path");
 
   MenuItem nextPath = new MenuItem("Continue on Path");
   MenuItem prevPath = new MenuItem("Return to Previous Path");
 
   SeparatorMenuItem separator1 = new SeparatorMenuItem();
+  SeparatorMenuItem separator1_5 = new SeparatorMenuItem();
   SeparatorMenuItem separator2 = new SeparatorMenuItem();
   SeparatorMenuItem separator3 = new SeparatorMenuItem();
   MenuItem adornerTitleLabel = new MenuItem();
@@ -660,14 +702,14 @@ public class PathfindingPageController extends SubPage {
 
     selectStartNode.setOnAction(
         e -> {
-          if (startLocationBox.getValue() != null && startNode != null) {
-            mapInsertController.deSelectCircle(startNode);
+          if (destinations.get(0).getDestinationCB().getValue() != null && startNode != null) {
+            clearComboBoxValue(0);
           }
 
           if (rightClickedNode != null) {
             Node node = graph.nodeFromID(rightClickedNode.getId());
             if (node != null) {
-              startLocationBox.setValue(node.longName);
+              destinations.get(0).getDestinationCB().setValue(node.longName);
               mapInsertController.selectCircle(rightClickedNode);
             }
           }
@@ -675,14 +717,15 @@ public class PathfindingPageController extends SubPage {
 
     selectEndNode.setOnAction(
         e -> {
-          if (endLocationBox.getValue() != null && endNode != null) {
+          if (destinations.get(destinations.size() - 1).getDestinationCB().getValue() != null
+              && endNode != null) {
             mapInsertController.deSelectCircle(endNode);
           }
 
           if (rightClickedNode != null) {
             Node node = graph.nodeFromID(rightClickedNode.getId());
             if (node != null) {
-              endLocationBox.setValue(node.longName);
+              destinations.get(destinations.size() - 1).getDestinationCB().setValue(node.longName);
               mapInsertController.selectCircle(rightClickedNode);
             }
           }
@@ -690,16 +733,12 @@ public class PathfindingPageController extends SubPage {
 
     clearPath.setOnAction(
         e -> {
-          startLocationBox.setValue("");
-          endLocationBox.setValue("");
-          clearPath();
+          clearDestinations();
         });
 
     flipPath.setOnAction(
         e -> {
-          String startLoc = (String) startLocationBox.getValue();
-          startLocationBox.setValue(endLocationBox.getValue());
-          endLocationBox.setValue(startLoc);
+          flipPath();
         });
 
     prevPath.setOnAction(
@@ -735,6 +774,50 @@ public class PathfindingPageController extends SubPage {
             handleFloorChanged(e, floorChange, false);
           }
         });
+
+    removeDestination.setOnAction(
+        e -> {
+          int index = 0;
+          String name = graph.nodeFromID(rightClickedNode.getId()).getLongName();
+          for (DestinationItemController dest : destinations) {
+            if (((String) dest.getDestinationCB().getValue()).equals(name)) {
+              break;
+            }
+            index++;
+          }
+          removeDestinations(index);
+        });
+
+    selectDestination.setOnAction(
+        e -> {
+          handleClickOnNode(rightClickedNode);
+        });
+
+    addDestination.setOnAction(
+        e -> {
+          initializeNewDestination();
+          handleClickOnNode(rightClickedNode);
+        });
+
+    clearDestination.setOnAction(
+        e -> {
+          ComboBox selectedBox = null;
+          int index = -1;
+          for (DestinationItemController dest : destinations) {
+            index++;
+            if (dest.getDestinationCB().isFocused()) {
+              selectedBox = dest.getDestinationCB();
+            }
+          }
+          if (selectedBox != null) {
+            selectedBox.setValue("");
+          }
+        });
+
+    optimizePath.setOnAction(
+        e -> {
+          optimizePath();
+        });
   }
 
   private void resetContextMenu() {
@@ -742,6 +825,30 @@ public class PathfindingPageController extends SubPage {
       mapContextMenu.getItems().remove(0, mapContextMenu.getItems().size());
       mapContextMenu.hide();
     }
+  }
+
+  private void flipPath() {
+    ArrayList<String> cbvalues = new ArrayList<>();
+    for (DestinationItemController dest : destinations) {
+      cbvalues.add((String) dest.getDestinationCB().getValue());
+    }
+
+    for (int i = 0; i < cbvalues.size(); i++) {
+      destinations.get(i).getDestinationCB().setValue(cbvalues.get(cbvalues.size() - 1 - i));
+    }
+  }
+
+  private void clearDestinations() {
+    mapInsertController.clearSelection();
+    int i = -1;
+    for (DestinationItemController dest : destinations) {
+      destinationsVBox.getChildren().remove(dest.getDestinationRootHBox());
+    }
+    intendedHeight = 90;
+    destinations = new ArrayList<>();
+    initializeNewDestination();
+    initializeNewDestination();
+    clearPath();
   }
 
   /**
@@ -810,14 +917,14 @@ public class PathfindingPageController extends SubPage {
         textDirectionsBox.setVisible(false);
         textDirectionViewer.setVisible(false);
         exitDirectionBtn.setText("Show Steps");
-
         parent.animateCenterColumnWidth(380);
+        exitDirectionBtn.toFront();
       } else {
         textDirectionsBox.setVisible(true);
         textDirectionViewer.setVisible(true);
         exitDirectionBtn.setText("Exit Steps");
-
         parent.animateCenterColumnWidth(0);
+        exitDirectionBtn.toFront();
       }
       textExpanded = !textExpanded;
     } else {
@@ -841,7 +948,7 @@ public class PathfindingPageController extends SubPage {
     for (String direction : directionList) {
 
       Label newLabel = new Label(direction);
-      newLabel.setMaxWidth(325);
+      newLabel.setMaxWidth(300);
       newLabel.setWrapText(true);
 
       for (String endLocation : endLocations) {
@@ -1024,6 +1131,224 @@ public class PathfindingPageController extends SubPage {
 
   // PATHFINDING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  private void optimizePath() {
+    ArrayList<String> ends = new ArrayList<>();
+    for (DestinationItemController dest : destinations) {
+      if (dest.getDestinationCB().getValue() != null && dest.getDestinationCB().getValue() != "") {
+        ends.add(graph.longNodes.get((String) dest.getDestinationCB().getValue()).nodeID);
+        System.out.println("Making of ends: " + ends);
+      }
+    }
+    clearDestinations();
+    for (int k = 0; k < ends.size() - 2; k++) {
+      initializeNewDestination();
+    }
+    String start = ends.get(0);
+    ends.remove(0);
+    endLocations = AlgorithmCalls.nearestNeighbor(graph, start, ends);
+
+    mapInsertController.clearSelection();
+
+    ArrayList<Node> algoNodes = runAlgo(graph, start, endLocations, noType);
+
+    if (bathroom) {
+      endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "REST");
+      algoNodes = runAlgo(graph, start, endLocations, noType);
+    }
+    if (restaurant) {
+      endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "FOOD");
+      algoNodes = runAlgo(graph, start, endLocations, noType);
+    }
+    if (kiosk) {
+      endLocations = AlgorithmCalls.dijkstraDetour(graph, algoNodes, endLocations, "KIOS");
+      algoNodes = runAlgo(graph, start, endLocations, noType);
+    }
+
+    pathNodes = algoNodes;
+    drawPath(pathNodes);
+
+    generateTextDirections(pathNodes);
+
+    int i = 0;
+    for (String endLocation : endLocations) {
+      DestinationItemController dest = destinations.get(i + 1);
+      if (i == 0) {
+        destinations.get(i).getDestinationCB().setValue(graph.nodeFromID(start).longName);
+      }
+      dest.getDestinationCB().setValue(graph.nodeFromID(endLocation).longName);
+      i++;
+    }
+  }
+
+  public void centerNodeInScrollPane(ScrollPane scrollPane, int index) {
+    double lengthdown = scrollPane.getHeight() * (index) / (destinations.size() - 1);
+    scrollPane.layout();
+    scrollPane.setVvalue(lengthdown);
+    /*
+    Timeline timeline = new Timeline();
+    timeline.getKeyFrames().clear();
+    timeline
+        .getKeyFrames()
+        .add(
+            new KeyFrame(
+                Duration.millis(500), new KeyValue(scrollPane.vvalueProperty(), lengthdown)));
+    timeline.play();*/
+  }
+
+  private ComboBox initializeNewDestination() {
+    if (parent.isDesktop) {
+      intendedHeight += 40;
+      double newHeight = (intendedHeight >= 370) ? 370 : intendedHeight;
+      Timeline timeline = new Timeline();
+      KeyValue kv2 =
+          new KeyValue(navigationHeaderVBox.minHeightProperty(), newHeight, Interpolator.EASE_IN);
+      KeyFrame kf = new KeyFrame(Duration.seconds(0.25), kv2);
+      timeline.getKeyFrames().add(kf);
+      timeline.play();
+    }
+
+    FXMLLoader fxmlLoader = new FXMLLoader();
+    DestinationItemController controller = null;
+    ComboBox output = null;
+    try {
+
+      javafx.scene.Node node =
+          fxmlLoader.load(getClass().getResource("DestinationItem.fxml").openStream());
+      controller = (DestinationItemController) fxmlLoader.getController();
+      controller.populateComboBox(nodes);
+      controller.index = destinations.size();
+      destinations.add(controller);
+      destinationsVBox.getChildren().add(node);
+      output = controller.getDestinationCB();
+
+      ComboBox destCB = controller.getDestinationCB();
+
+      controller.getIndexLabel().setText("" + (controller.index + 1) + ".");
+      controller
+          .getIndexLabel()
+          .setMinWidth(
+              controller.getIndexLabel().getText().length()
+                      * controller.getIndexLabel().getFont().getSize()
+                  + 2);
+      // Enter Pressed Event
+      destCB.setOnKeyPressed(
+          e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+              calculatePath();
+            }
+          });
+
+      // Value changed event
+      destCB
+          .getSelectionModel()
+          .selectedItemProperty()
+          .addListener(
+              (options, oldValue, newValue) -> {
+                if ((oldValue == null && newValue != null) || (!oldValue.equals(newValue))) {
+                  calculatePath();
+                }
+              });
+
+      // Last selected ComboBox setting
+      destCB.setOnAction(e -> lastSelectedComboBox = destCB);
+
+      DestinationItemController finalController = controller;
+
+      controller
+          .getUpBtn()
+          .setOnAction(
+              e -> {
+                swapDestinations(finalController.index, finalController.index - 1);
+                updateDestinationIndeces();
+              });
+      controller
+          .getDownBtn()
+          .setOnAction(
+              e -> {
+                swapDestinations(finalController.index, finalController.index + 1);
+                updateDestinationIndeces();
+              });
+
+      controller
+          .getRemoveBtn()
+          .setOnAction(
+              e -> {
+                removeDestinations(finalController.index);
+                updateDestinationIndeces();
+              });
+
+      refreshEnabledButtons();
+      controller.getDestinationCB().requestFocus();
+      lastSelectedComboBox = controller.getDestinationCB();
+      centerNodeInScrollPane(
+          destinationScrollPane, controller.index); // controller.getDestinationRootHBox());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return output;
+  }
+
+  // swaps text in comboboxes at ints a and b
+  private void swapDestinations(int a, int b) {
+    if (a < destinations.size() && b < destinations.size() && a >= 0 && b >= 0) {
+      String dest1 = (String) destinations.get(b).getDestinationCB().getValue();
+      destinations
+          .get(b)
+          .getDestinationCB()
+          .setValue(destinations.get(a).getDestinationCB().getValue());
+      destinations.get(a).getDestinationCB().setValue(dest1);
+      calculatePath();
+    }
+  }
+
+  private void removeDestinations(int index) {
+    if (parent.isDesktop) {
+      intendedHeight -= 40;
+      double newHeight =
+          (intendedHeight <= 170) ? 170 : (intendedHeight >= 370) ? 370 : intendedHeight;
+      Timeline timeline = new Timeline();
+      KeyValue kv2 =
+          new KeyValue(navigationHeaderVBox.minHeightProperty(), newHeight, Interpolator.EASE_IN);
+      KeyFrame kf = new KeyFrame(Duration.seconds(0.25), kv2);
+      timeline.getKeyFrames().add(kf);
+      timeline.play();
+    }
+    if (index < destinations.size() && index >= 0) {
+      clearComboBoxValue(index);
+
+      destinationsVBox.getChildren().remove(destinations.get(index).getDestinationRootHBox());
+      destinations.remove(index);
+      refreshEnabledButtons();
+      updateDestinationIndeces();
+      calculatePath();
+    }
+  }
+
+  private void updateDestinationIndeces() {
+    for (int i = 0; i < destinations.size(); i++) {
+      destinations.get(i).index = i;
+      destinations.get(i).getIndexLabel().setText("" + (i + 1) + ".");
+      destinations
+          .get(i)
+          .getIndexLabel()
+          .setMinWidth(
+              destinations.get(i).getIndexLabel().getText().length()
+                      * destinations.get(i).getIndexLabel().getFont().getSize()
+                  + 2);
+    }
+  }
+
+  private void refreshEnabledButtons() {
+    boolean closeButtonsEnabled = destinations.size() > 2;
+    for (DestinationItemController dest : destinations) {
+      dest.getRemoveBtn().setDisable(!closeButtonsEnabled);
+      dest.getUpBtn().setDisable(false);
+      dest.getDownBtn().setDisable(false);
+    }
+    destinations.get(0).getUpBtn().setDisable(true);
+    destinations.get(destinations.size() - 1).getDownBtn().setDisable(true);
+  }
+
   /** resetGraphNodesEdges sets graph, nodes, stairs, to updated values in ActiveGraph */
   private void resetGraphNodesEdges() {
     try {
@@ -1039,23 +1364,9 @@ public class PathfindingPageController extends SubPage {
 
   /** resetComboBoxes Resets node comboboxes with values from nodes and edges */
   private void resetComboBoxes() {
-    startLocationBox.getItems().remove(0, startLocationBox.getItems().size());
-    endLocationBox.getItems().remove(0, endLocationBox.getItems().size());
-
-    for (Node node : nodes) {
-      String name = node.longName;
-      String type = node.nodeType;
-      // Filtering out the unwanted midway points
-      if (!type.equals("WALK")
-          && !type.equals("ELEV")
-          && !type.equals("HALL")
-          && !type.equals("STAI")) {
-        startLocationBox.getItems().add(name);
-        endLocationBox.getItems().add(name);
-      }
+    for (DestinationItemController dest : destinations) {
+      dest.populateComboBox(nodes);
     }
-    startLocationFuzzy = new FuzzySearchComboBoxListener(startLocationBox);
-    endLocationFuzzy = new FuzzySearchComboBoxListener(endLocationBox);
   }
 
   /**
@@ -1071,16 +1382,39 @@ public class PathfindingPageController extends SubPage {
   /** calculatePath Calculates the path between two nodes in the comboboxes and saves it to path */
   public void calculatePath() {
     clearPath();
-    if (startLocationBox.getValue() != null && endLocationBox.getValue() != null) {
-      String endID =
-          graph.longNodes.get((String) endLocationBox.getValue())
-              .nodeID; // (String) endLocationBox.getValue();
-      endLocations.add(endID);
-      String startID =
-          graph.longNodes.get((String) startLocationBox.getValue())
-              .nodeID; // (String) startLocationBox.getValue();
 
-      if (graph.longNodes.get((String) startLocationBox.getValue()).nodeType.equals("PARK")) {
+    ArrayList<DestinationItemController> effectiveDests = new ArrayList<>();
+    int numLocations = 0;
+    for (DestinationItemController dest : destinations) {
+      if (dest.getDestinationCB().getValue() != null
+          && !dest.getDestinationCB().getValue().equals("")) {
+        numLocations++;
+        effectiveDests.add(dest);
+      }
+    }
+
+    if (numLocations > 1
+        && destinations.get(0).getDestinationCB().getValue() != null
+        && !destinations.get(0).getDestinationCB().getValue().equals("")) {
+
+      String startID =
+          graph.longNodes.get((String) effectiveDests.get(0).getDestinationCB().getValue()).nodeID;
+
+      for (int i = 1; i < effectiveDests.size(); i++) {
+        DestinationItemController dest = effectiveDests.get(i);
+        if (dest.getDestinationCB().getValue() != null) {
+          String endID =
+              graph.longNodes.get((String) dest.getDestinationCB().getValue())
+                  .nodeID; // (String) endLocationBox.getValue();
+          endLocations.add(endID);
+        }
+      }
+
+      if (graph
+          .longNodes
+          .get((String) effectiveDests.get(0).getDestinationCB().getValue())
+          .nodeType
+          .equals("PARK")) {
         try {
           if (DataOperations.findCarLocation(Settings.getSettings().getCurrentUsername())
               .equals("")) {
@@ -1115,7 +1449,6 @@ public class PathfindingPageController extends SubPage {
       drawPath(pathNodes);
 
       generateTextDirections(pathNodes);
-      addDest = false;
     }
   }
 
@@ -1193,9 +1526,7 @@ public class PathfindingPageController extends SubPage {
     pathActive = false;
     mapInsertController.clearSelection();
     pathNodes = new ArrayList<Node>();
-    if (!addDest) {
-      endLocations = new ArrayList<String>();
-    }
+    endLocations = new ArrayList<String>();
     textDirectionViewer.getChildren().clear();
   }
 
