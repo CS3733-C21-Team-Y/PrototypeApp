@@ -856,6 +856,16 @@ public class PathfindingPageController extends SubPage {
         if (direction.contains("to go to floor")) {
           // newLabel.setStyle("-fx-font-style:italic;");
           newLabel.setStyle("-fx-text-fill: GREEN");
+          newLabel.setOnMouseClicked(
+              event -> {
+                parent.loadRightSubPage("ForgotPasswordPage.fxml");
+              });
+          //          Button button = new Button(newLabel.getText());
+          //          button.setOnAction(
+          //              event -> {
+          //                parent.loadRightSubPage("ForgotPasswordPage.fxml");
+          //              });
+
           // newLabel.setStyle("-fx-font-weight:BOLD;");
         }
       }
@@ -975,10 +985,9 @@ public class PathfindingPageController extends SubPage {
           grid.add(arrOfArr.get(i).get(j), 0, j);
           arrOfArr.get(i).get(j).setWrapText(true);
         }
-        int floorNum = i + 1;
+
         gridTitlePane.setContent(grid);
         // replace text from arraylist of text
-        // gridTitlePane.setText(arrOfArr.get(i).get(i).getText());
         gridTitlePane.setText(paneList.get(i));
 
         gridTitlePane.setWrapText(true);
