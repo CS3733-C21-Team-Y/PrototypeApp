@@ -3,6 +3,7 @@ package edu.wpi.cs3733.c21.teamY.pages;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import edu.wpi.cs3733.c21.teamY.entity.ActiveGraph;
@@ -12,17 +13,20 @@ import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 public class RequestInfoPageController extends SubPage {
   @FXML private Label title;
@@ -35,15 +39,37 @@ public class RequestInfoPageController extends SubPage {
   @FXML private Label requestID;
   @FXML private Label employee;
   @FXML private Label description;
+  @FXML private Label typeLabel;
+  @FXML private Label categoryLabel;
+  @FXML private Label urgencyLabel;
+  @FXML private Label dateLabel;
+  @FXML private Label requesterLabel;
+  @FXML private Label requestIDLabel;
+  @FXML private Label employeeLabel;
+
+  @FXML private JFXButton collapseMapBtn;
+  @FXML private RowConstraints row1;
+  @FXML private RowConstraints contentRow;
+  @FXML private RowConstraints row2;
+  @FXML private RowConstraints row3;
+  @FXML private RowConstraints row4;
+  @FXML private RowConstraints row5;
+  @FXML private RowConstraints row6;
+  @FXML private RowConstraints row7;
+  @FXML private RowConstraints row8;
+  @FXML private VBox mapVBox;
   //  //  @FXML private VBox leftBox;
   //  //  @FXML private VBox centerBox;
   //  //  @FXML private VBox rightBox;
   @FXML private JFXButton submitBtn;
   @FXML private JFXComboBox employeeComboBox;
   @FXML private JFXButton backBtn;
+  @FXML private FontAwesomeIconView expandIcon;
   // @FXML private AnchorPane annoyingVbox;
+
   Scene scene;
 
+  private boolean expanded = false;
   // private boolean desktop;
 
   private Service service;
@@ -54,11 +80,16 @@ public class RequestInfoPageController extends SubPage {
 
   @FXML
   private void initialize() {
-    Platform.runLater(() -> loadInformation());
+    Platform.runLater(
+        () -> {
+          loadInformation();
+          configSeeLocationButton();
+        });
     leftArea = new JFXTextField();
     centerArea = new JFXTextField();
     saveBtn = new JFXButton();
     saveBtn.setOnAction(e -> buttonClicked(e));
+    collapseMapBtn.setOnAction(e -> expandMap());
     submitBtn.setOnAction(e -> submitEmployee());
     backBtn.setOnAction(e -> back());
     // desktop = parent.isDesktop;
@@ -71,6 +102,53 @@ public class RequestInfoPageController extends SubPage {
     } catch (SQLException throwables) {
       throwables.printStackTrace();
     }
+  }
+
+  private void expandMap() {
+    if (!expanded) {
+      // expand the map
+      animateMap(600);
+      expandIcon.setGlyphName("ANGLE_DOUBLE_UP");
+    } else {
+      // collapse the map;
+      animateMap(0);
+      expandIcon.setGlyphName("ANGLE_DOUBLE_DOWN");
+    }
+    expanded = !expanded;
+  }
+
+  private void animateMap(int height) {
+    if (expanded) {
+      hideLabels(!expanded, height);
+    } else {
+      row1.setMaxHeight(height);
+    }
+
+    Timeline timeline = new Timeline();
+
+    ArrayList<KeyValue> values = new ArrayList<KeyValue>();
+
+    KeyValue kv2 = new KeyValue(row1.prefHeightProperty(), height, Interpolator.EASE_IN);
+
+    // KeyFrame kf = new KeyFrame(Duration.seconds(1), kv2);
+    KeyFrame kf = new KeyFrame(Duration.seconds(0.5), kv2);
+    // KeyFrame kf = new KeyFrame(Duration.seconds(1), kv2);
+    timeline.getKeyFrames().add(kf);
+    timeline.setOnFinished(event -> hideLabels(expanded, height));
+
+    // centerPane.setMinWidth(width);
+    timeline.play();
+  }
+
+  private void hideLabels(boolean visible, double height) {
+    typeLabel.setVisible(!visible);
+    urgencyLabel.setVisible(!visible);
+    dateLabel.setVisible(!visible);
+    requesterLabel.setVisible(!visible);
+    requestIDLabel.setVisible(!visible);
+    employeeLabel.setVisible(!visible);
+    categoryLabel.setVisible(!visible);
+    row1.setMaxHeight(height);
   }
 
   private void submitEmployee() {
@@ -171,71 +249,58 @@ public class RequestInfoPageController extends SubPage {
   //    return controller;
   //  }
 
-  private void configSeeLocationButton(ServiceRequestInfoElementController locationController) {
-    HBox dataHBox = locationController.getDataHBox();
-    Button viewLocationButtton = new Button();
-    viewLocationButtton.setText("View Location");
-    viewLocationButtton.setOnAction(
-        e -> {
-          MapController mapInsertController = null;
-          FXMLLoader fxmlLoader = new FXMLLoader();
-          try {
-            Node node = fxmlLoader.load(getClass().getResource("MapUserControl.fxml").openStream());
-            mapInsertController = (MapController) fxmlLoader.getController();
-            mapInsertController.setParent(parent);
-            mapInsertController.setAdminPage(false);
-            mapInsertController.setLocationPopUp(true);
-            // call method before page load
-          } catch (IOException exception) {
-            exception.printStackTrace();
-          }
-          if (mapInsertController == null) {
-            return;
-          }
+  private void configSeeLocationButton() {
+    MapController mapInsertController = null;
+    FXMLLoader fxmlLoader = new FXMLLoader();
+    try {
+      Node node = fxmlLoader.load(getClass().getResource("MapUserControl.fxml").openStream());
+      mapInsertController = (MapController) fxmlLoader.getController();
+      mapInsertController.setParent(parent);
+      mapInsertController.setAdminPage(false);
+      mapInsertController.setLocationPopUp(true);
+      mapVBox.getChildren().add(node);
+      // call method before page load
+    } catch (IOException exception) {
+      exception.printStackTrace();
+    }
+    if (mapInsertController == null) {
+      return;
+    }
 
-          final Stage dialog = new Stage();
-          dialog.initModality(Modality.APPLICATION_MODAL);
-          dialog.initOwner(scene.getWindow());
-          Scene dialogScene = new Scene(mapInsertController.getAnchorPane(), 600, 400);
-          dialog.setScene(dialogScene);
+    // popupAnchor.setClip(popupAnchor);
 
-          // popupAnchor.setClip(popupAnchor);
+    Graph graph = null;
+    try {
+      graph = ActiveGraph.getActiveGraph();
+    } catch (Exception exception) {
+    }
+    if (graph == null) {
+      return;
+    }
 
-          Graph graph = null;
-          try {
-            graph = ActiveGraph.getActiveGraph();
-          } catch (Exception exception) {
-          }
-          if (graph == null) {
-            return;
-          }
+    String longname = service.getLocation();
+    edu.wpi.cs3733.c21.teamY.entity.Node node = graph.longNodes.get(longname);
+    if (node == null) {
+      System.out.println("Node not found " + longname);
+      return;
+    }
+    Integer floor = null;
+    try {
+      floor = Integer.parseInt(node.floor);
+    } catch (Exception ee) {
+      ee.printStackTrace();
+    }
 
-          String longname = locationController.getData().getText();
-          edu.wpi.cs3733.c21.teamY.entity.Node node = graph.longNodes.get(longname);
-          if (node == null) {
-            System.out.println("Node not found " + longname);
-            return;
-          }
-          Integer floor = null;
-          try {
-            floor = Integer.parseInt(node.floor);
-          } catch (Exception ee) {
-            ee.printStackTrace();
-          }
-
-          if (floor == null) {
-            System.out.println("Floor could not be found");
-            return;
-          }
-          mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(floor), false);
-          MapController.CircleEx nodeCircle = mapInsertController.addNodeCircle(node);
-          if (nodeCircle == null) {
-            System.out.println("OOF");
-          }
-          mapInsertController.selectCircle(nodeCircle);
-          mapInsertController.hideFloorMenu();
-          dialog.show();
-        });
-    dataHBox.getChildren().add(viewLocationButtton);
+    if (floor == null) {
+      System.out.println("Floor could not be found");
+      return;
+    }
+    mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(floor), false);
+    MapController.CircleEx nodeCircle = mapInsertController.addNodeCircle(node);
+    if (nodeCircle == null) {
+      System.out.println("OOF");
+    }
+    mapInsertController.selectCircle(nodeCircle);
+    mapInsertController.hideFloorMenu();
   }
 }
