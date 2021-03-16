@@ -260,4 +260,13 @@ public class DataOperations {
   public static void markAsNotCleared(String employeeID) {
     JDBCUtils.markAsNotCleared(employeeID);
   }
+
+  public static Employee locateEmployee(String id) {
+    try {
+      return JDBCUtils.locateEmployee(id);
+    } catch (SQLException throwables) {
+      throwables.printStackTrace();
+    }
+    return null;
+  }
 }

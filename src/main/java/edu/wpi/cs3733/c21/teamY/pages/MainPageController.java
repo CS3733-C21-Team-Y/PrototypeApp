@@ -61,7 +61,7 @@ public class MainPageController {
   public boolean tableExpanded = false;
 
   // tooltip Initializations
-  Tooltip origSignInBtnTooltip = new Tooltip("Navigate to Login Page");
+  Tooltip origSignInBtnTooltip = new Tooltip("Navigate to your profile");
   Tooltip origNavigationBtnTooltip = new Tooltip("Navigate to Navigation Page");
   Tooltip origServiceRequestTooltip = new Tooltip("Navigate to Request Page");
   Tooltip origAdminToolsTooltip = new Tooltip("Navigate to Admin Page");
@@ -214,8 +214,14 @@ public class MainPageController {
 
         // instance.setCenterColumnWidth(200);
       }
-    } else if (e.getSource() == origSignInBtn) instance.loadRightSubPage("LoginPage.fxml");
-    else if (e.getSource() == origSignOutBtn) {
+    } else if (e.getSource() == origSignInBtn) {
+      if (Settings.getSettings().getCurrentPermissions() == -1) {
+        instance.loadRightSubPage("LoginPage.fxml");
+      } else {
+        instance.loadRightSubPage("UserProfilePage.fxml");
+      }
+
+    } else if (e.getSource() == origSignOutBtn) {
       // PAT PAT PAT LOOK HERE PLEASE PAT PAT
       // I looked - Pat
       Settings.getSettings().logout();

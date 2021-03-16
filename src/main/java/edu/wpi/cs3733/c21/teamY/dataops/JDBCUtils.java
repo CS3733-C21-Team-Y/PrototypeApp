@@ -1286,4 +1286,43 @@ public class JDBCUtils {
     }
     return false;
   }
+
+  public static Employee locateEmployee(String id) throws SQLException {
+    String query = "select * from ADMIN.EMPLOYEE where ADMIN.EMPLOYEE.EMPLOYEEID=?";
+    PreparedStatement ps = getConn().prepareStatement(query);
+    ps.setString(1, id);
+    ResultSet rs = ps.executeQuery();
+    String firstName;
+    String lastName;
+    String employeeID;
+    String password;
+    String email;
+    int accessLevel;
+    String primaryWorkspace;
+    String salt;
+    Employee employee = null;
+    while (rs.next()) {
+      firstName = rs.getString(1);
+      lastName = rs.getString(2);
+      employeeID = rs.getString(3);
+      password = rs.getString(4);
+      email = rs.getString(5);
+      accessLevel = rs.getInt(6);
+      primaryWorkspace = rs.getString(7);
+      salt = rs.getString(8);
+      employee =
+          new Employee(
+              firstName,
+              lastName,
+              employeeID,
+              password,
+              email,
+              accessLevel,
+              primaryWorkspace,
+              salt);
+    }
+    rs.close();
+    ps.close();
+    return employee;
+  }
 }
