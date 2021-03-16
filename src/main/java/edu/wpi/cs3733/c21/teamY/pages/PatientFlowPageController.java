@@ -81,7 +81,11 @@ public class PatientFlowPageController extends SubPage {
           Settings.getSettings().getCurrentUsername())) {
         parent.loadRightSubPage("SurveyWaitingRoom.fxml");
       } else {
-        parent.loadRightSubPage("CovidScreening.fxml");
+        if (parent.isDesktop) {
+          parent.loadRightSubPage("CovidScreening.fxml");
+        } else if (!parent.isDesktop) {
+          parent.loadRightSubPage("CovidScreeningMobile.fxml");
+        }
       }
     }
   }
