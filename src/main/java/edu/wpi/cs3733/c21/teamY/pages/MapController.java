@@ -433,7 +433,7 @@ public class MapController extends SubPage {
 
   public void hideFloorMenu() {
     currentFloorBtn.setVisible(false);
-    reset.setVisible(false);
+    // reset.setVisible(false);
   }
 
   private void floorMenuAction() {
