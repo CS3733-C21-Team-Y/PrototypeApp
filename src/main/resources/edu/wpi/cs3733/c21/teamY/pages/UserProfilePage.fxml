@@ -125,7 +125,7 @@
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
                            <children>
-                              <Label text="Primary Workspace:" textFill="#5a5c94">
+                              <Label text="Department" textFill="#5a5c94">
                                  <font>
                                     <Font name="Calibri" size="14.0" />
                                  </font>
