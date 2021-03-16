@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -28,6 +31,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class PathfindingPageController extends SubPage {
 
@@ -41,6 +45,7 @@ public class PathfindingPageController extends SubPage {
   @FXML private ComboBox destinationCB2;
   @FXML private VBox destinationsVBox;
   @FXML private ScrollPane destinationScrollPane;
+  @FXML private SplitPane rightMenuSplitPane;
 
   @FXML private JFXButton bathroomBtn;
   @FXML private JFXButton cafeBtn;
@@ -1068,11 +1073,27 @@ public class PathfindingPageController extends SubPage {
     }
   }
 
+  public void centerNodeInScrollPane(ScrollPane scrollPane, int index) {
+    double lengthdown = scrollPane.getHeight() * (index) / (destinations.size() - 1);
+    scrollPane.layout();
+    scrollPane.setVvalue(lengthdown);
+/*
+    Timeline timeline = new Timeline();
+    timeline.getKeyFrames().clear();
+    timeline
+        .getKeyFrames()
+        .add(
+            new KeyFrame(
+                Duration.millis(500), new KeyValue(scrollPane.vvalueProperty(), lengthdown)));
+    timeline.play();*/
+  }
+
   private ComboBox initializeNewDestination() {
     FXMLLoader fxmlLoader = new FXMLLoader();
     DestinationItemController controller = null;
     ComboBox output = null;
     try {
+
       javafx.scene.Node node =
           fxmlLoader.load(getClass().getResource("DestinationItem.fxml").openStream());
       controller = (DestinationItemController) fxmlLoader.getController();
@@ -1132,6 +1153,10 @@ public class PathfindingPageController extends SubPage {
               });
 
       refreshEnabledButtons();
+      controller.getDestinationCB().requestFocus();
+      lastSelectedComboBox = controller.getDestinationCB();
+      centerNodeInScrollPane(
+          destinationScrollPane, controller.index); // controller.getDestinationRootHBox());
     } catch (IOException e) {
       e.printStackTrace();
     }

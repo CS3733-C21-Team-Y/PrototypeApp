@@ -27,7 +27,7 @@
             <children>
                 <VBox fx:id="sideMenuVBox" prefHeight="200.0" prefWidth="100.0">
                     <children>
-                  <SplitPane dividerPositions="0.0" orientation="VERTICAL" prefHeight="9999.0" prefWidth="400.0">
+                  <SplitPane fx:id="rightMenuSplitPane" dividerPositions="0.0" orientation="VERTICAL" prefHeight="9999.0" prefWidth="400.0">
                     <items>
                               <VBox fx:id="navigationHeaderVBox" maxWidth="400.0" minHeight="150.0" minWidth="400.0" prefHeight="150.0" prefWidth="400.0" style="-fx-background-color: #5a5c94; -fx-background-radius: 0 0 0 0;">
                                   <children>
