@@ -123,7 +123,7 @@
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label fx:id="type" minHeight="0.0" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1">
+                              <Label fx:id="type" minHeight="0.0" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" GridPane.columnIndex="1">
                                  <font>
                                     <Font name="Calibri" size="19.0" />
                                  </font>
@@ -161,7 +161,7 @@
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label fx:id="category" minHeight="0.0" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <Label fx:id="category" minHeight="0.0" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <font>
                                     <Font name="Calibri" size="19.0" />
                                  </font>
@@ -175,7 +175,7 @@
                                     <Insets bottom="1.0" right="10.0" top="1.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label fx:id="requestID" minHeight="0.0" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                              <Label fx:id="requestID" minHeight="0.0" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                  <font>
                                     <Font name="Calibri" size="19.0" />
                                  </font>
@@ -189,7 +189,7 @@
                                     <Insets bottom="1.0" right="10.0" top="1.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label fx:id="employee" minHeight="0.0" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                              <Label fx:id="employee" minHeight="0.0" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="6">
                                  <font>
                                     <Font name="Calibri" size="19.0" />
                                  </font>
@@ -219,7 +219,7 @@
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label fx:id="date" minHeight="0.0" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <Label fx:id="date" minHeight="0.0" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <font>
                                     <Font name="Calibri" size="19.0" />
                                  </font>
@@ -233,7 +233,7 @@
                                     <Insets bottom="1.0" right="10.0" top="1.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label fx:id="urgency" minHeight="0.0" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <Label fx:id="urgency" minHeight="0.0" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <font>
                                     <Font name="Calibri" size="19.0" />
                                  </font>
@@ -255,7 +255,7 @@
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label fx:id="requester" minHeight="0.0" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              <Label fx:id="requester" minHeight="0.0" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                  <font>
                                     <Font name="Calibri" size="19.0" />
                                  </font>
@@ -292,7 +292,7 @@
                                     <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label fx:id="locationLabel" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label">
+                                    <Label fx:id="locationLabel" prefHeight="40.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;">
                                        <font>
                                           <Font name="Calibri" size="19.0" />
                                        </font>
@@ -343,7 +343,7 @@
                               <Insets left="10.0" right="10.0" />
                            </VBox.margin>
                         </Label>
-                        <Label fx:id="description" alignment="TOP_LEFT" prefHeight="9999.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;" text="Label">
+                        <Label fx:id="description" alignment="TOP_LEFT" prefHeight="9999.0" prefWidth="9999.0" style="-fx-background-color: #e6e6ea; -fx-background-radius: 5; -fx-border-color: #c8c8c8; -fx-border-width: 0.5; -fx-border-radius: 5;">
                            <font>
                               <Font name="Calibri" size="19.0" />
                            </font>
