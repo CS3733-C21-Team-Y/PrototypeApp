@@ -146,7 +146,11 @@ public class PathfindingPageController extends SubPage {
     overlayGridPane.toFront();
 
     //    sideMenuVBox.setPickOnBounds(false);
-    exitDirectionBtn.setOnAction(e -> updateTextDirectionBox());
+    exitDirectionBtn.setOnAction(
+        e -> {
+          updateTextDirectionBox();
+          exitDirectionBtn.toFront();
+        });
     //         attaches a handler to the button with a lambda expression
 
     // Reset view button
@@ -842,14 +846,14 @@ public class PathfindingPageController extends SubPage {
         textDirectionsBox.setVisible(false);
         textDirectionViewer.setVisible(false);
         exitDirectionBtn.setText("Show Steps");
-
         parent.animateCenterColumnWidth(380);
+        exitDirectionBtn.toFront();
       } else {
         textDirectionsBox.setVisible(true);
         textDirectionViewer.setVisible(true);
         exitDirectionBtn.setText("Exit Steps");
-
         parent.animateCenterColumnWidth(0);
+        exitDirectionBtn.toFront();
       }
       textExpanded = !textExpanded;
     } else {
@@ -1030,7 +1034,12 @@ public class PathfindingPageController extends SubPage {
     for (DestinationItemController dest : destinations) {
       if (dest.getDestinationCB().getValue() != null && dest.getDestinationCB().getValue() != "") {
         ends.add(graph.longNodes.get((String) dest.getDestinationCB().getValue()).nodeID);
+        System.out.println("Making of ends: " + ends);
       }
+    }
+    clearDestinations();
+    for (int k = 0; k < ends.size() - 2; k++) {
+      initializeNewDestination();
     }
     String start = ends.get(0);
     ends.remove(0);
@@ -1066,10 +1075,6 @@ public class PathfindingPageController extends SubPage {
       }
       dest.getDestinationCB().setValue(graph.nodeFromID(endLocation).longName);
       i++;
-    }
-    for (int j = endLocations.size() - 1; j < destinations.size(); j++) {
-      DestinationItemController dest = destinations.get(j);
-      dest.getDestinationCB().setValue(null);
     }
   }
 
