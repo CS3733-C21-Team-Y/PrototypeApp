@@ -1,7 +1,0 @@
-serviceID,type,description,location,category,urgency,date,additionalInfo,requester,status,employee,,
-FD-1sir,Floral Delivery,qwe,,qwe,,qwe,From: qwe To: qwe,admin,-1,lee,,
-FD-J17z,Floral Delivery,123,Parking Spot 5,123,,123,From: 123123 To: 123,admin,-1,lee,,
-FD-KZl8,Floral Delivery,qwe,Atrium Main Entrance,qwe,,qwe,From: qwe To: qwe,admin,-1,lee,,
-LANG-fECC,Language,asdf,asd,Chinese,,,Urgency: Emergency,admin,-1,admin,,
-LANG-Y5qN,Language,asd,Parking Spot 5,Portuguese,,,Urgency: Medium,admin,-1,employee,,
-PARK-uuz7,Covid Form,Pos: No, Symptoms: No, Contact: No.,Parking Spot 4,,,,-1,admin,1,admin
