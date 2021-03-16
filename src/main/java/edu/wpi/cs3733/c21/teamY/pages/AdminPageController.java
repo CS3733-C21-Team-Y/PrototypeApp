@@ -732,9 +732,6 @@ public class AdminPageController extends SubPage {
     if (rightClickedNode != null) {
       centerX = rightClickedNode.getCenterX();
       centerY = rightClickedNode.getCenterY();
-    } else if (rightClickedEdge != null) {
-      centerX = contextMenuX;
-      centerY = contextMenuX;
     } else {
       MapController.CircleEx centerNode =
           mapInsertController
