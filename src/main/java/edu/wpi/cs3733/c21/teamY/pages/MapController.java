@@ -1051,11 +1051,11 @@ public class MapController extends SubPage {
         xShift = -adornerPane.getScene().getWidth() / 5.4;
       } else if (isLocationPopUp) {
         System.out.println("location pop up");
-        scale = size / 1700.0;
-        yShift = -540;
-        xShift = -900;
+        scale = size / 2200.0;
+        yShift = -600;
+        xShift = -1000;
       } else {
-        scale = size / 1400.0;
+        scale = size / 1800.0;
         yShift = -adornerPane.getScene().getHeight() / 3.8;
         xShift = -adornerPane.getScene().getWidth() / 5.4;
       }

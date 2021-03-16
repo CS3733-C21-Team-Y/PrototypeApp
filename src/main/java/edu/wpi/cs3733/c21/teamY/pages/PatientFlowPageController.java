@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
+import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -43,7 +45,12 @@ public class PatientFlowPageController extends SubPage {
     } else if (e.getSource() == HospDirBtn) {
       parent.loadRightSubPage("GoogleMaps.fxml");
     } else if (e.getSource() == ParkBtn) {
-      parent.loadRightSubPage("CovidScreening.fxml");
+      if (DataOperations.checkForCompletedCovidSurvey(
+          Settings.getSettings().getCurrentUsername())) {
+        parent.loadRightSubPage("SurveyWaitingRoom.fxml");
+      } else {
+        parent.loadRightSubPage("CovidScreening.fxml");
+      }
     }
   }
 }
