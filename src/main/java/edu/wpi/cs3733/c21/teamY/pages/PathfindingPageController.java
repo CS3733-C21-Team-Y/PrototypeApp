@@ -709,7 +709,7 @@ public class PathfindingPageController extends SubPage {
                 break;
               }
             }
-            handleFloorChanged(e, floorChange);
+            handleFloorChanged(e, floorChange, false);
           }
         });
 
@@ -726,7 +726,7 @@ public class PathfindingPageController extends SubPage {
                 break;
               }
             }
-            handleFloorChanged(e, floorChange);
+            handleFloorChanged(e, floorChange, false);
           }
         });
   }
@@ -762,10 +762,15 @@ public class PathfindingPageController extends SubPage {
   //    // mapInsertController.updateMenuPreview(e, mapInsertController.getFloorMenu());
   //  }
   private void handleFloorChanged(ActionEvent e, int menuItemIndex) {
+    handleFloorChanged(e, menuItemIndex, true);
+  }
+
+  private void handleFloorChanged(ActionEvent e, int menuItemIndex, boolean animate) {
     // This should be optimised to only switch if the floor actually changed, but its very fast, so
     // I cant be bothered
     mapInsertController.removeAllAdornerElements();
-    mapInsertController.changeMapImage(mapInsertController.getMapOrder().get(menuItemIndex));
+    mapInsertController.changeMapImage(
+        mapInsertController.getMapOrder().get(menuItemIndex), animate);
     mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
     drawPath(pathNodes);
     if (lastSelectedComboBox != null) {
