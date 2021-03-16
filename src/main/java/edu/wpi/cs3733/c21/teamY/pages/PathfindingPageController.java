@@ -554,9 +554,9 @@ public class PathfindingPageController extends SubPage {
       startNode = node;
 
       mapInsertController.selectCircle(node);
-
     }
     // Deselect start or end node
+    /*
     else {
       if (destinationCB1.isFocused() && destinationCB1.getValue() != null) {
         mapInsertController.deSelectCircle(node);
@@ -576,7 +576,7 @@ public class PathfindingPageController extends SubPage {
           mapInsertController.selectCircle(startNode);
         }
       }
-    }
+    }*/
   }
 
   private boolean rightClicked;
@@ -597,12 +597,31 @@ public class PathfindingPageController extends SubPage {
         adornerTitleLabel.setText(node.longName);
       }
 
-      mapContextMenu
-          .getItems()
-          .addAll(adornerTitleLabel, separator1, selectStartNode, selectEndNode);
+      mapContextMenu.getItems().addAll(adornerTitleLabel, separator1, addDestination);
+
+      // if theres a selected thisng
+      ComboBox selectedBox = null;
+      int index = -1;
+      for (DestinationItemController dest : destinations) {
+        index++;
+        if (dest.getDestinationCB().isFocused()) {
+          selectedBox = dest.getDestinationCB();
+        }
+      }
+      if (selectedBox != null) {
+        mapContextMenu.getItems().add(selectDestination);
+        mapContextMenu.getItems().add(clearDestination);
+      }
+
+      if (rightClickedNode.hasFocus) {
+        mapContextMenu.getItems().add(removeDestination);
+        removeDestination.setDisable(destinations.size() <= 2);
+      }
+
+      mapContextMenu.getItems().addAll(separator1_5, selectStartNode, selectEndNode);
 
       if (pathActive) {
-        mapContextMenu.getItems().addAll(separator2, flipPath, clearPath);
+        mapContextMenu.getItems().addAll(separator2, flipPath, optimizePath, clearPath);
       }
 
       if (rightClickedNode.hasFocus
@@ -647,13 +666,20 @@ public class PathfindingPageController extends SubPage {
   MenuItem selectStartNode = new MenuItem("Select Start Location");
   MenuItem selectEndNode = new MenuItem("Select End Location");
 
+  MenuItem selectDestination = new MenuItem("Select Destination");
+  MenuItem removeDestination = new MenuItem("Remove Location");
+  MenuItem addDestination = new MenuItem("Add Destination");
+  MenuItem clearDestination = new MenuItem("Clear Destination");
+
   MenuItem clearPath = new MenuItem("Clear path");
   MenuItem flipPath = new MenuItem("Flip path");
+  MenuItem optimizePath = new MenuItem("Optimize path");
 
   MenuItem nextPath = new MenuItem("Continue on Path");
   MenuItem prevPath = new MenuItem("Return to Previous Path");
 
   SeparatorMenuItem separator1 = new SeparatorMenuItem();
+  SeparatorMenuItem separator1_5 = new SeparatorMenuItem();
   SeparatorMenuItem separator2 = new SeparatorMenuItem();
   SeparatorMenuItem separator3 = new SeparatorMenuItem();
   MenuItem adornerTitleLabel = new MenuItem();
@@ -735,6 +761,50 @@ public class PathfindingPageController extends SubPage {
             }
             handleFloorChanged(e, floorChange, false);
           }
+        });
+
+    removeDestination.setOnAction(
+        e -> {
+          int index = 0;
+          String name = graph.nodeFromID(rightClickedNode.getId()).getLongName();
+          for (DestinationItemController dest : destinations) {
+            if (((String) dest.getDestinationCB().getValue()).equals(name)) {
+              break;
+            }
+            index++;
+          }
+          removeDestinations(index);
+        });
+
+    selectDestination.setOnAction(
+        e -> {
+          handleClickOnNode(rightClickedNode);
+        });
+
+    addDestination.setOnAction(
+        e -> {
+          initializeNewDestination();
+          handleClickOnNode(rightClickedNode);
+        });
+
+    clearDestination.setOnAction(
+        e -> {
+          ComboBox selectedBox = null;
+          int index = -1;
+          for (DestinationItemController dest : destinations) {
+            index++;
+            if (dest.getDestinationCB().isFocused()) {
+              selectedBox = dest.getDestinationCB();
+            }
+          }
+          if (selectedBox != null) {
+            selectedBox.setValue("");
+          }
+        });
+
+    optimizePath.setOnAction(
+        e -> {
+          optimizePath();
         });
   }
 
@@ -1195,6 +1265,7 @@ public class PathfindingPageController extends SubPage {
       destinationsVBox.getChildren().remove(destinations.get(index).getDestinationRootHBox());
       destinations.remove(index);
       refreshEnabledButtons();
+      updateDestinationIndeces();
       calculatePath();
     }
   }
