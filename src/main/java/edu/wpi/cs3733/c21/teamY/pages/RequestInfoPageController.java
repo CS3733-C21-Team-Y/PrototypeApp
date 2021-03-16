@@ -21,6 +21,8 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -90,8 +92,10 @@ public class RequestInfoPageController extends SubPage {
     saveBtn = new JFXButton();
     saveBtn.setOnAction(e -> buttonClicked(e));
     collapseMapBtn.setOnAction(e -> expandMap());
+    saveBtn.setCursor(Cursor.HAND);
     submitBtn.setOnAction(e -> submitEmployee());
     backBtn.setOnAction(e -> back());
+    submitBtn.setCursor(Cursor.HAND);
     // desktop = parent.isDesktop;
 
     try {

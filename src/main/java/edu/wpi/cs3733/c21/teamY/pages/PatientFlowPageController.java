@@ -1,10 +1,18 @@
 package edu.wpi.cs3733.c21.teamY.pages;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import javafx.application.Platform;
 import edu.wpi.cs3733.c21.teamY.dataops.DataOperations;
 import edu.wpi.cs3733.c21.teamY.dataops.Settings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 
 public class PatientFlowPageController extends SubPage {
 
@@ -12,14 +20,38 @@ public class PatientFlowPageController extends SubPage {
   @FXML private JFXButton HospDirBtn;
   @FXML private JFXButton NavBtn;
   @FXML private JFXButton RequestBtn;
+  @FXML private StackPane stackPane;
 
   @FXML
   private void initialize() {
+
+    Platform.runLater(
+        () -> {
+          nurseCheckin();
+        });
+
     ParkBtn.setOnAction(e -> pageButtonClicked(e));
+    ParkBtn.setCursor(Cursor.HAND);
     HospDirBtn.setOnAction(e -> pageButtonClicked(e));
+    HospDirBtn.setCursor(Cursor.HAND);
     NavBtn.setOnAction(e -> pageButtonClicked(e));
+    NavBtn.setCursor(Cursor.HAND);
     RequestBtn.setOnAction(e -> pageButtonClicked(e));
+    RequestBtn.setCursor(Cursor.HAND);
     // parent.setCenterColumnWidth(0);
+  }
+
+  private void nurseCheckin() {
+    if (parent.isDesktop) {
+      return;
+    }
+    createPopUp(
+        stackPane,
+        "#ff6666",
+        "#fff9f9",
+        "Due to pandemic, you will need to see a nurse"
+            + "\n "
+            + "when entering before being allowed in ");
   }
 
   @FXML
@@ -52,5 +84,43 @@ public class PatientFlowPageController extends SubPage {
         parent.loadRightSubPage("CovidScreening.fxml");
       }
     }
+  }
+
+  private void createPopUp(
+      StackPane stackPane, String backgroundColor, String textColor, String textContent) {
+    JFXDialog submitted = new JFXDialog();
+    //    submitted.setMaxWidth(200);
+    //    submitted.setMaxHeight(300);
+
+    Label message = new Label();
+    //    JFXTextField message2=new JFXTextField();
+    //    message2.setEditable(false);
+    message.setStyle(
+        " -fx-background-color: "
+            + backgroundColor
+            + "; -fx-background-radius: 6; -fx-font-size: 15; -fx-text-fill: "
+            + textColor);
+    message.setText(textContent);
+    message.setMinHeight(100);
+    message.setMinWidth(300);
+
+    message.maxHeight(400);
+    message.maxWidth(300);
+    message.prefHeight(350);
+    message.prefWidth(250);
+    message.setAlignment(Pos.CENTER);
+    Insets myInset = new Insets(10);
+    message.setPadding(myInset);
+    BorderStroke myStroke =
+        new BorderStroke(
+            Paint.valueOf(backgroundColor),
+            new BorderStrokeStyle(null, null, null, 6, 1, null),
+            new CornerRadii(6),
+            new BorderWidths(3));
+    Border myB = new Border(myStroke);
+    message.setBorder(myB);
+
+    submitted.setContent(message);
+    submitted.show(stackPane);
   }
 }

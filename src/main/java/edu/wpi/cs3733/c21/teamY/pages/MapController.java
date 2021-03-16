@@ -265,6 +265,7 @@ public class MapController extends SubPage {
 
           updateAdornerVisualsOnZoom();
           resetMapView();
+          currentFloorBtn.setText("Floor");
         });
   }
 
