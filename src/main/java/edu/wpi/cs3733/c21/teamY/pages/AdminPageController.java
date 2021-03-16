@@ -143,6 +143,7 @@ public class AdminPageController extends SubPage {
           for (Service service : services) {
             if (service.getEmployee().equals("robot")) {
               end.add(ActiveGraph.getActiveGraph().longNodes.get(service.getLocation()).nodeID);
+              service.setStatus(1);
             }
           }
           /* Brute force approach
