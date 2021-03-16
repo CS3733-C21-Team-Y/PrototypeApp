@@ -4,6 +4,8 @@ import javafx.application.Platform;
 
 public class SubsetEmployeeTableController extends EditEmployeeTableController {
 
+  boolean expanded = false;
+
   public SubsetEmployeeTableController() {}
 
   public void initialize() {
@@ -24,6 +26,9 @@ public class SubsetEmployeeTableController extends EditEmployeeTableController {
     Platform.runLater(
         () -> {
           treeTable.maxHeightProperty().bind(treeTable.getScene().heightProperty());
+          if (parent.tableExpanded != expanded) {
+            expandTable();
+          }
         });
   }
 }
