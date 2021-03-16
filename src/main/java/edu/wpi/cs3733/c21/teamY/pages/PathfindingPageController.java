@@ -47,6 +47,7 @@ public class PathfindingPageController extends SubPage {
   @FXML private JFXButton noStairsBtn;
   @FXML private GridPane overlayGridPane;
   @FXML private JFXButton multDestinationBtn;
+  @FXML private JFXButton optimizeButton;
 
   //  @FXML private Slider zoomSlider;
   //  @FXML private Button upButton;
@@ -101,6 +102,8 @@ public class PathfindingPageController extends SubPage {
   Tooltip swapTooltip = new Tooltip("Click to swap your start and end destination");
   Tooltip multiDestTooltip =
       new Tooltip("Click to save the current destination to allow for additional destinations");
+  Tooltip optimizeTooltip =
+          new Tooltip("Optimizes the current path");
 
   private ArrayList<DestinationItemController> destinations =
       new ArrayList<DestinationItemController>();
@@ -168,6 +171,7 @@ public class PathfindingPageController extends SubPage {
     Tooltip.install(parkingBtn, parkingTooltip);
     Tooltip.install(noStairsBtn, noStairsTooltip);
     Tooltip.install(multDestinationBtn, multiDestTooltip);
+    Tooltip.install(optimizeButton, optimizeTooltip);
     Tooltip.install(swapLocationsBox, swapTooltip);
 
     JFXDialog dialog = new JFXDialog();
@@ -184,9 +188,13 @@ public class PathfindingPageController extends SubPage {
         });
     multDestinationBtn.setOnAction(
         e -> {
-          // addDest = true;
           initializeNewDestination();
         });
+
+    optimizeButton.setOnAction(
+            e -> {
+              optimizePath();
+            });
 
     destinationCB2.setOnAction(e -> lastSelectedComboBox = destinationCB2);
 
@@ -940,6 +948,19 @@ public class PathfindingPageController extends SubPage {
   }
 
   // PATHFINDING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  private void optimizePath(){
+    ArrayList<String> ends = new ArrayList<>();
+    for (DestinationItemController dest : destinations) {
+
+      ends.add(graph.longNodes.get((String) dest.getDestinationCB().getValue()).nodeID);
+    }
+    String start = ends.get(0);
+    ends.remove(0);
+    ArrayList<String> result = new ArrayList<>();
+    result = AlgorithmCalls.nearestNeighbor(graph,start, ends);
+
+  }
 
   private ComboBox initializeNewDestination() {
     FXMLLoader fxmlLoader = new FXMLLoader();
