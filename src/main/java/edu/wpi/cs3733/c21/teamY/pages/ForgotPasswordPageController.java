@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
@@ -26,7 +27,9 @@ public class ForgotPasswordPageController extends SubPage {
   @FXML
   private void initialize() {
     submitBtn.setOnAction(e -> buttonClicked(e));
+    submitBtn.setCursor(Cursor.HAND);
     cancelBtn.setOnAction(e -> buttonClicked(e));
+    cancelBtn.setCursor(Cursor.HAND);
   }
 
   private void buttonClicked(ActionEvent e) {

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.layout.StackPane;
 
 public class FloralDeliverySubpageController extends GenericServiceFormPage {
@@ -42,8 +43,11 @@ public class FloralDeliverySubpageController extends GenericServiceFormPage {
   private void initialize() {
     settings = Settings.getSettings();
     backBtn.setOnAction(e -> buttonClicked(e));
+    backBtn.setCursor(Cursor.HAND);
     submitBtn.setOnAction(e -> submitBtnClicked());
+    submitBtn.setCursor(Cursor.HAND);
     clearBtn.setOnAction(e -> clearButton());
+    clearBtn.setCursor(Cursor.HAND);
 
     try {
       nodes = DataOperations.getListOfNodes();

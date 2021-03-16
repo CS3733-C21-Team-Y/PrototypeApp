@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
@@ -28,9 +29,13 @@ public class PatientFlowPageController extends SubPage {
         });
 
     ParkBtn.setOnAction(e -> pageButtonClicked(e));
+    ParkBtn.setCursor(Cursor.HAND);
     HospDirBtn.setOnAction(e -> pageButtonClicked(e));
+    HospDirBtn.setCursor(Cursor.HAND);
     NavBtn.setOnAction(e -> pageButtonClicked(e));
+    NavBtn.setCursor(Cursor.HAND);
     RequestBtn.setOnAction(e -> pageButtonClicked(e));
+    RequestBtn.setCursor(Cursor.HAND);
     // parent.setCenterColumnWidth(0);
   }
 

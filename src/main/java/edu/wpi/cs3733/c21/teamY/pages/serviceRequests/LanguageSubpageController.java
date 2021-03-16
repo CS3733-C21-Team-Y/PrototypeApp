@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.layout.StackPane;
 
 public class LanguageSubpageController extends GenericServiceFormPage {
@@ -45,6 +46,9 @@ public class LanguageSubpageController extends GenericServiceFormPage {
     backBtn.setOnAction(e -> buttonClicked(e));
     testBtn2.setOnAction(e -> submitBtnClicked());
     testBtn.setOnAction(e -> clearButton());
+    backBtn.setCursor(Cursor.HAND);
+    testBtn2.setCursor(Cursor.HAND);
+    testBtn.setCursor(Cursor.HAND);
 
     langOptions.getItems().add("Spanish");
     langOptions.getItems().add("French");

@@ -9,6 +9,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -66,18 +67,31 @@ public class ServiceRequestManagerSubpageController extends SubPage {
   @FXML
   private void initialize() {
     laundryBtn.setOnAction(e -> pageButtonClicked(e));
+    laundryIcon.setCursor(Cursor.HAND);
     maintenanceBtn.setOnAction(e -> pageButtonClicked(e));
+    maintenanceBtn.setCursor(Cursor.HAND);
     AVBtn.setOnAction(e -> pageButtonClicked(e));
+    AVBtn.setCursor(Cursor.HAND);
     floralBtn.setOnAction(e -> pageButtonClicked(e));
+    floralBtn.setCursor(Cursor.HAND);
     languageBtn.setOnAction(e -> pageButtonClicked(e));
+    languageBtn.setCursor(Cursor.HAND);
     giftBtn.setOnAction(e -> pageButtonClicked(e));
+    giftBtn.setCursor(Cursor.HAND);
     medicineBtn.setOnAction(e -> pageButtonClicked(e));
+    medicineBtn.setCursor(Cursor.HAND);
     securityBtn.setOnAction(e -> pageButtonClicked(e));
+    securityBtn.setCursor(Cursor.HAND);
     insideHosBtn.setOnAction(e -> pageButtonClicked(e));
+    insideHosBtn.setCursor(Cursor.HAND);
     computerBtn.setOnAction(e -> pageButtonClicked(e));
+    computerBtn.setCursor(Cursor.HAND);
     outsideHosBtn.setOnAction(e -> pageButtonClicked(e));
+    outsideHosBtn.setCursor(Cursor.HAND);
     sanitizationBtn.setOnAction(e -> pageButtonClicked(e));
+    sanitizationBtn.setCursor(Cursor.HAND);
     backBtn.setOnAction(e -> pageButtonClicked(e));
+    backBtn.setCursor(Cursor.HAND);
 
     Platform.runLater(
         () -> {

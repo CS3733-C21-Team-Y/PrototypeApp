@@ -11,6 +11,7 @@ import edu.wpi.cs3733.c21.teamY.entity.Node;
 import edu.wpi.cs3733.c21.teamY.entity.Service;
 import java.sql.SQLException;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
@@ -45,6 +46,7 @@ public class CovidScreeningController extends SubPage {
     closeN.setOnAction(e -> closeY.setSelected(false));
     closeY.setOnAction(e -> closeN.setSelected(false));
     submitBtn.setOnAction(e -> submitBtnClicked());
+    submitBtn.setCursor(Cursor.HAND);
 
     fillComboBox();
   }

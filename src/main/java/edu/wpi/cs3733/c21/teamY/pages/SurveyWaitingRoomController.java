@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -28,11 +29,13 @@ public class SurveyWaitingRoomController extends SubPage {
 
   @FXML
   private void initialize() {
+    refreshButton.setCursor(Cursor.HAND);
     refreshButton.setOnAction(e -> checkStatus());
     Platform.runLater(
         () -> {
           checkStatus();
         });
+    CovidBtn.setCursor(Cursor.HAND);
     CovidBtn.setOnAction(
         e -> {
           try {

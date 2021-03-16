@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -54,7 +55,9 @@ public class RequestInfoPageController<label> extends SubPage {
     centerArea = new JFXTextField();
     saveBtn = new JFXButton();
     saveBtn.setOnAction(e -> buttonClicked(e));
+    saveBtn.setCursor(Cursor.HAND);
     submitBtn.setOnAction(e -> submitEmployee());
+    submitBtn.setCursor(Cursor.HAND);
     // desktop = parent.isDesktop;
 
     try {

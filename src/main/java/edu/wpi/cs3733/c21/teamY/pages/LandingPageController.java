@@ -13,6 +13,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -62,7 +63,9 @@ public class LandingPageController extends SubPage implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     loginBtn.setOnAction(event -> buttonClicked(event));
+    loginBtn.setCursor(Cursor.HAND);
     guestBtn.setOnAction(event -> buttonClicked(event));
+    guestBtn.setCursor(Cursor.HAND);
     slideshow();
 
     Platform.runLater(

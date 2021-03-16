@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 
@@ -63,8 +64,11 @@ public class AudioVisualSubpageController extends GenericServiceFormPage {
     // initialize buttons
     // avClearBtn.setOnAction(e -> serviceButtonClicked(e, "AudioVisualSubPage.fxml"));
     avSubmitBtn.setOnAction(e -> submitBtnClicked());
+    avSubmitBtn.setCursor(Cursor.HAND);
     backBtn.setOnAction(e -> buttonClicked(e));
+    backBtn.setCursor(Cursor.HAND);
     avClearBtn.setOnAction(e -> clearButton());
+    avClearBtn.setCursor(Cursor.HAND);
     employeeAuto = new AutoCompleteComboBoxListener<>(avEmployeeComboBox);
     locationAuto = new AutoCompleteComboBoxListener<>(avLocationComboBox);
     typeAuto = new AutoCompleteComboBoxListener<>(avTypeComboBox);

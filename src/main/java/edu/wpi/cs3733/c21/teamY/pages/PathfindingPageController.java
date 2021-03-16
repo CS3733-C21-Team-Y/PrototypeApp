@@ -17,6 +17,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -218,10 +219,15 @@ public class PathfindingPageController extends SubPage {
     endLocationBox.setOnAction(e -> lastSelectedComboBox = endLocationBox);
 
     bathroomBtn.setOnAction(e -> detourBtnPressed(e));
+    bathroomBtn.setCursor(Cursor.HAND);
     cafeBtn.setOnAction(e -> detourBtnPressed(e));
+    cafeBtn.setCursor(Cursor.HAND);
     kioskBtn.setOnAction(e -> detourBtnPressed(e));
+    kioskBtn.setCursor(Cursor.HAND);
     parkingBtn.setOnAction(e -> detourBtnPressed(e));
+    parkingBtn.setCursor(Cursor.HAND);
     noStairsBtn.setOnAction(e -> detourBtnPressed(e));
+    noStairsBtn.setCursor(Cursor.HAND);
 
     // Floor selection menu population
 

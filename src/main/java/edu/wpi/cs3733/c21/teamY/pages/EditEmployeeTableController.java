@@ -17,6 +17,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 
@@ -46,9 +47,13 @@ public class EditEmployeeTableController extends SubPage {
   public void initialize() {
     treeTable.setFixedCellSize(30);
     expandBtn.setOnAction(e -> expandTable());
+    expandBtn.setCursor(Cursor.HAND);
     employeeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditEmployeeTable.fxml"));
+    employeeTableBtn.setCursor(Cursor.HAND);
     nodeTableBtn.setOnAction(e -> parent.loadRightSubPage("EditNodeTable.fxml"));
+    nodeTableBtn.setCursor(Cursor.HAND);
     exportBtn.setOnAction(e -> exportToCSV());
+    exportBtn.setCursor(Cursor.HAND);
 
     populateColumns();
 
