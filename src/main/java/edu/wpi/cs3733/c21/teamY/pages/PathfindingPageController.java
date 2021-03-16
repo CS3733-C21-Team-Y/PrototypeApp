@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -28,6 +32,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class PathfindingPageController extends SubPage {
 
@@ -93,6 +98,8 @@ public class PathfindingPageController extends SubPage {
   private boolean noStairs = false;
   private boolean kiosk = false;
   private int nearestNodeRadius = 500;
+
+  private int intendedHeight = 90;
 
   private boolean textExpanded = false;
 
@@ -1164,6 +1171,17 @@ public class PathfindingPageController extends SubPage {
   }
 
   private ComboBox initializeNewDestination() {
+    if (parent.isDesktop) {
+      intendedHeight += 40;
+      double newHeight = (intendedHeight >= 370) ? 370 : intendedHeight;
+      Timeline timeline = new Timeline();
+      KeyValue kv2 =
+              new KeyValue(navigationHeaderVBox.minHeightProperty(), newHeight, Interpolator.EASE_IN);
+      KeyFrame kf = new KeyFrame(Duration.seconds(0.25), kv2);
+      timeline.getKeyFrames().add(kf);
+      timeline.play();
+    }
+
     FXMLLoader fxmlLoader = new FXMLLoader();
     DestinationItemController controller = null;
     ComboBox output = null;
@@ -1259,6 +1277,15 @@ public class PathfindingPageController extends SubPage {
   }
 
   private void removeDestinations(int index) {
+    intendedHeight -= 40;
+    double newHeight =
+        (intendedHeight <= 170) ? 170 : (intendedHeight >= 370) ? 370 : intendedHeight;
+    Timeline timeline = new Timeline();
+    KeyValue kv2 =
+        new KeyValue(navigationHeaderVBox.minHeightProperty(), newHeight, Interpolator.EASE_IN);
+    KeyFrame kf = new KeyFrame(Duration.seconds(0.25), kv2);
+    timeline.getKeyFrames().add(kf);
+    timeline.play();
     if (index < destinations.size() && index >= 0) {
       clearComboBoxValue(index);
 
