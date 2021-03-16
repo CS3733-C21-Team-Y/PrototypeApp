@@ -1027,7 +1027,7 @@ public class PathfindingPageController extends SubPage {
   private void optimizePath() {
     ArrayList<String> ends = new ArrayList<>();
     for (DestinationItemController dest : destinations) {
-      if (dest != null) {
+      if (dest.getDestinationCB().getValue() != null && dest.getDestinationCB().getValue() != "") {
         ends.add(graph.longNodes.get((String) dest.getDestinationCB().getValue()).nodeID);
       }
     }
@@ -1065,6 +1065,10 @@ public class PathfindingPageController extends SubPage {
       }
       dest.getDestinationCB().setValue(graph.nodeFromID(endLocation).longName);
       i++;
+    }
+    for (int j = endLocations.size() - 1; j < destinations.size(); j++) {
+      DestinationItemController dest = destinations.get(j);
+      dest.getDestinationCB().setValue(null);
     }
   }
 
