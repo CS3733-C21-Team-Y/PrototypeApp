@@ -39,6 +39,7 @@ public class PathfindingPageController extends SubPage {
   @FXML private ComboBox destinationCB1;
   @FXML private ComboBox destinationCB2;
   @FXML private VBox destinationsVBox;
+  @FXML private ScrollPane destinationScrollPane;
 
   @FXML private JFXButton bathroomBtn;
   @FXML private JFXButton cafeBtn;
@@ -763,7 +764,8 @@ public class PathfindingPageController extends SubPage {
 
     dest1.getDestinationCB().setValue(null);
     dest2.getDestinationCB().setValue(null);
-
+    updateDestinationIndeces();
+    refreshEnabledButtons();
     clearPath();
   }
 
