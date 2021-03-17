@@ -484,6 +484,9 @@ public class PathfindingPageController extends SubPage {
     double minDistance = circle.getRadius();
     MapController.CircleEx minNode = null;
     for (MapController.CircleEx n : nodesWithinRange) {
+      if (isStairViolation(n)) {
+        continue;
+      }
       double distX = n.getCenterX() - circle.getCenterX();
       double distY = n.getCenterY() - circle.getCenterY();
       double pythagoras = Math.sqrt(distX * distX + distY * distY);
@@ -506,7 +509,8 @@ public class PathfindingPageController extends SubPage {
    */
   private void handleClickOnMap(MouseEvent e) {
     // Click intersects with node
-    if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
+    if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
+        && !isStairViolation((MapController.CircleEx) e.getPickResult().getIntersectedNode())) {
       handleClickOnNode((MapController.CircleEx) e.getPickResult().getIntersectedNode());
     } else {
       // Clicked on blank map
@@ -520,6 +524,18 @@ public class PathfindingPageController extends SubPage {
         }
       }
     }
+  }
+
+  private boolean isStairNode(MapController.CircleEx node) {
+    Node nodee = graph.nodeFromID(node.getId());
+    if (nodee != null) {
+      return nodee.nodeType.equals("STAI");
+    }
+    return false;
+  }
+
+  private boolean isStairViolation(MapController.CircleEx node) {
+    return isStairNode(node) && noStairs;
   }
 
   private void clearComboBoxValue(int cbIndex) {
