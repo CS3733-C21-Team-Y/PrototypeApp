@@ -135,7 +135,7 @@ public class YYProtocol {
       newNode.xcoord = path.get(i).xcoord * scaleFactor;
       newNode.ycoord = path.get(i).ycoord * scaleFactor;
       if (path.get(i).nodeType != "HALL") {
-        newNode.floor = "$";
+        newNode.floor = "7";
       }
       newPath.add(newNode);
     }
