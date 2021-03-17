@@ -237,18 +237,6 @@ public class PathfindingPageController extends SubPage {
     System.out.println("Made it one!");
     // this handles auto route calculation after covid survey determination
 
-    String userId = Settings.getSettings().getCurrentUsername();
-    System.out.println("Made it!");
-    if (DataOperations.checkForCompletedCovidSurvey(userId)) {
-      System.out.println("Check complete!");
-      int status = DataOperations.checkSurveyStatus(userId);
-      if (status == 1) {
-        destinationCB2.setValue("Atrium Main Entrance");
-      } else if (status == 0) {
-        destinationCB2.setValue("Emergency Entrance");
-      }
-    }
-
     // Init Map
     Platform.runLater(
         () -> {
@@ -275,6 +263,18 @@ public class PathfindingPageController extends SubPage {
           destinationCB2 = initializeNewDestination();
           destinationCB1.requestFocus();
           destinationCB2.setOnAction(e -> lastSelectedComboBox = destinationCB2);
+
+          String userId = Settings.getSettings().getCurrentUsername();
+          System.out.println("Made it!");
+          if (DataOperations.checkForCompletedCovidSurvey(userId)) {
+            System.out.println("Check complete!");
+            int status = DataOperations.checkSurveyStatus(userId);
+            if (status == 1) {
+              destinationCB2.setValue("Atrium Main Entrance");
+            } else if (status == 0) {
+              destinationCB2.setValue("Emergency Entrance");
+            }
+          }
 
           int i = -1;
           for (javafx.scene.Node menuItem : mapInsertController.getFloorList().getChildren()) {
@@ -424,7 +424,13 @@ public class PathfindingPageController extends SubPage {
       mapInsertController.addAdornerElements(nodes, edges, mapInsertController.floorNumber);
 
       for (int i = 0; i < cbvalues.size(); i++) {
-        destinations.get(i).getDestinationCB().setValue(i);
+        String newValue = cbvalues.get(i);
+        Node node = graph.nodeFromLongName(newValue);
+        if (noStairs && (node == null || node.nodeType.equals("STAI"))) {
+          newValue = "";
+        }
+
+        destinations.get(i).getDestinationCB().setValue(newValue);
       }
     }
     // Detour handling for multiple destinations
@@ -478,6 +484,9 @@ public class PathfindingPageController extends SubPage {
     double minDistance = circle.getRadius();
     MapController.CircleEx minNode = null;
     for (MapController.CircleEx n : nodesWithinRange) {
+      if (isStairViolation(n)) {
+        continue;
+      }
       double distX = n.getCenterX() - circle.getCenterX();
       double distY = n.getCenterY() - circle.getCenterY();
       double pythagoras = Math.sqrt(distX * distX + distY * distY);
@@ -500,7 +509,8 @@ public class PathfindingPageController extends SubPage {
    */
   private void handleClickOnMap(MouseEvent e) {
     // Click intersects with node
-    if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx) {
+    if (e.getPickResult().getIntersectedNode() instanceof MapController.CircleEx
+        && !isStairViolation((MapController.CircleEx) e.getPickResult().getIntersectedNode())) {
       handleClickOnNode((MapController.CircleEx) e.getPickResult().getIntersectedNode());
     } else {
       // Clicked on blank map
@@ -514,6 +524,18 @@ public class PathfindingPageController extends SubPage {
         }
       }
     }
+  }
+
+  private boolean isStairNode(MapController.CircleEx node) {
+    Node nodee = graph.nodeFromID(node.getId());
+    if (nodee != null) {
+      return nodee.nodeType.equals("STAI");
+    }
+    return false;
+  }
+
+  private boolean isStairViolation(MapController.CircleEx node) {
+    return isStairNode(node) && noStairs;
   }
 
   private void clearComboBoxValue(int cbIndex) {
