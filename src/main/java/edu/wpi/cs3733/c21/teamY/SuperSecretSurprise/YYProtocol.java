@@ -2,6 +2,8 @@ package edu.wpi.cs3733.c21.teamY.SuperSecretSurprise;
 
 import edu.wpi.cs3733.c21.teamY.algorithms.AlgorithmCalls;
 import edu.wpi.cs3733.c21.teamY.entity.Node;
+import edu.wpi.cs3733.c21.teamY.entity.Service;
+
 import java.util.ArrayList;
 
 public class YYProtocol {
@@ -123,7 +125,7 @@ public class YYProtocol {
     return newPath;
   }
 
-  public static ArrayList<Node> scaleNodes(ArrayList<Node> path) {
+  public static ArrayList<Node> scaleNodes(ArrayList<Node> path, ArrayList<Service> services) {
     ArrayList<Node> newPath = new ArrayList<>();
 
     // Following scale factor converts to cm
@@ -135,7 +137,17 @@ public class YYProtocol {
       newNode.xcoord = path.get(i).xcoord * scaleFactor;
       newNode.ycoord = path.get(i).ycoord * scaleFactor;
       if (!path.get(i).nodeType.equals("HALL") && i != 0) {
-        newNode.floor = "7";
+        for (Service service : services) {
+          if(service.getLocation().equals(newNode.longName)){
+            if(service.getCategory().equals("Other")){
+              newNode.floor = "7";
+            } else{
+              newNode.floor = "9";
+            }
+
+          }
+        }
+
       }
       newPath.add(newNode);
     }

@@ -155,7 +155,7 @@ public class AdminPageController extends SubPage {
           end.add("PSERV00301");
           x = AlgorithmCalls.aStar(ActiveGraph.getActiveGraph(), "PSERV00301", end, "");
 
-          x = YYProtocol.scaleNodes(YYProtocol.removeStraight(x));
+          x = YYProtocol.scaleNodes(YYProtocol.removeStraight(x), services);
           KnockKnockServer kn =
               new KnockKnockServer("ESP_Connection", x); // just passing whole thing in for now
           kn.start();
