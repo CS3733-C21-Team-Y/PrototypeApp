@@ -32,9 +32,9 @@
          <children>
             <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="99999.0" pannable="true" style="-fx-background-color: #3f417a;" stylesheets="@../UIStyles.css" vbarPolicy="NEVER" GridPane.rowIndex="3">
                <content>
-                  <AnchorPane maxWidth="350.0" minWidth="350.0" prefWidth="350.0" style="-fx-background-color: #3f417a;">
+                  <AnchorPane maxWidth="350.0" minWidth="350.0" prefHeight="0.0" prefWidth="350.0" style="-fx-background-color: #3f417a;">
                      <children>
-                        <VBox fx:id="serviceBox" maxHeight="999999.0" prefWidth="755.0" style="-fx-background-color: #3f417a;">
+                        <VBox fx:id="serviceBox" maxHeight="999999.0" prefHeight="99999.0" prefWidth="755.0" style="-fx-background-color: #3f417a;">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
